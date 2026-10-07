@@ -1,5 +1,19 @@
 """Per-benchmark reproduction authority and exactness classifications."""
 
+from cmj_recovery_dynamics.reproduction.camp_history import (
+    OSS_CAMP_REPRODUCTION,
+    CampPredictionRow,
+    CampReproductionConfig,
+    CampSample,
+    CampSampleGeometry,
+    CampSampleIdentity,
+    CampTarget,
+    InformationLeakageError,
+    generate_camp_sample,
+    generate_canonical_camp_sample,
+    generate_initial_camp_sample,
+    get_camp_reproduction_config,
+)
 from cmj_recovery_dynamics.reproduction.contracts import (
     BenchmarkReproductionContract,
     CalibrationReferenceStatus,
@@ -25,10 +39,18 @@ from cmj_recovery_dynamics.reproduction.registry import (
 
 __all__ = [
     "BenchmarkReproductionContract",
+    "CampPredictionRow",
+    "CampReproductionConfig",
+    "CampSample",
+    "CampSampleGeometry",
+    "CampSampleIdentity",
+    "CampTarget",
     "CalibrationReferenceStatus",
     "EvaluationAuthority",
     "EvaluationRole",
     "MaterializationState",
+    "InformationLeakageError",
+    "OSS_CAMP_REPRODUCTION",
     "ProductionScorerStatus",
     "RandomnessAuthority",
     "REPRODUCTION_CONTRACTS",
@@ -42,4 +64,8 @@ __all__ = [
     "SplitRole",
     "SplitUnit",
     "get_reproduction_contract",
+    "generate_camp_sample",
+    "generate_canonical_camp_sample",
+    "generate_initial_camp_sample",
+    "get_camp_reproduction_config",
 ]
