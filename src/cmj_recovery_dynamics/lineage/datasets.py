@@ -161,7 +161,7 @@ DATASETS = (
         ("threshold_response_recovery",),
         _DATASET_ARTIFACT_STATUS,
         _REDISTRIBUTION,
-        "correlated_exposure_recovery_sample",
+        None,
         _evidence(_GENEALOGY_AUTHORITY, _DATA_AUTHORITY),
     ),
     DatasetIdentity(
