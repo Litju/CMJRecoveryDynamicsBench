@@ -151,6 +151,29 @@ def test_exact_public_hash_claim_is_possible_only_with_complete_prerequisites() 
 
 
 @pytest.mark.parametrize(
+    ("benchmark", "file_format"),
+    (
+        ("initial_preseason_camp_recovery", "JSONL"),
+        ("canonical_preseason_camp_recovery", "JSONL"),
+        ("rich_history_camp_recovery", "Parquet"),
+        ("preliminary_post_exposure_recovery", "Parquet"),
+        ("phase_consistent_post_exposure_recovery", "Parquet"),
+        ("correlated_exposure_recovery", "Parquet"),
+        ("threshold_response_recovery", "Parquet"),
+        ("fixed_mode_discrepancy_recovery", "Parquet"),
+    ),
+)
+def test_file_format_is_separate_from_byte_serialization_exactness(
+    benchmark: str,
+    file_format: str,
+) -> None:
+    contract = get_reproduction_contract(benchmark)
+    assert contract.serialization.file_format == file_format
+    assert contract.serialization.writer_implementation is None
+    assert contract.claim(D.SERIALIZATION).status is not S.EXACT
+
+
+@pytest.mark.parametrize(
     "dimension",
     (
         D.RNG_ALGORITHM,
