@@ -1,7 +1,10 @@
-"""Read-only registries for the two task families and eight benchmark states."""
+"""Read-only registries for tasks, benchmarks, evaluations, and lineage."""
+
+from __future__ import annotations
 
 from collections.abc import Mapping
 from types import MappingProxyType
+from typing import TYPE_CHECKING
 
 from cmj_recovery_dynamics.benchmarks import BENCHMARK_DEFINITIONS
 from cmj_recovery_dynamics.contracts import (
@@ -10,8 +13,19 @@ from cmj_recovery_dynamics.contracts import (
     TaskDefinition,
 )
 from cmj_recovery_dynamics.metrics.catalog import ALL_EVALUATION_DEFINITIONS
-from cmj_recovery_dynamics.metrics.provenance import HISTORICAL_COMPARISONS
 from cmj_recovery_dynamics.tasks import TASKS
+
+if TYPE_CHECKING:
+    from cmj_recovery_dynamics.lineage.contracts import (
+        ExperimentDefinition,
+        ModelFamily,
+        ResultDefinition,
+    )
+    from cmj_recovery_dynamics.lineage.registry import (
+        BenchmarkLineageView,
+        ExperimentLineageView,
+        ModelLineageView,
+    )
 
 
 def _unique_names(names: tuple[str, ...], collection: str) -> None:
@@ -50,16 +64,6 @@ if any(
     )
 ):
     raise ValueError("every auxiliary benchmark evaluation must resolve in the evaluation registry")
-if any(
-    name != "UNKNOWN" and name not in EVALUATION_REGISTRY
-    for comparison in HISTORICAL_COMPARISONS
-    for name in (
-        comparison.left_evaluation_name,
-        comparison.right_evaluation_name,
-        comparison.compatibility_transform_name or "UNKNOWN",
-    )
-):
-    raise ValueError("historical comparisons must reference registered evaluation definitions")
 
 
 def get_benchmark(scientific_name: str) -> BenchmarkDefinition:
@@ -70,3 +74,45 @@ def get_benchmark(scientific_name: str) -> BenchmarkDefinition:
 def get_evaluation(scientific_name: str) -> EvaluationDefinition:
     """Return a metric definition by its clean scientific name."""
     return EVALUATION_REGISTRY[scientific_name]
+
+
+def get_benchmark_lineage(scientific_name: str) -> BenchmarkLineageView:
+    """Return the full benchmark, dataset, model, experiment, and result view."""
+    from cmj_recovery_dynamics.lineage.registry import get_benchmark_lineage as query
+
+    return query(scientific_name)
+
+
+def get_model_family(scientific_name: str) -> ModelFamily:
+    """Return one model family by its scientific name."""
+    from cmj_recovery_dynamics.lineage.registry import get_model_family as query
+
+    return query(scientific_name)
+
+
+def get_model_lineage(scientific_name: str) -> ModelLineageView:
+    """Return a model and its associated experiments and results."""
+    from cmj_recovery_dynamics.lineage.registry import get_model_lineage as query
+
+    return query(scientific_name)
+
+
+def get_experiment(scientific_name: str) -> ExperimentDefinition:
+    """Return one experiment by its scientific name."""
+    from cmj_recovery_dynamics.lineage.registry import get_experiment as query
+
+    return query(scientific_name)
+
+
+def get_experiment_lineage(scientific_name: str) -> ExperimentLineageView:
+    """Return an experiment with its dataset, splits, models, evaluations, and results."""
+    from cmj_recovery_dynamics.lineage.registry import get_experiment_lineage as query
+
+    return query(scientific_name)
+
+
+def get_result(scientific_name: str) -> ResultDefinition:
+    """Return one result family by its scientific name."""
+    from cmj_recovery_dynamics.lineage.registry import get_result as query
+
+    return query(scientific_name)
