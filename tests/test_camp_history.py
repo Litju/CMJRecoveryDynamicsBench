@@ -6,6 +6,7 @@ import json
 import math
 from collections import Counter
 from collections.abc import Callable
+from typing import cast
 
 import pytest
 
@@ -14,7 +15,10 @@ from cmj_recovery_dynamics.contracts import (
     OutcomeVariable,
 )
 from cmj_recovery_dynamics.dynamics.event_time_adaptation_recovery import (
+    EventTimeParameters,
     ExposureComponent,
+    ExposureEvent,
+    simulate_camp_response,
 )
 from cmj_recovery_dynamics.metrics.catalog import (
     CANONICAL_PRESEASON_CAMP_EVALUATION,
@@ -40,6 +44,10 @@ from cmj_recovery_dynamics.reproduction.camp_history import (
     CriterionTrial,
     InformationLeakageError,
     PlannedExposure,
+    _baseline_assessment,  # pyright: ignore[reportPrivateUsage]
+    _measurement_error,  # pyright: ignore[reportPrivateUsage]
+    _participant_parameters,  # pyright: ignore[reportPrivateUsage]
+    _target_assessment,  # pyright: ignore[reportPrivateUsage]
     camp_target_cell,
     generate_canonical_camp_sample,
     generate_initial_camp_sample,
@@ -90,6 +98,83 @@ def test_baseline_uses_two_latest_valid_assessments_in_inclusive_window() -> Non
     assert baseline.net_impulse_m_s == pytest.approx(1.0)
 
 
+def test_target_innovation_is_observed_state_plus_one_query_error() -> None:
+    parameters = EventTimeParameters(10.0, 1.0, 1.0, 24.0, 84.0, 1.0, 2.0, 3.0, 0.5, 0.75)
+    index = ExposureEvent(
+        "index",
+        0.0,
+        "match",
+        (ExposureComponent("duration_minutes", 100.0, "minutes", 100.0),),
+    )
+    response = simulate_camp_response((index,), (72.0,), parameters)
+    force, impulse = 24.0, 2.0
+    baseline_assessments = tuple(
+        AssessmentObservation(
+            f"baseline-{time}",
+            time,
+            AssessmentAvailability.VALID,
+            tuple(_trial(force, impulse) for _ in range(3)),
+        )
+        for time in (-240.0, -48.0)
+    )
+    baseline = select_camp_baseline(baseline_assessments)
+    target = _target_assessment(
+        seed=5,
+        split="public_train",
+        world_id="world-test",
+        origin_id="origin-test",
+        cluster_id="cluster-test",
+        assessment_id="target-test",
+        query_id="query-test",
+        target_time=72.0,
+        baseline=baseline,
+        state=response.state_at(72.0),
+        depth=0.25,
+    )
+    between_force, within_force, between_impulse, within_impulse = _measurement_error(
+        seed=5,
+        split="public_train",
+        world_id="world-test",
+        origin_id="origin-test",
+        cluster_id="cluster-test",
+        assessment_id="target-test",
+        trial_index=0,
+    )
+
+    assert target.force_innovation_n_per_kg == pytest.approx(
+        response.state_at(72.0).net_force_innovation_n_per_kg + between_force + within_force
+    )
+    assert target.net_impulse_innovation_m_s == pytest.approx(
+        response.state_at(72.0).net_impulse_innovation_m_per_s + between_impulse + within_impulse
+    )
+    assert target.observed_force_n_per_kg == pytest.approx(
+        baseline.force_n_per_kg
+        + response.state_at(72.0).net_force_innovation_n_per_kg
+        + between_force
+        + within_force
+    )
+    assert target.observed_net_impulse_m_s == pytest.approx(
+        baseline.net_impulse_m_s
+        + response.state_at(72.0).net_impulse_innovation_m_per_s
+        + between_impulse
+        + within_impulse
+    )
+    assert tuple(trial.force_n_per_kg for trial in target.criterion_trials) == pytest.approx(
+        (
+            target.observed_force_n_per_kg - 0.03,
+            target.observed_force_n_per_kg,
+            target.observed_force_n_per_kg + 0.03,
+        )
+    )
+    assert tuple(trial.net_impulse_m_s for trial in target.criterion_trials) == pytest.approx(
+        (
+            target.observed_net_impulse_m_s - 0.01,
+            target.observed_net_impulse_m_s,
+            target.observed_net_impulse_m_s + 0.01,
+        )
+    )
+
+
 @pytest.mark.parametrize(
     ("horizon", "times", "outside"),
     (
@@ -137,6 +222,36 @@ def test_prediction_representation_rejects_future_history_and_labels() -> None:
     row = prediction_row_from_mapping(fields)
     assert "participant_key" not in row.predictor_features()
     assert "target" not in row.predictor_features()
+    features = row.predictor_features()
+    forbidden = {
+        "latent_state",
+        "latent_parameters",
+        "adherence_propensity",
+        "realized_future_events",
+        "future_realized_exposures",
+        "target",
+        "label",
+        "scorer",
+        "random_state",
+        "rng_state",
+    }
+
+    def keys(value: object) -> set[str]:
+        if isinstance(value, dict):
+            mapping = cast(dict[str, object], value)
+            found = set(mapping)
+            for item in mapping.values():
+                found.update(keys(item))
+            return found
+        if isinstance(value, tuple | list):
+            sequence = cast(tuple[object, ...] | list[object], value)
+            found: set[str] = set()
+            for item in sequence:
+                found.update(keys(item))
+            return found
+        return set()
+
+    assert forbidden.isdisjoint(keys(features))
     past_exposure = CampExposure(
         "past",
         -72.0,
@@ -205,7 +320,7 @@ def test_clean_room_seed_is_repeatable_and_seed_identity_is_new() -> None:
     assert OSS_CAMP_REPRODUCTION.baseline_trial_count_authority == (
         "open_source_reproduction_convention"
     )
-    assert "no historical pre-index events are asserted" in (
+    assert "empty in the OSS schedule" in (
         OSS_CAMP_REPRODUCTION.pre_index_exposure_history_convention
     )
     snapshot = first.identity.authority_snapshot()
@@ -225,6 +340,7 @@ def test_initial_and_canonical_authority_and_identities_stay_distinct() -> None:
     assert initial.identity.historical_reference_dataset == "initial_preseason_camp_public_sample"
     assert initial.identity.evaluation_name == "initial_camp_population_normalized_rmse_score"
     assert initial.identity.historical_status(Dimension.SCHEMA) is Status.PARTIAL
+    assert initial.identity.historical_status(Dimension.OBSERVATION) is Status.PARTIAL
     assert initial.identity.historical_status(Dimension.SERIALIZATION) is Status.PARTIAL
     assert (
         initial.identity.normalization_floor
@@ -237,6 +353,7 @@ def test_initial_and_canonical_authority_and_identities_stay_distinct() -> None:
     )
     assert canonical.identity.evaluation_name == "canonical_camp_population_normalized_rmse_score"
     assert canonical.identity.historical_status(Dimension.SCHEMA) is Status.EXACT
+    assert canonical.identity.historical_status(Dimension.OBSERVATION) is Status.EXACT
     assert (
         canonical.identity.historical_status(Dimension.SERIALIZATION)
         is Status.SEMANTICALLY_EQUIVALENT
@@ -250,15 +367,22 @@ def test_initial_and_canonical_authority_and_identities_stay_distinct() -> None:
     assert (
         initial.identity.generated_dataset_identity != canonical.identity.generated_dataset_identity
     )
+    assert initial.identity.historical_baseline_trial_count is None
+    assert initial.identity.baseline_trial_count_authority == (
+        "open_source_reproduction_convention"
+    )
+    assert canonical.identity.historical_baseline_trial_count == OSS_BASELINE_TRIAL_COUNT == 3
+    assert canonical.identity.baseline_trial_count_authority == "canonical_h72_d7_contract"
     for identity in (initial.identity, canonical.identity):
         assert identity.historical_reference_hashes
         assert identity.historical_status(Dimension.SEED_AUTHORITY) is Status.UNKNOWN
+        assert identity.historical_status(Dimension.RNG_STATE) is Status.UNKNOWN
+        assert identity.historical_status(Dimension.SPLIT_ASSIGNMENT) is Status.PARTIAL
         assert identity.historical_status(Dimension.ROW_ORDERING) is Status.UNKNOWN
         assert identity.historical_status(Dimension.DATASET_HASH) is Status.PARTIAL
+        assert identity.historical_status(Dimension.EVALUATION) is Status.PARTIAL
         assert identity.calibration_reference_status is CalibrationReferenceStatus.LOCKED_NOT_PUBLIC
         assert identity.calibration_reference_value is None
-        assert identity.historical_baseline_trial_count is None
-        assert identity.baseline_trial_count_authority == "open_source_reproduction_convention"
 
 
 def test_clean_room_jsonl_is_valid_and_cannot_claim_historical_hashes() -> None:
@@ -271,6 +395,25 @@ def test_clean_room_jsonl_is_valid_and_cannot_claim_historical_hashes() -> None:
     assert all(record["benchmark_identity"] == sample.identity.benchmark_name for record in records)
     assert all("historical_reference_hashes" not in record for record in records)
     assert all("target" not in record["features"] for record in records)
+    assert all(
+        set(record["features"])
+        == {
+            "horizon",
+            "target_time_hours",
+            "baseline",
+            "assessment_history",
+            "exposure_history",
+            "index_exposure",
+            "known_plan",
+        }
+        for record in records
+    )
+    assert all(
+        assessment["trial_count"] == 3
+        for record in records
+        for assessment in record["features"]["assessment_history"]
+        if assessment["validity_state"] == AssessmentAvailability.VALID.value
+    )
     assert OutcomeVariable.RELATIVE_PEAK_MEAN_FORCE_INNOVATION.value in records[0]["label"]
     assert OutcomeVariable.NET_IMPULSE_INNOVATION.value in records[0]["label"]
     assert "label_units" in records[0]
@@ -299,6 +442,27 @@ def test_sample_has_participant_heterogeneity_and_supported_design_bounds() -> N
         )
 
 
+def test_recovery_parameter_generation_uses_independent_authorized_ranges() -> None:
+    for index in range(16):
+        _, _, parameters, _ = _participant_parameters(
+            seed=42,
+            split="public_train",
+            world_id=f"world-{index}",
+            cluster_id=f"cluster-{index}",
+            participant_key=f"participant-{index}",
+        )
+        assert 6.0 <= parameters.fast_fatigue_time_constant_hours <= 120.0
+        assert 72.0 <= parameters.slow_adaptation_time_constant_hours <= 504.0
+        assert 0.5 <= parameters.memory_shape_beta <= 1.5
+        assert parameters.dose_response_ceiling_kappa == 10.0
+        assert parameters.dose_half_saturation_delta == 1.0
+        assert parameters.dose_exponent_gamma == 1.0
+        assert 0.0 <= parameters.fatigue_force_amplitude_n_per_kg <= 3.0
+        assert 0.0 <= parameters.adaptation_force_amplitude_n_per_kg <= 3.0
+        assert 0.0 <= parameters.fatigue_impulse_amplitude_m_per_s <= 0.6
+        assert 0.0 <= parameters.adaptation_impulse_amplitude_m_per_s <= 0.6
+
+
 def test_query_specific_plan_history_and_d7_target_aggregation() -> None:
     sample = generate_canonical_camp_sample(seed=19, participant_count=1)
     by_horizon = {row.horizon: row for row in sample.rows}
@@ -306,11 +470,12 @@ def test_query_specific_plan_history_and_d7_target_aggregation() -> None:
     d7 = by_horizon[ForecastHorizon.D7]
     assert tuple(item.time_from_origin_hours for item in h72.known_plan) == (48.0,)
     assert tuple(item.time_from_origin_hours for item in d7.known_plan) == (48.0, 120.0)
-    assert d7.exposure_history == ()
+    assert d7.exposure_history == h72.exposure_history == ()
     assert h72.index_exposure.time_from_origin_hours == 0.0
     assert h72.target_time_hours == HORIZON_TIMES_HOURS[ForecastHorizon.H72]
     assert d7.target_time_hours == HORIZON_TIMES_HOURS[ForecastHorizon.D7]
     for row, target in zip(sample.rows, sample.targets, strict=True):
+        assert all(len(item.trials) == 3 for item in row.assessment_history if item.is_valid)
         assert target.force_innovation_n_per_kg == pytest.approx(
             target.observed_force_n_per_kg - row.baseline.force_n_per_kg
         )
@@ -320,6 +485,49 @@ def test_query_specific_plan_history_and_d7_target_aggregation() -> None:
         assert len(target.criterion_trials) == OSS_TARGET_TRIAL_COUNT
     cells = {camp_target_cell(row, outcome) for row in sample.rows for outcome in OutcomeVariable}
     assert cells == set(INITIAL_CAMP_CELLS)
+
+
+def test_three_trial_assessment_uses_shared_session_and_independent_trial_errors() -> None:
+    assessment = _baseline_assessment(
+        seed=22,
+        split="public_train",
+        world_id="world-test",
+        origin_id="origin-test",
+        cluster_id="cluster-test",
+        assessment_id="assessment-test",
+        time_hours=-48.0,
+        force=24.0,
+        impulse=2.0,
+        depth=0.25,
+    )
+    errors = tuple(
+        _measurement_error(
+            seed=22,
+            split="public_train",
+            world_id="world-test",
+            origin_id="origin-test",
+            cluster_id="cluster-test",
+            assessment_id="assessment-test",
+            trial_index=index,
+        )
+        for index in range(OSS_BASELINE_TRIAL_COUNT)
+    )
+
+    assert len(assessment.trials) == OSS_BASELINE_TRIAL_COUNT == 3
+    assert len({item[0] for item in errors}) == 1
+    assert len({item[2] for item in errors}) == 1
+    assert len({item[1] for item in errors}) == 3
+    assert len({item[3] for item in errors}) == 3
+    assert all(-0.25 <= item[0] <= 0.25 for item in errors)
+    assert all(-0.08 <= item[1] <= 0.08 for item in errors)
+    assert all(-0.06 <= item[2] <= 0.06 for item in errors)
+    assert all(-0.02 <= item[3] <= 0.02 for item in errors)
+    assert tuple(trial.force_n_per_kg - 24.0 for trial in assessment.trials) == pytest.approx(
+        tuple(item[0] + item[1] for item in errors)
+    )
+    assert assessment.force_summary_n_per_kg == pytest.approx(
+        math.fsum(trial.force_n_per_kg for trial in assessment.trials) / 3
+    )
 
 
 def test_initial_and_canonical_training_validation_geometry() -> None:

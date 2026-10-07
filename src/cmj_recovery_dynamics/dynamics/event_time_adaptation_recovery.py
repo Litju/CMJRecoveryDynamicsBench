@@ -11,6 +11,17 @@ from cmj_recovery_dynamics.contracts import (
     ModelImplementationStatus,
 )
 
+_FORBIDDEN_PUBLIC_MARKERS = (
+    "private",
+    "hidden",
+    "target",
+    "adherence",
+    "revision",
+    "scorer",
+    "generator",
+    "secret",
+)
+
 
 @dataclass(frozen=True, slots=True)
 class EventTimeParameters:
@@ -104,17 +115,39 @@ class ExposureComponent:
     observed: bool = True
     day_mask: bool = True
     event_mask: bool = True
+    source: str = "public"
 
     def __post_init__(self) -> None:
-        if not self.name.strip() or not self.units.strip():
+        name = self.name.strip()
+        units = self.units.strip()
+        source = self.source.strip().lower()
+        if not name or not units:
             raise ValueError("exposure component name and units are required")
-        if not isfinite(self.normalization) or self.normalization <= 0:
+        if any(marker in name.lower() for marker in _FORBIDDEN_PUBLIC_MARKERS):
+            raise ValueError("exposure component name contains a forbidden data marker")
+        if source != "public":
+            raise ValueError("joint exposure accepts public inputs only")
+        if any(type(mask) is not bool for mask in (self.observed, self.day_mask, self.event_mask)):
+            raise ValueError("exposure component masks must be booleans")
+        if (
+            type(self.normalization) is bool
+            or not isfinite(self.normalization)
+            or self.normalization <= 0
+        ):
             raise ValueError("exposure normalization must be finite and positive")
         if self.observed:
-            if self.value is None or not isfinite(self.value) or self.value < 0:
+            if (
+                self.value is None
+                or type(self.value) is bool
+                or not isfinite(self.value)
+                or self.value < 0
+            ):
                 raise ValueError("observed exposure values must be finite and non-negative")
         elif self.value is not None:
             raise ValueError("unobserved exposure components must use value=None")
+        object.__setattr__(self, "name", name)
+        object.__setattr__(self, "units", units)
+        object.__setattr__(self, "source", source)
 
     @property
     def contribution(self) -> float | None:
@@ -124,13 +157,19 @@ class ExposureComponent:
         return self.value / self.normalization
 
 
-def normalized_exposure_dose(components: tuple[ExposureComponent, ...]) -> float:
+def normalized_exposure_dose(
+    components: tuple[ExposureComponent, ...], *, day_mask: bool = True, event_mask: bool = True
+) -> float:
     """Sum observed, unmasked public components as cᵢ=xᵢ/rᵢ."""
     if not components:
         raise ValueError("at least one exposure component is required")
+    if type(day_mask) is not bool or type(event_mask) is not bool:
+        raise ValueError("exposure event masks must be booleans")
     if len({component.name for component in components}) != len(components):
         raise ValueError("exposure component names must be unique within an event")
-    included = tuple(component.contribution for component in components)
+    included = tuple(
+        component.contribution if day_mask and event_mask else None for component in components
+    )
     values = tuple(value for value in included if value is not None)
     if not values:
         raise ValueError("an exposure with no observed public component is not zero dose")
@@ -146,6 +185,8 @@ class ExposureEvent:
     timestamp_hours: float
     kind: str
     components: tuple[ExposureComponent, ...]
+    day_mask: bool = True
+    event_mask: bool = True
 
     def __post_init__(self) -> None:
         if not self.event_id.strip() or not self.kind.strip():
@@ -154,10 +195,31 @@ class ExposureEvent:
             raise ValueError("exposure event time must be finite and non-negative")
         if not self.components:
             raise ValueError("exposure events require public components")
+        if type(self.day_mask) is not bool or type(self.event_mask) is not bool:
+            raise ValueError("exposure event masks must be booleans")
+        if self.kind.strip().lower() in {"friendly", "match"}:
+            durations = tuple(
+                component
+                for component in self.components
+                if component.name.strip().lower() in {"duration", "duration_minutes"}
+            )
+            if (
+                len(durations) != 1
+                or durations[0].units.strip().lower() not in {"minute", "minutes", "min"}
+                or not durations[0].observed
+                or durations[0].value is None
+                or durations[0].value < 60.0
+            ):
+                raise ValueError(
+                    "friendly and match exposures require an observed duration of "
+                    "at least 60 minutes"
+                )
 
     @property
     def joint_dose(self) -> float:
-        return normalized_exposure_dose(self.components)
+        return normalized_exposure_dose(
+            self.components, day_mask=self.day_mask, event_mask=self.event_mask
+        )
 
 
 @dataclass(frozen=True, slots=True)
@@ -273,11 +335,7 @@ def simulate_camp_response(
             ),
         )
     )
-    if any(event.timestamp_hours < 0 for event in ordered):
-        raise ValueError("events cannot precede the camp index origin")
     initial = CampResponseState(0.0, 0.0, 0.0, 0.0, 0.0, 0.0)
-    if any(time < initial.timestamp_hours for time in query_times_hours):
-        raise ValueError("query time precedes the camp index origin")
 
     sorted_queries = sorted(enumerate(query_times_hours), key=lambda item: item[1])
     query_states: list[CampResponseState | None] = [None] * len(query_times_hours)
