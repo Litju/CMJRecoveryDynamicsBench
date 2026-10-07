@@ -1,0 +1,38 @@
+"""Per-benchmark reproduction authority and exactness classifications."""
+
+from cmj_recovery_dynamics.reproduction.contracts import (
+    BenchmarkReproductionContract,
+    CalibrationReferenceStatus,
+    EvaluationAuthority,
+    EvaluationRole,
+    MaterializationState,
+    ProductionScorerStatus,
+    RandomnessAuthority,
+    ReferenceHash,
+    ReproductionAuthority,
+    ReproductionClaim,
+    ReproductionDimension,
+    ReproductionStatus,
+    SerializationAuthority,
+    SplitReproductionAuthority,
+    SplitRole,
+    SplitUnit,
+)
+__all__ = [
+    "BenchmarkReproductionContract",
+    "CalibrationReferenceStatus",
+    "EvaluationAuthority",
+    "EvaluationRole",
+    "MaterializationState",
+    "ProductionScorerStatus",
+    "RandomnessAuthority",
+    "ReferenceHash",
+    "ReproductionAuthority",
+    "ReproductionClaim",
+    "ReproductionDimension",
+    "ReproductionStatus",
+    "SerializationAuthority",
+    "SplitReproductionAuthority",
+    "SplitRole",
+    "SplitUnit",
+]
