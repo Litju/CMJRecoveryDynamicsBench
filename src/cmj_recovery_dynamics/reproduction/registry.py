@@ -1174,14 +1174,13 @@ _PRELIMINARY_CLAIMS = {
     **_POST_ORDERING,
     D.SERIALIZATION: _claim(
         D.SERIALIZATION,
-        S.PARTIAL,
+        S.SEMANTICALLY_EQUIVALENT,
         (
-            "The semantic predictors and scalar trial aggregation are known, but exact "
-            "physical writer settings and force/impulse measurement serialization are not "
-            "fully specified."
+            "The Parquet logical representation is recoverable; historical writer, index, "
+            "float, metadata, and compression settings are not frozen."
         ),
         "RES-365: observation, representation, and dataset/split registries",
-        missing=("historical writer, column ordering, float encoding, and metadata settings",),
+        missing=("historical writer, index handling, float encoding, metadata, and compression",),
     ),
     **_hash_claim(
         (
@@ -1579,7 +1578,7 @@ def _registered_contracts() -> dict[str, BenchmarkReproductionContract]:
                 ),
             },
             _CAMP_RANDOMNESS,
-            _serialization(None),
+            _serialization("JSONL"),
             _make_splits(
                 "canonical_preseason_camp_recovery",
                 _CANONICAL_HASHES,
@@ -1595,7 +1594,7 @@ def _registered_contracts() -> dict[str, BenchmarkReproductionContract]:
             "rich_history_camp_recovery",
             _RICH_CLAIMS,
             _RICH_HISTORY_RANDOMNESS,
-            _serialization(None),
+            _serialization("Parquet"),
             _make_splits(
                 "rich_history_camp_recovery",
                 _RICH_HASHES,
@@ -1612,7 +1611,7 @@ def _registered_contracts() -> dict[str, BenchmarkReproductionContract]:
             "preliminary_post_exposure_recovery",
             _PRELIMINARY_CLAIMS,
             _EPISODE_RANDOMNESS,
-            _serialization(None),
+            _serialization("Parquet"),
             _make_splits(
                 "preliminary_post_exposure_recovery",
                 _PRELIM_HASHES,
@@ -1627,7 +1626,7 @@ def _registered_contracts() -> dict[str, BenchmarkReproductionContract]:
             "phase_consistent_post_exposure_recovery",
             _PHASE_CLAIMS,
             _EPISODE_RANDOMNESS,
-            _serialization(None),
+            _serialization("Parquet"),
             _make_splits(
                 "phase_consistent_post_exposure_recovery",
                 _PHASE_HASHES,
@@ -1642,7 +1641,7 @@ def _registered_contracts() -> dict[str, BenchmarkReproductionContract]:
             "correlated_exposure_recovery",
             _CORRELATED_CLAIMS,
             _CORRELATED_RANDOMNESS,
-            _serialization(None),
+            _serialization("Parquet"),
             _make_splits(
                 "correlated_exposure_recovery",
                 _CORRELATED_HASHES,
@@ -1657,7 +1656,7 @@ def _registered_contracts() -> dict[str, BenchmarkReproductionContract]:
             "threshold_response_recovery",
             _THRESHOLD_CLAIMS,
             _THRESHOLD_RANDOMNESS,
-            _serialization(None),
+            _serialization("Parquet"),
             _make_splits(
                 "threshold_response_recovery",
                 _THRESHOLD_HASHES,
