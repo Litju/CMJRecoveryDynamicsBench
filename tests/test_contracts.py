@@ -32,6 +32,11 @@ def test_package_imports_and_exposes_canonical_outcomes() -> None:
     assert all("causal effect" in outcome.semantics for outcome in CANONICAL_OUTCOMES)
 
 
+def test_lineage_exports_remain_available_on_demand() -> None:
+    assert package.LINEAGE_REGISTRY
+    assert package.get_benchmark_lineage("rich_history_camp_recovery")
+
+
 def test_exactly_two_task_families_have_distinct_horizon_contracts() -> None:
     assert len(TASKS) == 2
     camp_task, episode_task = TASKS
