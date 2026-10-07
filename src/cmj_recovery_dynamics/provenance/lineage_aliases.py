@@ -1,0 +1,76 @@
+"""Historical labels kept outside the scientific lineage API."""
+
+from collections.abc import Mapping
+from types import MappingProxyType
+
+HISTORICAL_LINEAGE_ALIASES: Mapping[str, tuple[str, ...]] = MappingProxyType(
+    {
+        "initial_preseason_camp_recovery": ("SP01", "W01/O01/D02/T01", "V1"),
+        "canonical_preseason_camp_recovery": ("SP02", "W01/O01/D03/T01", "CYCLE3", "V26"),
+        "rich_history_camp_recovery": ("SP03", "W02/O02/D04/T01", "V3", "V39"),
+        "preliminary_post_exposure_recovery": ("SP04", "W03/O03/D05/T02"),
+        "phase_consistent_post_exposure_recovery": ("SP05", "W03/O04/D06/T02"),
+        "correlated_exposure_recovery": ("SP06", "W04/O04/D07/T02", "ALI-507"),
+        "threshold_response_recovery": ("SP07", "W05/O04/D08/T02", "C1"),
+        "fixed_mode_discrepancy_recovery": ("SP08", "W06/O04/D09/T02", "Candidate H", "ALI-518"),
+        "initial_preseason_camp_public_sample": ("D02",),
+        "canonical_preseason_camp_horizon_sample": ("D03",),
+        "rich_history_camp_sample": ("D04",),
+        "preliminary_episode_measurement_sample": ("D05",),
+        "phase_consistent_episode_sample": ("D06",),
+        "correlated_exposure_recovery_sample": ("D07",),
+        "threshold_response_proposed_sample": ("D08",),
+        "fixed_mode_recovery_candidate_sample": ("D09",),
+        "initial_submission_family_unresolved": ("five Boreal submissions", "Gate0"),
+        "linear_public_baseline": ("Gate5 linear baseline", "linear"),
+        "initial_public_reference_model": ("M0", "Gate7 frozen reference"),
+        "canonical_campaign_predictor_unresolved": ("V26 GPU submissions",),
+        "rich_history_zero_baseline": ("S0", "zero"),
+        "rich_history_empirical_bayes_predictor": ("S1", "empirical Bayes"),
+        "rich_history_boosted_residual_predictor": ("S2", "HGB residual"),
+        "rich_history_headroom_reference": ("HEADROOM_PROOF_V3",),
+        "rich_history_gpu_frontier_unresolved": ("V39 GPU", "authored GPU lane"),
+        "post_exposure_ridge_baseline": ("B1 Ridge",),
+        "restricted_post_exposure_empirical_frontier": ("B2/B3 restricted STRONG_EMPIRICAL",),
+        "local_history_structured_attacker": (
+            "A1_LEGACY_A4R",
+            "A2_LOCAL_NONLINEAR",
+            "A3_LOCAL_MAP",
+            "A4R",
+        ),
+        "generic_gradient_boosted_tree_predictor": ("HGB", "GENERIC_HGB"),
+        "generic_multilayer_perceptron_predictor": ("MLP", "GENERIC_MLP"),
+        "learned_one_dimensional_exposure_predictor": (
+            "EXPOSURE_NONLINEAR_1D",
+            "EXPOSURE_PLS_1D",
+            "EXPOSURE_SUPERVISED_LINEAR_1D",
+        ),
+        "threshold_response_reference_predictor": ("C1 implementation/reference attempt",),
+        "manufactured_parameter_identification_histories": (
+            "SYSID-P0-K2",
+            "SYSID-P0-K4",
+            "SYSID-P0-K8",
+        ),
+        "manufactured_linear_gaussian_identification_configuration": ("SYSID-P0-LG-1",),
+        "identification_prior_posterior": ("B0 prior",),
+        "identification_map_point_estimator": ("B1 MAP",),
+        "identification_exact_analytic_posterior": ("B2 exact/Laplace",),
+        "identification_empirical_bayes_posterior": ("B3 empirical Bayes",),
+        "identification_amortized_neural_posterior": ("weak NPE",),
+        "manufactured_exact_posterior_raw_coordinate_rmse": (
+            "R-SYSID-RMSE-2",
+            "R-SYSID-RMSE-4",
+            "R-SYSID-RMSE-8",
+            "theta4 prior-whitened RMSE registry label",
+        ),
+        "manufactured_posterior_summary_evaluator": ("p0.py::_summary",),
+        "manufactured_posterior_result_output": ("evidence.json:posterior.point_rmse",),
+        "system_identification_result_protocol_key_conflict": (
+            "P-SYSID-P0",
+            "P-ST-SYSID-P0",
+        ),
+        "white_cmj_waveform_grounding_source": ("White P0C", "D-WHITE-2026"),
+        "white_waveform_temporal_convolutional_predictor": ("five-seed TCN",),
+        "white_waveform_classical_predictor": ("best classical participant mean",),
+    }
+)
