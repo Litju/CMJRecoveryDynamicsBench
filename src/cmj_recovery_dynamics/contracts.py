@@ -193,6 +193,7 @@ class DynamicsFamily(StrEnum):
 class ModelImplementationStatus(StrEnum):
     PARTIAL_EQUATION = "partial_equation"
     PARAMETER_CONTRACT = "parameter_contract"
+    COMPLETE_EQUATION = "complete_equation"
 
 
 @dataclass(frozen=True, slots=True)
