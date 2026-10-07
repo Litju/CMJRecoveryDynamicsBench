@@ -2,7 +2,6 @@
 
 from cmj_recovery_dynamics.contracts import (
     PERFORMANCE_ONLY_CLAIM_BOUNDARY,
-    UNRESOLVED_EVALUATION_IDENTITY,
     BenchmarkDefinition,
     BenchmarkStatus,
     IdentityReference,
@@ -11,6 +10,7 @@ from cmj_recovery_dynamics.contracts import (
 from cmj_recovery_dynamics.dynamics.fitness_fatigue_impulse_response import (
     FITNESS_FATIGUE_IMPULSE_RESPONSE,
 )
+from cmj_recovery_dynamics.metrics.catalog import RICH_HISTORY_EVALUATION
 from cmj_recovery_dynamics.observations.rich_monitoring import RICH_MONITORING_OBSERVATION
 from cmj_recovery_dynamics.tasks.preseason_camp_recovery import PRESEASON_CAMP_RECOVERY_TASK
 
@@ -31,7 +31,7 @@ RICH_HISTORY_RECOVERY = BenchmarkDefinition(
         ReferenceStatus.IDENTIFIED,
         "Identity reference only; no dataset or private payload is included.",
     ),
-    evaluation_identity=UNRESOLVED_EVALUATION_IDENTITY,
+    evaluation_identity=RICH_HISTORY_EVALUATION,
     claim_boundary=PERFORMANCE_ONLY_CLAIM_BOUNDARY,
     disposition_note="Retired formulation; its direct scientific parent is unresolved.",
 )

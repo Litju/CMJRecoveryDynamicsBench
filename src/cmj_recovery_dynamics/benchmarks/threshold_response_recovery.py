@@ -2,13 +2,13 @@
 
 from cmj_recovery_dynamics.contracts import (
     PERFORMANCE_ONLY_CLAIM_BOUNDARY,
-    UNRESOLVED_EVALUATION_IDENTITY,
     BenchmarkDefinition,
     BenchmarkStatus,
     IdentityReference,
     ReferenceStatus,
 )
 from cmj_recovery_dynamics.dynamics.threshold_response import THRESHOLD_RESPONSE
+from cmj_recovery_dynamics.metrics.catalog import THRESHOLD_RESPONSE_PROPOSED_EVALUATION
 from cmj_recovery_dynamics.observations.phase_consistent_force_impulse import (
     PHASE_CONSISTENT_FORCE_IMPULSE_OBSERVATION,
 )
@@ -31,7 +31,7 @@ THRESHOLD_RESPONSE_RECOVERY = BenchmarkDefinition(
         ReferenceStatus.IDENTIFIED,
         "Proposed sample identity reference only; no dataset or private payload is included.",
     ),
-    evaluation_identity=UNRESOLVED_EVALUATION_IDENTITY,
+    evaluation_identity=THRESHOLD_RESPONSE_PROPOSED_EVALUATION,
     claim_boundary=PERFORMANCE_ONLY_CLAIM_BOUNDARY,
     parent_name="correlated_exposure_recovery",
     disposition_note="Proposed alternate, not an accepted successor formulation.",

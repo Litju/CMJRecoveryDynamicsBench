@@ -2,7 +2,6 @@
 
 from cmj_recovery_dynamics.contracts import (
     PERFORMANCE_ONLY_CLAIM_BOUNDARY,
-    UNRESOLVED_EVALUATION_IDENTITY,
     BenchmarkDefinition,
     BenchmarkStatus,
     IdentityReference,
@@ -10,6 +9,11 @@ from cmj_recovery_dynamics.contracts import (
 )
 from cmj_recovery_dynamics.dynamics.biexponential_episode_response import (
     BIEXPONENTIAL_EPISODE_RESPONSE,
+)
+from cmj_recovery_dynamics.metrics.catalog import (
+    PHASE_CONSISTENT_POST_EXPOSURE_EVALUATION,
+    POST_EXPOSURE_RESEARCH_EVALUATION,
+    PREDICTIVE_PROGRESS_EVALUATION,
 )
 from cmj_recovery_dynamics.observations.phase_consistent_force_impulse import (
     PHASE_CONSISTENT_FORCE_IMPULSE_OBSERVATION,
@@ -34,8 +38,12 @@ PHASE_CONSISTENT_POST_EXPOSURE_RECOVERY = BenchmarkDefinition(
         ReferenceStatus.IDENTIFIED,
         "Identity reference only; no dataset or private payload is included.",
     ),
-    evaluation_identity=UNRESOLVED_EVALUATION_IDENTITY,
+    evaluation_identity=PHASE_CONSISTENT_POST_EXPOSURE_EVALUATION,
     claim_boundary=PERFORMANCE_ONLY_CLAIM_BOUNDARY,
+    research_evaluations=(
+        POST_EXPOSURE_RESEARCH_EVALUATION,
+        PREDICTIVE_PROGRESS_EVALUATION,
+    ),
     parent_name="preliminary_post_exposure_recovery",
     disposition_note="Observation-law repair; the episode response law is retained.",
 )

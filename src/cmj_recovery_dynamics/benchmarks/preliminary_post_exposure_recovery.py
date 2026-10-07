@@ -2,7 +2,6 @@
 
 from cmj_recovery_dynamics.contracts import (
     PERFORMANCE_ONLY_CLAIM_BOUNDARY,
-    UNRESOLVED_EVALUATION_IDENTITY,
     BenchmarkDefinition,
     BenchmarkStatus,
     IdentityReference,
@@ -11,6 +10,7 @@ from cmj_recovery_dynamics.contracts import (
 from cmj_recovery_dynamics.dynamics.biexponential_episode_response import (
     BIEXPONENTIAL_EPISODE_RESPONSE,
 )
+from cmj_recovery_dynamics.metrics.catalog import PRELIMINARY_POST_EXPOSURE_EVALUATION
 from cmj_recovery_dynamics.observations.episode_summary import EPISODE_SUMMARY_OBSERVATION
 from cmj_recovery_dynamics.tasks.post_exposure_recovery import POST_EXPOSURE_RECOVERY_TASK
 
@@ -32,7 +32,7 @@ PRELIMINARY_POST_EXPOSURE_RECOVERY = BenchmarkDefinition(
         ReferenceStatus.IDENTIFIED,
         "Identity reference only; no dataset or private payload is included.",
     ),
-    evaluation_identity=UNRESOLVED_EVALUATION_IDENTITY,
+    evaluation_identity=PRELIMINARY_POST_EXPOSURE_EVALUATION,
     claim_boundary=PERFORMANCE_ONLY_CLAIM_BOUNDARY,
     disposition_note=(
         "Direct parent is unresolved; preliminary measurement contract without a frozen "
