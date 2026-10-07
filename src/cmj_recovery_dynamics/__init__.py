@@ -1,5 +1,8 @@
 """Typed scientific contracts for countermovement-jump recovery forecasting."""
 
+from importlib import import_module
+from typing import TYPE_CHECKING, Any
+
 from cmj_recovery_dynamics.contracts import (
     CANONICAL_OUTCOMES,
     FORCE_INNOVATION,
@@ -61,30 +64,67 @@ from cmj_recovery_dynamics.lineage.contracts import (
     SplitRole,
     SplitUnit,
 )
-from cmj_recovery_dynamics.lineage.registry import (
-    LINEAGE_REGISTRY,
-    BenchmarkLineageView,
-    ExperimentLineageView,
-    LineageRegistry,
-    ModelLineageView,
-    StudyLineage,
-)
-from cmj_recovery_dynamics.registry import (
-    BENCHMARK_REGISTRY,
-    EVALUATION_REGISTRY,
-    TASK_REGISTRY,
-    get_benchmark,
-    get_benchmark_lineage,
-    get_evaluation,
-    get_experiment,
-    get_experiment_lineage,
-    get_model_family,
-    get_model_lineage,
-    get_result,
-)
 from cmj_recovery_dynamics.reproduction import get_reproduction_contract
 
+if TYPE_CHECKING:
+    from cmj_recovery_dynamics.lineage.registry import (
+        LINEAGE_REGISTRY,
+        BenchmarkLineageView,
+        ExperimentLineageView,
+        LineageRegistry,
+        ModelLineageView,
+        StudyLineage,
+    )
+    from cmj_recovery_dynamics.registry import (
+        BENCHMARK_REGISTRY,
+        EVALUATION_REGISTRY,
+        TASK_REGISTRY,
+        get_benchmark,
+        get_benchmark_lineage,
+        get_evaluation,
+        get_experiment,
+        get_experiment_lineage,
+        get_model_family,
+        get_model_lineage,
+        get_result,
+    )
+
 __version__ = "0.1.0"
+
+_LINEAGE_EXPORTS = frozenset(
+    {
+        "LINEAGE_REGISTRY",
+        "BenchmarkLineageView",
+        "ExperimentLineageView",
+        "LineageRegistry",
+        "ModelLineageView",
+        "StudyLineage",
+    }
+)
+_REGISTRY_EXPORTS = frozenset(
+    {
+        "BENCHMARK_REGISTRY",
+        "EVALUATION_REGISTRY",
+        "TASK_REGISTRY",
+        "get_benchmark",
+        "get_benchmark_lineage",
+        "get_evaluation",
+        "get_experiment",
+        "get_experiment_lineage",
+        "get_model_family",
+        "get_model_lineage",
+        "get_result",
+    }
+)
+
+
+def __getattr__(name: str) -> Any:
+    if name in _LINEAGE_EXPORTS:
+        return getattr(import_module("cmj_recovery_dynamics.lineage.registry"), name)
+    if name in _REGISTRY_EXPORTS:
+        return getattr(import_module("cmj_recovery_dynamics.registry"), name)
+    raise AttributeError(f"module {__name__!r} has no attribute {name!r}")
+
 
 __all__ = [
     "BENCHMARK_REGISTRY",
