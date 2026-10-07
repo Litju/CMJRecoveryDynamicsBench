@@ -22,6 +22,7 @@ from cmj_recovery_dynamics.reproduction.registry import (
     REPRODUCTION_CONTRACTS,
     get_reproduction_contract,
 )
+
 __all__ = [
     "BenchmarkReproductionContract",
     "CalibrationReferenceStatus",
