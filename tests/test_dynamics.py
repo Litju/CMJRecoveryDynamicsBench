@@ -22,7 +22,14 @@ from cmj_recovery_dynamics.dynamics.event_time_adaptation_recovery import (
     stretched_exponential_memory,
 )
 from cmj_recovery_dynamics.dynamics.fitness_fatigue_impulse_response import (
+    FAST_TIME_CONSTANT_RANGE_HOURS,
+    RESPONSE_RATIO_RANGE,
+    SLOW_TIME_CONSTANT_RANGE_HOURS,
     FitnessFatigueParameters,
+    accustomedness,
+    camp_state,
+    hill_load_response,
+    load_adjustment,
 )
 from cmj_recovery_dynamics.dynamics.fitness_fatigue_impulse_response import (
     episode_response as fitness_fatigue_response,
@@ -243,18 +250,102 @@ def test_event_time_domains_and_parameter_bounds_fail_closed() -> None:
         simulate_camp_response((), (float("inf"),), PARAMETERS)
 
 
-def test_fitness_fatigue_response_obeys_the_recovered_decrement_floor() -> None:
+def test_rich_history_per_exposure_modes_and_zero_lag() -> None:
     parameters = FitnessFatigueParameters(
         amplitude_scale=1.0,
-        hill_load_response=1.0,
         normalized_load=1.0,
-        response_ratio=100.0,
-        recent_four_week_bout_count=0.0,
-        slow_time_constant_hours=84.0,
-        fast_time_constant_hours=24.0,
-        baseline_measurement=10.0,
+        response_ratio=3.5,
+        recent_four_week_bout_count=0,
+        slow_time_constant_hours=160.0,
+        fast_time_constant_hours=66.0,
+        baseline_level=25.0,
     )
-    assert fitness_fatigue_response(0.0, parameters) == pytest.approx(-3.8)
+    assert fitness_fatigue_response(0.0, parameters) == 0.0
+    assert fitness_fatigue_response(-1.0, parameters) == 0.0
+    assert fitness_fatigue_response(66.0, parameters) == pytest.approx(
+        1.1 * (exp(-66.0 / 160.0) - 3.5 * 0.55 * exp(-1.0))
+    )
+    assert fitness_fatigue_response(10_000.0, parameters) == pytest.approx(0.0, abs=1e-27)
+
+
+def test_rich_history_load_bout_hill_and_summed_decrement_floor() -> None:
+    assert hill_load_response(0.0) == 0.0
+    assert hill_load_response(1.0) == pytest.approx(1.1)
+    assert hill_load_response(2.0) == pytest.approx(1.76)
+    assert hill_load_response(1e100) == pytest.approx(2.2)
+    assert load_adjustment(0.0) == pytest.approx(0.65)
+    assert load_adjustment(1.0) == 1.0
+    assert load_adjustment(100.0) == 1.6
+    assert accustomedness(0.0) == pytest.approx(0.55)
+    assert accustomedness(1_000_000.0) == pytest.approx(1.0)
+
+    parameters = FitnessFatigueParameters(
+        amplitude_scale=100.0,
+        normalized_load=1.0,
+        response_ratio=5.0,
+        recent_four_week_bout_count=0,
+        slow_time_constant_hours=100.0,
+        fast_time_constant_hours=36.0,
+        baseline_level=10.0,
+    )
+    assert fitness_fatigue_response(1.0, parameters) < -3.8
+    assert camp_state((1.0, 1.0), (parameters, parameters)) == pytest.approx(-3.8)
+    assert camp_state((0.0, 0.0), (parameters, parameters)) == 0.0
+
+
+def test_rich_history_d7_includes_authorized_future_plan_exposures() -> None:
+    index = FitnessFatigueParameters(0.2, 1.0, 3.5, 0, 160.0, 66.0, 25.0)
+    plan = replace(index, normalized_load=1.3)
+    h72_without_plan = camp_state((72.0,), (index,))
+    h72_with_plan = camp_state((72.0, -48.0), (index, plan))
+    d7_without_plan = camp_state((168.0,), (index,))
+    d7_with_plan = camp_state((168.0, 48.0), (index, plan))
+
+    assert h72_with_plan == pytest.approx(h72_without_plan)
+    assert d7_with_plan != pytest.approx(d7_without_plan)
+
+
+def test_rich_history_parameter_bounds_are_source_defined_and_rejected() -> None:
+    base = FitnessFatigueParameters(
+        amplitude_scale=1.0,
+        normalized_load=1.0,
+        response_ratio=RESPONSE_RATIO_RANGE[0],
+        recent_four_week_bout_count=0,
+        slow_time_constant_hours=SLOW_TIME_CONSTANT_RANGE_HOURS[0],
+        fast_time_constant_hours=FAST_TIME_CONSTANT_RANGE_HOURS[0],
+        baseline_level=1.0,
+    )
+    assert base.response_ratio == 1.5
+    assert replace(base, response_ratio=RESPONSE_RATIO_RANGE[1]).response_ratio == 5.0
+    assert (
+        replace(
+            base,
+            slow_time_constant_hours=SLOW_TIME_CONSTANT_RANGE_HOURS[1],
+            fast_time_constant_hours=FAST_TIME_CONSTANT_RANGE_HOURS[1],
+            recent_four_week_bout_count=8,
+        ).recent_four_week_bout_count
+        == 8
+    )
+    with pytest.raises(ValueError, match="response ratio"):
+        replace(base, response_ratio=1.49)
+    with pytest.raises(ValueError, match="response ratio"):
+        replace(base, response_ratio=5.01)
+    with pytest.raises(ValueError, match="four-week bout count"):
+        replace(base, recent_four_week_bout_count=1.5)
+    with pytest.raises(ValueError, match="fast time constant"):
+        replace(base, fast_time_constant_hours=35.0)
+    with pytest.raises(ValueError, match="slow time constant"):
+        replace(base, slow_time_constant_hours=261.0)
+    with pytest.raises(ValueError, match="baseline level"):
+        replace(base, baseline_level=0.0)
+    with pytest.raises(ValueError, match="normalized load"):
+        replace(base, normalized_load=-0.01)
+    with pytest.raises(ValueError, match="finite"):
+        replace(base, amplitude_scale=float("nan"))
+    with pytest.raises(ValueError, match="lag must be finite"):
+        fitness_fatigue_response(float("inf"), base)
+    with pytest.raises(ValueError, match="same length"):
+        camp_state((1.0,), (base, base))
 
 
 def test_biexponential_response_uses_two_negative_modes() -> None:

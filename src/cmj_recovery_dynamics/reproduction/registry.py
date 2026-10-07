@@ -47,6 +47,9 @@ _AUTHORITY = ReproductionAuthority(
         "waveform studies remain outside these benchmark identities."
     ),
 )
+_SP03_TREE_EVIDENCE = (
+    "M1-selected SP03/D04 executable tree e2871ccac43e4e6b7dfaa0c7cc2eec9d05b03e0b"
+)
 
 
 def _claim(
@@ -130,9 +133,11 @@ def _splits(
     hidden_rows: int | None = None,
     hidden_planned_rows: int | None = None,
     hidden_unit: SplitUnit | None = None,
+    assignment_rationale: str | None = None,
+    assignment_missing: tuple[str, ...] | None = None,
 ) -> tuple[SplitReproductionAuthority, ...]:
     hash_map = {item.split_name: item for item in hashes}
-    assignment = (
+    assignment = assignment_rationale or (
         "M1 preserves the grouping rule, disjointness, and public split seed authority."
         if assignment_status is S.EXACT
         else (
@@ -140,7 +145,7 @@ def _splits(
             "to recreate membership."
         )
     )
-    missing_assignment = (
+    missing_assignment = assignment_missing or (
         ()
         if assignment_status is S.EXACT
         else ("exact public split root seed or membership mapping",)
@@ -701,12 +706,49 @@ _RICH_WORLD = {
         D.WORLD_LAW,
         S.EXACT,
         (
-            "The per-exposure slow-positive/fast-negative exponential response, bout "
-            "sensitization, participant kinetics, schedule bounds, noise, and authored "
-            "decrement floor are specified."
+            "The selected W02 law sums Hill-scaled slow-positive and load/bout-adjusted "
+            "fast-negative exposure modes, using correlated participant level effects, "
+            "force/impulse amplitude construction, bounded participant kinetics, camp "
+            "regimes, and the authored floor after summation at 0.38 of latent baseline."
         ),
+        f"{_SP03_TREE_EVIDENCE}: lcmj_v3/core.py, params.py, and schedule.py",
+        f"{_SP03_TREE_EVIDENCE}: same-tree source tests",
         "RES-364: scientific-state registry",
         "RES-365: world generator registry",
+    ),
+}
+_RICH_COMPLETE_GENERATOR = {
+    D.COMPLETE_GENERATOR: _claim(
+        D.COMPLETE_GENERATOR,
+        S.SEMANTICALLY_EQUIVALENT,
+        (
+            "The selected executable tree and its binding tests define the complete public "
+            "generator. Clean-room code preserves that law and public contract; unresolved "
+            "historical PRNG state, row ordering, and writer bytes remain separate."
+        ),
+        f"{_SP03_TREE_EVIDENCE}: data_generation/src/lcmj_v3/",
+        f"{_SP03_TREE_EVIDENCE}: parameters, projection, split manifests, and same-tree tests",
+        missing=("historical initialized PRNG state, row ordering, and byte serialization",),
+    ),
+}
+_RICH_SPLIT = {
+    D.SPLIT_ASSIGNMENT: _claim(
+        D.SPLIT_ASSIGNMENT,
+        S.PARTIAL,
+        (
+            "D04's camp, participant, and origin hierarchy is fixed, but exact H72/D7 query "
+            "membership depends on the unresolved NumPy default_rng runtime used by the "
+            "horizon-presence draws. The selected source replay under the recorded OSS "
+            "runtime does not match the historical manifest row counts."
+        ),
+        f"{_SP03_TREE_EVIDENCE}: lcmj_v3/params.py and splits.py",
+        f"{_SP03_TREE_EVIDENCE}: lcmj_v3/rng.py, projection.py, and data/public/manifest.json",
+        "RES-365: dataset and split registry",
+        missing=(
+            "historical initialized NumPy state or bit-generator/runtime binding for the "
+            "per-origin horizon-presence mask",
+        ),
+        scope=("training", "public_validation"),
     ),
 }
 _PRELIM_WORLD = {
@@ -789,14 +831,22 @@ _RICH_HISTORY_RANDOMNESS = RandomnessAuthority(
         "are not available."
     ),
     "Public train, validation, and hidden-design seed names are preserved.",
-    "Separate schedule, kinetics, dose, validity/missingness, and measurement stream families.",
     (
-        "Preserved source fixes each keyed stream's draw order; the bit-generator/runtime "
-        "binding remains separate."
+        "Each camp uses one root identity (simulate-camp namespace, public split root, split "
+        "name, camp index), then "
+        "a separate named generator per stochastic channel. Kinetic and preferred-depth "
+        "channels add the local participant index; other origin surfaces use fixed arrays "
+        "in participant/origin order."
     ),
     (
-        "Each generator is deterministically keyed by root, split, camp, participant, "
-        "origin, and purpose."
+        "The source fixes ordered channel calls and fixed array shapes; changing a channel's "
+        "draws cannot advance another channel. The NumPy bit-generator/runtime binding "
+        "remains separate."
+    ),
+    (
+        "Random streams are camp-rooted and channel-keyed, with local participant keys "
+        "only for kinetic and preferred-depth draws. Stable participant/origin/horizon "
+        "opaque public keys are a separate projection hierarchy, not RNG stream keys."
     ),
 )
 _EPISODE_RANDOMNESS = RandomnessAuthority(
@@ -1058,7 +1108,7 @@ _CANONICAL_CAMP_COMMON = {
 
 _RICH_CLAIMS = {
     **_RICH_WORLD,
-    **_POST_WORLD,
+    **_RICH_COMPLETE_GENERATOR,
     D.RNG_ALGORITHM: _claim(
         D.RNG_ALGORITHM,
         S.PARTIAL,
@@ -1067,8 +1117,9 @@ _RICH_CLAIMS = {
             "kinetics, dose, validity, and measurement but does not pin the "
             "bit-generator/runtime."
         ),
-        "RES-365: world generator registry",
-        "RES-365: preserved generator and RNG source",
+        f"{_SP03_TREE_EVIDENCE}: lcmj_v3/rng.py",
+        f"{_SP03_TREE_EVIDENCE}: lcmj_v3/params.py and same-tree RNG tests",
+        f"{_SP03_TREE_EVIDENCE}: environment/Dockerfile does not pin a NumPy package version",
         missing=("exact NumPy bit generator and runtime binding",),
     ),
     D.RNG_STATE: _claim(
@@ -1078,6 +1129,7 @@ _RICH_CLAIMS = {
             "Public split seed names are preserved, but initialized NumPy states for each "
             "stream are not."
         ),
+        f"{_SP03_TREE_EVIDENCE}: lcmj_v3/rng.py and public split manifest",
         "RES-365: world generator and dataset/split registries",
         missing=("serialized initial state for every stream",),
     ),
@@ -1085,49 +1137,54 @@ _RICH_CLAIMS = {
         D.SEED_AUTHORITY,
         S.EXACT,
         (
-            "Public train, validation, and hidden-design seed names are recorded in the "
-            "technical contract."
+            "Public train and validation root seed names and values are fixed in the "
+            "selected split specification. Hidden design counts do not imply a public "
+            "hidden materialization."
         ),
+        f"{_SP03_TREE_EVIDENCE}: lcmj_v3/params.py and data/public/manifest.json",
         "RES-365: dataset and split registry",
     ),
     D.RNG_STREAM_CONSTRUCTION: _claim(
         D.RNG_STREAM_CONSTRUCTION,
         S.EXACT,
         (
-            "The preserved keyed RNG source derives a separate NumPy generator from the "
-            "root, split, entity keys, and purpose."
+            "The source hashes a simulate-camp-prefixed root identity, then derives one "
+            "generator per channel; optional local participant indices key two trait channels."
         ),
-        "RES-365: world generator registry",
-        "RES-365: preserved generator and RNG source",
+        f"{_SP03_TREE_EVIDENCE}: lcmj_v3/rng.py and core.py",
+        f"{_SP03_TREE_EVIDENCE}: lcmj_v3/splits.py",
     ),
     D.RNG_DRAW_ORDER: _claim(
         D.RNG_DRAW_ORDER,
         S.EXACT,
         (
-            "The preserved source fixes ordered draws for schedule, kinetics, dose, "
-            "validity, and measurement streams."
+            "The selected source fixes channel call order, fixed maximum array shapes, and "
+            "participant/origin array order within each camp."
         ),
-        "RES-365: world generator registry",
-        "RES-365: preserved generator source",
+        f"{_SP03_TREE_EVIDENCE}: lcmj_v3/core.py, schedule.py, and measurement.py",
+        f"{_SP03_TREE_EVIDENCE}: same-tree RNG channel tests",
     ),
     D.RNG_SUBSTREAM_STRATEGY: _claim(
         D.RNG_SUBSTREAM_STRATEGY,
         S.EXACT,
         (
-            "The preserved source derives independent streams from stable "
-            "root/split/entity/purpose keys."
+            "Named streams are isolated below the camp root; kinetic and preferred-depth "
+            "draws use local participant indices. Origin rows occupy fixed positions in "
+            "camp-shaped arrays. Opaque origin/query keys are a separate projection layer."
         ),
-        "RES-365: world generator registry",
-        "RES-365: preserved generator and RNG source",
+        f"{_SP03_TREE_EVIDENCE}: lcmj_v3/rng.py, core.py, schedule.py, and projection.py",
     ),
     D.OBSERVATION: _claim(
         D.OBSERVATION,
         S.EXACT,
         (
-            "Baseline qualification, five-trial target, assessment-quality states, "
-            "schedule, covariates, and horizon aggregation are directly specified."
+            "The selected observation code fixes the two-assessment baseline rule, schedule "
+            "opportunities, valid/invalid/missing states, participant covariates, and five "
+            "valid target trials. Its depth is contextual only; a stale parameter JSON "
+            "entry is superseded by executable measurement code and its regression test."
         ),
-        "RES-365: observation contract registry",
+        f"{_SP03_TREE_EVIDENCE}: lcmj_v3/measurement.py and params.py",
+        f"{_SP03_TREE_EVIDENCE}: test_ali488_source_repair.py",
     ),
     D.SCHEMA: _claim(
         D.SCHEMA,
@@ -1136,9 +1193,11 @@ _RICH_CLAIMS = {
             "The rich monitoring representation fixes its semantic fields, variable "
             "history geometry, and H72/D7 query shape."
         ),
+        f"{_SP03_TREE_EVIDENCE}: data/canonical_v3.py, projection.py, "
+        "and data/public/manifest.json",
         "RES-365: observation and representation contracts",
     ),
-    **_POST_SPLIT,
+    **_RICH_SPLIT,
     **_POST_ORDERING,
     **_POST_SERIALIZATION,
     **_hash_claim(
@@ -1512,6 +1571,8 @@ def _make_splits(
     hidden_rows: int | None = None,
     hidden_planned_rows: int | None = None,
     hidden_unit: SplitUnit | None = None,
+    assignment_rationale: str | None = None,
+    assignment_missing: tuple[str, ...] | None = None,
 ) -> tuple[SplitReproductionAuthority, ...]:
     rows = {
         "initial_preseason_camp_recovery": (4096, 512),
@@ -1537,6 +1598,8 @@ def _make_splits(
         hidden_rows=hidden_rows,
         hidden_planned_rows=hidden_planned_rows,
         hidden_unit=hidden_unit,
+        assignment_rationale=assignment_rationale,
+        assignment_missing=assignment_missing,
     )
 
 
@@ -1629,11 +1692,21 @@ def _registered_contracts() -> dict[str, BenchmarkReproductionContract]:
             _make_splits(
                 "rich_history_camp_recovery",
                 _RICH_HASHES,
-                public_assignment=S.EXACT,
+                public_assignment=S.PARTIAL,
                 unit=SplitUnit.CAMP,
+                hidden_state=MaterializationState.NOT_RECOVERED,
                 hidden_assignment=S.UNKNOWN,
                 hidden_rows=None,
                 hidden_unit=SplitUnit.CAMP,
+                assignment_rationale=(
+                    "Camp, participant, and origin grouping is source-defined, but the "
+                    "historical per-origin H72/D7 presence mask cannot be replayed without "
+                    "the original NumPy bit-generator/runtime binding."
+                ),
+                assignment_missing=(
+                    "historical initialized NumPy state or bit-generator/runtime binding "
+                    "for exact public query membership",
+                ),
             ),
             _RICH_HASHES,
             _EVAL_RICH,
