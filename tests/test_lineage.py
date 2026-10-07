@@ -17,6 +17,7 @@ from cmj_recovery_dynamics.lineage.contracts import (
     ConflictStatus,
     CoordinateBasis,
     ExperimentStatus,
+    ModelRole,
     RedistributionStatus,
     ScientificDisposition,
     classify_posterior_rmse_trace,
@@ -184,6 +185,51 @@ def test_operational_failure_is_not_a_scientific_negative() -> None:
         is ScientificDisposition.COMPLETED_NEGATIVE
     )
     assert negative.benchmark_name == "initial_preseason_camp_recovery"
+
+
+def test_system_identification_execution_is_separate_from_scientific_conclusion() -> None:
+    sysid = get_experiment("manufactured_parameter_system_identification")
+    assert sysid.status is ExperimentStatus.COMPLETED
+    assert sysid.disposition is ScientificDisposition.NOT_ML_TASK
+
+
+def test_correlated_exposure_ratio_and_paired_sre_interval_are_separate_from_fixed_mode() -> None:
+    sp06_ratio = get_result("correlated_exposure_local_frontier_ratio").values[0]
+    assert sp06_ratio.value == pytest.approx(0.9977002240012199)
+    assert sp06_ratio.interval is None
+
+    sp06_difference = get_result("correlated_exposure_local_frontier_paired_sre_difference")
+    difference_value = sp06_difference.values[0]
+    assert "paired" in difference_value.measure
+    assert difference_value.interval == pytest.approx(
+        (-0.0014055337702137793, 0.002354712208178295)
+    )
+    assert sp06_difference.dataset_name == "correlated_exposure_recovery_sample"
+    assert sp06_difference.experiment_name == "correlated_exposure_corrected_survivability"
+    assert (
+        "RUNTIME_SCORER_REPAIR_REQUIRED"
+        in get_experiment("correlated_exposure_corrected_survivability").evidence.note
+    )
+
+    sp08_ratio = get_result("fixed_mode_local_to_frontier_ratio").values[0]
+    assert sp08_ratio.value == pytest.approx(0.999835)
+    assert sp08_ratio.interval == pytest.approx((0.998542, 1.001165))
+
+
+def test_proposed_threshold_dataset_does_not_claim_accepted_supersession() -> None:
+    threshold_dataset = LINEAGE_REGISTRY.datasets["threshold_response_proposed_sample"]
+    assert threshold_dataset.supersedes_dataset is None
+
+
+def test_ridge_is_generic_low_capacity_while_nonlinear_models_remain_high_capacity() -> None:
+    ridge = get_model_family("generic_ridge_predictor")
+    assert ModelRole.GENERIC_PREDICTOR in ridge.roles
+    assert ModelRole.GENERIC_HIGH_CAPACITY_PREDICTOR not in ridge.roles
+    for name in (
+        "generic_gradient_boosted_tree_predictor",
+        "generic_multilayer_perceptron_predictor",
+    ):
+        assert ModelRole.GENERIC_HIGH_CAPACITY_PREDICTOR in get_model_family(name).roles
 
 
 def test_central_benchmark_query_exposes_adjacent_studies_and_conflicts() -> None:

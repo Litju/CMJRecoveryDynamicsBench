@@ -441,10 +441,14 @@ EXPERIMENTS = (
         ),
         unit=ProtocolUnit.CAMP,
         change=ChangeClass.MODEL_ONLY_CHANGE,
+        sources=(
+            "ALI-507: authoritative final correlated-exposure result receipt",
+            "RES-366: experiment protocol and result registry",
+        ),
         note=(
-            "The reported local/frontier ratio confidence interval does "
-            "not contain its point estimate; preserve the source "
-            "inconsistency and terminal scorer-repair requirement."
+            "ALI-507's terminal interpretation was "
+            "RUNTIME_SCORER_REPAIR_REQUIRED; its scientific findings "
+            "remain distinct from the later fixed-mode result."
         ),
     ),
     _experiment(
@@ -668,7 +672,7 @@ EXPERIMENTS = (
             _SYSID_RMSE,
         ),
         ExperimentPurpose.SYSTEM_IDENTIFICATION,
-        ExperimentStatus.NOT_ML_TASK,
+        ExperimentStatus.COMPLETED,
         ScientificDisposition.NOT_ML_TASK,
         (
             "Assess the posterior-inference proposal only; do not bind "

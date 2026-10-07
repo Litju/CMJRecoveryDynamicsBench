@@ -347,7 +347,7 @@ MODEL_FAMILIES = (
     _model(
         "generic_ridge_predictor",
         "ridge regression",
-        (ModelRole.GENERIC_HIGH_CAPACITY_PREDICTOR,),
+        (ModelRole.GENERIC_PREDICTOR,),
         (_FIXED,),
         (_HEADROOM, _RECONSTRUCTABILITY),
         "Fit a general-purpose point predictor for the force and impulse targets.",

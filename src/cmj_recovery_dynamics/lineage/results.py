@@ -354,23 +354,44 @@ RESULTS = (
         _CORRELATED_DATA,
         "correlated_exposure_public_validation",
         PROGRESS_RATIO_EVALUATION.name,
-        (
-            "Corrected local-to-empirical progress ratio; the reported "
-            "interval does not contain the point estimate."
-        ),
+        "Corrected correlated-exposure local-to-empirical progress ratio from ALI-507.",
         models=("local_history_structured_attacker", "correlated_exposure_empirical_frontier"),
         values=(
             ResultValue(
                 "local-to-frontier progress ratio",
                 "dimensionless ratio",
-                value=0.997700224,
-                interval=(0.998542, 1.001165),
+                value=0.9977002240012199,
             ),
         ),
         comparability=ComparabilityStatus.DIRECTLY_COMPARABLE,
         disposition=ScientificDisposition.COMPLETED_MIXED,
+        sources=("ALI-507: authoritative final result receipt", "RES-366: result registry"),
         note=(
-            "The source inconsistency is preserved; terminalclassification required scorer repair."
+            "The paired SRE-difference interval is recorded separately; "
+            "it is not uncertainty for this progress ratio."
+        ),
+    ),
+    _result(
+        "correlated_exposure_local_frontier_paired_sre_difference",
+        "correlated_exposure_corrected_survivability",
+        _CORRELATED_DATA,
+        "correlated_exposure_public_validation",
+        POST_EXPOSURE_RESEARCH_EVALUATION.name,
+        "Paired local-history minus empirical-frontier six-cell SRE difference.",
+        models=("local_history_structured_attacker", "correlated_exposure_empirical_frontier"),
+        values=(
+            ResultValue(
+                "paired local-minus-empirical SRE difference (95% CI)",
+                "dimensionless SRE difference",
+                interval=(-0.0014055337702137793, 0.002354712208178295),
+            ),
+        ),
+        comparability=ComparabilityStatus.DIRECTLY_COMPARABLE,
+        disposition=ScientificDisposition.COMPLETED_MIXED,
+        sources=("ALI-507: authoritative final result receipt", "RES-366: result registry"),
+        note=(
+            "ALI-507 reports paired SRE(A4R) - SRE(STRONG_EMPIRICAL); "
+            "this interval is not uncertainty for the separate progress ratio."
         ),
     ),
     _result(
