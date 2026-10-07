@@ -2,7 +2,6 @@
 
 from cmj_recovery_dynamics.contracts import (
     PERFORMANCE_ONLY_CLAIM_BOUNDARY,
-    UNRESOLVED_EVALUATION_IDENTITY,
     BenchmarkDefinition,
     BenchmarkStatus,
     IdentityReference,
@@ -10,6 +9,14 @@ from cmj_recovery_dynamics.contracts import (
 )
 from cmj_recovery_dynamics.dynamics.fixed_mode_discrepancy_response import (
     FIXED_MODE_DISCREPANCY_RESPONSE,
+)
+from cmj_recovery_dynamics.metrics.catalog import (
+    FIXED_MODE_DISCREPANCY_EVALUATION,
+    POST_EXPOSURE_RESEARCH_EVALUATION,
+    PREDICTIVE_PROGRESS_EVALUATION,
+    PROGRESS_RATIO_EVALUATION,
+    RELATIVE_PROGRESS_GAIN_EVALUATION,
+    RELATIVE_PROGRESS_LOSS_EVALUATION,
 )
 from cmj_recovery_dynamics.observations.phase_consistent_force_impulse import (
     PHASE_CONSISTENT_FORCE_IMPULSE_OBSERVATION,
@@ -33,8 +40,15 @@ FIXED_MODE_DISCREPANCY_RECOVERY = BenchmarkDefinition(
         ReferenceStatus.IDENTIFIED,
         "Candidate split identity reference only; no dataset or private payload is included.",
     ),
-    evaluation_identity=UNRESOLVED_EVALUATION_IDENTITY,
+    evaluation_identity=FIXED_MODE_DISCREPANCY_EVALUATION,
     claim_boundary=PERFORMANCE_ONLY_CLAIM_BOUNDARY,
+    research_evaluations=(
+        POST_EXPOSURE_RESEARCH_EVALUATION,
+        PREDICTIVE_PROGRESS_EVALUATION,
+        PROGRESS_RATIO_EVALUATION,
+        RELATIVE_PROGRESS_GAIN_EVALUATION,
+        RELATIVE_PROGRESS_LOSS_EVALUATION,
+    ),
     parent_name="correlated_exposure_recovery",
     disposition_note=(
         "Active candidate; fixed modes are mathematical anchors, not biological compartments."

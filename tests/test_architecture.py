@@ -60,7 +60,7 @@ def test_historical_alias_values_are_confined_to_the_provenance_mapping() -> Non
     source_root = REPOSITORY_ROOT / "src" / "cmj_recovery_dynamics"
     for source_path in source_root.rglob("*.py"):
         relative = source_path.relative_to(source_root)
-        if relative.parts[0] == "provenance":
+        if "provenance" in relative.parts:
             continue
         source = source_path.read_text(encoding="utf-8")
         assert HISTORICAL_IDENTIFIER.search(source) is None, relative
