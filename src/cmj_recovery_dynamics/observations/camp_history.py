@@ -12,17 +12,20 @@ CAMP_HISTORY_OBSERVATION = ObservationContract(
     baseline_measurements=InformationBoundary(
         InformationStatus.SPECIFIED,
         ("relative force summary", "net impulse summary"),
-        "Two latest valid qualifying pre-index summaries, 24–240 hours before origin.",
+        "Mean of the two latest valid qualifying pre-index assessment summaries in the "
+        "inclusive 24–240 hour window.",
     ),
     assessment_history=InformationBoundary(
         InformationStatus.SPECIFIED,
         ("timestamp", "force", "net impulse", "depth", "validity"),
-        "Time-sorted pre-origin assessments; early schema details remain unresolved.",
+        "Time-sorted pre-origin assessments; early initial-sample schema details remain "
+        "unresolved.",
     ),
     exposure_information=InformationBoundary(
         InformationStatus.SPECIFIED,
         ("event kind", "duration", "time", "known-plan kind", "known-plan duration"),
-        "Prior and index events plus plans known at origin within the target bound.",
+        "Index exposure and fixed plan events known at origin, projected only through the "
+        "target bound.",
     ),
     participant_covariates=InformationBoundary(
         InformationStatus.UNAVAILABLE,
@@ -31,8 +34,9 @@ CAMP_HISTORY_OBSERVATION = ObservationContract(
     ),
     prior_episode_information=InformationBoundary(
         InformationStatus.SPECIFIED,
-        ("pre-origin assessments", "pre-index exposures"),
-        "Available camp trajectory before the prediction origin.",
+        ("pre-origin assessments",),
+        "The selected W01 schedule starts its exposure state at the index; it has no "
+        "pre-index carry-in.",
     ),
     temporal_availability=TemporalAvailability(
         information_cutoff="History and plans available at the index origin.",
@@ -56,7 +60,10 @@ CAMP_HISTORY_OBSERVATION = ObservationContract(
         "The participant grouping key is not a predictor.",
     ),
     measurement_construction=(
-        "Three valid criterion trials; early initial-sample schema and baseline trial count "
-        "remain unresolved."
+        "Canonical baseline assessments use exactly three valid trials, each with a shared "
+        "session deviation and independent within-trial error; each assessment and the two-"
+        "assessment baseline are arithmetic means. A target uses one session-plus-trial "
+        "error draw and three centered criterion trials (force ±0.03 N/kg, impulse ±0.01 "
+        "m/s), so their mean is the observed target. The initial-sample details remain unresolved."
     ),
 )

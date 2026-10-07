@@ -215,6 +215,7 @@ def _splits(
     )
 
 
+_W01_TREE_EVIDENCE = "M1-selected W01 tree 037fd0510dec208d20d9af5eb10f4812ee423abf"
 _CAMP_WORLD = {
     D.WORLD_LAW: _claim(
         D.WORLD_LAW,
@@ -225,29 +226,50 @@ _CAMP_WORLD = {
             "slow cumulative adaptation, event ordering, and parameter distributions are "
             "directly specified."
         ),
+        f"{_W01_TREE_EVIDENCE}: worlds.py, dynamics.py, exposure.py",
+        f"{_W01_TREE_EVIDENCE}: kernels.py, state.py",
+        "Same-tree tests: test_exposure_recovery_dynamics.py and test_world_generation.py",
         "RES-364: scientific-state registry",
         "RES-365: world generator registry",
     ),
 }
-_CAMP_OBSERVATION = {
+_CAMP_OBSERVATION_INITIAL = {
     D.OBSERVATION: _claim(
         D.OBSERVATION,
         S.PARTIAL,
         (
-            "Baseline timing, two latest valid assessments, three target trials, "
-            "exposure/history visibility, "
-            "and horizon windows are recovered; the early formulation leaves schema and "
-            "baseline trial detail open."
+            "The early initial surface leaves assessment measurement details unresolved; "
+            "the canonical three-trial contract does not retroactively freeze the initial "
+            "sample."
         ),
         "RES-365: observation contract registry",
-        missing=("early schema freeze and baseline assessment trial count",),
+        missing=("early assessment trial and measurement authority",),
+    ),
+}
+_CAMP_OBSERVATION_CANONICAL = {
+    D.OBSERVATION: _claim(
+        D.OBSERVATION,
+        S.EXACT,
+        (
+            "The canonical L05/O01 contract fixes three valid trials per assessment, "
+            "shared session deviation, independent baseline trial errors, arithmetic-mean "
+            "assessment summaries, and the two latest qualifying pre-index summaries in "
+            "the inclusive 24–240 hour window. Target trials use one query error and "
+            "centered offsets."
+        ),
+        f"{_W01_TREE_EVIDENCE}: worlds.py and measurement.py",
+        "Same-tree test: test_assessment_aggregation.py",
+        "RES-365: canonical O01 observation contract",
+        "M1-preserved L05 mechanics and measurement contract",
     ),
 }
 _CAMP_RNG = {
     D.RNG_ALGORITHM: _claim(
         D.RNG_ALGORITHM,
         S.EXACT,
-        "The generator uses Python random.Random version 2 with SHA-256 semantic-key namespaces.",
+        "The selected W01 source uses CPython random.Random version 2 and SHA-256 "
+        "semantic-key namespaces.",
+        f"{_W01_TREE_EVIDENCE}: worlds.py and replay_identity.json",
         "RES-365: world generator registry",
         "RES-365: preserved generator and RNG source",
     ),
@@ -255,28 +277,33 @@ _CAMP_RNG = {
         D.RNG_STATE,
         S.UNKNOWN,
         (
-            "The stream family is known, but the public sample's initial stream state "
-            "cannot be derived without its exact root seed."
+            "The selected W01 tree defines roots and semantic substreams, but its checked-in "
+            "L05 manifest does not bind those roots to the D02/D03 reference hashes or "
+            "serialize their initialized states."
         ),
+        f"{_W01_TREE_EVIDENCE}: worlds.py and data/manifest.json",
         "RES-365: world generator and dataset/split registries",
-        missing=("exact initial RNG state for each public split",),
+        missing=("D02/D03 root binding and initialized state for each public substream",),
     ),
     D.RNG_STREAM_CONSTRUCTION: _claim(
         D.RNG_STREAM_CONSTRUCTION,
         S.EXACT,
         (
-            "Separate semantic namespaces are specified for athlete, event, measurement, "
-            "assessment, and missingness draws."
+            "SHA-256 of canonical JSON semantic keys (first 16 bytes, unsigned big-endian) "
+            "seeds random.Random version 2 using split, world, origin, cluster, entity, "
+            "event/assessment, and purpose namespaces."
         ),
+        f"{_W01_TREE_EVIDENCE}: worlds.py",
         "RES-365: world generator registry",
     ),
     D.RNG_DRAW_ORDER: _claim(
         D.RNG_DRAW_ORDER,
         S.EXACT,
         (
-            "The preserved generator source fixes draw order within each semantic-keyed "
-            "stream; seed authority remains a separate claim."
+            "The selected W01 source fixes one rounded uniform draw per separately keyed "
+            "attribute/error value; D02/D03 root and state authority remains separate."
         ),
+        f"{_W01_TREE_EVIDENCE}: worlds.py",
         "RES-365: world generator registry",
         "RES-365: preserved generator and RNG source",
     ),
@@ -284,9 +311,10 @@ _CAMP_RNG = {
         D.RNG_SUBSTREAM_STRATEGY,
         S.EXACT,
         (
-            "The authority specifies stable semantic-keyed namespaces rather than one "
-            "shared sequential stream."
+            "Each W01 value uses an independently seeded semantic-key stream rather than "
+            "one shared sequential stream."
         ),
+        f"{_W01_TREE_EVIDENCE}: worlds.py",
         "RES-365: world generator registry",
     ),
 }
@@ -319,11 +347,13 @@ _CAMP_SEED = {
         D.SEED_AUTHORITY,
         S.UNKNOWN,
         (
-            "The preserved public manifests name fixture namespaces but do not bind the "
-            "exact root seed for these sample bytes."
+            "W01 defines public_train/public_validation root strings, but its checked-in "
+            "L05 output hashes differ from the D02/D03 reference hashes; those roots are "
+            "not bound to these historical sample bytes."
         ),
+        f"{_W01_TREE_EVIDENCE}: worlds.py and data/manifest.json",
         "RES-365: dataset and split registry",
-        missing=("exact public train and validation root seeds",),
+        missing=("root seeds bound to the D02/D03 reference materializations",),
     ),
 }
 _CAMP_STREAMS = {
@@ -331,12 +361,12 @@ _CAMP_STREAMS = {
         D.COMPLETE_GENERATOR,
         S.PARTIAL,
         (
-            "The world law and keyed RNG design are recovered, but early observation "
-            "details and exact public seed authority prevent exact full-sample "
-            "generation."
+            "The W01 law and L05 generator are recovered. The selected W01 manifest does "
+            "not establish that its roots or generated membership are the D02/D03 sample."
         ),
+        f"{_W01_TREE_EVIDENCE}: worlds.py and data/manifest.json",
         "RES-365: world, observation, and dataset/split registries",
-        missing=("early complete observation/schema contract", "exact public sample root seeds"),
+        missing=("initial observation/schema contract", "D02/D03 root and membership binding"),
     ),
 }
 _CAMP_SPLIT_PARTIAL = {
@@ -344,11 +374,12 @@ _CAMP_SPLIT_PARTIAL = {
         D.SPLIT_ASSIGNMENT,
         S.PARTIAL,
         (
-            "Participant grouping and train/validation disjointness are known, but the "
-            "exact public membership cannot be regenerated without the missing root seed."
+            "The selected W01 source fixes its own public world keys, but its manifest does "
+            "not bind those keys to D02/D03 reference materializations."
         ),
+        f"{_W01_TREE_EVIDENCE}: worlds.py and data/manifest.json",
         "RES-365: dataset and split registry",
-        missing=("exact public train and validation membership authority",),
+        missing=("D02/D03 train and validation membership binding",),
         scope=("training", "public_validation"),
     ),
 }
@@ -357,11 +388,12 @@ _CAMP_ORDERING = {
         D.ROW_ORDERING,
         S.UNKNOWN,
         (
-            "Deterministic membership does not establish the exact order of rows within "
-            "each serialized split."
+            "W01 specifies record_type/record_id ordering for its L05 output; the selected "
+            "manifest does not bind that ordering to D02/D03 reference bytes."
         ),
+        f"{_W01_TREE_EVIDENCE}: worlds.py and data/manifest.json",
         "RES-365: dataset and split registry",
-        missing=("exact row sort key and stable tie-breaking rule",),
+        missing=("D02/D03 row ordering and stable tie-breaking binding",),
     ),
 }
 _CAMP_SERIALIZATION_INITIAL = {
@@ -969,7 +1001,7 @@ def _public_split_part(
 
 _CAMP_COMMON = {
     **_CAMP_WORLD,
-    **_CAMP_OBSERVATION,
+    **_CAMP_OBSERVATION_INITIAL,
     **_CAMP_RNG,
     **_CAMP_STREAMS,
     **_CAMP_SPLIT_PARTIAL,
@@ -980,12 +1012,11 @@ _CAMP_COMMON = {
     D.SERIALIZATION: _CAMP_SERIALIZATION_INITIAL[D.SERIALIZATION],
     **_hash_claim(
         (
-            "The historical train and validation digests are known, but exact seed state, "
-            "row ordering, and byte serialization do not support regenerating those "
-            "hashes."
+            "The D02 hashes are known. The selected W01 L05 manifest has different public "
+            "output hashes, so its seeds, membership, ordering, and writer cannot be assigned "
+            "to D02."
         ),
-        "exact public root seeds",
-        "exact row ordering and JSON writer behavior",
+        "binding from the selected W01 output to D02 materialization",
     ),
     **_MODEL_DEFERRED,
     **_RESULT_CAMP,
@@ -997,17 +1028,17 @@ _CANONICAL_CAMP_COMMON = {
     **_CAMP_STREAMS,
     **_CAMP_SPLIT_PARTIAL,
     **_CAMP_ORDERING,
-    D.OBSERVATION: _CAMP_OBSERVATION[D.OBSERVATION],
+    D.OBSERVATION: _CAMP_OBSERVATION_CANONICAL[D.OBSERVATION],
     D.COMPLETE_GENERATOR: _claim(
         D.COMPLETE_GENERATOR,
         S.PARTIAL,
         (
-            "The resolved mathematical law and public representation are known, but the "
-            "exact sample root seed and baseline trial detail block full-sample "
-            "reproduction."
+            "The resolved W01 law and canonical observation are known, but the selected "
+            "W01 L05 manifest does not bind its roots or output membership to D03."
         ),
+        f"{_W01_TREE_EVIDENCE}: worlds.py and data/manifest.json",
         "RES-365: world, observation, and dataset/split registries",
-        missing=("exact public sample root seeds", "baseline assessment trial count"),
+        missing=("binding from the selected W01 output to D03 materialization",),
     ),
     D.SCHEMA: _CAMP_SCHEMA_CANONICAL[D.SCHEMA],
     D.SEED_AUTHORITY: _CAMP_SEED[D.SEED_AUTHORITY],
@@ -1015,11 +1046,11 @@ _CANONICAL_CAMP_COMMON = {
     D.SERIALIZATION: _CAMP_SERIALIZATION_CANONICAL[D.SERIALIZATION],
     **_hash_claim(
         (
-            "The manifest-bound public digests are known, but the exact sample root seed, "
-            "row ordering, and byte serialization do not support regenerating them."
+            "The D03 hashes are known. The selected W01 L05 manifest records different "
+            "public output hashes, so its roots, membership, ordering, and writer cannot be "
+            "assigned to D03."
         ),
-        "exact public root seeds",
-        "exact row ordering and byte-level JSON writer behavior",
+        "binding from the selected W01 output to D03 materialization",
     ),
     **_MODEL_DEFERRED,
     **_RESULT_CAMP,

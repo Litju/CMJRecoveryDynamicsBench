@@ -70,15 +70,61 @@ def test_normalized_exposure_components_distinguish_zero_and_missing() -> None:
         ExposureComponent("distance", 50.0, "km", 100.0),
         ExposureComponent("duration", 100.0, "minutes", 200.0),
         ExposureComponent("masked", 9.0, "reps", 1.0, day_mask=False),
+        ExposureComponent("event_masked", 7.0, "reps", 1.0, event_mask=False),
         ExposureComponent("missing", None, "reps", 1.0, observed=False),
         ExposureComponent("observed_zero", 0.0, "reps", 1.0),
     )
     assert normalized_exposure_dose(components) == pytest.approx(1.0)
     assert components[2].contribution is None
     assert components[3].contribution is None
-    assert components[4].contribution == 0.0
+    assert components[4].contribution is None
+    assert components[5].contribution == 0.0
+    with pytest.raises(ValueError, match="forbidden data marker"):
+        ExposureComponent("private_load", 1.0, "units", 1.0)
+    with pytest.raises(ValueError, match="public inputs only"):
+        ExposureComponent("load", 1.0, "units", 1.0, source="private")
     with pytest.raises(ValueError, match="not zero dose"):
         normalized_exposure_dose((ExposureComponent("missing", None, "reps", 1.0, False),))
+
+
+def test_event_level_masks_exclude_all_components() -> None:
+    events = (
+        ExposureEvent(
+            "masked-day",
+            0.0,
+            "training",
+            (ExposureComponent("duration", 100.0, "minutes", 100.0),),
+            day_mask=False,
+        ),
+        ExposureEvent(
+            "masked-event",
+            0.0,
+            "training",
+            (ExposureComponent("duration", 100.0, "minutes", 100.0),),
+            event_mask=False,
+        ),
+    )
+    for event in events:
+        with pytest.raises(ValueError, match="not zero dose"):
+            _ = event.joint_dose
+
+
+@pytest.mark.parametrize("kind", ("friendly", "match"))
+def test_friendly_and_match_events_require_the_60_minute_materiality_override(kind: str) -> None:
+    with pytest.raises(ValueError, match="at least 60 minutes"):
+        ExposureEvent(
+            "short",
+            0.0,
+            kind,
+            (ExposureComponent("duration_minutes", 59.99, "minutes", 100.0),),
+        )
+    ExposureEvent(
+        "minimum",
+        0.0,
+        kind,
+        (ExposureComponent("duration_minutes", 60.0, "minutes", 100.0),),
+    )
+    _event(f"short-training-{kind}", 0.0, 30.0)
 
 
 def test_one_event_composes_fast_fatigue_and_slow_adaptation() -> None:
@@ -118,6 +164,28 @@ def test_event_contributions_compose_in_time_order_and_ignore_input_order() -> N
     assert state.adaptation_force_n_per_kg == pytest.approx(expected_adaptation)
 
 
+def test_event_kind_is_metadata_and_does_not_weight_dose() -> None:
+    component = (ExposureComponent("duration_minutes", 100.0, "minutes", 100.0),)
+    training = ExposureEvent("training", 0.0, "training", component)
+    match = ExposureEvent("match", 0.0, "match", component)
+
+    assert training.joint_dose == match.joint_dose == 1.0
+    assert simulate_camp_response((training,), (24.0,), PARAMETERS).state_at(24.0) == (
+        simulate_camp_response((match,), (24.0,), PARAMETERS).state_at(24.0)
+    )
+
+
+def test_w01_state_starts_at_index_without_pre_index_carry_in() -> None:
+    response = simulate_camp_response((), (0.0, 72.0, 168.0), PARAMETERS)
+
+    assert response.state_at(0.0).cumulative_dose == 0.0
+    assert response.state_at(0.0).net_force_innovation_n_per_kg == 0.0
+    with pytest.raises(ValueError, match="finite and non-negative"):
+        _event("prior", -96.0)
+    with pytest.raises(ValueError, match="finite and non-negative"):
+        simulate_camp_response((), (-24.0,), PARAMETERS)
+
+
 def test_future_events_do_not_change_an_earlier_query() -> None:
     before_future_event = simulate_camp_response((_event("index", 0.0),), (72.0,), PARAMETERS)
     with_future_event = simulate_camp_response(
@@ -150,13 +218,21 @@ def test_event_time_domains_and_parameter_bounds_fail_closed() -> None:
         replace(PARAMETERS, dose_half_saturation_delta=0.0)
     with pytest.raises(ValueError, match="fast τ"):
         replace(PARAMETERS, fast_fatigue_time_constant_hours=5.0)
+    independently_drawn_time_constants = replace(
+        PARAMETERS,
+        fast_fatigue_time_constant_hours=84.0,
+        slow_adaptation_time_constant_hours=72.0,
+    )
+    assert independently_drawn_time_constants.fast_fatigue_time_constant_hours > (
+        independently_drawn_time_constants.slow_adaptation_time_constant_hours
+    )
     with pytest.raises(ValueError, match="impulse fatigue amplitude"):
         replace(PARAMETERS, fatigue_impulse_amplitude_m_per_s=2.1)
     with pytest.raises(ValueError, match="exposure values"):
         ExposureComponent("bad", -1.0, "minutes", 100.0)
-    with pytest.raises(ValueError, match="exposure event time"):
+    with pytest.raises(ValueError, match="finite and non-negative"):
         ExposureEvent(
-            "bad-time",
+            "pre-index",
             -1.0,
             "training",
             (ExposureComponent("duration", 60.0, "minutes", 100.0),),

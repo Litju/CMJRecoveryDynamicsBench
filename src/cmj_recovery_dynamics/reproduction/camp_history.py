@@ -43,7 +43,7 @@ from cmj_recovery_dynamics.tasks.preseason_camp_recovery import PRESEASON_CAMP_R
 
 OSS_REPRODUCTION_ID = "oss_event_time_camp_history_v1"
 OSS_SEED = 20261007  # New reproduction authority; never a recovered D02/D03 root seed.
-OSS_BASELINE_TRIAL_COUNT = 3  # Open-source convention; the historical count remains unresolved.
+OSS_BASELINE_TRIAL_COUNT = 3  # Exact canonical W01 observation; OSS convention for initial.
 OSS_TARGET_TRIAL_COUNT = 3
 ORIGINS_PER_PARTICIPANT = 2
 HORIZON_TIMES_HOURS = {
@@ -127,7 +127,10 @@ OSS_CAMP_REPRODUCTION = CampReproductionConfig(
     seed=OSS_SEED,
     seed_authority="new_reproduction_authority",
     rng_algorithm="CPython random.Random version 2",
-    stream_construction="SHA-256 of canonical JSON semantic keys; first 16 bytes as unsigned seed",
+    stream_construction=(
+        "OSS-specific SHA-256 semantic keys and integer root seed; same derivation method, "
+        "different project, contract, and seed identity from W01"
+    ),
     draw_order="one random() draw per keyed uniform value; decimal rounding to nine places",
     substream_strategy="independent semantic-keyed streams",
     rng_namespaces=(
@@ -142,7 +145,8 @@ OSS_CAMP_REPRODUCTION = CampReproductionConfig(
     baseline_trial_count_authority="open_source_reproduction_convention",
     historical_baseline_trial_count=None,
     pre_index_exposure_history_convention=(
-        "empty_in_clean_room_schedule; no historical pre-index events are asserted"
+        "empty in the OSS schedule, matching the selected W01 zero-state-at-index law; "
+        "this does not assert D02/D03 membership"
     ),
 )
 
@@ -637,6 +641,7 @@ def _contract_identity(benchmark_name: str, seed: int) -> CampSampleIdentity:
     if evaluation.normalization_floor is None:
         raise ValueError("camp scorer normalization floor is unavailable")
     reproduction = get_camp_reproduction_config(seed)
+    canonical = benchmark_name == "canonical_preseason_camp_recovery"
     return CampSampleIdentity(
         reproduction_id=OSS_REPRODUCTION_ID,
         artifact_id=artifact_id,
@@ -653,8 +658,10 @@ def _contract_identity(benchmark_name: str, seed: int) -> CampSampleIdentity:
         calibration_reference_value=contract.evaluation.calibration_reference_value,
         historical_reference_hashes=contract.reference_hashes,
         baseline_trial_count=OSS_BASELINE_TRIAL_COUNT,
-        baseline_trial_count_authority="open_source_reproduction_convention",
-        historical_baseline_trial_count=None,
+        baseline_trial_count_authority=(
+            "canonical_h72_d7_contract" if canonical else "open_source_reproduction_convention"
+        ),
+        historical_baseline_trial_count=OSS_BASELINE_TRIAL_COUNT if canonical else None,
         pre_index_exposure_history_convention=reproduction.pre_index_exposure_history_convention,
     )
 
@@ -775,12 +782,14 @@ def _participant_parameters(
     depth = draw("athlete.depth", 0.16, 0.42)
     baseline_force = draw("athlete.baseline.force", 18.0, 32.0)
     baseline_impulse = draw("athlete.baseline.impulse", 0.8, 3.2)
+    tau_fast = draw("athlete.tau.fast", 6.0, 120.0)
+    tau_slow = draw("athlete.tau.slow", 72.0, 504.0)
     parameters = EventTimeParameters(
         dose_response_ceiling_kappa=10.0,
         dose_half_saturation_delta=1.0,
         dose_exponent_gamma=1.0,
-        fast_fatigue_time_constant_hours=draw("athlete.tau.fast", 6.0, 120.0),
-        slow_adaptation_time_constant_hours=draw("athlete.tau.slow", 72.0, 504.0),
+        fast_fatigue_time_constant_hours=tau_fast,
+        slow_adaptation_time_constant_hours=tau_slow,
         memory_shape_beta=draw("athlete.beta", 0.5, 1.5),
         fatigue_force_amplitude_n_per_kg=draw("athlete.fatigue.force", 0.0, 3.0),
         adaptation_force_amplitude_n_per_kg=draw("athlete.adaptation.force", 0.0, 3.0),
@@ -936,10 +945,15 @@ def _target_assessment(
         assessment_id=assessment_id,
         trial_index=0,
     )
-    innovation_force = state.net_force_innovation_n_per_kg + between_force + within_force
-    innovation_impulse = state.net_impulse_innovation_m_per_s + between_impulse + within_impulse
-    observed_force = baseline.force_n_per_kg + innovation_force
-    observed_impulse = baseline.net_impulse_m_s + innovation_impulse
+    observed_force = (
+        baseline.force_n_per_kg + state.net_force_innovation_n_per_kg + between_force + within_force
+    )
+    observed_impulse = (
+        baseline.net_impulse_m_s
+        + state.net_impulse_innovation_m_per_s
+        + between_impulse
+        + within_impulse
+    )
     trials = (
         CriterionTrial(observed_force - 0.03, observed_impulse - 0.01, depth),
         CriterionTrial(observed_force, observed_impulse, depth),
@@ -1029,7 +1043,6 @@ def generate_camp_sample(
         )
         for origin_index in range(ORIGINS_PER_PARTICIPANT):
             origin_id = f"origin-{split_name}-{participant_index:04d}-{origin_index}"
-            # The recovered schedule starts at index; this OSS sample asserts no past events.
             index_exposure = _make_exposure(
                 seed=seed,
                 split=split_key,
@@ -1070,46 +1083,41 @@ def generate_camp_sample(
                 )
                 for item in (first_training, second_training)
             )
-            baseline_assessments = (
+            query_times = (72.0, 168.0)
+            response = simulate_camp_response(
+                tuple(item.as_dynamics_event() for item in realized_events),
+                query_times,
+                parameters,
+            )
+            history = [
                 _baseline_assessment(
                     seed=seed,
                     split=split_key,
                     world_id=world_id,
                     origin_id=origin_id,
                     cluster_id=cluster_id,
-                    assessment_id=f"assessment-{origin_id}-pre-240",
-                    time_hours=-240.0,
+                    assessment_id=f"assessment-{origin_id}-{label}",
+                    time_hours=time,
                     force=baseline_force,
                     impulse=baseline_impulse,
                     depth=depth,
-                ),
-                _baseline_assessment(
-                    seed=seed,
-                    split=split_key,
-                    world_id=world_id,
-                    origin_id=origin_id,
-                    cluster_id=cluster_id,
-                    assessment_id=f"assessment-{origin_id}-pre-48",
-                    time_hours=-48.0,
-                    force=baseline_force,
-                    impulse=baseline_impulse,
-                    depth=depth,
-                ),
+                )
+                for label, time in (
+                    ("pre-240", -240.0),
+                    ("pre-48", -48.0),
+                )
+            ]
+            history.append(
                 _missingness_assessment(
                     seed=seed,
                     split=split_key,
                     world_id=world_id,
                     origin_id=origin_id,
                     cluster_id=cluster_id,
-                ),
+                )
             )
+            baseline_assessments = tuple(history)
             baseline = select_camp_baseline(baseline_assessments)
-            query_times = tuple(HORIZON_TIMES_HOURS.values())
-            response = simulate_camp_response(
-                tuple(item.as_dynamics_event() for item in realized_events),
-                query_times,
-                parameters,
-            )
             for horizon in (ForecastHorizon.H72, ForecastHorizon.D7):
                 target_time = HORIZON_TIMES_HOURS[horizon]
                 query_id = f"query-{origin_id}-{horizon.label}"
@@ -1119,8 +1127,6 @@ def generate_camp_sample(
                     horizon=horizon,
                     target_time=target_time,
                     assessments=baseline_assessments,
-                    # The OSS schedule has no pre-index events; the row contract accepts
-                    # caller-supplied history and enforces its origin cutoff.
                     exposure_history=(),
                     index_exposure=index_exposure,
                     plan=plan,
