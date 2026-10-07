@@ -82,6 +82,7 @@ from cmj_recovery_dynamics.registry import (
     get_model_lineage,
     get_result,
 )
+from cmj_recovery_dynamics.reproduction import get_reproduction_contract
 
 __version__ = "0.1.0"
 
@@ -160,4 +161,5 @@ __all__ = [
     "get_experiment",
     "get_experiment_lineage",
     "get_result",
+    "get_reproduction_contract",
 ]

@@ -18,6 +18,10 @@ from cmj_recovery_dynamics.reproduction.contracts import (
     SplitRole,
     SplitUnit,
 )
+from cmj_recovery_dynamics.reproduction.registry import (
+    REPRODUCTION_CONTRACTS,
+    get_reproduction_contract,
+)
 __all__ = [
     "BenchmarkReproductionContract",
     "CalibrationReferenceStatus",
@@ -26,6 +30,7 @@ __all__ = [
     "MaterializationState",
     "ProductionScorerStatus",
     "RandomnessAuthority",
+    "REPRODUCTION_CONTRACTS",
     "ReferenceHash",
     "ReproductionAuthority",
     "ReproductionClaim",
@@ -35,4 +40,5 @@ __all__ = [
     "SplitReproductionAuthority",
     "SplitRole",
     "SplitUnit",
+    "get_reproduction_contract",
 ]
