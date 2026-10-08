@@ -76,7 +76,7 @@ EXPOSURE_SUPPORTS: tuple[tuple[str, tuple[float, float]], ...] = (
 
 _RNG_MAJOR_VERSION = 2
 RNG_VERSION = f"lcmj-v{_RNG_MAJOR_VERSION}-keyed-rng-1.0.0"
-_RNG_IDENTITY_NAMESPACE = f"lcmj-v{_RNG_MAJOR_VERSION}"
+RNG_IDENTITY_NAMESPACE = f"lcmj-v{_RNG_MAJOR_VERSION}"
 _RNG_HASH_PREFIX = f"lcmj-v{_RNG_MAJOR_VERSION}-rng\0".encode()
 _RNG_CHANNELS = frozenset(
     {
@@ -88,12 +88,18 @@ _RNG_CHANNELS = frozenset(
         "participant_baseline_impulse",
         "participant_amplitude_effect",
         "participant_time_constant_effect",
+        "participant_sensitivity",
+        "participant_load_threshold",
+        "participant_sensitivity_effect",
         "current_load_class",
         "current_exposure",
         "prior_episode_exposure",
         "exposure_archetype_assignment",
         "exposure_factor_residual",
         "exposure_feature_residual",
+        "world_discrepancy_frequency",
+        "world_discrepancy_phase",
+        "world_discrepancy_coefficient",
         "current_discrepancy",
         "prior_episode_discrepancy",
         "assessment_session_error",
@@ -566,7 +572,7 @@ def generate_episode(
         sample_preliminary_exposure,
     )
 
-    camp_streams = KeyedRandomStreams(_RNG_IDENTITY_NAMESPACE, root_seed, split, "camp", camp_index)
+    camp_streams = KeyedRandomStreams(RNG_IDENTITY_NAMESPACE, root_seed, split, "camp", camp_index)
     participant_streams = camp_streams.child("participant", participant_index)
     camp_effects = sample_camp_effects(camp_streams)
     context = sample_participant_context(participant_streams)
@@ -775,6 +781,7 @@ __all__ = [
     "ROW_KEY_FIELDS",
     "ROW_ORDERING_STATUS",
     "RNG_VERSION",
+    "RNG_IDENTITY_NAMESPACE",
     "RECOVERY_FIELDS",
     "SOURCE_CLOSURES",
     "SPLIT_GEOMETRY",
