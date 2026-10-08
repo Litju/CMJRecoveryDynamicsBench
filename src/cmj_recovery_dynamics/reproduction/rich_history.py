@@ -1,4 +1,4 @@
-"""Clean-room SP03/D04 W02, O02, R02, and E02 reproduction."""
+"""SP03 scientific W02/O02/R02/E02 reproduction; D04 membership is replayed separately."""
 
 from __future__ import annotations
 
@@ -63,18 +63,20 @@ GENERATOR_VERSION = "LCMJ-V3-monitored-multicycle-1.1"
 
 @dataclass(frozen=True, slots=True)
 class RichHistoryReproductionMetadata:
-    source_tree: str
-    d04_data_producer_commit: str
-    d04_data_producer_task_tree: str
+    scientific_source_tree: str | None
+    d04_materialization_commit: str | None
+    d04_materialization_repository_tree: str | None
+    d04_materialization_task_tree: str | None
     d04_manifest_blob_oid: str | None
     d04_train_parquet_blob_oid: str | None
     d04_validation_parquet_blob_oid: str | None
+    authority_relationship: str
     d04_seed_construction: str
     d04_rng_topology: str
     d04_horizon_presence_draws: str
     d04_runtime_authority: str
     later_rng_channelization_commit: str | None
-    generator_claim: str
+    scientific_generator_claim: str
     historical_rng_algorithm: str
     historical_rng_state: str
     seed_authority: str
@@ -83,6 +85,9 @@ class RichHistoryReproductionMetadata:
     rng_substream_strategy: str
     split_assignment: str
     row_ordering: str
+    membership_fingerprint_encoding: str
+    d04_training_membership_sha256: str
+    d04_public_validation_membership_sha256: str
     serialization: str
     dataset_hash: str
     oss_numpy_version: str
@@ -91,12 +96,18 @@ class RichHistoryReproductionMetadata:
 
 
 RICH_HISTORY_REPRODUCTION_METADATA = RichHistoryReproductionMetadata(
-    source_tree=SP03_SOURCE_TREE,
-    d04_data_producer_commit=D04_DATA_PRODUCER_COMMIT,
-    d04_data_producer_task_tree=D04_DATA_PRODUCER_TASK_TREE,
+    scientific_source_tree=None,
+    d04_materialization_commit=None,
+    d04_materialization_repository_tree=None,
+    d04_materialization_task_tree=None,
     d04_manifest_blob_oid=None,
     d04_train_parquet_blob_oid=None,
     d04_validation_parquet_blob_oid=None,
+    authority_relationship=(
+        "D04 bytes were produced before later ALI-488/490 repairs. Those repairs changed the "
+        "scientific, measurement, schedule, and RNG source but did not regenerate D04. SP03 "
+        "scientific formulation authority and D04 materialized split authority are distinct."
+    ),
     d04_seed_construction=(
         "roots l05-public-train-v3/l05-public-validation-v3; SHA-256 of compact JSON string "
         "parts, first 8 bytes big-endian; np.random.default_rng(seed)"
@@ -112,15 +123,23 @@ RICH_HISTORY_REPRODUCTION_METADATA = RichHistoryReproductionMetadata(
         "and BitGenerator unbound"
     ),
     later_rng_channelization_commit=None,
-    generator_claim="SEMANTICALLY_EQUIVALENT",
+    scientific_generator_claim="SEMANTICALLY_EQUIVALENT",
     historical_rng_algorithm="PARTIAL",
     historical_rng_state="PARTIAL",
     seed_authority="EXACT",
     rng_stream_construction="EXACT",
     rng_draw_order="EXACT",
     rng_substream_strategy="EXACT",
-    split_assignment="PARTIAL",
-    row_ordering="UNKNOWN",
+    split_assignment="EXACT",
+    row_ordering="EXACT",
+    membership_fingerprint_encoding=(
+        "SHA-256 over ordered UTF-8 lines of compact JSON arrays "
+        "[participant_key, origin_key, query_key, horizon]"
+    ),
+    d04_training_membership_sha256="acae916986162a0731bc214963b705a798d666ef72edfb2c3f9965f093fbe8a1",
+    d04_public_validation_membership_sha256=(
+        "78fe5d587098a959de31363149ef7981c72af85f1ee2ae050ceb885b1c62e982"
+    ),
     serialization="SEMANTICALLY_EQUIVALENT",
     dataset_hash="PARTIAL",
     oss_numpy_version=np.__version__,

@@ -41,6 +41,11 @@ if TYPE_CHECKING:
         generate_initial_camp_sample,
         get_camp_reproduction_config,
     )
+    from cmj_recovery_dynamics.reproduction.d04_membership import (
+        D04MembershipRow,
+        d04_membership_fingerprint,
+        replay_d04_membership,
+    )
 
 _CAMP_HISTORY_EXPORTS = frozenset(
     {
@@ -58,9 +63,14 @@ _CAMP_HISTORY_EXPORTS = frozenset(
         "get_camp_reproduction_config",
     }
 )
+_D04_MEMBERSHIP_EXPORTS = frozenset(
+    {"D04MembershipRow", "d04_membership_fingerprint", "replay_d04_membership"}
+)
 
 
 def __getattr__(name: str) -> Any:
+    if name in _D04_MEMBERSHIP_EXPORTS:
+        return getattr(import_module("cmj_recovery_dynamics.reproduction.d04_membership"), name)
     if name in _CAMP_HISTORY_EXPORTS:
         return getattr(import_module("cmj_recovery_dynamics.reproduction.camp_history"), name)
     raise AttributeError(f"module {__name__!r} has no attribute {name!r}")
@@ -68,6 +78,7 @@ def __getattr__(name: str) -> Any:
 
 __all__ = [
     "BenchmarkReproductionContract",
+    "D04MembershipRow",
     "CampPredictionRow",
     "CampReproductionConfig",
     "CampSample",
@@ -93,6 +104,8 @@ __all__ = [
     "SplitRole",
     "SplitUnit",
     "get_reproduction_contract",
+    "d04_membership_fingerprint",
+    "replay_d04_membership",
     "generate_camp_sample",
     "generate_canonical_camp_sample",
     "generate_initial_camp_sample",

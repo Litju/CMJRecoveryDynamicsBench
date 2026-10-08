@@ -138,16 +138,35 @@ def test_unknown_and_deferred_are_queryable_and_distinct_from_irreproducible() -
 
 
 def test_independent_world_exactness_does_not_promote_rng_or_data_hash() -> None:
-    for contract in REPRODUCTION_CONTRACTS.values():
+    for name, contract in REPRODUCTION_CONTRACTS.items():
         assert contract.claim(D.WORLD_LAW).status is S.EXACT
         assert contract.claim(D.DATASET_HASH).status is S.PARTIAL
-        assert contract.claim(D.ROW_ORDERING).status is S.UNKNOWN
+        ordering = contract.claim(D.ROW_ORDERING).status
+        assert ordering is (S.EXACT if name == "rich_history_camp_recovery" else S.UNKNOWN)
 
 
 def test_exact_public_hash_claim_is_possible_only_with_complete_prerequisites() -> None:
     contract = _exact_public_hash_contract()
     assert contract.claim(D.DATASET_HASH).status is S.EXACT
     assert contract.claim(D.DATASET_HASH).scope == _HASH_SCOPE
+
+
+def test_exact_split_membership_does_not_make_dataset_hash_exact() -> None:
+    contract = get_reproduction_contract("rich_history_camp_recovery")
+    assert contract.claim(D.SPLIT_ASSIGNMENT).status is S.EXACT
+    assert contract.claim(D.RNG_ALGORITHM).status is S.PARTIAL
+    assert contract.claim(D.RNG_STATE).status is S.PARTIAL
+    assert contract.claim(D.SERIALIZATION).status is S.SEMANTICALLY_EQUIVALENT
+    with pytest.raises(ValueError, match="every generator and byte prerequisite"):
+        replace(
+            contract,
+            claims=tuple(
+                replace(claim, status=S.EXACT, missing=())
+                if claim.dimension is D.DATASET_HASH
+                else claim
+                for claim in contract.claims
+            ),
+        )
 
 
 @pytest.mark.parametrize(

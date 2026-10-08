@@ -143,8 +143,8 @@ def test_selected_source_closure_and_m21_claim_boundary() -> None:
         ReproductionDimension.RNG_SUBSTREAM_STRATEGY: ReproductionStatus.EXACT,
         ReproductionDimension.OBSERVATION: ReproductionStatus.EXACT,
         ReproductionDimension.SCHEMA: ReproductionStatus.EXACT,
-        ReproductionDimension.SPLIT_ASSIGNMENT: ReproductionStatus.PARTIAL,
-        ReproductionDimension.ROW_ORDERING: ReproductionStatus.UNKNOWN,
+        ReproductionDimension.SPLIT_ASSIGNMENT: ReproductionStatus.EXACT,
+        ReproductionDimension.ROW_ORDERING: ReproductionStatus.EXACT,
         ReproductionDimension.SERIALIZATION: ReproductionStatus.SEMANTICALLY_EQUIVALENT,
         ReproductionDimension.DATASET_HASH: ReproductionStatus.PARTIAL,
         ReproductionDimension.EVALUATION: ReproductionStatus.PARTIAL,
@@ -155,10 +155,12 @@ def test_selected_source_closure_and_m21_claim_boundary() -> None:
     assert "not RNG stream keys" in contract.randomness.substream_strategy
     assert "simulate-camp" in contract.randomness.stream_construction
     assert "local participant index" in contract.randomness.stream_construction
-    assert RICH_HISTORY_REPRODUCTION_METADATA.split_assignment == "PARTIAL"
+    assert RICH_HISTORY_REPRODUCTION_METADATA.split_assignment == "EXACT"
     assert RICH_HISTORY_REPRODUCTION_METADATA.historical_rng_algorithm == "PARTIAL"
     assert RICH_HISTORY_REPRODUCTION_METADATA.historical_rng_state == "PARTIAL"
-    assert RICH_HISTORY_REPRODUCTION_METADATA.generator_claim == "SEMANTICALLY_EQUIVALENT"
+    assert (
+        RICH_HISTORY_REPRODUCTION_METADATA.scientific_generator_claim == "SEMANTICALLY_EQUIVALENT"
+    )
     assert RICH_HISTORY_REPRODUCTION_METADATA.d04_seed_construction == (
         "roots l05-public-train-v3/l05-public-validation-v3; SHA-256 of compact JSON string "
         "parts, first 8 bytes big-endian; np.random.default_rng(seed)"
@@ -173,14 +175,29 @@ def test_selected_source_closure_and_m21_claim_boundary() -> None:
         "Dockerfile base tag runtime-ml-core-py313-local only; exact Python build, NumPy version, "
         "and BitGenerator unbound"
     )
-    assert RICH_HISTORY_REPRODUCTION_METADATA.row_ordering == "UNKNOWN"
+    assert RICH_HISTORY_REPRODUCTION_METADATA.row_ordering == "EXACT"
+    assert RICH_HISTORY_REPRODUCTION_METADATA.membership_fingerprint_encoding == (
+        "SHA-256 over ordered UTF-8 lines of compact JSON arrays "
+        "[participant_key, origin_key, query_key, horizon]"
+    )
+    assert RICH_HISTORY_REPRODUCTION_METADATA.d04_training_membership_sha256 == (
+        "acae916986162a0731bc214963b705a798d666ef72edfb2c3f9965f093fbe8a1"
+    )
+    assert RICH_HISTORY_REPRODUCTION_METADATA.d04_public_validation_membership_sha256 == (
+        "78fe5d587098a959de31363149ef7981c72af85f1ee2ae050ceb885b1c62e982"
+    )
+    assert (
+        "before later ALI-488/490 repairs"
+        in RICH_HISTORY_REPRODUCTION_METADATA.authority_relationship
+    )
+    assert "did not regenerate D04" in RICH_HISTORY_REPRODUCTION_METADATA.authority_relationship
     assert RICH_HISTORY_REPRODUCTION_METADATA.serialization == "SEMANTICALLY_EQUIVALENT"
     assert RICH_HISTORY_REPRODUCTION_METADATA.dataset_hash == "PARTIAL"
     assert RICH_HISTORY_REPRODUCTION_METADATA.historical_calibration_reference == "UNAVAILABLE"
     split_claim = contract.claim(ReproductionDimension.SPLIT_ASSIGNMENT)
-    assert split_claim.status is ReproductionStatus.PARTIAL
-    assert "named child streams" in split_claim.rationale
-    assert "not historical runtime authority" in split_claim.rationale
+    assert split_claim.status is ReproductionStatus.EXACT
+    assert "named-channel" in split_claim.rationale
+    assert "not proof of D04's historical RNG runtime" in split_claim.rationale
     assert contract.evaluation.production_scorer == "rich_history_24_cell_normalized_rmse_score"
     assert (
         contract.evaluation.calibration_reference_status
@@ -200,12 +217,13 @@ def test_selected_source_closure_and_m21_claim_boundary() -> None:
     public_splits = tuple(
         split for split in contract.splits if split.role is not SplitRole.HIDDEN_TEST
     )
-    assert all(split.assignment_status is ReproductionStatus.PARTIAL for split in public_splits)
+    assert all(split.assignment_status is ReproductionStatus.EXACT for split in public_splits)
+    assert all(not split.missing_assignment for split in public_splits)
     assert all(
-        any(
-            "horizon-presence" in item or "query membership" in item
-            for item in split.missing_assignment
-        )
+        split.materialization_status is ReproductionStatus.PARTIAL for split in public_splits
+    )
+    assert all(
+        any("serialization" in item for item in split.missing_materialization)
         for split in public_splits
     )
 
@@ -786,12 +804,12 @@ def test_d04_full_public_geometry_membership_and_admission() -> None:
     assert validation_reference.rows == 3795
     assert expected_geometry["public_train"][0] != train_reference.rows
     assert expected_geometry["public_validation"][0] != validation_reference.rows
-    assert RICH_HISTORY_REPRODUCTION_METADATA.split_assignment == "PARTIAL"
+    assert RICH_HISTORY_REPRODUCTION_METADATA.split_assignment == "EXACT"
     assert (
         get_reproduction_contract("rich_history_camp_recovery")
         .claim(ReproductionDimension.SPLIT_ASSIGNMENT)
         .status
-        is ReproductionStatus.PARTIAL
+        is ReproductionStatus.EXACT
     )
     assert RICH_HISTORY_REPRODUCTION_METADATA.oss_numpy_version == "2.5.3"
     assert admitted_horizons(np.asarray([True, False])) == (0,)
