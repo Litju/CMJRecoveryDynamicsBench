@@ -71,11 +71,11 @@ from cmj_recovery_dynamics.reproduction.single_exposure import (
     FORMULATIONS,
     HORIZONS,
     NO_ADDITIONAL_EXPOSURE_THROUGH_H72,
+    OSS_ROOT_SEED,
     PARTICIPANT_FIELDS,
     PREDICTOR_BLOCK_GEOMETRY,
     PREDICTOR_FIELDS,
     PRIOR_COMPLETE_EPISODES,
-    PUBLIC_ROOT_SEED,
     REFERENCE_DATASET_HASHES,
     RNG_VERSION,
     ROW_KEY_FIELDS,
@@ -614,13 +614,13 @@ def test_named_dataset_geometry_exact_split_membership_and_reference_hashes() ->
         "018aa9885b7d9264170f0a413b815f4df6e5acbe3b9e8e10f3b99d9f0b979555",
     )
     train_camps = {
-        KeyedRandomStreams("lcmj-v2", PUBLIC_ROOT_SEED, "train", "camp", index).opaque_key(
+        KeyedRandomStreams("lcmj-v2", OSS_ROOT_SEED, "train", "camp", index).opaque_key(
             "camp", "group"
         )
         for index in range(96)
     }
     validation_camps = {
-        KeyedRandomStreams("lcmj-v2", PUBLIC_ROOT_SEED, "validation", "camp", index).opaque_key(
+        KeyedRandomStreams("lcmj-v2", OSS_ROOT_SEED, "validation", "camp", index).opaque_key(
             "camp", "group"
         )
         for index in range(16)
@@ -628,14 +628,14 @@ def test_named_dataset_geometry_exact_split_membership_and_reference_hashes() ->
     assert len(train_camps) == 96 and len(validation_camps) == 16
     assert not train_camps.intersection(validation_camps)
     train_participants = {
-        KeyedRandomStreams("lcmj-v2", PUBLIC_ROOT_SEED, "train", "camp", camp_index)
+        KeyedRandomStreams("lcmj-v2", OSS_ROOT_SEED, "train", "camp", camp_index)
         .child("participant", participant_index)
         .opaque_key("participant", "group")
         for camp_index in range(96)
         for participant_index in range(250)
     }
     validation_participants = {
-        KeyedRandomStreams("lcmj-v2", PUBLIC_ROOT_SEED, "validation", "camp", camp_index)
+        KeyedRandomStreams("lcmj-v2", OSS_ROOT_SEED, "validation", "camp", camp_index)
         .child("participant", participant_index)
         .opaque_key("participant", "group")
         for camp_index in range(16)
@@ -839,7 +839,7 @@ def test_correlated_zero_residual_draw_replays_factor_to_primitive_mapping() -> 
 
 def test_rng_exact_construction_does_not_upgrade_algorithm_or_state_claims() -> None:
     assert RNG_VERSION == "lcmj-v2-keyed-rng-1.0.0"
-    assert PUBLIC_ROOT_SEED == "ALI-494-LCMJ-V2-PUBLIC-001"
+    assert OSS_ROOT_SEED == "cmj-v2-oss-clean-room-root"
     streams = KeyedRandomStreams("lcmj-v2", "root", "train", "camp", 0)
     identity = ("lcmj-v2", "root", "train", "camp", 0)
     channel = "trial_noise"

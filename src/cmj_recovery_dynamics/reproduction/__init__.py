@@ -3,6 +3,12 @@
 from importlib import import_module
 from typing import TYPE_CHECKING, Any
 
+from cmj_recovery_dynamics.reproduction.audit import (
+    FINAL_REPRODUCTION_STATUS,
+    BenchmarkReproductionAudit,
+    FormulationReproducibility,
+    get_final_reproduction_status,
+)
 from cmj_recovery_dynamics.reproduction.contracts import (
     BenchmarkReproductionContract,
     CalibrationReferenceStatus,
@@ -78,6 +84,7 @@ def __getattr__(name: str) -> Any:
 
 __all__ = [
     "BenchmarkReproductionContract",
+    "BenchmarkReproductionAudit",
     "D04MembershipRow",
     "CampPredictionRow",
     "CampReproductionConfig",
@@ -88,6 +95,8 @@ __all__ = [
     "CalibrationReferenceStatus",
     "EvaluationAuthority",
     "EvaluationRole",
+    "FINAL_REPRODUCTION_STATUS",
+    "FormulationReproducibility",
     "MaterializationState",
     "InformationLeakageError",
     "OSS_CAMP_REPRODUCTION",
@@ -104,6 +113,7 @@ __all__ = [
     "SplitRole",
     "SplitUnit",
     "get_reproduction_contract",
+    "get_final_reproduction_status",
     "d04_membership_fingerprint",
     "replay_d04_membership",
     "generate_camp_sample",

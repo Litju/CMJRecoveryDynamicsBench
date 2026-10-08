@@ -340,7 +340,7 @@ SPLIT_GEOMETRY = {
     "train": DatasetGeometry(96, 24000, 24000, 72000),
     "validation": DatasetGeometry(16, 4000, 4000, 12000),
 }
-PUBLIC_ROOT_SEED = f"ALI-{494}-LCMJ-V{_RNG_MAJOR_VERSION}-PUBLIC-001"
+OSS_ROOT_SEED = "cmj-v2-oss-clean-room-root"
 ROW_ORDERING_STATUS = Status.UNKNOWN
 # Historical reference digests only; regeneration does not establish byte identity.
 REFERENCE_DATASET_HASHES = {
@@ -553,7 +553,7 @@ def generate_episode(
     split: str,
     camp_index: int,
     participant_index: int,
-    root_seed: str = PUBLIC_ROOT_SEED,
+    root_seed: str = OSS_ROOT_SEED,
 ) -> EpisodeRecord:
     """Generate one post-exposure recovery episode and its four prior records."""
     if benchmark_name not in FORMULATIONS:
@@ -656,7 +656,7 @@ def iter_public_members(split: str) -> Iterator[tuple[int, int]]:
 
 
 def iter_public_episodes(
-    split: str, *, benchmark_name: str, root_seed: str = PUBLIC_ROOT_SEED
+    split: str, *, benchmark_name: str, root_seed: str = OSS_ROOT_SEED
 ) -> Iterator[EpisodeRecord]:
     for camp_index, participant_index in iter_public_members(split):
         yield generate_episode(
@@ -775,7 +775,7 @@ __all__ = [
     "PREDICTOR_BLOCK_GEOMETRY",
     "PREDICTOR_FIELDS",
     "PRIOR_COMPLETE_EPISODES",
-    "PUBLIC_ROOT_SEED",
+    "OSS_ROOT_SEED",
     "PublicExposure",
     "REFERENCE_DATASET_HASHES",
     "ROW_KEY_FIELDS",

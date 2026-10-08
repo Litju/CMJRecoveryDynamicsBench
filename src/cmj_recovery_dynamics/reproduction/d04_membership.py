@@ -16,7 +16,6 @@ from cmj_recovery_dynamics.reproduction.rich_history import PublicSplitName, opa
 _D04_SPLIT_PARAMETERS: dict[
     PublicSplitName,
     tuple[
-        str,
         int,
         float,
         float,
@@ -26,7 +25,6 @@ _D04_SPLIT_PARAMETERS: dict[
     ],
 ] = {
     "public_train": (
-        "l05-public-train-v3",
         512,
         0.55,
         0.55,
@@ -35,7 +33,6 @@ _D04_SPLIT_PARAMETERS: dict[
         (0.40, 0.60),
     ),
     "public_validation": (
-        "l05-public-validation-v3",
         128,
         0.50,
         0.60,
@@ -73,8 +70,8 @@ def _choice(rng: np.random.Generator, probabilities: tuple[float, ...], size: in
 def _d04_horizon_presence(
     split_name: PublicSplitName,
     camp_index: int,
+    root_seed: str,
     split_parameters: tuple[
-        str,
         int,
         float,
         float,
@@ -83,7 +80,7 @@ def _d04_horizon_presence(
         tuple[float, float],
     ],
 ) -> NDArray[np.bool_]:
-    root_seed, _, p_quality_high, p_dense, intensity_probs, heterogeneity_probs, last_age_probs = (
+    _, p_quality_high, p_dense, intensity_probs, heterogeneity_probs, last_age_probs = (
         split_parameters
     )
     rng = np.random.default_rng(seed_from(root_seed, split_name, "camp", camp_index))
@@ -164,16 +161,20 @@ def _d04_horizon_presence(
     return present
 
 
-def replay_d04_membership(split_name: PublicSplitName) -> Iterator[D04MembershipRow]:
+def replay_d04_membership(
+    split_name: PublicSplitName, *, root_seed: str
+) -> Iterator[D04MembershipRow]:
     """Yield only D04 camp, participant, origin, mask, and ordered query-key membership."""
+    if not root_seed:
+        raise ValueError("D04 public membership replay requires its public root seed")
     try:
         split_parameters = _D04_SPLIT_PARAMETERS[split_name]
     except KeyError as exc:
         raise ValueError(f"unknown D04 public split: {split_name}") from exc
 
-    _, camp_count, *_ = split_parameters
+    camp_count, *_ = split_parameters
     for camp_index in range(camp_count):
-        presence = _d04_horizon_presence(split_name, camp_index, split_parameters)
+        presence = _d04_horizon_presence(split_name, camp_index, root_seed, split_parameters)
         for participant_index in range(_PARTICIPANTS_PER_CAMP):
             participant_key = opaque_key(
                 _D04_KEY_NAMESPACE, "participant", split_name, camp_index, participant_index
@@ -215,10 +216,10 @@ def replay_d04_membership(split_name: PublicSplitName) -> Iterator[D04Membership
                         )
 
 
-def d04_membership_fingerprint(split_name: PublicSplitName) -> str:
+def d04_membership_fingerprint(split_name: PublicSplitName, *, root_seed: str) -> str:
     """Hash canonical ordered public keys and horizons, without row values."""
     digest = hashlib.sha256()
-    for row in replay_d04_membership(split_name):
+    for row in replay_d04_membership(split_name, root_seed=root_seed):
         canonical_row = json.dumps(
             (row.participant_key, row.origin_key, row.query_key, row.horizon),
             separators=(",", ":"),

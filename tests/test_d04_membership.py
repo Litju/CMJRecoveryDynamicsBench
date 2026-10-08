@@ -3,6 +3,7 @@
 from collections import defaultdict
 from dataclasses import fields
 
+from cmj_recovery_dynamics.provenance import get_public_root_authority
 from cmj_recovery_dynamics.reproduction import (
     D04MembershipRow,
     d04_membership_fingerprint,
@@ -23,12 +24,19 @@ _SPLITS: dict[PublicSplitName, tuple[int, int, int, int]] = {
     "public_train": (15182, 4096, 512, 8192),
     "public_validation": (3795, 1024, 128, 2048),
 }
+_ROOTS = get_public_root_authority("rich_history_camp_recovery")
+
+
+def _root_for(split_name: PublicSplitName) -> str:
+    root = _ROOTS.training_root if split_name == "public_train" else _ROOTS.validation_root
+    assert root is not None
+    return root
 
 
 def test_d04_public_membership_geometry_and_masks() -> None:
     split_keys: dict[str, tuple[set[str], set[str], set[str]]] = {}
     for split_name, expected in _SPLITS.items():
-        rows = list(replay_d04_membership(split_name))
+        rows = list(replay_d04_membership(split_name, root_seed=_root_for(split_name)))
         participants = {row.participant_key for row in rows}
         origins = {row.origin_key for row in rows}
         queries = {row.query_key for row in rows}
@@ -102,12 +110,12 @@ def test_d04_ordered_membership_fingerprints_and_dual_authority() -> None:
     assert RICH_HISTORY_REPRODUCTION_METADATA.d04_validation_parquet_blob_oid == (
         D04_VALIDATION_PARQUET_BLOB_OID
     )
-    assert d04_membership_fingerprint("public_train") == (
+    assert d04_membership_fingerprint("public_train", root_seed=_root_for("public_train")) == (
         RICH_HISTORY_REPRODUCTION_METADATA.d04_training_membership_sha256
     )
-    assert d04_membership_fingerprint("public_validation") == (
-        RICH_HISTORY_REPRODUCTION_METADATA.d04_public_validation_membership_sha256
-    )
+    assert d04_membership_fingerprint(
+        "public_validation", root_seed=_root_for("public_validation")
+    ) == (RICH_HISTORY_REPRODUCTION_METADATA.d04_public_validation_membership_sha256)
     assert RICH_HISTORY_REPRODUCTION_METADATA.split_assignment == "EXACT"
     assert RICH_HISTORY_REPRODUCTION_METADATA.row_ordering == "EXACT"
     assert RICH_HISTORY_REPRODUCTION_METADATA.historical_rng_algorithm == "PARTIAL"

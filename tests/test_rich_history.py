@@ -198,8 +198,8 @@ def test_selected_source_closure_and_m21_claim_boundary() -> None:
         == D04_VALIDATION_PARQUET_BLOB_OID
     )
     assert RICH_HISTORY_REPRODUCTION_METADATA.d04_seed_construction == (
-        "roots l05-public-train-v3/l05-public-validation-v3; SHA-256 of compact JSON string "
-        "parts, first 8 bytes big-endian; np.random.default_rng(seed)"
+        "split-specific public roots; SHA-256 of compact JSON string parts, first 8 bytes "
+        "big-endian; np.random.default_rng(seed)"
     )
     assert RICH_HISTORY_REPRODUCTION_METADATA.d04_rng_topology == (
         "one shared Generator per camp, consumed sequentially through horizon admission"
@@ -370,16 +370,16 @@ def test_o02_contract_marks_target_depth_and_latent_state_hidden() -> None:
 
 
 def test_rng_hierarchy_and_new_numpy_runtime_metadata_stay_separate() -> None:
-    assert PUBLIC_SPLITS["public_train"].root_seed == "l05-public-train-v3"
-    assert PUBLIC_SPLITS["public_validation"].root_seed == "l05-public-validation-v3"
+    assert PUBLIC_SPLITS["public_train"].root_seed == "cmj-v3-oss-train-root"
+    assert PUBLIC_SPLITS["public_validation"].root_seed == "cmj-v3-oss-validation-root"
     assert PUBLIC_SPLITS["public_train"].key_namespace == "public-v3"
     assert PUBLIC_SPLITS["public_validation"].key_namespace == "public-v3"
     assert PUBLIC_SPLITS["public_train"].camps == 512
     assert PUBLIC_SPLITS["public_validation"].camps == 128
     assert len(STREAM_CHANNELS) == 36 and len(set(STREAM_CHANNELS)) == 36
 
-    first = RandomStreams("l05-public-train-v3", "public_train", "camp", 7)
-    repeat = RandomStreams("l05-public-train-v3", "public_train", "camp", 7)
+    first = RandomStreams(PUBLIC_SPLITS["public_train"].root_seed, "public_train", "camp", 7)
+    repeat = RandomStreams(PUBLIC_SPLITS["public_train"].root_seed, "public_train", "camp", 7)
     assert np.array_equal(
         first.generator("exposure_count").random(16),
         repeat.generator("exposure_count").random(16),
@@ -622,7 +622,7 @@ def test_camp_schedule_respects_source_geometry_and_observation_opportunities() 
 
 
 def test_rng_channel_isolation_and_public_projection_do_not_leak_latents() -> None:
-    identity = ("l05-public-train-v3", "public_train", "camp", 3)
+    identity = (PUBLIC_SPLITS["public_train"].root_seed, "public_train", "camp", 3)
     regime = CampRegime(True, True, 1.0, 1.0, 0.9, (0.4, 0.6))
     low_schedule = draw_schedule(
         RandomStreams(*identity), 16, replace(regime, monitor_probability=0.0)
@@ -786,8 +786,8 @@ def test_f2_f3_strata_boundaries_and_all_six_cells_are_reachable() -> None:
 def test_d04_full_public_geometry_membership_and_admission() -> None:
     # The current e287/OSS replay is clean-room only; its counts are not historical D04 membership.
     expected_geometry: dict[PublicSplitName, tuple[int, int, int, int]] = {
-        "public_train": (15112, 4096, 512, 8192),
-        "public_validation": (3768, 1024, 128, 2048),
+        "public_train": (15134, 4096, 512, 8192),
+        "public_validation": (3799, 1024, 128, 2048),
     }
     split_state: dict[str, tuple[set[str], set[str], set[str], set[int]]] = {}
     for split_name in PUBLIC_SPLITS:

@@ -6,7 +6,7 @@ import hashlib
 import json
 import math
 from collections.abc import Iterator, Mapping, Sequence
-from dataclasses import dataclass
+from dataclasses import dataclass, replace
 from typing import Any, Literal, cast
 
 import numpy as np
@@ -117,8 +117,8 @@ RICH_HISTORY_REPRODUCTION_METADATA = RichHistoryReproductionMetadata(
         "scientific formulation authority and D04 materialized split authority are distinct."
     ),
     d04_seed_construction=(
-        "roots l05-public-train-v3/l05-public-validation-v3; SHA-256 of compact JSON string "
-        "parts, first 8 bytes big-endian; np.random.default_rng(seed)"
+        "split-specific public roots; SHA-256 of compact JSON string parts, first 8 bytes "
+        "big-endian; np.random.default_rng(seed)"
     ),
     d04_rng_topology=(
         "one shared Generator per camp, consumed sequentially through horizon admission"
@@ -301,11 +301,11 @@ class SplitSpec:
 
 PUBLIC_SPLITS: Mapping[PublicSplitName, SplitSpec] = {
     "public_train": SplitSpec(
-        "public_train", "l05-public-train-v3", "public-v3", camps=512, table=TRAIN_TABLE
+        "public_train", "cmj-v3-oss-train-root", "public-v3", camps=512, table=TRAIN_TABLE
     ),
     "public_validation": SplitSpec(
         "public_validation",
-        "l05-public-validation-v3",
+        "cmj-v3-oss-validation-root",
         "public-v3",
         camps=128,
         table=VALIDATION_TABLE,
@@ -1460,12 +1460,16 @@ def admitted_horizons(horizon_presence: ArrayLike) -> tuple[int, ...]:
 
 def iter_rich_history_public_split(
     split_name: PublicSplitName,
+    *,
+    root_seed: str | None = None,
 ) -> Iterator[RichHistoryRow]:
-    """Yield clean-room rows for one of the two source-defined public splits."""
+    """Yield clean-room rows for one public split using its OSS or caller-supplied root."""
     try:
         spec = PUBLIC_SPLITS[split_name]
     except KeyError as exc:
         raise ValueError(f"unknown public rich-history split: {split_name}") from exc
+    if root_seed is not None:
+        spec = replace(spec, root_seed=root_seed)
     for camp in range(spec.camps):
         simulation = _simulate_camp(spec, camp)
         for unit in range(len(simulation.participant_index)):
