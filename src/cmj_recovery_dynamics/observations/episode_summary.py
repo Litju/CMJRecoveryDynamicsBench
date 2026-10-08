@@ -1,4 +1,4 @@
-"""O03 scalar trial measurement and shared episode discrepancy law."""
+"""Preliminary scalar trial measurement and shared episode discrepancy law."""
 
 from __future__ import annotations
 
@@ -26,7 +26,7 @@ DISCREPANCY_FACTOR_MODE_PROBABILITIES = (0.50, 0.20, 0.20, 0.10)
 
 @dataclass(frozen=True, slots=True)
 class ScalarAssessmentObservation:
-    """Three scalar trials per metric; O03 has no shared force-time trace."""
+    """Three scalar trials per metric with no shared force-time trace."""
 
     force_trials: tuple[float, float, float]
     impulse_trials: tuple[float, float, float]
@@ -96,7 +96,7 @@ def measure_scalar_assessment(
     *,
     assessment_key: str,
 ) -> ScalarAssessmentObservation:
-    """Measure O03 as independent scalar force and impulse trial series."""
+    """Measure independent scalar force and impulse trial series."""
     return ScalarAssessmentObservation(
         assessment_trials(
             truth_force_n_per_kg,
@@ -211,7 +211,8 @@ EPISODE_SUMMARY_OBSERVATION = ObservationContract(
         "Keys and labels are not predictor features; other exclusions remain unresolved.",
     ),
     measurement_construction=(
-        "O03 measures three scalar force trials and three scalar impulse trials and takes each "
+        "The preliminary observation measures three scalar force trials and three scalar impulse "
+        "trials and takes each "
         "arithmetic mean. It freezes no shared force-time trace or force/impulse identity."
     ),
 )

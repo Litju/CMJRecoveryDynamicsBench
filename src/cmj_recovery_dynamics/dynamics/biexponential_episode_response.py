@@ -1,4 +1,4 @@
-"""Source-closed W03/W04 participant-conditioned biexponential response."""
+"""Participant-conditioned biexponential response formulations."""
 
 from __future__ import annotations
 
@@ -27,20 +27,20 @@ SLOW_AMPLITUDE_SUPPORT = (0.0, 0.08)
 FAST_TAU_SUPPORT_HOURS = (12.0, 36.0)
 SLOW_TAU_SUPPORT_HOURS = (48.0, 120.0)
 
-W03_FAST_LINEAR_WEIGHTS = (0.14, 0.14, 0.16, 0.16, 0.14, 0.12, 0.14)
-W03_FAST_INTERACTIONS = ((2, 3, 0.60), (4, 5, 0.35), (0, 6, 0.20))
-W03_SLOW_LINEAR_WEIGHTS = (0.18, 0.18, 0.13, 0.10, 0.12, 0.12, 0.17)
-W03_SLOW_INTERACTIONS = ((0, 1, 0.45), (6, 4, 0.25), (2, 5, 0.20))
+BASE_FAST_LINEAR_WEIGHTS = (0.14, 0.14, 0.16, 0.16, 0.14, 0.12, 0.14)
+BASE_FAST_INTERACTIONS = ((2, 3, 0.60), (4, 5, 0.35), (0, 6, 0.20))
+BASE_SLOW_LINEAR_WEIGHTS = (0.18, 0.18, 0.13, 0.10, 0.12, 0.12, 0.17)
+BASE_SLOW_INTERACTIONS = ((0, 1, 0.45), (6, 4, 0.25), (2, 5, 0.20))
 
-# W04 keeps the same two-exponential response equation but uses this source-frozen
+# Correlated exposure keeps the same response equation but uses this source-frozen
 # map from four summaries of the seven public exposure primitives to each mode.
-W04_RESPONSE_BASIS_WEIGHTS = (
+CORRELATED_RESPONSE_BASIS_WEIGHTS = (
     (0.02, 0.68, 0.28, 0.02),
     (0.18, 0.03, 0.69, 0.10),
     (0.02, 0.63, 0.03, 0.32),
     (0.55, 0.03, 0.03, 0.39),
 )
-W04_RESPONSE_BASIS_INTERACTIONS = (
+CORRELATED_RESPONSE_BASIS_INTERACTIONS = (
     (1, 2, 0.30),
     (0, 2, 0.25),
     (1, 3, 0.25),
@@ -69,22 +69,10 @@ class BiexponentialEpisodeParameters:
         )
         if not all(isfinite(value) for value in values):
             raise ValueError("episode-response parameters must be finite")
-        if not FAST_AMPLITUDE_SUPPORT[0] <= self.fast_amplitude <= FAST_AMPLITUDE_SUPPORT[1]:
-            raise ValueError("fast amplitude escaped its frozen support")
-        if not SLOW_AMPLITUDE_SUPPORT[0] <= self.slow_amplitude <= SLOW_AMPLITUDE_SUPPORT[1]:
-            raise ValueError("slow amplitude escaped its frozen support")
-        if (
-            not FAST_TAU_SUPPORT_HOURS[0]
-            <= self.fast_time_constant_hours
-            <= FAST_TAU_SUPPORT_HOURS[1]
-        ):
-            raise ValueError("fast time constant escaped its frozen support")
-        if (
-            not SLOW_TAU_SUPPORT_HOURS[0]
-            <= self.slow_time_constant_hours
-            <= SLOW_TAU_SUPPORT_HOURS[1]
-        ):
-            raise ValueError("slow time constant escaped its frozen support")
+        if self.fast_amplitude < 0.0 or self.slow_amplitude < 0.0:
+            raise ValueError("episode-response amplitudes must be non-negative")
+        if self.fast_time_constant_hours <= 0.0 or self.slow_time_constant_hours <= 0.0:
+            raise ValueError("episode-response time constants must be positive")
 
 
 @dataclass(frozen=True, slots=True)
@@ -175,15 +163,15 @@ def sample_participant_context(streams: KeyedRandomStreams) -> ParticipantContex
     )
 
 
-def _w03_load_score(vector: tuple[float, ...], component: Component) -> float:
+def _base_load_score(vector: tuple[float, ...], component: Component) -> float:
     if component == "fast":
-        weights, interactions = W03_FAST_LINEAR_WEIGHTS, W03_FAST_INTERACTIONS
+        weights, interactions = BASE_FAST_LINEAR_WEIGHTS, BASE_FAST_INTERACTIONS
     else:
-        weights, interactions = W03_SLOW_LINEAR_WEIGHTS, W03_SLOW_INTERACTIONS
+        weights, interactions = BASE_SLOW_LINEAR_WEIGHTS, BASE_SLOW_INTERACTIONS
     if len(vector) != 7 or not all(isfinite(value) for value in vector):
-        raise ValueError("W03 response map requires seven finite normalized primitives")
+        raise ValueError("base response map requires seven finite normalized primitives")
     if not isclose(sum(weights), 1.0, abs_tol=1e-12):
-        raise ValueError("W03 response weights must sum to one")
+        raise ValueError("base response weights must sum to one")
     score = sum(value * weight for value, weight in zip(vector, weights, strict=True)) - 0.5
     return score + sum(
         coefficient * (vector[left] * vector[right] - 0.25)
@@ -191,9 +179,11 @@ def _w03_load_score(vector: tuple[float, ...], component: Component) -> float:
     )
 
 
-def _w04_load_score(vector: tuple[float, ...], component: Component, metric: Metric) -> float:
+def _correlated_load_score(
+    vector: tuple[float, ...], component: Component, metric: Metric
+) -> float:
     if len(vector) != 7 or not all(isfinite(value) for value in vector):
-        raise ValueError("W04 response map requires seven finite normalized primitives")
+        raise ValueError("correlated response map requires seven finite normalized primitives")
     basis = (
         (vector[0] + vector[1]) / 2.0,
         (vector[2] + vector[3]) / 2.0,
@@ -202,10 +192,10 @@ def _w04_load_score(vector: tuple[float, ...], component: Component, metric: Met
     )
     component_index = COMPONENTS.index(component)
     row_index = 2 * METRICS.index(metric) + component_index
-    weights = W04_RESPONSE_BASIS_WEIGHTS[row_index]
-    left, right, coefficient = W04_RESPONSE_BASIS_INTERACTIONS[row_index]
+    weights = CORRELATED_RESPONSE_BASIS_WEIGHTS[row_index]
+    left, right, coefficient = CORRELATED_RESPONSE_BASIS_INTERACTIONS[row_index]
     if not isclose(sum(weights), 1.0, abs_tol=1e-12):
-        raise ValueError("W04 response basis weights must sum to one")
+        raise ValueError("correlated response basis weights must sum to one")
     return sum(weight * (value - 0.5) for weight, value in zip(weights, basis, strict=True)) + (
         coefficient * (basis[left] * basis[right] - 0.25)
     )
@@ -217,11 +207,11 @@ def response_parameters_for_exposure(
     camp: CampEffects,
     metric: Metric,
     *,
-    world: Literal["W03", "W04"] = "W03",
+    world: Literal["base_biexponential", "correlated_exposure"] = "base_biexponential",
 ) -> BiexponentialEpisodeParameters:
     if metric not in METRICS:
         raise ValueError(f"unknown response metric: {metric}")
-    if world not in {"W03", "W04"}:
+    if world not in {"base_biexponential", "correlated_exposure"}:
         raise ValueError(f"unknown response map world: {world}")
     metric_index = METRICS.index(metric)
     vector = normalized_load_vector(exposure)
@@ -231,17 +221,34 @@ def response_parameters_for_exposure(
     tau_supports = (FAST_TAU_SUPPORT_HOURS, SLOW_TAU_SUPPORT_HOURS)
     for component_index, component in enumerate(COMPONENTS):
         low, high = amplitude_supports[component_index]
-        if world == "W03":
-            amplitude_score = _w03_load_score(vector, component)
+        if world == "base_biexponential":
+            amplitude_score = _base_load_score(vector, component)
         else:
-            amplitude_score = _w04_load_score(vector, component, metric)
+            amplitude_score = _correlated_load_score(vector, component, metric)
         amplitude_score += participant.amplitude_logits[metric_index][component_index]
         amplitude_score += camp.amplitude_logit_offsets[metric_index][component_index]
         amplitudes.append(low + (high - low) * _sigmoid(amplitude_score))
         tau_low, tau_high = tau_supports[component_index]
         tau_score = participant.tau_logits[metric_index][component_index]
         taus.append(tau_low + (tau_high - tau_low) * _sigmoid(tau_score))
-    return BiexponentialEpisodeParameters(amplitudes[0], amplitudes[1], taus[0], taus[1])
+    parameters = BiexponentialEpisodeParameters(amplitudes[0], amplitudes[1], taus[0], taus[1])
+    source_supports = (
+        FAST_AMPLITUDE_SUPPORT,
+        SLOW_AMPLITUDE_SUPPORT,
+        FAST_TAU_SUPPORT_HOURS,
+        SLOW_TAU_SUPPORT_HOURS,
+    )
+    values = (
+        parameters.fast_amplitude,
+        parameters.slow_amplitude,
+        parameters.fast_time_constant_hours,
+        parameters.slow_time_constant_hours,
+    )
+    if any(
+        not low <= value <= high for value, (low, high) in zip(values, source_supports, strict=True)
+    ):
+        raise ValueError("single-exposure parameters escaped their frozen supports")
+    return parameters
 
 
 def episode_response(lag_hours: float, parameters: BiexponentialEpisodeParameters) -> float:
@@ -260,7 +267,7 @@ def response_fraction(
     camp: CampEffects,
     metric: Metric,
     *,
-    world: Literal["W03", "W04"] = "W03",
+    world: Literal["base_biexponential", "correlated_exposure"] = "base_biexponential",
 ) -> float:
     return episode_response(
         lag_hours,
@@ -287,9 +294,9 @@ BIEXPONENTIAL_EPISODE_RESPONSE = DynamicsModel(
     name="biexponential_episode_response",
     family=DynamicsFamily.BIEXPONENTIAL_EPISODE_RESPONSE,
     equation_summary=(
-        "Each exposure contributes a bounded fast and slow negative exponential. W03 uses its "
-        "seven-primitive logistic map; W04 keeps the equation and uses its source-defined "
-        "four-basis outcome-specific map."
+        "Each exposure contributes a bounded fast and slow negative exponential. The base "
+        "formulation uses its seven-primitive logistic map; correlated exposure keeps the "
+        "equation and uses its source-defined four-basis outcome-specific map."
     ),
     implementation_status=ModelImplementationStatus.COMPLETE_EQUATION,
 )
@@ -307,12 +314,12 @@ __all__ = [
     "ResponseEffects",
     "SLOW_AMPLITUDE_SUPPORT",
     "SLOW_TAU_SUPPORT_HOURS",
-    "W03_FAST_INTERACTIONS",
-    "W03_FAST_LINEAR_WEIGHTS",
-    "W03_SLOW_INTERACTIONS",
-    "W03_SLOW_LINEAR_WEIGHTS",
-    "W04_RESPONSE_BASIS_INTERACTIONS",
-    "W04_RESPONSE_BASIS_WEIGHTS",
+    "BASE_FAST_INTERACTIONS",
+    "BASE_FAST_LINEAR_WEIGHTS",
+    "BASE_SLOW_INTERACTIONS",
+    "BASE_SLOW_LINEAR_WEIGHTS",
+    "CORRELATED_RESPONSE_BASIS_INTERACTIONS",
+    "CORRELATED_RESPONSE_BASIS_WEIGHTS",
     "episode_response",
     "frozen_scaffold_fraction",
     "response_fraction",
