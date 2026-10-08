@@ -1,4 +1,4 @@
-"""Publication-safe authority and shared primitives for SP04–SP06."""
+"""Publication-safe authority and shared post-exposure recovery primitives."""
 
 from __future__ import annotations
 
@@ -14,7 +14,7 @@ import numpy as np
 from cmj_recovery_dynamics.reproduction.contracts import ReproductionStatus as Status
 
 HORIZONS = (("H24", 24.0), ("H48", 48.0), ("H72", 72.0))
-WorldName = Literal["W03", "W04"]
+ResponseWorld = Literal["base_biexponential", "correlated_exposure"]
 ROW_KEY_FIELDS = ("participant_key", "episode_key", "query_key")
 TARGET_FIELDS = (
     "label.relative_mean_concentric_force_innovation",
@@ -62,7 +62,7 @@ PREDICTOR_FIELDS = (
 )
 PREDICTOR_BLOCK_GEOMETRY = (1, 3, 2, 8, (17, 17, 17, 17))
 if len(PREDICTOR_FIELDS) != 82 or len(set(PREDICTOR_FIELDS)) != 82:
-    raise RuntimeError("R03 must contain exactly 82 unique predictor fields")
+    raise RuntimeError("single-exposure representation requires exactly 82 unique predictor fields")
 
 EXPOSURE_SUPPORTS: tuple[tuple[str, tuple[float, float]], ...] = (
     ("duration_min", (45.0, 120.0)),
@@ -74,7 +74,10 @@ EXPOSURE_SUPPORTS: tuple[tuple[str, tuple[float, float]], ...] = (
     ("session_rpe_cr10", (2.0, 10.0)),
 )
 
-RNG_VERSION = "lcmj-v2-keyed-rng-1.0.0"
+_RNG_MAJOR_VERSION = 2
+RNG_VERSION = f"lcmj-v{_RNG_MAJOR_VERSION}-keyed-rng-1.0.0"
+_RNG_IDENTITY_NAMESPACE = f"lcmj-v{_RNG_MAJOR_VERSION}"
+_RNG_HASH_PREFIX = f"lcmj-v{_RNG_MAJOR_VERSION}-rng\0".encode()
 _RNG_CHANNELS = frozenset(
     {
         "camp_identity",
@@ -120,14 +123,14 @@ class KeyedRandomStreams:
 
     def _digest(self, channel: str, *keys: Any) -> bytes:
         if channel not in _RNG_CHANNELS:
-            raise KeyError(f"unregistered V2 RNG channel: {channel}")
+            raise KeyError(f"unregistered keyed RNG channel: {channel}")
         payload = json.dumps(
             [_json_value(part) for part in (RNG_VERSION, self.identity, channel, keys)],
             sort_keys=True,
             separators=(",", ":"),
             ensure_ascii=True,
         ).encode("utf-8")
-        return hashlib.sha256(b"lcmj-v2-rng\0" + payload).digest()
+        return hashlib.sha256(_RNG_HASH_PREFIX + payload).digest()
 
     def generator(self, channel: str, *keys: Any) -> np.random.Generator:
         seed = int.from_bytes(self._digest(channel, *keys)[:16], "big")
@@ -187,7 +190,7 @@ class PublicExposure:
 
 @dataclass(frozen=True, slots=True)
 class SourceClosure:
-    specimen: str
+    benchmark_name: str
     parameter_authority: str
     source_commit: str
     task_tree: str
@@ -221,9 +224,9 @@ _TEST_PATHS = (
     "data_generation/tests/test_lcmj_v2_qualification.py",
 )
 SOURCE_CLOSURES = {
-    "SP04": SourceClosure(
-        "SP04",
-        "LCMJ-V2-PARAMETERS-ALI-494-1.0.0",
+    "preliminary_post_exposure_recovery": SourceClosure(
+        "preliminary_post_exposure_recovery",
+        "source_parameters_1.0.0",
         "da3fa115838b177f5ba2bd055a5c3465654c4e22",
         "e11c1140b362c52d40942463bb0714171ae165f8",
         _SOURCE_PATHS,
@@ -231,9 +234,9 @@ SOURCE_CLOSURES = {
         "data/canonical_v2.py",
         "data/public/manifest.json",
     ),
-    "SP05": SourceClosure(
-        "SP05",
-        "LCMJ-V2-PARAMETERS-ALI-494-1.1.0",
+    "phase_consistent_post_exposure_recovery": SourceClosure(
+        "phase_consistent_post_exposure_recovery",
+        "source_parameters_1.1.0",
         "04e9db465a481a88f18e8fc062e317269204dce8",
         "5ef8ad267d3e57f8fa73dd3b82967937291b20ca",
         _SOURCE_PATHS,
@@ -241,9 +244,9 @@ SOURCE_CLOSURES = {
         "data/canonical_v2.py",
         "data/public/manifest.json",
     ),
-    "SP06": SourceClosure(
-        "SP06",
-        "LCMJ-V2-PARAMETERS-ALI-506-1.2.0",
+    "correlated_exposure_recovery": SourceClosure(
+        "correlated_exposure_recovery",
+        "source_parameters_1.2.0",
         "144d283f7b43e6c1a2972b8b58cfc3e4e05b384a",
         "7dbd339858555e11065f9a022820708d8c012f96",
         _SOURCE_PATHS,
@@ -256,29 +259,35 @@ SOURCE_CLOSURES = {
 
 @dataclass(frozen=True, slots=True)
 class FormulationIdentity:
-    specimen: str
-    benchmark: str
-    world: WorldName
+    benchmark_name: str
+    response_world: ResponseWorld
     observation: str
     dataset: str
-    task: str = "T02"
-    representation: str = "R03"
-    response_family: str = "W03_biexponential"
-    response_mapping: str = "W03_seven_primitive"
+    task: str = "single_exposure_innovation"
+    representation: str = "82_predictor_fields"
+    response_family: str = "biexponential_episode_response"
+    response_mapping: str = "base_seven_primitive"
 
 
 FORMULATIONS = {
-    "SP04": FormulationIdentity("SP04", "preliminary_post_exposure_recovery", "W03", "O03", "D05"),
-    "SP05": FormulationIdentity(
-        "SP05", "phase_consistent_post_exposure_recovery", "W03", "O04", "D06"
+    "preliminary_post_exposure_recovery": FormulationIdentity(
+        "preliminary_post_exposure_recovery",
+        "base_biexponential",
+        "preliminary",
+        "preliminary",
     ),
-    "SP06": FormulationIdentity(
-        "SP06",
+    "phase_consistent_post_exposure_recovery": FormulationIdentity(
+        "phase_consistent_post_exposure_recovery",
+        "base_biexponential",
+        "phase_consistent_force_impulse",
+        "phase_consistent",
+    ),
+    "correlated_exposure_recovery": FormulationIdentity(
         "correlated_exposure_recovery",
-        "W04",
-        "O04",
-        "D07",
-        response_mapping="W04_four_basis",
+        "correlated_exposure",
+        "phase_consistent_force_impulse",
+        "correlated",
+        response_mapping="correlated_four_basis",
     ),
 }
 
@@ -293,15 +302,15 @@ class FormulationTransition:
 
 TRANSITIONS = (
     FormulationTransition(
-        "SP04",
-        "SP05",
+        "preliminary_post_exposure_recovery",
+        "phase_consistent_post_exposure_recovery",
         ("observation", "dataset"),
-        ("world", "task", "representation"),
+        ("response_world", "task", "representation"),
     ),
     FormulationTransition(
-        "SP05",
-        "SP06",
-        ("world", "dataset"),
+        "phase_consistent_post_exposure_recovery",
+        "correlated_exposure_recovery",
+        ("response_world", "dataset"),
         ("observation", "task", "representation"),
     ),
 )
@@ -325,19 +334,19 @@ SPLIT_GEOMETRY = {
     "train": DatasetGeometry(96, 24000, 24000, 72000),
     "validation": DatasetGeometry(16, 4000, 4000, 12000),
 }
-PUBLIC_ROOT_SEED = "ALI-494-LCMJ-V2-PUBLIC-001"
+PUBLIC_ROOT_SEED = f"ALI-{494}-LCMJ-V{_RNG_MAJOR_VERSION}-PUBLIC-001"
 ROW_ORDERING_STATUS = Status.UNKNOWN
 # Historical reference digests only; regeneration does not establish byte identity.
 REFERENCE_DATASET_HASHES = {
-    "D05": (
+    "preliminary": (
         "3b15c95e0c3401f81b073ecd7133987c0220811a7c8876211dcc5f7a139d9471",
         "293d20551375c893577789c937ad6b86b2cf613f0e32caa8f3e2eab50a2038b4",
     ),
-    "D06": (
+    "phase_consistent": (
         "c3a42297338a84e0dc9300a3d64100528c3e6d153ad6af6bd0837d0ecae27a4d",
         "b0db78f167cec78fe49992f71da187e2544c2c383adc2e9f1be37f1a577778f3",
     ),
-    "D07": (
+    "correlated": (
         "30f6ba1371908fde231b2f81ba989ccb7a141e1b4e19fe8c1f205b2d2b1a26cb",
         "018aa9885b7d9264170f0a413b815f4df6e5acbe3b9e8e10f3b99d9f0b979555",
     ),
@@ -368,12 +377,12 @@ class ExactnessBoundary:
 
 
 EXACTNESS_BOUNDARIES = {
-    "SP04": ExactnessBoundary(
+    "preliminary_post_exposure_recovery": ExactnessBoundary(
         complete_generator=Status.PARTIAL,
         observation=Status.PARTIAL,
     ),
-    "SP05": ExactnessBoundary(),
-    "SP06": ExactnessBoundary(),
+    "phase_consistent_post_exposure_recovery": ExactnessBoundary(),
+    "correlated_exposure_recovery": ExactnessBoundary(),
 }
 
 BASELINE_PRE_EXPOSURE_HOURS = 2.0
@@ -435,25 +444,27 @@ def _measure_assessment(
     streams: KeyedRandomStreams,
     assessment_key: str,
 ) -> Any:
-    if observation == "O03":
+    if observation == "preliminary":
         from cmj_recovery_dynamics.observations.episode_summary import measure_scalar_assessment
 
         return measure_scalar_assessment(
             force_truth, impulse_truth, streams, assessment_key=assessment_key
         )
-    from cmj_recovery_dynamics.observations.phase_consistent_force_impulse import (
-        measure_phase_consistent_assessment,
-    )
+    if observation == "phase_consistent_force_impulse":
+        from cmj_recovery_dynamics.observations.phase_consistent_force_impulse import (
+            measure_phase_consistent_assessment,
+        )
 
-    return measure_phase_consistent_assessment(
-        force_truth, impulse_truth, streams, assessment_key=assessment_key
-    )
+        return measure_phase_consistent_assessment(
+            force_truth, impulse_truth, streams, assessment_key=assessment_key
+        )
+    raise ValueError(f"unknown observation formulation: {observation}")
 
 
 def _observe_episode(
     streams: KeyedRandomStreams,
     *,
-    specimen: str,
+    benchmark_name: str,
     episode_slot: str,
     baseline_force_truth: float,
     baseline_impulse_truth: float,
@@ -466,8 +477,9 @@ def _observe_episode(
     from cmj_recovery_dynamics.dynamics.biexponential_episode_response import response_fraction
     from cmj_recovery_dynamics.observations.episode_summary import draw_episode_discrepancy
 
-    observation = FORMULATIONS[specimen].observation
-    world = FORMULATIONS[specimen].world
+    formulation = FORMULATIONS[benchmark_name]
+    observation = formulation.observation
+    response_world = formulation.response_world
     baseline = _measure_assessment(
         observation,
         baseline_force_truth,
@@ -481,14 +493,24 @@ def _observe_episode(
         force_truth = baseline_force_truth * (
             1.0
             + response_fraction(
-                exposure, lag_hours, participant_effects, camp_effects, "force", world=world
+                exposure,
+                lag_hours,
+                participant_effects,
+                camp_effects,
+                "force",
+                world=response_world,
             )
             + discrepancy[horizon]["force"]
         )
         impulse_truth = baseline_impulse_truth * (
             1.0
             + response_fraction(
-                exposure, lag_hours, participant_effects, camp_effects, "impulse", world=world
+                exposure,
+                lag_hours,
+                participant_effects,
+                camp_effects,
+                "impulse",
+                world=response_world,
             )
             + discrepancy[horizon]["impulse"]
         )
@@ -521,15 +543,15 @@ def _observe_episode(
 
 def generate_episode(
     *,
-    specimen: str,
+    benchmark_name: str,
     split: str,
     camp_index: int,
     participant_index: int,
     root_seed: str = PUBLIC_ROOT_SEED,
 ) -> EpisodeRecord:
-    """Generate one T02 episode and its four complete prior episode records."""
-    if specimen not in FORMULATIONS:
-        raise ValueError("specimen must be SP04, SP05, or SP06")
+    """Generate one post-exposure recovery episode and its four prior records."""
+    if benchmark_name not in FORMULATIONS:
+        raise ValueError(f"unknown post-exposure recovery benchmark: {benchmark_name}")
     if split not in SPLIT_GEOMETRY:
         raise ValueError("only the public train and validation splits are available")
     if camp_index < 0 or participant_index < 0:
@@ -544,15 +566,15 @@ def generate_episode(
         sample_preliminary_exposure,
     )
 
-    camp_streams = KeyedRandomStreams("lcmj-v2", root_seed, split, "camp", camp_index)
+    camp_streams = KeyedRandomStreams(_RNG_IDENTITY_NAMESPACE, root_seed, split, "camp", camp_index)
     participant_streams = camp_streams.child("participant", participant_index)
     camp_effects = sample_camp_effects(camp_streams)
     context = sample_participant_context(participant_streams)
-    world = FORMULATIONS[specimen].world
+    response_world = FORMULATIONS[benchmark_name].response_world
 
     def sample_exposure(slot: str, *, prior: bool) -> PublicExposure:
         channel = "prior_episode_exposure" if prior else "current_exposure"
-        if world == "W03":
+        if response_world == "base_biexponential":
             high_probability = 0.50 if prior else (0.30 if split == "train" else 0.70)
             return sample_preliminary_exposure(
                 participant_streams,
@@ -575,7 +597,7 @@ def generate_episode(
         prior.append(
             _observe_episode(
                 participant_streams,
-                specimen=specimen,
+                benchmark_name=benchmark_name,
                 episode_slot=slot,
                 baseline_force_truth=context.baseline_force_n_per_kg,
                 baseline_impulse_truth=context.baseline_impulse_m_per_s,
@@ -587,11 +609,11 @@ def generate_episode(
             )
         )
     if len(prior) != PRIOR_COMPLETE_EPISODES:
-        raise RuntimeError("T02 requires exactly four complete prior episodes")
+        raise RuntimeError("post-exposure recovery requires exactly four complete prior episodes")
 
     current = _observe_episode(
         participant_streams,
-        specimen=specimen,
+        benchmark_name=benchmark_name,
         episode_slot="current",
         baseline_force_truth=context.baseline_force_n_per_kg,
         baseline_impulse_truth=context.baseline_impulse_m_per_s,
@@ -628,11 +650,11 @@ def iter_public_members(split: str) -> Iterator[tuple[int, int]]:
 
 
 def iter_public_episodes(
-    split: str, *, specimen: str, root_seed: str = PUBLIC_ROOT_SEED
+    split: str, *, benchmark_name: str, root_seed: str = PUBLIC_ROOT_SEED
 ) -> Iterator[EpisodeRecord]:
     for camp_index, participant_index in iter_public_members(split):
         yield generate_episode(
-            specimen=specimen,
+            benchmark_name=benchmark_name,
             split=split,
             camp_index=camp_index,
             participant_index=participant_index,
@@ -642,13 +664,13 @@ def iter_public_episodes(
 
 def _validate_predictors(predictors: dict[str, Any]) -> dict[str, Any]:
     if set(predictors) != set(PREDICTOR_FIELDS):
-        raise ValueError("R03 predictor row must contain exactly the 82 registered fields")
+        raise ValueError("predictor row must contain exactly the 82 registered fields")
     output: dict[str, Any] = {}
     for field in PREDICTOR_FIELDS:
         value = predictors[field]
         if field == "horizon":
             if value not in {horizon for horizon, _ in HORIZONS}:
-                raise ValueError("R03 horizon is unsupported")
+                raise ValueError("horizon is unsupported")
             output[field] = value
         else:
             if isinstance(value, bool) or not isinstance(value, (int, float)):
@@ -668,7 +690,7 @@ def _validate_predictors(predictors: dict[str, Any]) -> dict[str, Any]:
 
 
 def project_episode(record: EpisodeRecord) -> list[dict[str, Any]]:
-    """Project one episode to three R03 rows; alignment keys stay outside predictors."""
+    """Project one episode to three 82-field rows; alignment keys stay outside predictors."""
     prior_fields: dict[str, float | int] = {}
     for index, prior in enumerate(record.prior_episodes):
         prefix = f"prior_episode[{index}]."
@@ -711,7 +733,7 @@ def project_episode(record: EpisodeRecord) -> list[dict[str, Any]]:
         force = record.current.innovation(horizon, "force")
         impulse = record.current.innovation(horizon, "impulse")
         if not (math.isfinite(force) and math.isfinite(impulse)):
-            raise ValueError("T02 labels must be finite")
+            raise ValueError("post-exposure recovery labels must be finite")
         rows.append(
             {
                 "participant_key": record.participant_key,

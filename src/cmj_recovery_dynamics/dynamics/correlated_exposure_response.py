@@ -1,4 +1,4 @@
-"""W03 scalar-mixture and W04 correlated exposure generators."""
+"""Base and correlated exposure generators."""
 
 from __future__ import annotations
 
@@ -37,7 +37,7 @@ class ExposureArchetype(StrEnum):
     SPEED_CHANGE_NEUROMUSCULAR = "speed_change_neuromuscular"
 
 
-W04_SOURCE_ARCHETYPE_NAMES = (
+CORRELATED_SOURCE_ARCHETYPE_NAMES = (
     "LOW_DEMAND",
     "HIGH_SPEED_MODERATE",
     "MATCH_HIGH_DEMAND",
@@ -73,17 +73,17 @@ class CorrelatedExposureSpecification:
 
     def __post_init__(self) -> None:
         if self.latent_factor_axes != LATENT_FACTOR_AXES:
-            raise ValueError("W04 requires the four source-defined factor axes")
+            raise ValueError("correlated exposure requires the four source-defined factor axes")
         if self.archetypes != tuple(ExposureArchetype):
-            raise ValueError("W04 archetypes must retain their source-defined order")
-        if self.source_archetype_names != W04_SOURCE_ARCHETYPE_NAMES:
-            raise ValueError("W04 source archetype labels must be preserved")
+            raise ValueError("correlated archetypes must retain their source-defined order")
+        if self.source_archetype_names != CORRELATED_SOURCE_ARCHETYPE_NAMES:
+            raise ValueError("correlated source archetype labels must be preserved")
         if {mixture.sample for mixture in self.mixtures} != set(ExposureSample):
-            raise ValueError("W04 requires train, validation, and prior mixtures")
+            raise ValueError("correlated exposure requires train, validation, and prior mixtures")
 
 
 @dataclass(frozen=True, slots=True)
-class W03ExposureParameters:
+class BaseExposureParameters:
     high_speed_threshold_m_s: float = 5.5
     sprint_threshold_m_s: float = 7.0
     acceleration_threshold_m_s2: float = 2.0
@@ -99,7 +99,7 @@ class W03ExposureParameters:
 
 
 @dataclass(frozen=True, slots=True)
-class W04ExposureParameters:
+class CorrelatedExposureParameters:
     factor_sd: float = 0.60
     factor_correlation: tuple[tuple[float, ...], ...] = (
         (1.00, 0.20, 0.15, 0.30),
@@ -140,19 +140,21 @@ class W04ExposureParameters:
         )
 
 
-W03_EXPOSURE_PARAMETERS = W03ExposureParameters()
-W04_EXPOSURE_PARAMETERS = W04ExposureParameters()
+BASE_EXPOSURE_PARAMETERS = BaseExposureParameters()
+CORRELATED_EXPOSURE_PARAMETERS = CorrelatedExposureParameters()
 CORRELATED_EXPOSURE_SPECIFICATION = CorrelatedExposureSpecification(
     LATENT_FACTOR_AXES,
     tuple(ExposureArchetype),
     (
-        ExposureMixture(ExposureSample.TRAINING, W04_EXPOSURE_PARAMETERS.train_probabilities),
         ExposureMixture(
-            ExposureSample.VALIDATION, W04_EXPOSURE_PARAMETERS.validation_probabilities
+            ExposureSample.TRAINING, CORRELATED_EXPOSURE_PARAMETERS.train_probabilities
         ),
-        ExposureMixture(ExposureSample.PRIOR, W04_EXPOSURE_PARAMETERS.prior_probabilities),
+        ExposureMixture(
+            ExposureSample.VALIDATION, CORRELATED_EXPOSURE_PARAMETERS.validation_probabilities
+        ),
+        ExposureMixture(ExposureSample.PRIOR, CORRELATED_EXPOSURE_PARAMETERS.prior_probabilities),
     ),
-    W04_SOURCE_ARCHETYPE_NAMES,
+    CORRELATED_SOURCE_ARCHETYPE_NAMES,
 )
 
 
@@ -200,9 +202,9 @@ def sample_preliminary_exposure(
     high_load_probability: float,
     channel: str = "current_exposure",
     episode_key: str = "current",
-    params: W03ExposureParameters = W03_EXPOSURE_PARAMETERS,
+    params: BaseExposureParameters = BASE_EXPOSURE_PARAMETERS,
 ) -> PublicExposure:
-    """Sample the seven correlated primitives from W03's scalar mixture."""
+    """Sample the seven exposure primitives from the base scalar mixture."""
     if channel not in {"current_exposure", "prior_episode_exposure"}:
         raise ValueError(f"unsupported exposure RNG channel: {channel}")
     if not isfinite(high_load_probability) or not 0.0 <= high_load_probability <= 1.0:
@@ -227,22 +229,22 @@ def sample_preliminary_exposure(
 
 def is_high_load(
     exposure: PublicExposure,
-    params: W03ExposureParameters = W03_EXPOSURE_PARAMETERS,
+    params: BaseExposureParameters = BASE_EXPOSURE_PARAMETERS,
 ) -> bool:
     vector = normalized_load_vector(exposure)
     if not isclose(sum(params.load_index_weights), 1.0, abs_tol=1e-12):
-        raise ValueError("W03 load-index weights must sum to one")
+        raise ValueError("base load-index weights must sum to one")
     score = sum(a * b for a, b in zip(vector, params.load_index_weights, strict=True))
     return score >= params.high_load_threshold
 
 
 def mixture_for(split: str, *, prior: bool = False) -> tuple[float, ...]:
     if prior:
-        return W04_EXPOSURE_PARAMETERS.prior_probabilities
+        return CORRELATED_EXPOSURE_PARAMETERS.prior_probabilities
     if split == "train":
-        return W04_EXPOSURE_PARAMETERS.train_probabilities
+        return CORRELATED_EXPOSURE_PARAMETERS.train_probabilities
     if split == "validation":
-        return W04_EXPOSURE_PARAMETERS.validation_probabilities
+        return CORRELATED_EXPOSURE_PARAMETERS.validation_probabilities
     raise ValueError("public split must be train or validation")
 
 
@@ -252,9 +254,9 @@ def sample_correlated_exposure(
     archetype_probabilities: tuple[float, ...],
     channel: str = "current_exposure",
     episode_key: str = "current",
-    params: W04ExposureParameters = W04_EXPOSURE_PARAMETERS,
+    params: CorrelatedExposureParameters = CORRELATED_EXPOSURE_PARAMETERS,
 ) -> PublicExposure:
-    """Sample W04 factors, archetype noise, and the seven public primitives."""
+    """Sample correlated factors, archetype noise, and the seven public primitives."""
     if channel not in {"current_exposure", "prior_episode_exposure"}:
         raise ValueError(f"unsupported exposure RNG channel: {channel}")
     probabilities = np.asarray(archetype_probabilities, dtype=np.float64)
@@ -295,7 +297,8 @@ CORRELATED_EXPOSURE_RESPONSE = DynamicsModel(
     name="correlated_exposure_response",
     family=DynamicsFamily.CORRELATED_EXPOSURE_RESPONSE,
     equation_summary=(
-        "W04 samples seven public exposure primitives from four correlated latent factors, "
+        "The correlated exposure formulation samples seven public primitives from "
+        "four latent factors, "
         "four ordered archetypes, and split-specific mixtures; the response remains the "
         "participant-conditioned two-exponential family."
     ),
@@ -312,11 +315,11 @@ __all__ = [
     "EXPOSURE_THRESHOLD_SEMANTICS",
     "LATENT_FACTOR_AXES",
     "LOAD_DIMENSIONS",
-    "W03_EXPOSURE_PARAMETERS",
-    "W03ExposureParameters",
-    "W04_EXPOSURE_PARAMETERS",
-    "W04_SOURCE_ARCHETYPE_NAMES",
-    "W04ExposureParameters",
+    "BASE_EXPOSURE_PARAMETERS",
+    "BaseExposureParameters",
+    "CORRELATED_EXPOSURE_PARAMETERS",
+    "CORRELATED_SOURCE_ARCHETYPE_NAMES",
+    "CorrelatedExposureParameters",
     "is_high_load",
     "mixture_for",
     "normalized_load_vector",

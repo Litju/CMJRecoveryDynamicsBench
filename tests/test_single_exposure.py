@@ -4,22 +4,23 @@ import hashlib
 import json
 from dataclasses import replace
 from math import erfc, exp, pi, sin, sqrt
-from typing import Any, cast
+from typing import Any, Literal, cast
 
 import numpy as np
 import pytest
 
+import cmj_recovery_dynamics.dynamics.biexponential_episode_response as response_module
 from cmj_recovery_dynamics.dynamics.biexponential_episode_response import (
+    BASE_FAST_INTERACTIONS,
+    BASE_FAST_LINEAR_WEIGHTS,
+    BASE_SLOW_INTERACTIONS,
+    BASE_SLOW_LINEAR_WEIGHTS,
+    CORRELATED_RESPONSE_BASIS_INTERACTIONS,
+    CORRELATED_RESPONSE_BASIS_WEIGHTS,
     FAST_AMPLITUDE_SUPPORT,
     FAST_TAU_SUPPORT_HOURS,
     SLOW_AMPLITUDE_SUPPORT,
     SLOW_TAU_SUPPORT_HOURS,
-    W03_FAST_INTERACTIONS,
-    W03_FAST_LINEAR_WEIGHTS,
-    W03_SLOW_INTERACTIONS,
-    W03_SLOW_LINEAR_WEIGHTS,
-    W04_RESPONSE_BASIS_INTERACTIONS,
-    W04_RESPONSE_BASIS_WEIGHTS,
     BiexponentialEpisodeParameters,
     CampEffects,
     ResponseEffects,
@@ -29,12 +30,12 @@ from cmj_recovery_dynamics.dynamics.biexponential_episode_response import (
     sample_participant_context,
 )
 from cmj_recovery_dynamics.dynamics.correlated_exposure_response import (
+    BASE_EXPOSURE_PARAMETERS,
+    CORRELATED_EXPOSURE_PARAMETERS,
     CORRELATED_EXPOSURE_SPECIFICATION,
+    CORRELATED_SOURCE_ARCHETYPE_NAMES,
     EXPOSURE_THRESHOLD_SEMANTICS,
     LATENT_FACTOR_AXES,
-    W03_EXPOSURE_PARAMETERS,
-    W04_EXPOSURE_PARAMETERS,
-    W04_SOURCE_ARCHETYPE_NAMES,
     ExposureArchetype,
     ExposureSample,
     is_high_load,
@@ -93,43 +94,69 @@ from cmj_recovery_dynamics.reproduction.single_exposure import (
 )
 
 
-def test_selected_source_closures_and_specimen_transition_identities() -> None:
+def test_source_closures_and_benchmark_transitions() -> None:
     assert {
-        name: (item.world, item.observation, item.dataset, item.task, item.representation)
+        name: (
+            item.response_world,
+            item.observation,
+            item.dataset,
+            item.task,
+            item.representation,
+        )
         for name, item in FORMULATIONS.items()
     } == {
-        "SP04": ("W03", "O03", "D05", "T02", "R03"),
-        "SP05": ("W03", "O04", "D06", "T02", "R03"),
-        "SP06": ("W04", "O04", "D07", "T02", "R03"),
+        "preliminary_post_exposure_recovery": (
+            "base_biexponential",
+            "preliminary",
+            "preliminary",
+            "single_exposure_innovation",
+            "82_predictor_fields",
+        ),
+        "phase_consistent_post_exposure_recovery": (
+            "base_biexponential",
+            "phase_consistent_force_impulse",
+            "phase_consistent",
+            "single_exposure_innovation",
+            "82_predictor_fields",
+        ),
+        "correlated_exposure_recovery": (
+            "correlated_exposure",
+            "phase_consistent_force_impulse",
+            "correlated",
+            "single_exposure_innovation",
+            "82_predictor_fields",
+        ),
     }
-    assert {item.response_family for item in FORMULATIONS.values()} == {"W03_biexponential"}
+    assert {item.response_family for item in FORMULATIONS.values()} == {
+        "biexponential_episode_response"
+    }
     assert {name: item.response_mapping for name, item in FORMULATIONS.items()} == {
-        "SP04": "W03_seven_primitive",
-        "SP05": "W03_seven_primitive",
-        "SP06": "W04_four_basis",
+        "preliminary_post_exposure_recovery": "base_seven_primitive",
+        "phase_consistent_post_exposure_recovery": "base_seven_primitive",
+        "correlated_exposure_recovery": "correlated_four_basis",
     }
     assert [(edge.changed, edge.unchanged) for edge in TRANSITIONS] == [
-        (("observation", "dataset"), ("world", "task", "representation")),
-        (("world", "dataset"), ("observation", "task", "representation")),
+        (("observation", "dataset"), ("response_world", "task", "representation")),
+        (("response_world", "dataset"), ("observation", "task", "representation")),
     ]
-    assert REFERENCE_DATASET_HASHES["D05"] != REFERENCE_DATASET_HASHES["D06"]
-    assert REFERENCE_DATASET_HASHES["D06"] != REFERENCE_DATASET_HASHES["D07"]
+    assert REFERENCE_DATASET_HASHES["preliminary"] != REFERENCE_DATASET_HASHES["phase_consistent"]
+    assert REFERENCE_DATASET_HASHES["phase_consistent"] != REFERENCE_DATASET_HASHES["correlated"]
     assert [
         (closure.parameter_authority, closure.source_commit, closure.task_tree)
         for closure in SOURCE_CLOSURES.values()
     ] == [
         (
-            "LCMJ-V2-PARAMETERS-ALI-494-1.0.0",
+            "source_parameters_1.0.0",
             "da3fa115838b177f5ba2bd055a5c3465654c4e22",
             "e11c1140b362c52d40942463bb0714171ae165f8",
         ),
         (
-            "LCMJ-V2-PARAMETERS-ALI-494-1.1.0",
+            "source_parameters_1.1.0",
             "04e9db465a481a88f18e8fc062e317269204dce8",
             "5ef8ad267d3e57f8fa73dd3b82967937291b20ca",
         ),
         (
-            "LCMJ-V2-PARAMETERS-ALI-506-1.2.0",
+            "source_parameters_1.2.0",
             "144d283f7b43e6c1a2972b8b58cfc3e4e05b384a",
             "7dbd339858555e11065f9a022820708d8c012f96",
         ),
@@ -150,7 +177,7 @@ def _scaffold(
     )
 
 
-def test_w03_equation_p1_corner_values_and_p2_monotone_recovery() -> None:
+def test_base_equation_p1_corner_values_and_p2_monotone_recovery() -> None:
     minimum = BiexponentialEpisodeParameters(0.01, 0.0, 12.0, 48.0)
     maximum = BiexponentialEpisodeParameters(0.08, 0.08, 36.0, 120.0)
     expected_pct = {
@@ -186,7 +213,7 @@ def test_w03_equation_p1_corner_values_and_p2_monotone_recovery() -> None:
     assert abs(episode_response(72, maximum)) > 0.054
 
 
-def test_w03_p7_midpoint_sensitivities_and_parameter_support_rejection() -> None:
+def test_base_midpoint_sensitivities_and_generic_parameter_validation() -> None:
     expected = {
         "fast_amplitude": (2.58, 0.95, 0.35),
         "slow_amplitude": (6.01, 4.52, 3.39),
@@ -220,33 +247,81 @@ def test_w03_p7_midpoint_sensitivities_and_parameter_support_rejection() -> None
     for name, values in actual.items():
         assert values == pytest.approx(expected[name], abs=0.006)
 
-    with pytest.raises(ValueError, match="fast amplitude"):
-        BiexponentialEpisodeParameters(0.0, 0.04, 24.0, 84.0)
-    with pytest.raises(ValueError, match="slow amplitude"):
-        BiexponentialEpisodeParameters(0.04, 0.081, 24.0, 84.0)
-    with pytest.raises(ValueError, match="fast time constant"):
-        BiexponentialEpisodeParameters(0.04, 0.04, 11.9, 84.0)
-    with pytest.raises(ValueError, match="slow time constant"):
-        BiexponentialEpisodeParameters(0.04, 0.04, 24.0, 120.1)
+    generic = BiexponentialEpisodeParameters(0.0, 0.081, 2.0, 200.0)
+    assert (
+        generic.fast_amplitude,
+        generic.slow_amplitude,
+        generic.fast_time_constant_hours,
+        generic.slow_time_constant_hours,
+    ) == (0.0, 0.081, 2.0, 200.0)
+    with pytest.raises(ValueError, match="amplitudes must be non-negative"):
+        BiexponentialEpisodeParameters(-0.001, 0.04, 24.0, 84.0)
+    with pytest.raises(ValueError, match="time constants must be positive"):
+        BiexponentialEpisodeParameters(0.04, 0.04, 0.0, 84.0)
     with pytest.raises(ValueError, match="lag"):
         episode_response(-1.0, BiexponentialEpisodeParameters(0.04, 0.04, 24.0, 84.0))
 
 
-def test_w03_feature_maps_and_participant_camp_effects_are_source_bound() -> None:
+def test_source_response_builder_fails_closed_outside_frozen_supports(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    exposure = PublicExposure(90.0, 9000.0, 1500.0, 300.0, 30, 120, 8.0, 720.0)
+    no_effects = ResponseEffects(((0.0, 0.0), (0.0, 0.0)), ((0.0, 0.0), (0.0, 0.0)))
+    no_camp_effects = CampEffects(((0.0, 0.0), (0.0, 0.0)))
+    worlds: tuple[Literal["base_biexponential"], Literal["correlated_exposure"]] = (
+        "base_biexponential",
+        "correlated_exposure",
+    )
+    supports = (
+        FAST_AMPLITUDE_SUPPORT,
+        SLOW_AMPLITUDE_SUPPORT,
+        FAST_TAU_SUPPORT_HOURS,
+        SLOW_TAU_SUPPORT_HOURS,
+    )
+    for world in worlds:
+        parameters = response_parameters_for_exposure(
+            exposure, no_effects, no_camp_effects, "force", world=world
+        )
+        assert all(
+            low <= value <= high
+            for value, (low, high) in zip(
+                (
+                    parameters.fast_amplitude,
+                    parameters.slow_amplitude,
+                    parameters.fast_time_constant_hours,
+                    parameters.slow_time_constant_hours,
+                ),
+                supports,
+                strict=True,
+            )
+        )
+
+    def out_of_range_sigmoid(_value: float) -> float:
+        return 2.0
+
+    monkeypatch.setitem(response_module.__dict__, "_sigmoid", out_of_range_sigmoid)
+    for world in worlds:
+        with pytest.raises(ValueError, match="single-exposure parameters escaped"):
+            response_parameters_for_exposure(
+                exposure, no_effects, no_camp_effects, "force", world=world
+            )
+
+
+def test_base_feature_maps_and_participant_camp_effects_are_source_bound() -> None:
     exposure = PublicExposure(90.0, 9000.0, 1500.0, 300.0, 30, 120, 8.0, 720.0)
     vector = normalized_load_vector(exposure)
     assert len(vector) == 7
-    assert W03_FAST_LINEAR_WEIGHTS == (0.14, 0.14, 0.16, 0.16, 0.14, 0.12, 0.14)
-    assert W03_FAST_INTERACTIONS == ((2, 3, 0.60), (4, 5, 0.35), (0, 6, 0.20))
-    assert W03_SLOW_LINEAR_WEIGHTS == (0.18, 0.18, 0.13, 0.10, 0.12, 0.12, 0.17)
-    assert W03_SLOW_INTERACTIONS == ((0, 1, 0.45), (6, 4, 0.25), (2, 5, 0.20))
+    assert BASE_FAST_LINEAR_WEIGHTS == (0.14, 0.14, 0.16, 0.16, 0.14, 0.12, 0.14)
+    assert BASE_FAST_INTERACTIONS == ((2, 3, 0.60), (4, 5, 0.35), (0, 6, 0.20))
+    assert BASE_SLOW_LINEAR_WEIGHTS == (0.18, 0.18, 0.13, 0.10, 0.12, 0.12, 0.17)
+    assert BASE_SLOW_INTERACTIONS == ((0, 1, 0.45), (6, 4, 0.25), (2, 5, 0.20))
     participant_zero = ResponseEffects(((0.0, 0.0), (0.0, 0.0)), ((0.0, 0.0), (0.0, 0.0)))
     camp_zero = CampEffects(((0.0, 0.0), (0.0, 0.0)))
     params = response_parameters_for_exposure(exposure, participant_zero, camp_zero, "force")
-    score_fast = sum(x * w for x, w in zip(vector, W03_FAST_LINEAR_WEIGHTS, strict=True)) - 0.5
-    score_fast += sum(c * (vector[i] * vector[j] - 0.25) for i, j, c in W03_FAST_INTERACTIONS)
-    score_slow = sum(x * w for x, w in zip(vector, W03_SLOW_LINEAR_WEIGHTS, strict=True)) - 0.5
-    score_slow += sum(c * (vector[i] * vector[j] - 0.25) for i, j, c in W03_SLOW_INTERACTIONS)
+    score_fast = sum(x * w for x, w in zip(vector, BASE_FAST_LINEAR_WEIGHTS, strict=True)) - 0.5
+    score_fast += sum(c * (vector[i] * vector[j] - 0.25) for i, j, c in BASE_FAST_INTERACTIONS)
+    score_slow = sum(x * w for x, w in zip(vector, BASE_SLOW_LINEAR_WEIGHTS, strict=True)) - 0.5
+    score_slow += sum(c * (vector[i] * vector[j] - 0.25) for i, j, c in BASE_SLOW_INTERACTIONS)
 
     def sigmoid(value: float) -> float:
         return 1.0 / (1.0 + exp(-value))
@@ -285,16 +360,16 @@ def test_w03_feature_maps_and_participant_camp_effects_are_source_bound() -> Non
     )
 
 
-def test_w03_exposure_supports_and_scalar_split_mixtures() -> None:
+def test_base_exposure_supports_and_scalar_split_mixtures() -> None:
     assert EXPOSURE_THRESHOLD_SEMANTICS == (
         ("high_speed_distance_m", ">5.5 m/s"),
         ("sprint_distance_m", ">=7.0 m/s"),
         ("high_intensity_accel_count", ">=+2.0 m/s²"),
         ("high_intensity_decel_count", "<=-2.0 m/s²"),
     )
-    assert W03_EXPOSURE_PARAMETERS.train_high_load_probability == 0.30
-    assert W03_EXPOSURE_PARAMETERS.validation_high_load_probability == 0.70
-    assert W03_EXPOSURE_PARAMETERS.prior_high_load_probability == 0.50
+    assert BASE_EXPOSURE_PARAMETERS.train_high_load_probability == 0.30
+    assert BASE_EXPOSURE_PARAMETERS.validation_high_load_probability == 0.70
+    assert BASE_EXPOSURE_PARAMETERS.prior_high_load_probability == 0.50
     assert not is_high_load(PublicExposure(45.0, 3000.0, 0.0, 0.0, 0, 0, 2.0, 90.0))
     assert is_high_load(PublicExposure(82.5, 8000.0, 1000.0, 300.0, 75, 75, 6.0, 495.0))
     streams = KeyedRandomStreams("w03-exposure", "fixture")
@@ -321,8 +396,8 @@ def test_w03_exposure_supports_and_scalar_split_mixtures() -> None:
         sample_preliminary_exposure(streams, high_load_probability=1.01)
 
 
-def test_o03_is_scalar_only_and_remains_partial() -> None:
-    streams = KeyedRandomStreams("o03", "assessment")
+def test_preliminary_is_scalar_only_and_remains_partial() -> None:
+    streams = KeyedRandomStreams("preliminary", "assessment")
     assessment = measure_scalar_assessment(24.0, 3.0, streams, assessment_key="baseline")
     assert len(assessment.force_trials) == len(assessment.impulse_trials) == 3
     assert assessment.force_mean == pytest.approx(sum(assessment.force_trials) / 3)
@@ -330,21 +405,22 @@ def test_o03_is_scalar_only_and_remains_partial() -> None:
     assert set(assessment.__dataclass_fields__) == {"force_trials", "impulse_trials"}
     assert not hasattr(assessment, "time_seconds")
     assert not hasattr(assessment, "concentric_duration_seconds")
-    assert EXACTNESS_BOUNDARIES["SP04"].observation is Status.PARTIAL
-    assert EXACTNESS_BOUNDARIES["SP04"].complete_generator is Status.PARTIAL
+    assert EXACTNESS_BOUNDARIES["preliminary_post_exposure_recovery"].observation is Status.PARTIAL
+    assert (
+        EXACTNESS_BOUNDARIES["preliminary_post_exposure_recovery"].complete_generator
+        is Status.PARTIAL
+    )
     assert EPISODE_SUMMARY_OBSERVATION.measurement_construction.endswith(
         "freezes no shared force-time trace or force/impulse identity."
     )
 
 
-def test_o04_shared_trace_integrates_to_force_impulse_identity_and_aggregates_three_trials() -> (
-    None
-):
+def test_phase_consistent_trace_integrates_force_and_impulse() -> None:
     assert GRAVITATIONAL_ACCELERATION_M_PER_S2 == 9.80665
     assessment = measure_phase_consistent_assessment(
         24.0,
         3.0,
-        KeyedRandomStreams("o04", "assessment"),
+        KeyedRandomStreams("phase-consistent", "assessment"),
         assessment_key="baseline",
     )
     assert len(assessment.trials) == 3
@@ -392,7 +468,7 @@ def test_o04_shared_trace_integrates_to_force_impulse_identity_and_aggregates_th
     assert PHASE_CONSISTENT_FORCE_IMPULSE_OBSERVATION.force_impulse_relationship is not None
 
 
-def test_o04_depth_only_perturbation_does_not_change_mechanics() -> None:
+def test_phase_consistent_depth_only_perturbation_does_not_change_mechanics() -> None:
     streams = KeyedRandomStreams("o04-depth-invariance", "same-assessment")
     shallow_depth, deep_depth = 0.15, 0.45
     shallow = measure_phase_consistent_assessment(
@@ -405,8 +481,15 @@ def test_o04_depth_only_perturbation_does_not_change_mechanics() -> None:
     assert "depth_m" not in measure_phase_consistent_assessment.__annotations__
 
 
-def test_t02_generation_has_one_baseline_one_exposure_four_priors_and_six_targets() -> None:
-    record = generate_episode(specimen="SP05", split="train", camp_index=0, participant_index=0)
+def test_single_exposure_generation_has_one_baseline_one_exposure_four_priors_and_six_targets() -> (
+    None
+):
+    record = generate_episode(
+        benchmark_name="phase_consistent_post_exposure_recovery",
+        split="train",
+        camp_index=0,
+        participant_index=0,
+    )
     assert BASELINE_PRE_EXPOSURE_HOURS == 2.0
     assert CURRENT_EXPOSURE_TIME_HOURS == 0.0
     assert CURRENT_EPISODE_EXPOSURES == (0.0,)
@@ -433,7 +516,10 @@ def test_t02_generation_has_one_baseline_one_exposure_four_priors_and_six_target
         )
 
     correlated = generate_episode(
-        specimen="SP06", split="validation", camp_index=0, participant_index=0
+        benchmark_name="correlated_exposure_recovery",
+        split="validation",
+        camp_index=0,
+        participant_index=0,
     )
     assert len(correlated.prior_episodes) == 4
     assert correlated.current.exposure.archetype_index in range(4)
@@ -441,7 +527,7 @@ def test_t02_generation_has_one_baseline_one_exposure_four_priors_and_six_target
     assert len(project_episode(correlated)) == 3
 
 
-def test_r03_schema_block_geometry_keys_and_no_future_label_leakage() -> None:
+def test_82_field_schema_block_geometry_keys_and_no_future_label_leakage() -> None:
     assert len(PREDICTOR_FIELDS) == 82
     assert PREDICTOR_BLOCK_GEOMETRY == (1, 3, 2, 8, (17, 17, 17, 17))
     assert len(ROW_KEY_FIELDS) == 3
@@ -483,7 +569,12 @@ def test_r03_schema_block_geometry_keys_and_no_future_label_leakage() -> None:
     )
 
     row = project_episode(
-        generate_episode(specimen="SP04", split="validation", camp_index=0, participant_index=0)
+        generate_episode(
+            benchmark_name="preliminary_post_exposure_recovery",
+            split="validation",
+            camp_index=0,
+            participant_index=0,
+        )
     )[0]
     assert tuple(row) == (*ROW_KEY_FIELDS, *PREDICTOR_FIELDS, *TARGET_FIELDS)
     assert len(set(row).intersection(ROW_KEY_FIELDS)) == 3
@@ -491,12 +582,12 @@ def test_r03_schema_block_geometry_keys_and_no_future_label_leakage() -> None:
     assert not set(ROW_KEY_FIELDS).intersection(PREDICTOR_FIELDS)
 
 
-def test_d05_d06_d07_geometry_exact_split_membership_and_reference_hashes() -> None:
+def test_named_dataset_geometry_exact_split_membership_and_reference_hashes() -> None:
     expected = {
         "train": (96, 24000, 24000, 72000),
         "validation": (16, 4000, 4000, 12000),
     }
-    for _dataset in ("D05", "D06", "D07"):
+    for _dataset in ("preliminary", "phase_consistent", "correlated"):
         assert {
             split: (geometry.camps, geometry.participants, geometry.episodes, geometry.rows)
             for split, geometry in SPLIT_GEOMETRY.items()
@@ -510,15 +601,15 @@ def test_d05_d06_d07_geometry_exact_split_membership_and_reference_hashes() -> N
     assert validation_members[:2] == [(0, 0), (0, 1)]
     assert validation_members[-1] == (15, 249)
     assert ROW_ORDERING_STATUS is Status.UNKNOWN
-    assert REFERENCE_DATASET_HASHES["D05"] == (
+    assert REFERENCE_DATASET_HASHES["preliminary"] == (
         "3b15c95e0c3401f81b073ecd7133987c0220811a7c8876211dcc5f7a139d9471",
         "293d20551375c893577789c937ad6b86b2cf613f0e32caa8f3e2eab50a2038b4",
     )
-    assert REFERENCE_DATASET_HASHES["D06"] == (
+    assert REFERENCE_DATASET_HASHES["phase_consistent"] == (
         "c3a42297338a84e0dc9300a3d64100528c3e6d153ad6af6bd0837d0ecae27a4d",
         "b0db78f167cec78fe49992f71da187e2544c2c383adc2e9f1be37f1a577778f3",
     )
-    assert REFERENCE_DATASET_HASHES["D07"] == (
+    assert REFERENCE_DATASET_HASHES["correlated"] == (
         "30f6ba1371908fde231b2f81ba989ccb7a141e1b4e19fe8c1f205b2d2b1a26cb",
         "018aa9885b7d9264170f0a413b815f4df6e5acbe3b9e8e10f3b99d9f0b979555",
     )
@@ -555,7 +646,7 @@ def test_d05_d06_d07_geometry_exact_split_membership_and_reference_hashes() -> N
     assert not train_participants.intersection(validation_participants)
 
 
-def test_w04_exact_four_factor_covariance_archetypes_and_mixture_vectors() -> None:
+def test_correlated_exact_four_factor_covariance_archetypes_and_mixture_vectors() -> None:
     assert LATENT_FACTOR_AXES == ("volume", "speed", "change", "internal")
     assert tuple(ExposureArchetype) == (
         ExposureArchetype.LOW_DEMAND,
@@ -563,30 +654,30 @@ def test_w04_exact_four_factor_covariance_archetypes_and_mixture_vectors() -> No
         ExposureArchetype.HIGH_VOLUME_MODERATE,
         ExposureArchetype.SPEED_CHANGE_NEUROMUSCULAR,
     )
-    assert W04_SOURCE_ARCHETYPE_NAMES == (
+    assert CORRELATED_SOURCE_ARCHETYPE_NAMES == (
         "LOW_DEMAND",
         "HIGH_SPEED_MODERATE",
         "MATCH_HIGH_DEMAND",
         "SPEED_CHANGE_NEUROMUSCULAR",
     )
-    assert W04_EXPOSURE_PARAMETERS.factor_sd == 0.60
-    corr = np.asarray(W04_EXPOSURE_PARAMETERS.factor_correlation)
-    chol = np.asarray(W04_EXPOSURE_PARAMETERS.factor_cholesky)
+    assert CORRELATED_EXPOSURE_PARAMETERS.factor_sd == 0.60
+    corr = np.asarray(CORRELATED_EXPOSURE_PARAMETERS.factor_correlation)
+    chol = np.asarray(CORRELATED_EXPOSURE_PARAMETERS.factor_cholesky)
     assert np.allclose(chol @ chol.T, corr, rtol=0.0, atol=2e-15)
     assert np.allclose(
-        W04_EXPOSURE_PARAMETERS.factor_covariance,
+        CORRELATED_EXPOSURE_PARAMETERS.factor_covariance,
         0.60**2 * corr,
         rtol=0.0,
         atol=1e-15,
     )
     assert np.all(np.linalg.eigvalsh(corr) > 0.0)
-    assert W04_EXPOSURE_PARAMETERS.archetype_means == (
+    assert CORRELATED_EXPOSURE_PARAMETERS.archetype_means == (
         (-1.00, -1.00, -1.00, -0.80),
         (-0.30, 1.20, -0.40, 0.20),
         (0.90, 0.80, 0.60, 0.80),
         (-0.30, -0.20, 1.20, 0.40),
     )
-    assert W04_EXPOSURE_PARAMETERS.feature_loadings == (
+    assert CORRELATED_EXPOSURE_PARAMETERS.feature_loadings == (
         (0.90, 0.10, 0.05, 0.05),
         (0.80, 0.30, 0.05, 0.05),
         (0.05, 0.95, 0.05, 0.05),
@@ -595,7 +686,7 @@ def test_w04_exact_four_factor_covariance_archetypes_and_mixture_vectors() -> No
         (0.20, 0.05, 0.90, 0.05),
         (0.20, 0.15, 0.20, 0.85),
     )
-    assert W04_EXPOSURE_PARAMETERS.feature_residual_sds == (
+    assert CORRELATED_EXPOSURE_PARAMETERS.feature_residual_sds == (
         0.50,
         0.45,
         0.50,
@@ -604,9 +695,9 @@ def test_w04_exact_four_factor_covariance_archetypes_and_mixture_vectors() -> No
         0.50,
         0.55,
     )
-    assert W04_EXPOSURE_PARAMETERS.train_probabilities == (0.40, 0.30, 0.20, 0.10)
-    assert W04_EXPOSURE_PARAMETERS.validation_probabilities == (0.10, 0.20, 0.45, 0.25)
-    assert W04_EXPOSURE_PARAMETERS.prior_probabilities == (0.25, 0.25, 0.25, 0.25)
+    assert CORRELATED_EXPOSURE_PARAMETERS.train_probabilities == (0.40, 0.30, 0.20, 0.10)
+    assert CORRELATED_EXPOSURE_PARAMETERS.validation_probabilities == (0.10, 0.20, 0.45, 0.25)
+    assert CORRELATED_EXPOSURE_PARAMETERS.prior_probabilities == (0.25, 0.25, 0.25, 0.25)
     assert mixture_for("train") == (0.40, 0.30, 0.20, 0.10)
     assert mixture_for("validation") == (0.10, 0.20, 0.45, 0.25)
     assert mixture_for("train", prior=True) == (0.25, 0.25, 0.25, 0.25)
@@ -617,10 +708,13 @@ def test_w04_exact_four_factor_covariance_archetypes_and_mixture_vectors() -> No
     )
     assert CORRELATED_EXPOSURE_SPECIFICATION.latent_factor_axes == LATENT_FACTOR_AXES
     assert CORRELATED_EXPOSURE_SPECIFICATION.archetypes == tuple(ExposureArchetype)
-    assert CORRELATED_EXPOSURE_SPECIFICATION.source_archetype_names == W04_SOURCE_ARCHETYPE_NAMES
+    assert (
+        CORRELATED_EXPOSURE_SPECIFICATION.source_archetype_names
+        == CORRELATED_SOURCE_ARCHETYPE_NAMES
+    )
 
 
-def test_w04_supports_prior_mixture_and_outcome_specific_response_map() -> None:
+def test_correlated_supports_prior_mixture_and_outcome_specific_response_map() -> None:
     for sample, split, prior in (
         ("train", "train", False),
         ("validation", "validation", False),
@@ -647,13 +741,13 @@ def test_w04_supports_prior_mixture_and_outcome_specific_response_map() -> None:
             archetype_probabilities=(0.5, 0.5, 0.5, 0.5),
         )
 
-    assert W04_RESPONSE_BASIS_WEIGHTS == (
+    assert CORRELATED_RESPONSE_BASIS_WEIGHTS == (
         (0.02, 0.68, 0.28, 0.02),
         (0.18, 0.03, 0.69, 0.10),
         (0.02, 0.63, 0.03, 0.32),
         (0.55, 0.03, 0.03, 0.39),
     )
-    assert W04_RESPONSE_BASIS_INTERACTIONS == (
+    assert CORRELATED_RESPONSE_BASIS_INTERACTIONS == (
         (1, 2, 0.30),
         (0, 2, 0.25),
         (1, 3, 0.25),
@@ -662,8 +756,12 @@ def test_w04_supports_prior_mixture_and_outcome_specific_response_map() -> None:
     varied = PublicExposure(90.0, 9000.0, 1500.0, 300.0, 30, 120, 8.0, 720.0)
     zero = ResponseEffects(((0.0, 0.0), (0.0, 0.0)), ((0.0, 0.0), (0.0, 0.0)))
     no_camp = CampEffects(((0.0, 0.0), (0.0, 0.0)))
-    force = response_parameters_for_exposure(varied, zero, no_camp, "force", world="W04")
-    impulse = response_parameters_for_exposure(varied, zero, no_camp, "impulse", world="W04")
+    force = response_parameters_for_exposure(
+        varied, zero, no_camp, "force", world="correlated_exposure"
+    )
+    impulse = response_parameters_for_exposure(
+        varied, zero, no_camp, "impulse", world="correlated_exposure"
+    )
     assert force.fast_amplitude != impulse.fast_amplitude
     assert force.slow_amplitude != impulse.slow_amplitude
     vector = normalized_load_vector(varied)
@@ -677,8 +775,8 @@ def test_w04_supports_prior_mixture_and_outcome_specific_response_map() -> None:
         amplitudes = (parameters.fast_amplitude, parameters.slow_amplitude)
         for component_index, actual_amplitude in enumerate(amplitudes):
             row_index = 2 * metric_index + component_index
-            weights = W04_RESPONSE_BASIS_WEIGHTS[row_index]
-            left, right, coefficient = W04_RESPONSE_BASIS_INTERACTIONS[row_index]
+            weights = CORRELATED_RESPONSE_BASIS_WEIGHTS[row_index]
+            left, right, coefficient = CORRELATED_RESPONSE_BASIS_INTERACTIONS[row_index]
             score = sum(
                 weight * (value - 0.5) for weight, value in zip(weights, basis, strict=True)
             )
@@ -688,10 +786,10 @@ def test_w04_supports_prior_mixture_and_outcome_specific_response_map() -> None:
             assert actual_amplitude == pytest.approx(expected_amplitude)
 
 
-def test_w04_zero_residual_draw_replays_factor_to_primitive_mapping() -> None:
+def test_correlated_zero_residual_draw_replays_factor_to_primitive_mapping() -> None:
     class FixedGenerator:
         def choice(self, _size: int, *, p: np.ndarray) -> int:
-            assert tuple(p) == W04_EXPOSURE_PARAMETERS.train_probabilities
+            assert tuple(p) == CORRELATED_EXPOSURE_PARAMETERS.train_probabilities
             return 2
 
         def normal(self, size: int | None = None) -> float | np.ndarray:
@@ -707,9 +805,9 @@ def test_w04_zero_residual_draw_replays_factor_to_primitive_mapping() -> None:
 
     streams = cast(Any, FixedStreams())
     exposure = sample_correlated_exposure(
-        streams, archetype_probabilities=W04_EXPOSURE_PARAMETERS.train_probabilities
+        streams, archetype_probabilities=CORRELATED_EXPOSURE_PARAMETERS.train_probabilities
     )
-    parameters = W04_EXPOSURE_PARAMETERS
+    parameters = CORRELATED_EXPOSURE_PARAMETERS
     loadings = np.asarray(parameters.feature_loadings)
     correlation = np.asarray(parameters.factor_correlation)
     scales = np.sqrt(
@@ -740,6 +838,8 @@ def test_w04_zero_residual_draw_replays_factor_to_primitive_mapping() -> None:
 
 
 def test_rng_exact_construction_does_not_upgrade_algorithm_or_state_claims() -> None:
+    assert RNG_VERSION == "lcmj-v2-keyed-rng-1.0.0"
+    assert PUBLIC_ROOT_SEED == "ALI-494-LCMJ-V2-PUBLIC-001"
     streams = KeyedRandomStreams("lcmj-v2", "root", "train", "camp", 0)
     identity = ("lcmj-v2", "root", "train", "camp", 0)
     channel = "trial_noise"
@@ -792,12 +892,14 @@ def test_rng_exact_construction_does_not_upgrade_algorithm_or_state_claims() -> 
     )
 
 
-def test_exact_split_assignment_does_not_promote_hashes_or_o03_to_o04() -> None:
+def test_exact_split_assignment_does_not_promote_hashes_or_observation_statuses() -> None:
     assert all(item.split_assignment is Status.EXACT for item in EXACTNESS_BOUNDARIES.values())
     assert all(item.dataset_hash is Status.PARTIAL for item in EXACTNESS_BOUNDARIES.values())
-    assert EXACTNESS_BOUNDARIES["SP04"].observation is Status.PARTIAL
-    assert EXACTNESS_BOUNDARIES["SP05"].observation is Status.EXACT
-    assert EXACTNESS_BOUNDARIES["SP06"].observation is Status.EXACT
+    assert EXACTNESS_BOUNDARIES["preliminary_post_exposure_recovery"].observation is Status.PARTIAL
+    assert (
+        EXACTNESS_BOUNDARIES["phase_consistent_post_exposure_recovery"].observation is Status.EXACT
+    )
+    assert EXACTNESS_BOUNDARIES["correlated_exposure_recovery"].observation is Status.EXACT
     assert all(
         not item.production_scorer == "IMPLEMENTED" for item in EXACTNESS_BOUNDARIES.values()
     )

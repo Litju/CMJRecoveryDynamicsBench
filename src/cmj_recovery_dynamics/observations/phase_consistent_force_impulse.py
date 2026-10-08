@@ -1,4 +1,4 @@
-"""O04 shared concentric force phase for force and net-impulse measurements."""
+"""Shared concentric force phase for force and net-impulse measurements."""
 
 from __future__ import annotations
 
@@ -53,7 +53,7 @@ class PhaseConsistentAssessment:
             or len(trial.vertical_force_n_per_kg) != TRACE_NODE_COUNT
             for trial in self.trials
         ):
-            raise ValueError("O04 requires exactly three 65-node valid trials")
+            raise ValueError("phase-consistent assessment requires exactly three 65-node trials")
 
     @property
     def force_mean(self) -> float:
