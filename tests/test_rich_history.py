@@ -42,7 +42,14 @@ from cmj_recovery_dynamics.reproduction.contracts import (
 )
 from cmj_recovery_dynamics.reproduction.registry import get_reproduction_contract
 from cmj_recovery_dynamics.reproduction.rich_history import (
+    ALI490_RNG_CHANNELIZATION_COMMIT,
     CATEGORICAL_FIELDS,
+    D04_DATA_PRODUCER_COMMIT,
+    D04_DATA_PRODUCER_REPOSITORY_TREE,
+    D04_DATA_PRODUCER_TASK_TREE,
+    D04_MANIFEST_BLOB_OID,
+    D04_TRAIN_PARQUET_BLOB_OID,
+    D04_VALIDATION_PARQUET_BLOB_OID,
     DEFAULT,
     F2_LEVELS,
     F3_LEVELS,
@@ -76,6 +83,14 @@ from cmj_recovery_dynamics.reproduction.rich_history import (
 
 def test_selected_source_closure_and_m21_claim_boundary() -> None:
     assert SP03_SOURCE_TREE == "e2871ccac43e4e6b7dfaa0c7cc2eec9d05b03e0b"
+    assert D04_DATA_PRODUCER_COMMIT == "6947771c8567438bba4cea8b5bb28d8f7992b307"
+    assert D04_DATA_PRODUCER_REPOSITORY_TREE == "c3c65d118cab0a368aafc7c1681a5660cd039bee"
+    assert D04_DATA_PRODUCER_TASK_TREE == "88e0cf68aa7fda864505a2a7e353e0487187919e"
+    assert D04_DATA_PRODUCER_TASK_TREE != SP03_SOURCE_TREE
+    assert D04_MANIFEST_BLOB_OID == "03864b433e678e582da3d50d66468443a77cba71"
+    assert D04_TRAIN_PARQUET_BLOB_OID == "8b789399f8b40feef3a02aff98eb9a86d193f335"
+    assert D04_VALIDATION_PARQUET_BLOB_OID == "d2987e1e349986319eeb01cc46972e0bae9c158c"
+    assert ALI490_RNG_CHANNELIZATION_COMMIT == "ad5e48a1dc9c1fd1e27ecd314940a9be1b4fd50a"
     required_paths = {
         "environment/Dockerfile",
         "data_generation/src/lcmj_v3/core.py",
@@ -161,10 +176,47 @@ def test_selected_source_closure_and_m21_claim_boundary() -> None:
     assert RICH_HISTORY_REPRODUCTION_METADATA.historical_rng_algorithm == "PARTIAL"
     assert RICH_HISTORY_REPRODUCTION_METADATA.historical_rng_state == "PARTIAL"
     assert RICH_HISTORY_REPRODUCTION_METADATA.generator_claim == "SEMANTICALLY_EQUIVALENT"
+    assert RICH_HISTORY_REPRODUCTION_METADATA.source_tree == SP03_SOURCE_TREE
+    assert RICH_HISTORY_REPRODUCTION_METADATA.d04_data_producer_commit == D04_DATA_PRODUCER_COMMIT
+    assert (
+        RICH_HISTORY_REPRODUCTION_METADATA.d04_data_producer_task_tree
+        == D04_DATA_PRODUCER_TASK_TREE
+    )
+    assert RICH_HISTORY_REPRODUCTION_METADATA.d04_manifest_blob_oid == D04_MANIFEST_BLOB_OID
+    assert (
+        RICH_HISTORY_REPRODUCTION_METADATA.d04_train_parquet_blob_oid == D04_TRAIN_PARQUET_BLOB_OID
+    )
+    assert (
+        RICH_HISTORY_REPRODUCTION_METADATA.d04_validation_parquet_blob_oid
+        == D04_VALIDATION_PARQUET_BLOB_OID
+    )
+    assert RICH_HISTORY_REPRODUCTION_METADATA.d04_seed_construction == (
+        "roots l05-public-train-v3/l05-public-validation-v3; SHA-256 of compact JSON string "
+        "parts, first 8 bytes big-endian; np.random.default_rng(seed)"
+    )
+    assert RICH_HISTORY_REPRODUCTION_METADATA.d04_rng_topology == (
+        "one shared Generator per camp, consumed sequentially through horizon admission"
+    )
+    assert RICH_HISTORY_REPRODUCTION_METADATA.d04_horizon_presence_draws == (
+        "random(n) < 0.15, then integers(0, 2, n), from that same camp Generator"
+    )
+    assert RICH_HISTORY_REPRODUCTION_METADATA.d04_runtime_authority == (
+        "Dockerfile base tag runtime-ml-core-py313-local only; exact Python build, NumPy version, "
+        "and BitGenerator unbound"
+    )
+    assert RICH_HISTORY_REPRODUCTION_METADATA.later_rng_channelization_commit == (
+        ALI490_RNG_CHANNELIZATION_COMMIT
+    )
     assert RICH_HISTORY_REPRODUCTION_METADATA.row_ordering == "UNKNOWN"
     assert RICH_HISTORY_REPRODUCTION_METADATA.serialization == "SEMANTICALLY_EQUIVALENT"
     assert RICH_HISTORY_REPRODUCTION_METADATA.dataset_hash == "PARTIAL"
     assert RICH_HISTORY_REPRODUCTION_METADATA.historical_calibration_reference == "UNAVAILABLE"
+    split_claim = contract.claim(ReproductionDimension.SPLIT_ASSIGNMENT)
+    assert split_claim.status is ReproductionStatus.PARTIAL
+    assert D04_DATA_PRODUCER_COMMIT in split_claim.rationale
+    assert SP03_SOURCE_TREE in split_claim.rationale
+    assert "named child streams" in split_claim.rationale
+    assert "not historical runtime authority" in split_claim.rationale
     assert contract.evaluation.production_scorer == "rich_history_24_cell_normalized_rmse_score"
     assert (
         contract.evaluation.calibration_reference_status
@@ -709,7 +761,7 @@ def test_f2_f3_strata_boundaries_and_all_six_cells_are_reachable() -> None:
 
 
 def test_d04_full_public_geometry_membership_and_admission() -> None:
-    # Fixed new OSS runtime; these row counts are not historical membership claims.
+    # The current e287/OSS replay is clean-room only; its counts are not historical D04 membership.
     expected_geometry: dict[PublicSplitName, tuple[int, int, int, int]] = {
         "public_train": (15112, 4096, 512, 8192),
         "public_validation": (3768, 1024, 128, 2048),
@@ -770,6 +822,13 @@ def test_d04_full_public_geometry_membership_and_admission() -> None:
     assert validation_reference.rows == 3795
     assert expected_geometry["public_train"][0] != train_reference.rows
     assert expected_geometry["public_validation"][0] != validation_reference.rows
+    assert RICH_HISTORY_REPRODUCTION_METADATA.split_assignment == "PARTIAL"
+    assert (
+        get_reproduction_contract("rich_history_camp_recovery")
+        .claim(ReproductionDimension.SPLIT_ASSIGNMENT)
+        .status
+        is ReproductionStatus.PARTIAL
+    )
     assert RICH_HISTORY_REPRODUCTION_METADATA.oss_numpy_version == "2.5.3"
     assert admitted_horizons(np.asarray([True, False])) == (0,)
     assert admitted_horizons(np.asarray([False, True])) == (1,)

@@ -736,17 +736,35 @@ _RICH_SPLIT = {
         D.SPLIT_ASSIGNMENT,
         S.PARTIAL,
         (
-            "D04's camp, participant, and origin hierarchy is fixed, but exact H72/D7 query "
-            "membership depends on the unresolved NumPy default_rng runtime used by the "
-            "horizon-presence draws. The selected source replay under the recorded OSS "
-            "runtime does not match the historical manifest row counts."
+            "D04's hierarchy and public bytes are fixed. The first M1-authorized commit that "
+            "co-locates both D04 Parquet blobs and their hash-binding manifest is "
+            "6947771c8567438bba4cea8b5bb28d8f7992b307, task tree "
+            "88e0cf68aa7fda864505a2a7e353e0487187919e. That source uses one shared per-camp "
+            "default_rng through the horizon-presence and dropped-index draws. Later ALI-490 "
+            "commit ad5e48a1dc9c1fd1e27ecd314940a9be1b4fd50a (tree "
+            "e2871ccac43e4e6b7dfaa0c7cc2eec9d05b03e0b) changes these to named child streams, "
+            "including independent horizon-presence and dropped-index streams. A bounded replay "
+            "of the producing source under the available OSS 2.5.3 runtime matches D04 query "
+            "keys and masks, but the producing Dockerfile only identifies a py313 base tag and "
+            "does not bind its NumPy version, exact Python build, or BitGenerator. Treat that "
+            "replay as compatibility evidence, not historical runtime authority; the later "
+            "e2871cc clean-room replay remains non-historical."
         ),
-        f"{_SP03_TREE_EVIDENCE}: lcmj_v3/params.py and splits.py",
-        f"{_SP03_TREE_EVIDENCE}: lcmj_v3/rng.py, projection.py, and data/public/manifest.json",
+        "RES-361/M1: D04 producer commit 6947771c8567438bba4cea8b5bb28d8f7992b307, "
+        "task tree 88e0cf68aa7fda864505a2a7e353e0487187919e, manifest blob "
+        "03864b433e678e582da3d50d66468443a77cba71, train blob "
+        "8b789399f8b40feef3a02aff98eb9a86d193f335, validation blob "
+        "d2987e1e349986319eeb01cc46972e0bae9c158c",
+        "RES-364/365: D04 hashes, geometry, public roots, generator version, and manifest mapping",
+        "ALI-490 commit ad5e48a1dc9c1fd1e27ecd314940a9be1b4fd50a / task tree "
+        "e2871ccac43e4e6b7dfaa0c7cc2eec9d05b03e0b: rng.py, core.py, schedule.py, and "
+        "test_ali490_rng_channels.py",
+        "D04 producer environment/Dockerfile: runtime-ml-core-py313-local base tag only; no "
+        "NumPy pin or lock file",
         "RES-365: dataset and split registry",
         missing=(
-            "historical initialized NumPy state or bit-generator/runtime binding for the "
-            "per-origin horizon-presence mask",
+            "the exact Python build, NumPy version, and BitGenerator/runtime used by the D04 "
+            "producer's default_rng instances",
         ),
         scope=("training", "public_validation"),
     ),

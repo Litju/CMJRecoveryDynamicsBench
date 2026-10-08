@@ -40,7 +40,15 @@ Array = NDArray[Any]
 PublicSplitName = Literal["public_train", "public_validation"]
 _EMPTY_RECORD: Mapping[str, Any] = {}
 
+# Scientific source authority; D04 materialization authority is recorded separately.
 SP03_SOURCE_TREE = "e2871ccac43e4e6b7dfaa0c7cc2eec9d05b03e0b"
+D04_DATA_PRODUCER_COMMIT = "6947771c8567438bba4cea8b5bb28d8f7992b307"
+D04_DATA_PRODUCER_REPOSITORY_TREE = "c3c65d118cab0a368aafc7c1681a5660cd039bee"
+D04_DATA_PRODUCER_TASK_TREE = "88e0cf68aa7fda864505a2a7e353e0487187919e"
+D04_MANIFEST_BLOB_OID = "03864b433e678e582da3d50d66468443a77cba71"
+D04_TRAIN_PARQUET_BLOB_OID = "8b789399f8b40feef3a02aff98eb9a86d193f335"
+D04_VALIDATION_PARQUET_BLOB_OID = "d2987e1e349986319eeb01cc46972e0bae9c158c"
+ALI490_RNG_CHANNELIZATION_COMMIT = "ad5e48a1dc9c1fd1e27ecd314940a9be1b4fd50a"
 SP03_SOURCE_CLOSURE = (
     "environment/Dockerfile",
     "data_generation/src/lcmj_v3/core.py",
@@ -64,6 +72,16 @@ GENERATOR_VERSION = "LCMJ-V3-monitored-multicycle-1.1"
 @dataclass(frozen=True, slots=True)
 class RichHistoryReproductionMetadata:
     source_tree: str
+    d04_data_producer_commit: str
+    d04_data_producer_task_tree: str
+    d04_manifest_blob_oid: str
+    d04_train_parquet_blob_oid: str
+    d04_validation_parquet_blob_oid: str
+    d04_seed_construction: str
+    d04_rng_topology: str
+    d04_horizon_presence_draws: str
+    d04_runtime_authority: str
+    later_rng_channelization_commit: str
     generator_claim: str
     historical_rng_algorithm: str
     historical_rng_state: str
@@ -82,6 +100,26 @@ class RichHistoryReproductionMetadata:
 
 RICH_HISTORY_REPRODUCTION_METADATA = RichHistoryReproductionMetadata(
     source_tree=SP03_SOURCE_TREE,
+    d04_data_producer_commit=D04_DATA_PRODUCER_COMMIT,
+    d04_data_producer_task_tree=D04_DATA_PRODUCER_TASK_TREE,
+    d04_manifest_blob_oid=D04_MANIFEST_BLOB_OID,
+    d04_train_parquet_blob_oid=D04_TRAIN_PARQUET_BLOB_OID,
+    d04_validation_parquet_blob_oid=D04_VALIDATION_PARQUET_BLOB_OID,
+    d04_seed_construction=(
+        "roots l05-public-train-v3/l05-public-validation-v3; SHA-256 of compact JSON string "
+        "parts, first 8 bytes big-endian; np.random.default_rng(seed)"
+    ),
+    d04_rng_topology=(
+        "one shared Generator per camp, consumed sequentially through horizon admission"
+    ),
+    d04_horizon_presence_draws=(
+        "random(n) < 0.15, then integers(0, 2, n), from that same camp Generator"
+    ),
+    d04_runtime_authority=(
+        "Dockerfile base tag runtime-ml-core-py313-local only; exact Python build, NumPy version, "
+        "and BitGenerator unbound"
+    ),
+    later_rng_channelization_commit=ALI490_RNG_CHANNELIZATION_COMMIT,
     generator_claim="SEMANTICALLY_EQUIVALENT",
     historical_rng_algorithm="PARTIAL",
     historical_rng_state="PARTIAL",
@@ -1441,7 +1479,14 @@ def rich_history_native_progress(values: Sequence[CellValues]) -> RichHistoryNat
 
 
 __all__ = [
+    "ALI490_RNG_CHANNELIZATION_COMMIT",
     "CATEGORICAL_FIELDS",
+    "D04_DATA_PRODUCER_COMMIT",
+    "D04_DATA_PRODUCER_REPOSITORY_TREE",
+    "D04_DATA_PRODUCER_TASK_TREE",
+    "D04_MANIFEST_BLOB_OID",
+    "D04_TRAIN_PARQUET_BLOB_OID",
+    "D04_VALIDATION_PARQUET_BLOB_OID",
     "DEFAULT",
     "F2_LEVELS",
     "F3_LEVELS",
