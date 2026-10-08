@@ -751,11 +751,15 @@ _RICH_SPLIT = {
             "manifest and public split identities are bound in the sealed "
             "evidence handoff."
         ),
-        f"{_SP03_TREE_EVIDENCE}: lcmj_v3/rng.py, projection.py, and data/public/manifest.json",
+        "RES-364/365: D04 hashes, geometry, public roots, generator version, and manifest mapping",
+        "ALI-490 commit REDACTED_REF / task tree "
+        "REDACTED_REF: rng.py, core.py, schedule.py, and "
+        "test_ali490_rng_channels.py",
+        "ALI-490 RNG-channelization source and binding tests",
         "RES-365: dataset and split registry",
         missing=(
-            "historical initialized NumPy state or bit-generator/runtime binding for the "
-            "per-origin horizon-presence mask",
+            "the exact Python build, NumPy version, and BitGenerator/runtime used by the D04 "
+            "producer's default_rng instances",
         ),
         scope=("training", "public_validation"),
     ),

@@ -40,6 +40,7 @@ Array = NDArray[Any]
 PublicSplitName = Literal["public_train", "public_validation"]
 _EMPTY_RECORD: Mapping[str, Any] = {}
 
+# Scientific source authority; D04 materialization authority is recorded separately.
 SP03_SOURCE_CLOSURE = (
     "environment/Dockerfile",
     "data_generation/src/lcmj_v3/core.py",
@@ -63,6 +64,16 @@ GENERATOR_VERSION = "LCMJ-V3-monitored-multicycle-1.1"
 @dataclass(frozen=True, slots=True)
 class RichHistoryReproductionMetadata:
     source_tree: str
+    d04_data_producer_commit: str
+    d04_data_producer_task_tree: str
+    d04_manifest_blob_oid: str | None
+    d04_train_parquet_blob_oid: str | None
+    d04_validation_parquet_blob_oid: str | None
+    d04_seed_construction: str
+    d04_rng_topology: str
+    d04_horizon_presence_draws: str
+    d04_runtime_authority: str
+    later_rng_channelization_commit: str | None
     generator_claim: str
     historical_rng_algorithm: str
     historical_rng_state: str
@@ -81,6 +92,26 @@ class RichHistoryReproductionMetadata:
 
 RICH_HISTORY_REPRODUCTION_METADATA = RichHistoryReproductionMetadata(
     source_tree=SP03_SOURCE_TREE,
+    d04_data_producer_commit=D04_DATA_PRODUCER_COMMIT,
+    d04_data_producer_task_tree=D04_DATA_PRODUCER_TASK_TREE,
+    d04_manifest_blob_oid=None,
+    d04_train_parquet_blob_oid=None,
+    d04_validation_parquet_blob_oid=None,
+    d04_seed_construction=(
+        "roots l05-public-train-v3/l05-public-validation-v3; SHA-256 of compact JSON string "
+        "parts, first 8 bytes big-endian; np.random.default_rng(seed)"
+    ),
+    d04_rng_topology=(
+        "one shared Generator per camp, consumed sequentially through horizon admission"
+    ),
+    d04_horizon_presence_draws=(
+        "random(n) < 0.15, then integers(0, 2, n), from that same camp Generator"
+    ),
+    d04_runtime_authority=(
+        "Dockerfile base tag runtime-ml-core-py313-local only; exact Python build, NumPy version, "
+        "and BitGenerator unbound"
+    ),
+    later_rng_channelization_commit=None,
     generator_claim="SEMANTICALLY_EQUIVALENT",
     historical_rng_algorithm="PARTIAL",
     historical_rng_state="PARTIAL",

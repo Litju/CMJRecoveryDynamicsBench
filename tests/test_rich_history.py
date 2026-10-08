@@ -159,10 +159,28 @@ def test_selected_source_closure_and_m21_claim_boundary() -> None:
     assert RICH_HISTORY_REPRODUCTION_METADATA.historical_rng_algorithm == "PARTIAL"
     assert RICH_HISTORY_REPRODUCTION_METADATA.historical_rng_state == "PARTIAL"
     assert RICH_HISTORY_REPRODUCTION_METADATA.generator_claim == "SEMANTICALLY_EQUIVALENT"
+    assert RICH_HISTORY_REPRODUCTION_METADATA.d04_seed_construction == (
+        "roots l05-public-train-v3/l05-public-validation-v3; SHA-256 of compact JSON string "
+        "parts, first 8 bytes big-endian; np.random.default_rng(seed)"
+    )
+    assert RICH_HISTORY_REPRODUCTION_METADATA.d04_rng_topology == (
+        "one shared Generator per camp, consumed sequentially through horizon admission"
+    )
+    assert RICH_HISTORY_REPRODUCTION_METADATA.d04_horizon_presence_draws == (
+        "random(n) < 0.15, then integers(0, 2, n), from that same camp Generator"
+    )
+    assert RICH_HISTORY_REPRODUCTION_METADATA.d04_runtime_authority == (
+        "Dockerfile base tag runtime-ml-core-py313-local only; exact Python build, NumPy version, "
+        "and BitGenerator unbound"
+    )
     assert RICH_HISTORY_REPRODUCTION_METADATA.row_ordering == "UNKNOWN"
     assert RICH_HISTORY_REPRODUCTION_METADATA.serialization == "SEMANTICALLY_EQUIVALENT"
     assert RICH_HISTORY_REPRODUCTION_METADATA.dataset_hash == "PARTIAL"
     assert RICH_HISTORY_REPRODUCTION_METADATA.historical_calibration_reference == "UNAVAILABLE"
+    split_claim = contract.claim(ReproductionDimension.SPLIT_ASSIGNMENT)
+    assert split_claim.status is ReproductionStatus.PARTIAL
+    assert "named child streams" in split_claim.rationale
+    assert "not historical runtime authority" in split_claim.rationale
     assert contract.evaluation.production_scorer == "rich_history_24_cell_normalized_rmse_score"
     assert (
         contract.evaluation.calibration_reference_status
@@ -707,7 +725,7 @@ def test_f2_f3_strata_boundaries_and_all_six_cells_are_reachable() -> None:
 
 
 def test_d04_full_public_geometry_membership_and_admission() -> None:
-    # Fixed new OSS runtime; these row counts are not historical membership claims.
+    # The current e287/OSS replay is clean-room only; its counts are not historical D04 membership.
     expected_geometry: dict[PublicSplitName, tuple[int, int, int, int]] = {
         "public_train": (15112, 4096, 512, 8192),
         "public_validation": (3768, 1024, 128, 2048),
@@ -768,6 +786,13 @@ def test_d04_full_public_geometry_membership_and_admission() -> None:
     assert validation_reference.rows == 3795
     assert expected_geometry["public_train"][0] != train_reference.rows
     assert expected_geometry["public_validation"][0] != validation_reference.rows
+    assert RICH_HISTORY_REPRODUCTION_METADATA.split_assignment == "PARTIAL"
+    assert (
+        get_reproduction_contract("rich_history_camp_recovery")
+        .claim(ReproductionDimension.SPLIT_ASSIGNMENT)
+        .status
+        is ReproductionStatus.PARTIAL
+    )
     assert RICH_HISTORY_REPRODUCTION_METADATA.oss_numpy_version == "2.5.3"
     assert admitted_horizons(np.asarray([True, False])) == (0,)
     assert admitted_horizons(np.asarray([False, True])) == (1,)
