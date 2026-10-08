@@ -135,6 +135,7 @@ def _splits(
     hidden_unit: SplitUnit | None = None,
     assignment_rationale: str | None = None,
     assignment_missing: tuple[str, ...] | None = None,
+    materialization_missing: tuple[str, ...] | None = None,
 ) -> tuple[SplitReproductionAuthority, ...]:
     hash_map = {item.split_name: item for item in hashes}
     assignment = assignment_rationale or (
@@ -168,7 +169,8 @@ def _splits(
             evidence=public_evidence,
             reference_hash=hash_map[name],
             missing_assignment=missing_assignment,
-            missing_materialization=(
+            missing_materialization=materialization_missing
+            or (
                 "exact row order and serialization authority",
                 "complete RNG and seed-to-byte authority",
             ),
@@ -724,37 +726,38 @@ _RICH_COMPLETE_GENERATOR = {
         (
             "The selected executable tree and its binding tests define the complete public "
             "generator. Clean-room code preserves that law and public contract; unresolved "
-            "historical PRNG state, row ordering, and writer bytes remain separate."
+            "historical RNG runtime/state and writer bytes remain separate from the exact D04 "
+            "public membership replay."
         ),
         f"{_SP03_TREE_EVIDENCE}: data_generation/src/lcmj_v3/",
         f"{_SP03_TREE_EVIDENCE}: parameters, projection, split manifests, and same-tree tests",
-        missing=("historical initialized PRNG state, row ordering, and byte serialization",),
+        missing=("historical initialized PRNG state and byte serialization",),
     ),
 }
 _RICH_SPLIT = {
     D.SPLIT_ASSIGNMENT: _claim(
         D.SPLIT_ASSIGNMENT,
-        S.PARTIAL,
+        S.EXACT,
         (
-            "D04's hierarchy and public bytes are fixed. The first M1-authorized commit that "
-            "co-locates both D04 Parquet blobs and their hash-binding manifest is "
-            "6947771c8567438bba4cea8b5bb28d8f7992b307, task tree "
-            "88e0cf68aa7fda864505a2a7e353e0487187919e. That source uses one shared per-camp "
-            "default_rng through the horizon-presence and dropped-index draws. Later ALI-490 "
-            "commit ad5e48a1dc9c1fd1e27ecd314940a9be1b4fd50a (tree "
-            "e2871ccac43e4e6b7dfaa0c7cc2eec9d05b03e0b) changes these to named child streams, "
-            "including independent horizon-presence and dropped-index streams. A bounded replay "
-            "of the producing source under the available OSS 2.5.3 runtime matches D04 query "
-            "keys and masks, but the producing Dockerfile only identifies a py313 base tag and "
-            "does not bind its NumPy version, exact Python build, or BitGenerator. Treat that "
-            "replay as compatibility evidence, not historical runtime authority; the later "
-            "e2871cc clean-room replay remains non-historical."
+            "Exact means the historical public split/query membership is reproducible. The D04 "
+            "materialization source is commit 6947771c8567438bba4cea8b5bb28d8f7992b307, "
+            "repository tree c3c65d118cab0a368aafc7c1681a5660cd039bee, task tree "
+            "88e0cf68aa7fda864505a2a7e353e0487187919e. Its shared per-camp default_rng replay "
+            "matches preserved participant, origin, query keys, H72/D7 masks, and ordered "
+            "logical rows for both public splits. Later ALI-488/490 repairs changed scientific, "
+            "measurement, schedule, and RNG source without regenerating D04. SP03 scientific "
+            "authority is tree e2871ccac43e4e6b7dfaa0c7cc2eec9d05b03e0b; its later named-channel "
+            "replay remains a separate non-historical realization. Matching membership is "
+            "compatibility/output evidence, not proof of D04's historical RNG runtime."
         ),
         "RES-361/M1: D04 producer commit 6947771c8567438bba4cea8b5bb28d8f7992b307, "
-        "task tree 88e0cf68aa7fda864505a2a7e353e0487187919e, manifest blob "
+        "repository tree c3c65d118cab0a368aafc7c1681a5660cd039bee, task tree "
+        "88e0cf68aa7fda864505a2a7e353e0487187919e, manifest blob "
         "03864b433e678e582da3d50d66468443a77cba71, train blob "
         "8b789399f8b40feef3a02aff98eb9a86d193f335, validation blob "
         "d2987e1e349986319eeb01cc46972e0bae9c158c",
+        "RES-392: direct ordered parity and canonical membership fingerprints from replay vs "
+        "preserved D04 rows",
         "RES-364/365: D04 hashes, geometry, public roots, generator version, and manifest mapping",
         "ALI-490 commit ad5e48a1dc9c1fd1e27ecd314940a9be1b4fd50a / task tree "
         "e2871ccac43e4e6b7dfaa0c7cc2eec9d05b03e0b: rng.py, core.py, schedule.py, and "
@@ -762,10 +765,20 @@ _RICH_SPLIT = {
         "D04 producer environment/Dockerfile: runtime-ml-core-py313-local base tag only; no "
         "NumPy pin or lock file",
         "RES-365: dataset and split registry",
-        missing=(
-            "the exact Python build, NumPy version, and BitGenerator/runtime used by the D04 "
-            "producer's default_rng instances",
+        scope=("training", "public_validation"),
+    ),
+}
+_RICH_ORDERING = {
+    D.ROW_ORDERING: _claim(
+        D.ROW_ORDERING,
+        S.EXACT,
+        (
+            "Ordered logical (participant_key, origin_key, query_key, horizon) tuples from the "
+            "D04 replay equal the preserved public train and validation Parquet row sequences. "
+            "This does not claim exact Parquet physical encoding."
         ),
+        "RES-392: direct ordered comparison against preserved D04 train and validation blobs",
+        "D04 manifest blob 03864b433e678e582da3d50d66468443a77cba71",
         scope=("training", "public_validation"),
     ),
 }
@@ -1131,9 +1144,9 @@ _RICH_CLAIMS = {
         D.RNG_ALGORITHM,
         S.PARTIAL,
         (
-            "The preserved source uses keyed NumPy default_rng streams for schedule, "
-            "kinetics, dose, validity, and measurement but does not pin the "
-            "bit-generator/runtime."
+            "The SP03 scientific path uses named NumPy default_rng streams, and D04 membership "
+            "uses one default_rng per camp. The D04 producer environment does not bind the "
+            "exact Python build, NumPy version, or BitGenerator/runtime."
         ),
         f"{_SP03_TREE_EVIDENCE}: lcmj_v3/rng.py",
         f"{_SP03_TREE_EVIDENCE}: lcmj_v3/params.py and same-tree RNG tests",
@@ -1144,8 +1157,8 @@ _RICH_CLAIMS = {
         D.RNG_STATE,
         S.PARTIAL,
         (
-            "Public split seed names are preserved, but initialized NumPy states for each "
-            "stream are not."
+            "SP03 and D04 seed construction is reproduced, but the initialized historical NumPy "
+            "state and exact runtime used to produce D04 are not preserved."
         ),
         f"{_SP03_TREE_EVIDENCE}: lcmj_v3/rng.py and public split manifest",
         "RES-365: world generator and dataset/split registries",
@@ -1166,8 +1179,9 @@ _RICH_CLAIMS = {
         D.RNG_STREAM_CONSTRUCTION,
         S.EXACT,
         (
-            "The source hashes a simulate-camp-prefixed root identity, then derives one "
-            "generator per channel; optional local participant indices key two trait channels."
+            "SP03 scientific generation hashes a simulate-camp-prefixed root and derives named "
+            "channels; D04 membership hashes its compact JSON seed parts and consumes one "
+            "shared camp Generator. Both constructions are explicit in separate paths."
         ),
         f"{_SP03_TREE_EVIDENCE}: lcmj_v3/rng.py and core.py",
         f"{_SP03_TREE_EVIDENCE}: lcmj_v3/splits.py",
@@ -1176,8 +1190,9 @@ _RICH_CLAIMS = {
         D.RNG_DRAW_ORDER,
         S.EXACT,
         (
-            "The selected source fixes channel call order, fixed maximum array shapes, and "
-            "participant/origin array order within each camp."
+            "SP03 fixes named-channel call order and array shapes. The D04 membership replay "
+            "also fixes the historical upstream consumption before its horizon-presence and "
+            "dropped-index draws, followed by participant-major/origin-minor H72-before-D7 rows."
         ),
         f"{_SP03_TREE_EVIDENCE}: lcmj_v3/core.py, schedule.py, and measurement.py",
         f"{_SP03_TREE_EVIDENCE}: same-tree RNG channel tests",
@@ -1186,9 +1201,9 @@ _RICH_CLAIMS = {
         D.RNG_SUBSTREAM_STRATEGY,
         S.EXACT,
         (
-            "Named streams are isolated below the camp root; kinetic and preferred-depth "
-            "draws use local participant indices. Origin rows occupy fixed positions in "
-            "camp-shaped arrays. Opaque origin/query keys are a separate projection layer."
+            "SP03 isolates named channels below the camp root. D04 uses one shared sequential "
+            "camp stream without ALI-490 channelization. Opaque D04 participant/origin/query "
+            "keys remain a separate projection layer."
         ),
         f"{_SP03_TREE_EVIDENCE}: lcmj_v3/rng.py, core.py, schedule.py, and projection.py",
     ),
@@ -1216,17 +1231,17 @@ _RICH_CLAIMS = {
         "RES-365: observation and representation contracts",
     ),
     **_RICH_SPLIT,
-    **_POST_ORDERING,
+    **_RICH_ORDERING,
     **_POST_SERIALIZATION,
     **_hash_claim(
         (
-            "Expected public train/validation hashes are published; clean-room hash "
-            "reproduction lacks exact bit-generator state, row order, and writer "
-            "semantics. The original hidden bank remains an unknown materialization, not "
-            "a public data claim."
+            "Expected public train/validation hashes are published and D04 logical row order is "
+            "exact. Byte reproduction remains partial because historical RNG runtime/state and "
+            "Parquet writer, index, metadata, compression, and row-group authority are incomplete. "
+            "The original hidden bank remains an unknown materialization, not a public data claim."
         ),
-        "exact RNG bit-generator/runtime state",
-        "exact row ordering and serializer behavior",
+        "exact historical Python, NumPy, and BitGenerator state/runtime",
+        "historical Parquet writer, index, metadata, compression, and row-group behavior",
         "hidden-bank materialization and expected hash",
     ),
     **_evaluation_part(
@@ -1591,6 +1606,7 @@ def _make_splits(
     hidden_unit: SplitUnit | None = None,
     assignment_rationale: str | None = None,
     assignment_missing: tuple[str, ...] | None = None,
+    materialization_missing: tuple[str, ...] | None = None,
 ) -> tuple[SplitReproductionAuthority, ...]:
     rows = {
         "initial_preseason_camp_recovery": (4096, 512),
@@ -1618,6 +1634,7 @@ def _make_splits(
         hidden_unit=hidden_unit,
         assignment_rationale=assignment_rationale,
         assignment_missing=assignment_missing,
+        materialization_missing=materialization_missing,
     )
 
 
@@ -1710,20 +1727,21 @@ def _registered_contracts() -> dict[str, BenchmarkReproductionContract]:
             _make_splits(
                 "rich_history_camp_recovery",
                 _RICH_HASHES,
-                public_assignment=S.PARTIAL,
+                public_assignment=S.EXACT,
                 unit=SplitUnit.CAMP,
                 hidden_state=MaterializationState.NOT_RECOVERED,
                 hidden_assignment=S.UNKNOWN,
                 hidden_rows=None,
                 hidden_unit=SplitUnit.CAMP,
                 assignment_rationale=(
-                    "Camp, participant, and origin grouping is source-defined, but the "
-                    "historical per-origin H72/D7 presence mask cannot be replayed without "
-                    "the original NumPy bit-generator/runtime binding."
+                    "The D04 membership replay reproduces preserved public participant, origin, "
+                    "query keys, and per-origin H72/D7 masks in logical row order. This is "
+                    "compatibility/output evidence; historical RNG runtime identity remains "
+                    "partial."
                 ),
-                assignment_missing=(
-                    "historical initialized NumPy state or bit-generator/runtime binding "
-                    "for exact public query membership",
+                materialization_missing=(
+                    "exact Parquet serialization authority",
+                    "complete RNG and seed-to-byte authority",
                 ),
             ),
             _RICH_HASHES,
