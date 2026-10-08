@@ -37,10 +37,7 @@ from cmj_recovery_dynamics.dynamics.fitness_fatigue_impulse_response import (
 from cmj_recovery_dynamics.dynamics.fixed_mode_discrepancy_response import (
     fixed_mode_response,
 )
-from cmj_recovery_dynamics.dynamics.threshold_response import (
-    ThresholdResponseParameters,
-    threshold_response_score,
-)
+from cmj_recovery_dynamics.dynamics.threshold_response import softplus_threshold_hinge
 
 PARAMETERS = EventTimeParameters(10.0, 1.0, 1.0, 24.0, 84.0, 1.0, 2.0, 3.0, 0.5, 0.75)
 
@@ -357,9 +354,8 @@ def test_biexponential_response_uses_two_negative_modes() -> None:
 
 
 def test_threshold_response_is_stable_above_the_threshold() -> None:
-    parameters = ThresholdResponseParameters((0.2,) * 7, 0.5, 0.0)
-    result = threshold_response_score((1_000.0,) * 7, parameters)
-    assert result == pytest.approx(4.0 * (1400.0 - 0.5))
+    result = softplus_threshold_hinge(1_000.0, 0.5)
+    assert result == pytest.approx(4.0 * (1_000.0 - 0.5) - 0.30)
 
 
 def test_fixed_modes_use_the_mathematical_24_and_84_hour_scales() -> None:

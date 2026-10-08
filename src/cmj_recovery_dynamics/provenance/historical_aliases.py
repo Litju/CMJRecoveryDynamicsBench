@@ -80,7 +80,13 @@ HISTORICAL_ALIASES: Mapping[str, HistoricalAlias] = MappingProxyType(
             observation_label="O04",
             dataset_label="D08",
             task_label="T02",
-            historical_labels=("C1", "C1 2.1", "LCMJ-V2-PUBLIC-MANIFEST-2.0.0"),
+            historical_labels=(
+                "C1",
+                "C1 2.1",
+                "LCMJ-V2-PARAMETERS-C1-2.1.0",
+                "LCMJ-C1-PUBLIC-003-e88b767181cf4e1c",
+                "LCMJ-V2-PUBLIC-MANIFEST-2.0.0",
+            ),
         ),
         "fixed_mode_discrepancy_recovery": HistoricalAlias(
             specimen_label="SP08",
@@ -93,6 +99,7 @@ HISTORICAL_ALIASES: Mapping[str, HistoricalAlias] = MappingProxyType(
                 "ALI-517",
                 "LCMJ-CANDIDATE-H-PARAMETERS-ALI-517-1.0.0",
                 "current V2 task state",
+                "ALI-517-CANDIDATE-H-PUBLIC-001",
             ),
         ),
     }
