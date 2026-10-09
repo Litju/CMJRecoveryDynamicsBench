@@ -3,6 +3,8 @@
 from cmj_recovery_dynamics.study_reconstruction.contracts import (
     ExperimentReconstruction,
     HistoricalDecisionRule,
+    HistoricalGateOutcome,
+    HistoricalGateState,
     ProtocolCompleteness,
     ResultAuthority,
     ResultAuthorityBinding,
@@ -27,6 +29,8 @@ __all__ = [
     "ExperimentReconstruction",
     "HISTORICAL_RULES",
     "HistoricalDecisionRule",
+    "HistoricalGateOutcome",
+    "HistoricalGateState",
     "ProtocolCompleteness",
     "ResultAuthority",
     "ResultAuthorityBinding",

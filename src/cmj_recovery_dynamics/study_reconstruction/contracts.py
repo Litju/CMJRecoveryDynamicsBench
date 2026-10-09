@@ -57,6 +57,11 @@ class RuleRole(StrEnum):
     HISTORICAL_PROGRAM_RULE = "HISTORICAL_PROGRAM_RULE"
 
 
+class HistoricalGateState(StrEnum):
+    PASS = "PASS"
+    FAIL = "FAIL"
+
+
 class RuleDirection(StrEnum):
     GREATER_THAN = "GREATER_THAN"
     GREATER_THAN_OR_EQUAL = "GREATER_THAN_OR_EQUAL"
@@ -85,6 +90,7 @@ class HistoricalDecisionRule:
     caused_historical_decision: bool
     role: RuleRole = RuleRole.HISTORICAL_PROGRAM_RULE
     scientific_requirement: bool = False
+    paired_uncertainty_requirement: str | None = None
 
     def __post_init__(self) -> None:
         if not self.name or not self.experiment_name or not self.quantity:
@@ -106,6 +112,23 @@ class HistoricalDecisionRule:
         if self.direction is RuleDirection.LESS_THAN:
             return value < self.threshold
         return value <= self.threshold
+
+
+@dataclass(frozen=True, slots=True)
+class HistoricalGateOutcome:
+    experiment_name: str
+    gate_name: str
+    state: HistoricalGateState
+    rule_names: tuple[str, ...]
+    evidence_summary: str
+    source: tuple[str, ...]
+
+    def __post_init__(self) -> None:
+        if (
+            not all((self.experiment_name, self.gate_name, self.evidence_summary))
+            or not self.source
+        ):
+            raise ValueError("historical gate outcome needs an experiment, evidence, and source")
 
 
 @dataclass(frozen=True, slots=True)
@@ -162,6 +185,7 @@ class ExperimentReconstruction:
     result_authority: ResultAuthority
     result_authorities: tuple[ResultAuthorityBinding, ...]
     historical_decision_rules: tuple[HistoricalDecisionRule, ...]
+    historical_gate_outcomes: tuple[HistoricalGateOutcome, ...]
     decision: StudyDecision | None
     conclusion: str
     downstream_action: str
@@ -267,6 +291,8 @@ class StudyReconstruction:
 
 __all__ = [
     "ExperimentReconstruction",
+    "HistoricalGateOutcome",
+    "HistoricalGateState",
     "HistoricalDecisionRule",
     "ProtocolCompleteness",
     "ResultAuthority",
