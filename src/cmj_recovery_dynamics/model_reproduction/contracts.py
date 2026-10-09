@@ -200,6 +200,16 @@ class ResultReplayAuthority:
     runtime_determinism_resolved: bool
 
     @property
+    def semantic_replay_ready(self) -> bool:
+        return all(
+            (
+                self.target_semantics_exact,
+                self.evaluation_implementation_exact,
+                self.calibration_available,
+            )
+        )
+
+    @property
     def exact_replay_ready(self) -> bool:
         return all(
             (
@@ -260,8 +270,10 @@ class ResultReproduction:
             if not self.replay_authority.exact_replay_ready or not self.numerically_replayed:
                 raise ValueError("exact replay requires complete authority and a numerical replay")
         if self.status is ResultReproductionStatus.SEMANTICALLY_REPLAYABLE:
-            if not self.numerically_replayed:
-                raise ValueError("semantic replay status requires a completed numerical replay")
+            if not self.replay_authority.semantic_replay_ready or not self.numerically_replayed:
+                raise ValueError(
+                    "semantic replay requires semantic evaluation authority and a numerical replay"
+                )
 
 
 @dataclass(frozen=True, slots=True)
