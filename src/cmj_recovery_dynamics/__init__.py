@@ -88,6 +88,20 @@ if TYPE_CHECKING:
         get_model_lineage,
         get_result,
     )
+    from cmj_recovery_dynamics.study_reconstruction import (
+        EXPERIMENT_RECONSTRUCTIONS,
+        STUDY_RECONSTRUCTIONS,
+        ExperimentReconstruction,
+        HistoricalDecisionRule,
+        ProtocolCompleteness,
+        ResultAuthority,
+        SourceClosure,
+        StudyClassification,
+        StudyDecision,
+        StudyReconstruction,
+        get_experiment_reconstruction,
+        get_study_reconstruction,
+    )
 
 __version__ = "0.1.0"
 
@@ -116,6 +130,22 @@ _REGISTRY_EXPORTS = frozenset(
         "get_result",
     }
 )
+_STUDY_RECONSTRUCTION_EXPORTS = frozenset(
+    {
+        "EXPERIMENT_RECONSTRUCTIONS",
+        "STUDY_RECONSTRUCTIONS",
+        "ExperimentReconstruction",
+        "HistoricalDecisionRule",
+        "ProtocolCompleteness",
+        "ResultAuthority",
+        "SourceClosure",
+        "StudyClassification",
+        "StudyDecision",
+        "StudyReconstruction",
+        "get_experiment_reconstruction",
+        "get_study_reconstruction",
+    }
+)
 
 
 def __getattr__(name: str) -> Any:
@@ -123,6 +153,8 @@ def __getattr__(name: str) -> Any:
         return getattr(import_module("cmj_recovery_dynamics.lineage.registry"), name)
     if name in _REGISTRY_EXPORTS:
         return getattr(import_module("cmj_recovery_dynamics.registry"), name)
+    if name in _STUDY_RECONSTRUCTION_EXPORTS:
+        return getattr(import_module("cmj_recovery_dynamics.study_reconstruction"), name)
     raise AttributeError(f"module {__name__!r} has no attribute {name!r}")
 
 
@@ -202,4 +234,16 @@ __all__ = [
     "get_experiment_lineage",
     "get_result",
     "get_reproduction_contract",
+    "EXPERIMENT_RECONSTRUCTIONS",
+    "STUDY_RECONSTRUCTIONS",
+    "ExperimentReconstruction",
+    "HistoricalDecisionRule",
+    "ProtocolCompleteness",
+    "ResultAuthority",
+    "SourceClosure",
+    "StudyClassification",
+    "StudyDecision",
+    "StudyReconstruction",
+    "get_experiment_reconstruction",
+    "get_study_reconstruction",
 ]
