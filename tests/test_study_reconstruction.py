@@ -21,8 +21,10 @@ from cmj_recovery_dynamics.lineage.registry import LINEAGE_REGISTRY
 from cmj_recovery_dynamics.metrics import progress_ratio
 from cmj_recovery_dynamics.study_reconstruction import (
     HISTORICAL_RULES,
+    HistoricalGateState,
     ProtocolCompleteness,
     ResultAuthority,
+    RuleDirection,
     RuleRole,
     StudyClassification,
     StudyDecisionOutcome,
@@ -119,11 +121,13 @@ def test_execution_and_scientific_dispositions_remain_separate() -> None:
     assert partial.scientific_disposition is ScientificDisposition.NOT_ESTABLISHED
     assert partial.result_authority is ResultAuthority.PARTIAL_OUTPUT_EXCLUDED
     assert partial.result_identities == ()
+    assert partial.historical_gate_outcomes == ()
 
     stopped = get_experiment_reconstruction("fixed_mode_stopped_replay")
     assert stopped.execution_status is ExperimentStatus.CANCELED
     assert stopped.scientific_disposition is ScientificDisposition.CANCELED
     assert stopped.result_authority is ResultAuthority.PARTIAL_OUTPUT_EXCLUDED
+    assert stopped.historical_gate_outcomes == ()
 
     qualification = get_experiment_reconstruction("fixed_mode_public_dataset_qualification")
     assert qualification.scientific_disposition is ScientificDisposition.COMPLETED_POSITIVE
@@ -283,6 +287,134 @@ def test_phase_and_correlated_results_remain_specimen_bound() -> None:
     assert scalar_rule.threshold == 0.05
     assert scalar_rule.applied and scalar_rule.caused_historical_decision
     assert not scalar_rule.is_satisfied_by(0.031238600840498513)
+    purpose = scalar_rule.historical_purpose.lower()
+    assert "multidimensional" in purpose and "exposure" in purpose
+    assert "history over the best scalar" not in purpose
+    assert "history" not in purpose
+    assert "best scalar" in scalar_rule.quantity
+
+
+def test_completed_fixed_mode_preserves_all_frozen_gate_outcomes_and_rules() -> None:
+    completed = get_experiment_reconstruction(
+        "fixed_mode_completed_headroom_and_reconstruction_study"
+    )
+    outcomes = {item.gate_name: item for item in completed.historical_gate_outcomes}
+    assert len(outcomes) == 12
+    assert all(
+        item.experiment_name == "fixed_mode_completed_headroom_and_reconstruction_study"
+        for item in outcomes.values()
+    )
+    assert set(outcomes) == {
+        "PUBLIC_LEARNABILITY",
+        "HISTORY_LOAD_BEARING",
+        "POPULATION_LEARNING_LOAD_BEARING",
+        "VALIDATION_SUBSTITUTION",
+        "GENERIC_ML_HEADROOM",
+        "KNOWN_LAW_LOCAL_RECONSTRUCTABILITY",
+        "STRUCTURED_BASELINE_HEADROOM",
+        "MULTIDIMENSIONAL_LOAD_BEARING",
+        "SHORTCUT_LEAKAGE",
+        "SHIFT_SUPPORT",
+        "STATISTICAL_ADEQUACY",
+        "RUNTIME_SEAL",
+    }
+    assert sum(item.state is HistoricalGateState.PASS for item in outcomes.values()) == 8
+    assert sum(item.state is HistoricalGateState.FAIL for item in outcomes.values()) == 4
+    failed_gates = {
+        name for name, item in outcomes.items() if item.state is HistoricalGateState.FAIL
+    }
+    assert failed_gates == {
+        "POPULATION_LEARNING_LOAD_BEARING",
+        "KNOWN_LAW_LOCAL_RECONSTRUCTABILITY",
+        "STRUCTURED_BASELINE_HEADROOM",
+        "MULTIDIMENSIONAL_LOAD_BEARING",
+    }
+    assert outcomes["PUBLIC_LEARNABILITY"].state is HistoricalGateState.PASS
+
+    expected_rules = {
+        "fixed_mode_history_loss_minimum": (0.05, RuleDirection.GREATER_THAN_OR_EQUAL),
+        "fixed_mode_population_learning_minimum": (0.05, RuleDirection.GREATER_THAN_OR_EQUAL),
+        "fixed_mode_local_ratio_maximum": (0.90, RuleDirection.LESS_THAN_OR_EQUAL),
+        "fixed_mode_generic_headroom_minimum": (0.02, RuleDirection.GREATER_THAN_OR_EQUAL),
+        "fixed_mode_structured_baseline_headroom_minimum": (
+            0.05,
+            RuleDirection.GREATER_THAN_OR_EQUAL,
+        ),
+        "fixed_mode_multidimensional_advantage_minimum": (
+            0.05,
+            RuleDirection.GREATER_THAN_OR_EQUAL,
+        ),
+        "fixed_mode_validation_substitution_maximum": (0.10, RuleDirection.LESS_THAN),
+    }
+    rules = {rule.name: rule for rule in completed.historical_decision_rules}
+    assert set(rules) == set(expected_rules)
+    for name, (threshold, direction) in expected_rules.items():
+        rule = rules[name]
+        assert rule.threshold == threshold
+        assert rule.direction is direction
+        assert rule.role is RuleRole.HISTORICAL_PROGRAM_RULE
+        assert not rule.scientific_requirement
+        assert rule.source
+    for gate_name, rule_name in (
+        ("HISTORY_LOAD_BEARING", "fixed_mode_history_loss_minimum"),
+        ("POPULATION_LEARNING_LOAD_BEARING", "fixed_mode_population_learning_minimum"),
+        ("VALIDATION_SUBSTITUTION", "fixed_mode_validation_substitution_maximum"),
+        ("GENERIC_ML_HEADROOM", "fixed_mode_generic_headroom_minimum"),
+        ("KNOWN_LAW_LOCAL_RECONSTRUCTABILITY", "fixed_mode_local_ratio_maximum"),
+        (
+            "STRUCTURED_BASELINE_HEADROOM",
+            "fixed_mode_structured_baseline_headroom_minimum",
+        ),
+        (
+            "MULTIDIMENSIONAL_LOAD_BEARING",
+            "fixed_mode_multidimensional_advantage_minimum",
+        ),
+    ):
+        assert outcomes[gate_name].rule_names == (rule_name,)
+    for name, contrast in (
+        ("fixed_mode_history_loss_minimum", "paired uncertainty check"),
+        ("fixed_mode_population_learning_minimum", "paired uncertainty check"),
+        ("fixed_mode_local_ratio_maximum", "paired-CI check"),
+        ("fixed_mode_generic_headroom_minimum", "BEST_GENERIC_MINUS_O1"),
+        ("fixed_mode_structured_baseline_headroom_minimum", "wholly negative"),
+        ("fixed_mode_multidimensional_advantage_minimum", "paired-CI direction check"),
+    ):
+        requirement = rules[name].paired_uncertainty_requirement
+        assert requirement is not None and contrast in requirement
+
+    observed_evidence = {
+        "HISTORY_LOAD_BEARING": ("0.326100", "[0.071064, 0.084184]"),
+        "POPULATION_LEARNING_LOAD_BEARING": (
+            "-0.508897",
+            "[-0.126576, -0.114962]",
+        ),
+        "GENERIC_ML_HEADROOM": (
+            "0.109476",
+            "BEST_GENERIC_MINUS_O1",
+            "[0.102289, 0.116044]",
+        ),
+        "KNOWN_LAW_LOCAL_RECONSTRUCTABILITY": (
+            "0.999835",
+            "[0.998542, 1.001165]",
+        ),
+        "STRUCTURED_BASELINE_HEADROOM": (
+            "-0.509146",
+            "[-0.126593, -0.115126]",
+            "[1.475162, 1.545666]",
+        ),
+        "MULTIDIMENSIONAL_LOAD_BEARING": (
+            "-0.114598",
+            "[-0.034592, -0.020563]",
+            "[1.086457, 1.145019]",
+        ),
+        "VALIDATION_SUBSTITUTION": (
+            "0.006677",
+            "train-minus-pooled CI [0.001775, 0.002447]",
+        ),
+    }
+    for gate_name, evidence in observed_evidence.items():
+        for value in evidence:
+            assert value in outcomes[gate_name].evidence_summary
 
 
 def test_fixed_mode_qualification_attempts_completed_study_and_owner_boundary() -> None:
@@ -335,6 +467,30 @@ def test_fixed_mode_qualification_attempts_completed_study_and_owner_boundary() 
     assert owner.scientific_disposition is ScientificDisposition.PROGRAM_PIVOT
     assert owner.decision is not None
     assert owner.decision.benchmark_disposition is ScientificDisposition.ACTIVE_CANDIDATE
+    assert set(owner.decision.historical_rule_names) == {
+        "fixed_mode_population_learning_minimum",
+        "fixed_mode_local_ratio_maximum",
+        "fixed_mode_structured_baseline_headroom_minimum",
+        "fixed_mode_multidimensional_advantage_minimum",
+    }
+    failed_rules = {
+        rule_name
+        for gate in completed.historical_gate_outcomes
+        if gate.state is HistoricalGateState.FAIL
+        for rule_name in gate.rule_names
+    }
+    assert set(owner.decision.historical_rule_names) == failed_rules
+    observation = owner.decision.scientific_observation.lower()
+    assert "public learnability passed" in observation
+    for phrase in (
+        "population learning load-bearing",
+        "known-law local reconstructability",
+        "structured baseline headroom",
+        "multidimensional load-bearing",
+    ):
+        assert phrase in observation
+    assert "PIVOT_TO_SYSTEM_IDENTIFICATION" in owner.decision.downstream_program_action
+    assert "FORWARD_SYNTHETIC_RECOVERY_REDESIGN=STOP" in (owner.decision.downstream_program_action)
     assert "not benchmark failure" in owner.conclusion
     assert not all(rule.scientific_requirement for rule in HISTORICAL_RULES)
 

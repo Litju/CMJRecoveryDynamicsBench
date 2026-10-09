@@ -19,6 +19,7 @@ from cmj_recovery_dynamics.study_reconstruction.contracts import (
     StudyReconstruction,
 )
 from cmj_recovery_dynamics.study_reconstruction.decisions import (
+    GATE_OUTCOMES_BY_EXPERIMENT,
     HISTORICAL_RULES,
     RULES_BY_EXPERIMENT,
     STUDY_DECISIONS,
@@ -414,6 +415,7 @@ def _make_reconstruction(name: str, metadata: _Metadata) -> ExperimentReconstruc
         result_authority=metadata.authority,
         result_authorities=bindings,
         historical_decision_rules=RULES_BY_EXPERIMENT.get(name, ()),
+        historical_gate_outcomes=GATE_OUTCOMES_BY_EXPERIMENT.get(name, ()),
         decision=decision,
         conclusion=metadata.conclusion,
         downstream_action=metadata.downstream_action,
