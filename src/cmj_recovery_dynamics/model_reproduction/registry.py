@@ -23,6 +23,7 @@ from .contracts import (
     SpecimenModelLadder,
     SpecimenModelStatus,
 )
+from .evaluation import get_evaluation_reproduction
 
 BENCHMARK_NAMES = (
     "initial_preseason_camp_recovery",
@@ -432,6 +433,7 @@ MODEL_REPRODUCTIONS: Mapping[str, ModelReproduction] = MappingProxyType(
 def _result_contract(result_name: str) -> ResultReproduction:
     result = _RESULTS[result_name]
     experiment = _EXPERIMENTS[result.experiment_name]
+    evaluation = get_evaluation_reproduction(result.evaluation_name)
     if experiment.benchmark_name not in BENCHMARK_NAMES:
         raise ValueError("benchmark-linked results must resolve to one of the eight specimens")
     source_reproducible = result_name in {
@@ -451,9 +453,8 @@ def _result_contract(result_name: str) -> ResultReproduction:
         seed_fold_protocol_exact=source_reproducible,
         checkpoint_or_training_procedure_exact=source_reproducible
         or result_name == "rich_history_zero_baseline_result",
-        evaluation_implementation_exact=result.evaluation_name
-        != "unresolved_initial_camp_platform_metric",
-        calibration_available=result.evaluation_name != "unresolved_initial_camp_platform_metric",
+        evaluation_implementation_exact=evaluation.implementation_exact,
+        calibration_available=evaluation.calibration_available,
         runtime_determinism_resolved=False,
     )
     model_uses = tuple(
@@ -476,12 +477,17 @@ def _result_contract(result_name: str) -> ResultReproduction:
     runtime_details = tuple(
         dict.fromkeys(use.runtime_details for use in model_uses if use.runtime_details is not None)
     )
-    missing = ["M2 does not establish an EXACT historical dataset hash."]
+    missing = [
+        "Exact historical score replay remains blocked under the current M2 "
+        "dataset-byte/hash authority (PARTIAL) unless future evidence justifies "
+        "revising that authority."
+    ]
     if source_reproducible:
         missing.extend(
             (
                 "The historical score was not numerically replayed during M3.",
-                "M2 data byte identity therefore prevents EXACT_REPLAYABLE status.",
+                "This is an evidence limitation under completed M2 authority, "
+                "not unfinished M2 work.",
             )
         )
     else:

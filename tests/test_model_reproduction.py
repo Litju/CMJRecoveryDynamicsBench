@@ -8,7 +8,11 @@ from math import erf, sqrt
 import numpy as np
 import pytest
 
-from cmj_recovery_dynamics.contracts import ComparabilityStatus, MetricCategory
+from cmj_recovery_dynamics.contracts import (
+    CalibrationReferenceStatus,
+    ComparabilityStatus,
+    MetricCategory,
+)
 from cmj_recovery_dynamics.lineage.contracts import ExperimentStatus, ScientificDisposition
 from cmj_recovery_dynamics.lineage.experiments import EXPERIMENTS
 from cmj_recovery_dynamics.lineage.models import MODEL_FAMILIES
@@ -133,7 +137,11 @@ def test_direct_comparability_fails_closed_at_specimen_dataset_split_and_metric_
 
 def test_historical_scores_cannot_be_exact_replays_without_exact_m2_data_identity() -> None:
     assert all(
-        result.status is not ResultReproductionStatus.EXACT_REPLAYABLE
+        result.status
+        not in {
+            ResultReproductionStatus.EXACT_REPLAYABLE,
+            ResultReproductionStatus.SEMANTICALLY_REPLAYABLE,
+        }
         for result in RESULT_REPRODUCTIONS.values()
     )
     for result in RESULT_REPRODUCTIONS.values():
@@ -154,6 +162,55 @@ def test_historical_scores_cannot_be_exact_replays_without_exact_m2_data_identit
         get_result_reproduction("initial_public_reference_selection_result").status
         is ResultReproductionStatus.SOURCE_REPRODUCIBLE
     )
+
+
+def test_result_replay_calibration_comes_from_bound_evaluation_authority() -> None:
+    canonical = get_result_reproduction("canonical_camp_public_campaign_result_family")
+    canonical_evaluation = get_evaluation_reproduction(canonical.result.evaluation_name)
+    assert canonical_evaluation.definition is not None
+    assert (
+        canonical_evaluation.definition.calibration_reference_status
+        is CalibrationReferenceStatus.LOCKED_VALUE_NOT_PUBLIC
+    )
+    assert canonical_evaluation.definition.calibration_reference_value is None
+    assert canonical.replay_authority.evaluation_implementation_exact
+    assert not canonical.replay_authority.calibration_available
+    assert not canonical.replay_authority.exact_replay_ready
+    assert not canonical.numerically_replayed
+    assert canonical.status not in {
+        ResultReproductionStatus.EXACT_REPLAYABLE,
+        ResultReproductionStatus.SEMANTICALLY_REPLAYABLE,
+    }
+    unknown_calibration = replace(
+        canonical_evaluation,
+        definition=replace(
+            canonical_evaluation.definition,
+            calibration_reference_status=CalibrationReferenceStatus.UNKNOWN,
+        ),
+    )
+    assert unknown_calibration.implementation_exact
+    assert not unknown_calibration.calibration_available
+    unimplemented = get_evaluation_reproduction("unresolved_initial_camp_platform_metric")
+    assert not unimplemented.implementation_exact
+    assert not unimplemented.calibration_available
+
+    raw_progress = get_result_reproduction("rich_history_headroom_public_result")
+    raw_evaluation = get_evaluation_reproduction(raw_progress.result.evaluation_name)
+    assert raw_evaluation.name == "rich_history_raw_progress_diagnostic"
+    assert raw_evaluation.implementation_exact
+    assert raw_evaluation.calibration_available
+    assert raw_progress.replay_authority.evaluation_implementation_exact
+    assert raw_progress.replay_authority.calibration_available
+    assert not raw_progress.numerically_replayed
+    assert "Do not apply" in (raw_evaluation.formula or "")
+
+    selection = get_result_reproduction("initial_public_reference_selection_result")
+    selection_evaluation = get_evaluation_reproduction(selection.result.evaluation_name)
+    assert selection_evaluation.role is EvaluationRole.MODEL_SELECTION_METRIC
+    assert selection_evaluation.calibration_available
+    assert selection.replay_authority.calibration_available
+    assert not selection.numerically_replayed
+    assert selection.status is ResultReproductionStatus.SOURCE_REPRODUCIBLE
 
 
 def test_missing_hyperparameters_stay_unknown_and_private_weights_do_not_fill_config_gaps() -> None:
