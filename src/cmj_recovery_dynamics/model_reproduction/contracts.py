@@ -9,7 +9,9 @@ from enum import StrEnum
 from pathlib import PurePosixPath
 
 from cmj_recovery_dynamics.contracts import (
+    CalibrationReferenceStatus,
     EvaluationDefinition,
+    EvaluationImplementation,
     MetricCategory,
     ProductionAcceptance,
 )
@@ -286,6 +288,46 @@ class EvaluationReproduction:
         if self.role is EvaluationRole.PROPOSED_SCORER:
             if self.definition is None or not self.definition.is_proposed_scorer:
                 raise ValueError("proposed evaluations need a proposed scorer definition")
+
+    @property
+    def implementation_exact(self) -> bool:
+        if self.role is EvaluationRole.UNIMPLEMENTED:
+            return False
+        if self.definition is not None:
+            return self.definition.implementation_status is EvaluationImplementation.IMPLEMENTED
+        return self.implementation_id is not None
+
+    @property
+    def calibration_available(self) -> bool:
+        if self.role in {
+            EvaluationRole.RESEARCH_DIAGNOSTIC,
+            EvaluationRole.QUALIFICATION_STATISTIC,
+            EvaluationRole.MODEL_SELECTION_METRIC,
+            EvaluationRole.COMPATIBILITY_TRANSFORM,
+        }:
+            return True
+        if (
+            self.role
+            not in {
+                EvaluationRole.ACCEPTED_PRODUCTION_SCORER,
+                EvaluationRole.PROPOSED_SCORER,
+            }
+            or self.definition is None
+        ):
+            return False
+
+        match self.definition.calibration_reference_status:
+            case CalibrationReferenceStatus.NOT_APPLICABLE:
+                return True
+            case CalibrationReferenceStatus.KNOWN:
+                return self.definition.calibration_reference_value is not None
+            case (
+                CalibrationReferenceStatus.LOCKED_VALUE_NOT_PUBLIC
+                | CalibrationReferenceStatus.UNKNOWN
+            ):
+                return False
+            case _:
+                return False
 
 
 @dataclass(frozen=True, slots=True)
