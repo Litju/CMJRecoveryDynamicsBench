@@ -175,12 +175,22 @@ def test_result_replay_calibration_comes_from_bound_evaluation_authority() -> No
     assert canonical_evaluation.definition.calibration_reference_value is None
     assert canonical.replay_authority.evaluation_implementation_exact
     assert not canonical.replay_authority.calibration_available
+    assert not canonical.replay_authority.semantic_replay_ready
     assert not canonical.replay_authority.exact_replay_ready
     assert not canonical.numerically_replayed
     assert canonical.status not in {
         ResultReproductionStatus.EXACT_REPLAYABLE,
         ResultReproductionStatus.SEMANTICALLY_REPLAYABLE,
     }
+    with pytest.raises(
+        ValueError,
+        match="semantic replay requires semantic evaluation authority and a numerical replay",
+    ):
+        replace(
+            canonical,
+            status=ResultReproductionStatus.SEMANTICALLY_REPLAYABLE,
+            numerically_replayed=True,
+        )
     unknown_calibration = replace(
         canonical_evaluation,
         definition=replace(
@@ -200,8 +210,12 @@ def test_result_replay_calibration_comes_from_bound_evaluation_authority() -> No
     assert raw_evaluation.implementation_exact
     assert raw_evaluation.calibration_available
     assert raw_progress.replay_authority.evaluation_implementation_exact
+    assert raw_progress.replay_authority.target_semantics_exact
     assert raw_progress.replay_authority.calibration_available
+    assert raw_progress.replay_authority.semantic_replay_ready
+    assert not raw_progress.replay_authority.historical_dataset_hash_exact
     assert not raw_progress.numerically_replayed
+    assert raw_progress.status is not ResultReproductionStatus.SEMANTICALLY_REPLAYABLE
     assert "Do not apply" in (raw_evaluation.formula or "")
 
     selection = get_result_reproduction("initial_public_reference_selection_result")
