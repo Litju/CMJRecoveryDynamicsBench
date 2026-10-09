@@ -432,6 +432,17 @@ def rich_history_benchmark_score(
     return calibrated_benchmark_score(targets, reference_progress=reference_progress)
 
 
+def rich_history_raw_progress(values: Sequence[CellValues]) -> float:
+    """Return 24-cell raw progress before the unavailable final score calibration."""
+    metrics = cellwise_normalized_rmse(
+        values,
+        RICH_HISTORY_CELLS,
+        minimum_rows_per_cell=RICH_HISTORY_CELL_MIN_ROWS,
+    )
+    targets = rich_history_target_metrics(metrics)
+    return math.fsum(_target_progress(target) for target in targets) / len(targets)
+
+
 def mean_cellwise_normalized_rmse(
     values: Sequence[CellValues], expected_cells: Sequence[TargetCell]
 ) -> float:
