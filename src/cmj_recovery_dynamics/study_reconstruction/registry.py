@@ -234,7 +234,7 @@ _METADATA: Mapping[str, _Metadata] = MappingProxyType(
         ),
         "fixed_mode_completed_headroom_and_reconstruction_study": _Metadata(
             StudyClassification.EXPERIMENT,
-            ProtocolCompleteness.COMPLETE,
+            ProtocolCompleteness.PARTIAL,
             ResultAuthority.DIRECT_RESULT,
             (
                 "The completed D09 research study records local reconstruction at the "

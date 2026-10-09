@@ -421,7 +421,12 @@ def test_fixed_mode_qualification_attempts_completed_study_and_owner_boundary() 
     completed = get_experiment_reconstruction(
         "fixed_mode_completed_headroom_and_reconstruction_study"
     )
-    assert completed.protocol_completeness is ProtocolCompleteness.COMPLETE
+    assert completed.protocol_completeness is ProtocolCompleteness.PARTIAL
+    assert any(
+        rule.paired_uncertainty_requirement is not None
+        and "not stated" in rule.paired_uncertainty_requirement
+        for rule in completed.historical_decision_rules
+    )
     assert completed.dataset.name == "fixed_mode_recovery_candidate_sample"
     assert tuple(split.name for split in completed.splits) == ("fixed_mode_public_validation",)
     assert completed.source_closure.protocol_source[-1] == (
@@ -464,6 +469,7 @@ def test_fixed_mode_qualification_attempts_completed_study_and_owner_boundary() 
     assert expert.execution_status is ExperimentStatus.PROPOSED_NOT_RUN
 
     owner = get_experiment_reconstruction("fixed_mode_owner_pivot_adjudication")
+    assert owner.protocol_completeness is ProtocolCompleteness.COMPLETE
     assert owner.scientific_disposition is ScientificDisposition.PROGRAM_PIVOT
     assert owner.decision is not None
     assert owner.decision.benchmark_disposition is ScientificDisposition.ACTIVE_CANDIDATE
