@@ -25,7 +25,10 @@ if TYPE_CHECKING:
         StudyReconstruction,
     )
 
-_HTTP_URL = re.compile(r"https?://\S+", re.IGNORECASE)
+_HTTP_URL = re.compile(
+    r"""https?://(?:\[[^\]\s]+\]|[^\s/?#()\[\]{}'",;>]+)(?:[/?#][^\s)\]\[{}'",;>]*)?""",
+    re.IGNORECASE,
+)
 _LOCAL_FILE_URI = re.compile(r"(?<![\w.+-])file:/{1,3}", re.IGNORECASE)
 _ABSOLUTE_POSIX_PATH = re.compile(r"(?<![\w/])/(?!/)[^\s/]+")
 _HOME_RELATIVE_PATH = re.compile(r"~/[^\s]*")
@@ -120,9 +123,13 @@ def _validate_public_text(value: str, label: str) -> None:
         or _HOME_RELATIVE_PATH.search(value)
         or _WINDOWS_DRIVE_PATH.search(value)
         or _UNC_PATH.search(value)
-        or _ABSOLUTE_POSIX_PATH.search(_HTTP_URL.sub("", value))
+        or _ABSOLUTE_POSIX_PATH.search(_mask_http_urls(value))
     ):
         raise ValueError(f"{label} must not expose a private absolute path")
+
+
+def _mask_http_urls(value: str) -> str:
+    return _HTTP_URL.sub(" ", value)
 
 
 def _validate_relative_path(value: str) -> None:
