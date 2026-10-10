@@ -228,6 +228,45 @@ def test_public_urls_and_scientific_slash_text_remain_valid() -> None:
 
 
 @pytest.mark.parametrize(
+    "notes",
+    (
+        "reference https://example.org)/home/litju/private",
+        "reference https://example.org]/tmp/private",
+        "reference https://example.org'/home/user/private",
+        'reference https://example.org"/var/tmp/private',
+        "reference https://example.org;/home/user/private",
+        "reference https://example.org,/tmp/private",
+        "reference https://example.org}/home/user/private",
+        "reference https://example.org>/var/private",
+        "reference (https://example.org)/home/litju/private",
+        "source=[https://example.org]/tmp/private",
+        "see 'https://example.org'/home/user/private",
+    ),
+)
+def test_url_adjacent_private_paths_are_rejected(notes: str) -> None:
+    with pytest.raises(ValueError):
+        RuntimeAccounting(1.0, notes=notes)
+
+
+@pytest.mark.parametrize(
+    "notes",
+    (
+        "https://example.org",
+        "https://example.org/docs/a/b",
+        "https://example.org/docs/a/b?x=1&next=/foo/bar",
+        "https://example.org/#/docs/a/b",
+        "https://example.org/search?q=/home/not-a-filesystem-claim",
+        "see https://example.org/docs/a/b",
+        "see (https://example.org/docs/a/b)",
+        "see [https://example.org/docs/a/b]",
+        "see 'https://example.org/docs/a/b'",
+    ),
+)
+def test_http_urls_remain_valid_without_adjacent_paths(notes: str) -> None:
+    RuntimeAccounting(1.0, notes=notes)
+
+
+@pytest.mark.parametrize(
     "path", ("metadata/.ssh/id_rsa", "exports/.aws/credentials", "foo/bar/.ssh/key")
 )
 def test_manifest_paths_reject_sensitive_components_anywhere(path: str) -> None:
