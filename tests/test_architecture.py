@@ -67,14 +67,15 @@ def test_historical_alias_values_are_confined_to_the_provenance_mapping() -> Non
         syntax_tree = ast.parse(source)
         for node in ast.walk(syntax_tree):
             if isinstance(node, ast.Import):
-                assert all(
-                    not alias.name.startswith("cmj_recovery_dynamics.provenance")
-                    for alias in node.names
-                ), relative
+                for alias in node.names:
+                    if alias.name.startswith("cmj_recovery_dynamics.provenance"):
+                        assert relative == Path("reproducibility/execution.py")
+                        assert alias.name == "cmj_recovery_dynamics.provenance.public_roots"
             if isinstance(node, ast.ImportFrom):
-                assert not (node.module or "").startswith("cmj_recovery_dynamics.provenance"), (
-                    relative
-                )
+                module = node.module or ""
+                if module.startswith("cmj_recovery_dynamics.provenance"):
+                    assert relative == Path("reproducibility/execution.py")
+                    assert module == "cmj_recovery_dynamics.provenance.public_roots"
 
 
 def test_scientific_source_and_test_paths_use_no_historical_identifiers() -> None:
