@@ -25,8 +25,12 @@ if TYPE_CHECKING:
         StudyReconstruction,
     )
 
-_PRIVATE_PATH = re.compile(r"(^|[\s=:])(/home/|/Users/|[A-Za-z]:\\)", re.IGNORECASE)
-_ABSOLUTE_PATH = re.compile(r"(^|[\s=:])(?:/|~/|[A-Za-z]:[\\/]|\\\\)")
+_HTTP_URL = re.compile(r"https?://\S+", re.IGNORECASE)
+_LOCAL_FILE_URI = re.compile(r"(?<![\w.+-])file:/{1,3}", re.IGNORECASE)
+_ABSOLUTE_POSIX_PATH = re.compile(r"(?<![\w/])/(?!/)[^\s/]+")
+_HOME_RELATIVE_PATH = re.compile(r"~/[^\s]*")
+_WINDOWS_DRIVE_PATH = re.compile(r"(?<![\w])[A-Z]:[\\/](?=[^\\/\s])", re.IGNORECASE)
+_UNC_PATH = re.compile(r"\\\\[^\\/\s]+(?:\\[^\\/\s]+)*")
 
 
 class DigestRole(StrEnum):
@@ -111,7 +115,13 @@ class ArtifactManifest:
 def _validate_public_text(value: str, label: str) -> None:
     if not value or "\x00" in value:
         raise ValueError(f"{label} must be a non-empty publication-safe string")
-    if _PRIVATE_PATH.search(value) or _ABSOLUTE_PATH.search(value):
+    if (
+        _LOCAL_FILE_URI.search(value)
+        or _HOME_RELATIVE_PATH.search(value)
+        or _WINDOWS_DRIVE_PATH.search(value)
+        or _UNC_PATH.search(value)
+        or _ABSOLUTE_POSIX_PATH.search(_HTTP_URL.sub("", value))
+    ):
         raise ValueError(f"{label} must not expose a private absolute path")
 
 
@@ -126,7 +136,10 @@ def _validate_relative_path(value: str) -> None:
     path = PurePosixPath(value)
     if any(part in {"", ".", ".."} for part in value.split("/")) or path.as_posix() != value:
         raise ValueError("manifest paths must be normalized and may not escape their root")
-    if path.parts and path.parts[0].lower() in {"home", "users", ".ssh", ".aws"}:
+    if path.parts and (
+        path.parts[0].lower() in {"home", "users"}
+        or any(part.lower() in {".ssh", ".aws"} for part in path.parts)
+    ):
         raise ValueError("manifest path may expose a private artifact location")
 
 
