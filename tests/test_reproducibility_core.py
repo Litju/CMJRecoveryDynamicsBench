@@ -170,6 +170,76 @@ def test_manifest_paths_reject_escape_and_absolute_forms(path: str) -> None:
         _entry("unsafe", path)
 
 
+@pytest.mark.parametrize(
+    "notes",
+    (
+        "ran from (/fixture/redacted",
+        "artifact='/fixture/redacted'",
+        "artifact[C:\\Users\\Julio\\secret]",
+        "artifact(C:/fixture/redacted",
+        r"source=\\server\share\secret",
+        "generated from '~/private/result'",
+        "source=file:///fixture/redacted",
+    ),
+)
+def test_runtime_notes_reject_embedded_private_paths(notes: str) -> None:
+    with pytest.raises(ValueError):
+        RuntimeAccounting(1.0, notes=notes)
+
+
+def test_public_text_contracts_reject_embedded_paths() -> None:
+    with pytest.raises(ValueError):
+        CalibrationReference(0.5, "source='/fixture/redacted'")
+    with pytest.raises(ValueError):
+        ManifestEntry(
+            "public-source",
+            _HASH_A,
+            DigestRole.OSS_ARTIFACT,
+            "generated from (/var/fixture/redacted",
+        )
+    with pytest.raises(ValueError):
+        _entry("artifact='/fixture/redacted'", None)
+    with pytest.raises(ValueError):
+        RuntimeFingerprint("3.12", "CPython", "Linux", "x86_64", "2", "1", "GPU (/fixture/redacted")
+    with pytest.raises(ValueError):
+        SeedIdentity(SeedKind.CALLER_SUPPLIED_PUBLIC, "seed from (/fixture/redacted")
+    with pytest.raises(ValueError):
+        ReproductionValue("result (/fixture/redacted", ScalarResultValue(1.0, "N/kg"))
+    with pytest.raises(ValueError):
+        ReproductionValue("result", ScalarResultValue(1.0, "N/kg"), "cell (/fixture/redacted")
+
+
+def test_public_urls_and_scientific_slash_text_remain_valid() -> None:
+    RuntimeAccounting(
+        1.0,
+        notes="reference https://github.com/Litju/CMJRecoveryDynamicsBench",
+    )
+    ManifestEntry(
+        "public-source",
+        _HASH_A,
+        DigestRole.OSS_ARTIFACT,
+        "https://example.org/docs/a/b",
+    )
+    for units in ("N/kg", "m/s", "m/s²", "force/impulse", "H24/H48/H72"):
+        ScalarResultValue(1.0, units)
+    SeedIdentity(SeedKind.CALLER_SUPPLIED_PUBLIC, "train/public-validation")
+    SeedIdentity(SeedKind.CALLER_SUPPLIED_PUBLIC, "doi:10.1234/example")
+    SeedIdentity(SeedKind.CALLER_SUPPLIED_PUBLIC, "ratio <= 0.90")
+
+
+@pytest.mark.parametrize(
+    "path", ("metadata/.ssh/id_rsa", "exports/.aws/credentials", "foo/bar/.ssh/key")
+)
+def test_manifest_paths_reject_sensitive_components_anywhere(path: str) -> None:
+    with pytest.raises(ValueError):
+        _entry("unsafe", path)
+
+
+def test_manifest_paths_allow_harmless_ssh_and_aws_names() -> None:
+    assert _entry("ssh notes", "docs/ssh_notes.txt").path == "docs/ssh_notes.txt"
+    assert _entry("aws report", "reports/aws_summary.py").path == "reports/aws_summary.py"
+
+
 def test_all_eight_profiles_reference_m2_without_upgrading_authority() -> None:
     profiles = get_reproducibility_profiles()
     assert len(profiles) == 8
