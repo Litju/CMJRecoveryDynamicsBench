@@ -36,6 +36,7 @@ from cmj_recovery_dynamics.synthesis import (
     SYNTHESIS_CLAIMS,
     ComparativeEvidence,
     ConclusionStatus,
+    ModelRoleEvidence,
     SynthesisAxis,
     SynthesisScope,
     build_comparative_evidence,
@@ -107,6 +108,73 @@ def test_claims_are_typed_unique_explicit_and_validated() -> None:
             status=ComparabilityStatus.DIRECTLY_COMPARABLE,
             shared_identity=("experiment", "dataset", "split", "evaluation"),
         )
+
+
+def test_benchmark_model_roles_require_registered_benchmark_applicability() -> None:
+    family = LINEAGE_REGISTRY.model_families["fixed_mode_nonlinear_mixed_effects_predictor"]
+    claim = replace(
+        get_synthesis_claim("initial_public_model_selection"),
+        model_roles=(ModelRoleEvidence(family.name, family.roles),),
+    )
+    with pytest.raises(ValueError, match="model.*benchmark.*applicability"):
+        validate_synthesis_claim(claim)
+
+
+@pytest.mark.parametrize(
+    ("claim_name", "model_name", "study_names"),
+    (
+        (
+            "sysid_history_improves_manufactured_inference",
+            "linear_public_baseline",
+            ("system_identification",),
+        ),
+        (
+            "white_waveform_rank_is_unstable",
+            "identification_exact_analytic_posterior",
+            ("real_data_grounding",),
+        ),
+        (
+            "sysid_history_improves_manufactured_inference",
+            "identification_exact_analytic_posterior",
+            ("system_identification", "real_data_grounding"),
+        ),
+    ),
+)
+def test_study_model_roles_require_applicability_to_every_named_study(
+    claim_name: str, model_name: str, study_names: tuple[str, ...]
+) -> None:
+    family = LINEAGE_REGISTRY.model_families[model_name]
+    claim = replace(
+        get_synthesis_claim(claim_name),
+        study_names=study_names,
+        model_roles=(ModelRoleEvidence(family.name, family.roles),),
+    )
+    with pytest.raises(ValueError, match="model.*study.*applicability"):
+        validate_synthesis_claim(claim)
+
+
+def test_experiment_model_roles_require_explicit_experiment_membership() -> None:
+    family = LINEAGE_REGISTRY.model_families["initial_public_reference_model"]
+    experiment = LINEAGE_REGISTRY.experiments["initial_linear_public_baseline_evaluation"]
+    assert experiment.benchmark_name in family.applicability.benchmark_names
+    assert family.name not in experiment.model_names
+    claim = replace(
+        get_synthesis_claim("initial_public_model_selection"),
+        scope=SynthesisScope.EXPERIMENT,
+        result_names=(),
+        experiment_names=(experiment.name,),
+        comparative_evidence=(),
+        model_roles=(ModelRoleEvidence(family.name, family.roles),),
+    )
+    with pytest.raises(ValueError, match="model.*bound experiment"):
+        validate_synthesis_claim(claim)
+
+    validate_synthesis_claim(
+        replace(
+            claim,
+            experiment_names=(experiment.name, "initial_public_reference_selection"),
+        )
+    )
 
 
 def test_non_comparable_result_families_fail_closed() -> None:
@@ -395,6 +463,14 @@ def test_sysid_history_and_inference_stay_inside_adjacent_manufactured_study() -
     rmse = get_result("manufactured_exact_posterior_raw_coordinate_rmse")
     assert tuple(item.value for item in rmse.values) == (0.372, 0.284, 0.207)
     assert {item.unit for item in rmse.values} == {"raw sensitivity-coordinate units"}
+    history = get_synthesis_claim("sysid_history_improves_manufactured_inference")
+    assert "energy" in history.statement
+    assert "RMSE" in history.statement
+    assert "concentration" not in history.statement.lower()
+    assert history.result_names == (
+        "manufactured_exact_posterior_energy_scores",
+        "manufactured_exact_posterior_raw_coordinate_rmse",
+    )
     differences = get_result("manufactured_neural_vs_exact_posterior_energy_difference")
     assert tuple((item.value, item.interval) for item in differences.values) == (
         (0.0279, (0.0244, 0.0319)),

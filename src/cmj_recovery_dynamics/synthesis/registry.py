@@ -175,9 +175,20 @@ def validate_synthesis_claim(claim: ScientificSynthesisClaim) -> None:
         family = _MODELS.get(item.model_name)
         if family is None or family.roles != item.roles:
             raise ValueError("model-role evidence must match its registered M1 family roles")
-    if claim.benchmark_names and claim.scope is SynthesisScope.BENCHMARK:
-        if any(name not in claim.benchmark_names for name in claim.benchmark_names):
-            raise ValueError("invalid benchmark scope")
+        if (
+            claim.scope is SynthesisScope.BENCHMARK
+            and claim.benchmark_names[0] not in family.applicability.benchmark_names
+        ):
+            raise ValueError("model-role evidence lacks registered benchmark applicability")
+        if claim.scope is SynthesisScope.STUDY and any(
+            _STUDIES[name].study_type not in family.applicability.study_types
+            for name in claim.study_names
+        ):
+            raise ValueError("model-role evidence lacks registered study applicability")
+        if claim.scope is SynthesisScope.EXPERIMENT and not any(
+            item.model_name in _EXPERIMENTS[name].model_names for name in claim.experiment_names
+        ):
+            raise ValueError("model-role evidence is not a member of any bound experiment")
     for name in claim.historical_rule_names:
         if _RULES[name].experiment_name not in claim.experiment_names:
             raise ValueError("historical rule evidence is not bound to a named experiment")
@@ -1044,7 +1055,8 @@ _CLAIMS = (
             f"energy scores across history K=2/4/8 were {_history_scores(_SYSID_EXACT)} "
             "and raw sensitivity-coordinate point RMSEs were "
             f"{_history_scores(_SYSID_RMSE)}. Increasing complete episode history "
-            f"improved posterior concentration/performance within this problem; "
+            "improved the registered energy-score and raw-coordinate point-RMSE "
+            "inference performance within this manufactured problem; "
             f"the terminal decision is {_sysid_terminal_decision.outcome.value}."
         ),
         result_names=(_SYSID_EXACT, _SYSID_RMSE),
