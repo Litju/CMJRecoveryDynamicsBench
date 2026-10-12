@@ -89,6 +89,19 @@ def test_d04_ordered_membership_fingerprints_and_dual_authority() -> None:
         "origin_key",
         "query_key",
     }
+    assert all(
+        getattr(RICH_HISTORY_REPRODUCTION_METADATA, field) is None
+        for field in (
+            "scientific_source_tree",
+            "d04_materialization_commit",
+            "d04_materialization_repository_tree",
+            "d04_materialization_task_tree",
+            "d04_manifest_blob_oid",
+            "d04_train_parquet_blob_oid",
+            "d04_validation_parquet_blob_oid",
+            "later_rng_channelization_commit",
+        )
+    )
     assert d04_membership_fingerprint("public_train", root_seed=_root_for("public_train")) == (
         RICH_HISTORY_REPRODUCTION_METADATA.d04_training_membership_sha256
     )

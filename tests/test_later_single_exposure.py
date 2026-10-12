@@ -161,6 +161,10 @@ def test_exact_m1_source_closures_bind_all_executable_and_schema_inputs() -> Non
         "threshold_response_recovery",
         "fixed_mode_discrepancy_recovery",
     }
+    expected = {
+        "threshold_response_recovery": "2.1.0",
+        "fixed_mode_discrepancy_recovery": "1.0.0",
+    }
     required_files = (
         "params.py",
         "response.py",
@@ -172,6 +176,42 @@ def test_exact_m1_source_closures_bind_all_executable_and_schema_inputs() -> Non
         "projection.py",
         "generate_public.py",
     )
+    for name, closure in LATER_SOURCE_CLOSURES.items():
+        assert closure.parameter_authority_version == expected[name]
+        assert closure.parameter_authority_metadata_key == f"{name}.historical_labels"
+        assert closure.public_root_metadata_key == f"{name}.historical_labels"
+        assert closure.source_commit is None
+        assert closure.task_tree is None
+        assert closure.repository_task_path == "problems/preseason-exposure-cmj-recovery-forecast"
+        assert all(
+            any(
+                path.endswith(filename)
+                for path in (
+                    closure.params_path,
+                    closure.response_path,
+                    closure.exposure_path,
+                    closure.generator_path,
+                    closure.rng_path,
+                    closure.split_path,
+                    closure.measurement_path,
+                    closure.projection_path,
+                    closure.public_generator_path,
+                )
+            )
+            for filename in required_files
+        )
+        assert closure.schema_path == "data/canonical_v2.py"
+        assert closure.manifest_path == "data/public/manifest.json"
+        assert closure.scorer_path == "scorer/compute_score.py"
+        assert closure.test_paths
+        assert all(path.startswith("data_generation/tests/") for path in closure.test_paths)
+        labels = HISTORICAL_ALIASES[name].historical_labels
+        if name == "threshold_response_recovery":
+            assert "LCMJ-V2-PARAMETERS-C1-2.1.0" in labels
+            assert "LCMJ-C1-PUBLIC-003-e88b767181cf4e1c" in labels
+        else:
+            assert "LCMJ-CANDIDATE-H-PARAMETERS-ALI-517-1.0.0" in labels
+            assert "ALI-517-CANDIDATE-H-PUBLIC-001" in labels
     assert (
         LATER_SOURCE_CLOSURES["threshold_response_recovery"].cell_definition_path
         == "scorer/cells.py"

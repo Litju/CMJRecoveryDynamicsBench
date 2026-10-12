@@ -250,7 +250,9 @@ _METADATA: Mapping[str, _Metadata] = MappingProxyType(
                 "environment manifest.",
             ),
             protocol_source=("ALI-518-002: D09 public validation; 16 validation camps",),
-            runner_source=("ALI-518-002 runner evidence in the M1 preservation handoff",),
+            runner_source=(
+                "ALI-518-002 runner evidence in the M1 preservation handoff",
+            ),
             result_source=("ALI-518-002 result comment 060ee8be-98f8-4152-be0f-b00ff6a1dc26",),
             bootstrap_source=(
                 "ALI-518-002: 5,000 paired camp resamples over 16 camps; PCG64 seed 49505000",
@@ -515,7 +517,9 @@ STUDY_RECONSTRUCTIONS: Mapping[str, StudyReconstruction] = MappingProxyType(
         "real_data_grounding": _study(
             "real_data_grounding",
             StudyType.REAL_DATA_GROUNDING,
-            ("Can an independently cleared empirical source substantiate recovery outcomes?"),
+            (
+                "Can an independently cleared empirical source substantiate recovery outcomes?"
+            ),
             ("restricted_empirical_grounding_crosswalk",),
             (
                 "Rights-restricted empirical evidence does not establish recovery validation; "

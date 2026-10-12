@@ -74,6 +74,19 @@ from cmj_recovery_dynamics.reproduction.rich_history import (
 
 
 def test_selected_source_closure_and_m21_claim_boundary() -> None:
+    assert all(
+        getattr(RICH_HISTORY_REPRODUCTION_METADATA, field) is None
+        for field in (
+            "scientific_source_tree",
+            "d04_materialization_commit",
+            "d04_materialization_repository_tree",
+            "d04_materialization_task_tree",
+            "d04_manifest_blob_oid",
+            "d04_train_parquet_blob_oid",
+            "d04_validation_parquet_blob_oid",
+            "later_rng_channelization_commit",
+        )
+    )
     required_paths = {
         "environment/Dockerfile",
         "data_generation/src/lcmj_v3/core.py",
@@ -161,6 +174,13 @@ def test_selected_source_closure_and_m21_claim_boundary() -> None:
     assert (
         RICH_HISTORY_REPRODUCTION_METADATA.scientific_generator_claim == "SEMANTICALLY_EQUIVALENT"
     )
+    assert RICH_HISTORY_REPRODUCTION_METADATA.scientific_source_tree is None
+    assert RICH_HISTORY_REPRODUCTION_METADATA.d04_materialization_commit is None
+    assert RICH_HISTORY_REPRODUCTION_METADATA.d04_materialization_repository_tree is None
+    assert RICH_HISTORY_REPRODUCTION_METADATA.d04_materialization_task_tree is None
+    assert RICH_HISTORY_REPRODUCTION_METADATA.d04_manifest_blob_oid is None
+    assert RICH_HISTORY_REPRODUCTION_METADATA.d04_train_parquet_blob_oid is None
+    assert RICH_HISTORY_REPRODUCTION_METADATA.d04_validation_parquet_blob_oid is None
     assert RICH_HISTORY_REPRODUCTION_METADATA.d04_seed_construction == (
         "split-specific public roots; SHA-256 of compact JSON string parts, first 8 bytes "
         "big-endian; np.random.default_rng(seed)"
@@ -175,6 +195,7 @@ def test_selected_source_closure_and_m21_claim_boundary() -> None:
         "Dockerfile base tag runtime-ml-core-py313-local only; exact Python build, NumPy version, "
         "and BitGenerator unbound"
     )
+    assert RICH_HISTORY_REPRODUCTION_METADATA.later_rng_channelization_commit is None
     assert RICH_HISTORY_REPRODUCTION_METADATA.row_ordering == "EXACT"
     assert RICH_HISTORY_REPRODUCTION_METADATA.membership_fingerprint_encoding == (
         "SHA-256 over ordered UTF-8 lines of compact JSON arrays "
@@ -196,6 +217,7 @@ def test_selected_source_closure_and_m21_claim_boundary() -> None:
     assert RICH_HISTORY_REPRODUCTION_METADATA.historical_calibration_reference == "UNAVAILABLE"
     split_claim = contract.claim(ReproductionDimension.SPLIT_ASSIGNMENT)
     assert split_claim.status is ReproductionStatus.EXACT
+    assert "M1 preservation authority" in split_claim.rationale
     assert "named-channel" in split_claim.rationale
     assert "not proof of D04's historical RNG runtime" in split_claim.rationale
     assert contract.evaluation.production_scorer == "rich_history_24_cell_normalized_rmse_score"

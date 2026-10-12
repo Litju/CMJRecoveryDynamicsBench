@@ -141,6 +141,26 @@ def test_source_closures_and_benchmark_transitions() -> None:
     ]
     assert REFERENCE_DATASET_HASHES["preliminary"] != REFERENCE_DATASET_HASHES["phase_consistent"]
     assert REFERENCE_DATASET_HASHES["phase_consistent"] != REFERENCE_DATASET_HASHES["correlated"]
+    assert [
+        (closure.parameter_authority, closure.source_commit, closure.task_tree)
+        for closure in SOURCE_CLOSURES.values()
+    ] == [
+        (
+            "source_parameters_1.0.0",
+            None,
+            None,
+        ),
+        (
+            "source_parameters_1.1.0",
+            None,
+            None,
+        ),
+        (
+            "source_parameters_1.2.0",
+            None,
+            None,
+        ),
+    ]
     assert all(
         not path.startswith("/")
         for closure in SOURCE_CLOSURES.values()

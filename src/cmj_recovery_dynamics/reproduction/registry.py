@@ -43,9 +43,8 @@ _EXPECTED_BENCHMARKS = frozenset(
 _AUTHORITY = ReproductionAuthority(
     ("RES-363", "RES-364", "RES-365", "RES-366", "RES-367", "RES-368"),
     (
-        "Sealed task-linked M1 evidence only; adjacent posterior-inference "
-        "and empirical grounding studies remain outside these benchmark "
-        "identities."
+        "Sealed task-linked M1 evidence only; adjacent posterior-inference and empirical "
+        "grounding studies remain outside these benchmark identities."
     ),
 )
 _SP03_TREE_EVIDENCE = "M1-selected rich-history scientific source"
@@ -738,22 +737,17 @@ _RICH_SPLIT = {
         D.SPLIT_ASSIGNMENT,
         S.EXACT,
         (
-            "Exact means the historical public split/query membership is "
-            "reproducible. The D04 materialization source is bound by the M1 "
-            "preservation authority. Its shared per-camp default_rng replay "
-            "matches preserved participant, origin, query keys, H72/D7 masks, "
-            "and ordered logical rows for both public splits. Later ALI-488/490"
-            " repairs changed scientific, measurement, schedule, and RNG source"
-            " without regenerating D04. The later named-channel replay remains "
-            "a separate non-historical realization. Matching membership is "
-            "compatibility/output evidence, not proof of D04's historical RNG "
-            "runtime."
+            "Exact means the historical public split/query membership is reproducible. The D04 "
+            "materialization source is bound by the M1 preservation authority. Its shared "
+            "per-camp default_rng replay "
+            "matches preserved participant, origin, query keys, H72/D7 masks, and ordered "
+            "logical rows for both public splits. Later ALI-488/490 repairs changed scientific, "
+            "measurement, schedule, and RNG source without regenerating D04. The later "
+            "named-channel replay remains a separate non-historical realization. Matching membership is "
+            "compatibility/output evidence, not proof of D04's historical RNG runtime."
         ),
-        (
-            "RES-361/M1: D04 producer and materialized split authorities; "
-            "manifest and public split identities are bound in the sealed "
-            "evidence handoff."
-        ),
+        "RES-361/M1: D04 producer and materialized split authorities; manifest and public "
+        "split identities are bound in the sealed evidence handoff.",
         "RES-392: direct ordered parity and canonical membership fingerprints from replay vs "
         "preserved D04 rows",
         "RES-364/365: D04 hashes, geometry, public roots, generator version, and manifest mapping",

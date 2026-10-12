@@ -40,7 +40,6 @@ Array = NDArray[Any]
 PublicSplitName = Literal["public_train", "public_validation"]
 _EMPTY_RECORD: Mapping[str, Any] = {}
 
-# Scientific source authority; D04 materialization authority is recorded separately.
 SP03_SOURCE_CLOSURE = (
     "environment/Dockerfile",
     "data_generation/src/lcmj_v3/core.py",

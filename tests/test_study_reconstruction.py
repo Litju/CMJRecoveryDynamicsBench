@@ -576,6 +576,8 @@ def test_source_closures_are_public_safe_and_historical_rules_are_not_universal(
     completed = get_experiment_reconstruction(
         "fixed_mode_completed_headroom_and_reconstruction_study"
     )
+    assert completed.source_closure.source_commit == ()
+    assert completed.source_closure.task_tree == ()
     source_values = tuple(
         source
         for reconstruction in EXPERIMENT_RECONSTRUCTIONS.values()
