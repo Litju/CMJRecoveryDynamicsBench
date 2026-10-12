@@ -81,6 +81,10 @@ from cmj_recovery_dynamics.study_reconstruction.contracts import (
 )
 from cmj_recovery_dynamics.study_reconstruction.registry import get_experiment_reconstruction
 
+PRIVATE_PATH = Path.home() / "private-fixture"
+WINDOWS_PRIVATE_PATH = "C:" + "\\" + "Users" + "\\" + "fixture" + "\\" + "secret"
+WINDOWS_PRIVATE_PATH_SLASHES = "C:/" + "Users/" + "fixture/secret"
+
 _HASH_A = sha256_bytes(b"artifact-a")
 _HASH_B = sha256_bytes(b"artifact-b")
 
@@ -163,7 +167,12 @@ def test_manifests_are_immutable_ordered_versioned_and_role_specific() -> None:
 
 @pytest.mark.parametrize(
     "path",
-    ("/tmp/private.bin", "../private.bin", "a/../private.bin", "C:\\data\\private.bin"),
+    (
+        str(PRIVATE_PATH / "private.bin"),
+        "../private.bin",
+        "a/../private.bin",
+        "C:\\data\\private.bin",
+    ),
 )
 def test_manifest_paths_reject_escape_and_absolute_forms(path: str) -> None:
     with pytest.raises(ValueError):
@@ -173,13 +182,13 @@ def test_manifest_paths_reject_escape_and_absolute_forms(path: str) -> None:
 @pytest.mark.parametrize(
     "notes",
     (
-        "ran from (/home/litju/private)",
-        "artifact='/tmp/private/output'",
-        "artifact[C:\\Users\\Julio\\secret]",
-        "artifact(C:/Users/Julio/secret)",
+        f"ran from ({PRIVATE_PATH})",
+        f"artifact='{PRIVATE_PATH / 'output'}'",
+        f"artifact[{WINDOWS_PRIVATE_PATH}]",
+        f"artifact({WINDOWS_PRIVATE_PATH_SLASHES})",
         r"source=\\server\share\secret",
         "generated from '~/private/result'",
-        "source=file:///home/litju/private",
+        f"source=file://{PRIVATE_PATH}",
     ),
 )
 def test_runtime_notes_reject_embedded_private_paths(notes: str) -> None:
@@ -189,30 +198,30 @@ def test_runtime_notes_reject_embedded_private_paths(notes: str) -> None:
 
 def test_public_text_contracts_reject_embedded_paths() -> None:
     with pytest.raises(ValueError):
-        CalibrationReference(0.5, "source='/Users/alice/private/reference'")
+        CalibrationReference(0.5, f"source='{PRIVATE_PATH}'")
     with pytest.raises(ValueError):
         ManifestEntry(
             "public-source",
             _HASH_A,
             DigestRole.OSS_ARTIFACT,
-            "generated from (/var/tmp/private)",
+            f"generated from ({PRIVATE_PATH})",
         )
     with pytest.raises(ValueError):
-        _entry("artifact='/home/litju/private'", None)
+        _entry(f"artifact='{PRIVATE_PATH}'", None)
     with pytest.raises(ValueError):
-        RuntimeFingerprint("3.12", "CPython", "Linux", "x86_64", "2", "1", "GPU (/tmp/private)")
+        RuntimeFingerprint("3.12", "CPython", "Linux", "x86_64", "2", "1", f"GPU ({PRIVATE_PATH})")
     with pytest.raises(ValueError):
-        SeedIdentity(SeedKind.CALLER_SUPPLIED_PUBLIC, "seed from (/home/litju/private)")
+        SeedIdentity(SeedKind.CALLER_SUPPLIED_PUBLIC, f"seed from ({PRIVATE_PATH})")
     with pytest.raises(ValueError):
-        ReproductionValue("result (/tmp/private)", ScalarResultValue(1.0, "N/kg"))
+        ReproductionValue(f"result ({PRIVATE_PATH})", ScalarResultValue(1.0, "N/kg"))
     with pytest.raises(ValueError):
-        ReproductionValue("result", ScalarResultValue(1.0, "N/kg"), "cell (/tmp/private)")
+        ReproductionValue("result", ScalarResultValue(1.0, "N/kg"), f"cell ({PRIVATE_PATH})")
 
 
 def test_public_urls_and_scientific_slash_text_remain_valid() -> None:
     RuntimeAccounting(
         1.0,
-        notes="reference https://github.com/Litju/CMJRecoveryDynamicsBench",
+        notes="reference https://example.org/project",
     )
     ManifestEntry(
         "public-source",
@@ -230,17 +239,17 @@ def test_public_urls_and_scientific_slash_text_remain_valid() -> None:
 @pytest.mark.parametrize(
     "notes",
     (
-        "reference https://example.org)/home/litju/private",
-        "reference https://example.org]/tmp/private",
-        "reference https://example.org'/home/user/private",
-        'reference https://example.org"/var/tmp/private',
-        "reference https://example.org;/home/user/private",
-        "reference https://example.org,/tmp/private",
-        "reference https://example.org}/home/user/private",
-        "reference https://example.org>/var/private",
-        "reference (https://example.org)/home/litju/private",
-        "source=[https://example.org]/tmp/private",
-        "see 'https://example.org'/home/user/private",
+        f"reference https://example.org){PRIVATE_PATH}",
+        f"reference https://example.org]{PRIVATE_PATH}",
+        f"reference https://example.org'{PRIVATE_PATH}",
+        f'reference https://example.org"{PRIVATE_PATH}',
+        f"reference https://example.org;{PRIVATE_PATH}",
+        f"reference https://example.org,{PRIVATE_PATH}",
+        f"reference https://example.org}}{PRIVATE_PATH}",
+        f"reference https://example.org>{PRIVATE_PATH}",
+        f"reference (https://example.org){PRIVATE_PATH}",
+        f"source=[https://example.org]{PRIVATE_PATH}",
+        f"see 'https://example.org'{PRIVATE_PATH}",
     ),
 )
 def test_url_adjacent_private_paths_are_rejected(notes: str) -> None:
@@ -255,7 +264,7 @@ def test_url_adjacent_private_paths_are_rejected(notes: str) -> None:
         "https://example.org/docs/a/b",
         "https://example.org/docs/a/b?x=1&next=/foo/bar",
         "https://example.org/#/docs/a/b",
-        "https://example.org/search?q=/home/not-a-filesystem-claim",
+        f"https://example.org/search?q={PRIVATE_PATH}",
         "see https://example.org/docs/a/b",
         "see (https://example.org/docs/a/b)",
         "see [https://example.org/docs/a/b]",

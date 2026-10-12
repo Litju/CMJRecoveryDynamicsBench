@@ -1,4 +1,4 @@
-"""Source-bound W02 fitness-fatigue impulse-response equations."""
+"""Source-bound rich-history fitness-fatigue impulse-response equations."""
 
 from __future__ import annotations
 
