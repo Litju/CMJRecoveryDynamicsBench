@@ -59,6 +59,14 @@ def test_inventory_is_exactly_eight_benchmarks_plus_two_studies() -> None:
     assert len(BENCHMARK_CHARACTERIZATIONS) == 8
     assert tuple(BENCHMARK_CHARACTERIZATIONS) == tuple(BENCHMARK_REGISTRY)
     assert set(STUDY_CHARACTERIZATIONS) == {"system_identification", "real_data_grounding"}
+    assert not {
+        "system_identification",
+        "unregistered_empirical_model",
+        "predictive_headroom",
+        "observability",
+        "reconstructability",
+        "falsification",
+    }.intersection(BENCHMARK_CHARACTERIZATIONS)
     assert get_program_synthesis() is PROGRAM_SYNTHESIS
     assert PROGRAM_SYNTHESIS.benchmark_names == tuple(BENCHMARK_REGISTRY)
     assert PROGRAM_SYNTHESIS.study_names == ("system_identification", "real_data_grounding")
@@ -74,6 +82,8 @@ def test_inventory_is_exactly_eight_benchmarks_plus_two_studies() -> None:
         PROGRAM_SYNTHESIS.study_names = ()  # type: ignore[misc]
     with pytest.raises(TypeError):
         BENCHMARK_CHARACTERIZATIONS["new_benchmark"] = object()  # type: ignore[index]
+    with pytest.raises(KeyError):
+        get_study_characterization("unregistered_empirical_model")
 
 
 def test_claims_are_typed_unique_explicit_and_validated() -> None:
@@ -121,6 +131,11 @@ def test_benchmark_model_roles_require_registered_benchmark_applicability() -> N
         (
             "sysid_history_improves_manufactured_inference",
             "identification_exact_analytic_posterior",
+            ("real_data_grounding",),
+        ),
+        (
+            "sysid_history_improves_manufactured_inference",
+            "identification_exact_analytic_posterior",
             ("system_identification", "real_data_grounding"),
         ),
     ),
@@ -129,6 +144,19 @@ def test_study_model_roles_require_applicability_to_every_named_study(
     claim_name: str, model_name: str, study_names: tuple[str, ...]
 ) -> None:
     family = LINEAGE_REGISTRY.model_families[model_name]
+    claim = replace(
+        get_synthesis_claim(claim_name),
+        scope=SynthesisScope.STUDY,
+        benchmark_names=(),
+        result_names=(),
+        experiment_names=(),
+        study_names=study_names,
+        comparison_names=(),
+        historical_rule_names=(),
+        gate_names=(),
+        comparative_evidence=(),
+        model_roles=(ModelRoleEvidence(family.name, family.roles),),
+    )
     with pytest.raises(ValueError, match="model.*study.*applicability"):
         validate_synthesis_claim(claim)
 
@@ -158,6 +186,20 @@ def test_experiment_model_roles_require_explicit_experiment_membership() -> None
 
 
 def test_non_comparable_result_families_fail_closed() -> None:
+    comparisons = (
+        (
+            ("initial_camp_negative_result_family", "canonical_camp_public_campaign_result_family"),
+            "initial_vs_canonical_camp_results",
+        ),
+        (
+            ("correlated_exposure_sre6_result_family", "fixed_mode_local_predictor_sre6"),
+            "correlated_exposure_vs_fixed_mode_research_results",
+        ),
+        (
+            ("manufactured_exact_posterior_energy_scores", "fixed_mode_local_predictor_sre6"),
+            "system_identification_vs_recovery_point_forecast",
+        ),
+    )
     for result_names, comparison_name in comparisons:
         with pytest.raises(ValueError):
             build_comparative_evidence(result_names, comparison_name=comparison_name)
@@ -453,6 +495,29 @@ def test_sysid_history_and_inference_stay_inside_adjacent_manufactured_study() -
     )
 
 
+def test_rights_restricted_empirical_results_are_withheld_but_grounding_stays_unresolved() -> None:
+    from cmj_recovery_dynamics.lineage.contracts import RedistributionStatus
+
+    dataset = LINEAGE_REGISTRY.datasets["restricted_empirical_grounding_source"]
+    assert dataset.redistribution is RedistributionStatus.PROHIBITED
+    split = LINEAGE_REGISTRY.splits[dataset.split_names[0]]
+    assert split.rows is split.participants is split.camps is split.origins_or_episodes is None
+    assert split.labels_available is None
+
+    result = get_result("restricted_empirical_crosswalk_status")
+    assert result.values == ()
+    assert result.model_names == ()
+    assert result.comparability is ComparabilityStatus.NON_COMPARABLE
+
+    grounding = get_synthesis_claim("recovery_empirical_grounding_unresolved")
+    assert grounding.status is ConclusionStatus.UNRESOLVED
+    assert "neither empirically validated nor empirically invalidated" in grounding.statement
+    assert grounding.result_names == (
+        "restricted_empirical_crosswalk_status",
+        "fixed_mode_local_predictor_sre6",
+    )
+
+
 def test_sample_and_compute_efficiency_are_unresolved_without_proxy_estimates() -> None:
     sample = get_synthesis_claim("program_sample_efficiency_unresolved")
     assert sample.status is ConclusionStatus.UNRESOLVED
@@ -476,6 +541,7 @@ def test_structured_vs_learned_and_task_design_claims_are_caveated() -> None:
     structured = get_synthesis_claim("program_structured_and_analytic_methods_no_universal_winner")
     assert structured.status is ConclusionStatus.SUPPORTED_WITH_CAVEAT
     assert "does not support a universal structured-over-learned rule" in structured.statement
+    assert len(structured.comparative_evidence) == 3
     assert all(
         item.status
         in {

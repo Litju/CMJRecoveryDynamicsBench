@@ -311,6 +311,25 @@ _METADATA: Mapping[str, _Metadata] = MappingProxyType(
             ),
             evaluation_source=("RES-367: posterior energy and raw-coordinate RMSE definitions",),
         ),
+        "restricted_empirical_grounding_crosswalk": _Metadata(
+            StudyClassification.AUDIT,
+            ProtocolCompleteness.UNKNOWN,
+            ResultAuthority.RIGHTS_WITHHELD,
+            (
+                "No rights-cleared empirical source/split/scorer crosswalk is publicly "
+                "established; recovery grounding remains UNKNOWN and NON_COMPARABLE."
+            ),
+            (
+                "Keep empirical recovery grounding unresolved and make no benchmark-validation "
+                "claim until rights and the crosswalk are established."
+            ),
+            (
+                (
+                    "Source-derived split, result, and comparison details are withheld under "
+                    "the M0 non-redistribution decision."
+                ),
+            ),
+        ),
     }
 )
 
@@ -499,8 +518,8 @@ STUDY_RECONSTRUCTIONS: Mapping[str, StudyReconstruction] = MappingProxyType(
             ("Can an independently cleared empirical source substantiate recovery outcomes?"),
             ("restricted_empirical_grounding_crosswalk",),
             (
-                "Rights-restricted empirical evidence does not establish recovery "
-                "validation; the crosswalk remains UNKNOWN and NON_COMPARABLE."
+                "Rights-restricted empirical evidence does not establish recovery validation; "
+                "the crosswalk remains UNKNOWN and NON_COMPARABLE."
             ),
         ),
     }

@@ -14,6 +14,7 @@ from cmj_recovery_dynamics.contracts import ComparabilityStatus, StudyType
 from cmj_recovery_dynamics.lineage.contracts import (
     DatasetKind,
     ExperimentStatus,
+    RedistributionStatus,
     ResultDefinition,
     ScientificDisposition,
 )
@@ -46,6 +47,7 @@ M4_EXPERIMENTS = {
     "fixed_mode_expert_reference_qualification",
     "fixed_mode_owner_pivot_adjudication",
     "manufactured_parameter_system_identification",
+    "restricted_empirical_grounding_crosswalk",
 }
 
 
@@ -96,6 +98,14 @@ def test_m4_inventory_is_closed_over_the_eight_existing_benchmarks() -> None:
     frozen_field = "classification"
     with pytest.raises(FrozenInstanceError):
         setattr(reconstruction, frozen_field, StudyClassification.BENCHMARK_CHANGE)
+
+    for name in (
+        "manufactured_parameter_system_identification",
+        "restricted_empirical_grounding_crosswalk",
+    ):
+        reconstruction = get_experiment_reconstruction(name)
+        assert reconstruction.benchmark_name is None
+        assert reconstruction.dataset.benchmark_names == ()
 
 
 def test_execution_and_scientific_dispositions_remain_separate() -> None:
@@ -165,8 +175,10 @@ def test_execution_and_scientific_dispositions_remain_separate() -> None:
     assert scorer.scientific_disposition is ScientificDisposition.NOT_ESTABLISHED
     assert scorer.result_authority is ResultAuthority.PROTOCOL_ONLY
 
+    unknown = get_experiment_reconstruction("restricted_empirical_grounding_crosswalk")
     assert unknown.execution_status is ExperimentStatus.UNKNOWN
     assert unknown.scientific_disposition is ScientificDisposition.UNKNOWN
+    assert unknown.result_authority is ResultAuthority.RIGHTS_WITHHELD
     assert unknown.decision is None
 
 
@@ -544,6 +556,20 @@ def test_system_identification_is_manufactured_and_distinct_from_recovery_foreca
         if item.name == "system_identification_vs_recovery_point_forecast"
     )
     assert comparison.status is ComparabilityStatus.NON_COMPARABLE
+
+
+def test_rights_withheld_empirical_evidence_keeps_crosswalk_limitation_typed() -> None:
+    crosswalk = get_experiment_reconstruction("restricted_empirical_grounding_crosswalk")
+    assert crosswalk.benchmark_name is None
+    assert crosswalk.scientific_disposition is ScientificDisposition.UNKNOWN
+    assert crosswalk.results[0].comparability is ComparabilityStatus.NON_COMPARABLE
+    assert crosswalk.results[0].values == ()
+    assert crosswalk.result_authority is ResultAuthority.RIGHTS_WITHHELD
+    assert crosswalk.decision is None
+    assert "rights" in crosswalk.downstream_action
+    assert crosswalk.dataset.redistribution is RedistributionStatus.PROHIBITED
+    split = LINEAGE_REGISTRY.splits[crosswalk.dataset.split_names[0]]
+    assert split.rows is split.participants is split.camps is split.origins_or_episodes is None
 
 
 def test_source_closures_are_public_safe_and_historical_rules_are_not_universal() -> None:

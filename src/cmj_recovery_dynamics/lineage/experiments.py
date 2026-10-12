@@ -53,6 +53,7 @@ _THRESHOLD_DATA = "threshold_response_proposed_sample"
 _FIXED_DATA = "fixed_mode_recovery_candidate_sample"
 _FIXTURE_DATA = "initial_generator_fixture"
 _SYSID_DATA = "manufactured_parameter_identification_histories"
+_RESTRICTED_EMPIRICAL_DATA = "restricted_empirical_grounding_source"
 
 _INITIAL_SPLIT = "initial_camp_public_validation"
 _CANONICAL_SPLIT = "canonical_camp_public_validation"
@@ -65,6 +66,7 @@ _THRESHOLD_SPLIT = "threshold_response_public_validation"
 _FIXED_SPLIT = "fixed_mode_public_validation"
 _SYSID_TRAIN_SPLIT = "identification_training_histories"
 _SYSID_TEST_SPLIT = "identification_heldout_history_regimes"
+_RESTRICTED_EMPIRICAL_SPLIT = "empirical_grounding_split_not_disclosed"
 
 _SRE6 = POST_EXPOSURE_RESEARCH_EVALUATION.name
 _PROGRESS = PREDICTIVE_PROGRESS_EVALUATION.name
@@ -139,11 +141,11 @@ ADJACENT_STUDIES = (
         StudyType.REAL_DATA_GROUNDING,
         "Can an independently cleared empirical source substantiate recovery outcomes?",
         (_INITIAL, _PRELIMINARY, _FIXED),
-        (),
+        (_RESTRICTED_EMPIRICAL_DATA,),
         (
-            "Empirical recovery grounding remains unresolved because the "
-            "available source and derived results are not cleared for "
-            "redistribution and no recovery crosswalk is established."
+            "Empirical recovery grounding remains unresolved because "
+            "the available source and derived results are not cleared "
+            "for redistribution and no recovery crosswalk is established."
         ),
         EvidenceReference(
             EvidenceStatus.DIRECT,
@@ -696,6 +698,27 @@ EXPERIMENTS = (
             "Posterior energy is prior-whitened; the separately "
             "reported parameter RMSE is raw-coordinate. The run does "
             "not falsify point-forecast tasks."
+        ),
+    ),
+    _experiment(
+        "restricted_empirical_grounding_crosswalk",
+        (
+            "Can the restricted empirical source be aligned to recovery outcomes?"
+        ),
+        _RESTRICTED_EMPIRICAL_DATA,
+        (_RESTRICTED_EMPIRICAL_SPLIT,),
+        (_GROUNDING_STATUS,),
+        ExperimentPurpose.REAL_DATA_GROUNDING,
+        ExperimentStatus.UNKNOWN,
+        ScientificDisposition.UNKNOWN,
+        "Preserve the missing crosswalk as unknown.",
+        study=_REAL_DATA_GROUNDING,
+        unit=ProtocolUnit.UNKNOWN,
+        change=ChangeClass.UNKNOWN,
+        sources=("RES-362: M0 rights registry", "RES-363: rights and evidence handoff"),
+        note=(
+            "The source, split, scorer and result details are withheld "
+            "under the M0 non-redistribution decision."
         ),
     ),
 )

@@ -215,6 +215,22 @@ DATASETS = (
             "RES-366: study and result registry",
         ),
     ),
+    DatasetIdentity(
+        "restricted_empirical_grounding_source",
+        DatasetKind.EMPIRICAL,
+        None,
+        "restricted_empirical_source_not_disclosed",
+        ("empirical_grounding_split_not_disclosed",),
+        (),
+        ArtifactAvailability.PRESERVED_PRIVATELY,
+        RedistributionStatus.PROHIBITED,
+        None,
+        _evidence(
+            "RES-362: M0 rights registry",
+            "RES-363: rights and evidence handoff",
+            note="Source derivatives and result metadata are not cleared for redistribution.",
+        ),
+    ),
 )
 
 
@@ -544,6 +560,17 @@ SPLITS = (
         12288,
         notes="Three held-out history regimes with 4,096 histories each; K=2, 4, and 8.",
         source="RES-361: preserved identification result output; RES-366: result registry",
+    ),
+    _split(
+        "empirical_grounding_split_not_disclosed",
+        "restricted_empirical_grounding_source",
+        SplitRole.UNKNOWN,
+        SplitUnit.UNKNOWN,
+        None,
+        status=ArtifactAvailability.PRESERVED_PRIVATELY,
+        labels=None,
+        notes="Split metadata are withheld under the M0 non-redistribution decision.",
+        source="RES-362: M0 rights registry",
     ),
 )
 

@@ -399,6 +399,8 @@ def test_public_interfaces_are_eight_public_only_m2_and_m4_views() -> None:
 
     with pytest.raises(KeyError):
         get_reproducibility_profile("manufactured_parameter_identification_histories")
+    with pytest.raises(KeyError):
+        get_reproducibility_profile("restricted_empirical_grounding_source")
     fixed_profile = get_reproducibility_profile("fixed_mode_discrepancy_recovery")
     related = {
         study.study_type.value for study in fixed_profile.related_studies if study.study_type

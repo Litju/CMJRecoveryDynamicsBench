@@ -82,8 +82,9 @@ EVALUATION_BINDINGS = (
         False,
         EvidenceStatus.UNKNOWN,
         (
-            "Whether a rights-cleared empirical source can be aligned to "
-            "recovery targets and splits; no public crosswalk is established."
+            "Whether a rights-cleared empirical source can be aligned "
+            "to recovery targets and splits; no public crosswalk is "
+            "established."
         ),
     ),
 )

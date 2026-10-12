@@ -83,6 +83,7 @@ _PHASE_DATA = "phase_consistent_episode_sample"
 _CORRELATED_DATA = "correlated_exposure_recovery_sample"
 _FIXED_DATA = "fixed_mode_recovery_candidate_sample"
 _SYSID_DATA = "manufactured_parameter_identification_histories"
+_RESTRICTED_EMPIRICAL_DATA = "restricted_empirical_grounding_source"
 
 _RICH_RAW = "rich_history_raw_progress_diagnostic"
 _SYSID_RMSE = "manufactured_posterior_parameter_point_rmse"
@@ -804,6 +805,22 @@ RESULTS = (
             "RES-361: preserved identification result output",
             "RES-366: system-identification result registry",
         ),
+    ),
+    _result(
+        "restricted_empirical_crosswalk_status",
+        "restricted_empirical_grounding_crosswalk",
+        _RESTRICTED_EMPIRICAL_DATA,
+        "empirical_grounding_split_not_disclosed",
+        _GROUNDING_STATUS,
+        (
+            "No public source/split/scorer crosswalk is established for "
+            "recovery outcomes; source and result details are withheld "
+            "under the M0 non-redistribution decision."
+        ),
+        comparability=ComparabilityStatus.NON_COMPARABLE,
+        disposition=ScientificDisposition.UNKNOWN,
+        evidence_status=EvidenceStatus.UNKNOWN,
+        sources=("RES-362: M0 rights registry", "RES-363: rights and evidence handoff"),
     ),
 )
 

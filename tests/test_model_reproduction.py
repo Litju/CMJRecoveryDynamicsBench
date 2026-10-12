@@ -122,6 +122,13 @@ def test_direct_comparability_fails_closed_at_specimen_dataset_split_and_metric_
         get_result_reproduction("fixed_mode_nonlinear_mixed_effects_sre6"),
     )
 
+    required_m1 = {
+        "initial_vs_canonical_camp_results": ComparabilityStatus.NON_COMPARABLE,
+        "rich_history_public_vs_hidden_bank": ComparabilityStatus.COMPARABLE_WITH_CAVEAT,
+        "correlated_exposure_vs_fixed_mode_research_results": ComparabilityStatus.NON_COMPARABLE,
+        "fixed_mode_local_vs_empirical_frontier": ComparabilityStatus.DIRECTLY_COMPARABLE,
+        "system_identification_vs_recovery_point_forecast": ComparabilityStatus.NON_COMPARABLE,
+    }
     observed = {item.name: item.status for item in COMPARABILITY_CONCLUSIONS}
     for name, status in required_m1.items():
         assert observed[name] is status
@@ -383,3 +390,15 @@ def test_preliminary_and_threshold_ladders_have_no_accepted_model_results() -> N
     assert threshold.status is SpecimenModelStatus.PROPOSED
     assert threshold.result_names == ()
     assert "no accepted result exists" in threshold.note
+
+
+def test_adjacent_sysid_and_empirical_results_stay_outside_benchmark_model_reproductions() -> None:
+    assert all(
+        "manufactured_parameter_identification" not in result.result.dataset_name
+        and "waveform" not in result.result.dataset_name
+        for result in RESULT_REPRODUCTIONS.values()
+    )
+    m1 = {item.name: item.status for item in COMPARABILITY_CONCLUSIONS}
+    assert m1["system_identification_vs_recovery_point_forecast"] is (
+        ComparabilityStatus.NON_COMPARABLE
+    )

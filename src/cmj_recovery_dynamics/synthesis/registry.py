@@ -302,6 +302,7 @@ _CORRELATED = "correlated_exposure_recovery"
 _THRESHOLD = "threshold_response_recovery"
 _FIXED = "fixed_mode_discrepancy_recovery"
 _SYSID = "system_identification"
+_REAL_DATA_GROUNDING = "real_data_grounding"
 _ALL_BENCHMARKS = tuple(BENCHMARK_REGISTRY)
 
 _INITIAL_LINEAR = "initial_linear_public_baseline_result"
@@ -335,6 +336,7 @@ _SYSID_EB = "manufactured_empirical_bayes_energy_scores"
 _SYSID_NEURAL = "manufactured_neural_posterior_energy_scores"
 _SYSID_RMSE = "manufactured_exact_posterior_raw_coordinate_rmse"
 _SYSID_DIFF = "manufactured_neural_vs_exact_posterior_energy_difference"
+_RESTRICTED_CROSSWALK = "restricted_empirical_crosswalk_status"
 
 _PHASE_EXPERIMENT = "phase_consistent_adversarial_survivability"
 _CORRELATED_EXPERIMENT = "correlated_exposure_corrected_survivability"
@@ -486,8 +488,6 @@ _threshold_hidden_split = next(
 _sysid_terminal_decision = _sysid_reconstruction.decision
 if _sysid_terminal_decision is None:
     raise ValueError("SYSID M4 authority must preserve its terminal decision")
-if _white_terminal_decision is None:
-    raise ValueError("White M4 authority must preserve its grounding boundary")
 _benchmark_statuses = tuple(
     (name, _PROFILES[name].final_reproduction_audit.overall_status) for name in _ALL_BENCHMARKS
 )
@@ -521,9 +521,20 @@ _CLAIMS = (
             "difficulty."
         ),
         benchmark_names=_ALL_BENCHMARKS,
-        result_names=(_INITIAL_NEGATIVE, _CANONICAL_RESULT, _CORR_RATIO, _FIXED_LOCAL, _SYSID_EXACT),
+        result_names=(
+            _INITIAL_NEGATIVE,
+            _CANONICAL_RESULT,
+            _CORR_RATIO,
+            _FIXED_LOCAL,
+            _SYSID_EXACT,
+        ),
         study_names=(_SYSID,),
-        comparison_names=(_CROSS_CAMP, _CORR_FIXED_COMPARISON, _SYSID_RECOVERY_COMPARISON, _CANONICAL_GPU_COMPARISON),
+        comparison_names=(
+            _CROSS_CAMP,
+            _CORR_FIXED_COMPARISON,
+            _SYSID_RECOVERY_COMPARISON,
+            _CANONICAL_GPU_COMPARISON,
+        ),
         limitations=(
             (
                 "The registered comparisons explicitly identify specimen pairs that are "
@@ -1112,12 +1123,21 @@ _CLAIMS = (
         SynthesisScope.PROGRAM,
         ConclusionStatus.UNRESOLVED,
         (
-            'Empirical grounding of the recovery benchmarks remains unresolved: no rights-cleared source/split/scorer crosswalk is publicly established. The synthetic recovery program is neither empirically validated nor empirically invalidated by this boundary.'
+            "Empirical grounding of the recovery benchmarks remains unresolved: no "
+            "rights-cleared source/split/scorer crosswalk is publicly established. The "
+            "synthetic recovery program is neither empirically validated nor empirically "
+            "invalidated by this boundary."
         ),
         benchmark_names=(_INITIAL, _PRELIMINARY, _FIXED),
         result_names=(_RESTRICTED_CROSSWALK, _FIXED_LOCAL),
         study_names=(_REAL_DATA_GROUNDING,),
-        limitations=('The M0 rights registry prohibits redistribution of the external source and its derived result details; this does not establish a recovery-validation outcome.',),
+        limitations=(
+            (
+                "The M0 rights registry prohibits redistribution of the external source and "
+                "its derived result details; this does not establish a recovery-validation "
+                "outcome."
+            ),
+        ),
     ),
     _claim(
         "program_sample_efficiency_unresolved",
@@ -1134,7 +1154,12 @@ _CLAIMS = (
         benchmark_names=_ALL_BENCHMARKS,
         result_names=(_SYSID_EXACT,),
         study_names=(_SYSID,),
-        limitations=('SYSID history regimes are information evidence in a manufactured inverse problem, not a learning curve or recovery sample-efficiency estimate.',),
+        limitations=(
+            (
+                "SYSID history regimes are information evidence in a manufactured inverse "
+                "problem, not a learning curve or recovery sample-efficiency estimate."
+            ),
+        ),
     ),
     _claim(
         "program_compute_efficiency_unresolved",
@@ -1169,10 +1194,21 @@ _CLAIMS = (
         SynthesisScope.PROGRAM,
         ConclusionStatus.SUPPORTED_WITH_CAVEAT,
         (
-            'Robustness evidence exists only on declared study-specific axes: fixed mode records shortcut-leakage, shift-support, statistical-adequacy, runtime-seal, and validation-substitution PASS gates; rich public/hidden results remain separate bank evidence; canonical seed robustness is unestablished. There is no universal robustness score or production robustness certification.'
+            "Robustness evidence exists only on declared study-specific axes: fixed mode "
+            "records shortcut-leakage, shift-support, statistical-adequacy, "
+            "runtime-seal, and validation-substitution PASS gates; rich public/hidden "
+            "results remain separate bank evidence; canonical seed robustness is "
+            "unestablished. There is no universal robustness score or production robustness "
+            "certification."
         ),
         benchmark_names=(_CANONICAL, _RICH, _FIXED),
-        result_names=(_CANONICAL_RESULT, _RICH_PUBLIC_HEADROOM, _RICH_HIDDEN_HEADROOM, _FIXED_LOCAL, _FIXED_NLME),
+        result_names=(
+            _CANONICAL_RESULT,
+            _RICH_PUBLIC_HEADROOM,
+            _RICH_HIDDEN_HEADROOM,
+            _FIXED_LOCAL,
+            _FIXED_NLME,
+        ),
         experiment_names=(_FIXED_STUDY,),
         comparison_names=(_RICH_BANK_COMPARISON,),
         gate_names=(
@@ -1237,13 +1273,47 @@ _CLAIMS = (
         SynthesisScope.PROGRAM,
         ConclusionStatus.SUPPORTED_WITH_CAVEAT,
         (
-            'Structured, local, or analytic methods were highly competitive and sometimes superior within their own valid studies: rich-history empirical Bayes captured most public headroom; fixed-mode structured/local approaches outperformed the reported generic MLP and 1-D result; exact and empirical-Bayes inference beat neural amortization in SYSID. The evidence does not support a universal structured-over-learned rule.'
+            "Structured, local, or analytic methods were highly competitive and "
+            "sometimes superior within their own valid studies: rich-history empirical "
+            "Bayes captured most public headroom; fixed-mode structured/local approaches "
+            "outperformed the reported generic MLP and 1-D result; exact and "
+            "empirical-Bayes inference beat neural amortization in SYSID. The evidence does "
+            "not support a universal "
+            "structured-over-learned "
+            "rule."
         ),
         benchmark_names=(_RICH, _FIXED),
-        result_names=(_RICH_ZERO, _RICH_EB, _RICH_BOOSTED, _RICH_PUBLIC_HEADROOM, _FIXED_LOCAL, _FIXED_NLME, _FIXED_1D, _FIXED_MLP, _SYSID_EXACT, _SYSID_EB, _SYSID_NEURAL),
+        result_names=(
+            _RICH_ZERO,
+            _RICH_EB,
+            _RICH_BOOSTED,
+            _RICH_PUBLIC_HEADROOM,
+            _FIXED_LOCAL,
+            _FIXED_NLME,
+            _FIXED_1D,
+            _FIXED_MLP,
+            _SYSID_EXACT,
+            _SYSID_EB,
+            _SYSID_NEURAL,
+        ),
         study_names=(_SYSID,),
-        comparisons=(((_RICH_ZERO, _RICH_EB, _RICH_BOOSTED, _RICH_PUBLIC_HEADROOM), None), ((_FIXED_LOCAL, _FIXED_NLME, _FIXED_1D, _FIXED_MLP), None), ((_SYSID_EXACT, _SYSID_EB, _SYSID_NEURAL), None)),
-        model_names=('rich_history_empirical_bayes_predictor', 'rich_history_boosted_residual_predictor', 'rich_history_headroom_reference', 'local_history_structured_attacker', 'fixed_mode_nonlinear_mixed_effects_predictor', 'learned_one_dimensional_exposure_predictor', 'generic_multilayer_perceptron_predictor', 'identification_exact_analytic_posterior', 'identification_empirical_bayes_posterior', 'identification_amortized_neural_posterior'),
+        comparisons=(
+            (((_RICH_ZERO, _RICH_EB, _RICH_BOOSTED, _RICH_PUBLIC_HEADROOM)), None),
+            (((_FIXED_LOCAL, _FIXED_NLME, _FIXED_1D, _FIXED_MLP)), None),
+            (((_SYSID_EXACT, _SYSID_EB, _SYSID_NEURAL)), None),
+        ),
+        model_names=(
+            "rich_history_empirical_bayes_predictor",
+            "rich_history_boosted_residual_predictor",
+            "rich_history_headroom_reference",
+            "local_history_structured_attacker",
+            "fixed_mode_nonlinear_mixed_effects_predictor",
+            "learned_one_dimensional_exposure_predictor",
+            "generic_multilayer_perceptron_predictor",
+            "identification_exact_analytic_posterior",
+            "identification_empirical_bayes_posterior",
+            "identification_amortized_neural_posterior",
+        ),
         limitations=(
             (
                 "The comparisons are confined to their separate study identities; they "
@@ -1258,11 +1328,34 @@ _CLAIMS = (
         SynthesisScope.PROGRAM,
         ConclusionStatus.SUPPORTED_WITH_CAVEAT,
         (
-            "The synthesis preserves the initial attempt-family negative result, initial negative/inconclusive qualification, phase-consistent falsification, correlated scalar-rule failure with RUNTIME_SCORER_REPAIR_REQUIRED, fixed-mode four failed research gates with PROGRAM_PIVOT, SYSID neural-versus-exact negative result with NOT_ML_TASK. Threshold's NOT_ESTABLISHED attempt is unresolved evidence, not a scientific failure; fixed's pivot is not benchmark failure."
+            "The synthesis preserves the initial attempt-family negative result, initial "
+            "negative/inconclusive qualification, phase-consistent falsification, "
+            "correlated scalar-rule failure with RUNTIME_SCORER_REPAIR_REQUIRED, "
+            "fixed-mode four failed research gates with PROGRAM_PIVOT, SYSID "
+            "neural-versus-exact negative result with NOT_ML_TASK. Threshold's "
+            "NOT_ESTABLISHED attempt is unresolved evidence, not a scientific failure; "
+            "fixed's pivot is not benchmark "
+            "failure."
         ),
         benchmark_names=(_INITIAL, _PHASE, _CORRELATED, _THRESHOLD, _FIXED),
-        result_names=(_INITIAL_NEGATIVE, _INITIAL_QUALIFICATION, _PHASE_RIDGE, _PHASE_FRONTIER, _CORR_RATIO, _CORR_SCALAR, _FIXED_OWNER, _SYSID_DIFF),
-        experiment_names=(_CORRELATED_EXPERIMENT, _THRESHOLD_PROTOCOL, _THRESHOLD_ATTEMPT, _FIXED_STUDY, _FIXED_PIVOT, _SYSID_EXPERIMENT),
+        result_names=(
+            _INITIAL_NEGATIVE,
+            _INITIAL_QUALIFICATION,
+            _PHASE_RIDGE,
+            _PHASE_FRONTIER,
+            _CORR_RATIO,
+            _CORR_SCALAR,
+            _FIXED_OWNER,
+            _SYSID_DIFF,
+        ),
+        experiment_names=(
+            _CORRELATED_EXPERIMENT,
+            _THRESHOLD_PROTOCOL,
+            _THRESHOLD_ATTEMPT,
+            _FIXED_STUDY,
+            _FIXED_PIVOT,
+            _SYSID_EXPERIMENT,
+        ),
         study_names=(_SYSID,),
         historical_rule_names=(*_corr_rules, *_fixed_rules),
         gate_names=tuple(

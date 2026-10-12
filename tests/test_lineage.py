@@ -323,6 +323,21 @@ def test_system_identification_is_adjacent_posterior_inference_not_point_forecas
     )
 
 
+def test_rights_restricted_empirical_source_has_no_public_split_or_result_values() -> None:
+    from cmj_recovery_dynamics.lineage.contracts import RedistributionStatus
+
+    experiment = get_experiment("restricted_empirical_grounding_crosswalk")
+    assert experiment.benchmark_name is None
+    dataset = LINEAGE_REGISTRY.datasets[experiment.dataset_name]
+    assert dataset.kind.value == "EMPIRICAL"
+    assert dataset.redistribution is RedistributionStatus.PROHIBITED
+    split = LINEAGE_REGISTRY.splits[dataset.split_names[0]]
+    assert split.rows is split.participants is split.camps is split.origins_or_episodes is None
+    result = LINEAGE_REGISTRY.results["restricted_empirical_crosswalk_status"]
+    assert result.values == ()
+    assert result.model_names == ()
+
+
 def test_posterior_rmse_conflict_resolves_only_with_exact_result_source_and_config_evidence() -> (
     None
 ):
