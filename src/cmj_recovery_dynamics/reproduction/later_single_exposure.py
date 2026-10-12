@@ -54,8 +54,8 @@ class LaterSourceClosure:
     parameter_authority_version: str
     parameter_authority_metadata_key: str
     public_root_metadata_key: str
-    source_commit: str
-    task_tree: str
+    source_commit: str | None
+    task_tree: str | None
     repository_task_path: str
     params_path: str
     response_path: str
@@ -84,8 +84,8 @@ def _closure(
     benchmark_name: LaterFormulation,
     authority_version: str,
     metadata_key: str,
-    commit: str,
-    tree: str,
+    commit: str | None,
+    tree: str | None,
     tests: tuple[str, ...],
     hidden_design: tuple[int, int, int] | None,
     cell_definition_path: str | None,
@@ -127,8 +127,8 @@ LATER_SOURCE_CLOSURES = MappingProxyType(
             "threshold_response_recovery",
             "2.1.0",
             "threshold_response_recovery.historical_labels",
-            "059f42ebc7396662dba04f0b0021d834e4e1aa79",
-            "d6758ab6f75262121bc6b6df1eb995cb32567386",
+            None,
+            None,
             (
                 "conftest.py",
                 "test_lcmj_c1_artifacts.py",
@@ -147,8 +147,8 @@ LATER_SOURCE_CLOSURES = MappingProxyType(
             "fixed_mode_discrepancy_recovery",
             "1.0.0",
             "fixed_mode_discrepancy_recovery.historical_labels",
-            "984a9c740f7fab11d5ae10c5eee3c99f53f43537",
-            "96dd5450512aca55d42c90c7c1a845ebbb2887bd",
+            None,
+            None,
             (
                 "conftest.py",
                 "test_candidate_h_contract.py",

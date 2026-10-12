@@ -140,8 +140,6 @@ _METADATA: Mapping[str, _Metadata] = MappingProxyType(
                     "published in the lineage result registry."
                 ),
             ),
-            source_commit=("aa04398223b91449956f3b5ec62360d1682eefbc",),
-            task_tree=("86719bed657e2a1c23b4d670f70ff0cb5163b8d3",),
             protocol_source=("ALI-507 corrected SP06 protocol; D07 public validation",),
             result_source=("ALI-507 final receipt comment 3a075bcb-f4da-4ebb-81b0-63e15f54158a",),
             evaluation_source=("RES-367: research SRE6 and progress-gate definitions",),
@@ -156,8 +154,6 @@ _METADATA: Mapping[str, _Metadata] = MappingProxyType(
             ),
             "Retain the proposal as unresolved and unrun.",
             ("Accepted evaluation and acceptance/rejection decision are absent.",),
-            source_commit=("059f42ebc7396662dba04f0b0021d834e4e1aa79",),
-            task_tree=("d6758ab6f75262121bc6b6df1eb995cb32567386",),
             protocol_source=("SP07 C1 proposed 12-cell protocol; D08 proposed sample",),
         ),
         "threshold_response_implementation_reference_attempt": _Metadata(
@@ -178,8 +174,6 @@ _METADATA: Mapping[str, _Metadata] = MappingProxyType(
                     "reconciled to the frozen protocol."
                 ),
             ),
-            source_commit=("059f42ebc7396662dba04f0b0021d834e4e1aa79",),
-            task_tree=("d6758ab6f75262121bc6b6df1eb995cb32567386",),
             protocol_source=("SP07 C1 implementation/reference attempt; no accepted result",),
         ),
         "fixed_mode_public_dataset_qualification": _Metadata(
@@ -255,11 +249,9 @@ _METADATA: Mapping[str, _Metadata] = MappingProxyType(
                 "The preserved result receipt does not provide a publication-safe runtime "
                 "environment manifest.",
             ),
-            source_commit=("62eb1d7714a04721429a7f4f385caad745e51c66",),
-            task_tree=("d9a12bed9c1ca4bc686bbbab1a06ba125f8b4e6d",),
             protocol_source=("ALI-518-002: D09 public validation; 16 validation camps",),
             runner_source=(
-                "ALI-518-002 runner in task tree d9a12bed9c1ca4bc686bbbab1a06ba125f8b4e6d",
+                "ALI-518-002 runner evidence in the M1 preservation handoff",
             ),
             result_source=("ALI-518-002 result comment 060ee8be-98f8-4152-be0f-b00ff6a1dc26",),
             bootstrap_source=(

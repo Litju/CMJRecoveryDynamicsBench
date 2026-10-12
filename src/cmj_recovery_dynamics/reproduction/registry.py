@@ -43,13 +43,11 @@ _EXPECTED_BENCHMARKS = frozenset(
 _AUTHORITY = ReproductionAuthority(
     ("RES-363", "RES-364", "RES-365", "RES-366", "RES-367", "RES-368"),
     (
-        "Sealed task-linked M1 evidence only; adjacent posterior-inference and White "
-        "waveform studies remain outside these benchmark identities."
+        "Sealed task-linked M1 evidence only; adjacent posterior-inference and empirical "
+        "grounding studies remain outside these benchmark identities."
     ),
 )
-_SP03_TREE_EVIDENCE = (
-    "M1-selected SP03/D04 executable tree e2871ccac43e4e6b7dfaa0c7cc2eec9d05b03e0b"
-)
+_SP03_TREE_EVIDENCE = "M1-selected rich-history scientific source"
 
 
 def _claim(
@@ -222,7 +220,7 @@ def _splits(
     )
 
 
-_W01_TREE_EVIDENCE = "M1-selected W01 tree 037fd0510dec208d20d9af5eb10f4812ee423abf"
+_W01_TREE_EVIDENCE = "M1-selected initial-camp scientific source"
 _CAMP_WORLD = {
     D.WORLD_LAW: _claim(
         D.WORLD_LAW,
@@ -740,28 +738,20 @@ _RICH_SPLIT = {
         S.EXACT,
         (
             "Exact means the historical public split/query membership is reproducible. The D04 "
-            "materialization source is commit 6947771c8567438bba4cea8b5bb28d8f7992b307, "
-            "repository tree c3c65d118cab0a368aafc7c1681a5660cd039bee, task tree "
-            "88e0cf68aa7fda864505a2a7e353e0487187919e. Its shared per-camp default_rng replay "
+            "materialization source is bound by the M1 preservation authority. Its shared "
+            "per-camp default_rng replay "
             "matches preserved participant, origin, query keys, H72/D7 masks, and ordered "
             "logical rows for both public splits. Later ALI-488/490 repairs changed scientific, "
-            "measurement, schedule, and RNG source without regenerating D04. SP03 scientific "
-            "authority is tree e2871ccac43e4e6b7dfaa0c7cc2eec9d05b03e0b; its later named-channel "
-            "replay remains a separate non-historical realization. Matching membership is "
+            "measurement, schedule, and RNG source without regenerating D04. The later "
+            "named-channel replay remains a separate non-historical realization. Matching membership is "
             "compatibility/output evidence, not proof of D04's historical RNG runtime."
         ),
-        "RES-361/M1: D04 producer commit 6947771c8567438bba4cea8b5bb28d8f7992b307, "
-        "repository tree c3c65d118cab0a368aafc7c1681a5660cd039bee, task tree "
-        "88e0cf68aa7fda864505a2a7e353e0487187919e, manifest blob "
-        "03864b433e678e582da3d50d66468443a77cba71, train blob "
-        "8b789399f8b40feef3a02aff98eb9a86d193f335, validation blob "
-        "d2987e1e349986319eeb01cc46972e0bae9c158c",
+        "RES-361/M1: D04 producer and materialized split authorities; manifest and public "
+        "split identities are bound in the sealed evidence handoff.",
         "RES-392: direct ordered parity and canonical membership fingerprints from replay vs "
         "preserved D04 rows",
         "RES-364/365: D04 hashes, geometry, public roots, generator version, and manifest mapping",
-        "ALI-490 commit ad5e48a1dc9c1fd1e27ecd314940a9be1b4fd50a / task tree "
-        "e2871ccac43e4e6b7dfaa0c7cc2eec9d05b03e0b: rng.py, core.py, schedule.py, and "
-        "test_ali490_rng_channels.py",
+        "ALI-490 RNG-channelization source and binding tests",
         "D04 producer environment/Dockerfile: runtime-ml-core-py313-local base tag only; no "
         "NumPy pin or lock file",
         "RES-365: dataset and split registry",
@@ -778,7 +768,7 @@ _RICH_ORDERING = {
             "This does not claim exact Parquet physical encoding."
         ),
         "RES-392: direct ordered comparison against preserved D04 train and validation blobs",
-        "D04 manifest blob 03864b433e678e582da3d50d66468443a77cba71",
+        "RES-392: D04 manifest and ordered public membership evidence",
         scope=("training", "public_validation"),
     ),
 }

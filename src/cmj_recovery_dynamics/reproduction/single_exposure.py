@@ -198,8 +198,8 @@ class PublicExposure:
 class SourceClosure:
     benchmark_name: str
     parameter_authority: str
-    source_commit: str
-    task_tree: str
+    source_commit: str | None
+    task_tree: str | None
     source_paths: tuple[str, ...]
     test_paths: tuple[str, ...]
     schema_path: str
@@ -233,8 +233,8 @@ SOURCE_CLOSURES = {
     "preliminary_post_exposure_recovery": SourceClosure(
         "preliminary_post_exposure_recovery",
         "source_parameters_1.0.0",
-        "da3fa115838b177f5ba2bd055a5c3465654c4e22",
-        "e11c1140b362c52d40942463bb0714171ae165f8",
+        None,
+        None,
         _SOURCE_PATHS,
         _TEST_PATHS,
         "data/canonical_v2.py",
@@ -243,8 +243,8 @@ SOURCE_CLOSURES = {
     "phase_consistent_post_exposure_recovery": SourceClosure(
         "phase_consistent_post_exposure_recovery",
         "source_parameters_1.1.0",
-        "04e9db465a481a88f18e8fc062e317269204dce8",
-        "5ef8ad267d3e57f8fa73dd3b82967937291b20ca",
+        None,
+        None,
         _SOURCE_PATHS,
         _TEST_PATHS,
         "data/canonical_v2.py",
@@ -253,8 +253,8 @@ SOURCE_CLOSURES = {
     "correlated_exposure_recovery": SourceClosure(
         "correlated_exposure_recovery",
         "source_parameters_1.2.0",
-        "144d283f7b43e6c1a2972b8b58cfc3e4e05b384a",
-        "7dbd339858555e11065f9a022820708d8c012f96",
+        None,
+        None,
         _SOURCE_PATHS,
         _TEST_PATHS,
         "data/canonical_v2.py",

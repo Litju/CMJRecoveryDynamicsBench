@@ -38,8 +38,8 @@ BENCHMARK_NAMES = (
 
 _SOURCE_ROOT = "problems/preseason-exposure-cmj-recovery-forecast"
 _BASELINE_SOURCES = SourceClosure(
-    source_commit="8e3ea4932b4a399640dfaa139b2f273fbd3f73cd",
-    task_tree="a35491509f7917e02cb08178e4cf0365700e83e2",
+    source_commit=None,
+    task_tree=None,
     source_snapshot="ALI-400 preserved v26-source-9c671067 Gate 5/6 source",
     model_source=f"{_SOURCE_ROOT}/baselines/linear/solution.py",
     training_source=f"{_SOURCE_ROOT}/baselines/linear/train.py",
@@ -77,8 +77,8 @@ _BASELINE_SOURCES = SourceClosure(
     evidence=("RES-361 preserved source", "RES-366 M1 result binding", "RES-367 M1 evaluation"),
 )
 _REFERENCE_SOURCES = SourceClosure(
-    source_commit="8e3ea4932b4a399640dfaa139b2f273fbd3f73cd",
-    task_tree="a35491509f7917e02cb08178e4cf0365700e83e2",
+    source_commit=None,
+    task_tree=None,
     source_snapshot="ALI-400 preserved v26-source-9c671067 Gate 5/6 source",
     model_source=f"{_SOURCE_ROOT}/solution/model.py",
     training_source=f"{_SOURCE_ROOT}/solution/train.py",

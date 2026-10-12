@@ -10,13 +10,7 @@ from cmj_recovery_dynamics.reproduction import (
     replay_d04_membership,
 )
 from cmj_recovery_dynamics.reproduction.rich_history import (
-    D04_DATA_PRODUCER_COMMIT,
-    D04_DATA_PRODUCER_TASK_TREE,
-    D04_MANIFEST_BLOB_OID,
-    D04_TRAIN_PARQUET_BLOB_OID,
-    D04_VALIDATION_PARQUET_BLOB_OID,
     RICH_HISTORY_REPRODUCTION_METADATA,
-    SP03_SOURCE_TREE,
     PublicSplitName,
 )
 
@@ -95,20 +89,18 @@ def test_d04_ordered_membership_fingerprints_and_dual_authority() -> None:
         "origin_key",
         "query_key",
     }
-    assert D04_DATA_PRODUCER_COMMIT == RICH_HISTORY_REPRODUCTION_METADATA.d04_materialization_commit
-    assert D04_DATA_PRODUCER_TASK_TREE == (
-        RICH_HISTORY_REPRODUCTION_METADATA.d04_materialization_task_tree
-    )
-    assert D04_DATA_PRODUCER_TASK_TREE != SP03_SOURCE_TREE
-    assert RICH_HISTORY_REPRODUCTION_METADATA.d04_materialization_repository_tree == (
-        "c3c65d118cab0a368aafc7c1681a5660cd039bee"
-    )
-    assert RICH_HISTORY_REPRODUCTION_METADATA.d04_manifest_blob_oid == D04_MANIFEST_BLOB_OID
-    assert RICH_HISTORY_REPRODUCTION_METADATA.d04_train_parquet_blob_oid == (
-        D04_TRAIN_PARQUET_BLOB_OID
-    )
-    assert RICH_HISTORY_REPRODUCTION_METADATA.d04_validation_parquet_blob_oid == (
-        D04_VALIDATION_PARQUET_BLOB_OID
+    assert all(
+        getattr(RICH_HISTORY_REPRODUCTION_METADATA, field) is None
+        for field in (
+            "scientific_source_tree",
+            "d04_materialization_commit",
+            "d04_materialization_repository_tree",
+            "d04_materialization_task_tree",
+            "d04_manifest_blob_oid",
+            "d04_train_parquet_blob_oid",
+            "d04_validation_parquet_blob_oid",
+            "later_rng_channelization_commit",
+        )
     )
     assert d04_membership_fingerprint("public_train", root_seed=_root_for("public_train")) == (
         RICH_HISTORY_REPRODUCTION_METADATA.d04_training_membership_sha256

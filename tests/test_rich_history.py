@@ -42,14 +42,7 @@ from cmj_recovery_dynamics.reproduction.contracts import (
 )
 from cmj_recovery_dynamics.reproduction.registry import get_reproduction_contract
 from cmj_recovery_dynamics.reproduction.rich_history import (
-    ALI490_RNG_CHANNELIZATION_COMMIT,
     CATEGORICAL_FIELDS,
-    D04_DATA_PRODUCER_COMMIT,
-    D04_DATA_PRODUCER_REPOSITORY_TREE,
-    D04_DATA_PRODUCER_TASK_TREE,
-    D04_MANIFEST_BLOB_OID,
-    D04_TRAIN_PARQUET_BLOB_OID,
-    D04_VALIDATION_PARQUET_BLOB_OID,
     DEFAULT,
     F2_LEVELS,
     F3_LEVELS,
@@ -62,7 +55,6 @@ from cmj_recovery_dynamics.reproduction.rich_history import (
     RICH_HISTORY_REPRODUCTION_METADATA,
     SCHEMA_DIGEST,
     SP03_SOURCE_CLOSURE,
-    SP03_SOURCE_TREE,
     STREAM_CHANNELS,
     CampRegime,
     CampSchedule,
@@ -82,15 +74,19 @@ from cmj_recovery_dynamics.reproduction.rich_history import (
 
 
 def test_selected_source_closure_and_m21_claim_boundary() -> None:
-    assert SP03_SOURCE_TREE == "e2871ccac43e4e6b7dfaa0c7cc2eec9d05b03e0b"
-    assert D04_DATA_PRODUCER_COMMIT == "6947771c8567438bba4cea8b5bb28d8f7992b307"
-    assert D04_DATA_PRODUCER_REPOSITORY_TREE == "c3c65d118cab0a368aafc7c1681a5660cd039bee"
-    assert D04_DATA_PRODUCER_TASK_TREE == "88e0cf68aa7fda864505a2a7e353e0487187919e"
-    assert D04_DATA_PRODUCER_TASK_TREE != SP03_SOURCE_TREE
-    assert D04_MANIFEST_BLOB_OID == "03864b433e678e582da3d50d66468443a77cba71"
-    assert D04_TRAIN_PARQUET_BLOB_OID == "8b789399f8b40feef3a02aff98eb9a86d193f335"
-    assert D04_VALIDATION_PARQUET_BLOB_OID == "d2987e1e349986319eeb01cc46972e0bae9c158c"
-    assert ALI490_RNG_CHANNELIZATION_COMMIT == "ad5e48a1dc9c1fd1e27ecd314940a9be1b4fd50a"
+    assert all(
+        getattr(RICH_HISTORY_REPRODUCTION_METADATA, field) is None
+        for field in (
+            "scientific_source_tree",
+            "d04_materialization_commit",
+            "d04_materialization_repository_tree",
+            "d04_materialization_task_tree",
+            "d04_manifest_blob_oid",
+            "d04_train_parquet_blob_oid",
+            "d04_validation_parquet_blob_oid",
+            "later_rng_channelization_commit",
+        )
+    )
     required_paths = {
         "environment/Dockerfile",
         "data_generation/src/lcmj_v3/core.py",
@@ -178,25 +174,13 @@ def test_selected_source_closure_and_m21_claim_boundary() -> None:
     assert (
         RICH_HISTORY_REPRODUCTION_METADATA.scientific_generator_claim == "SEMANTICALLY_EQUIVALENT"
     )
-    assert RICH_HISTORY_REPRODUCTION_METADATA.scientific_source_tree == SP03_SOURCE_TREE
-    assert RICH_HISTORY_REPRODUCTION_METADATA.d04_materialization_commit == D04_DATA_PRODUCER_COMMIT
-    assert (
-        RICH_HISTORY_REPRODUCTION_METADATA.d04_materialization_repository_tree
-        == D04_DATA_PRODUCER_REPOSITORY_TREE
-    )
-    assert (
-        RICH_HISTORY_REPRODUCTION_METADATA.d04_materialization_task_tree
-        == D04_DATA_PRODUCER_TASK_TREE
-    )
-    assert D04_DATA_PRODUCER_TASK_TREE != RICH_HISTORY_REPRODUCTION_METADATA.scientific_source_tree
-    assert RICH_HISTORY_REPRODUCTION_METADATA.d04_manifest_blob_oid == D04_MANIFEST_BLOB_OID
-    assert (
-        RICH_HISTORY_REPRODUCTION_METADATA.d04_train_parquet_blob_oid == D04_TRAIN_PARQUET_BLOB_OID
-    )
-    assert (
-        RICH_HISTORY_REPRODUCTION_METADATA.d04_validation_parquet_blob_oid
-        == D04_VALIDATION_PARQUET_BLOB_OID
-    )
+    assert RICH_HISTORY_REPRODUCTION_METADATA.scientific_source_tree is None
+    assert RICH_HISTORY_REPRODUCTION_METADATA.d04_materialization_commit is None
+    assert RICH_HISTORY_REPRODUCTION_METADATA.d04_materialization_repository_tree is None
+    assert RICH_HISTORY_REPRODUCTION_METADATA.d04_materialization_task_tree is None
+    assert RICH_HISTORY_REPRODUCTION_METADATA.d04_manifest_blob_oid is None
+    assert RICH_HISTORY_REPRODUCTION_METADATA.d04_train_parquet_blob_oid is None
+    assert RICH_HISTORY_REPRODUCTION_METADATA.d04_validation_parquet_blob_oid is None
     assert RICH_HISTORY_REPRODUCTION_METADATA.d04_seed_construction == (
         "split-specific public roots; SHA-256 of compact JSON string parts, first 8 bytes "
         "big-endian; np.random.default_rng(seed)"
@@ -211,9 +195,7 @@ def test_selected_source_closure_and_m21_claim_boundary() -> None:
         "Dockerfile base tag runtime-ml-core-py313-local only; exact Python build, NumPy version, "
         "and BitGenerator unbound"
     )
-    assert RICH_HISTORY_REPRODUCTION_METADATA.later_rng_channelization_commit == (
-        ALI490_RNG_CHANNELIZATION_COMMIT
-    )
+    assert RICH_HISTORY_REPRODUCTION_METADATA.later_rng_channelization_commit is None
     assert RICH_HISTORY_REPRODUCTION_METADATA.row_ordering == "EXACT"
     assert RICH_HISTORY_REPRODUCTION_METADATA.membership_fingerprint_encoding == (
         "SHA-256 over ordered UTF-8 lines of compact JSON arrays "
@@ -235,8 +217,7 @@ def test_selected_source_closure_and_m21_claim_boundary() -> None:
     assert RICH_HISTORY_REPRODUCTION_METADATA.historical_calibration_reference == "UNAVAILABLE"
     split_claim = contract.claim(ReproductionDimension.SPLIT_ASSIGNMENT)
     assert split_claim.status is ReproductionStatus.EXACT
-    assert D04_DATA_PRODUCER_COMMIT in split_claim.rationale
-    assert SP03_SOURCE_TREE in split_claim.rationale
+    assert "M1 preservation authority" in split_claim.rationale
     assert "named-channel" in split_claim.rationale
     assert "not proof of D04's historical RNG runtime" in split_claim.rationale
     assert contract.evaluation.production_scorer == "rich_history_24_cell_normalized_rmse_score"
