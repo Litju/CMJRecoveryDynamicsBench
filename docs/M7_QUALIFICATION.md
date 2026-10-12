@@ -86,6 +86,65 @@ An independent `uv build --wheel` replay could not resolve `setuptools>=68` beca
 
 The sealed RES-362 and RES-288 checksum manifests verified 10/10 and 17/17 files. The protected-byte comparison on reviewed HEAD `1bafc13`, before this evidence update, covered the preserved 25,069 fingerprints and 28,858 bound records against 238 reachable blobs across 42 reachable commits; it found zero exact matches. The current-tree scan on that HEAD reported zero machine-local paths, secrets/private keys, private URLs, and 40-character SHA-1 references. Raw fingerprints, raw occurrence values, and the private comparator invocation remain outside public Git.
 
-At reviewed candidate HEAD `1bafc13`, rewriting the earliest affected commit would change 36 commits on `main`, 22 commits on origin's legacy registry-gate branch, and 41 on `res-288-m7-remediation`; the union is 41 distinct affected commits. There are no local tags. PR refs, forks, and external clones were not inspected and must be inventoried before any authorized rewrite. A targeted rewrite retains more provenance but changes descendant SHAs; a clean baseline built from the sanitized tree gives a fresh graph but discards public history. Neither action can revoke copies already held by forks, clones, or caches. No history operation was performed.
+At reviewed candidate HEAD `1bafc13`, rewriting the earliest affected commit would change 36 commits on `main`, 22 commits on origin's legacy registry-gate branch, and 41 on `res-288-m7-remediation`; the union is 41 distinct affected commits. There were no local tags. PR refs, forks, and external clones had not been inspected at that review point. The refreshed inventory below supersedes these counts. A targeted rewrite retains more provenance but changes descendant SHAs; a clean baseline built from the sanitized tree gives a fresh graph but discards public history. Neither action can revoke copies already held by clones or caches. No history operation was performed.
 
 The review recommendation is to treat the candidate as suitable for a separate current-tree code merge only if the owner accepts that the earlier affected history remains reachable. Such a merge would reduce disclosure at HEAD but would not clear the repository for M7 or M8. RES-288 remains `In Progress`; RES-291/M8 remains `Todo` and unstarted. No push, merge, release, tag, or history rewrite was performed.
+
+## Post-appendix qualification and integration
+
+The 31-line independent-review appendix was diff-checked and committed as `0d6de93`. Qualification was rerun on that committed HEAD: 289 tests passed; Ruff passed; all 98 files passed the format check; Pyright reported zero errors, warnings, and informations; and `git diff --check f59aae4..HEAD` passed. A wheel rebuilt successfully with 81 entries (77 package Python files and four metadata files), with no tests, docs, or protected payloads.
+
+The sealed RES-288, RES-362, and RES-363 manifests verified 17/17, 10/10, and 44/44 entries. The read-only M0/M7 replay compared 25,069 protected fingerprints covering 28,858 source records against the blobs reachable from the available refs; exact byte matches: zero. This result does not clear historical identifiers or paths and does not establish redistribution rights.
+
+The local integration check against `main` was clean and fast-forwardable. Its prospective tree is identical to the remediation candidate tree. The current-tree scan found no machine-local path, credential, private key, private URL, or full SHA-1 reference. It found three occurrences of the known public repository account label (two case forms) and one intentional malformed-URL test fixture; all were manually adjudicated. The two case forms account for the new pattern hits relative to current `main` and add no private provenance. Existing historical paths and reference strings remain reachable after a fast-forward, so this integration does not clear M7.
+
+The public origin inventory contains branches `main` and `tmp/res393-registry-gate`, no tags, no visible PR refs, zero pull requests in the GitHub API, and zero forks. External clones and caches cannot be inventoried from this repository. Rewriting the earliest affected commit would change 36 commits on `main`, 22 on the legacy branch, and 43 on `res-288-m7-remediation`; these refs overlap, for 43 distinct affected commits at the final report HEAD.
+
+## History-remediation dry-run plans
+
+Neither plan was executed. The M0 archive and sealed classification files remain read-only and outside public Git. `git-filter-repo` is not installed in this checkout.
+
+**Targeted rewrite.** Generate a private replacement map from the sealed M7 review: 28 exact reference strings and 11 distinct path strings, each matched literally and replaced with a non-path redaction marker. Keep both the map and the dry-run exports outside Git with private permissions. In a disposable mirror containing all current local and origin-tracking refs, run:
+
+```sh
+umask 077
+MIRROR="$(mktemp -d)/cmj-m7-mirror.git"
+MAP="${M7_PRIVATE_DIR}/literal-replacements.txt"
+git clone --mirror --no-local "$PWD" "$MIRROR"
+git -C "$MIRROR" filter-repo --dry-run --replace-text "$MAP"
+```
+
+Each map line uses the default literal matching form, with a fixed redaction marker after `==>`. Review the filtered export against the original, confirm the only distinct match values are the 39 mapped literals, and check all refs for residual findings. If the owner authorizes a rewrite after this dry run, validate it in another disposable mirror against the sealed M0 bytes and rerun the full qualification. Do not pass `--refs`: the plan must cover every inventoried branch, and partial rewriting can leave mixed old/new history. No push is part of this plan.
+
+**Clean baseline.** In a separate private temporary directory, export only the sanitized candidate tree, then initialize a new repository with one root commit after the owner selects the author identity. Do not add a remote:
+
+```sh
+umask 077
+BASELINE="$(mktemp -d)/cmj-m7-clean"
+mkdir "$BASELINE"
+git archive --format=tar HEAD | tar -xf - -C "$BASELINE"
+git -C "$BASELINE" init -b main
+git -C "$BASELINE" add -A
+git -C "$BASELINE" -c user.name="$APPROVED_AUTHOR_NAME" \
+  -c user.email="$APPROVED_AUTHOR_EMAIL" commit -m "Create sanitized public baseline"
+test "$(git -C "$BASELINE" rev-parse HEAD^{tree})" = "$(git rev-parse HEAD^{tree})"
+git -C "$BASELINE" rev-list --parents --all
+```
+
+The tree comparison must pass and the final `rev-list` line must contain one commit ID with no parent. Scan its full reachable history and wheel, and repeat the sealed M0 byte comparison. Do not add a license unless the owner separately selects one. This produces a fresh graph but loses public commit provenance; it does not revoke old clones, caches, or copied refs.
+
+| Approach | Keeps | Changes | Remaining limit |
+|---|---|---|---|
+| Current-tree fast-forward | Existing history and commit links | Makes the sanitized candidate tree current on `main` | All historical references and paths stay reachable; M7 remains blocked |
+| Targeted rewrite | Unaffected project history and most provenance | Rewrites 43 affected commits across the known refs; requires coordinated non-fast-forward updates | External clones and caches can retain old history |
+| Clean baseline | Sanitized current files and M0 authority kept privately | Replaces project history with a new root and invalidates old commit links | Loses public provenance; external copies remain |
+
+## Owner decisions still required
+
+1. Select a project license and the author/citation identity for any release metadata.
+2. Obtain written rights clearance before proposing any empirical source, derivative, split, comparison, or result summary for redistribution; otherwise keep those materials omitted under the M0 prohibition.
+3. Provide exact M0 evidence for the eight unclassified references or leave them unclassified and omitted. No rights are inferred.
+4. Choose between current-tree integration, targeted rewrite, or clean baseline, and authorize any eventual public ref update separately. Decide whether to rewrite or retire the legacy branch as part of that action.
+5. Coordinate with any external clone owners before history changes; public forks and pull requests were absent from the inventory, but external clones and caches are not enumerable.
+
+M7 remains `BLOCKED`; RES-288 remains `In Progress`; RES-291/M8 remains `Todo` and unstarted. No history rewrite, force-push, public merge, license addition, rights clearance, or v1.0 release was performed.
