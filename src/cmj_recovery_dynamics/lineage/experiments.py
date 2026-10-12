@@ -53,7 +53,7 @@ _THRESHOLD_DATA = "threshold_response_proposed_sample"
 _FIXED_DATA = "fixed_mode_recovery_candidate_sample"
 _FIXTURE_DATA = "initial_generator_fixture"
 _SYSID_DATA = "manufactured_parameter_identification_histories"
-_WHITE_DATA = "white_cmj_waveform_grounding_source"
+_RESTRICTED_EMPIRICAL_DATA = "restricted_empirical_grounding_source"
 
 _INITIAL_SPLIT = "initial_camp_public_validation"
 _CANONICAL_SPLIT = "canonical_camp_public_validation"
@@ -66,8 +66,7 @@ _THRESHOLD_SPLIT = "threshold_response_public_validation"
 _FIXED_SPLIT = "fixed_mode_public_validation"
 _SYSID_TRAIN_SPLIT = "identification_training_histories"
 _SYSID_TEST_SPLIT = "identification_heldout_history_regimes"
-_WHITE_TRAIN_SPLIT = "waveform_training_participants"
-_WHITE_VALIDATION_SPLIT = "waveform_public_validation_participants"
+_RESTRICTED_EMPIRICAL_SPLIT = "empirical_grounding_split_not_disclosed"
 
 _SRE6 = POST_EXPOSURE_RESEARCH_EVALUATION.name
 _PROGRESS = PREDICTIVE_PROGRESS_EVALUATION.name
@@ -77,7 +76,6 @@ _INITIAL_UNRESOLVED = "unresolved_initial_camp_platform_metric"
 _QUALIFICATION = "public_synthetic_dataset_qualification"
 _RICH_PROGRESS = "rich_history_raw_progress_diagnostic"
 _SYSID_RMSE = "manufactured_posterior_parameter_point_rmse"
-_WAVEFORM_RMSE = "white_waveform_participant_mean_rmse"
 _OWNER_DECISION = "owner_program_adjudication"
 _GROUNDING_STATUS = "real_data_recovery_crosswalk_status"
 _HEADROOM = StudyType.PREDICTIVE_HEADROOM
@@ -141,19 +139,19 @@ ADJACENT_STUDIES = (
     ),
     StudyLineage(
         StudyType.REAL_DATA_GROUNDING,
-        "How do synthetic recovery outcomes relate to empirical CMJ data and measurements?",
+        "Can an independently cleared empirical source substantiate recovery outcomes?",
         (_INITIAL, _PRELIMINARY, _FIXED),
-        (_WHITE_DATA,),
+        (_RESTRICTED_EMPIRICAL_DATA,),
         (
-            "Test whether empirical waveform evidence can be "
-            "crosswalked to camp and post-exposure recovery targets; no "
-            "T01/T02 crosswalk is established."
+            "Empirical recovery grounding remains unresolved because "
+            "the available source and derived results are not cleared "
+            "for redistribution and no recovery crosswalk is established."
         ),
         EvidenceReference(
-            EvidenceStatus.UNKNOWN,
-            ("RES-363: task-linked real-data authority", "RES-366: grounding boundary study"),
-            EvidenceConfidence.UNKNOWN,
-            "The separate waveform analysis does not validate the synthetic recovery benchmark.",
+            EvidenceStatus.DIRECT,
+            ("RES-362: M0 rights registry", "RES-363: rights and evidence handoff"),
+            EvidenceConfidence.HIGH,
+            "No public empirical validation claim is supported by the restricted source.",
         ),
     ),
 )
@@ -703,54 +701,24 @@ EXPERIMENTS = (
         ),
     ),
     _experiment(
-        "white_waveform_feasibility_boundary",
+        "restricted_empirical_grounding_crosswalk",
         (
-            "How well do classical and temporal-convolution models "
-            "predict held-out empirical CMJ waveforms?"
+            "Can the restricted empirical source be aligned to recovery outcomes?"
         ),
-        _WHITE_DATA,
-        (_WHITE_TRAIN_SPLIT, _WHITE_VALIDATION_SPLIT),
-        (_WAVEFORM_RMSE,),
-        ExperimentPurpose.REAL_DATA_GROUNDING,
-        ExperimentStatus.COMPLETED,
-        ScientificDisposition.NOT_BENCHMARK_VALIDATION,
-        "Record adjacent waveform-source feasibility without validating recovery forecasting.",
-        study=_REAL_DATA_GROUNDING,
-        models=(
-            "white_waveform_classical_predictor",
-            "white_waveform_temporal_convolutional_predictor",
-        ),
-        unit=ProtocolUnit.PARTICIPANT,
-        repetitions=5,
-        change=ChangeClass.MODEL_ONLY_CHANGE,
-        sources=("RES-366: real-data boundary result registry",),
-        note=(
-            "The waveform task uses participant-level data and has no "
-            "T01/T02 recovery source/split/scorer crosswalk."
-        ),
-    ),
-    _experiment(
-        "white_recovery_grounding_crosswalk",
-        (
-            "Can empirical waveform records be aligned to the recovery "
-            "benchmark's longitudinal exposures, split, and "
-            "force/impulse innovation targets?"
-        ),
-        _WHITE_DATA,
-        (_WHITE_VALIDATION_SPLIT,),
+        _RESTRICTED_EMPIRICAL_DATA,
+        (_RESTRICTED_EMPIRICAL_SPLIT,),
         (_GROUNDING_STATUS,),
         ExperimentPurpose.REAL_DATA_GROUNDING,
         ExperimentStatus.UNKNOWN,
         ScientificDisposition.UNKNOWN,
         "Preserve the missing crosswalk as unknown.",
         study=_REAL_DATA_GROUNDING,
-        unit=ProtocolUnit.PARTICIPANT,
+        unit=ProtocolUnit.UNKNOWN,
         change=ChangeClass.UNKNOWN,
-        sources=("RES-363: task-linked real-data authority", "RES-366: grounding boundary report"),
+        sources=("RES-362: M0 rights registry", "RES-363: rights and evidence handoff"),
         note=(
-            "No completed recovery-target crosswalk or benchmark "
-            "evaluation is preserved; redistribution rights remain "
-            "unresolved."
+            "The source, split, scorer and result details are withheld "
+            "under the M0 non-redistribution decision."
         ),
     ),
 )

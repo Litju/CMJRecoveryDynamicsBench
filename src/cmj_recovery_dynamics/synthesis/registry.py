@@ -302,7 +302,7 @@ _CORRELATED = "correlated_exposure_recovery"
 _THRESHOLD = "threshold_response_recovery"
 _FIXED = "fixed_mode_discrepancy_recovery"
 _SYSID = "system_identification"
-_WHITE = "real_data_grounding"
+_REAL_DATA_GROUNDING = "real_data_grounding"
 _ALL_BENCHMARKS = tuple(BENCHMARK_REGISTRY)
 
 _INITIAL_LINEAR = "initial_linear_public_baseline_result"
@@ -336,9 +336,7 @@ _SYSID_EB = "manufactured_empirical_bayes_energy_scores"
 _SYSID_NEURAL = "manufactured_neural_posterior_energy_scores"
 _SYSID_RMSE = "manufactured_exact_posterior_raw_coordinate_rmse"
 _SYSID_DIFF = "manufactured_neural_vs_exact_posterior_energy_difference"
-_WHITE_CLASSICAL = "white_waveform_classical_validation_rmse"
-_WHITE_TCN = "white_waveform_temporal_convolution_validation_rmse"
-_WHITE_CROSSWALK = "white_recovery_crosswalk_unresolved_result"
+_RESTRICTED_CROSSWALK = "restricted_empirical_crosswalk_status"
 
 _PHASE_EXPERIMENT = "phase_consistent_adversarial_survivability"
 _CORRELATED_EXPERIMENT = "correlated_exposure_corrected_survivability"
@@ -350,13 +348,11 @@ _FIXED_PIVOT = "fixed_mode_owner_pivot_adjudication"
 _FIXED_SCORER = "fixed_mode_production_scorer_status"
 _FIXED_EXPERT = "fixed_mode_expert_reference_qualification"
 _SYSID_EXPERIMENT = "manufactured_parameter_system_identification"
-_WHITE_EXPERIMENT = "white_waveform_feasibility_boundary"
 
 _CROSS_CAMP = "initial_vs_canonical_camp_results"
 _RICH_BANK_COMPARISON = "rich_history_public_vs_hidden_bank"
 _CORR_FIXED_COMPARISON = "correlated_exposure_vs_fixed_mode_research_results"
 _SYSID_RECOVERY_COMPARISON = "system_identification_vs_recovery_point_forecast"
-_WHITE_RECOVERY_COMPARISON = "white_waveform_vs_recovery_benchmark"
 _CANONICAL_GPU_COMPARISON = "canonical_vs_rich_history_gpu_after_reanchoring"
 _INITIAL_MODEL_COMPARISON = "initial_public_baseline_vs_reference_selection"
 
@@ -375,7 +371,6 @@ _fixed_pivot_disposition = _fixed_pivot_decision.benchmark_disposition
 _threshold_protocol_reconstruction = get_experiment_reconstruction(_THRESHOLD_PROTOCOL)
 _threshold_attempt_reconstruction = get_experiment_reconstruction(_THRESHOLD_ATTEMPT)
 _sysid_reconstruction = get_experiment_reconstruction(_SYSID_EXPERIMENT)
-_white_reconstruction = get_experiment_reconstruction(_WHITE_EXPERIMENT)
 _initial_negative_replay = get_result_reproduction(_INITIAL_NEGATIVE)
 _canonical_model_use = get_model_use_reproduction(
     "canonical_campaign_predictor_unresolved",
@@ -493,9 +488,6 @@ _threshold_hidden_split = next(
 _sysid_terminal_decision = _sysid_reconstruction.decision
 if _sysid_terminal_decision is None:
     raise ValueError("SYSID M4 authority must preserve its terminal decision")
-_white_terminal_decision = _white_reconstruction.decision
-if _white_terminal_decision is None:
-    raise ValueError("White M4 authority must preserve its grounding boundary")
 _benchmark_statuses = tuple(
     (name, _PROFILES[name].final_reproduction_audit.overall_status) for name in _ALL_BENCHMARKS
 )
@@ -535,14 +527,12 @@ _CLAIMS = (
             _CORR_RATIO,
             _FIXED_LOCAL,
             _SYSID_EXACT,
-            _WHITE_CLASSICAL,
         ),
-        study_names=(_SYSID, _WHITE),
+        study_names=(_SYSID,),
         comparison_names=(
             _CROSS_CAMP,
             _CORR_FIXED_COMPARISON,
             _SYSID_RECOVERY_COMPARISON,
-            _WHITE_RECOVERY_COMPARISON,
             _CANONICAL_GPU_COMPARISON,
         ),
         limitations=(
@@ -1128,54 +1118,24 @@ _CLAIMS = (
         ),
     ),
     _claim(
-        "white_waveform_rank_is_unstable",
-        SynthesisAxis.ROBUSTNESS,
-        SynthesisScope.STUDY,
-        ConclusionStatus.SUPPORTED_WITH_CAVEAT,
-        (
-            f"On White public validation with N={_value(_WHITE_CLASSICAL).sample_count}, "
-            f"classical waveform RMSE was {_scalar(_WHITE_CLASSICAL):.4f} body weights "
-            f"and TCN RMSE was {_scalar(_WHITE_TCN):.4f}. The study reports insufficient "
-            "independent N and unstable rankings, so no stable classical-versus-TCN "
-            f"superiority is supported despite the point estimates; M4 outcome is "
-            f"{_white_terminal_decision.outcome.value}."
-        ),
-        result_names=(_WHITE_CLASSICAL, _WHITE_TCN),
-        study_names=(_WHITE,),
-        comparisons=(((_WHITE_CLASSICAL, _WHITE_TCN), None),),
-        model_names=(
-            "white_waveform_classical_predictor",
-            "white_waveform_temporal_convolutional_predictor",
-        ),
-        limitations=(
-            (
-                "White is adjacent empirical waveform feasibility evidence and is not "
-                "recovery-benchmark "
-                "validation."
-            ),
-        ),
-    ),
-    _claim(
         "recovery_empirical_grounding_unresolved",
         SynthesisAxis.BENCHMARK_QUALITY,
         SynthesisScope.PROGRAM,
         ConclusionStatus.UNRESOLVED,
         (
-            "Empirical grounding of the recovery benchmarks remains unresolved: White "
-            "waveform evidence is a separate task, and no source/split/scorer crosswalk "
-            "binds it to T01/T02 recovery outcomes. The synthetic recovery program is "
-            "neither empirically validated nor empirically invalidated by this "
-            "boundary."
+            "Empirical grounding of the recovery benchmarks remains unresolved: no "
+            "rights-cleared source/split/scorer crosswalk is publicly established. The "
+            "synthetic recovery program is neither empirically validated nor empirically "
+            "invalidated by this boundary."
         ),
         benchmark_names=(_INITIAL, _PRELIMINARY, _FIXED),
-        result_names=(_WHITE_CLASSICAL, _WHITE_TCN, _WHITE_CROSSWALK, _FIXED_LOCAL),
-        study_names=(_WHITE,),
-        comparison_names=(_WHITE_RECOVERY_COMPARISON,),
+        result_names=(_RESTRICTED_CROSSWALK, _FIXED_LOCAL),
+        study_names=(_REAL_DATA_GROUNDING,),
         limitations=(
             (
-                "The recovery target map, split identity, scorer identity, and rights "
-                "decision remain unresolved; rights are M7 "
-                "scope."
+                "The M0 rights registry prohibits redistribution of the external source and "
+                "its derived result details; this does not establish a recovery-validation "
+                "outcome."
             ),
         ),
     ),
@@ -1192,14 +1152,12 @@ _CLAIMS = (
             "estimates."
         ),
         benchmark_names=_ALL_BENCHMARKS,
-        result_names=(_SYSID_EXACT, _WHITE_CLASSICAL, _WHITE_TCN),
-        study_names=(_SYSID, _WHITE),
+        result_names=(_SYSID_EXACT,),
+        study_names=(_SYSID,),
         limitations=(
             (
-                "SYSID K=2/4/8 is history-information evidence in its manufactured "
-                "inverse problem; White N=9 is an insufficiency warning, not an "
-                "efficiency "
-                "estimate."
+                "SYSID history regimes are information evidence in a manufactured inverse "
+                "problem, not a learning curve or recovery sample-efficiency estimate."
             ),
         ),
     ),
@@ -1240,8 +1198,7 @@ _CLAIMS = (
             "records shortcut-leakage, shift-support, statistical-adequacy, "
             "runtime-seal, and validation-substitution PASS gates; rich public/hidden "
             "results remain separate bank evidence; canonical seed robustness is "
-            "unestablished; White model rankings are unstable at N=9. There is no "
-            "universal robustness score or production robustness "
+            "unestablished. There is no universal robustness score or production robustness "
             "certification."
         ),
         benchmark_names=(_CANONICAL, _RICH, _FIXED),
@@ -1249,13 +1206,10 @@ _CLAIMS = (
             _CANONICAL_RESULT,
             _RICH_PUBLIC_HEADROOM,
             _RICH_HIDDEN_HEADROOM,
-            _WHITE_CLASSICAL,
-            _WHITE_TCN,
             _FIXED_LOCAL,
             _FIXED_NLME,
         ),
-        experiment_names=(_FIXED_STUDY, _WHITE_EXPERIMENT),
-        study_names=(_WHITE,),
+        experiment_names=(_FIXED_STUDY,),
         comparison_names=(_RICH_BANK_COMPARISON,),
         gate_names=(
             "SHORTCUT_LEAKAGE",
@@ -1323,8 +1277,8 @@ _CLAIMS = (
             "sometimes superior within their own valid studies: rich-history empirical "
             "Bayes captured most public headroom; fixed-mode structured/local approaches "
             "outperformed the reported generic MLP and 1-D result; exact and "
-            "empirical-Bayes inference beat neural amortization in SYSID. White does not "
-            "establish classical superiority. The evidence does not support a universal "
+            "empirical-Bayes inference beat neural amortization in SYSID. The evidence does "
+            "not support a universal "
             "structured-over-learned "
             "rule."
         ),
@@ -1341,15 +1295,12 @@ _CLAIMS = (
             _SYSID_EXACT,
             _SYSID_EB,
             _SYSID_NEURAL,
-            _WHITE_CLASSICAL,
-            _WHITE_TCN,
         ),
-        study_names=(_SYSID, _WHITE),
+        study_names=(_SYSID,),
         comparisons=(
             (((_RICH_ZERO, _RICH_EB, _RICH_BOOSTED, _RICH_PUBLIC_HEADROOM)), None),
             (((_FIXED_LOCAL, _FIXED_NLME, _FIXED_1D, _FIXED_MLP)), None),
             (((_SYSID_EXACT, _SYSID_EB, _SYSID_NEURAL)), None),
-            (((_WHITE_CLASSICAL, _WHITE_TCN)), None),
         ),
         model_names=(
             "rich_history_empirical_bayes_predictor",
@@ -1362,8 +1313,6 @@ _CLAIMS = (
             "identification_exact_analytic_posterior",
             "identification_empirical_bayes_posterior",
             "identification_amortized_neural_posterior",
-            "white_waveform_classical_predictor",
-            "white_waveform_temporal_convolutional_predictor",
         ),
         limitations=(
             (
@@ -1383,8 +1332,7 @@ _CLAIMS = (
             "negative/inconclusive qualification, phase-consistent falsification, "
             "correlated scalar-rule failure with RUNTIME_SCORER_REPAIR_REQUIRED, "
             "fixed-mode four failed research gates with PROGRAM_PIVOT, SYSID "
-            "neural-versus-exact negative result with NOT_ML_TASK, and White's "
-            "unstable-ranking/NOT_BENCHMARK_VALIDATION boundary. Threshold's "
+            "neural-versus-exact negative result with NOT_ML_TASK. Threshold's "
             "NOT_ESTABLISHED attempt is unresolved evidence, not a scientific failure; "
             "fixed's pivot is not benchmark "
             "failure."
@@ -1399,8 +1347,6 @@ _CLAIMS = (
             _CORR_SCALAR,
             _FIXED_OWNER,
             _SYSID_DIFF,
-            _WHITE_CLASSICAL,
-            _WHITE_TCN,
         ),
         experiment_names=(
             _CORRELATED_EXPERIMENT,
@@ -1409,9 +1355,8 @@ _CLAIMS = (
             _FIXED_STUDY,
             _FIXED_PIVOT,
             _SYSID_EXPERIMENT,
-            _WHITE_EXPERIMENT,
         ),
-        study_names=(_SYSID, _WHITE),
+        study_names=(_SYSID,),
         historical_rule_names=(*_corr_rules, *_fixed_rules),
         gate_names=tuple(
             item.gate_name for item in _fixed_study_reconstruction.historical_gate_outcomes

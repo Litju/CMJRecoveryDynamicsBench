@@ -288,10 +288,6 @@ def test_known_comparability_conclusions_are_preserved() -> None:
         comparisons["system_identification_vs_recovery_point_forecast"].status
         is ComparabilityStatus.NON_COMPARABLE
     )
-    assert (
-        comparisons["white_waveform_vs_recovery_benchmark"].status
-        is ComparabilityStatus.NON_COMPARABLE
-    )
 
 
 def test_completed_fixed_mode_models_share_split_metric_and_bootstrap_protocol() -> None:
@@ -327,17 +323,19 @@ def test_system_identification_is_adjacent_posterior_inference_not_point_forecas
     )
 
 
-def test_real_data_waveform_results_cannot_bind_as_recovery_benchmark_validation() -> None:
-    experiment = get_experiment("white_waveform_feasibility_boundary")
+def test_rights_restricted_empirical_source_has_no_public_split_or_result_values() -> None:
+    from cmj_recovery_dynamics.lineage.contracts import RedistributionStatus
+
+    experiment = get_experiment("restricted_empirical_grounding_crosswalk")
     assert experiment.benchmark_name is None
-    assert LINEAGE_REGISTRY.datasets[experiment.dataset_name].kind.value == "EMPIRICAL"
-    for result_name in (
-        "white_waveform_classical_validation_rmse",
-        "white_waveform_temporal_convolution_validation_rmse",
-    ):
-        result = get_result(result_name)
-        assert result.disposition is ScientificDisposition.NOT_BENCHMARK_VALIDATION
-        assert result.comparability is ComparabilityStatus.DIRECTLY_COMPARABLE
+    dataset = LINEAGE_REGISTRY.datasets[experiment.dataset_name]
+    assert dataset.kind.value == "EMPIRICAL"
+    assert dataset.redistribution is RedistributionStatus.PROHIBITED
+    split = LINEAGE_REGISTRY.splits[dataset.split_names[0]]
+    assert split.rows is split.participants is split.camps is split.origins_or_episodes is None
+    result = LINEAGE_REGISTRY.results["restricted_empirical_crosswalk_status"]
+    assert result.values == ()
+    assert result.model_names == ()
 
 
 def test_posterior_rmse_conflict_resolves_only_with_exact_result_source_and_config_evidence() -> (

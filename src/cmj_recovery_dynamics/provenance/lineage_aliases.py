@@ -69,8 +69,5 @@ HISTORICAL_LINEAGE_ALIASES: Mapping[str, tuple[str, ...]] = MappingProxyType(
             "P-SYSID-P0",
             "P-ST-SYSID-P0",
         ),
-        "white_cmj_waveform_grounding_source": ("White P0C", "D-WHITE-2026"),
-        "white_waveform_temporal_convolutional_predictor": ("five-seed TCN",),
-        "white_waveform_classical_predictor": ("best classical participant mean",),
     }
 )

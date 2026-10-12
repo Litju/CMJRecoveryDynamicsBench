@@ -369,22 +369,6 @@ STUDY_DECISIONS = MappingProxyType(
             None,
             ("SYSID-P0 preserved research result and evidence",),
         ),
-        "white_waveform_feasibility_boundary": StudyDecision(
-            "white_waveform_feasibility_boundary_decision",
-            "white_waveform_feasibility_boundary",
-            (
-                "The ranking was unstable and the preserved terminal interpretation was "
-                "insufficient independent N."
-            ),
-            (),
-            StudyDecisionOutcome.NOT_BENCHMARK_VALIDATION,
-            (
-                "Retain as adjacent empirical waveform feasibility evidence; do not use it to "
-                "validate T01/T02 recovery targets."
-            ),
-            None,
-            ("ALI-536 P0C waveform result and receipt", "RES-366: White / real-CMJ boundary"),
-        ),
     }
 )
 

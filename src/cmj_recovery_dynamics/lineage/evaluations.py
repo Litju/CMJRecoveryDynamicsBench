@@ -63,18 +63,6 @@ EVALUATION_BINDINGS = (
         ),
     ),
     EvaluationBinding(
-        "white_waveform_participant_mean_rmse",
-        MetricCategory.RESEARCH_DIAGNOSTIC,
-        (),
-        (StudyType.REAL_DATA_GROUNDING,),
-        False,
-        EvidenceStatus.DIRECT,
-        (
-            "Participant-mean waveform RMSE in body-weight units for "
-            "the separate empirical waveform task."
-        ),
-    ),
-    EvaluationBinding(
         "owner_program_adjudication",
         MetricCategory.QUALIFICATION_STATISTIC,
         ("fixed_mode_discrepancy_recovery",),
@@ -94,9 +82,9 @@ EVALUATION_BINDINGS = (
         False,
         EvidenceStatus.UNKNOWN,
         (
-            "Whether empirical waveform records can be aligned to the "
-            "synthetic recovery target and split; no completed "
-            "crosswalk is preserved."
+            "Whether a rights-cleared empirical source can be aligned "
+            "to recovery targets and splits; no public crosswalk is "
+            "established."
         ),
     ),
 )

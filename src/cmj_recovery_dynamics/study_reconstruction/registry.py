@@ -321,48 +321,22 @@ _METADATA: Mapping[str, _Metadata] = MappingProxyType(
             ),
             evaluation_source=("RES-367: posterior energy and raw-coordinate RMSE definitions",),
         ),
-        "white_waveform_feasibility_boundary": _Metadata(
-            StudyClassification.EXPERIMENT,
-            ProtocolCompleteness.PARTIAL,
-            ResultAuthority.DIRECT_RESULT,
-            (
-                "The adjacent White waveform task reports unstable model rankings and "
-                "insufficient independent validation N. This is not recovery-benchmark "
-                "validation."
-            ),
-            (
-                "Retain only as adjacent waveform feasibility evidence; make no T01/T02 "
-                "validity or rights claim."
-            ),
-            (
-                (
-                    "No T01/T02 source, split, or scorer crosswalk exists; rights authority "
-                    "remains with M7."
-                ),
-                "The waveform result closure does not establish an exact public run commit or "
-                "task tree.",
-            ),
-            protocol_source=(
-                "ALI-536 P0C waveform task: 45 training and 9 public-validation participants",
-            ),
-            result_source=("ALI-536 P0C waveform result and receipt",),
-        ),
-        "white_recovery_grounding_crosswalk": _Metadata(
+        "restricted_empirical_grounding_crosswalk": _Metadata(
             StudyClassification.AUDIT,
             ProtocolCompleteness.UNKNOWN,
-            ResultAuthority.UNKNOWN,
+            ResultAuthority.RIGHTS_WITHHELD,
             (
-                "No evidence binds the empirical waveform source/split/scorer to the T01/T02 "
-                "recovery targets; the crosswalk remains UNKNOWN and NON_COMPARABLE."
+                "No rights-cleared empirical source/split/scorer crosswalk is publicly "
+                "established; recovery grounding remains UNKNOWN and NON_COMPARABLE."
             ),
             (
-                "Keep real-data recovery grounding unresolved; make no recovery-validation or "
-                "rights decision."
+                "Keep empirical recovery grounding unresolved and make no benchmark-validation "
+                "claim until rights and the crosswalk are established."
             ),
             (
                 (
-                    "Recovery target mapping, split identity, scorer identity, and rights "
-                    "decision remain unresolved."
+                    "Source-derived split, result, and comparison details are withheld under "
+                    "the M0 non-redistribution decision."
                 ),
             ),
         ),
@@ -552,13 +526,12 @@ STUDY_RECONSTRUCTIONS: Mapping[str, StudyReconstruction] = MappingProxyType(
             "real_data_grounding",
             StudyType.REAL_DATA_GROUNDING,
             (
-                "Do empirical waveform records bind to recovery histories, splits, and "
-                "force/impulse innovation targets?"
+                "Can an independently cleared empirical source substantiate recovery outcomes?"
             ),
-            ("white_waveform_feasibility_boundary", "white_recovery_grounding_crosswalk"),
+            ("restricted_empirical_grounding_crosswalk",),
             (
-                "White waveform feasibility is adjacent empirical evidence; the recovery "
-                "crosswalk remains UNKNOWN and NON_COMPARABLE."
+                "Rights-restricted empirical evidence does not establish recovery validation; "
+                "the crosswalk remains UNKNOWN and NON_COMPARABLE."
             ),
         ),
     }

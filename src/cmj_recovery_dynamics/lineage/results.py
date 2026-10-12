@@ -83,11 +83,10 @@ _PHASE_DATA = "phase_consistent_episode_sample"
 _CORRELATED_DATA = "correlated_exposure_recovery_sample"
 _FIXED_DATA = "fixed_mode_recovery_candidate_sample"
 _SYSID_DATA = "manufactured_parameter_identification_histories"
-_WHITE_DATA = "white_cmj_waveform_grounding_source"
+_RESTRICTED_EMPIRICAL_DATA = "restricted_empirical_grounding_source"
 
 _RICH_RAW = "rich_history_raw_progress_diagnostic"
 _SYSID_RMSE = "manufactured_posterior_parameter_point_rmse"
-_WHITE_RMSE = "white_waveform_participant_mean_rmse"
 _QUALIFICATION = "public_synthetic_dataset_qualification"
 _OWNER_DECISION = "owner_program_adjudication"
 _GROUNDING_STATUS = "real_data_recovery_crosswalk_status"
@@ -808,59 +807,20 @@ RESULTS = (
         ),
     ),
     _result(
-        "white_waveform_classical_validation_rmse",
-        "white_waveform_feasibility_boundary",
-        _WHITE_DATA,
-        "waveform_public_validation_participants",
-        _WHITE_RMSE,
-        (
-            "Best classical participant-mean waveform validation RMSE "
-            "on the separate empirical waveform task; terminal status was "
-            "insufficient independent N and rankings were unstable."
-        ),
-        models=("white_waveform_classical_predictor",),
-        values=(
-            ResultValue(
-                "participant-mean waveform RMSE", "body weights", value=0.4088, sample_count=9
-            ),
-        ),
-        comparability=ComparabilityStatus.DIRECTLY_COMPARABLE,
-        disposition=ScientificDisposition.NOT_BENCHMARK_VALIDATION,
-    ),
-    _result(
-        "white_waveform_temporal_convolution_validation_rmse",
-        "white_waveform_feasibility_boundary",
-        _WHITE_DATA,
-        "waveform_public_validation_participants",
-        _WHITE_RMSE,
-        (
-            "Five-seed temporal-convolution participant-mean waveform "
-            "validation RMSE on the separate empirical waveform task; "
-            "terminal status was insufficient independent N and rankings were unstable."
-        ),
-        models=("white_waveform_temporal_convolutional_predictor",),
-        values=(
-            ResultValue(
-                "participant-mean waveform RMSE", "body weights", value=0.4117, sample_count=9
-            ),
-        ),
-        comparability=ComparabilityStatus.DIRECTLY_COMPARABLE,
-        disposition=ScientificDisposition.NOT_BENCHMARK_VALIDATION,
-    ),
-    _result(
-        "white_recovery_crosswalk_unresolved_result",
-        "white_recovery_grounding_crosswalk",
-        _WHITE_DATA,
-        "waveform_public_validation_participants",
+        "restricted_empirical_crosswalk_status",
+        "restricted_empirical_grounding_crosswalk",
+        _RESTRICTED_EMPIRICAL_DATA,
+        "empirical_grounding_split_not_disclosed",
         _GROUNDING_STATUS,
         (
-            "No preserved source/split/scorer crosswalk binds the "
-            "empirical waveform task to T01/T02 recovery outcomes."
+            "No public source/split/scorer crosswalk is established for "
+            "recovery outcomes; source and result details are withheld "
+            "under the M0 non-redistribution decision."
         ),
         comparability=ComparabilityStatus.NON_COMPARABLE,
         disposition=ScientificDisposition.UNKNOWN,
         evidence_status=EvidenceStatus.UNKNOWN,
-        sources=("RES-363: task-linked real-data authority", "RES-366: grounding boundary report"),
+        sources=("RES-362: M0 rights registry", "RES-363: rights and evidence handoff"),
     ),
 )
 
@@ -978,18 +938,6 @@ COMPARABILITY_CONCLUSIONS = (
             "RES-366: system-identification boundary and comparison registry",
             "RES-367: posterior energy evaluation",
         ),
-    ),
-    ComparabilityConclusion(
-        "white_waveform_vs_recovery_benchmark",
-        ("white_waveform_classical_validation_rmse",),
-        ("fixed_mode_local_predictor_sre6",),
-        ComparabilityStatus.NON_COMPARABLE,
-        "Empirical waveform RMSE versus synthetic recovery force/impulse innovation SRE6.",
-        (
-            "No empirical-to-recovery crosswalk exists; the waveform "
-            "result is grounding-boundary evidence only."
-        ),
-        _evidence("RES-366: White waveform boundary and comparison registry"),
     ),
     ComparabilityConclusion(
         "canonical_vs_rich_history_gpu_after_reanchoring",

@@ -61,7 +61,7 @@ def test_inventory_is_exactly_eight_benchmarks_plus_two_studies() -> None:
     assert set(STUDY_CHARACTERIZATIONS) == {"system_identification", "real_data_grounding"}
     assert not {
         "system_identification",
-        "white_waveform",
+        "unregistered_empirical_model",
         "predictive_headroom",
         "observability",
         "reconstructability",
@@ -83,7 +83,7 @@ def test_inventory_is_exactly_eight_benchmarks_plus_two_studies() -> None:
     with pytest.raises(TypeError):
         BENCHMARK_CHARACTERIZATIONS["new_benchmark"] = object()  # type: ignore[index]
     with pytest.raises(KeyError):
-        get_study_characterization("white_waveform")
+        get_study_characterization("unregistered_empirical_model")
 
 
 def test_claims_are_typed_unique_explicit_and_validated() -> None:
@@ -129,7 +129,7 @@ def test_benchmark_model_roles_require_registered_benchmark_applicability() -> N
             ("system_identification",),
         ),
         (
-            "white_waveform_rank_is_unstable",
+            "sysid_history_improves_manufactured_inference",
             "identification_exact_analytic_posterior",
             ("real_data_grounding",),
         ),
@@ -146,7 +146,15 @@ def test_study_model_roles_require_applicability_to_every_named_study(
     family = LINEAGE_REGISTRY.model_families[model_name]
     claim = replace(
         get_synthesis_claim(claim_name),
+        scope=SynthesisScope.STUDY,
+        benchmark_names=(),
+        result_names=(),
+        experiment_names=(),
         study_names=study_names,
+        comparison_names=(),
+        historical_rule_names=(),
+        gate_names=(),
+        comparative_evidence=(),
         model_roles=(ModelRoleEvidence(family.name, family.roles),),
     )
     with pytest.raises(ValueError, match="model.*study.*applicability"):
@@ -190,10 +198,6 @@ def test_non_comparable_result_families_fail_closed() -> None:
         (
             ("manufactured_exact_posterior_energy_scores", "fixed_mode_local_predictor_sre6"),
             "system_identification_vs_recovery_point_forecast",
-        ),
-        (
-            ("white_waveform_classical_validation_rmse", "fixed_mode_local_predictor_sre6"),
-            "white_waveform_vs_recovery_benchmark",
         ),
     )
     for result_names, comparison_name in comparisons:
@@ -491,25 +495,27 @@ def test_sysid_history_and_inference_stay_inside_adjacent_manufactured_study() -
     )
 
 
-def test_white_waveform_is_not_recovery_validation_or_a_stable_model_ranking() -> None:
-    classical = get_result("white_waveform_classical_validation_rmse")
-    tcn = get_result("white_waveform_temporal_convolution_validation_rmse")
-    assert classical.values[0].value == 0.4088
-    assert tcn.values[0].value == 0.4117
-    assert classical.values[0].sample_count == tcn.values[0].sample_count == 9
-    claim = get_synthesis_claim("white_waveform_rank_is_unstable")
-    assert claim.scope is SynthesisScope.STUDY
-    assert claim.comparative_evidence[0].status is ComparabilityStatus.DIRECTLY_COMPARABLE
-    assert "no stable classical-versus-TCN superiority" in claim.statement
-    assert (
-        get_result("white_recovery_crosswalk_unresolved_result").comparability
-        is ComparabilityStatus.NON_COMPARABLE
+def test_rights_restricted_empirical_results_are_withheld_but_grounding_stays_unresolved() -> None:
+    from cmj_recovery_dynamics.lineage.contracts import RedistributionStatus
+
+    dataset = LINEAGE_REGISTRY.datasets["restricted_empirical_grounding_source"]
+    assert dataset.redistribution is RedistributionStatus.PROHIBITED
+    split = LINEAGE_REGISTRY.splits[dataset.split_names[0]]
+    assert split.rows is split.participants is split.camps is split.origins_or_episodes is None
+    assert split.labels_available is None
+
+    result = get_result("restricted_empirical_crosswalk_status")
+    assert result.values == ()
+    assert result.model_names == ()
+    assert result.comparability is ComparabilityStatus.NON_COMPARABLE
+
+    grounding = get_synthesis_claim("recovery_empirical_grounding_unresolved")
+    assert grounding.status is ConclusionStatus.UNRESOLVED
+    assert "neither empirically validated nor empirically invalidated" in grounding.statement
+    assert grounding.result_names == (
+        "restricted_empirical_crosswalk_status",
+        "fixed_mode_local_predictor_sre6",
     )
-    with pytest.raises(ValueError):
-        build_comparative_evidence(
-            (classical.name, "fixed_mode_local_predictor_sre6"),
-            comparison_name="white_waveform_vs_recovery_benchmark",
-        )
 
 
 def test_sample_and_compute_efficiency_are_unresolved_without_proxy_estimates() -> None:
@@ -535,7 +541,7 @@ def test_structured_vs_learned_and_task_design_claims_are_caveated() -> None:
     structured = get_synthesis_claim("program_structured_and_analytic_methods_no_universal_winner")
     assert structured.status is ConclusionStatus.SUPPORTED_WITH_CAVEAT
     assert "does not support a universal structured-over-learned rule" in structured.statement
-    assert len(structured.comparative_evidence) == 4
+    assert len(structured.comparative_evidence) == 3
     assert all(
         item.status
         in {

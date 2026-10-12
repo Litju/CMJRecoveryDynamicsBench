@@ -128,7 +128,6 @@ def test_direct_comparability_fails_closed_at_specimen_dataset_split_and_metric_
         "correlated_exposure_vs_fixed_mode_research_results": ComparabilityStatus.NON_COMPARABLE,
         "fixed_mode_local_vs_empirical_frontier": ComparabilityStatus.DIRECTLY_COMPARABLE,
         "system_identification_vs_recovery_point_forecast": ComparabilityStatus.NON_COMPARABLE,
-        "white_waveform_vs_recovery_benchmark": ComparabilityStatus.NON_COMPARABLE,
     }
     observed = {item.name: item.status for item in COMPARABILITY_CONCLUSIONS}
     for name, status in required_m1.items():
@@ -393,7 +392,7 @@ def test_preliminary_and_threshold_ladders_have_no_accepted_model_results() -> N
     assert "no accepted result exists" in threshold.note
 
 
-def test_adjacent_sysid_and_white_results_stay_outside_benchmark_model_reproductions() -> None:
+def test_adjacent_sysid_and_empirical_results_stay_outside_benchmark_model_reproductions() -> None:
     assert all(
         "manufactured_parameter_identification" not in result.result.dataset_name
         and "waveform" not in result.result.dataset_name
@@ -403,4 +402,3 @@ def test_adjacent_sysid_and_white_results_stay_outside_benchmark_model_reproduct
     assert m1["system_identification_vs_recovery_point_forecast"] is (
         ComparabilityStatus.NON_COMPARABLE
     )
-    assert m1["white_waveform_vs_recovery_benchmark"] is ComparabilityStatus.NON_COMPARABLE

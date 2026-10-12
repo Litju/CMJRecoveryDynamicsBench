@@ -67,7 +67,6 @@ _HEADROOM = StudyType.PREDICTIVE_HEADROOM
 _OBSERVABILITY = StudyType.OBSERVABILITY
 _RECONSTRUCTABILITY = StudyType.RECONSTRUCTABILITY
 _SYSTEM_IDENTIFICATION = StudyType.SYSTEM_IDENTIFICATION
-_REAL_DATA_GROUNDING = StudyType.REAL_DATA_GROUNDING
 
 
 _PRESERVED_REFERENCE = ArtifactReference(
@@ -489,29 +488,6 @@ MODEL_FAMILIES = (
             "Architecture and training-set size are reported; "
             "checkpoint and full training configuration are not "
             "resolved as public artifacts."
-        ),
-    ),
-    _model(
-        "white_waveform_classical_predictor",
-        "classical participant-mean waveform predictor",
-        (ModelRole.PUBLIC_BASELINE,),
-        (),
-        (_REAL_DATA_GROUNDING,),
-        "Predict the held-out vertical-force waveform from the separate empirical waveform task.",
-        introduction=ChangeClass.MODEL_ONLY_CHANGE,
-        note="This model is empirical waveform work and has no recovery-benchmark applicability.",
-    ),
-    _model(
-        "white_waveform_temporal_convolutional_predictor",
-        "temporal convolutional network",
-        (ModelRole.GENERIC_HIGH_CAPACITY_PREDICTOR,),
-        (),
-        (_REAL_DATA_GROUNDING,),
-        "Predict the separate empirical vertical-force waveform.",
-        introduction=ChangeClass.TRAINING_ONLY_CHANGE,
-        note=(
-            "Five-seed waveform results are adjacent feasibility "
-            "evidence, not recovery-benchmark validation."
         ),
     ),
 )
