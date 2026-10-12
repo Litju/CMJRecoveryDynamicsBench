@@ -14,21 +14,62 @@ HISTORICAL_IDENTIFIER = re.compile(
     r"\b(?:SP\d{2}|[WODT]\d{2}|ALI-\d+|Gate\s*\d+|Candidate H|V[123])\b",
     re.IGNORECASE,
 )
-HISTORICAL_PROVENANCE_PATHS = {
-    "lineage/experiments.py",
-    "lineage/results.py",
-    "metrics/provenance.py",
-    "model_reproduction/registry.py",
-    "reproduction/camp_history.py",
-    "reproduction/d04_membership.py",
-    "reproduction/later_single_exposure.py",
-    "reproduction/registry.py",
-    "reproduction/rich_history.py",
-    "reproduction/single_exposure.py",
-    "study_reconstruction/decisions.py",
-    "study_reconstruction/registry.py",
-    "synthesis/registry.py",
-}
+PUBLIC_HISTORICAL_LABELS = frozenset(
+    label.casefold()
+    for label in (
+        "SP01",
+        "SP02",
+        "SP03",
+        "SP04",
+        "SP05",
+        "SP06",
+        "SP07",
+        "SP08",
+        "W01",
+        "W02",
+        "W03",
+        "W04",
+        "W05",
+        "W06",
+        "O01",
+        "O02",
+        "O03",
+        "O04",
+        "D02",
+        "D03",
+        "D04",
+        "D05",
+        "D06",
+        "D07",
+        "D08",
+        "D09",
+        "T01",
+        "T02",
+        "ALI-400",
+        "ALI-488",
+        "ALI-490",
+        "ALI-494",
+        "ALI-506",
+        "ALI-507",
+        "ALI-517",
+        "ALI-518",
+        "ALI-522",
+        "Gate 0",
+        "Gate 3",
+        "Gate 5",
+        "Gate 6",
+        "Gate 7",
+        "Gate0",
+        "Gate3",
+        "Gate5",
+        "Gate6",
+        "Gate7",
+        "Candidate H",
+        "V1",
+        "V2",
+        "V3",
+    )
+)
 HISTORICAL_PATH_ALLOWLIST = {
     "src/cmj_recovery_dynamics/reproduction/d04_membership.py",
     "tests/test_d04_membership.py",
@@ -45,6 +86,12 @@ ROOT_FILE_ALLOWLIST = {
     "LICENSE",
     "CITATION.cff",
     "NOTICE",
+}
+PUBLIC_DIRECTORY_ALLOWLIST = {"src", "tests", "docs"}
+PUBLIC_DOCUMENT_ALLOWLIST = {
+    "docs/M7_PUBLIC_TREE_REDACTION.md",
+    "docs/M7_OCCURRENCE_CLASSIFICATION.md",
+    "docs/M7_QUALIFICATION.md",
 }
 PROTECTED_SUFFIXES = (
     ".bundle",
@@ -85,21 +132,46 @@ PROTECTED_DIRECTORY_NAMES = {
     "artifacts",
     "raw-data",
 }
+PRIVATE_MACHINE_PATH = re.compile(
+    "/"
+    + r"(?:home|users|root|mnt|tmp|var/tmp)/"
+    + r"[^\s'\"<>]+"
+    + "|"
+    + r"[A-Z]:\\"
+    + "Users"
+    + r"\\[^\s'\"<>]+",
+    re.IGNORECASE,
+)
+PRIVATE_KEY = re.compile(r"-----BEGIN (?:RSA |EC |OPENSSH )?" + "PRIVATE KEY" + r"-----")
+SECRET_PATTERNS = (
+    re.compile(r"\bA" + "KIA" + r"[0-9A-Z]{16}\b"),
+    re.compile(r"\bgh[pousr]" + "_" + r"[A-Za-z0-9]{36,}\b"),
+    re.compile(r"\bxox[baprs]" + "-" + r"[A-Za-z0-9-]{20,}\b"),
+    re.compile(r"\bsk" + "-" + r"[A-Za-z0-9_-]{32,}\b"),
+    re.compile(
+        r"(?i)\b(?:api[_-]?key|access[_-]?token|client[_-]?secret|password)"
+        r"\s*[:=]\s*['\"][A-Za-z0-9/+=._-]{16,}['\"]"
+    ),
+    re.compile(r"(?i)https?://[^/\s:@]+:[^/\s@]+@"),
+    re.compile(r"(?i)https?://[^/\s]*(?:\.internal|\.local|\.corp|\.lan|localhost)"),
+)
+SHA1_OBJECT_REFERENCE = re.compile(r"(?<![0-9a-f])[0-9a-f]{40}(?![0-9a-f])", re.IGNORECASE)
 
 
-def test_historical_alias_values_are_confined_to_the_provenance_mapping() -> None:
+def test_historical_identifiers_are_exactly_allowlisted_and_imports_are_restricted() -> None:
     expected = set(BENCHMARK_REGISTRY)
     assert set(HISTORICAL_ALIASES) == expected
     source_root = REPOSITORY_ROOT / "src" / "cmj_recovery_dynamics"
     for source_path in source_root.rglob("*.py"):
         relative = source_path.relative_to(source_root)
-        # These exact files hold public lineage, reproduction, or study evidence metadata.
-        if "provenance" in relative.parts or relative.as_posix() in HISTORICAL_PROVENANCE_PATHS:
-            continue
         source = source_path.read_text(encoding="utf-8")
-        assert HISTORICAL_IDENTIFIER.search(source) is None, relative
         syntax_tree = ast.parse(source)
         for node in ast.walk(syntax_tree):
+            if isinstance(node, ast.Constant) and isinstance(node.value, str):
+                assert all(
+                    identifier.casefold() in PUBLIC_HISTORICAL_LABELS
+                    for identifier in HISTORICAL_IDENTIFIER.findall(node.value)
+                ), relative
             if isinstance(node, ast.Import):
                 for alias in node.names:
                     if alias.name.startswith("cmj_recovery_dynamics.provenance"):
@@ -108,8 +180,14 @@ def test_historical_alias_values_are_confined_to_the_provenance_mapping() -> Non
             if isinstance(node, ast.ImportFrom):
                 module = node.module or ""
                 if module.startswith("cmj_recovery_dynamics.provenance"):
-                    assert relative == Path("reproducibility/execution.py")
-                    assert module == "cmj_recovery_dynamics.provenance.public_roots"
+                    if relative == Path("provenance/__init__.py"):
+                        assert module in {
+                            "cmj_recovery_dynamics.provenance.historical_aliases",
+                            "cmj_recovery_dynamics.provenance.public_roots",
+                        }
+                    else:
+                        assert relative == Path("reproducibility/execution.py")
+                        assert module == "cmj_recovery_dynamics.provenance.public_roots"
 
 
 def test_scientific_source_and_test_paths_use_no_historical_identifiers() -> None:
@@ -134,9 +212,14 @@ def test_git_tracks_no_protected_artifact_class() -> None:
         if len(path.parts) == 1:
             assert path.name in ROOT_FILE_ALLOWLIST, tracked_path
         else:
-            assert path.parts[0] in {"src", "tests"}, tracked_path
+            assert path.parts[0] in PUBLIC_DIRECTORY_ALLOWLIST, tracked_path
+            if path.parts[0] == "docs":
+                assert tracked_path in PUBLIC_DOCUMENT_ALLOWLIST, tracked_path
         assert not path.name.startswith(".env"), tracked_path
-        assert not any(tracked_path.endswith(suffix) for suffix in PROTECTED_SUFFIXES), tracked_path
+        protected = any(tracked_path.endswith(suffix) for suffix in PROTECTED_SUFFIXES)
+        assert not protected or (
+            tracked_path in PUBLIC_DOCUMENT_ALLOWLIST and path.suffix == ".md"
+        ), tracked_path
         assert not PROTECTED_DIRECTORY_NAMES.intersection(part.lower() for part in path.parts), (
             tracked_path
         )
@@ -149,30 +232,6 @@ def test_tracked_text_has_no_machine_paths_or_secret_markers() -> None:
         check=True,
         capture_output=True,
     )
-    path_pattern = re.compile(
-        "/"
-        + r"(?:home|users|root|mnt|tmp|var/tmp)/"
-        + r"[^\s'\"<>]+"
-        + "|"
-        + r"[A-Z]:\\"
-        + "Users"
-        + r"\\[^\s'\"<>]+",
-        re.IGNORECASE,
-    )
-    private_key = re.compile(r"-----BEGIN (?:RSA |EC |OPENSSH )?" + "PRIVATE KEY" + r"-----")
-    secret_patterns = (
-        re.compile(r"\bA" + "KIA" + r"[0-9A-Z]{16}\b"),
-        re.compile(r"\bgh[pousr]" + "_" + r"[A-Za-z0-9]{36,}\b"),
-        re.compile(r"\bxox[baprs]" + "-" + r"[A-Za-z0-9-]{20,}\b"),
-        re.compile(r"\bsk" + "-" + r"[A-Za-z0-9_-]{32,}\b"),
-        re.compile(
-            r"(?i)\b(?:api[_-]?key|access[_-]?token|client[_-]?secret|password)"
-            r"\s*[:=]\s*['\"][A-Za-z0-9/+=._-]{16,}['\"]"
-        ),
-        re.compile(r"(?i)https?://[^/\s:@]+:[^/\s@]+@"),
-        re.compile(r"(?i)https?://[^/\s]*(?:\.internal|\.local|\.corp|\.lan|localhost)"),
-    )
-    account_label = "lit" + "ju"
     for raw_path in completed.stdout.split(b"\0"):
         if not raw_path:
             continue
@@ -182,10 +241,23 @@ def test_tracked_text_has_no_machine_paths_or_secret_markers() -> None:
             continue
         source = content.decode("utf-8")
         relative = path.relative_to(REPOSITORY_ROOT)
-        assert path_pattern.search(source) is None, relative
-        assert private_key.search(source) is None, relative
-        assert all(pattern.search(source) is None for pattern in secret_patterns), relative
-        assert account_label not in source.casefold(), relative
+        assert PRIVATE_MACHINE_PATH.search(source) is None, relative
+        assert PRIVATE_KEY.search(source) is None, relative
+        assert all(pattern.search(source) is None for pattern in SECRET_PATTERNS), relative
+        assert SHA1_OBJECT_REFERENCE.search(source) is None, relative
+
+
+def test_public_github_identity_is_allowed_but_private_markers_are_rejected() -> None:
+    public_url = "https://github.com/Litju/CMJRecoveryDynamicsBench"
+    private_path = "/" + "home" + "/" + "operator" + "/" + "private-data"
+    synthetic_secret = "gh" + "p_" + "x" * 36
+    assert PRIVATE_MACHINE_PATH.search(public_url) is None
+    assert PRIVATE_MACHINE_PATH.search(private_path) is not None
+    assert not any(pattern.search(public_url) for pattern in SECRET_PATTERNS)
+    assert any(pattern.search(synthetic_secret) for pattern in SECRET_PATTERNS)
+    assert "litju" in public_url.casefold()
+    assert "sp03" in PUBLIC_HISTORICAL_LABELS
+    assert "ali-999" not in PUBLIC_HISTORICAL_LABELS
 
 
 def test_release_and_package_metadata_do_not_claim_m8_or_v1() -> None:

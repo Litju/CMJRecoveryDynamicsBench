@@ -11,6 +11,10 @@
 *.tsv
 *.json
 *.md
+!docs/
+!docs/M7_PUBLIC_TREE_REDACTION.md
+!docs/M7_OCCURRENCE_CLASSIFICATION.md
+!docs/M7_QUALIFICATION.md
 *.mmd
 *.parquet
 *.pkl
