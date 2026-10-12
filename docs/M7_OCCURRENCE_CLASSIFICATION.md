@@ -1,0 +1,104 @@
+# M7 historical occurrence classification
+
+## Scope and decision rule
+
+This report adjudicates the 28 distinct SHA-1 object references and 19 machine-path findings recorded by the M7 baseline scan. The `OBJ-##` and `PATH-##` labels below are report aliases; raw object identifiers, machine paths, and scan fingerprints are not repeated here.
+
+The 28 SHA-1 strings are opaque Git object identifiers, not the protected file payloads. M0 classifies the preserved historical Git database and related history containers as `PRIVATE_ARCHIVE_ONLY`; it records no separate permission to publish these identifiers. The M0 exact-byte fingerprint check is a separate decision and is reported in qualification evidence. A private archive classification does not itself prove that an individual object identifier is secret. References without an exact M0 crosswalk are treated as uncleared, not presumed public.
+
+The object aliases follow the order of the unique SHA-1 rows in the sealed M7 reference review. “Entry locations” are paths in the starting tree. “History paths” is the baseline count of distinct reachable historical paths containing that reference.
+
+## Distinct object-reference inventory
+
+| ID | M0 crosswalk / publication class | Entry locations | History paths | Decision |
+|---|---|---|---:|---|
+| OBJ-01 | `M0_REACHABLE_TASK_TREE` / `PRIVATE_ARCHIVE_ONLY` | `provenance/historical_aliases.py`; `reproduction/registry.py` | 2 | Remove from public tree |
+| OBJ-02 | `NO_EXACT_M0_GIT_REF_MATCH` / `NO_EXACT_M0_CLASSIFICATION` | `reproduction/registry.py`; `reproduction/rich_history.py`; `tests/test_rich_history.py` | 3 | Remove from public tree; no rights inferred |
+| OBJ-03 | `M0_UNREACHABLE_COMMIT` / `PRIVATE_ARCHIVE_ONLY` | `provenance/historical_aliases.py`; `reproduction/single_exposure.py`; `tests/test_single_exposure.py` | 3 | Remove from public tree |
+| OBJ-04 | `M0_UNREACHABLE_COMMIT` / `PRIVATE_ARCHIVE_ONLY` | `provenance/historical_aliases.py`; `reproduction/later_single_exposure.py`; `study_reconstruction/registry.py`; `tests/test_later_single_exposure.py` | 4 | Remove from public tree |
+| OBJ-05 | `NO_EXACT_M0_GIT_REF_MATCH` / `PRIVATE_ARCHIVE_ONLY` | `provenance/historical_aliases.py`; `reproduction/single_exposure.py`; `tests/test_single_exposure.py` | 3 | Remove from public tree |
+| OBJ-06 | `M0_REACHABLE_COMMIT` / `PRIVATE_ARCHIVE_ONLY` | `provenance/historical_aliases.py` | 1 | Remove from public tree |
+| OBJ-07 | `M0_UNREACHABLE_TASK_TREE` / `PRIVATE_ARCHIVE_ONLY` | `provenance/historical_aliases.py`; `reproduction/single_exposure.py`; `tests/test_single_exposure.py` | 3 | Remove from public tree |
+| OBJ-08 | `NO_EXACT_M0_GIT_REF_MATCH` / `NO_EXACT_M0_CLASSIFICATION` | `provenance/historical_aliases.py` | 1 | Remove from public tree; no rights inferred |
+| OBJ-09 | `NO_EXACT_M0_GIT_REF_MATCH` / `PRIVATE_ARCHIVE_ONLY` | `study_reconstruction/registry.py`; `tests/test_study_reconstruction.py` | 2 | Remove from public tree |
+| OBJ-10 | `NO_EXACT_M0_GIT_REF_MATCH` / `NO_EXACT_M0_CLASSIFICATION` | `reproduction/registry.py`; `reproduction/rich_history.py`; `tests/test_rich_history.py` | 3 | Remove from public tree; no rights inferred |
+| OBJ-11 | `M0_UNREACHABLE_TASK_TREE` / `PRIVATE_ARCHIVE_ONLY` | `provenance/historical_aliases.py`; `reproduction/single_exposure.py`; `tests/test_single_exposure.py` | 3 | Remove from public tree |
+| OBJ-12 | `M0_UNREACHABLE_TASK_TREE` / `PRIVATE_ARCHIVE_ONLY` | `study_reconstruction/registry.py` | 1 | Remove from public tree |
+| OBJ-13 | `M0_UNREACHABLE_TASK_TREE` / `PRIVATE_ARCHIVE_ONLY` | `reproduction/registry.py`; `reproduction/rich_history.py`; `tests/test_rich_history.py` | 3 | Remove from public tree |
+| OBJ-14 | `NO_EXACT_M0_GIT_REF_MATCH` / `NO_EXACT_M0_CLASSIFICATION` | `reproduction/registry.py`; `reproduction/rich_history.py`; `tests/test_rich_history.py` | 3 | Remove from public tree; no rights inferred |
+| OBJ-15 | `NO_EXACT_M0_GIT_REF_MATCH` / `NO_EXACT_M0_CLASSIFICATION` | `model_reproduction/registry.py` | 1 | Remove from public tree; no rights inferred |
+| OBJ-16 | `M0_REACHABLE_TASK_TREE` / `PRIVATE_ARCHIVE_ONLY` | `provenance/historical_aliases.py`; `reproduction/later_single_exposure.py`; `tests/test_later_single_exposure.py` | 3 | Remove from public tree |
+| OBJ-17 | `M0_REACHABLE_COMMIT` / `PRIVATE_ARCHIVE_ONLY` | `provenance/historical_aliases.py`; `reproduction/later_single_exposure.py`; `tests/test_later_single_exposure.py` | 3 | Remove from public tree |
+| OBJ-18 | `NO_EXACT_M0_GIT_REF_MATCH` / `NO_EXACT_M0_CLASSIFICATION` | `model_reproduction/registry.py` | 1 | Remove from public tree; no rights inferred |
+| OBJ-19 | `NO_EXACT_M0_GIT_REF_MATCH` / `PRIVATE_ARCHIVE_ONLY` | `study_reconstruction/registry.py` | 1 | Remove from public tree |
+| OBJ-20 | `M0_REACHABLE_COMMIT` / `PRIVATE_ARCHIVE_ONLY` | `provenance/historical_aliases.py`; `reproduction/registry.py`; `reproduction/rich_history.py`; `tests/test_rich_history.py` | 4 | Remove from public tree |
+| OBJ-21 | `NO_EXACT_M0_GIT_REF_MATCH` / `NO_EXACT_M0_CLASSIFICATION` | `reproduction/registry.py`; `reproduction/rich_history.py`; `tests/test_d04_membership.py`; `tests/test_rich_history.py` | 4 | Remove from public tree; no rights inferred |
+| OBJ-22 | `M0_UNREACHABLE_TASK_TREE` / `PRIVATE_ARCHIVE_ONLY` | `provenance/historical_aliases.py` | 1 | Remove from public tree |
+| OBJ-23 | `NO_EXACT_M0_GIT_REF_MATCH` / `NO_EXACT_M0_CLASSIFICATION` | `reproduction/registry.py`; `reproduction/rich_history.py`; `tests/test_rich_history.py` | 3 | Remove from public tree; no rights inferred |
+| OBJ-24 | `M0_UNREACHABLE_TASK_TREE` / `PRIVATE_ARCHIVE_ONLY` | `provenance/historical_aliases.py`; `reproduction/later_single_exposure.py`; `study_reconstruction/registry.py`; `tests/test_later_single_exposure.py` | 4 | Remove from public tree |
+| OBJ-25 | `NO_EXACT_M0_GIT_REF_MATCH` / `PRIVATE_ARCHIVE_ONLY` | `study_reconstruction/registry.py`; `tests/test_study_reconstruction.py` | 2 | Remove from public tree |
+| OBJ-26 | `NO_EXACT_M0_GIT_REF_MATCH` / `PRIVATE_ARCHIVE_ONLY` | `provenance/historical_aliases.py`; `reproduction/single_exposure.py`; `tests/test_single_exposure.py` | 3 | Remove from public tree |
+| OBJ-27 | `M0_UNREACHABLE_TASK_TREE` / `PRIVATE_ARCHIVE_ONLY` | `provenance/historical_aliases.py`; `reproduction/single_exposure.py`; `tests/test_single_exposure.py` | 3 | Remove from public tree |
+| OBJ-28 | `M0_REACHABLE_TASK_TREE` / `PRIVATE_ARCHIVE_ONLY` | `provenance/historical_aliases.py`; `reproduction/registry.py`; `reproduction/rich_history.py`; `tests/test_rich_history.py` | 4 | Remove from public tree |
+
+The inventory has 20 exact `PRIVATE_ARCHIVE_ONLY` classifications and 8 references without an exact M0 classification. All 28 were removed from current source/tests, including source and test assertions that repeated them. A current-tree assertion now rejects 40-character SHA-1 references. Earlier public blobs remain reachable; no history rewrite was performed.
+
+## Eight paired commit/tree findings
+
+These pair rows group object references already represented in the 28-reference inventory. M0 classifies each pair as `PRIVATE_ARCHIVE_ONLY`; the decision is `REMOVE_FROM_PUBLIC_TREE` for every pair. The pair fields were removed from `HistoricalAlias`; scientific aliases remain.
+
+| Pair | Benchmark record | M0 commit crosswalk | M0 tree crosswalk | Decision |
+|---|---|---|---|---|
+| PAIR-01 | `initial_preseason_camp_recovery` | `M0_REACHABLE_COMMIT` | `M0_REACHABLE_TASK_TREE` | Remove from public tree |
+| PAIR-02 | `canonical_preseason_camp_recovery` | `NO_EXACT_M0_COMMIT_MATCH` | `M0_UNREACHABLE_TASK_TREE` | Remove from public tree |
+| PAIR-03 | `rich_history_camp_recovery` | `M0_REACHABLE_COMMIT` | `M0_REACHABLE_TASK_TREE` | Remove from public tree |
+| PAIR-04 | `preliminary_post_exposure_recovery` | `NO_EXACT_M0_COMMIT_MATCH` | `M0_UNREACHABLE_TASK_TREE` | Remove from public tree |
+| PAIR-05 | `phase_consistent_post_exposure_recovery` | `M0_UNREACHABLE_COMMIT` | `M0_UNREACHABLE_TASK_TREE` | Remove from public tree |
+| PAIR-06 | `correlated_exposure_recovery` | `NO_EXACT_M0_COMMIT_MATCH` | `M0_UNREACHABLE_TASK_TREE` | Remove from public tree |
+| PAIR-07 | `threshold_response_recovery` | `M0_UNREACHABLE_COMMIT` | `M0_UNREACHABLE_TASK_TREE` | Remove from public tree |
+| PAIR-08 | `fixed_mode_discrepancy_recovery` | `M0_REACHABLE_COMMIT` | `M0_REACHABLE_TASK_TREE` | Remove from public tree |
+
+## Nineteen historical machine-path findings
+
+Each row below is one M7 `PRIVATE_ABSOLUTE_PATH` occurrence in a reachable historical blob. The finding is a real machine-local path string, not a synthetic path fixture. Its value is intentionally withheld.
+
+| ID | Historical repository file | Classification | Decision |
+|---|---|---|---|
+| PATH-01 | `tests/test_reproducibility_core.py` | Private absolute path in historical blob | History remediation required |
+| PATH-02 | `tests/test_reproducibility_core.py` | Private absolute path in historical blob | History remediation required |
+| PATH-03 | `tests/test_reproducibility_core.py` | Private absolute path in historical blob | History remediation required |
+| PATH-04 | `tests/test_reproducibility_core.py` | Private absolute path in historical blob | History remediation required |
+| PATH-05 | `tests/test_reproducibility_core.py` | Private absolute path in historical blob | History remediation required |
+| PATH-06 | `tests/test_reproducibility_core.py` | Private absolute path in historical blob | History remediation required |
+| PATH-07 | `tests/test_reproducibility_core.py` | Private absolute path in historical blob | History remediation required |
+| PATH-08 | `src/cmj_recovery_dynamics/reproducibility/contracts.py` | Private absolute path in historical blob | History remediation required |
+| PATH-09 | `tests/test_reproducibility_core.py` | Private absolute path in historical blob | History remediation required |
+| PATH-10 | `tests/test_reproducibility_core.py` | Private absolute path in historical blob | History remediation required |
+| PATH-11 | `tests/test_reproducibility_core.py` | Private absolute path in historical blob | History remediation required |
+| PATH-12 | `tests/test_reproducibility_core.py` | Private absolute path in historical blob | History remediation required |
+| PATH-13 | `tests/test_reproducibility_core.py` | Private absolute path in historical blob | History remediation required |
+| PATH-14 | `tests/test_reproducibility_core.py` | Private absolute path in historical blob | History remediation required |
+| PATH-15 | `tests/test_reproducibility_core.py` | Private absolute path in historical blob | History remediation required |
+| PATH-16 | `tests/test_reproducibility_core.py` | Private absolute path in historical blob | History remediation required |
+| PATH-17 | `tests/test_reproducibility_core.py` | Private absolute path in historical blob | History remediation required |
+| PATH-18 | `tests/test_reproducibility_core.py` | Private absolute path in historical blob | History remediation required |
+| PATH-19 | `tests/test_reproducibility_core.py` | Private absolute path in historical blob | History remediation required |
+
+The path scan separately adjudicated three malformed `example.org` URL parser fixtures as synthetic negative tests. They contain no private host, credential, or payload and are retained. Existing public Git author/committer account metadata is also classified separately from a private machine path; the public GitHub account `Litju` is allowed by the revised checks.
+
+## History-remediation decision matrix
+
+| Finding class | Current-tree action | Historical action | Status |
+|---|---|---|---|
+| Eight commit/tree pairs | Remove both object-reference fields from the alias record | Rewrite only if the owner authorizes it | Current tree complete; history unchanged |
+| Twenty-eight SHA-1 object references | Remove from source, registries, and tests | Rewrite only if the owner authorizes it | Current tree complete; history unchanged |
+| Nineteen private absolute-path occurrences | Keep current tree free of such paths | Rewrite affected historical blobs only with owner approval | Current tree scan clean; history unchanged |
+| Three malformed URL fixtures | Retain as synthetic parser-negative fixtures | No history action | Adjudicated false positives |
+| Public GitHub account metadata | Permit the exact public account identity | No history action | Not private machine provenance |
+| M0 protected payload bytes | No exact byte matches were reported at baseline; recheck recorded in qualification evidence | No payload removal indicated by this check | Exact-byte result reported separately |
+
+## Conditional history-rewrite impact
+
+No rewrite, force-push, merge, or release action was taken. The starting public history contained 37 reachable commits. At the remediation-branch scan, the complete ref set contained 40 reachable commits and 232 unique blobs. The earliest affected commit is the second commit in oldest-first topology, titled `feat: implement scientific benchmark contracts`.
+
+If the owner later authorizes removal from every current ref, changing that early tree would change every descendant commit identifier: 36 commits on `main`, 22 on the older `tmp/res393-registry-gate` ref, and 39 on this remediation branch at the time of the scan. The refs overlap; the unique affected descendant set is 39 commits. GitHub commit links and clones based on those descendants would need reconciliation, and updating `main` would require a coordinated non-fast-forward push. These counts are as of the impact scan, before the later style-only and evidence-report commits. Refresh the count before any rewrite. No rewrite is authorized by this report.
