@@ -702,9 +702,7 @@ EXPERIMENTS = (
     ),
     _experiment(
         "restricted_empirical_grounding_crosswalk",
-        (
-            "Can the restricted empirical source be aligned to recovery outcomes?"
-        ),
+        ("Can the restricted empirical source be aligned to recovery outcomes?"),
         _RESTRICTED_EMPIRICAL_DATA,
         (_RESTRICTED_EMPIRICAL_SPLIT,),
         (_GROUNDING_STATUS,),
