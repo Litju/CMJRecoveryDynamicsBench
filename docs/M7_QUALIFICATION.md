@@ -58,3 +58,34 @@ Owner decisions still required:
 4. Provide exact M0 evidence or keep omitted the eight object references without an exact M0 classification. They have been removed from the current tree regardless.
 
 The 25,069-fingerprint byte check does not clear those object identifiers or historical paths, and it does not establish redistribution rights. M8 reproduction was not run. M7 remains blocked pending owner decisions and any authorized historical remediation.
+
+## Independent review replay
+
+The review reconfirmed branch `res-288-m7-remediation`, HEAD `1bafc13`, and a clean working tree before this evidence update. The diff against `f59aae4` covers 30 files with 565 insertions and 645 deletions. The three M7 reports were checked for raw machine paths, object identifiers, restricted result values, and private archive details; none were found. The occurrence report uses report aliases and relative repository paths.
+
+Set `TMPDIR` to a writable temporary directory; the commands parameterize temporary paths so the report does not record a host-specific absolute path. The following repository checks passed on the candidate:
+
+```text
+UV_CACHE_DIR="${TMPDIR}/cmj-uv-cache" uv run --no-sync pytest
+289 passed in 17.94s
+
+UV_CACHE_DIR="${TMPDIR}/cmj-uv-cache" uv run --no-sync ruff check .
+All checks passed!
+
+UV_CACHE_DIR="${TMPDIR}/cmj-uv-cache" uv run --no-sync ruff format --check .
+98 files already formatted
+
+UV_CACHE_DIR="${TMPDIR}/cmj-uv-cache" uv run --no-sync pyright
+0 errors, 0 warnings, 0 informations
+
+git diff --check f59aae4..HEAD
+passed
+```
+
+An independent `uv build --wheel` replay could not resolve `setuptools>=68` because network DNS was unavailable. The fallback command `python3 -m pip wheel --no-build-isolation --no-deps . --wheel-dir "${TMPDIR}/cmj-m7-review-wheel"` succeeded with the locally installed setuptools 68.1.2. The resulting wheel had 81 entries: 77 package files and four metadata files, with no tests, docs, or protected payloads. It was installed into a fresh Python 3.12 virtual environment and imported from outside the checkout. The isolated import resolved from that environment's `site-packages`, loaded pinned NumPy 2.5.3, exposed eight benchmark identities, and confirmed that `HistoricalAlias` has no commit/tree fields. The dependency was seeded from the existing environment because offline dependency resolution was unavailable.
+
+The sealed RES-362 and RES-288 checksum manifests verified 10/10 and 17/17 files. The protected-byte comparison on reviewed HEAD `1bafc13`, before this evidence update, covered the preserved 25,069 fingerprints and 28,858 bound records against 238 reachable blobs across 42 reachable commits; it found zero exact matches. The current-tree scan on that HEAD reported zero machine-local paths, secrets/private keys, private URLs, and 40-character SHA-1 references. Raw fingerprints, raw occurrence values, and the private comparator invocation remain outside public Git.
+
+At reviewed candidate HEAD `1bafc13`, rewriting the earliest affected commit would change 36 commits on `main`, 22 commits on origin's legacy registry-gate branch, and 41 on `res-288-m7-remediation`; the union is 41 distinct affected commits. There are no local tags. PR refs, forks, and external clones were not inspected and must be inventoried before any authorized rewrite. A targeted rewrite retains more provenance but changes descendant SHAs; a clean baseline built from the sanitized tree gives a fresh graph but discards public history. Neither action can revoke copies already held by forks, clones, or caches. No history operation was performed.
+
+The review recommendation is to treat the candidate as suitable for a separate current-tree code merge only if the owner accepts that the earlier affected history remains reachable. Such a merge would reduce disclosure at HEAD but would not clear the repository for M7 or M8. RES-288 remains `In Progress`; RES-291/M8 remains `Todo` and unstarted. No push, merge, release, tag, or history rewrite was performed.
