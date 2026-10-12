@@ -743,8 +743,9 @@ _RICH_SPLIT = {
             "matches preserved participant, origin, query keys, H72/D7 masks, and ordered "
             "logical rows for both public splits. Later ALI-488/490 repairs changed scientific, "
             "measurement, schedule, and RNG source without regenerating D04. The later "
-            "named-channel replay remains a separate non-historical realization. Matching membership is "
-            "compatibility/output evidence, not proof of D04's historical RNG runtime."
+            "named-channel replay remains a separate non-historical realization. Matching "
+            "membership is compatibility/output evidence, not proof of D04's historical RNG "
+            "runtime."
         ),
         "RES-361/M1: D04 producer and materialized split authorities; manifest and public "
         "split identities are bound in the sealed evidence handoff.",
