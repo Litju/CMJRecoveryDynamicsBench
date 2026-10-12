@@ -35,7 +35,8 @@ CAMP_HISTORY_OBSERVATION = ObservationContract(
     prior_episode_information=InformationBoundary(
         InformationStatus.SPECIFIED,
         ("pre-origin assessments",),
-        "The selected W01 schedule starts its exposure state at the index; it has no "
+        "The selected preseason-camp schedule starts its exposure state at the index; it has "
+        "no "
         "pre-index carry-in.",
     ),
     temporal_availability=TemporalAvailability(

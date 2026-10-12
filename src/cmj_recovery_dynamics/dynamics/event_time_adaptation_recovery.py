@@ -25,7 +25,7 @@ _FORBIDDEN_PUBLIC_MARKERS = (
 
 @dataclass(frozen=True, slots=True)
 class EventTimeParameters:
-    """W01 response parameters; bounded design ranges are not population biology."""
+    """Preseason-camp response parameters; bounded design ranges are not population biology."""
 
     dose_response_ceiling_kappa: float
     dose_half_saturation_delta: float

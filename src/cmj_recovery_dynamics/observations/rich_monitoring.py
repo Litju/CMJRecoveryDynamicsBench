@@ -1,4 +1,4 @@
-"""O02 rich monitoring and target-measurement process."""
+"""Rich-history monitoring and target-measurement process."""
 
 from __future__ import annotations
 
