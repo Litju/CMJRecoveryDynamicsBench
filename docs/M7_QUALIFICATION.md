@@ -100,51 +100,100 @@ The local integration check against `main` was clean and fast-forwardable. Its p
 
 The public origin inventory contains branches `main` and `tmp/res393-registry-gate`, no tags, no visible PR refs, zero pull requests in the GitHub API, and zero forks. External clones and caches cannot be inventoried from this repository. Rewriting the earliest affected commit would change 36 commits on `main`, 22 on the legacy branch, and 43 on `res-288-m7-remediation`; these refs overlap, for 43 distinct affected commits at the final report HEAD.
 
-## History-remediation dry-run plans
+## Corrected historical-remediation assessment
 
-Neither plan was executed. The M0 archive and sealed classification files remain read-only and outside public Git. `git-filter-repo` is not installed in this checkout.
+The earlier 39-literal replacement plan was incomplete. The isolated comparison
+removed the 28 reference strings and 11 workstation-path strings but retained
+pre-redaction empirical metadata in ancestor versions of all nine rights-redaction
+source files. A zero exact M0 byte match cannot detect rewritten summaries and
+cannot grant redistribution rights. Do not use that plan as a complete remedy.
 
-**Targeted rewrite.** Generate a private replacement map from the sealed M7 review: 28 exact reference strings and 11 distinct path strings, each matched literally and replaced with a non-path redaction marker. Keep both the map and the dry-run exports outside Git with private permissions. In a disposable mirror containing all current local and origin-tracking refs, run:
+A complete targeted remedy requires a private inventory of every affected blob
+version, including removed source-specific claims, result values, split/sample
+metadata, model comparisons, and test expectations, across every inventoried ref.
+Sanitize those versions semantically, preserve unrelated scientific records and
+commit provenance where possible, then validate historical source/test consistency,
+scan all resulting objects and metadata, compare protected M0 fingerprints, and
+rerun candidate-tree qualification. The nine files are a minimum scope, not proof
+that tests or other historical versions need no work. Any changed early tree
+changes descendant commit identities. This assessment authorizes no rewrite.
 
-```sh
-umask 077
-MIRROR="$(mktemp -d)/cmj-m7-mirror.git"
-MAP="${M7_PRIVATE_DIR}/literal-replacements.txt"
-git clone --mirror --no-local "$PWD" "$MIRROR"
-git -C "$MIRROR" filter-repo --dry-run --replace-text "$MAP"
-```
+The separately verified clean-root experiment contains the former candidate tree
+as one root commit with no remote. It excludes ancestor versions by construction
+but discards public development ancestry; it is not a replacement for the existing
+repository and is not an approved publication operation. Neither approach revokes
+external clones or cached copies. A complete semantic targeted remedy has not yet
+been validated, so the incomplete literal experiment does not establish that
+preserving development history is impossible.
 
-Each map line uses the default literal matching form, with a fixed redaction marker after `==>`. Review the filtered export against the original, confirm the only distinct match values are the 39 mapped literals, and check all refs for residual findings. If the owner authorizes a rewrite after this dry run, validate it in another disposable mirror against the sealed M0 bytes and rerun the full qualification. Do not pass `--refs`: the plan must cover every inventoried branch, and partial rewriting can leave mixed old/new history. No push is part of this plan.
-
-**Clean baseline.** In a separate private temporary directory, export only the sanitized candidate tree, then initialize a new repository with one root commit after the owner selects the author identity. Do not add a remote:
-
-```sh
-umask 077
-BASELINE="$(mktemp -d)/cmj-m7-clean"
-mkdir "$BASELINE"
-git archive --format=tar HEAD | tar -xf - -C "$BASELINE"
-git -C "$BASELINE" init -b main
-git -C "$BASELINE" add -A
-git -C "$BASELINE" -c user.name="$APPROVED_AUTHOR_NAME" \
-  -c user.email="$APPROVED_AUTHOR_EMAIL" commit -m "Create sanitized public baseline"
-test "$(git -C "$BASELINE" rev-parse HEAD^{tree})" = "$(git rev-parse HEAD^{tree})"
-git -C "$BASELINE" rev-list --parents --all
-```
-
-The tree comparison must pass and the final `rev-list` line must contain one commit ID with no parent. Scan its full reachable history and wheel, and repeat the sealed M0 byte comparison. Do not add a license unless the owner separately selects one. This produces a fresh graph but loses public commit provenance; it does not revoke old clones, caches, or copied refs.
-
-| Approach | Keeps | Changes | Remaining limit |
-|---|---|---|---|
-| Current-tree fast-forward | Existing history and commit links | Makes the sanitized candidate tree current on `main` | All historical references and paths stay reachable; M7 remains blocked |
-| Targeted rewrite | Unaffected project history and most provenance | Rewrites 43 affected commits across the known refs; requires coordinated non-fast-forward updates | External clones and caches can retain old history |
-| Clean baseline | Sanitized current files and M0 authority kept privately | Replaces project history with a new root and invalidates old commit links | Loses public provenance; external copies remain |
+Ordinary current-tree integration is a separate, non-force fast-forward of the
+existing main to the remediation branch. It retains historical exposure and cannot
+certify M7. Owner authorization is required before pushing main.
 
 ## Owner decisions still required
 
 1. Select a project license and the author/citation identity for any release metadata.
 2. Obtain written rights clearance before proposing any empirical source, derivative, split, comparison, or result summary for redistribution; otherwise keep those materials omitted under the M0 prohibition.
 3. Provide exact M0 evidence for the eight unclassified references or leave them unclassified and omitted. No rights are inferred.
-4. Choose between current-tree integration, targeted rewrite, or clean baseline, and authorize any eventual public ref update separately. Decide whether to rewrite or retire the legacy branch as part of that action.
+4. Authorize current-tree integration separately from any historical remedy. Rights-sensitive ancestor versions require an approved complete remedy or explicit binding clearance. Decide any legacy-ref action separately; no deletion or rewrite is implied.
 5. Coordinate with any external clone owners before history changes; public forks and pull requests were absent from the inventory, but external clones and caches are not enumerable.
 
 M7 remains `BLOCKED`; RES-288 remains `In Progress`; RES-291/M8 remains `Todo` and unstarted. No history rewrite, force-push, public merge, license addition, rights clearance, or v1.0 release was performed.
+
+## Recovery verification — 2026-10-14
+
+The canonical checkout began clean at `e55d7f4`. Read-only remote inventory verified
+that the existing repository remains public, its numeric repository identity is
+unchanged, public main remains `f59aae4`, and the legacy branch remains `ee42e4d`.
+Only those two branch heads are advertised; there are no advertised tags or PR
+refs, no API pull requests, and no forks. The branch-protection endpoint reports
+main unprotected, and the repository ruleset list is empty. No remote mutation was
+performed. External clones, caches, and inaccessible server-side refs are unknown.
+
+The seven original remediation commits are descendants of public main. The
+separate `4e37b10` experiment is a clean one-root repository with no remote and an
+exact tree match to `e55d7f4`; it never replaced canonical main. Canonical Git
+integrity verification reported no corrupt or missing objects. Two older commits
+remain only in reflogs, and three dangling blobs remain; none was deleted. A
+private full Git-directory snapshot now preserves these alongside the refs and
+reflogs. No pending user edits were present or overwritten.
+
+Recovery fixes are `1e7e6db` (publication-path checks now reject additional
+checkpoint, archive, tabular evidence, and private Git/result classes, with 12
+negative regression cases; generated egg metadata is ignored) and `057b537`
+(public setup, validation, wheel, and scientific-limit instructions). Scientific
+benchmark, dynamics, observation, task, metric, and reproducibility source modules
+are byte-identical to public main. Remaining differences are the previously
+reviewed rights/provenance redactions, their contract/test adjustments, and the
+recovery controls and documentation. All eight benchmark identities survive.
+
+Validation of the repaired candidate: 301 tests passed; Ruff lint passed; all 98
+Python files passed formatting; strict Pyright reported zero errors, warnings, or
+informations; working-tree and main-relative diff integrity checks passed. The
+wheel built with normal isolated dependency resolution, contains 81 entries (77
+package modules plus four metadata files), and every packaged module matches the
+current source bytes. Installed with its declared dependency into a fresh Python
+3.12 environment, it imports outside the checkout with isolation enabled and
+exposes eight benchmarks, no historical alias commit/tree fields, and prohibited
+empirical-source redistribution. The public README import example was verified.
+
+The sealed RES-362, RES-288, RES-363, RES-365, and RES-366 checksum manifests verified
+10, 17, 44, 12, and 13 entries respectively, without mismatches or unreadable
+entries. The protected-byte replay compared 25,069 fingerprints covering 28,858
+source records with reachable blobs and found zero exact matches. The baseline
+audit scanner's old path policy incorrectly flags the three approved M7 documents;
+replay used the current tested allowlist. Current account-label and malformed-URL
+hits were adjudicated as public identity and a synthetic negative fixture.
+Historical findings remain 19 workstation-path findings (11 distinct values), 28
+opaque source-object identifiers (none resolves in the canonical object database),
+and pre-redaction versions of nine empirical-metadata source files. These are
+separate consequences; the exact-byte result does not clear derived summaries.
+
+The 36 M0 questions retain explicit exclusion handling (24 do-not-redistribute,
+11 private-archive-only, one not applicable); those decisions grant no new rights.
+No vendored dependency payload was found in the wheel. Original-code ownership,
+project license, and citation authorship still require owner qualification. A
+complete semantic historical remedy remains unvalidated and requires authorization
+before any destructive operation. Main integration requires separate explicit
+publication approval. M7 remains blocked, RES-288 remains In Progress, and RES-291
+remains Todo and unstarted; no release gate is passed by these engineering checks.
