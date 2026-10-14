@@ -6,6 +6,8 @@ import subprocess
 import tomllib
 from pathlib import Path
 
+import pytest
+
 from cmj_recovery_dynamics.provenance.historical_aliases import HISTORICAL_ALIASES
 from cmj_recovery_dynamics.registry import BENCHMARK_REGISTRY
 
@@ -98,6 +100,8 @@ PROTECTED_SUFFIXES = (
     ".zip",
     ".tar",
     ".tar.gz",
+    ".tgz",
+    ".tar.xz",
     ".7z",
     ".parquet",
     ".pkl",
@@ -107,6 +111,8 @@ PROTECTED_SUFFIXES = (
     ".pth",
     ".ckpt",
     ".onnx",
+    ".safetensors",
+    ".bin",
     ".npy",
     ".npz",
     ".h5",
@@ -115,6 +121,9 @@ PROTECTED_SUFFIXES = (
     ".arrow",
     ".jsonl",
     ".json",
+    ".csv",
+    ".tsv",
+    ".mmd",
     ".md",
 )
 PROTECTED_DIRECTORY_NAMES = {
@@ -122,7 +131,11 @@ PROTECTED_DIRECTORY_NAMES = {
     "recovery-archive",
     "private-evidence",
     "evidence-archive",
+    "private-evaluation",
     "private-evaluations",
+    "private-results",
+    "historical-git",
+    "git-database",
     "evaluation-artifacts",
     "evaluation-results",
     "model-checkpoints",
@@ -208,21 +221,47 @@ def test_git_tracks_no_protected_artifact_class() -> None:
     )
     tracked_paths = tuple(path.decode("utf-8") for path in completed.stdout.split(b"\0") if path)
     for tracked_path in tracked_paths:
-        path = Path(tracked_path)
-        if len(path.parts) == 1:
-            assert path.name in ROOT_FILE_ALLOWLIST, tracked_path
-        else:
-            assert path.parts[0] in PUBLIC_DIRECTORY_ALLOWLIST, tracked_path
-            if path.parts[0] == "docs":
-                assert tracked_path in PUBLIC_DOCUMENT_ALLOWLIST, tracked_path
-        assert not path.name.startswith(".env"), tracked_path
-        protected = any(tracked_path.endswith(suffix) for suffix in PROTECTED_SUFFIXES)
-        assert not protected or (
-            tracked_path in PUBLIC_DOCUMENT_ALLOWLIST and path.suffix == ".md"
-        ), tracked_path
-        assert not PROTECTED_DIRECTORY_NAMES.intersection(part.lower() for part in path.parts), (
-            tracked_path
-        )
+        _assert_public_path(tracked_path)
+
+
+def _assert_public_path(tracked_path: str) -> None:
+    path = Path(tracked_path)
+    if len(path.parts) == 1:
+        assert path.name in ROOT_FILE_ALLOWLIST, tracked_path
+    else:
+        assert path.parts[0] in PUBLIC_DIRECTORY_ALLOWLIST, tracked_path
+        if path.parts[0] == "docs":
+            assert tracked_path in PUBLIC_DOCUMENT_ALLOWLIST, tracked_path
+    assert not path.name.startswith(".env"), tracked_path
+    protected = any(tracked_path.endswith(suffix) for suffix in PROTECTED_SUFFIXES)
+    assert not protected or (tracked_path in PUBLIC_DOCUMENT_ALLOWLIST and path.suffix == ".md"), (
+        tracked_path
+    )
+    assert not PROTECTED_DIRECTORY_NAMES.intersection(part.lower() for part in path.parts), (
+        tracked_path
+    )
+
+
+@pytest.mark.parametrize(
+    "tracked_path",
+    (
+        "src/export.csv",
+        "tests/export.tsv",
+        "src/checkpoint.safetensors",
+        "tests/checkpoint.bin",
+        "src/archive.tgz",
+        "tests/archive.tar.xz",
+        "src/history.mmd",
+        "src/historical-git/object.py",
+        "tests/git-database/object.py",
+        "src/private-results/result.py",
+        "tests/private-evaluation/scorer.py",
+        "docs/unreviewed.md",
+    ),
+)
+def test_public_boundary_rejects_protected_artifact_paths(tracked_path: str) -> None:
+    with pytest.raises(AssertionError):
+        _assert_public_path(tracked_path)
 
 
 def test_tracked_text_has_no_machine_paths_or_secret_markers() -> None:
