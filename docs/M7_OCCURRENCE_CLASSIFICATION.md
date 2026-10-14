@@ -41,7 +41,7 @@ The object aliases follow the order of the unique SHA-1 rows in the sealed M7 re
 | OBJ-27 | `M0_UNREACHABLE_TASK_TREE` / `PRIVATE_ARCHIVE_ONLY` | `provenance/historical_aliases.py`; `reproduction/single_exposure.py`; `tests/test_single_exposure.py` | 3 | Remove from public tree |
 | OBJ-28 | `M0_REACHABLE_TASK_TREE` / `PRIVATE_ARCHIVE_ONLY` | `provenance/historical_aliases.py`; `reproduction/registry.py`; `reproduction/rich_history.py`; `tests/test_rich_history.py` | 4 | Remove from public tree |
 
-The inventory has 20 exact `PRIVATE_ARCHIVE_ONLY` classifications and 8 references without an exact M0 classification. All 28 were removed from current source/tests, including source and test assertions that repeated them. A current-tree assertion now rejects 40-character SHA-1 references. Earlier public blobs remain reachable; no history rewrite was performed.
+The inventory has 15 exact private commit/tree crosswalks, five file-context `PRIVATE_ARCHIVE_ONLY` classifications without exact object identity, and eight references without an exact M0 classification. All 28 were removed from current source/tests, including source and test assertions that repeated them. A current-tree assertion now rejects 40-character SHA-1 references. Earlier public blobs remain reachable; no history rewrite was performed.
 
 ## Eight paired commit/tree findings
 
@@ -110,3 +110,22 @@ The post-appendix replay checked each historical reference against the current G
 The 19 `PRIVATE_ABSOLUTE_PATH` findings are 11 distinct hard-coded local path values across 18 historical findings in `tests/test_reproducibility_core.py` and one in `src/cmj_recovery_dynamics/reproducibility/contracts.py`. Context review classifies them as workstation/workspace locators, including home and temporary-directory paths. Some carry the public repository account label; the path layout is the sensitive part. No credential, private key, or private URL was associated with these path findings. They do not disclose dataset bytes, but they reveal local environment structure and remain historical disclosure findings until an authorized rewrite removes them.
 
 The current candidate tree has no absolute-path, credential, private-key, private-URL, or 40-character object-reference finding. Current account-label matches are the already-public repository identity, and the malformed URL hit is an intentional parser-negative fixture. These are adjudicated separately from the historical path and reference findings.
+
+## Recovery severity assessment
+
+The restricted empirical summaries in earlier source versions are the substantive
+rights blocker: M0 prohibits their redistribution, even though no preserved payload
+bytes match exactly. The earlier literal rewrite left these ancestor versions
+reachable in nine source files; its clean reference/path scan was incomplete for
+rights qualification.
+
+The workstation paths reveal local directory layout but have no associated
+credential, private key, private service address, or restricted data content in the
+reviewed context. Treat them as low-severity provenance hygiene, not proof of an
+operational compromise or a sufficient reason to discard scientific ancestry.
+Opaque object identifiers likewise are not private object payloads; 15 have exact
+private crosswalks, five have only file-context classification, and eight remain
+unknown. They stay omitted at HEAD without inventing a rights determination.
+Synthetic malformed-URL fixtures and the public account identity need no remedy.
+Any historical change remains an owner decision; prioritize binding empirical
+rights restrictions over benign pattern findings.
