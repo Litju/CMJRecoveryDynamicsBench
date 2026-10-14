@@ -41,6 +41,7 @@ __pycache__/
 venv/
 dist/
 build/
+*.egg-info/
 **/recovery-corpus/
 **/recovery-archive/
 **/private-evidence/
