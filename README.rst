@@ -41,4 +41,17 @@ M7 rights/security qualification remains blocked; M8 publication is not authoriz
 Current-tree redaction does not sanitize earlier Git history. See
 ``docs/M7_PUBLIC_TREE_REDACTION.md``, ``docs/M7_OCCURRENCE_CLASSIFICATION.md``, and
 ``docs/M7_QUALIFICATION.md`` for the boundaries and outstanding decisions.
-The owner has not selected a project license or approved citation authorship.
+The project code ownership is confirmed by the owner. Pre-release license and
+citation metadata are now staged for approval; they do not complete the M7
+historical rights and security qualification.
+
+License and citation
+--------------------
+
+Copyright 2026 Julio Rodriguez. Original project source code and documentation
+are licensed under Apache-2.0; see ``LICENSE``. This license does not cover
+external datasets, restricted empirical derivatives, preserved private archives,
+or other third-party materials.
+
+Use ``CITATION.cff`` to cite this software. Version ``0.1.0`` remains
+pre-release; no DOI, v1.0 publication, or empirical validation is claimed.
