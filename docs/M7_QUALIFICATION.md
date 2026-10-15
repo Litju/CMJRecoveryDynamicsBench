@@ -1,8 +1,22 @@
 # M7 remediation qualification evidence
 
-## State
+## Owner software-rights decisions — 2026-10-15
 
-`M7_BLOCKED`. RES-288 remains `In Progress`; RES-291/M8 remains `Todo`. The changes are on the local-only branch `res-288-m7-remediation`. No merge, push, release, tag, or history rewrite was performed.
+The owner explicitly attested sole ownership of the original CMJRecoveryDynamicsBench source code, selected Apache-2.0 as its software license, and approved Julio Rodriguez as the sole software author for `CITATION.cff`. These owner-level decisions supersede earlier snapshots below that described the license and software citation as undecided. No rights clearance is asserted for White-derived empirical results, historical third-party materials, private evidence, or external datasets.
+
+The release-metadata change updates `LICENSE`, `pyproject.toml`, `README.rst`, and `CITATION.cff`. The current scientific tree and its tests were previously qualified; the metadata changes require their own final build/CFF checks. **M7 remains BLOCKED** pending historical-publication adjudication, any required history remediation, GitHub-managed reference/cache review, and final qualification. `RES-291` / M8 remains unstarted.
+
+## Published integration status — 2026-10-14
+
+The existing public repository `Litju/CMJRecoveryDynamicsBench` advanced `main` from `f59aae4` to `2c8432a` by an ordinary non-force fast-forward. The reviewed candidate tree is `507a3191` (abbreviated), identical to the published branch tree. The canonical repository identity, public visibility, and M0–M6 commit ancestry were preserved. No public-history rewrite, forced update, legacy-branch deletion, release tag, or v1.0 publication was performed.
+
+The previously reviewed M7 source redactions and provenance controls are now in the current public tree. The 301-test, lint, formatting, strict type-checking, packaging, manifest, and protected-fingerprint results reported under the dated recovery verification below were performed on the corresponding candidate before integration. The current main-source files have also been checked for the previously identified restricted result summaries and historical object-reference values. **No new post-push execution of the full suite or positive GitHub CI qualification has been established by this addendum.**
+
+`M7_BLOCKED` remains the release verdict: prior public commits and the legacy branch still require historical-rights remediation, and owner-controlled code licensing, source ownership, and citation decisions are outstanding. `RES-288` remains In Progress, and `RES-291` / M8 remains Todo and blocked. Sections below retain their original dated, pre-integration evidence scope; references to a local-only candidate or an unperformed push are historical statements, not the current repository state.
+
+## State (historical local snapshot)
+
+`M7_BLOCKED`. RES-288 remained `In Progress`; RES-291/M8 remained `Todo`. At the time of this initial evidence snapshot, the changes were on the local branch `res-288-m7-remediation`; no merge, push, release, tag, or history rewrite had yet been performed.
 
 The accepted public starting point was `f59aae4`. The working tree was clean before edits. The remediation commits are separated by purpose:
 
