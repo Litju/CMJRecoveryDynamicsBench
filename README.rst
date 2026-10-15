@@ -41,9 +41,9 @@ M7 rights/security qualification remains blocked; M8 publication is not authoriz
 Current-tree redaction does not sanitize earlier Git history. See
 ``docs/M7_PUBLIC_TREE_REDACTION.md``, ``docs/M7_OCCURRENCE_CLASSIFICATION.md``, and
 ``docs/M7_QUALIFICATION.md`` for the boundaries and outstanding decisions.
-The project code ownership is confirmed by the owner. Pre-release license and
-citation metadata are now staged for approval; they do not complete the M7
-historical rights and security qualification.
+The owner confirms original-project code ownership and approves Apache-2.0
+for that code, with Julio Rodriguez as sole software author. These decisions
+do not complete M7 historical rights and security qualification.
 
 License and citation
 --------------------
