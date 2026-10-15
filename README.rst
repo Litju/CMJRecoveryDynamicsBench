@@ -27,6 +27,16 @@ Inspect the scientific identities without historical archives::
 
     .venv/bin/python -c 'from cmj_recovery_dynamics import BENCHMARK_REGISTRY; print("\n".join(BENCHMARK_REGISTRY))'
 
+Inspect the M1–M6 reproduction matrix and run the public synthetic qualification::
+
+    .venv/bin/python -m cmj_recovery_dynamics.reproducibility.qualification --matrix-only
+    .venv/bin/python -m cmj_recovery_dynamics.reproducibility.qualification
+
+The run hashes complete public training and validation row streams and executes
+the registered rich-history zero baseline diagnostic. It does not replay
+historical score families or establish empirical validation. See
+``docs/M8_REPRODUCIBILITY_MATRIX.md`` and ``docs/M8_REPRODUCTION_RESULTS.md``.
+
 Reproducibility and release status
 ---------------------------------
 
