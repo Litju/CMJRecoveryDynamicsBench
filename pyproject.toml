@@ -1,11 +1,14 @@
 [build-system]
-requires = ["setuptools>=68"]
+requires = ["setuptools>=77"]
 build-backend = "setuptools.build_meta"
 
 [project]
 name = "cmj-recovery-dynamics"
 version = "0.1.0"
 description = "Typed scientific contracts for CMJ recovery forecasting benchmarks"
+authors = [{name = "Julio Rodriguez"}]
+license = "Apache-2.0"
+license-files = ["LICENSE"]
 requires-python = ">=3.12"
 dependencies = ["numpy==2.5.3"]
 
