@@ -1,5 +1,11 @@
 # M7 remediation qualification evidence
 
+## Owner software-rights decisions — 2026-10-15
+
+The owner explicitly attested sole ownership of the original CMJRecoveryDynamicsBench source code, selected Apache-2.0 as its software license, and approved Julio Rodriguez as the sole software author for `CITATION.cff`. These owner-level decisions supersede earlier snapshots below that described the license and software citation as undecided. No rights clearance is asserted for White-derived empirical results, historical third-party materials, private evidence, or external datasets.
+
+The release-metadata change updates `LICENSE`, `pyproject.toml`, `README.rst`, and `CITATION.cff`. The current scientific tree and its tests were previously qualified; the metadata changes require their own final build/CFF checks. **M7 remains BLOCKED** pending historical-publication adjudication, any required history remediation, GitHub-managed reference/cache review, and final qualification. `RES-291` / M8 remains unstarted.
+
 ## Published integration status — 2026-10-14
 
 The existing public repository `Litju/CMJRecoveryDynamicsBench` advanced `main` from `f59aae4` to `2c8432a` by an ordinary non-force fast-forward. The reviewed candidate tree is `507a3191` (abbreviated), identical to the published branch tree. The canonical repository identity, public visibility, and M0–M6 commit ancestry were preserved. No public-history rewrite, forced update, legacy-branch deletion, release tag, or v1.0 publication was performed.
