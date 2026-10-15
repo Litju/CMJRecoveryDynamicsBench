@@ -94,7 +94,11 @@ PUBLIC_DOCUMENT_ALLOWLIST = {
     "docs/M7_PUBLIC_TREE_REDACTION.md",
     "docs/M7_OCCURRENCE_CLASSIFICATION.md",
     "docs/M7_QUALIFICATION.md",
+    "docs/M8_REPRODUCIBILITY_MATRIX.md",
+    "docs/M8_REPRODUCTION_RESULTS.md",
+    "docs/M8_PUBLIC_REPRODUCTION_RECEIPTS.json",
 }
+PUBLIC_MACHINE_RECEIPT_ALLOWLIST = {"docs/M8_PUBLIC_REPRODUCTION_RECEIPTS.json"}
 PROTECTED_SUFFIXES = (
     ".bundle",
     ".zip",
@@ -234,9 +238,9 @@ def _assert_public_path(tracked_path: str) -> None:
             assert tracked_path in PUBLIC_DOCUMENT_ALLOWLIST, tracked_path
     assert not path.name.startswith(".env"), tracked_path
     protected = any(tracked_path.endswith(suffix) for suffix in PROTECTED_SUFFIXES)
-    assert not protected or (tracked_path in PUBLIC_DOCUMENT_ALLOWLIST and path.suffix == ".md"), (
-        tracked_path
-    )
+    public_report = tracked_path in PUBLIC_DOCUMENT_ALLOWLIST and path.suffix == ".md"
+    public_receipt = tracked_path in PUBLIC_MACHINE_RECEIPT_ALLOWLIST and path.suffix == ".json"
+    assert not protected or public_report or public_receipt, tracked_path
     assert not PROTECTED_DIRECTORY_NAMES.intersection(part.lower() for part in path.parts), (
         tracked_path
     )
@@ -257,6 +261,7 @@ def _assert_public_path(tracked_path: str) -> None:
         "src/private-results/result.py",
         "tests/private-evaluation/scorer.py",
         "docs/unreviewed.md",
+        "docs/unreviewed.json",
     ),
 )
 def test_public_boundary_rejects_protected_artifact_paths(tracked_path: str) -> None:
