@@ -87,10 +87,14 @@ The implementation was checked with:
 ```
 
 The suite passed 305 tests; Ruff lint and formatting passed; strict Pyright
-reported zero errors, warnings, or informations. The wheel contains 82 entries
-(78 Python modules and four metadata files), including the qualification
-runner and excluding tests and documentation. The wheel installed with NumPy
-2.5.3 in the isolated environment and imported from outside the checkout.
+reported zero errors, warnings, or informations. The original M8 build had 82
+wheel entries (78 Python modules and four metadata files). The current licensed
+build has 83 entries: 78 Python modules and five distribution files, including
+``licenses/LICENSE``. Both include the qualification runner and exclude tests
+and documentation. The current wheel installed with NumPy 2.5.3 in an isolated
+environment and imported from outside the checkout. This packaging difference
+does not change the numerical reproduction; the original reproduction receipt
+is preserved unchanged.
 
 The run is synthetic. It does not establish empirical recovery performance or
 replay any private result family. Full commands, per-run durations, complete
