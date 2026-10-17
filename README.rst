@@ -27,6 +27,16 @@ Inspect the scientific identities without historical archives::
 
     .venv/bin/python -c 'from cmj_recovery_dynamics import BENCHMARK_REGISTRY; print("\n".join(BENCHMARK_REGISTRY))'
 
+Inspect the M1–M6 reproduction matrix and run the public synthetic qualification::
+
+    .venv/bin/python -m cmj_recovery_dynamics.reproducibility.qualification --matrix-only
+    .venv/bin/python -m cmj_recovery_dynamics.reproducibility.qualification
+
+The run hashes complete public training and validation row streams and executes
+the registered rich-history zero baseline diagnostic. It does not replay
+historical score families or establish empirical validation. See
+``docs/M8_REPRODUCIBILITY_MATRIX.md`` and ``docs/M8_REPRODUCTION_RESULTS.md``.
+
 Reproducibility and release status
 ---------------------------------
 
@@ -37,13 +47,16 @@ rights-withheld authority separately. Historical evidence, private evaluators,
 checkpoints, and restricted empirical data remain external; do not copy them into
 this repository or use them to claim public reproducibility.
 
-M7 rights/security qualification remains blocked; M8 publication is not authorized.
+M7 was administratively closed with a documented, owner-accepted exception for
+old GitHub-managed pull-request refs. This exception is not historical or
+third-party rights clearance. M8 is in progress; v1.0 has not been released.
 Current-tree redaction does not sanitize earlier Git history. See
 ``docs/M7_PUBLIC_TREE_REDACTION.md``, ``docs/M7_OCCURRENCE_CLASSIFICATION.md``, and
 ``docs/M7_QUALIFICATION.md`` for the boundaries and outstanding decisions.
 The owner confirms original-project code ownership and approves Apache-2.0
 for that code, with Julio Rodriguez as sole software author. These decisions
-do not complete M7 historical rights and security qualification.
+apply to project code only; they do not clear external datasets, restricted
+derivatives, retained history, or other third-party materials.
 
 License and citation
 --------------------
