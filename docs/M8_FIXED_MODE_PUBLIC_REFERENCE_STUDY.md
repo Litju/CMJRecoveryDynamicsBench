@@ -100,10 +100,120 @@ coefficients on each training subset.
 
 The CLI separates `pilot`, `select`, and `evaluate`. `select` writes a
 content-addressed selection lock containing only the training/development
-choices and fitted coefficients. `evaluate` requires that lock and refuses a
-changed protocol or code SHA before generating any independent test root.
+choices, fitted coefficients, full code SHA, and a package-source digest.
+`evaluate` requires that lock and refuses a changed protocol, code SHA, or
+package source digest before generating any independent test root.
 The three root strings, scoring rule, bootstrap settings, ablations, and sample
 subset seed are frozen in the runner and in the lock protocol digest.
+
+## Results
+
+Study code: `7421f02f39d7` (12-character Git SHA abbreviation); base public
+main: `ecdf93091517`. The package-source SHA-256 is
+`12e9e192accefb867707765098a4dd9eeabfd735097646fa4d4bcae5db60d0c3`. The
+selection-lock SHA-256 is
+`07ce6ed56c292e2f56d306eb38b2ff8ea574f4cf0cc3f0644b94fa2db872cb21`.
+
+The public training stream contained 72,000 rows and the development stream
+12,000. Both targets were complete: 72,000/72,000 training and 12,000/12,000
+development observations. The source predictor-name SHA-256 is
+`3ff19dcc79ef24338bfb807467c558fbec63e44c9c338846b1770fff12573e54`; the
+84-column encoded feature-name SHA-256 is
+`4a5e26c6e1776ab3395bce979ef2a2da7a52b15d044fecac59908642e852097a`. Ordered
+row-stream SHA-256 values were:
+
+| Split | SHA-256 |
+|---|---|
+| Training | `b3b6a3d523b8c46813c28d3cb3cfac15965b0c5b42881e81915da8c1b81c33cb` |
+| Development | `d267bffdd3e039fbbd17966958f168d51cb191307a3fbc45a646bd788e1fe479` |
+
+The three independent test row-stream SHA-256 values are:
+
+| Root | SHA-256 |
+|---|---|
+| A | `82aec8d430dab054536caab0f8adb9020927bddf77d8a64cacc63e7f48ece353` |
+| B | `cbe0e60590f0e76d08f11ffd87d07db7bca9cfd25a458cb57548e1dc401c3877` |
+| C | `85c52a1ce56a9e4f2939a3b80ab13bfaddc8ac8110ff1d83c8b7c90574f3051a` |
+
+All six ridge/structured configurations selected alpha `0.01`, the lower edge
+of the frozen grid, using development only. Their development mean six-cell
+NRMSEs were `0.735642` (full ridge), `0.771452` (full structured), `0.822267`
+(ridge without prior history), `0.860150` (ridge without current exposure),
+`0.735725` (ridge without participant context), and `0.822412` (structured
+without prior history).
+
+Across the three independently seeded test roots, mean six-cell NRMSE and
+sample SD across roots were:
+
+| Model | Mean NRMSE | Root-to-root SD |
+|---|---:|---:|
+| Zero innovation | 2.430659 | 0.008127 |
+| Training constant | 1.036038 | 0.007308 |
+| Ridge, full 82-field schema | 0.736270 | 0.003349 |
+| Fixed-mode structured comparator | 0.773316 | 0.005490 |
+| Ridge without prior history | 0.819681 | 0.005899 |
+| Ridge without current exposure | 0.867735 | 0.006220 |
+| Ridge without participant context | 0.736346 | 0.003327 |
+| Structured without prior history | 0.820342 | 0.005741 |
+
+Per-cell mean NRMSE averaged over the three roots was:
+
+| Cell | Zero | Train constant | Ridge full | Structured full |
+|---|---:|---:|---:|---:|
+| H24 force | 3.0335 | 1.0477 | 0.6244 | 0.6575 |
+| H24 net impulse | 2.7618 | 1.0451 | 0.6522 | 0.6960 |
+| H48 force | 2.5420 | 1.0395 | 0.7319 | 0.7610 |
+| H48 net impulse | 2.2644 | 1.0318 | 0.7598 | 0.8046 |
+| H72 force | 2.1090 | 1.0274 | 0.8157 | 0.8429 |
+| H72 net impulse | 1.8732 | 1.0248 | 0.8336 | 0.8779 |
+
+The full ridge and structured model had 5,000/5,000 valid paired camp-bootstrap
+replicates in every root. The intervals below are for each model's aggregate
+six-cell NRMSE and its paired NRMSE difference from zero (negative favors the
+model):
+
+| Root | Ridge NRMSE 95% interval | Ridge minus zero | Structured NRMSE 95% interval | Structured minus zero |
+|---|---:|---:|---:|---:|
+| A | [0.7280, 0.7462] | [-1.7522, -1.6450] | [0.7638, 0.7843] | [-1.7147, -1.6081] |
+| B | [0.7338, 0.7453] | [-1.7156, -1.6484] | [0.7735, 0.7846] | [-1.6766, -1.6092] |
+| C | [0.7264, 0.7401] | [-1.7338, -1.6691] | [0.7612, 0.7751] | [-1.7005, -1.6325] |
+
+Sample-efficiency results used nested subsets of 24, 48, and 96 training camps
+with alpha selected from the full training/development data held fixed:
+
+| Camps | Ridge NRMSE | Structured NRMSE | Training-constant NRMSE |
+|---:|---:|---:|---:|
+| 24 | 0.736889 | 0.773624 | 1.038164 |
+| 48 | 0.736602 | 0.773621 | 1.037354 |
+| 96 | 0.736270 | 0.773316 | 1.036038 |
+
+Feature ablations show that current-exposure fields and prior-history values
+helped on these populations, while removing participant context changed mean
+NRMSE by only `+0.000076`. The fixed-mode comparator outperformed zero and the
+training constant but did not match full ridge. The 24-to-96-camp differences
+were small within this synthetic setup; 24 camps still contain 6,000 episodes.
+All selected alphas hit the lower bound of the frozen grid, so weaker
+regularization is a question for a separately preregistered study, not a
+post-test adjustment here.
+
+Recorded isolated-wheel compute costs were:
+
+| Stage | Wall time |
+|---|---:|
+| Training generation, 96 camps | 566.6 s |
+| Development generation, 16 camps | 126.9 s |
+| Selection and fitting after generation | 23.5 s |
+| Test generation, roots A / B / C | 66.1 / 70.4 / 68.9 s |
+| Scoring and bootstrap, roots A / B / C | 1.49 / 1.33 / 1.36 s |
+| Evaluation stage total | 209.6 s |
+
+The final isolated-wheel JSON has scientific-results SHA-256
+`25032133d6f3293f722d06d3a618ec1aecec7cef35d2d35524c7431620e4bc71`; the file
+SHA-256 is `cd991366c30a29723318b034bcbacff357544eff8d529678fcdcd849b0f08ce9`.
+It contains exact root-specific RMSE, truth SD, and NRMSE for all 17 models,
+all three test-row hashes, paired bootstrap summaries, and per-cell cross-root
+variation. The source and isolated-wheel evaluations matched exactly on those
+scientific fields.
 
 ## Uncertainty, costs, and reproduction
 
