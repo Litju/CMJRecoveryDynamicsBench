@@ -226,13 +226,17 @@ report each root, the mean, sample SD, and range across the three independently
 seeded populations. Compute costs report generation, selection/fitting, and
 evaluation wall time separately.
 
-Run the three stages from the repository root, with the full SHA of the frozen
-study-code commit:
+Run the three stages from an installed environment, with the full SHA of the
+frozen study-code commit. Resolve `7421f02f39d7` with `git rev-parse` in the
+matching source checkout; the release audit verifies its package source is
+identical to frozen merge `cd13f69f82f8`. Do not substitute a merge SHA solely
+because it contains the study. Use new output paths and preserve the committed
+receipt:
 
 ```text
 OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 .venv/bin/python -m cmj_recovery_dynamics.studies.fixed_mode_reference_study pilot --git-sha <study-code-sha>
 OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 .venv/bin/python -m cmj_recovery_dynamics.studies.fixed_mode_reference_study select --git-sha <study-code-sha> --output selection-lock.json
-OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 .venv/bin/python -m cmj_recovery_dynamics.studies.fixed_mode_reference_study evaluate --git-sha <study-code-sha> --lock selection-lock.json --output docs/M8_FIXED_MODE_PUBLIC_REFERENCE_RESULTS.json
+OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 .venv/bin/python -m cmj_recovery_dynamics.studies.fixed_mode_reference_study evaluate --git-sha <study-code-sha> --lock selection-lock.json --output rerun-fixed-mode-results.json
 ```
 
 The small pilot uses four training camps and two development camps. Do not run
@@ -242,3 +246,23 @@ receipt records source commit, protocol and selection-lock digests, ordered
 row-stream SHA-256 values for every split, feature schema hashes, target
 counts, fit choices, per-cell results, paired intervals, cross-root variability,
 and compute costs. Row-level datasets are not committed.
+
+
+### Hash verification
+
+The row-stream digest hashes ordered UTF-8 compact JSON objects with sorted
+keys, `ensure_ascii=False`, `allow_nan=False`, and one newline after each row.
+The selection-lock digest hashes compact sorted JSON without its own
+`selection_lock_sha256` field. The package-source digest visits sorted package
+`*.py` paths, adding the relative POSIX path, a NUL byte, original file bytes,
+and a newline for each module.
+
+The scientific digest hashes the entire result object except `compute_costs`
+and `scientific_results_sha256`, using the same compact JSON encoding without
+a trailing newline. It includes runtime versions and provenance: a different
+Python version or study SHA can change it without changing numerical results.
+For an exact comparison use the recorded Python/NumPy versions and verified
+study-code identity; otherwise compare data hashes, feature contract, selection,
+per-cell/per-root metrics and intervals separately, and report differences.
+The file SHA-256 includes pretty-printing and runtime costs and is expected to
+differ on rerun. No original receipt should be overwritten to make hashes match.

@@ -17,7 +17,7 @@ environment, run from the repository root:
 uv build --offline --wheel --out-dir wheelhouse .
 python3.12 -m venv clean-environment
 clean-environment/bin/python -m pip install --no-cache-dir numpy==2.5.3 wheelhouse/cmj_recovery_dynamics-0.1.0-py3-none-any.whl
-clean-environment/bin/python -m cmj_recovery_dynamics.reproducibility.qualification > docs/M8_PUBLIC_REPRODUCTION_RECEIPTS.json
+clean-environment/bin/python -m cmj_recovery_dynamics.reproducibility.qualification > rerun-public-reproduction-receipts.json
 ```
 
 The machine-readable receipt records the source, configuration, and output
@@ -74,6 +74,10 @@ path on the current projected rows. In particular, the initial OLS feature
 projection is absent, the M0 checkpoint is not loaded, and other benchmark
 models are result evidence only or unresolved. No production benchmark score
 was claimed from those records.
+
+The later fixed-mode reference-study runner is a separate research-only path;
+see `M8_FIXED_MODE_PUBLIC_REFERENCE_STUDY.md`. The adapter limitation above
+describes this original qualification, not the availability of that new study.
 
 ## Validation and packaging
 

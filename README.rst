@@ -58,6 +58,26 @@ for that code, with Julio Rodriguez as sole software author. These decisions
 apply to project code only; they do not clear external datasets, restricted
 derivatives, retained history, or other third-party materials.
 
+Public reference studies
+------------------------
+
+Two executable research studies supplement the registered baseline path:
+``python -m cmj_recovery_dynamics.studies.reference_model_study`` for retired
+rich-history zero/ridge, and ``python -m
+cmj_recovery_dynamics.studies.fixed_mode_reference_study`` with separate
+``pilot``, ``select``, and ``evaluate`` stages for the active fixed-mode candidate.
+See ``docs/M8_REFERENCE_MODEL_STUDY.md`` and
+``docs/M8_FIXED_MODE_PUBLIC_REFERENCE_STUDY.md`` for protocols and commands.
+The fixed-mode comparison uses three public RNG roots from the same synthetic
+world; it establishes neither OOD robustness nor human athlete performance.
+Its production scorer remains unimplemented.
+
+The source distribution includes these protocols, receipts, and citation file.
+Wheel users should obtain the matching source distribution for documentation;
+all runtime modules are in the wheel. Candidate changes and release limits are
+in ``docs/M8_RELEASE_NOTES.md``. The package remains at ``0.1.0`` pending an
+explicit publication decision; an audit does not publish or tag v1.0.
+
 License and citation
 --------------------
 
