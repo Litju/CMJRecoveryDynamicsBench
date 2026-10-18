@@ -88,6 +88,7 @@ ROOT_FILE_ALLOWLIST = {
     "LICENSE",
     "CITATION.cff",
     "NOTICE",
+    "MANIFEST.in",
 }
 PUBLIC_DIRECTORY_ALLOWLIST = {"src", "tests", "docs"}
 PUBLIC_DOCUMENT_ALLOWLIST = {
