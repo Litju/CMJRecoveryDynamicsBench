@@ -51,6 +51,7 @@ BOOTSTRAP_REPLICATES = 500
 BOOTSTRAP_SEED = 20261017
 RIDGE_ALPHAS = (0.1, 1.0, 10.0)
 PRIMARY_ALPHA = 1.0
+SENSITIVITY_ALPHAS = tuple(alpha for alpha in RIDGE_ALPHAS if alpha != PRIMARY_ALPHA)
 UNKNOWN_CATEGORY = "<UNKNOWN>"
 EXCLUDED_FEATURES = frozenset({"target_time_hours"})
 PREDICTOR_FIELDS = tuple(name for name in R02_FIELD_NAMES if name not in EXCLUDED_FEATURES)
@@ -558,7 +559,7 @@ def run_study() -> dict[str, object]:
         },
         "training_budget": {
             "primary_ridge_alpha": PRIMARY_ALPHA,
-            "sensitivity_alphas": list(RIDGE_ALPHAS),
+            "sensitivity_alphas": list(SENSITIVITY_ALPHAS),
             "ridge_fits": fit_count,
             "primary_fits": 4,
             "fits_per_alpha": 4,
@@ -572,8 +573,9 @@ def run_study() -> dict[str, object]:
         "evaluation": {
             "primary_metric": "registered rich_history_raw_progress_diagnostic",
             "cell_metric": "RMSE and RMSE divided by each validation cell's population SD",
-            "progress": "native clipped 1-NRMSE, average six strata per outcome, then equal "
-            "outcome mean; no unavailable final calibration",
+            "progress": "for each outcome, average NRMSE over 12 cells (six strata across "
+            "H72 and D7), clip 1-mean NRMSE to [0,1], then equally average outcomes; "
+            "no unavailable final calibration",
             "zero_variance_cell": "native evaluator reports unnormalized RMSE",
             "minimum_valid_labels_per_cell": 2,
             "zero_persistence_equals_zero_innovation": True,

@@ -66,9 +66,10 @@ uses no random initialization.
 
 Evaluation reports cell RMSE, RMSE divided by each validation cell’s
 population standard deviation, and the registered
-`rich_history_raw_progress_diagnostic`. That diagnostic averages clipped
-`1 - normalized RMSE` over six strata per outcome, then equally averages both
-outcomes; it does not apply the unavailable final historical calibration.
+`rich_history_raw_progress_diagnostic`. For each outcome, that diagnostic
+averages normalized RMSE over 12 cells (six strata across H72 and D7), clips
+`1 - mean normalized RMSE` to `[0, 1]`, then equally averages the two outcomes.
+It does not apply the unavailable final historical calibration.
 Every one of the 24 target cells must have at least two observed labels.
 
 The uncertainty interval resamples the 128 represented validation camps as

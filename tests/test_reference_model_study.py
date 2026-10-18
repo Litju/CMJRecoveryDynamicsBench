@@ -3,6 +3,7 @@ from __future__ import annotations
 import math
 
 import numpy as np
+import pytest
 
 from cmj_recovery_dynamics.contracts import OutcomeVariable
 from cmj_recovery_dynamics.reproduction.rich_history import (
@@ -15,6 +16,9 @@ from cmj_recovery_dynamics.reproduction.rich_history import (
 )
 from cmj_recovery_dynamics.studies.reference_model_study import (
     HORIZON_TARGET_COLUMNS,
+    PRIMARY_ALPHA,
+    RIDGE_ALPHAS,
+    SENSITIVITY_ALPHAS,
     FeatureEncoder,
     build_cell_values,
     fit_feature_encoder,
@@ -61,6 +65,13 @@ def _row(
     )
 
 
+def test_primary_alpha_is_not_reported_as_sensitivity() -> None:
+    assert PRIMARY_ALPHA == 1.0
+    assert PRIMARY_ALPHA in RIDGE_ALPHAS
+    assert SENSITIVITY_ALPHAS == (0.1, 10.0)
+    assert PRIMARY_ALPHA not in SENSITIVITY_ALPHAS
+
+
 def test_feature_encoder_uses_training_statistics_and_reserved_unknowns() -> None:
     training = [
         _row(baseline_force=1.0, event_kind="run"),
@@ -98,3 +109,9 @@ def test_cell_builder_skips_a_missing_outcome_without_dropping_the_other() -> No
     assert cells[0].cell.outcome is OutcomeVariable.NET_IMPULSE_INNOVATION
     assert cells[0].observations == (0.25,)
     assert math.isfinite(cells[0].observations[0])
+
+
+def test_cell_builder_rejects_nonfinite_observed_labels() -> None:
+    row = _row(force_target=math.nan)
+    with pytest.raises(ValueError, match="observed target"):
+        build_cell_values([row], np.zeros((1, 2), dtype=np.float64))
