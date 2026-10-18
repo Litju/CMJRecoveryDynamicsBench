@@ -4,7 +4,7 @@
 
 This is a new synthetic research study for the active-candidate
 `fixed_mode_discrepancy_recovery` formulation, based on public `main` at
-`ecdf930915175891596cd35a7ddaaf222c021078`. It is not a replay of historical
+`ecdf93091517` (12-character commit abbreviation). It is not a replay of historical
 private scores, an empirical athlete study, or a production benchmark score.
 The registered production scorer remains unimplemented. This work does not
 qualify or authorize v1.0.
@@ -68,8 +68,9 @@ research progress `-1.4418910756879324`). Ordered row-stream SHA-256 values:
 | Pilot training | `48a985dd24d396deb3e820db394bc43b5d1837028b9dd6a45c907e246226b867` |
 | Pilot development | `e898eb92ab100ab8e877e3381e1d093692ea9ec9578b22d3a3c078846533014f` |
 
-The pilot took 26.806 seconds on the recorded environment. It used only the
-public source roots and did not generate or score any evaluation test root.
+The committed pilot runner on study-code SHA abbreviation `b0bd5e11bca2` took
+63.984 seconds on the recorded host. It used only the public source roots and
+did not generate or score any evaluation test root.
 
 ## Models and locked selection
 
@@ -120,8 +121,8 @@ study-code commit:
 
 ```text
 OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 .venv/bin/python -m cmj_recovery_dynamics.studies.fixed_mode_reference_study pilot --git-sha <study-code-sha>
-OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 .venv/bin/python -m cmj_recovery_dynamics.studies.fixed_mode_reference_study select --git-sha <study-code-sha> --output /tmp/res526-selection-lock.json
-OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 .venv/bin/python -m cmj_recovery_dynamics.studies.fixed_mode_reference_study evaluate --git-sha <study-code-sha> --lock /tmp/res526-selection-lock.json --output docs/M8_FIXED_MODE_PUBLIC_REFERENCE_RESULTS.json
+OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 .venv/bin/python -m cmj_recovery_dynamics.studies.fixed_mode_reference_study select --git-sha <study-code-sha> --output selection-lock.json
+OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 .venv/bin/python -m cmj_recovery_dynamics.studies.fixed_mode_reference_study evaluate --git-sha <study-code-sha> --lock selection-lock.json --output docs/M8_FIXED_MODE_PUBLIC_REFERENCE_RESULTS.json
 ```
 
 The small pilot uses four training camps and two development camps. Do not run

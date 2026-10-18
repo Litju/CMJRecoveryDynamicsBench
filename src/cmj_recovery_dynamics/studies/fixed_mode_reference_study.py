@@ -54,7 +54,7 @@ IntArray = NDArray[np.int64]
 
 BENCHMARK_NAME = "fixed_mode_discrepancy_recovery"
 DATASET_NAME = "fixed_mode_recovery_candidate_sample"
-BASE_MAIN_SHA = "ecdf930915175891596cd35a7ddaaf222c021078"
+BASE_MAIN_SHA = "ecdf93091517"
 TRAINING_SPLIT = "training"
 DEVELOPMENT_SPLIT = "public_validation"
 TEST_SPLIT = "public_validation"
@@ -516,7 +516,6 @@ def _split_record(data: SplitData) -> dict[str, object]:
             }
             for index, field in enumerate(TARGET_FIELDS)
         },
-        "generation_seconds": data.generation_seconds,
     }
 
 
@@ -1104,12 +1103,15 @@ def _runtime_record() -> dict[str, object]:
 
 
 def _cost_record(
-    lock_wrapper: Mapping[str, object], evaluation_seconds: float
+    lock_wrapper: Mapping[str, object],
+    evaluation_seconds: float,
+    test_root_costs: Mapping[str, float],
 ) -> dict[str, object]:
     selection_costs = cast(Mapping[str, float], lock_wrapper.get("selection_costs", {}))
     return {
         "selection_stage_wall_seconds": dict(selection_costs),
         "evaluation_stage_wall_seconds": evaluation_seconds,
+        "test_root_wall_seconds": dict(test_root_costs),
     }
 
 
@@ -1237,12 +1239,14 @@ def run_evaluation(lock_wrapper: Mapping[str, object], study_git_sha: str) -> di
     specifications = cast(Mapping[str, Mapping[str, object]], lock["models"])
     roots: list[dict[str, object]] = []
     test_key_sets: dict[str, list[frozenset[str]]] = {field: [] for field in ROW_KEY_FIELDS}
+    test_root_costs: dict[str, float] = {}
     evaluation_started = time.perf_counter()
     for root_index, root_seed in enumerate(TEST_ROOTS):
         seed = interface.make_seed_identity(TEST_SPLIT, root_seed)
         if seed.kind is not SeedKind.CALLER_SUPPLIED_PUBLIC:
             raise ValueError("independent evaluation roots must be caller-supplied public seeds")
         data = _read_public_split(interface, TEST_SPLIT, seed_identity=seed)
+        test_root_costs[f"{root_index + 1}_generation_seconds"] = data.generation_seconds
         if data.camp_count != SPLIT_GEOMETRY["validation"].camps:
             raise ValueError("evaluation root does not preserve public validation camp geometry")
         if data.root_seed in source_roots:
@@ -1257,6 +1261,7 @@ def run_evaluation(lock_wrapper: Mapping[str, object], study_git_sha: str) -> di
                 raise ValueError(f"independent evaluation roots share {key_field} values")
             previous.append(data.key_sets[key_field])
 
+        model_evaluation_started = time.perf_counter()
         predictions = {
             name: _predict_spec(data, specification)
             for name, specification in specifications.items()
@@ -1276,6 +1281,9 @@ def run_evaluation(lock_wrapper: Mapping[str, object], study_git_sha: str) -> di
             )
             model_results[name] = result
         bootstrap = camp_bootstrap_intervals(data, predictions)
+        test_root_costs[f"{root_index + 1}_scoring_bootstrap_seconds"] = (
+            time.perf_counter() - model_evaluation_started
+        )
         roots.append(
             {
                 "root_id": f"test_root_{root_index + 1}",
@@ -1293,7 +1301,7 @@ def run_evaluation(lock_wrapper: Mapping[str, object], study_git_sha: str) -> di
             "name": "RES-526 fixed-mode public reference-model study",
             "classification": "new synthetic research study; not a historical replay",
             "base_public_main": BASE_MAIN_SHA,
-            "study_code_sha": study_git_sha,
+            "study_code_sha_abbreviated": study_git_sha[:12],
             "package_source_sha256": package_source_sha256(),
             "benchmark": BENCHMARK_NAME,
             "dataset": DATASET_NAME,
@@ -1311,7 +1319,7 @@ def run_evaluation(lock_wrapper: Mapping[str, object], study_git_sha: str) -> di
         "development_results": lock["development_results"],
         "independent_test_roots": roots,
         "across_root_variability": _root_summary(roots),
-        "compute_costs": _cost_record(lock_wrapper, evaluation_seconds),
+        "compute_costs": _cost_record(lock_wrapper, evaluation_seconds, test_root_costs),
         "claim_boundary": (
             "Results describe the declared clean-room training/development splits and three new "
             "caller-supplied public validation-geometry populations only. They do not use hidden "
