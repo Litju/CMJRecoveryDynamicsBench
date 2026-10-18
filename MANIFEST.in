@@ -1,2 +1,13 @@
 include CITATION.cff
-recursive-include docs *.md *.json
+include docs/M7_OCCURRENCE_CLASSIFICATION.md
+include docs/M7_PUBLIC_TREE_REDACTION.md
+include docs/M7_QUALIFICATION.md
+include docs/M8_FIXED_MODE_PUBLIC_REFERENCE_RESULTS.json
+include docs/M8_FIXED_MODE_PUBLIC_REFERENCE_STUDY.md
+include docs/M8_PUBLIC_REPRODUCTION_RECEIPTS.json
+include docs/M8_REFERENCE_MODEL_STUDY.md
+include docs/M8_RELEASE_NOTES.md
+include docs/M8_REPRODUCIBILITY_MATRIX.md
+include docs/M8_REPRODUCTION_RESULTS.md
+include docs/M8_V1_RELEASE_AUDIT.md
+include docs/M8_V1_RELEASE_AUDIT_RECEIPT.json

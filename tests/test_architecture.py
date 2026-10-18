@@ -340,3 +340,11 @@ def test_license_and_citation_versions_match_package_metadata() -> None:
         match = re.search(r"(?m)^version:\s*['\"]?([^\s'\"]+)", citation.read_text())
         assert match is not None
         assert match.group(1) == project["version"]
+
+
+def test_source_archive_manifest_includes_only_reviewed_public_documents() -> None:
+    instructions = (REPOSITORY_ROOT / "MANIFEST.in").read_text().splitlines()
+    assert set(instructions) == {
+        "include CITATION.cff",
+        *(f"include {path}" for path in PUBLIC_DOCUMENT_ALLOWLIST),
+    }
