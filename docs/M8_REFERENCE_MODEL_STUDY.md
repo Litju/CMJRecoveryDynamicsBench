@@ -2,8 +2,8 @@
 
 ## Selection
 
-All eight benchmark contracts have public synthetic split generators. Only
-`rich_history_camp_recovery` currently combines a registered executable public
+All eight benchmark contracts have public synthetic split generators. The
+`rich_history_camp_recovery` path combines a registered executable public
 baseline with an implemented evaluator and explicit target-cell and missing
 label rules on the generated row schema. This makes it the first complete
 public baseline comparison in the repository. The comparison is diagnostic
@@ -18,7 +18,7 @@ and formulation-specific; the benchmark contract itself remains retired.
 | `phase_consistent_post_exposure_recovery` | Superseded | No | No executable model adapter; research metrics exist, but the production evaluator is unimplemented. |
 | `correlated_exposure_recovery` | Superseded | No | No executable model adapter; the production evaluator is unimplemented. |
 | `threshold_response_recovery` | Proposed | No | A 12-cell evaluation exists, but there is no executable public model adapter. |
-| `fixed_mode_discrepancy_recovery` | Active candidate | No | Research metrics exist, but there is no executable model adapter and the production evaluator is unimplemented. |
+| `fixed_mode_discrepancy_recovery` | Active candidate | Separate research study | The fixed-mode public reference-study runner now provides zero, constant, ridge and structured comparisons; its production evaluator remains unimplemented. |
 
 Here “complete” means the public generator, predictor, target contract, and
 native diagnostic can be executed end to end. It does not mean the retired

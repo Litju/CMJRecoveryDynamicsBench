@@ -88,9 +88,12 @@ ROOT_FILE_ALLOWLIST = {
     "LICENSE",
     "CITATION.cff",
     "NOTICE",
+    "MANIFEST.in",
 }
 PUBLIC_DIRECTORY_ALLOWLIST = {"src", "tests", "docs"}
 PUBLIC_DOCUMENT_ALLOWLIST = {
+    "docs/M8_RELEASE_NOTES.md",
+    "docs/M8_V1_RELEASE_AUDIT.md",
     "docs/M7_PUBLIC_TREE_REDACTION.md",
     "docs/M7_OCCURRENCE_CLASSIFICATION.md",
     "docs/M7_QUALIFICATION.md",
@@ -100,10 +103,12 @@ PUBLIC_DOCUMENT_ALLOWLIST = {
     "docs/M8_REFERENCE_MODEL_STUDY.md",
     "docs/M8_FIXED_MODE_PUBLIC_REFERENCE_STUDY.md",
     "docs/M8_FIXED_MODE_PUBLIC_REFERENCE_RESULTS.json",
+    "docs/M8_V1_RELEASE_AUDIT_RECEIPT.json",
 }
 PUBLIC_MACHINE_RECEIPT_ALLOWLIST = {
     "docs/M8_PUBLIC_REPRODUCTION_RECEIPTS.json",
     "docs/M8_FIXED_MODE_PUBLIC_REFERENCE_RESULTS.json",
+    "docs/M8_V1_RELEASE_AUDIT_RECEIPT.json",
 }
 PROTECTED_SUFFIXES = (
     ".bundle",
@@ -335,3 +340,11 @@ def test_license_and_citation_versions_match_package_metadata() -> None:
         match = re.search(r"(?m)^version:\s*['\"]?([^\s'\"]+)", citation.read_text())
         assert match is not None
         assert match.group(1) == project["version"]
+
+
+def test_source_archive_manifest_includes_only_reviewed_public_documents() -> None:
+    instructions = (REPOSITORY_ROOT / "MANIFEST.in").read_text().splitlines()
+    assert set(instructions) == {
+        "include CITATION.cff",
+        *(f"include {path}" for path in PUBLIC_DOCUMENT_ALLOWLIST),
+    }

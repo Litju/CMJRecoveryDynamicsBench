@@ -1,5 +1,15 @@
 # M7 remediation qualification evidence
 
+## Current administrative status — 2026-10-18
+
+M7 is administratively closed with the owner-accepted exception for stale
+GitHub-managed pull-request refs. M8 is in progress. Apache-2.0 and Julio
+Rodriguez as sole software author are established for original code and docs.
+The dated blocked verdicts and remediation proposals below are historical
+evidence, superseded by this status; they are not instructions to reopen M7.
+The exception provides no third-party data rights. No v1.0 publication is
+claimed. See README.rst and the M8 audit for current release qualification.
+
 ## Owner software-rights decisions — 2026-10-15
 
 The owner explicitly attested sole ownership of the original CMJRecoveryDynamicsBench source code, selected Apache-2.0 as its software license, and approved Julio Rodriguez as the sole software author for `CITATION.cff`. These owner-level decisions supersede earlier snapshots below that described the license and software citation as undecided. No rights clearance is asserted for White-derived empirical results, historical third-party materials, private evidence, or external datasets.
