@@ -12,6 +12,7 @@ test("story precedes the benchmark; scroll navigation and sourced result reveal 
     .evaluateAll((sections) => sections.map((s) => s.id));
   expect(ids).toEqual([
     "question",
+    "world",
     "lineage",
     "experiment",
     "explorer",

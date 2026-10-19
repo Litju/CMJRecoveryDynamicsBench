@@ -65,14 +65,31 @@ function FormulationDetail({
       <details className="methods-sheet formulation-methods" key={node.id}>
         <summary>Methods & evidence · this formulation</summary>
         <dl>
-          <dt>World / dynamics family</dt><dd><code>{method.world}</code></dd>
-          <dt>Observation law</dt><dd><code>{method.observation}</code></dd>
-          <dt>Forecast task</dt><dd>{method.task}</dd>
-          <dt>Metric & evaluation authority</dt><dd>{method.metric}</dd>
-          <dt>Assumption / limitation</dt><dd>{method.limitation}</dd>
+          <dt>World / dynamics family</dt>
+          <dd>
+            <code>{method.world}</code>
+          </dd>
+          <dt>Observation law</dt>
+          <dd>
+            <code>{method.observation}</code>
+          </dd>
+          <dt>Forecast task</dt>
+          <dd>{method.task}</dd>
+          <dt>Metric & evaluation authority</dt>
+          <dd>{method.metric}</dd>
+          <dt>Model execution & historical evidence</dt>
+          <dd>{method.modelEvidence}</dd>
+          <dt>Assumption / limitation</dt>
+          <dd>{method.limitation}</dd>
         </dl>
-        <p>A formulation defines a world, observation and task. A fitted predictor is a separate object. Only the active new study has the four-model comparison below.</p>
-        <a href={sourceLink(reconstruction.source)} className="quiet-link">Inspect missing model authorities ↗</a>
+        <p>
+          A formulation defines a world, observation and task. A fitted
+          predictor is a separate object. Only the active new study has the
+          four-model comparison below.
+        </p>
+        <a href={sourceLink(reconstruction.source)} className="quiet-link">
+          Inspect missing model authorities ↗
+        </a>
       </details>
       <details className="lineage-evidence">
         <summary>Inspect the evidence level</summary>
@@ -161,7 +178,7 @@ export default function Lineage() {
   useEffect(() => {
     const restore = () => {
       const id = new URLSearchParams(location.search).get("formulation");
-      setSelected(lineage.some(n => n.id === id) ? id! : activeId);
+      setSelected(lineage.some((n) => n.id === id) ? id! : activeId);
     };
     restore();
     window.addEventListener("popstate", restore);
@@ -207,7 +224,11 @@ export default function Lineage() {
           Lines mean documented parentage, never dates or performance.
         </span>
       </div>
-      <p className="story-caption">Select a branch to inspect its question, assumptions and missing evidence. Selection is preserved in the URL; browser Back restores the previous branch.</p>
+      <p className="story-caption">
+        Select a branch to inspect its question, assumptions and missing
+        evidence. Selection is preserved in the URL; browser Back restores the
+        previous branch.
+      </p>
       <div className="lineage-layout">
         <div
           className="lineage-graph"

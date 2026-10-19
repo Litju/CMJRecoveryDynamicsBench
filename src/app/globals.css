@@ -4617,3 +4617,34 @@ p {
     }
   }
 }
+@media (min-width: 901px) {
+  .lab-readout {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+  }
+}
+.protocol-raw {
+  margin-top: 22px;
+  border-top: 1px solid var(--line);
+}
+.protocol-raw pre {
+  padding: 18px;
+  background: #0f1816;
+  color: var(--muted);
+  font: 11px/1.8 var(--mono);
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  max-height: 400px;
+  overflow: auto;
+}
+.protocol-raw pre:focus-visible {
+  outline: 2px solid var(--mint);
+  outline-offset: 4px;
+}
+@media (max-width: 650px) {
+  .experiment-layout {
+    gap: 28px;
+  }
+  .question-layout {
+    gap: 24px;
+  }
+}

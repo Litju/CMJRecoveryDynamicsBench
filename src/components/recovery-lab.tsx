@@ -183,10 +183,21 @@ export default function RecoveryLab() {
               </div>
             </fieldset>
             <div className="lab-plot-title">
-              <span className="panel-label">ILLUSTRATIVE RESPONSE</span>
+              <span className="panel-label">
+                {view === "response"
+                  ? "ILLUSTRATIVE RESPONSE y(t)"
+                  : view === "slope"
+                    ? "RATE OF CHANGE y′(t)"
+                    : "SIGNED AREA FROM 0 TO t"}
+              </span>
               <div>
-                <output data-testid="lab-value">
-                  {decay(time, fast, slow).toFixed(4)}
+                <output data-testid="lab-chart-value">
+                  {(view === "response"
+                    ? decay(time, fast, slow)
+                    : view === "slope"
+                      ? decaySlope(time, fast, slow)
+                      : decayIntegral(time, fast, slow)
+                  ).toFixed(view === "slope" ? 6 : 4)}
                 </output>
                 <span> at {time} h</span>
               </div>
@@ -320,23 +331,32 @@ export default function RecoveryLab() {
                 onChange={(e) => setTime(Number(e.target.value))}
               />
             </div>
-            <div className="chart-legend">
-              <span>
-                <i style={{ background: "#d9f7e9" }} />
-                Combined
-              </span>
-              <span>
-                <i style={{ background: "#a9f5dc" }} />
-                24 h term
-              </span>
-              <span>
-                <i style={{ background: "#aaa5ef" }} />
-                84 h term
-              </span>
-            </div>
+            {view === "response" && (
+              <div className="chart-legend">
+                <span>
+                  <i style={{ background: "#d9f7e9" }} />
+                  Combined
+                </span>
+                <span>
+                  <i style={{ background: "#a9f5dc" }} />
+                  24 h term
+                </span>
+                <span>
+                  <i style={{ background: "#aaa5ef" }} />
+                  84 h term
+                </span>
+              </div>
+            )}
           </div>
         </div>
         <div className="lab-readout" aria-live="polite" aria-atomic="true">
+          <div>
+            <span>Current response y(t)</span>
+            <strong data-testid="lab-value">
+              {decay(time, fast, slow).toFixed(4)}
+            </strong>
+            <small>sum of the two terms · arbitrary units</small>
+          </div>
           <div>
             <span>24 h contribution</span>
             <strong data-testid="fast-term">

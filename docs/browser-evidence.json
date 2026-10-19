@@ -1,0 +1,416 @@
+{
+  "baseURL": "http://127.0.0.1:4173",
+  "capturedAt": "2026-10-19T22:34:42.133Z",
+  "captures": [
+    {
+      "device": "desktop",
+      "chapter": "hero",
+      "path": "docs/screenshots/desktop-hero.png"
+    },
+    {
+      "device": "desktop",
+      "chapter": "quick-route",
+      "path": "docs/screenshots/desktop-quick-route.png"
+    },
+    {
+      "device": "desktop",
+      "chapter": "question",
+      "path": "docs/screenshots/desktop-question.png"
+    },
+    {
+      "device": "desktop",
+      "chapter": "world",
+      "path": "docs/screenshots/desktop-world.png"
+    },
+    {
+      "device": "desktop",
+      "chapter": "lineage",
+      "path": "docs/screenshots/desktop-lineage.png"
+    },
+    {
+      "device": "desktop",
+      "chapter": "experiment",
+      "path": "docs/screenshots/desktop-experiment.png"
+    },
+    {
+      "device": "desktop",
+      "chapter": "explorer",
+      "path": "docs/screenshots/desktop-explorer.png"
+    },
+    {
+      "device": "desktop",
+      "chapter": "remaining",
+      "path": "docs/screenshots/desktop-remaining.png"
+    },
+    {
+      "device": "desktop",
+      "chapter": "lab",
+      "path": "docs/screenshots/desktop-lab.png"
+    },
+    {
+      "device": "desktop",
+      "chapter": "evidence",
+      "path": "docs/screenshots/desktop-evidence.png"
+    },
+    {
+      "device": "desktop",
+      "chapter": "world-revealed",
+      "path": "docs/screenshots/desktop-world-revealed.png"
+    },
+    {
+      "device": "desktop",
+      "chapter": "lab-methods",
+      "path": "docs/screenshots/desktop-lab-methods.png"
+    },
+    {
+      "device": "desktop",
+      "chapter": "measurement",
+      "path": "docs/screenshots/desktop-measurement.png"
+    },
+    {
+      "device": "desktop",
+      "chapter": "selection",
+      "path": "docs/screenshots/desktop-selection.png"
+    },
+    {
+      "device": "desktop",
+      "chapter": "formulation-methods",
+      "path": "docs/screenshots/desktop-formulation-methods.png"
+    },
+    {
+      "device": "mobile",
+      "chapter": "hero",
+      "path": "docs/screenshots/mobile-hero.png"
+    },
+    {
+      "device": "mobile",
+      "chapter": "quick-route",
+      "path": "docs/screenshots/mobile-quick-route.png"
+    },
+    {
+      "device": "mobile",
+      "chapter": "question",
+      "path": "docs/screenshots/mobile-question.png"
+    },
+    {
+      "device": "mobile",
+      "chapter": "world",
+      "path": "docs/screenshots/mobile-world.png"
+    },
+    {
+      "device": "mobile",
+      "chapter": "lineage",
+      "path": "docs/screenshots/mobile-lineage.png"
+    },
+    {
+      "device": "mobile",
+      "chapter": "experiment",
+      "path": "docs/screenshots/mobile-experiment.png"
+    },
+    {
+      "device": "mobile",
+      "chapter": "explorer",
+      "path": "docs/screenshots/mobile-explorer.png"
+    },
+    {
+      "device": "mobile",
+      "chapter": "remaining",
+      "path": "docs/screenshots/mobile-remaining.png"
+    },
+    {
+      "device": "mobile",
+      "chapter": "lab",
+      "path": "docs/screenshots/mobile-lab.png"
+    },
+    {
+      "device": "mobile",
+      "chapter": "evidence",
+      "path": "docs/screenshots/mobile-evidence.png"
+    },
+    {
+      "device": "mobile",
+      "chapter": "world-revealed",
+      "path": "docs/screenshots/mobile-world-revealed.png"
+    },
+    {
+      "device": "mobile",
+      "chapter": "lab-methods",
+      "path": "docs/screenshots/mobile-lab-methods.png"
+    },
+    {
+      "device": "mobile",
+      "chapter": "measurement",
+      "path": "docs/screenshots/mobile-measurement.png"
+    },
+    {
+      "device": "mobile",
+      "chapter": "selection",
+      "path": "docs/screenshots/mobile-selection.png"
+    },
+    {
+      "device": "mobile",
+      "chapter": "formulation-methods",
+      "path": "docs/screenshots/mobile-formulation-methods.png"
+    }
+  ],
+  "errors": [],
+  "performance": [
+    {
+      "reducedMotion": "reduce",
+      "modelSwitchTwoFramesMs": {
+        "median": 33.299999999813735,
+        "p95": 33.60000000009313,
+        "max": 33.700000000186265
+      },
+      "navigation": {
+        "name": "http://127.0.0.1:4173/",
+        "entryType": "navigation",
+        "startTime": 0,
+        "duration": 195.10000000009313,
+        "navigationId": 7320,
+        "initiatorType": "navigation",
+        "deliveryType": "",
+        "nextHopProtocol": "http/1.0",
+        "renderBlockingStatus": "non-blocking",
+        "contentType": "text/html",
+        "contentEncoding": "",
+        "workerStart": 0,
+        "workerRouterEvaluationStart": 0,
+        "workerCacheLookupStart": 0,
+        "workerMatchedSourceType": "",
+        "workerFinalSourceType": "",
+        "redirectStart": 0,
+        "redirectEnd": 0,
+        "fetchStart": 0.20000000018626451,
+        "domainLookupStart": 1.2000000001862645,
+        "domainLookupEnd": 1.2000000001862645,
+        "connectStart": 1.2000000001862645,
+        "secureConnectionStart": 0,
+        "connectEnd": 1.6000000000931323,
+        "requestStart": 1.7000000001862645,
+        "responseStart": 2.8999999999068677,
+        "firstInterimResponseStart": 0,
+        "finalResponseHeadersStart": 2.8999999999068677,
+        "responseEnd": 4.2000000001862645,
+        "transferSize": 148470,
+        "encodedBodySize": 148170,
+        "decodedBodySize": 148170,
+        "responseStatus": 200,
+        "serverTiming": [],
+        "unloadEventStart": 0,
+        "unloadEventEnd": 0,
+        "domInteractive": 152.79999999981374,
+        "domContentLoadedEventStart": 152.79999999981374,
+        "domContentLoadedEventEnd": 152.89999999990687,
+        "domComplete": 195.10000000009313,
+        "loadEventStart": 195.10000000009313,
+        "loadEventEnd": 195.10000000009313,
+        "type": "navigate",
+        "redirectCount": 0,
+        "activationStart": 0,
+        "criticalCHRestart": 0,
+        "notRestoredReasons": null,
+        "confidence": {
+          "randomizedTriggerRate": 0.4994798,
+          "value": "low"
+        }
+      },
+      "longTasks": [
+        {
+          "start": 28.899999999906868,
+          "duration": 79
+        },
+        {
+          "start": 254.79999999981374,
+          "duration": 88
+        }
+      ],
+      "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.8078.4 Safari/537.36",
+      "resources": [
+        {
+          "name": "/_next/static/chunks/turbopack-3-ry682tkyiqk.js",
+          "bytes": 10030
+        },
+        {
+          "name": "/_next/static/chunks/252emj-uqymdm.js",
+          "bytes": 181018
+        },
+        {
+          "name": "/_next/static/chunks/2khxl0v1q4i6n.js",
+          "bytes": 229820
+        },
+        {
+          "name": "/_next/static/chunks/0umf92h1sb77c.js",
+          "bytes": 13822
+        },
+        {
+          "name": "/_next/static/chunks/322dging9im18.js",
+          "bytes": 2212
+        },
+        {
+          "name": "/_next/static/chunks/02ivrm2_dbegs.js",
+          "bytes": 542117
+        }
+      ],
+      "canvases": 0
+    },
+    {
+      "reducedMotion": "no-preference",
+      "modelSwitchTwoFramesMs": {
+        "median": 33.3000000002794,
+        "p95": 33.700000000186265,
+        "max": 33.799999999813735
+      },
+      "navigation": {
+        "name": "http://127.0.0.1:4173/",
+        "entryType": "navigation",
+        "startTime": 0,
+        "duration": 192.1999999997206,
+        "navigationId": 2984,
+        "initiatorType": "navigation",
+        "deliveryType": "",
+        "nextHopProtocol": "http/1.0",
+        "renderBlockingStatus": "non-blocking",
+        "contentType": "text/html",
+        "contentEncoding": "",
+        "workerStart": 0,
+        "workerRouterEvaluationStart": 0,
+        "workerCacheLookupStart": 0,
+        "workerMatchedSourceType": "",
+        "workerFinalSourceType": "",
+        "redirectStart": 0,
+        "redirectEnd": 0,
+        "fetchStart": 0.09999999962747097,
+        "domainLookupStart": 0.7999999998137355,
+        "domainLookupEnd": 1,
+        "connectStart": 1,
+        "secureConnectionStart": 0,
+        "connectEnd": 1.099999999627471,
+        "requestStart": 1.1999999997206032,
+        "responseStart": 1.8999999999068677,
+        "firstInterimResponseStart": 0,
+        "finalResponseHeadersStart": 1.8999999999068677,
+        "responseEnd": 2.6999999997206032,
+        "transferSize": 148470,
+        "encodedBodySize": 148170,
+        "decodedBodySize": 148170,
+        "responseStatus": 200,
+        "serverTiming": [],
+        "unloadEventStart": 0,
+        "unloadEventEnd": 0,
+        "domInteractive": 138.1999999997206,
+        "domContentLoadedEventStart": 138.1999999997206,
+        "domContentLoadedEventEnd": 138.1999999997206,
+        "domComplete": 192,
+        "loadEventStart": 192.1999999997206,
+        "loadEventEnd": 192.1999999997206,
+        "type": "navigate",
+        "redirectCount": 0,
+        "activationStart": 0,
+        "criticalCHRestart": 0,
+        "notRestoredReasons": null,
+        "confidence": {
+          "randomizedTriggerRate": 0.4994798,
+          "value": "low"
+        }
+      },
+      "longTasks": [
+        {
+          "start": 27.799999999813735,
+          "duration": 70
+        },
+        {
+          "start": 265.09999999962747,
+          "duration": 106
+        },
+        {
+          "start": 951.7999999998137,
+          "duration": 64
+        },
+        {
+          "start": 1327,
+          "duration": 190
+        }
+      ],
+      "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.8078.4 Safari/537.36",
+      "resources": [
+        {
+          "name": "/_next/static/chunks/252emj-uqymdm.js",
+          "bytes": 181018
+        },
+        {
+          "name": "/_next/static/chunks/turbopack-3-ry682tkyiqk.js",
+          "bytes": 10030
+        },
+        {
+          "name": "/_next/static/chunks/2khxl0v1q4i6n.js",
+          "bytes": 229820
+        },
+        {
+          "name": "/_next/static/chunks/322dging9im18.js",
+          "bytes": 2212
+        },
+        {
+          "name": "/_next/static/chunks/0umf92h1sb77c.js",
+          "bytes": 13822
+        },
+        {
+          "name": "/_next/static/chunks/02ivrm2_dbegs.js",
+          "bytes": 542117
+        },
+        {
+          "name": "/_next/static/chunks/2s9_32bjlz0rm.js",
+          "bytes": 874826
+        }
+      ],
+      "canvases": 1
+    }
+  ],
+  "chunks": [
+    {
+      "file": "02ivrm2_dbegs.js",
+      "bytes": 542117,
+      "gzipBytes": 152517
+    },
+    {
+      "file": "0cz1d0mv5g_q7.js",
+      "bytes": 112594,
+      "gzipBytes": 39627
+    },
+    {
+      "file": "0umf92h1sb77c.js",
+      "bytes": 13822,
+      "gzipBytes": 3514
+    },
+    {
+      "file": "19wg2q9r2_sev.js",
+      "bytes": 21767,
+      "gzipBytes": 7304
+    },
+    {
+      "file": "252emj-uqymdm.js",
+      "bytes": 181018,
+      "gzipBytes": 48743
+    },
+    {
+      "file": "2khxl0v1q4i6n.js",
+      "bytes": 229820,
+      "gzipBytes": 71969
+    },
+    {
+      "file": "2s9_32bjlz0rm.js",
+      "bytes": 874826,
+      "gzipBytes": 231726
+    },
+    {
+      "file": "322dging9im18.js",
+      "bytes": 2212,
+      "gzipBytes": 1010
+    },
+    {
+      "file": "turbopack-3-ry682tkyiqk.js",
+      "bytes": 10030,
+      "gzipBytes": 3940
+    }
+  ]
+}

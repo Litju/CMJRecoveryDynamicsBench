@@ -8,7 +8,12 @@ import Evidence from "@/components/evidence";
 import Lineage from "@/components/lineage";
 import EpisodeTheater from "@/components/episode-theater";
 import StoryProgress from "@/components/story-progress";
-import { Question, Experiment, Remaining, QuickRoute } from "@/components/research-story";
+import {
+  Question,
+  Experiment,
+  Remaining,
+  QuickRoute,
+} from "@/components/research-story";
 export default function Home() {
   return (
     <>
@@ -58,9 +63,9 @@ export default function Home() {
               <span>different lens.</span>
             </h1>
             <p className="hero-description">
-              A jump is measured in a moment. Recovery evolves for days.
-              Explore how an open, synthetic countermovement-jump research
-              program turns that question into a testable forecast.
+              A jump is measured in a moment. Recovery evolves for days. Explore
+              how an open, synthetic countermovement-jump research program turns
+              that question into a testable forecast.
             </p>
             <div className="hero-actions">
               <a href="#question" className="button primary">
