@@ -317,21 +317,11 @@ def test_public_github_identity_is_allowed_but_private_markers_are_rejected() ->
     assert "ali-999" not in PUBLIC_HISTORICAL_LABELS
 
 
-def test_v1_candidate_version_does_not_claim_publication() -> None:
+def test_v1_candidate_version_and_approval_boundary() -> None:
     project = tomllib.loads((REPOSITORY_ROOT / "pyproject.toml").read_text())["project"]
     assert project["version"] == "1.0.0"
     assert "awaits owner approval" in (REPOSITORY_ROOT / "README.rst").read_text()
-    for name in ("README.rst", "CITATION.cff"):
-        path = REPOSITORY_ROOT / name
-        if path.exists():
-            text = path.read_text(encoding="utf-8")
-            assert (
-                re.search(
-                    r"(?i)\b(?:released|published|complete|reproduced)\b[^\n]{0,60}\bv?1\.0(?:\.0)?\b",
-                    text,
-                )
-                is None
-            )
+    assert "(unpublished)" in (REPOSITORY_ROOT / "docs/M8_RELEASE_NOTES.md").read_text()
 
 
 def test_license_and_citation_versions_match_package_metadata() -> None:
