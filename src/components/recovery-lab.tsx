@@ -12,12 +12,14 @@ import {
   ReferenceLine,
   ComposedChart,
 } from "recharts";
-import { decay, decaySeries } from "@/lib/decay.mjs";
+import { decay, decaySeries, decaySlope, decayIntegral } from "@/lib/decay.mjs";
+import { sourceLink } from "@/lib/science";
 export default function RecoveryLab() {
   const [fast, setFast] = useState(0.7);
   const [slow, setSlow] = useState(0.3);
   const [time, setTime] = useState(24);
   const [playing, setPlaying] = useState(false);
+  const [view, setView] = useState("response");
   useEffect(() => {
     if (!playing) return;
     const timer = setInterval(
@@ -44,6 +46,7 @@ export default function RecoveryLab() {
     setSlow(0.3);
     setTime(24);
     setPlaying(false);
+    setView("response");
   };
   const series = decaySeries(fast, slow);
   return (
@@ -78,6 +81,35 @@ export default function RecoveryLab() {
               Two publicly described time constants, combined in a simple
               illustration. Amplitudes are arbitrary and unitless.
             </p>
+            <fieldset className="lab-scenarios">
+              <legend>Try a mathematical shape</legend>
+              <div>
+                <button
+                  onClick={() => {
+                    setFast(0.7);
+                    setSlow(0.3);
+                  }}
+                >
+                  Positive decay
+                </button>
+                <button
+                  onClick={() => {
+                    setFast(-0.7);
+                    setSlow(0.3);
+                  }}
+                >
+                  Opposing modes
+                </button>
+                <button
+                  onClick={() => {
+                    setFast(-0.5);
+                    setSlow(0.5);
+                  }}
+                >
+                  Cancel at origin
+                </button>
+              </div>
+            </fieldset>
             <div className="slider-control">
               <div>
                 <label htmlFor="fast-amplitude">
@@ -89,7 +121,7 @@ export default function RecoveryLab() {
               <input
                 id="fast-amplitude"
                 type="range"
-                min="0"
+                min="-1.5"
                 max="1.5"
                 step="0.01"
                 value={fast}
@@ -108,7 +140,7 @@ export default function RecoveryLab() {
               <input
                 id="slow-amplitude"
                 type="range"
-                min="0"
+                min="-1.5"
                 max="1.5"
                 step="0.01"
                 value={slow}
@@ -132,6 +164,24 @@ export default function RecoveryLab() {
             </div>
           </div>
           <div className="lab-plot">
+            <fieldset className="lab-view">
+              <legend>Inspect the equation</legend>
+              <div className="segmented">
+                {["response", "slope", "integral"].map((v) => (
+                  <button
+                    key={v}
+                    aria-pressed={view === v}
+                    onClick={() => setView(v)}
+                  >
+                    {v === "response"
+                      ? "Response"
+                      : v === "slope"
+                        ? "Rate of change"
+                        : "Accumulated area"}
+                  </button>
+                ))}
+              </div>
+            </fieldset>
             <div className="lab-plot-title">
               <span className="panel-label">ILLUSTRATIVE RESPONSE</span>
               <div>
@@ -144,7 +194,7 @@ export default function RecoveryLab() {
             <div
               className="lab-chart"
               role="group"
-              aria-label="Two-term decay illustration. The current value and equation are displayed as text."
+              aria-label={`Two-term mathematical ${view} illustration. Exact current values and equations are displayed as text below.`}
             >
               <ResponsiveContainer width="100%" height="100%" minWidth={0}>
                 <ComposedChart
@@ -179,8 +229,7 @@ export default function RecoveryLab() {
                     tick={{ fontSize: 11 }}
                   />
                   <YAxis
-                    domain={[0, 3]}
-                    ticks={[0, 1, 2, 3]}
+                    domain={view === "response" ? [-3, 3] : ["auto", "auto"]}
                     stroke="#a1aaa9"
                     tickLine={false}
                     axisLine={false}
@@ -200,33 +249,44 @@ export default function RecoveryLab() {
                   />
                   <Area
                     type="monotone"
-                    dataKey="total"
-                    name="Combined response"
+                    dataKey={view === "response" ? "total" : view}
+                    name={
+                      view === "response"
+                        ? "Combined response"
+                        : view === "slope"
+                          ? "Rate · arbitrary units / h"
+                          : "Area · arbitrary units × h"
+                    }
                     fill="url(#decay-fill)"
                     stroke="#d9f7e9"
                     strokeWidth={2}
                     isAnimationActive={false}
                   />
-                  <Line
-                    type="monotone"
-                    dataKey="fast"
-                    name="24 h term"
-                    stroke="#a9f5dc"
-                    dot={false}
-                    strokeDasharray="4 4"
-                    strokeWidth={1.3}
-                    isAnimationActive={false}
-                  />
-                  <Line
-                    type="monotone"
-                    dataKey="slow"
-                    name="84 h term"
-                    stroke="#aaa5ef"
-                    dot={false}
-                    strokeDasharray="4 4"
-                    strokeWidth={1.3}
-                    isAnimationActive={false}
-                  />
+                  {view === "response" && (
+                    <Line
+                      type="monotone"
+                      dataKey="fast"
+                      name="24 h term"
+                      stroke="#a9f5dc"
+                      dot={false}
+                      strokeDasharray="4 4"
+                      strokeWidth={1.3}
+                      isAnimationActive={false}
+                    />
+                  )}
+                  {view === "response" && (
+                    <Line
+                      type="monotone"
+                      dataKey="slow"
+                      name="84 h term"
+                      stroke="#aaa5ef"
+                      dot={false}
+                      strokeDasharray="4 4"
+                      strokeWidth={1.3}
+                      isAnimationActive={false}
+                    />
+                  )}
+                  <ReferenceLine y={0} stroke="#5d746b" />
                   <ReferenceLine
                     x={time}
                     stroke="#c3f6df"
@@ -240,6 +300,13 @@ export default function RecoveryLab() {
                 </ComposedChart>
               </ResponsiveContainer>
             </div>
+            <p className="lab-axis-label">
+              {view === "response"
+                ? "Response · arbitrary units"
+                : view === "slope"
+                  ? "Derivative · arbitrary units per hour"
+                  : "Signed integral from 0 to t · arbitrary units × hours"}
+            </p>
             <div className="lab-time">
               <label htmlFor="lab-time">
                 TIME <output htmlFor="lab-time">{time} h</output>
@@ -269,6 +336,98 @@ export default function RecoveryLab() {
             </div>
           </div>
         </div>
+        <div className="lab-readout" aria-live="polite" aria-atomic="true">
+          <div>
+            <span>24 h contribution</span>
+            <strong data-testid="fast-term">
+              {(fast * Math.exp(-time / 24)).toFixed(4)}
+            </strong>
+            <small>a e⁻ᵗ/²⁴ · arbitrary units</small>
+          </div>
+          <div>
+            <span>84 h contribution</span>
+            <strong data-testid="slow-term">
+              {(slow * Math.exp(-time / 84)).toFixed(4)}
+            </strong>
+            <small>b e⁻ᵗ/⁸⁴ · arbitrary units</small>
+          </div>
+          <div>
+            <span>Instantaneous slope</span>
+            <strong data-testid="lab-slope">
+              {decaySlope(time, fast, slow).toFixed(6)}
+            </strong>
+            <small>arbitrary units / hour</small>
+          </div>
+          <div>
+            <span>Area from 0 to {time} h</span>
+            <strong data-testid="lab-integral">
+              {decayIntegral(time, fast, slow).toFixed(4)}
+            </strong>
+            <small>signed arbitrary units × hours</small>
+          </div>
+        </div>
+        <details className="methods-sheet">
+          <summary>
+            Methods & evidence · the mathematics and what it leaves out
+          </summary>
+          <div className="math-methods">
+            <article>
+              <h3>Read the derivatives</h3>
+              <p className="formula-text">
+                y′(t) = −(a/24)e⁻ᵗ/²⁴ − (b/84)e⁻ᵗ/⁸⁴
+                <br />
+                ∫₀ᵗ y(s)ds = 24a(1−e⁻ᵗ/²⁴) + 84b(1−e⁻ᵗ/⁸⁴)
+              </p>
+              <p>
+                At t = 0, y = a + b. As t grows, both terms approach zero. A
+                time constant is not a half-life: at 24 h the fast term retains
+                e⁻¹ ≈ 36.8%; its half-life is 24 ln(2) ≈ 16.64 h. The 84 h term
+                has a half-life of about 58.22 h.
+              </p>
+              <p>
+                Negative amplitudes illustrate cancellation, zero crossings and
+                non-monotonic shapes. This signed sandbox does not obey the
+                generator’s amplitude supports. Its area is mathematical area,
+                not physiological burden, training dose or a recovery score.
+              </p>
+            </article>
+            <article>
+              <h3>Assumption versus evidence</h3>
+              <dl>
+                <dt>Sandbox assumption</dt>
+                <dd>
+                  Two additive exponentials with arbitrary signed amplitudes. No
+                  participant, exposure, discrepancy or noise model.
+                </dd>
+                <dt>Active world</dt>
+                <dd>
+                  Context-conditioned hidden sensitivities and correlated loads,
+                  fixed modes and bounded smooth discrepancy.
+                </dd>
+                <dt>Fitted structured model</dt>
+                <dd>
+                  Training-estimated exposure coefficients and public
+                  context/history. The modes are fixed mathematical choices; a
+                  fit does not identify biological compartments.
+                </dd>
+                <dt>What the experiment supports</dt>
+                <dd>
+                  The structured comparator beat zero and the training constant
+                  on these same-generator roots, but had higher recorded error
+                  than full ridge.
+                </dd>
+              </dl>
+              <a
+                className="quiet-link"
+                href={sourceLink(
+                  "src/cmj_recovery_dynamics/dynamics/fixed_mode_discrepancy_response.py",
+                )}
+              >
+                Inspect the full world law ↗
+              </a>
+            </article>
+          </div>
+        </details>
         <div className="lab-boundary">
           <span className="boundary-mark">i</span>
           <p>

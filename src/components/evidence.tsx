@@ -1,5 +1,6 @@
 import { ArrowUpRight, BookOpen, Fingerprint, ShieldCheck } from "lucide-react";
 import { data, sourceLink } from "@/lib/science";
+import methods from "@/data/methods.json";
 export default function Evidence() {
   return (
     <section
@@ -35,6 +36,51 @@ export default function Evidence() {
           Reproduction matrix <ArrowUpRight size={15} />
         </a>
       </div>
+      <div className="scrutiny-intro">
+        <span className="eyebrow">RESULTS THAT CONSTRAIN THE STORY</span>
+        <h3>Keep the inconvenient findings.</h3>
+      </div>
+      <div className="scrutiny-cards">
+        <article>
+          <span className="mono">01 / STRUCTURE DID NOT WIN</span>
+          <h4>A useful assumption can still lose.</h4>
+          <p>
+            The structured model’s recorded mean NRMSE was{" "}
+            {methods.variants.structured_full.root_mean_nrmse.toFixed(6)},
+            against ridge’s{" "}
+            {methods.variants.ridge_full.root_mean_nrmse.toFixed(6)}. Fixed
+            modes did not establish an advantage here. There is no reported
+            direct paired interval for that comparison.
+          </p>
+        </article>
+        <article>
+          <span className="mono">02 / LITTLE CONTEXT EFFECT</span>
+          <h4>More inputs did not always help much.</h4>
+          <p>
+            Removing participant context increased ridge mean NRMSE by{" "}
+            {(
+              methods.variants.ridge_no_participant_context.root_mean_nrmse -
+              methods.variants.ridge_full.root_mean_nrmse
+            ).toFixed(6)}
+            . Small sample-efficiency differences do not show that small
+            real-world datasets are sufficient.
+          </p>
+        </article>
+        <article>
+          <span className="mono">03 / SELECTION HIT THE EDGE</span>
+          <h4>The grid did not locate an optimum.</h4>
+          <p>
+            All six selected alphas were 0.01, the lower edge of the frozen
+            grid. Weaker regularization needs a separately preregistered study;
+            post-test tuning would change the experiment.
+          </p>
+        </article>
+      </div>
+      <p className="story-caption">
+        <a href={sourceLink("docs/M8_FIXED_MODE_PUBLIC_REFERENCE_STUDY.md")}>
+          Inspect the recorded findings and their interpretation ↗
+        </a>
+      </p>
       <div className="evidence-grid">
         <div className="evidence-ladder">
           <span className="eyebrow">THE EVIDENCE LADDER</span>
@@ -53,8 +99,38 @@ export default function Evidence() {
             </p>
           </div>
           <div className="evidence-rung">
+            <span className="small-tag">
+              WHAT MATCHED IN CLEAN-ROOM STUDIES
+            </span>
+            <h4>New fits and scores, checked across packaging</h4>
+            <p>
+              The recorded source and isolated-wheel evaluations matched exactly
+              on scientific fields. That qualifies the new public study’s
+              execution; it does not replay historical campaigns.
+            </p>
+          </div>
+          <div className="evidence-rung">
             <span className="small-tag">WHAT IS NOT ESTABLISHED</span>
-            <h4>Historical replay or real-world efficacy</h4>
+            <h4>Exact historical campaign replay</h4>
+            <p>
+              All eight generation-plus-result chains are only partially
+              reproducible. Historical numbers remain evidence-only for six
+              formulations; two have no registered public numeric historical
+              result.
+            </p>
+          </div>
+          <div className="evidence-rung">
+            <span className="small-tag">WHAT IS NOT IMPLEMENTED</span>
+            <h4>Active production calibrated scoring</h4>
+            <p>
+              The research six-cell NRMSE is implemented. The active production
+              scoring path is not; this exhibition cannot issue a production
+              recovery score.
+            </p>
+          </div>
+          <div className="evidence-rung">
+            <span className="small-tag">WHAT IS NOT ESTABLISHED</span>
+            <h4>External applicability or real-world efficacy</h4>
             <p>
               No exact historical score replay. Active production calibrated
               scoring remains unresolved. Same-generator roots do not establish
@@ -95,9 +171,10 @@ export default function Evidence() {
             <div>
               <h3>Every number leaves a trace</h3>
               <p>
-                The site reads committed receipts. No simulation, inference, or
-                model training runs in your browser. A frozen source revision
-                and checksums travel with the downloadable fixture.
+                The site reads committed receipts. No benchmark generation,
+                inference, or model training runs in your browser. A frozen
+                source revision and checksums travel with the downloadable
+                fixture.
               </p>
             </div>
           </article>
@@ -130,6 +207,54 @@ export default function Evidence() {
               Read the retired study <ArrowUpRight size={14} />
             </a>
           </div>
+        </div>
+      </div>
+      <div className="roadmap">
+        <div>
+          <span className="eyebrow">OPEN QUESTIONS / PROPOSED WORK</span>
+          <h3>
+            What would change
+            <br />
+            <span>our confidence?</span>
+          </h3>
+          <p>
+            Questions to test next. No future result or completion date is
+            implied.
+          </p>
+        </div>
+        <div>
+          <details>
+            <summary>Does the ranking survive a different world?</summary>
+            <p>
+              Preregister independent shifts in exposure distributions, response
+              dynamics and observation laws. A reversal would limit the current
+              ranking to its generating assumptions.
+            </p>
+          </details>
+          <details>
+            <summary>Can it forecast measurements from real athletes?</summary>
+            <p>
+              Establish rights, measurement quality, baselines and prospective
+              temporal splits in an empirical cohort. Validate rather than
+              transfer a synthetic score into practice.
+            </p>
+          </details>
+          <details>
+            <summary>How much uncertainty comes from training?</summary>
+            <p>
+              The reported camp bootstrap conditions on a fixed fitted model.
+              Refit preprocessing, selection and coefficients across training
+              resamples to assess a wider source of uncertainty.
+            </p>
+          </details>
+          <details>
+            <summary>What happens below the alpha grid boundary?</summary>
+            <p>
+              Freeze a new selection protocol before evaluating new roots. Test
+              weaker regularization without reusing the current test outcomes to
+              pick a winner.
+            </p>
+          </details>
         </div>
       </div>
       <div className="reproduce-cta">
@@ -212,7 +337,9 @@ export default function Evidence() {
           <p>
             This showcase is independent of the package release process. A
             release audit is evidence, not publication authorization; this site
-            does not assert a v1.0 release.
+            does not assert a v1.0 release. The pinned software citation retains
+            version 0.1.0 and authorship by Julio Rodriguez. Publication is not
+            claimed; PR #8 was not merged by this work.
           </p>
         </div>
       </details>
