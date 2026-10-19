@@ -5,6 +5,9 @@ import HeroInstrument from "@/components/hero-instrument";
 import Explorer from "@/components/explorer";
 import RecoveryLab from "@/components/recovery-lab";
 import Evidence from "@/components/evidence";
+import Lineage from "@/components/lineage";
+import StoryProgress from "@/components/story-progress";
+import { Question, Experiment, Remaining } from "@/components/research-story";
 export default function Home() {
   return (
     <>
@@ -21,6 +24,7 @@ export default function Home() {
             <span className="edition">RESEARCH / 01</span>
           </a>
           <nav aria-label="Main navigation">
+            <a href="#lineage">Research lineage</a>
             <a href="#explorer">Benchmark</a>
             <a href="#lab">Recovery lab</a>
             <a href="#evidence">Evidence</a>
@@ -57,11 +61,11 @@ export default function Home() {
               claim has a boundary.
             </p>
             <div className="hero-actions">
-              <a href="#explorer" className="button primary">
-                Explore benchmark <ArrowDown size={16} />
+              <a href="#question" className="button primary">
+                Start the story <ArrowDown size={16} />
               </a>
-              <a href="#evidence" className="quiet-link">
-                Read the evidence <ArrowUpRight size={15} />
+              <a href="#explorer" className="quiet-link">
+                Explore benchmark <ArrowUpRight size={15} />
               </a>
             </div>
             <div className="scope-tag">
@@ -75,7 +79,7 @@ export default function Home() {
           <div>
             <span className="strip-label">PUBLIC FORMULATIONS</span>
             <strong>
-              08<span> traced through time</span>
+              08<span> connected by contracts</span>
             </strong>
           </div>
           <div>
@@ -106,7 +110,12 @@ export default function Home() {
             </a>
           </div>
         </div>
+        <StoryProgress />
+        <Question />
+        <Lineage />
+        <Experiment />
         <Explorer />
+        <Remaining />
         <RecoveryLab />
         <Evidence />
       </main>

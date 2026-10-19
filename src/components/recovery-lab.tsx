@@ -51,7 +51,7 @@ export default function RecoveryLab() {
       <div className="shell section">
         <div className="section-top">
           <div className="eyebrow">
-            <span className="section-number">02</span> THE RECOVERY LAB
+            <span className="section-number">IV / LAB</span> THE RECOVERY LAB
           </div>
           <span className="illustration-tag">
             <FlaskConical size={13} /> MATHEMATICAL ILLUSTRATION

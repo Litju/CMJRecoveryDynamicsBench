@@ -66,7 +66,7 @@ export default function Explorer() {
     >
       <div className="section-top">
         <div className="eyebrow">
-          <span className="section-number">01</span> THE BENCHMARK EXPLORER
+          <span className="section-number">III / DETAIL</span> THE BENCHMARK EXPLORER
         </div>
         <span className="live-label">
           <span className="status-dot" /> FROZEN RESULTS · LIVE INTERACTION

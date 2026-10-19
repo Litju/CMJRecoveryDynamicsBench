@@ -1,21 +1,5 @@
-import {
-  ArrowUpRight,
-  BookOpen,
-  Fingerprint,
-  GitBranch,
-  ShieldCheck,
-} from "lucide-react";
+import { ArrowUpRight, BookOpen, Fingerprint, ShieldCheck } from "lucide-react";
 import { data, sourceLink } from "@/lib/science";
-const names: Record<string, string> = {
-  initial_preseason_camp_recovery: "Initial preseason",
-  canonical_preseason_camp_recovery: "Canonical preseason",
-  rich_history_camp_recovery: "Rich-history camp",
-  preliminary_post_exposure_recovery: "Preliminary post-exposure",
-  phase_consistent_post_exposure_recovery: "Phase-consistent",
-  correlated_exposure_recovery: "Correlated exposure",
-  threshold_response_recovery: "Threshold response",
-  fixed_mode_discrepancy_recovery: "Fixed-mode discrepancy",
-};
 export default function Evidence() {
   return (
     <section
@@ -25,7 +9,8 @@ export default function Evidence() {
     >
       <div className="section-top">
         <div className="eyebrow">
-          <span className="section-number">03</span> EVIDENCE & METHODS
+          <span className="section-number">IV / EVIDENCE</span> EVIDENCE &
+          METHODS
         </div>
         <span className="panel-label">
           OPEN BY DESIGN. BOUNDED BY EVIDENCE.
@@ -51,40 +36,34 @@ export default function Evidence() {
         </a>
       </div>
       <div className="evidence-grid">
-        <div className="lineage-panel">
-          <div className="detail-title">
-            <h3>Eight formulations, one research lineage</h3>
-            <GitBranch size={17} />
+        <div className="evidence-ladder">
+          <span className="eyebrow">THE EVIDENCE LADDER</span>
+          <h3>
+            Reproducible.
+            <br />
+            <span>Within these boundaries.</span>
+          </h3>
+          <div className="evidence-rung">
+            <span className="small-tag">WHAT IS REPRODUCIBLE</span>
+            <h4>Fresh public synthetic data</h4>
+            <p>
+              Eight clean-room generator paths and sixteen train/validation
+              streams. Public code and metrics; new retired and active reference
+              studies.
+            </p>
           </div>
-          <ol className="lineage-list">
-            {data.formulations.map((f, i) => (
-              <li
-                key={f.id}
-                className={
-                  f.status === "Active candidate" ? "active-formulation" : ""
-                }
-              >
-                <span className="lineage-index">
-                  {String(i + 1).padStart(2, "0")}
-                </span>
-                <div>
-                  <span className="formulation-name">{names[f.id]}</span>
-                  <code>{f.id}</code>
-                </div>
-                <span
-                  className={`formulation-status ${f.status.toLowerCase().replaceAll(" ", "-")}`}
-                >
-                  {f.status}
-                </span>
-              </li>
-            ))}
-          </ol>
-          <p className="table-note">
-            All eight have public synthetic generators and a partially
-            reproducible generation-plus-result chain. None has an exact
-            historical result replay. Formulation status and reproducibility
-            status are different axes.
-          </p>
+          <div className="evidence-rung">
+            <span className="small-tag">WHAT IS NOT ESTABLISHED</span>
+            <h4>Historical replay or real-world efficacy</h4>
+            <p>
+              No exact historical score replay. Active production calibrated
+              scoring remains unresolved. Same-generator roots do not establish
+              out-of-distribution generalization or human athlete efficacy.
+            </p>
+          </div>
+          <a className="quiet-link" href="#lineage">
+            Return to the scientific lineage ↗
+          </a>
         </div>
         <div className="evidence-notes">
           <article>
@@ -150,6 +129,34 @@ export default function Evidence() {
             >
               Read the retired study <ArrowUpRight size={14} />
             </a>
+          </div>
+        </div>
+      </div>
+      <div className="reproduce-cta">
+        <div>
+          <span className="eyebrow">TAKE THE QUESTION FURTHER</span>
+          <h3>Read it. Run it. Inspect it.</h3>
+          <p>
+            After installation, run this in the scientific repository at the
+            pinned revision to inspect the matrix. The source instructions also
+            cover fresh synthetic runs.
+          </p>
+        </div>
+        <div>
+          <pre>
+            <code>
+              python -m cmj_recovery_dynamics.reproducibility.qualification
+              --matrix-only
+            </code>
+          </pre>
+          <div className="provenance-links">
+            <a href={sourceLink("README.rst")}>Code & run instructions ↗</a>
+            <a
+              href={sourceLink("docs/M8_FIXED_MODE_PUBLIC_REFERENCE_STUDY.md")}
+            >
+              Method ↗
+            </a>
+            <a href={sourceLink("CITATION.cff")}>Citation ↗</a>
           </div>
         </div>
       </div>
