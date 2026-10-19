@@ -228,6 +228,7 @@ stderr. The evidence bundle supplies the exact executions and assertion scripts.
 A compact replay from the repository root is:
 
 ```sh
+AUDIT_DIR=$(mktemp -d "${TMPDIR:-/tmp}/cmj-release-audit.XXXXXXXX")
 uv venv --python 3.12 .venv
 uv pip install --python .venv/bin/python -e '.[dev]' build cffconvert
 .venv/bin/python -m pytest

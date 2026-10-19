@@ -38,7 +38,7 @@ historical score families or establish empirical validation. See
 ``docs/M8_REPRODUCIBILITY_MATRIX.md`` and ``docs/M8_REPRODUCTION_RESULTS.md``.
 
 Reproducibility and release status
----------------------------------
+----------------------------------
 
 Tests verify public contracts and supported synthetic behavior. They do not
 establish exact replay of historical campaigns or empirical validation.
@@ -63,8 +63,8 @@ Public reference studies
 
 Two executable research studies supplement the registered baseline path:
 ``python -m cmj_recovery_dynamics.studies.reference_model_study`` for retired
-rich-history zero/ridge, and ``python -m
-cmj_recovery_dynamics.studies.fixed_mode_reference_study`` with separate
+rich-history zero/ridge, and
+``python -m cmj_recovery_dynamics.studies.fixed_mode_reference_study`` with separate
 ``pilot``, ``select``, and ``evaluate`` stages for the active fixed-mode candidate.
 See ``docs/M8_REFERENCE_MODEL_STUDY.md`` and
 ``docs/M8_FIXED_MODE_PUBLIC_REFERENCE_STUDY.md`` for protocols and commands.
