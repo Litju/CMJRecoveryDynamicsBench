@@ -24,8 +24,8 @@ numbers and the release audit for independent verification and remaining limits.
 Original author-owned software and documentation are Apache-2.0, copyright 2026
 Julio Rodriguez. External datasets, restricted derivatives and private checkpoints
 are excluded; this license conveys no rights in them. NumPy is an external pinned
-runtime dependency distributed under its own license. No upstream NOTICE file is
-present or needed for the original project; dependency licenses remain their own.
+runtime dependency distributed under its own license. No upstream NOTICE file or vendored third-party source was identified;
+dependency licenses remain their own.
 Generated public synthetic rows can be recreated from declared public seeds;
 lightweight receipts suffice without bundling row-level datasets or model weights.
 M7's owner-accepted stale-ref exception remains acknowledged and closed.

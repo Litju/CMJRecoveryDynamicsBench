@@ -75,7 +75,8 @@ Its production scorer remains unimplemented.
 The source distribution includes these protocols, receipts, and citation file.
 Wheel users should obtain the matching source distribution for documentation;
 all runtime modules are in the wheel. Candidate changes and release limits are
-in ``docs/M8_RELEASE_NOTES.md``. The package remains at ``0.1.0`` pending an
+in ``docs/M8_RELEASE_NOTES.md``; independent qualification is recorded in
+``docs/M8_V1_RELEASE_AUDIT.md``. The package remains at ``0.1.0`` pending an
 explicit publication decision; an audit does not publish or tag v1.0.
 
 License and citation
