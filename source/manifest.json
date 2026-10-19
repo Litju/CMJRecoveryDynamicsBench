@@ -1,0 +1,34 @@
+{
+  "repository": "https://github.com/Litju/CMJRecoveryDynamicsBench",
+  "commit": "3dc4c82f0c948add6e4a9ebdebfd227933c823d3",
+  "files": {
+    "CITATION.cff": {
+      "path": "CITATION.cff",
+      "sha256": "f0010c6037025fbc7a91227386002e3a140955ca60f85f5386b552810d1050d3"
+    },
+    "LICENSE": {
+      "path": "LICENSE",
+      "sha256": "46400b6fbb306204d34ba6146101a868477da387073f0a5677f3e2b27cc1c895"
+    },
+    "M8_FIXED_MODE_PUBLIC_REFERENCE_RESULTS.json": {
+      "path": "docs/M8_FIXED_MODE_PUBLIC_REFERENCE_RESULTS.json",
+      "sha256": "cd991366c30a29723318b034bcbacff357544eff8d529678fcdcd849b0f08ce9"
+    },
+    "M8_FIXED_MODE_PUBLIC_REFERENCE_STUDY.md": {
+      "path": "docs/M8_FIXED_MODE_PUBLIC_REFERENCE_STUDY.md",
+      "sha256": "2c40815ba4759306522994b83ae5211d703a2e7475427654b1360c3e1b8c51a8"
+    },
+    "M8_REFERENCE_MODEL_STUDY.md": {
+      "path": "docs/M8_REFERENCE_MODEL_STUDY.md",
+      "sha256": "08ec29e5516fe636b3bfae0d070b9656cd40f76ce84aa051313a3828fa624ee6"
+    },
+    "M8_REPRODUCIBILITY_MATRIX.md": {
+      "path": "docs/M8_REPRODUCIBILITY_MATRIX.md",
+      "sha256": "cf7049a32f7e03f8116215864e8b046a66ae212d2282f09200c03c0a8c6944ed"
+    },
+    "M8_V1_RELEASE_AUDIT_RECEIPT.json": {
+      "path": "docs/M8_V1_RELEASE_AUDIT_RECEIPT.json",
+      "sha256": "60b17138deee66d22e766740847a344bede3f07ff794fe6ad524ea4a690151ba"
+    }
+  }
+}

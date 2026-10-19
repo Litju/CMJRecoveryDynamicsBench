@@ -1,0 +1,410 @@
+{
+  "all_benchmark_qualification": {
+    "elapsed_seconds": 2370.4283939360002,
+    "matrix_matches_frozen_wheel": true,
+    "registered_baseline_runs": 1,
+    "stable_run_spec_values_provenance_numerical_checks_and_dataset_summaries_match_original": true,
+    "status": "PASS",
+    "streams": 16
+  },
+  "audit_completed_utc": "2026-10-19T00:10:44.312894+00:00",
+  "checks": {
+    "all_80_installed_modules_import": "PASS in direct wheel and extracted-sdist rebuilt wheel",
+    "cff_schema_validation": "PASS",
+    "corrected_pytest_312": {
+      "passed": 321
+    },
+    "direct_sdist_install_and_external_import": "PASS",
+    "direct_wheel_install_and_external_import": "PASS",
+    "extracted_sdist_rebuilt_wheel_install_and_external_import": "PASS",
+    "final_installed_sdist_representative_tests": {
+      "passed": 18
+    },
+    "final_sdist_file_members": 125,
+    "final_wheel_file_members": 85,
+    "frozen_pytest_312": {
+      "passed": 320
+    },
+    "installed_package_pytest_313": {
+      "passed": 321,
+      "source_import_path_disabled": true
+    },
+    "installed_sdist_representative_tests": {
+      "passed": 18
+    },
+    "reviewed_source_document_inventory": "12 exact document/receipt paths plus CFF; explicit archive allowlist",
+    "ruff_check": "PASS",
+    "ruff_format": "PASS",
+    "strict_pyright": "0 errors, 0 warnings, 0 informations"
+  },
+  "corrected_distribution_checksums": "External evidence manifest: final distributions contain this receipt, so self-referential checksums are intentionally avoided.",
+  "disposition": "GO_WITH_LIMITATIONS",
+  "disposition_scope": "Corrected candidate in PR #7; merge and owner acceptance required before separately authorized publication",
+  "evidence_bundle_contents": [
+    "freeze.json",
+    "frozen-file-sha256.json",
+    "frozen-source.tar.gz",
+    "commands.sh",
+    "audit_checks.py",
+    "compare_science.py",
+    "triage_secrets.py",
+    "test/build/scan logs",
+    "independent JSON outputs",
+    "built distributions",
+    "SHA256SUMS",
+    "verify_packages.py",
+    "finalize_audit.py"
+  ],
+  "excluded_actions": [
+    "private data",
+    "historical checkpoints",
+    "M7 remediation",
+    "history rewrite",
+    "release tag",
+    "release publication",
+    "version bump"
+  ],
+  "findings": [
+    {
+      "commits": [
+        "ec124b7",
+        "24e7b5e"
+      ],
+      "id": "F1",
+      "problem": "sdist omits scientific docs and CFF; wheel lacks README metadata",
+      "severity": "release_blocker",
+      "status": "FIXED"
+    },
+    {
+      "commits": [
+        "cc53cec"
+      ],
+      "id": "F2",
+      "problem": "documented reruns overwrite authoritative original receipts",
+      "severity": "release_blocker",
+      "status": "FIXED"
+    },
+    {
+      "commits": [
+        "cc53cec"
+      ],
+      "id": "F3",
+      "problem": "stale release status and active-study visibility; absent candidate release notes",
+      "severity": "medium",
+      "status": "FIXED"
+    },
+    {
+      "id": "F4",
+      "problem": "pre-release 0.1.0; production score, empirical validation, exact replay and DOI not established",
+      "severity": "limitation",
+      "status": "ACCEPTED_SCOPE"
+    },
+    {
+      "id": "F5",
+      "problem": "repository-boundary tests need source layout and Git metadata",
+      "severity": "limitation",
+      "status": "DOCUMENTED"
+    },
+    {
+      "id": "F6",
+      "problem": "horizon-specific structured fits do not identify shared mechanistic decay constants",
+      "severity": "limitation",
+      "status": "DOCUMENTED"
+    }
+  ],
+  "freeze_recorded_utc": "2026-10-18T23:31:37.560861+00:00",
+  "frozen_commit_abbreviated": "cd13f69f82f8",
+  "frozen_commit_disposition": "NO-GO; apply the scoped packaging/documentation corrections",
+  "frozen_distribution_sha256": {
+    "cmj_recovery_dynamics-0.1.0-py3-none-any.whl": "e8fbeb44d7ca93af489f70d4dede83d03f38855bfae884e1dd3ee13c8ff7adda",
+    "cmj_recovery_dynamics-0.1.0.tar.gz": "07b22be6c4b37e86bf744c331ae4ff08fd0e7eb6603d4cc000db67258b5f7973"
+  },
+  "independent_assertions": {
+    "bootstrap_vs_literal_whole_camp_row_resampling": {
+      "relative_tolerance": 1e-12,
+      "replicates": 100
+    },
+    "current_tree_secret_and_path_scan": {
+      "files": 120,
+      "matches": 0
+    },
+    "dist/cmj_recovery_dynamics-0.1.0-py3-none-any.whl": {
+      "members": 85,
+      "secret_matches": 0
+    },
+    "dist/cmj_recovery_dynamics-0.1.0.tar.gz": {
+      "members": 111,
+      "secret_matches": 0
+    },
+    "fixed-dist/cmj_recovery_dynamics-0.1.0-py3-none-any.whl": {
+      "members": 85,
+      "secret_matches": 0
+    },
+    "fixed-dist/cmj_recovery_dynamics-0.1.0.tar.gz": {
+      "members": 122,
+      "secret_matches": 0
+    },
+    "selection_lock_mutations_rejected_before_test_generation": 5
+  },
+  "issue": "RES-529",
+  "original_inventory": {
+    "package_python_modules": 80,
+    "tracked_files": 116,
+    "wheel_members": 85
+  },
+  "original_receipts_unchanged": {
+    "docs/M8_FIXED_MODE_PUBLIC_REFERENCE_RESULTS.json": "cd991366c30a29723318b034bcbacff357544eff8d529678fcdcd849b0f08ce9",
+    "docs/M8_PUBLIC_REPRODUCTION_RECEIPTS.json": "f1b0ca32ba0966330cf152a9457b4e9a47f208779b3b18776ee4914d7ace084a"
+  },
+  "package_source_sha256": "12e9e192accefb867707765098a4dd9eeabfd735097646fa4d4bcae5db60d0c3",
+  "parent": "RES-291",
+  "remaining_release_actions": [
+    "review and merge audit PR",
+    "owner accepts explicit synthetic scope and disposition",
+    "separately authorize version/citation update and publication"
+  ],
+  "runtime": {
+    "additional_test_python": "3.13.13",
+    "architecture": "x86_64",
+    "numpy": "2.5.3",
+    "os": "Linux",
+    "python": "3.12.13"
+  },
+  "schema_version": 1,
+  "science_comparison": {
+    "fixed_mode_scientific_digest": "25032133d6f3293f722d06d3a618ec1aecec7cef35d2d35524c7431620e4bc71",
+    "fixed_mode_selection_lock_sha256": "07ce6ed56c292e2f56d306eb38b2ff8ea574f4cf0cc3f0644b94fa2db872cb21",
+    "full_fixed_mode_wheel_rebuilt_sdist_exact_parity": true,
+    "pilot_source_wheel_rebuilt_sdist_exact_science_parity": true,
+    "qualification": {
+      "all_16_streams_exact": true,
+      "all_run_specs_values_provenance_numerical_checks_and_summaries_exact": true,
+      "reproducibility_status_counts": {
+        "EXACTLY_REPRODUCIBLE": 0,
+        "HISTORICAL_EVIDENCE_ONLY": 0,
+        "NOT_REPRODUCIBLE": 0,
+        "PARTIALLY_REPRODUCIBLE": 8
+      },
+      "streams": [
+        {
+          "benchmark": "initial_preseason_camp_recovery",
+          "rows": 4096,
+          "sha256": "012f5c5352e2ea900a27ba7924edf4cd4b2b4a8966fe5360ce87b056788b1ad4",
+          "split": "training"
+        },
+        {
+          "benchmark": "initial_preseason_camp_recovery",
+          "rows": 512,
+          "sha256": "0f990cd6bfcab06f227933450dede8ac50671f0841c1dcab1367554ef100d521",
+          "split": "public_validation"
+        },
+        {
+          "benchmark": "canonical_preseason_camp_recovery",
+          "rows": 4096,
+          "sha256": "d4106a42092a13221dd929ac9429ae28a736b42965c3c60c846c1eb58cfb4e4d",
+          "split": "training"
+        },
+        {
+          "benchmark": "canonical_preseason_camp_recovery",
+          "rows": 512,
+          "sha256": "24ffa71ff19fe6a4b4e05eb661f25ee23d06dfa46523d5ff95b177d9218b3828",
+          "split": "public_validation"
+        },
+        {
+          "benchmark": "rich_history_camp_recovery",
+          "rows": 15134,
+          "sha256": "a5766360d1def7158e7dccf4fd0c92b3cd2ad73df234dfdc0fb5055a7c13fd1f",
+          "split": "training"
+        },
+        {
+          "benchmark": "rich_history_camp_recovery",
+          "rows": 3799,
+          "sha256": "866de852240833cd1e79ee8cc53cf38170a749af2f899614a8281b8a9daf7d4c",
+          "split": "public_validation"
+        },
+        {
+          "benchmark": "preliminary_post_exposure_recovery",
+          "rows": 72000,
+          "sha256": "1893b54d5881db2791388dab5500faa0382d0b341bf99864cb20d69c6bf24735",
+          "split": "training"
+        },
+        {
+          "benchmark": "preliminary_post_exposure_recovery",
+          "rows": 12000,
+          "sha256": "3bcaf565b4c63d17ec7ee2cd2e5317b41986bea16cfa296ba8c24f36ec179cca",
+          "split": "public_validation"
+        },
+        {
+          "benchmark": "phase_consistent_post_exposure_recovery",
+          "rows": 72000,
+          "sha256": "e017cff611370f6319b0c3a197fc6756465e2832099cc6b0add3e43f91f02303",
+          "split": "training"
+        },
+        {
+          "benchmark": "phase_consistent_post_exposure_recovery",
+          "rows": 12000,
+          "sha256": "adc38ae10df8a371a4e1d53e3ce77a76f4c89d9091c098c0edc9c054eae6d040",
+          "split": "public_validation"
+        },
+        {
+          "benchmark": "correlated_exposure_recovery",
+          "rows": 72000,
+          "sha256": "d63af7d828613a997c1c5ac7d9f706f35471c86b96d367758800a18dfeb14ad4",
+          "split": "training"
+        },
+        {
+          "benchmark": "correlated_exposure_recovery",
+          "rows": 12000,
+          "sha256": "9018a50dcffd330d9abe4b225a6069e5ea6156b294be955469993886f14e764e",
+          "split": "public_validation"
+        },
+        {
+          "benchmark": "threshold_response_recovery",
+          "rows": 72000,
+          "sha256": "8a609a27fb1ef8fddc5d6968e2701774689e47b4d0374462b2813daa4364b14f",
+          "split": "training"
+        },
+        {
+          "benchmark": "threshold_response_recovery",
+          "rows": 12000,
+          "sha256": "c8c67abe14c31108c537b1f2b6401a157c4cf0b83595a467b8b35ef76b9ee00f",
+          "split": "public_validation"
+        },
+        {
+          "benchmark": "fixed_mode_discrepancy_recovery",
+          "rows": 72000,
+          "sha256": "b3b6a3d523b8c46813c28d3cb3cfac15965b0c5b42881e81915da8c1b81c33cb",
+          "split": "training"
+        },
+        {
+          "benchmark": "fixed_mode_discrepancy_recovery",
+          "rows": 12000,
+          "sha256": "d267bffdd3e039fbbd17966958f168d51cb191307a3fbc45a646bd788e1fe479",
+          "split": "public_validation"
+        }
+      ]
+    },
+    "rich_history": {
+      "all_24_documented_cells_match_rounding": true,
+      "comparison": {
+        "cells_improved": 24,
+        "cells_tied": 0,
+        "cells_worse": 0,
+        "delta_raw_progress": 0.1759249656954272,
+        "primary_ridge_alpha": 1.0,
+        "ridge_minus_zero_cell_normalized_rmse": [
+          -0.4318132350498589,
+          -0.41112870138577595,
+          -0.3394854542504714,
+          -0.3499023905254903,
+          -0.2947648751055233,
+          -0.3775839874461946,
+          -0.24227561014687904,
+          -0.22598377807552128,
+          -0.2427593243980548,
+          -0.1856135349301582,
+          -0.2742217815148953,
+          -0.30408354696864215,
+          -0.4106937804881464,
+          -0.36865763079420066,
+          -0.30606753220259364,
+          -0.329193731039624,
+          -0.24656523121143037,
+          -0.2910869107166497,
+          -0.22187459151312727,
+          -0.22303952632488455,
+          -0.2345937582916513,
+          -0.17394177594074156,
+          -0.26439283530538393,
+          -0.2810691505313675
+        ]
+      },
+      "data": {
+        "generator_version": "LCMJ-V3-monitored-multicycle-1.1",
+        "historical_dataset_identity": "not exact; generated clean-room splits are not M2 byte replays",
+        "train": {
+          "camps": 512,
+          "labels": {
+            "label.relative_concentric_net_impulse_innovation": {
+              "missing": 863,
+              "observed": 14271
+            },
+            "label.relative_mean_concentric_force_innovation": {
+              "missing": 863,
+              "observed": 14271
+            }
+          },
+          "m2_expected_rows": 15182,
+          "observed_rows": 15134,
+          "root_seed": "cmj-v3-oss-train-root",
+          "split": "training",
+          "study_input_sha256": "950a2dde9d6bc24f38ad518c8099ad8a727caf0e1498be32d966be3474ada03f"
+        },
+        "validation": {
+          "camps": 128,
+          "labels": {
+            "label.relative_concentric_net_impulse_innovation": {
+              "missing": 202,
+              "observed": 3597
+            },
+            "label.relative_mean_concentric_force_innovation": {
+              "missing": 202,
+              "observed": 3597
+            }
+          },
+          "m2_expected_rows": 3795,
+          "observed_rows": 3799,
+          "root_seed": "cmj-v3-oss-validation-root",
+          "split": "public_validation",
+          "study_input_sha256": "241d6ae171cba9cdc36e39ee83020f6b5caebf7a2ecadb38eed86d2cae9ff95d"
+        }
+      },
+      "feature_contract": {
+        "categorical_fields": 25,
+        "categorical_vocabulary_source": "training features only, sorted; missing and unknown reserved",
+        "encoded_feature_names_sha256": "d843479d76449fd703ecd0b36ec327734fc16efac08a7be2d722f7d138539aa8",
+        "encoded_features": 338,
+        "excluded_fields": [
+          "target_time_hours"
+        ],
+        "grouping_and_labels_as_predictors": false,
+        "included_fields": 134,
+        "numeric_fields": 109,
+        "numeric_missingness": "train-mean imputation plus a missingness indicator per numeric field",
+        "scaling": "training-feature mean and population standard deviation; zero scales set to one",
+        "schema_identity": "LCMJ-V3-CANONICAL-HORIZON-ROW-1.1",
+        "schema_sha256": "ea8cd5c370c894b0b3175a2b263e405f490a46421517d4f3130cc8cc53d0b2ba",
+        "source_fields": 135,
+        "target_time_hours_excluded": true
+      },
+      "uncertainty": {
+        "cluster": "validation camp",
+        "delta_definition": "ridge alpha=1 raw progress minus zero/persistence raw progress",
+        "delta_raw_progress_95_percentile_interval": [
+          0.15311580277079448,
+          0.18898828288735567
+        ],
+        "interpretation": "Conditional on the fixed public-training split and fitted models.",
+        "replicates_invalid": 0,
+        "replicates_requested": 500,
+        "replicates_valid": 500,
+        "represented_camps": 128,
+        "seed": 20261017
+      }
+    }
+  },
+  "scope": "public synthetic research software; no historical replay, human validation or production-score authority",
+  "secret_scan": {
+    "adjudication": {
+      "public SHA-256 provenance or deterministic test digest": 564,
+      "public abbreviated Git provenance": 14
+    },
+    "confirmed_credentials": 0,
+    "raw_candidates": 578,
+    "scanner": "detect-secrets 1.5.0",
+    "scope": "frozen source export, final candidate source export, and extracted corrected sdist; includes duplicate copies",
+    "unique_candidate_values": 136
+  },
+  "source_archive_sha256": "f050462283d2d4376dada166a518b40fb0a757721703efe4a56b4888c6741973",
+  "verified_study_commit_abbreviated": "7421f02f39d7"
+}
