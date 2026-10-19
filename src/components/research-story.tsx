@@ -1,6 +1,9 @@
 import { ArrowDown, ArrowUpRight } from "lucide-react";
 import { aggregate, models, sourceLink } from "@/lib/science";
 import { MetricLesson, StudyMethods } from "./experiment-methods";
+import MeasurementExhibit, { ExposureContext } from "./measurement-exhibit";
+import HeroInstrument from "./hero-instrument";
+import context from "@/data/context.json";
 
 export function QuickRoute() {
   return (
@@ -69,52 +72,89 @@ export function Question() {
       aria-labelledby="question-title"
     >
       <div className="eyebrow">
-        <span className="section-number">ACT I</span> THE QUESTION
+        <span className="section-number">01 / THE SETTING</span> SPORTS SCIENCE
+        → A FORECASTING PROBLEM
       </div>
       <div className="question-layout">
         <h2 id="question-title" className="editorial-heading">
-          A measurement
+          Training is the exposure.
           <br />
-          is a moment.
-          <br />
-          <span>
-            Recovery is
-            <br />a process.
-          </span>
+          <span>The jump is the assessment.</span>
         </h2>
         <div className="question-copy">
           <p className="story-lead">
-            After a training exposure, force and impulse can change.
+            Imagine measuring a jump before a training exposure, then asking how
+            that measurement will change over the next three days.
           </p>
           <p>
-            Can the information available at the forecast origin predict their
-            later innovations?
-          </p>
-          <p>
-            A countermovement jump (CMJ) provides force and net-impulse
-            assessments: how force is expressed, and its net effect over time.
-            Here, an innovation means a change from the pre-index baseline.
-          </p>
-          <p>
-            This research asks a forecasting question in synthetic worlds. It
-            does not diagnose recovery or prescribe training.
+            That is the setting behind the active research question. The model
+            sees a baseline, a known exposure and earlier episodes. It must
+            predict later force and net-impulse innovations—a change from the
+            pre-index baseline.
           </p>
         </div>
       </div>
+      <div className="setting-context">
+        <article>
+          <span className="context-index">A / THE REAL-WORLD MOTIVATION</span>
+          <h3>Why examine a jump?</h3>
+          <p>
+            Sports scientists investigate countermovement jumps as repeatable
+            assessments of neuromuscular performance. A force plate records how
+            the push is produced over time. Reliability and the choice of
+            measurement matter before a change can be interpreted.
+          </p>
+          <p>
+            This motivates a forecasting question: can what is known after a
+            training exposure tell us something useful about a later assessment?
+          </p>
+          <div className="context-citations">
+            {context.references.map((r) => (
+              <a key={r.id} href={r.href}>
+                {r.authors.split(",")[0]} et al. · {r.year}{" "}
+                <ArrowUpRight size={12} />
+              </a>
+            ))}
+          </div>
+        </article>
+        <article>
+          <span className="context-index">B / THE ACTUAL EXPERIMENT HERE</span>
+          <h3>A controlled synthetic world.</h3>
+          <p>
+            This website presents a public computational benchmark.
+            Participants, exposure patterns, latent responses and measurements
+            are generated under explicit mathematical rules. The active study
+            does not contain athlete observations.
+          </p>
+          <p>
+            A dedicated baseline is assessed about two hours before one current
+            exposure. Four earlier episodes are available. There is no
+            additional material current-episode exposure through H72 in the
+            observation contract.
+          </p>
+          <a className="quiet-link" href={sourceLink(context.source)}>
+            Read the exact information boundary ↗
+          </a>
+        </article>
+      </div>
+      <ExposureContext />
+      <MeasurementExhibit />
       <div
         className="forecast-strip"
         aria-label="Illustrative forecast design, no observed athlete data"
       >
         <div className="forecast-origin">
-          <span className="eyebrow">AVAILABLE AT ORIGIN</span>
+          <span className="eyebrow">FREEZE THE INPUTS HERE</span>
           <strong>
-            Assessments +<br />
-            exposure history
+            Baseline + exposure
+            <br />+ observed history
           </strong>
-          <span>Current exposure and public context</span>
+          <span>
+            The requested horizon is known. The future outcome is not.
+          </span>
         </div>
         <div className="forecast-future">
-          <span className="eyebrow">ASK ABOUT LATER INNOVATIONS</span>
+          <span className="eyebrow">PREDICT THE LATER CHANGE</span>
           <ol>
             {[24, 48, 72].map((h) => (
               <li key={h}>
@@ -130,20 +170,111 @@ export function Question() {
         </div>
       </div>
       <p className="story-caption">
-        Illustrative post-exposure design, not an athlete trace. The preseason
-        family instead asks about H72 and D7.{" "}
+        These are benchmark query times, not a claim that all athletes recover
+        on a three-day schedule. The preseason family instead asks about H72 and
+        D7.{" "}
         <a
           href={sourceLink(
             "src/cmj_recovery_dynamics/benchmarks/preliminary_post_exposure_recovery.py",
           )}
         >
-          Read the task contract ↗
+          Inspect the task contract ↗
         </a>
       </p>
+      <details className="context-literature">
+        <summary>Background literature & the boundary of this project</summary>
+        {context.references.map((r) => (
+          <article key={r.id}>
+            <a href={r.href}>
+              <strong>{r.title}</strong> ↗
+            </a>
+            <p>
+              {r.authors} · {r.year} · DOI {r.doi}
+            </p>
+            <p>{r.evidence}</p>
+          </article>
+        ))}
+        <p>
+          {context.boundary} The benchmark's own pinned observation contract
+          defines its phase semantics; the background studies are not presented
+          as its protocol or as its evaluation data.
+        </p>
+      </details>
       <a className="quiet-link chapter-next" href="#world">
-        Step inside a synthetic episode <ArrowDown size={16} />
+        Now follow one episode, from input to held-out target{" "}
+        <ArrowDown size={16} />
       </a>
     </section>
+  );
+}
+
+export function ResearchCover() {
+  return (
+    <figure className="research-cover" aria-labelledby="cover-title">
+      <figcaption>
+        <span>FIELD NOTES / CMJ RECOVERY</span>
+        <span>PUBLIC RESEARCH · 01</span>
+      </figcaption>
+      <div className="cover-heading">
+        <span>THE EXPERIMENT IN ONE VIEW</span>
+        <h2 id="cover-title">
+          Measure.
+          <br />
+          Expose.
+          <br />
+          <em>Forecast change.</em>
+        </h2>
+      </div>
+      <div className="cover-flow">
+        <div className="cover-baseline">
+          <span>BEFORE</span>
+          <strong>
+            Baseline
+            <br />
+            assessment
+          </strong>
+          <small>Force · impulse · depth</small>
+        </div>
+        <div className="cover-origin">
+          <span>AT ORIGIN</span>
+          <strong>
+            One known
+            <br />
+            exposure
+          </strong>
+          <small>Inputs freeze here</small>
+        </div>
+      </div>
+      <div className="cover-futures">
+        <span>WHAT WILL CHANGE?</span>
+        <div>
+          {[24, 48, 72].map((h) => (
+            <div key={h}>
+              <strong>
+                {h}
+                <small>h</small>
+              </strong>
+              <span>Reassess</span>
+            </div>
+          ))}
+        </div>
+      </div>
+      <div className="cover-legend">
+        <span>
+          <i />
+          Force / N·kg⁻¹
+        </span>
+        <span>
+          <i />
+          Net impulse / m·s⁻¹
+        </span>
+      </div>
+      <p>
+        One exposure, two outcomes, three horizons.
+        <br />
+        An explicit forecasting task in a synthetic world.
+      </p>
+    </figure>
   );
 }
 
@@ -163,15 +294,41 @@ export function Experiment() {
         <span className="section-number">ACT III</span> THE EXPERIMENT
       </div>
       <h2 id="experiment-title" className="editorial-heading">
-        The model has to
+        Does a structured model
         <br />
-        <span>earn its prediction.</span>
+        <span>beat a flexible baseline?</span>
       </h2>
       <p className="story-deck">
-        One active formulation. Four reference models.
-        <br />
-        First ask what each model is allowed to know.
+        The same public information boundary. The same held-out targets. Four
+        different assumptions. A comparison that can challenge the modelling
+        idea, rather than reward it by design.
       </p>
+      <div className="experiment-setup">
+        <article>
+          <span>01 / TRAIN</span>
+          <h3>Learn from public examples.</h3>
+          <p>
+            Fit transformations and coefficients using training rows. Neither
+            validation means nor future test labels are features.
+          </p>
+        </article>
+        <article>
+          <span>02 / SELECT</span>
+          <h3>Freeze the modelling choices.</h3>
+          <p>
+            Use development data to select regularisation. Lock the protocol
+            before generating and scoring independent test roots.
+          </p>
+        </article>
+        <article>
+          <span>03 / CHALLENGE</span>
+          <h3>Ask which assumption earns its place.</h3>
+          <p>
+            Compare zero change, a fitted constant, full ridge regression and a
+            fixed-mode structured comparator on the same six cells.
+          </p>
+        </article>
+      </div>
       <div className="model-primer">
         {models.map((m, i) => (
           <details key={m.id}>
@@ -285,6 +442,28 @@ export function Remaining() {
         amplitudes show the equation; they do not reproduce a fitted model or
         its discrepancy term.
       </p>
+      <div className="instrument-interlude">
+        <div>
+          <span className="eyebrow">THE MATHEMATICAL HYPOTHESIS</span>
+          <h3>
+            Give the model a shape.
+            <br />
+            <em>Then test whether it helps.</em>
+          </h3>
+          <p>
+            The structured comparator borrows fixed 24 h and 84 h exponential
+            bases. Isolate each mode and scrub the illustration to see the
+            assumption. The experiment above shows why a plausible structure
+            still needs a strong comparator.
+          </p>
+          <p>
+            The height of this illustrative field follows the equation; its
+            spatial geometry is decorative. It is not a measured force trace,
+            body motion or a fitted forecast.
+          </p>
+        </div>
+        <HeroInstrument />
+      </div>
       <a href="#lab" className="quiet-link chapter-next">
         Explore the mathematics, then its limits <ArrowDown size={16} />
       </a>

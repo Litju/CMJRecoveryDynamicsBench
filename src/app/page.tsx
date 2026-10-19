@@ -1,7 +1,6 @@
 import { ArrowDown, ArrowUpRight, Activity, Github } from "lucide-react";
 import { brand } from "@/lib/brand";
 import { data, sourceLink } from "@/lib/science";
-import HeroInstrument from "@/components/hero-instrument";
 import Explorer from "@/components/explorer";
 import RecoveryLab from "@/components/recovery-lab";
 import Evidence from "@/components/evidence";
@@ -13,6 +12,7 @@ import {
   Experiment,
   Remaining,
   QuickRoute,
+  ResearchCover,
 } from "@/components/research-story";
 export default function Home() {
   return (
@@ -26,8 +26,8 @@ export default function Home() {
             <span className="brand-symbol">
               <Activity size={21} />
             </span>
-            {brand.shortName}
-            <span className="edition">RESEARCH / 01</span>
+            {brand.name}
+            <span className="edition">RESEARCH NOTES / 01</span>
           </a>
           <nav aria-label="Main navigation">
             <a href="#world">Synthetic world</a>
@@ -56,16 +56,29 @@ export default function Home() {
               <span className="status-dot" />
               {brand.eyebrow}
             </div>
+            <div className="hero-discipline">
+              MACHINE LEARNING / SPORTS SCIENCE
+            </div>
             <h1 id="hero-title">
-              Recovery.
+              One jump.
               <br />
-              Under a<br />
-              <span>different lens.</span>
+              Three days.
+              <br />
+              <span>What changes?</span>
             </h1>
             <p className="hero-description">
-              A jump is measured in a moment. Recovery evolves for days. Explore
-              how an open, synthetic countermovement-jump research program turns
-              that question into a testable forecast.
+              After a training exposure, can we forecast how force and net
+              impulse will change? An open research program about measurement,
+              hidden dynamics and the limits of prediction.
+            </p>
+            <p className="hero-byline">
+              <span>RESEARCH SOFTWARE BY</span> Julio Rodriguez{" "}
+              <a
+                href={sourceLink("CITATION.cff")}
+                aria-label="Verified research software citation"
+              >
+                ↗
+              </a>
             </p>
             <div className="hero-actions">
               <a href="#question" className="button primary">
@@ -80,7 +93,7 @@ export default function Home() {
               <span className="tag-divider">/</span> NO HUMAN DATA
             </div>
           </div>
-          <HeroInstrument />
+          <ResearchCover />
         </section>
         <div className="shell research-strip" aria-label="Study at a glance">
           <div>

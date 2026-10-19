@@ -2,7 +2,7 @@
 export const brand = {
   name: "Recovery Observatory",
   shortName: "Observatory",
-  eyebrow: "AN OPEN RESEARCH INSTRUMENT",
+  eyebrow: "A PUBLIC SYNTHETIC RESEARCH PROGRAM",
   description:
     "An interactive window into synthetic countermovement-jump recovery research.",
 };

@@ -385,6 +385,7 @@ test("a browser that throws during WebGL setup keeps the 2D exhibit and controls
     } as typeof original;
   });
   await page.goto("/");
+  await page.locator(".hero-instrument").scrollIntoViewIfNeeded();
   await expect(page.locator("html")).toHaveAttribute(
     "data-webgl-attempt",
     "blocked",

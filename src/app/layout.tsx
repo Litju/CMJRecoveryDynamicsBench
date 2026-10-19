@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { brand } from "@/lib/brand";
 import "./globals.css";
+import "./editorial.css";
 export const metadata: Metadata = {
   title: `${brand.name} — Synthetic recovery research`,
   description: brand.description,

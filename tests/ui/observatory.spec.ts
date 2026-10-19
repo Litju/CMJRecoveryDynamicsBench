@@ -144,6 +144,7 @@ test("desktop accessibility, 3D time scrub and no runtime errors", async ({
   const errors: string[] = [];
   page.on("pageerror", (e) => errors.push(e.message));
   await page.goto("/");
+  await page.locator(".hero-instrument").scrollIntoViewIfNeeded();
   await expect(page.locator(".instrument-visual canvas")).toBeVisible();
   await range(page, "#hero-time", "72");
   await expect(page.locator(".instrument-scrub output")).toContainText("072");

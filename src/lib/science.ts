@@ -5,7 +5,7 @@ export const models = [
     id: "zero_innovation",
     name: "Zero innovation",
     short: "Zero",
-    color: "#8d94a2",
+    color: "#a6b1b8",
     description:
       "Persistence on the innovation scale. Predicts zero change from the pre-index baseline.",
   },
@@ -13,7 +13,7 @@ export const models = [
     id: "training_constant",
     name: "Training constant",
     short: "Constant",
-    color: "#d4b18c",
+    color: "#e8be6c",
     description:
       "A training-fitted mean for each outcome and horizon. No validation means enter the predictions.",
   },
@@ -21,7 +21,7 @@ export const models = [
     id: "ridge_full",
     name: "Full ridge",
     short: "Ridge",
-    color: "#a9f5dc",
+    color: "#92bbf3",
     description:
       "Cellwise ridge using the complete 82-field public predictor schema, encoded into 84 numeric columns.",
   },
@@ -29,7 +29,7 @@ export const models = [
     id: "structured_full",
     name: "Fixed-mode structured",
     short: "Structured",
-    color: "#aaa5ef",
+    color: "#f19a7c",
     description:
       "Training-fitted coefficients on public exposure primitives and fixed 24 h / 84 h exponential bases. No oracle states.",
   },

@@ -9,6 +9,7 @@ import {
 } from "@/lib/story";
 import { sourceLink } from "@/lib/science";
 import methods from "@/data/formulation-methods.json";
+import historyNotes from "@/data/research-history.json";
 
 const activeId = "fixed_mode_discrepancy_recovery";
 const activePath = new Set([
@@ -185,17 +186,19 @@ export default function Lineage() {
     return () => window.removeEventListener("popstate", restore);
   }, []);
   const node = lineage.find((n) => n.id === selected)!;
-  const select = (id: string) => {
+  const select = (id: string, focusGraph = true) => {
     setSelected(id);
     const url = new URL(location.href);
     url.searchParams.set("formulation", id);
     url.hash = "lineage";
     history.pushState(null, "", url);
     // Keep parent navigation in the graph's keyboard order, including on small screens.
-    document
-      .querySelector<HTMLButtonElement>(`[data-formulation="${id}"] > button`)
-      ?.focus();
+    if (focusGraph)
+      document
+        .querySelector<HTMLButtonElement>(`[data-formulation="${id}"] > button`)
+        ?.focus();
   };
+  const historyNote = historyNotes[selected as keyof typeof historyNotes];
   return (
     <section
       id="lineage"
@@ -207,15 +210,67 @@ export default function Lineage() {
         <GitBranch size={15} />
       </div>
       <h2 id="lineage-title" className="editorial-heading">
-        Eight formulations.
+        The question kept changing.
         <br />
-        <span>More than one way to ask.</span>
+        <span>So did the experiment.</span>
       </h2>
       <p className="story-deck">
-        Change a measurement. Change an exposure law. Change the question.
-        <br className="desktop-break" /> Follow the contracts to see what each
-        formulation actually asks.
+        Eight formulations document changes in the task, the measurement and the
+        world. Read the scientific decisions first, then inspect their exact
+        ancestry.
       </p>
+      <div className="history-reader">
+        <div
+          className="history-selector"
+          role="group"
+          aria-label="Read the scientific history"
+        >
+          {lineage.map((n) => (
+            <button
+              key={n.id}
+              aria-pressed={selected === n.id}
+              onClick={() => select(n.id, false)}
+            >
+              <span>
+                {historyNotes[n.id as keyof typeof historyNotes].category}
+              </span>
+              <strong>
+                {historyNotes[n.id as keyof typeof historyNotes].turn}
+              </strong>
+            </button>
+          ))}
+        </div>
+        <article
+          className="history-reading"
+          aria-live="polite"
+          aria-atomic="true"
+        >
+          <span className="eyebrow">
+            {historyNote.category} / {node.status.replaceAll("_", " ")}
+          </span>
+          <h3>{historyNote.turn}</h3>
+          <dl>
+            <dt>The scientific issue</dt>
+            <dd>{historyNote.issue}</dd>
+            <dt>The design decision</dt>
+            <dd>{historyNote.decision}</dd>
+            <dt>What to take from it</dt>
+            <dd>{historyNote.lesson}</dd>
+          </dl>
+          <a className="quiet-link" href={sourceLink(node.source)}>
+            Read the source-defined question ↗
+          </a>
+        </article>
+      </div>
+      <div className="history-to-graph">
+        <span className="eyebrow">THE DOCUMENTED ANCESTRY</span>
+        <p>
+          These are scientific branches, not eight consecutive upgrades. The
+          camp and post-exposure families ask different questions. The
+          rich-history parent is unresolved; the threshold branch remains
+          proposed.
+        </p>
+      </div>
       <div className="graph-legend">
         <span>
           <i /> Path toward the active study

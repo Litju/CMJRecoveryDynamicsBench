@@ -44,11 +44,11 @@ function MeasurementLens() {
         {view === "impulse" && (
           <path
             d={`${shape} L360 160 L40 160 Z`}
-            fill="#a9f5dc"
+            fill="#a6c6f3"
             opacity=".17"
           />
         )}
-        <path d={shape} stroke="#a9f5dc" strokeWidth="2" fill="none" />
+        <path d={shape} stroke="#a6c6f3" strokeWidth="2" fill="none" />
         <line x1="40" x2="360" y1="160" y2="160" stroke="#72887d" />
         {view === "force" && (
           <line
@@ -56,7 +56,7 @@ function MeasurementLens() {
             x2="360"
             y1={160 - (105 * 2) / Math.PI}
             y2={160 - (105 * 2) / Math.PI}
-            stroke="#aaa5ef"
+            stroke="#f1a486"
             strokeDasharray="5 5"
           />
         )}
@@ -146,6 +146,24 @@ export default function EpisodeTheater() {
           See what changes—and what the model is still forbidden to use.
         </p>
       </div>
+      <div className="world-purpose">
+        <div>
+          <span className="eyebrow">WHY A SYNTHETIC WORLD?</span>
+          <h3>
+            Make the assumptions visible.
+            <br />
+            <em>Keep the prediction honest.</em>
+          </h3>
+        </div>
+        <p>
+          A generated world makes its rules explicit: how exposures co-vary, how
+          hidden responses evolve and how an assessment is formed. That lets
+          researchers ask precise methodological questions. The learner still
+          receives only public inputs, and later outcomes stay held out. Success
+          inside those rules is a starting point for validation, not evidence
+          that the rules describe real athletes.
+        </p>
+      </div>
       <div className="episode-panel">
         <div className="episode-toolbar">
           <span className="panel-label">
@@ -192,12 +210,7 @@ export default function EpisodeTheater() {
               72 hours. The curve is an arbitrary two-mode mathematical
               illustration, not a generated sample.
             </desc>
-            <defs>
-              <linearGradient id="episode-glow" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0" stopColor="#a9f5dc" stopOpacity=".16" />
-                <stop offset="1" stopColor="#a9f5dc" stopOpacity="0" />
-              </linearGradient>
-            </defs>
+
             {[95, 180, 265].map((y) => (
               <line
                 key={y}
@@ -214,7 +227,7 @@ export default function EpisodeTheater() {
               y="30"
               width="510"
               height="260"
-              fill="#a9f5dc"
+              fill="#a6c6f3"
               opacity=".025"
             />
             <line
@@ -222,10 +235,10 @@ export default function EpisodeTheater() {
               x2="430"
               y1="35"
               y2="295"
-              stroke="#a9f5dc"
+              stroke="#a6c6f3"
               strokeDasharray="5 5"
             />
-            <text x="445" y="52" fill="#a9f5dc" fontSize="12">
+            <text x="445" y="52" fill="#a6c6f3" fontSize="12">
               FORECAST BOUNDARY / t = 0
             </text>
             {[0, 1, 2, 3].map((i) => (
@@ -244,7 +257,7 @@ export default function EpisodeTheater() {
                   x2={65 + i * 38}
                   y1="195"
                   y2="195"
-                  stroke="#a9f5dc"
+                  stroke="#a6c6f3"
                 />
               </g>
             ))}
@@ -255,7 +268,7 @@ export default function EpisodeTheater() {
               <path
                 d="M235 240 L235 200 L260 184 L285 200 L285 240 Z"
                 fill="#28463e"
-                stroke="#a9f5dc"
+                stroke="#a6c6f3"
               />
               <text x="223" y="273" fill="#a6b0ae" fontSize="12">
                 BASELINE
@@ -264,19 +277,20 @@ export default function EpisodeTheater() {
             <path
               d="M400 240 L420 240 L430 100 L440 240 L460 240"
               fill="none"
-              stroke="#a9f5dc"
+              stroke="#a6c6f3"
               strokeWidth="2"
             />
-            <text x="394" y="315" fill="#a9f5dc" fontSize="12">
+            <text x="394" y="315" fill="#a6c6f3" fontSize="12">
               EXPOSURE
             </text>
             {layer === "world" && (
               <g>
                 <path
                   d={`${path} L891 265 L430 265 Z`}
-                  fill="url(#episode-glow)"
+                  fill="#a6c6f3"
+                  fillOpacity={0.12}
                 />
-                <path d={path} fill="none" stroke="#aaa5ef" strokeWidth="2" />
+                <path d={path} fill="none" stroke="#f1a486" strokeWidth="2" />
                 <text x="560" y="112" fill="#c6c1ff" fontSize="13">
                   ILLUSTRATIVE y(t) = 0.7e⁻ᵗ/²⁴ + 0.3e⁻ᵗ/⁸⁴
                 </text>
@@ -294,7 +308,7 @@ export default function EpisodeTheater() {
                     x2={600 + i * 160}
                     y1="190"
                     y2="270"
-                    stroke={revealed ? "#a9f5dc" : "#a6b0ae"}
+                    stroke={revealed ? "#a6c6f3" : "#a6b0ae"}
                     strokeDasharray={revealed ? undefined : "3 5"}
                   />
                   <circle
@@ -302,7 +316,7 @@ export default function EpisodeTheater() {
                     cy="225"
                     r="17"
                     fill="#172522"
-                    stroke={revealed ? "#a9f5dc" : "#a6b0ae"}
+                    stroke={revealed ? "#a6c6f3" : "#a6b0ae"}
                   />
                   <text
                     x={600 + i * 160}
@@ -325,7 +339,7 @@ export default function EpisodeTheater() {
                 </g>
               );
             })}
-            <circle cx={event.position * 10} cy="75" r="5" fill="#a9f5dc" />
+            <circle cx={event.position * 10} cy="75" r="5" fill="#a6c6f3" />
           </svg>
           <p className="episode-boundary" aria-live="polite">
             {perspective === "model"

@@ -36,7 +36,7 @@ body::before {
   inset: 0 0 auto;
   height: 900px;
   pointer-events: none;
-  background: radial-gradient(ellipse at 78% 24%, #25413935, transparent 45%);
+  background: none;
 }
 ::selection {
   background: #a9f5dc;
@@ -266,7 +266,7 @@ a:hover {
 .instrument-visual {
   height: 390px;
   position: relative;
-  background: radial-gradient(ellipse at 50% 50%, #39685818, transparent 65%);
+  background: none;
   border-bottom: 1px solid #2b3937;
 }
 .instrument-visual::before {
@@ -274,10 +274,9 @@ a:hover {
   position: absolute;
   inset: 30px 0;
   background-image:
-    linear-gradient(#829c9610 1px, transparent 1px),
-    linear-gradient(90deg, #829c9610 1px, transparent 1px);
+    none;
   background-size: 44px 44px;
-  mask-image: radial-gradient(ellipse, #000, transparent 70%);
+  mask-image: none;
   pointer-events: none;
 }
 .instrument-visual canvas {
@@ -424,7 +423,7 @@ input[type="range"]::-moz-range-thumb {
   left: 19%;
   width: 65%;
   height: 47%;
-  background: linear-gradient(145deg, #294841, #152325 55%, #3d435a);
+  background: #203344;
   border: 1px solid #94ccb1;
   transform: rotateX(60deg) rotateZ(-28deg);
   box-shadow:
@@ -437,8 +436,7 @@ input[type="range"]::-moz-range-thumb {
   position: absolute;
   inset: 0;
   background-image:
-    linear-gradient(#a9f5dc22 1px, transparent 1px),
-    linear-gradient(90deg, #a9f5dc22 1px, transparent 1px);
+    none;
   background-size: 17px 17px;
 }
 .plate-core {
@@ -1101,7 +1099,7 @@ summary::-webkit-details-marker {
   color: #c2d4c5;
 }
 .lab-section {
-  background: linear-gradient(130deg, #182420, #17201f 60%, #1e232d);
+  background: #192b35;
   border-block: 1px solid #32423a;
 }
 .lab-section .section {
@@ -2807,7 +2805,7 @@ table {
   top: 96px;
   padding: 30px;
   border-top: 1px solid var(--mint);
-  background: linear-gradient(140deg, #20342b6b, #151c1f 60%);
+  background: #fffdf7;
   border-radius: 0 0 5px 5px;
 }
 .desktop-lineage-detail h3,
@@ -3455,7 +3453,7 @@ p {
   border: 1px solid #45675c;
   border-radius: 8px;
   overflow: hidden;
-  background: linear-gradient(135deg, #1c2c27, #11191d 65%);
+  background: #192b35;
   margin-top: 30px;
 }
 .episode-toolbar {
@@ -3708,7 +3706,7 @@ p {
   padding: 24px;
   border: 1px solid var(--line);
   border-radius: 4px;
-  background: linear-gradient(160deg, #1c2c26, #141c1f);
+  background: #e8edf0;
 }
 .world-cards > a:hover {
   border-color: #85b8a4;
@@ -3924,7 +3922,7 @@ p {
   border: 1px solid #466759;
   border-radius: 7px;
   background:
-    radial-gradient(ellipse at 0 0, #26443755, transparent 60%), #151e1e;
+    #21343e;
 }
 .lesson-heading h3 {
   font-size: 35px;
@@ -4441,7 +4439,7 @@ p {
 .scrutiny-cards article {
   padding: 24px;
   border-top: 1px solid #8d94a2;
-  background: linear-gradient(150deg, #20272b, #151c1f);
+  background: #e8e9e4;
 }
 .scrutiny-cards .mono {
   font-size: 9px;

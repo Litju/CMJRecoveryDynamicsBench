@@ -1,6 +1,6 @@
 "use client";
 import dynamic from "next/dynamic";
-import { Component, useEffect, useState, type ReactNode } from "react";
+import { Component, useEffect, useRef, useState, type ReactNode } from "react";
 import { MoveUpRight } from "lucide-react";
 import { decay } from "@/lib/decay.mjs";
 const Scene = dynamic(() => import("./instrument-scene"), {
@@ -33,6 +33,7 @@ class SceneBoundary extends Component<
   }
 }
 export default function HeroInstrument() {
+  const instrument = useRef<HTMLDivElement>(null);
   const [time, setTime] = useState(24);
   const [render3d, setRender3d] = useState(false);
   const [mode, setMode] = useState("both");
@@ -40,8 +41,9 @@ export default function HeroInstrument() {
   const slow = mode === "fast" ? 0 : 0.3;
   useEffect(() => {
     const media = window.matchMedia("(prefers-reduced-motion: reduce)");
+    let nearViewport = false;
     const enable = () => {
-      if (media.matches) {
+      if (!nearViewport || media.matches) {
         setRender3d(false);
         return;
       }
@@ -53,15 +55,22 @@ export default function HeroInstrument() {
         setRender3d(false);
       }
     };
-    const timer = window.setTimeout(enable, 650);
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        nearViewport = entry.isIntersecting;
+        enable();
+      },
+      { rootMargin: "250px" },
+    );
+    if (instrument.current) observer.observe(instrument.current);
     media.addEventListener("change", enable);
     return () => {
-      window.clearTimeout(timer);
+      observer.disconnect();
       media.removeEventListener("change", enable);
     };
   }, []);
   return (
-    <div className="hero-instrument">
+    <div className="hero-instrument" ref={instrument}>
       <div className="instrument-top">
         <span>
           <span className="status-dot" /> SIGNAL STUDY 001

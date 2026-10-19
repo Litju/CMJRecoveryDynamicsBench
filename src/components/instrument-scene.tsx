@@ -39,7 +39,7 @@ function Plate({ time, fast, slow }: SceneProps) {
         />
       </mesh>
       <lineSegments geometry={edges}>
-        <lineBasicMaterial color="#a9f5dc" transparent opacity={0.85} />
+        <lineBasicMaterial color="#a6c6f3" transparent opacity={0.85} />
       </lineSegments>
       <gridHelper
         args={[4.2, 20, "#8ac9b6", "#315356"]}
@@ -64,7 +64,7 @@ function Plate({ time, fast, slow }: SceneProps) {
         </bufferGeometry>
         <pointsMaterial
           size={0.024}
-          color="#c4ffe5"
+          color="#bcd7fa"
           transparent
           opacity={0.65}
           sizeAttenuation
@@ -79,7 +79,7 @@ function Plate({ time, fast, slow }: SceneProps) {
           >
             <torusGeometry args={[1.1 + i * 0.5, 0.006, 5, 100]} />
             <meshBasicMaterial
-              color={i === 1 ? "#acaaf0" : "#97e9d6"}
+              color={i === 1 ? "#f1a486" : "#9abcef"}
               transparent
               opacity={0.42 - i * 0.07}
             />
@@ -88,7 +88,7 @@ function Plate({ time, fast, slow }: SceneProps) {
       )}
       <mesh position={[0, 0.25, 0]} rotation={[-Math.PI / 2, 0, 0]}>
         <ringGeometry args={[0.15, 0.17, 48]} />
-        <meshBasicMaterial color="#c4ffe5" side={THREE.DoubleSide} />
+        <meshBasicMaterial color="#bcd7fa" side={THREE.DoubleSide} />
       </mesh>
     </group>
   );
@@ -105,8 +105,8 @@ export default function InstrumentScene({ time, fast, slow }: SceneProps) {
       }}
     >
       <ambientLight intensity={1.7} />
-      <directionalLight position={[3, 8, 4]} color="#b3ffe2" intensity={3} />
-      <pointLight position={[-4, 3, -2]} color="#ada4f3" intensity={15} />
+      <directionalLight position={[3, 8, 4]} color="#bdd7f4" intensity={3} />
+      <pointLight position={[-4, 3, -2]} color="#efb18d" intensity={15} />
       <Plate time={time} fast={fast} slow={slow} />
     </Canvas>
   );

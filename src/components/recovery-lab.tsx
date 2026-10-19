@@ -213,16 +213,6 @@ export default function RecoveryLab() {
                   margin={{ top: 15, right: 20, bottom: 8, left: 0 }}
                   accessibilityLayer
                 >
-                  <defs>
-                    <linearGradient id="decay-fill" x1="0" x2="0" y1="0" y2="1">
-                      <stop
-                        offset="0%"
-                        stopColor="#a9f5dc"
-                        stopOpacity={0.18}
-                      />
-                      <stop offset="100%" stopColor="#a9f5dc" stopOpacity={0} />
-                    </linearGradient>
-                  </defs>
                   <CartesianGrid
                     stroke="#2a3436"
                     vertical={false}
@@ -268,8 +258,9 @@ export default function RecoveryLab() {
                           ? "Rate · arbitrary units / h"
                           : "Area · arbitrary units × h"
                     }
-                    fill="url(#decay-fill)"
-                    stroke="#d9f7e9"
+                    fill="#a6c6f3"
+                    fillOpacity={0.13}
+                    stroke="#f0eee6"
                     strokeWidth={2}
                     isAnimationActive={false}
                   />
@@ -278,7 +269,7 @@ export default function RecoveryLab() {
                       type="monotone"
                       dataKey="fast"
                       name="24 h term"
-                      stroke="#a9f5dc"
+                      stroke="#a6c6f3"
                       dot={false}
                       strokeDasharray="4 4"
                       strokeWidth={1.3}
@@ -290,7 +281,7 @@ export default function RecoveryLab() {
                       type="monotone"
                       dataKey="slow"
                       name="84 h term"
-                      stroke="#aaa5ef"
+                      stroke="#f1a486"
                       dot={false}
                       strokeDasharray="4 4"
                       strokeWidth={1.3}
@@ -300,11 +291,11 @@ export default function RecoveryLab() {
                   <ReferenceLine y={0} stroke="#5d746b" />
                   <ReferenceLine
                     x={time}
-                    stroke="#c3f6df"
+                    stroke="#a6c6f3"
                     label={{
                       value: `${time} h`,
                       position: "insideTopRight",
-                      fill: "#c3f6df",
+                      fill: "#a6c6f3",
                       fontSize: 11,
                     }}
                   />
@@ -334,15 +325,15 @@ export default function RecoveryLab() {
             {view === "response" && (
               <div className="chart-legend">
                 <span>
-                  <i style={{ background: "#d9f7e9" }} />
+                  <i style={{ background: "#f0eee6" }} />
                   Combined
                 </span>
                 <span>
-                  <i style={{ background: "#a9f5dc" }} />
+                  <i style={{ background: "#a6c6f3" }} />
                   24 h term
                 </span>
                 <span>
-                  <i style={{ background: "#aaa5ef" }} />
+                  <i style={{ background: "#f1a486" }} />
                   84 h term
                 </span>
               </div>
