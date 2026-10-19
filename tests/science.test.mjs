@@ -78,6 +78,18 @@ test("frozen training/development selection and scientific boundaries", () => {
   assert.equal(p.featureContract.grouping_keys_as_predictors, false);
   assert.equal(p.featureContract.target_labels_as_predictors, false);
   assert.equal(p.formulations.length, 8);
+  assert.deepEqual(p.retiredStudy, {
+    reportedPrimaryRawProgress: 0.1759,
+    reportedPaired95Interval: [0.1531, 0.189],
+  });
+  assert.deepEqual(
+    p.roots.map((r) => r.seed),
+    [
+      "res-526-public-eval-root-a-2026-10-18",
+      "res-526-public-eval-root-b-2026-10-18",
+      "res-526-public-eval-root-c-2026-10-18",
+    ],
+  );
   assert.equal(
     p.formulations.filter((f) => f.status === "Active candidate").length,
     1,

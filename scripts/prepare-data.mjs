@@ -62,7 +62,25 @@ export function transform() {
       return { id: c[1].replaceAll("`", ""), status: c[2], limitation: c[4] };
     });
   assert.equal(formulations.length, 8);
+  const retiredText = read("source/M8_REFERENCE_MODEL_STUDY.md").replace(
+    /\s+/g,
+    " ",
+  );
+  const retiredPrimary = retiredText.match(
+    /\| Ridge, `alpha=1` \(declared primary\) \| ([0-9.]+) \|/,
+  );
+  const retiredInterval = retiredText.match(
+    /interval was `\[([0-9.]+), ([0-9.]+)\]` \(500 of 500 valid replicates\)/,
+  );
+  assert(
+    retiredPrimary && retiredInterval,
+    "Retired-study source schema drift",
+  );
   return {
+    retiredStudy: {
+      reportedPrimaryRawProgress: Number(retiredPrimary[1]),
+      reportedPaired95Interval: retiredInterval.slice(1).map(Number),
+    },
     provenance: {
       ...manifest,
       resultsSha256:

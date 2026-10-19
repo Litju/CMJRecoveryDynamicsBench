@@ -131,6 +131,19 @@ export default function Evidence() {
               results are kept in their own study and are never ranked alongside
               active six-cell NRMSE.
             </p>
+            <p className="retired-result">
+              Declared primary ridge (α = 1): reported raw progress{" "}
+              <strong>
+                {data.retiredStudy.reportedPrimaryRawProgress.toFixed(4)}
+              </strong>
+              . Paired improvement over zero: 95% interval [
+              {data.retiredStudy.reportedPaired95Interval
+                .map((v) => v.toFixed(4))
+                .join(", ")}
+              ], 500 camp-bootstrap replicates, conditional on one fixed
+              training split. Different metric; not comparable to the active
+              scores.
+            </p>
             <a
               className="quiet-link"
               href={sourceLink("docs/M8_REFERENCE_MODEL_STUDY.md")}
