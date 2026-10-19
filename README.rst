@@ -93,7 +93,7 @@ or other third-party materials.
 
 Use ``CITATION.cff`` to cite version ``1.0.0``. This metadata does not assert
 a DOI, publication date, or empirical validation; the corresponding official
-release record, if any, identifies its publication date and artifacts. Original experiment receipts retain their
-audited version and provenance. Exact M8 digest replay uses the original frozen
+release record, if any, identifies its publication date and artifacts.
+Original experiment receipts retain their audited version and provenance. Exact M8 digest replay uses the original frozen
 study snapshot; the version metadata change gives this candidate a new package
 source hash, so pre-1.0 selection locks cannot be reused with it.
