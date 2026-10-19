@@ -25,8 +25,6 @@ for (const [device, viewport] of [
     content:
       ".story-progress{position:relative!important;top:auto!important;} .skip-link{display:none!important;}",
   });
-  if (device === "desktop")
-    await page.locator(".instrument-visual canvas").waitFor();
   for (const id of [
     "hero",
     "quick-route",
@@ -47,6 +45,8 @@ for (const [device, viewport] of [
           : `#${id}`,
     );
     await locator.scrollIntoViewIfNeeded();
+    if (device === "desktop" && id === "remaining")
+      await page.locator(".instrument-visual canvas").waitFor();
     if (id === "experiment")
       await page
         .locator("#experiment")
@@ -54,6 +54,40 @@ for (const [device, viewport] of [
     const path = `docs/screenshots/${device}-${id}.png`;
     await locator.screenshot({ path, animations: "disabled" });
     captures.push({ device, chapter: id, path });
+  }
+  for (const [chapter, selector] of [
+    ["apparatus", ".measurement-exhibit"],
+    ["exposure", ".exposure-context"],
+    ["history", ".history-reader"],
+  ]) {
+    await page
+      .locator(selector)
+      .screenshot({
+        path: `docs/screenshots/${device}-${chapter}.png`,
+        animations: "disabled",
+      });
+    captures.push({
+      device,
+      chapter,
+      path: `docs/screenshots/${device}-${chapter}.png`,
+    });
+  }
+  for (const [index, chapter] of [
+    [1, "impulse"],
+    [2, "innovation"],
+  ]) {
+    await page.locator(".measurement-tabs button").nth(index).click();
+    await page
+      .locator(".measurement-workbench")
+      .screenshot({
+        path: `docs/screenshots/${device}-${chapter}.png`,
+        animations: "disabled",
+      });
+    captures.push({
+      device,
+      chapter,
+      path: `docs/screenshots/${device}-${chapter}.png`,
+    });
   }
   await page.locator('[data-event="h72"]').click();
   await page
@@ -149,8 +183,10 @@ for (const reducedMotion of ["reduce", "no-preference"]) {
     ).observe({ type: "longtask", buffered: true });
   });
   await page.goto(baseURL, { waitUntil: "networkidle" });
-  if (reducedMotion === "no-preference")
+  if (reducedMotion === "no-preference") {
+    await page.locator(".hero-instrument").scrollIntoViewIfNeeded();
     await page.locator(".instrument-visual canvas").waitFor();
+  }
   const timings = await page.locator(".model-options").evaluate(async (box) => {
     const times = [];
     for (let i = 0; i < 20; i++) {

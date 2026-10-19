@@ -1,23 +1,23 @@
-# RES-536 validation · 2026-10-19
+# RES-536 editorial/context redesign validation · 2026-10-19
 
 **GO_WITH_LIMITATIONS** for the local scientific exhibition. The application is implemented and runs as a production static export at <http://localhost:4173>. No remote preview or production deployment was created.
 
-The completed visitor journey is hero → 90-second route → question → Synthetic Episode Theater → eight-formulation lineage → actual experiment and metric teaching → original numerical explorer → mathematical lab → negative findings, evidence and proposed research questions. Scientist-level methods stay inside the same experience and disclose exact protocol JSON, scientific status, model authorities, source links and limitations.
+The completed visitor journey is concrete research cover → 90-second route → setting, exposure and measurement → Synthetic Episode Theater → scientific decision history and exact eight-formulation lineage → actual experiment and metric teaching → original numerical explorer → mathematical lab → negative findings, evidence and proposed research questions. Scientist-level methods stay inside the same experience and disclose exact protocol JSON, scientific status, model authorities, source links and limitations.
 
 ## Verification results
 
 | Check | Result |
 | --- | --- |
-| `npm test` | **12/12 passed**: original numerical checks, deterministic source/fixture checks, all 17 model aggregates and root sample SDs, all six selection minima, exact eight questions/statuses/parents/world/observation symbols, knowledge boundary, signed derivative/integral identities |
+| `npm test` | **14/14 passed**: original numerical checks, deterministic source/fixture checks, all 17 model aggregates and root sample SDs, all six selection minima, exact eight questions/statuses/parents/world/observation symbols, knowledge boundary, signed derivative/integral identities; exact observation constants, eight exposure descriptors and eight decision narratives |
 | `npm run typecheck` | Passed, strict TypeScript, no emit |
 | `npm run build` | Passed, production static export; checks original, lineage and exhibition source checksums and both downloadable fixtures |
-| `npm run test:ui` | **16/16 passed** in the complete Chromium suite; final complete run: 1.2 min; strengthened throwing-WebGL instrumentation also rerun separately |
+| `npm run test:ui` | **20/20 passed** in the complete Chromium suite; final complete run: 1.3 min, including the new measurement, history, solid-colour and viewport-loading checks |
 | Original numerical UI | All **96** model × root × horizon × outcome combinations retain exact sourced values; comparator, RMSE units, ledger and intervals pass original assertions |
 | Metric teaching | All **72** model × test-root × cell views match exact receipt RMSE, population SD, NRMSE and six-cell aggregate; exact frozen protocol JSON matches the fixture |
 | Diagnostics | All four ablations, all three sample sizes × three families, all six selected configurations and downloaded diagnostic JSON checked |
 | Scientific lineage | Eight exact source questions/statuses, five documented parent edges, proposed/active fork, unresolved retired ancestry, parent navigation, methods, valid/invalid deep links, reload and Back restoration |
 | Episode | All six events, both perspectives, all four layers, measurement lens, immutable forecast boundary, keyboard scrubbing, playback/pause/reset and public feature budget checked |
-| Lab / 3D | Signed scenarios; response/slope/integral plotted values; exact mathematical readouts; sliders and keyboard; reset and playback; hero mode isolation; actual WebGL render; unavailable and throwing context fallbacks |
+| Lab / 3D | Signed scenarios; response/slope/integral plotted values; exact mathematical readouts; sliders and keyboard; reset and playback; hero mode isolation; actual WebGL render at the model chapter; viewport-based loading/release; unavailable and throwing context fallbacks |
 | Accessibility | Zero axe violations in tested WCAG 2 A/AA + 2.1 AA rules: default desktop/mobile, expanded scientific methods, expanded lineage evidence and mobile touch state. Native focusable scroll regions, text alternatives, labels and keyboard controls verified |
 | Responsive | No page overflow at **320, 375, 390, 768, 1024, 1440 px**; expanded methods also checked. Wide numerical tables keep local scrolling |
 | Motion | Reduced motion omits Three.js scene loading/rendering and disables automatic visual reveals; explicit playback remains controllable; preference changes stop lab playback |
@@ -40,7 +40,7 @@ The signed Recovery Lab exposes exact analytic derivatives and integrals, distin
 
 ## Visual inspection and iteration
 
-[Thirty chapter/state captures](SCREENSHOTS.md) cover every major chapter on desktop and mobile, including the observer reveal, measurement lens, expanded formulation methods, split/selection methods and signed-area lab. Full-page desktop/mobile and focused lineage regression images are also retained. The capture script uses real controls and suppresses only sticky navigation and the offscreen skip link when taking a tall chapter image; it does not substitute scientific content.
+[Forty chapter/state captures](SCREENSHOTS.md) cover every major chapter on desktop and mobile, including the observer reveal, original measurement lens, new apparatus/force/impulse/innovation exhibits, exposure glossary, history reader, expanded formulation methods, split/selection methods and signed-area lab. Full-page desktop/mobile and focused lineage regression images are also retained. The capture script uses real controls and suppresses only sticky navigation and the offscreen skip link when taking a tall chapter image; it does not substitute scientific content.
 
 Inspection included the hero, question, Episode Theater, observation lens, lineage, study design, metric teaching, interval plot, mobile lab and evidence. Iteration corrected a five-chapter navigation wrap and made the lab’s response/slope/area labels, plotted values and legends match the selected mathematical quantity. A final mobile review also found percentage grid gaps overflowing stacked content; fixed mobile gaps and bounding-box regressions now prevent result-caption/caveat overlap. New test-only dynamic JSON import failures were corrected to the project’s static-import convention. Initial TypeScript checks also caught and corrected the details-element test type; final checks pass without relaxed scientific assertions.
 
@@ -50,14 +50,15 @@ The capture script records browser navigation, script resources, long tasks, one
 
 Final isolated capture run (20 scripted switches per mode):
 
-| Mode | Script resources | Decoded JS | Estimated gzip JS | Switch median / p95 | Longest observed task |
+| Mode | Script resources | Decoded JS | Estimated gzip JS | Switch median / p95 / max | Longest observed task |
 | --- | ---: | ---: | ---: | ---: | ---: |
-| Reduced motion / 2D | 6 | 956.1 KiB | 275.1 KiB | 33.3 / 33.6 ms | 88 ms |
-| Deferred WebGL | 7 | 1810.4 KiB | 501.4 KiB | 33.3 / 33.7 ms | 190 ms |
+| Reduced motion / 2D | 6 | 974.9 KiB | 281.5 KiB | 33.5 / 50.1 / 54.1 ms | 91 ms |
+| After entering WebGL chapter | 7 | 1829.2 KiB | 507.8 KiB | 33.9 / 50.8 / 375.9 ms | 254 ms |
 
-The reduced-motion run rendered zero canvases; the full run rendered one. The deferred chunk adds about 226 KiB estimated gzip. Total emitted JS across all static chunks is about 547 KiB gzip, including chunks not requested in these views. The local Python server serves scripts uncompressed; gzip sizes are computed from the emitted files. Navigation load events were about 195 ms (2D) and 192 ms (full mode), and exclude later deferred WebGL readiness. These timings are not production-network or field performance claims.
+The reduced-motion run rendered zero canvases. The normal-mode measurement deliberately enters the model chapter and waits for its one canvas before collecting interaction measurements. The deferred scene adds about 226 KiB estimated gzip; it is not requested at the opening. The Python server serves scripts uncompressed; gzip sizes are computed from emitted files. This local run includes software-WebGL initialisation: the full-mode maximum switch/frame wait was 375.9 ms while the p95 was 50.8 ms. These are not production-network, physical-device or field INP claims.
 
-Three.js is deferred and absent from the reduced-motion script resource set. The canvas uses on-demand frames, low-power preference and capped device pixel ratio; it has no continuous animation loop. The extra WebGL bundle and initialization remain a material startup cost on software-rendered hardware.
+The canvas uses on-demand frames, low-power preference and capped device pixel ratio, with no continuous animation loop. Browser tests verify that it is absent at the opening, appears when the model chapter is reached, and is released when leaving. A loading/2D fallback and working mathematical controls remain available.
+
 
 ## Reproduce the checks
 
@@ -72,6 +73,23 @@ LD_LIBRARY_PATH=/tmp/cmj-browser-libs/extracted/usr/lib/x86_64-linux-gnu node sc
 The static server already runs on port 4173. On another host use `python3 -m http.server 4173 --directory out`. This environment’s NSPR/NSS/ALSA libraries were already extracted under `/tmp/cmj-browser-libs`; no system or project dependency change was needed for this upgrade. The formatting tool ran through npm exec and was not added to the package or lockfile.
 
 Implementation commits: `0669211` source authorities/diagnostics; `f0c865f` Episode Theater; `9205ced` formulation methods/deep links; `e163c02` experiment teaching/diagnostics; `a7dc6b1` mathematical exhibits/evidence. The sixth commit, `test(exhibition): validate scientific interactions and capture every chapter`, contains final verification, visual refinements, readable formatting and documentation. Use `git log --oneline -6` for its resolved commit hash.
+
+## Editorial/context redesign
+
+The current iteration is driven by the user's request for a professional, more colourful scientific story without decorative gradients. [Current-run before screenshots and findings](editorial/AUDIT.md) identify the original context and hierarchy problems; the updated chapter screenshots show the implemented result. New source-grounded content explains:
+
+- The difference between sports-science motivation and the actual synthetic experiment; verified software authorship is attributed without invented biography or quotations.
+- A CMJ as an assessment, training as the exposure, and the concentric interval used by the benchmark. Mean force, derived net impulse and baseline-relative innovations each have an interactive what/why/how explanation. The force–impulse identity is per trial; the three outcomes are averaged separately for an assessment.
+- All eight public exposure descriptors grouped into volume, speed, changes of speed and perceived effort. Units and exact public field names are shown without fabricating a session's values.
+- Why an explicit generated world is useful for methodological questions, what the learner is denied, and why same-world success does not establish empirical validity.
+- The scientific issue, design decision and consequence for every formulation, connected to the existing graph with keyboard/touch focus retained. No chronology, parent edge or result was invented.
+- Train/select/test design before the recorded model comparison. The numerical fixture and original scientific authorities remain byte-identical.
+
+Background context is grounded in primary investigations by [Cormack et al. (2008)](https://doi.org/10.1123/ijspp.3.2.131) and [Gathercole et al. (2015)](https://doi.org/10.1123/ijspp.2013-0413), checked against accessible copies of the original papers. They are not represented as the benchmark's data, exact protocol or empirical validation. This benchmark's own pinned observation and exposure source defines the displayed construction.
+
+The palette uses paper/ink, cobalt, vermilion and ochre with solid surfaces; CSS and SVG decorative gradients were removed. Colour supplements explicit text, units and selection states. Contrast issues at the light/dark boundaries and narrow-screen minimum-content overflows found during testing were fixed before the final passing run. No interaction or numerical assertion was relaxed. Existing WebGL tests now navigate to the relocated model chapter before checking the same rendering/fallback behaviour.
+
+Code/content commit: `cc8314e`. A following validation commit preserves the audit, current captures, script changes and measurements. No scientific repository, PR #8, package identity, release, CFF or original fixture changes.
 
 ## Remaining limitations
 

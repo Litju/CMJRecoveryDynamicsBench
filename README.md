@@ -1,18 +1,18 @@
 # Recovery Observatory · RES-536
 
-A static-first interactive scientific exhibition built on the RES-533/534 observatory. Next.js / TypeScript, React Three Fiber, Recharts and locally served Geist. No backend, login, model training, benchmark generation or inference. Package and scientific identities remain unchanged.
+A static-first scientific field journal built on the RES-533/534 observatory and RES-536 exhibition. Warm paper and dark ink, cobalt, vermilion and ochre; solid surfaces without decorative gradients. Next.js / TypeScript, React Three Fiber, Recharts, locally served Geist and system serif typography. No backend, login, model training, benchmark generation or inference. Package and scientific identities remain unchanged.
 
 ## Experience
 
 A four-point **Understand in 90 seconds** route shares its evidence with five chapters and progressive **Methods & evidence** sheets:
 
-- **The question:** CMJ, force N/kg, net impulse m/s, baseline-relative innovations and forecasting after a known exposure.
+- **Setting & signal:** the real sports-science motivation and the actual synthetic setting are distinguished before the models. A four-dimension exposure glossary explains all eight public load descriptors. An interactive apparatus/measurement exhibit switches among mean force, net-impulse area and baseline-relative innovation, with explicit units, construction and purpose. Cited primary background studies motivate the question; the pinned source defines this benchmark’s own observation law.
 - **The world:** six-event Episode Theater with playback, keyboard/touch scrubbing, reset, model-at-origin and later-observer perspectives. World / observation / predictor / scorer layers; 82-field feature budget; an interactive mean-force/net-impulse schematic; conceptual world cards linked to the correct formulation.
-- **The evolution:** eight source-defined formulations in two families and an unresolved retired branch. Exact research questions and statuses, five documented parent edges, world/observation/task/metric/model evidence sheets, URL selection and browser-history restoration. A separate reconstruction strand preserves the distinction between fresh public generation and historical replay.
+- **The evolution:** a focus-preserving, interactive history reader connects each of eight source-defined formulations to its scientific issue, design decision and consequence. The exact graph retains two families and an unresolved retired branch. Exact research questions and statuses, five documented parent edges, world/observation/task/metric/model evidence sheets, URL selection and browser-history restoration. A separate reconstruction strand preserves the distinction between fresh public generation and historical replay.
 - **The experiment:** four principal recorded scores, model knowledge cards, 72 real teaching cells, frozen train/development/test design and all six selection configurations. Interactive ablations and 24/48/96-camp sample efficiency use a separate receipt-derived fixture. The original **96 numerical filter combinations** remain intact. Aggregate bootstrap interval plots accompany exact root tables; comparisons never invent direct ridge-versus-structured intervals.
 - **What remains:** signed 24h/84h amplitude lab with scenarios, response / derivative / signed integral charts, exact contributions, playback/reset, half-life and assumption explanations. Five evidence levels, negative findings, separately proposed falsification questions, reproducibility and citation.
 
-The single deferred Three.js scene responds to elapsed time and isolated mathematical modes. Its spatial geometry is decorative and disclosed. Reduced motion or unavailable WebGL retains the 2D plate and working mathematical controls.
+The single Three.js scene appears later, beside the structured modelling hypothesis. It loads only when its chapter approaches the viewport, responds to elapsed time and isolated mathematical modes, and releases its canvas when leaving the chapter. Its spatial geometry is decorative and disclosed. Reduced motion or unavailable WebGL retains the 2D plate and working mathematical controls.
 
 ## Run
 
@@ -49,7 +49,7 @@ This host uses extracted browser libraries; prefix browser commands with:
 LD_LIBRARY_PATH=/tmp/cmj-browser-libs/extracted/usr/lib/x86_64-linux-gnu
 ```
 
-See [validation](docs/VALIDATION.md), [browser measurements](docs/browser-evidence.json), [chapter screenshots](docs/SCREENSHOTS.md) and [implementation map](docs/IMPLEMENTATION.md). Screenshots are individual desktop/mobile chapters and selected expanded states, in addition to full-page regression captures. The capture script disables sticky positioning only while taking chapter images, preventing navigation from covering the middle of a tall capture.
+See [editorial audit and brief](docs/editorial/AUDIT.md), [validation](docs/VALIDATION.md), [browser measurements](docs/browser-evidence.json), [chapter screenshots](docs/SCREENSHOTS.md) and [implementation map](docs/IMPLEMENTATION.md). Screenshots are individual desktop/mobile chapters and selected expanded states, in addition to full-page regression captures. The capture script disables sticky positioning only while taking chapter images, preventing navigation from covering the middle of a tall capture.
 
 ## Scientific provenance
 
@@ -72,6 +72,8 @@ The retired rich-history 24-cell raw-progress specimen stays outside the active 
 | --- | --- |
 | `src/lib/brand.ts` | Configurable provisional branding |
 | `src/app/page.tsx`, `globals.css` | Exhibition composition, typography and responsive design |
+| `measurement-exhibit.tsx`, `src/data/context.json` | Setting, public exposure descriptors, force/impulse/innovation and primary background citations |
+| `src/app/editorial.css`, `src/data/research-history.json` | Editorial design and eight source-grounded scientific decision narratives |
 | `episode-theater.tsx`, `src/data/exhibition.json` | Timeline, information boundary, measurement lens and world cards |
 | `lineage.tsx`, `src/lib/story.ts`, `src/data/formulation-methods.json` | Scientific ancestry, reconstruction and formulation methods |
 | `experiment-methods.tsx`, `explorer.tsx`, `src/lib/science.ts` | Metric teaching, study design, diagnostics and original numerical explorer |

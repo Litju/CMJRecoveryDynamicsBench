@@ -1,0 +1,14 @@
+# Editorial redesign: evidence and implementation brief
+
+Current-run screenshots were captured from the production preview using the session's previously authorised Playwright workflow, at 1440 × 1000 with reduced motion. All four saved files were opened and inspected before implementation.
+
+1. [Opening](before/01.png): working instrument and clear synthetic boundary; the title gives neither the research problem nor what is being measured. The abstract field introduces a response model before the physical setting. Change: a concrete question, verified authorship, apparatus-to-forecast diagram, and solid editorial colour.
+2. [Question](before/02.png): readable introductory layout and horizon strip; CMJ and force/impulse remain verbal definitions, without enough apparatus, phase, unit or assessment explanation. Change: explicitly distinguish sports-science motivation from this synthetic experiment, add a linked force/impulse/innovation measurement exhibit, and explain why three trials and forecast cutoffs matter.
+3. [History](before/03.png): scientifically honest branches and inspectable evidence; implementation names dominate the reading experience. Change: add an interactive account of the scientific issue, the design decision and what can be learned for every formulation, linked to the existing graph and exact methods.
+4. [Experiment](before/04.png): actual sourced results and complete controls; dense panels share the same dark treatment. Change: establish train/select/test logic before results, use colour as a scientific key and create a stronger editorial hierarchy without changing numerical results.
+
+The existing code and these captured screens are the implementation target. The user explicitly requests a redesign, more context, more colours and no decorative gradients; a new template or separate mock application would not meet the task. Keep all numerical combinations, source identities, scientific limitations and working controls. Native SVG is used for mathematical diagrams, not substitute photographs or fabricated athlete traces. Source photos and invented personal stories are unnecessary.
+
+Scientific context: primary CMJ reliability and fatigue-monitoring studies motivate why researchers examine force-time measurements. They are background, not validation of this synthetic benchmark. The pinned observation contract defines the benchmark's exact phases and target construction. New content must distinguish direct force measurement, derived net impulse, assessment averages, baseline-relative labels, latent world processes, public predictors and held-out scoring.
+
+Scope: opening, question/measurement, formulation narratives, experiment framing, visual tokens, typography, chapter styling, tests, screenshots and validation. Reuse the single existing WebGL scene later in the story, where its mathematical modes have context. No scientific repository, package identity, release or original numerical fixture changes.
