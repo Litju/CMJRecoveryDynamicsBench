@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ArrowDown, ArrowUpRight, GitBranch } from "lucide-react";
 import {
   lineage,
@@ -8,6 +8,7 @@ import {
   type Formulation,
 } from "@/lib/story";
 import { sourceLink } from "@/lib/science";
+import methods from "@/data/formulation-methods.json";
 
 const activeId = "fixed_mode_discrepancy_recovery";
 const activePath = new Set([
@@ -26,6 +27,7 @@ function FormulationDetail({
   onSelect: Selection["onSelect"];
 }) {
   const parent = lineage.find((n) => n.id === node.parent);
+  const method = methods[node.id as keyof typeof methods];
   return (
     <>
       <span className="eyebrow">THE QUESTION INSIDE THIS FORMULATION</span>
@@ -59,6 +61,19 @@ function FormulationDetail({
           <dd>{node.change}</dd>
         </div>
       </dl>
+      <p className="formulation-relevance">{method.relevance}</p>
+      <details className="methods-sheet formulation-methods" key={node.id}>
+        <summary>Methods & evidence · this formulation</summary>
+        <dl>
+          <dt>World / dynamics family</dt><dd><code>{method.world}</code></dd>
+          <dt>Observation law</dt><dd><code>{method.observation}</code></dd>
+          <dt>Forecast task</dt><dd>{method.task}</dd>
+          <dt>Metric & evaluation authority</dt><dd>{method.metric}</dd>
+          <dt>Assumption / limitation</dt><dd>{method.limitation}</dd>
+        </dl>
+        <p>A formulation defines a world, observation and task. A fitted predictor is a separate object. Only the active new study has the four-model comparison below.</p>
+        <a href={sourceLink(reconstruction.source)} className="quiet-link">Inspect missing model authorities ↗</a>
+      </details>
       <details className="lineage-evidence">
         <summary>Inspect the evidence level</summary>
         <dl>
@@ -143,9 +158,22 @@ function Branch({
 }
 export default function Lineage() {
   const [selected, setSelected] = useState(activeId);
+  useEffect(() => {
+    const restore = () => {
+      const id = new URLSearchParams(location.search).get("formulation");
+      setSelected(lineage.some(n => n.id === id) ? id! : activeId);
+    };
+    restore();
+    window.addEventListener("popstate", restore);
+    return () => window.removeEventListener("popstate", restore);
+  }, []);
   const node = lineage.find((n) => n.id === selected)!;
   const select = (id: string) => {
     setSelected(id);
+    const url = new URL(location.href);
+    url.searchParams.set("formulation", id);
+    url.hash = "lineage";
+    history.pushState(null, "", url);
     // Keep parent navigation in the graph's keyboard order, including on small screens.
     document
       .querySelector<HTMLButtonElement>(`[data-formulation="${id}"] > button`)
@@ -179,6 +207,7 @@ export default function Lineage() {
           Lines mean documented parentage, never dates or performance.
         </span>
       </div>
+      <p className="story-caption">Select a branch to inspect its question, assumptions and missing evidence. Selection is preserved in the URL; browser Back restores the previous branch.</p>
       <div className="lineage-layout">
         <div
           className="lineage-graph"
