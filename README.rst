@@ -49,8 +49,9 @@ this repository or use them to claim public reproducibility.
 
 M7 was administratively closed with a documented, owner-accepted exception for
 old GitHub-managed pull-request refs. This exception is not historical or
-third-party rights clearance. RES-529 is complete; the v1.0.0 publication candidate
-awaits owner approval. No v1.0 tag or release has been published.
+third-party rights clearance. RES-529 records independent release-candidate
+qualification; an official GitHub release and matching tag establish publication.
+Package metadata alone does not establish whether a release was published.
 Current-tree redaction does not sanitize earlier Git history. See
 ``docs/M7_PUBLIC_TREE_REDACTION.md``, ``docs/M7_OCCURRENCE_CLASSIFICATION.md``, and
 ``docs/M7_QUALIFICATION.md`` for the boundaries and outstanding decisions.
@@ -78,9 +79,9 @@ Wheel users should obtain the matching source distribution for documentation;
 all runtime modules are in the wheel. Candidate changes and release limits are
 in ``docs/M8_RELEASE_NOTES.md``; independent qualification is recorded in
 ``docs/M8_V1_RELEASE_AUDIT.md``. Package and citation metadata are synchronized at
-``1.0.0`` for this unpublished candidate. Artifact qualification is recorded in
-``docs/M8_V1_PUBLICATION_RECEIPT.json``; merge, tagging and publication await
-explicit owner approval.
+``1.0.0``. The candidate qualification recorded in
+``docs/M8_V1_PUBLICATION_RECEIPT.json`` is a dated prepublication assessment.
+Check the corresponding GitHub release for published files and checksums.
 
 License and citation
 --------------------
@@ -90,8 +91,9 @@ are licensed under Apache-2.0; see ``LICENSE``. This license does not cover
 external datasets, restricted empirical derivatives, preserved private archives,
 or other third-party materials.
 
-Use ``CITATION.cff`` to cite the ``1.0.0`` candidate. No DOI, publication date,
-or empirical validation is claimed. Original experiment receipts retain their
+Use ``CITATION.cff`` to cite version ``1.0.0``. This metadata does not assert
+a DOI, publication date, or empirical validation; the corresponding official
+release record, if any, identifies its publication date and artifacts. Original experiment receipts retain their
 audited version and provenance. Exact M8 digest replay uses the original frozen
 study snapshot; the version metadata change gives this candidate a new package
 source hash, so pre-1.0 selection locks cannot be reused with it.
