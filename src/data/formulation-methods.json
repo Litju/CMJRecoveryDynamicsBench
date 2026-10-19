@@ -1,0 +1,66 @@
+{
+  "initial_preseason_camp_recovery": {
+    "world": "event_time_adaptation_recovery",
+    "observation": "camp_history",
+    "task": "Force and impulse innovations at H72 / D7",
+    "metric": "Four-cell public selection; production calibration unavailable.",
+    "relevance": "Separate forecasting from recovery interpretation in a camp setting.",
+    "limitation": "Superseded sample/surface; direct parent is unresolved; task and world law match the canonical state."
+  },
+  "canonical_preseason_camp_recovery": {
+    "world": "event_time_adaptation_recovery",
+    "observation": "camp_history",
+    "task": "Force and impulse innovations at H72 / D7",
+    "metric": "Native scorer exists; calibration and historical model binding unresolved.",
+    "relevance": "Make each requested horizon explicit without inventing a new world law.",
+    "limitation": "Canonical query surface and sample; not a new task or world law."
+  },
+  "rich_history_camp_recovery": {
+    "world": "fitness_fatigue_impulse_response",
+    "observation": "rich_monitoring",
+    "task": "Force and impulse innovations at H72 / D7",
+    "metric": "24-cell raw-progress diagnostic; historical calibration locked.",
+    "relevance": "Ask whether richer monitoring changes the camp-state forecasting problem.",
+    "limitation": "Retired formulation; its direct scientific parent is unresolved."
+  },
+  "preliminary_post_exposure_recovery": {
+    "world": "biexponential_episode_response",
+    "observation": "episode_summary",
+    "task": "Force and net-impulse innovations at H24 / H48 / H72",
+    "metric": "Production evaluation not implemented.",
+    "relevance": "Isolate a current exposure and learn from previous episodes.",
+    "limitation": "Direct parent is unresolved; preliminary measurement contract without a frozen force\u2013impulse identity."
+  },
+  "phase_consistent_post_exposure_recovery": {
+    "world": "biexponential_episode_response",
+    "observation": "phase_consistent_force_impulse",
+    "task": "Force and net-impulse innovations at H24 / H48 / H72",
+    "metric": "Six-cell research diagnostic; production scorer not implemented.",
+    "relevance": "Enforce a shared measurement identity before comparing prediction quality.",
+    "limitation": "Observation-law repair; the episode response law is retained."
+  },
+  "correlated_exposure_recovery": {
+    "world": "correlated_exposure_response",
+    "observation": "phase_consistent_force_impulse",
+    "task": "Force and net-impulse innovations at H24 / H48 / H72",
+    "metric": "Six-cell, progress-ratio and progress-loss diagnostics; production scorer not implemented.",
+    "relevance": "Ask whether correlated loads change the forecasting challenge.",
+    "limitation": "Material correlated exposure-distribution change; later redesigned."
+  },
+  "threshold_response_recovery": {
+    "world": "threshold_response",
+    "observation": "phase_consistent_force_impulse",
+    "task": "Force and net-impulse innovations at H24 / H48 / H72",
+    "metric": "Proposed twelve-cell evaluation; calibration reference unavailable.",
+    "relevance": "Test a different response hypothesis; its scientific disposition remains proposed.",
+    "limitation": "Proposed alternate, not an accepted successor formulation."
+  },
+  "fixed_mode_discrepancy_recovery": {
+    "world": "fixed_mode_discrepancy_response",
+    "observation": "phase_consistent_force_impulse",
+    "task": "Force and net-impulse innovations at H24 / H48 / H72",
+    "metric": "Six-cell research NRMSE and relative-progress diagnostics; production scorer not implemented.",
+    "relevance": "Ask whether fixed mathematical structure helps when the world contains discrepancy.",
+    "limitation": "Active candidate; fixed modes are mathematical anchors, not biological compartments."
+  }
+}

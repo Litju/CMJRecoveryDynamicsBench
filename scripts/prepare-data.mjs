@@ -110,12 +110,31 @@ export function transform() {
 export function serialize() {
   return JSON.stringify(transform()) + "\n";
 }
+export function serializeMethods() {
+  const manifest = JSON.parse(read("source/exhibition/manifest.json"));
+  assert.equal(manifest.commit, transform().provenance.commit);
+  for (const [name, file] of Object.entries(manifest.files)) {
+    assert.equal(hash(read("source/exhibition/" + name)), file.sha256, name);
+  }
+  const receipt = JSON.parse(read("source/M8_FIXED_MODE_PUBLIC_REFERENCE_RESULTS.json"));
+  return JSON.stringify({
+    source: "docs/M8_FIXED_MODE_PUBLIC_REFERENCE_RESULTS.json",
+    sourceSha256: hash(read("source/M8_FIXED_MODE_PUBLIC_REFERENCE_RESULTS.json")),
+    variants: receipt.across_root_variability,
+    selection: receipt.selection,
+  }) + "\n";
+}
 if (process.argv[1] === fileURLToPath(import.meta.url)) {
   const output = serialize();
   for (const path of ["src/data/results.json", "public/data/results.json"]) {
     if (process.argv.includes("--check"))
       assert.equal(read(path), output, `Stale fixture: ${path}`);
     else writeFileSync(new URL(path, base), output);
+  }
+  const methods = serializeMethods();
+  for (const path of ["src/data/methods.json", "public/data/methods.json"]) {
+    if (process.argv.includes("--check")) assert.equal(read(path), methods, `Stale fixture: ${path}`);
+    else writeFileSync(new URL(path, base), methods);
   }
   console.log(
     `Provenance verified. Fixture SHA-256 ${hash(output)} (${Buffer.byteLength(output)} bytes).`,
