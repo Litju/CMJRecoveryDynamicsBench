@@ -105,7 +105,7 @@ if TYPE_CHECKING:
         get_study_reconstruction,
     )
 
-__version__ = "0.1.0"
+__version__ = "1.0.0"
 
 _LINEAGE_EXPORTS = frozenset(
     {

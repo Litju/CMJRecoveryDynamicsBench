@@ -5,7 +5,7 @@ type: software
 authors:
   - family-names: Rodriguez
     given-names: Julio
-version: "0.1.0"
+version: "1.0.0"
 repository-code: "https://github.com/Litju/CMJRecoveryDynamicsBench"
 license: "Apache-2.0"
 abstract: "Research software for eight synthetic countermovement-jump recovery benchmarks, their scientific contracts, evaluation definitions, and evidence-bounded study reconstruction."

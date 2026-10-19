@@ -19,7 +19,7 @@ from cmj_recovery_dynamics.tasks import TASKS
 
 
 def test_package_imports_and_exposes_canonical_outcomes() -> None:
-    assert package.__version__ == "0.1.0"
+    assert package.__version__ == "1.0.0"
     assert tuple(outcome.variable for outcome in CANONICAL_OUTCOMES) == (
         OutcomeVariable.RELATIVE_PEAK_MEAN_FORCE_INNOVATION,
         OutcomeVariable.NET_IMPULSE_INNOVATION,

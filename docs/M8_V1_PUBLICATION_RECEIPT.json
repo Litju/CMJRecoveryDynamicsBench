@@ -1,0 +1,16 @@
+{
+  "artifact_file_checksums": "External final-artifact manifest; the sdist includes this receipt, so its checksum cannot be self-contained.",
+  "audited_package_source_sha256": "12e9e192accefb867707765098a4dd9eeabfd735097646fa4d4bcae5db60d0c3",
+  "base_main_abbreviated": "3dc4c82f0c94",
+  "new_model_campaign": false,
+  "original_experiment_receipts_unchanged": true,
+  "package_source_sha256": "963bc8994ed31c9783f6d0d8ed8d11136e165d202f366d18d7d64de8f40717b7",
+  "publication_status": "UNPUBLISHED_AWAITING_OWNER_APPROVAL",
+  "published": false,
+  "qualification_status": "IN_PROGRESS",
+  "release_tag_created": false,
+  "schema_version": 1,
+  "scientific_change_scope": "78 Python modules byte-identical; only exported version and fallback provenance version constants changed in the other two; no generator/scorer/study logic changed",
+  "selection_lock_compatibility": "Pre-1.0 package-bound locks remain invalid on 1.0.0; use the original frozen snapshot for exact historical receipt replay.",
+  "version": "1.0.0"
+}

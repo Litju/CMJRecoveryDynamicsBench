@@ -49,7 +49,8 @@ this repository or use them to claim public reproducibility.
 
 M7 was administratively closed with a documented, owner-accepted exception for
 old GitHub-managed pull-request refs. This exception is not historical or
-third-party rights clearance. M8 is in progress; v1.0 has not been released.
+third-party rights clearance. RES-529 is complete; the v1.0.0 publication candidate
+awaits owner approval. No v1.0 tag or release has been published.
 Current-tree redaction does not sanitize earlier Git history. See
 ``docs/M7_PUBLIC_TREE_REDACTION.md``, ``docs/M7_OCCURRENCE_CLASSIFICATION.md``, and
 ``docs/M7_QUALIFICATION.md`` for the boundaries and outstanding decisions.
@@ -76,8 +77,10 @@ The source distribution includes these protocols, receipts, and citation file.
 Wheel users should obtain the matching source distribution for documentation;
 all runtime modules are in the wheel. Candidate changes and release limits are
 in ``docs/M8_RELEASE_NOTES.md``; independent qualification is recorded in
-``docs/M8_V1_RELEASE_AUDIT.md``. The package remains at ``0.1.0`` pending an
-explicit publication decision; an audit does not publish or tag v1.0.
+``docs/M8_V1_RELEASE_AUDIT.md``. Package and citation metadata are synchronized at
+``1.0.0`` for this unpublished candidate. Artifact qualification is recorded in
+``docs/M8_V1_PUBLICATION_RECEIPT.json``; merge, tagging and publication await
+explicit owner approval.
 
 License and citation
 --------------------
@@ -87,5 +90,8 @@ are licensed under Apache-2.0; see ``LICENSE``. This license does not cover
 external datasets, restricted empirical derivatives, preserved private archives,
 or other third-party materials.
 
-Use ``CITATION.cff`` to cite this software. Version ``0.1.0`` remains
-pre-release; no DOI, v1.0 publication, or empirical validation is claimed.
+Use ``CITATION.cff`` to cite the ``1.0.0`` candidate. No DOI, publication date,
+or empirical validation is claimed. Original experiment receipts retain their
+audited version and provenance. Exact M8 digest replay uses the original frozen
+study snapshot; the version metadata change gives this candidate a new package
+source hash, so pre-1.0 selection locks cannot be reused with it.

@@ -104,11 +104,13 @@ PUBLIC_DOCUMENT_ALLOWLIST = {
     "docs/M8_FIXED_MODE_PUBLIC_REFERENCE_STUDY.md",
     "docs/M8_FIXED_MODE_PUBLIC_REFERENCE_RESULTS.json",
     "docs/M8_V1_RELEASE_AUDIT_RECEIPT.json",
+    "docs/M8_V1_PUBLICATION_RECEIPT.json",
 }
 PUBLIC_MACHINE_RECEIPT_ALLOWLIST = {
     "docs/M8_PUBLIC_REPRODUCTION_RECEIPTS.json",
     "docs/M8_FIXED_MODE_PUBLIC_REFERENCE_RESULTS.json",
     "docs/M8_V1_RELEASE_AUDIT_RECEIPT.json",
+    "docs/M8_V1_PUBLICATION_RECEIPT.json",
 }
 PROTECTED_SUFFIXES = (
     ".bundle",
@@ -315,9 +317,10 @@ def test_public_github_identity_is_allowed_but_private_markers_are_rejected() ->
     assert "ali-999" not in PUBLIC_HISTORICAL_LABELS
 
 
-def test_release_and_package_metadata_do_not_claim_m8_or_v1() -> None:
+def test_v1_candidate_version_does_not_claim_publication() -> None:
     project = tomllib.loads((REPOSITORY_ROOT / "pyproject.toml").read_text())["project"]
-    assert project["version"] != "1.0.0"
+    assert project["version"] == "1.0.0"
+    assert "awaits owner approval" in (REPOSITORY_ROOT / "README.rst").read_text()
     for name in ("README.rst", "CITATION.cff"):
         path = REPOSITORY_ROOT / name
         if path.exists():
