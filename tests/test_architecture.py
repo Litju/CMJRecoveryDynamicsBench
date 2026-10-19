@@ -317,11 +317,17 @@ def test_public_github_identity_is_allowed_but_private_markers_are_rejected() ->
     assert "ali-999" not in PUBLIC_HISTORICAL_LABELS
 
 
-def test_v1_candidate_version_and_approval_boundary() -> None:
+def test_v1_version_and_scientific_claim_boundary() -> None:
     project = tomllib.loads((REPOSITORY_ROOT / "pyproject.toml").read_text())["project"]
     assert project["version"] == "1.0.0"
-    assert "awaits owner approval" in (REPOSITORY_ROOT / "README.rst").read_text()
-    assert "(unpublished)" in (REPOSITORY_ROOT / "docs/M8_RELEASE_NOTES.md").read_text()
+    readme = (REPOSITORY_ROOT / "README.rst").read_text().casefold()
+    notes = (REPOSITORY_ROOT / "docs/M8_RELEASE_NOTES.md").read_text().casefold()
+    assert "official github release" in readme
+    assert "matching official github release/tag" in notes
+    assert "its production scorer remains unimplemented" in readme
+    assert "neither ood robustness nor human athlete performance" in readme
+    assert "the fixed-mode production scorer is unimplemented" in notes
+    assert "this is not exact historical replay" in notes
 
 
 def test_license_and_citation_versions_match_package_metadata() -> None:
