@@ -1,5 +1,6 @@
 "use client";
 import { useState } from "react";
+import { IntervalPlot } from "./experiment-methods";
 import {
   ArrowDownRight,
   ArrowUpRight,
@@ -478,6 +479,7 @@ export default function Explorer() {
           Root variability & reported uncertainty <ChevronDown size={16} />
         </summary>
         <div className="uncertainty-content">
+          <IntervalPlot model={model} root={root} />
           <p>
             Aggregate six-cell NRMSE for <strong>{selected.name}</strong>.
             Across-root sample SD:{" "}

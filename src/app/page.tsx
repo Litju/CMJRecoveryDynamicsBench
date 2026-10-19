@@ -8,7 +8,7 @@ import Evidence from "@/components/evidence";
 import Lineage from "@/components/lineage";
 import EpisodeTheater from "@/components/episode-theater";
 import StoryProgress from "@/components/story-progress";
-import { Question, Experiment, Remaining } from "@/components/research-story";
+import { Question, Experiment, Remaining, QuickRoute } from "@/components/research-story";
 export default function Home() {
   return (
     <>
@@ -113,6 +113,7 @@ export default function Home() {
           </div>
         </div>
         <StoryProgress />
+        <QuickRoute />
         <Question />
         <EpisodeTheater />
         <Lineage />

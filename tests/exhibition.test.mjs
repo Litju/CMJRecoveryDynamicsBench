@@ -39,3 +39,18 @@ test('every methods sheet identifies the exact world and observation symbols in 
   assert.match(sheets.threshold_response_recovery.metric,/twelve-cell/);
   assert.match(sheets.rich_history_camp_recovery.metric,/24-cell/);
 });
+
+test('all 17 diagnostic aggregates and root sample deviations match exact per-root cell metrics', () => {
+  const receipt = JSON.parse(read('source/M8_FIXED_MODE_PUBLIC_REFERENCE_RESULTS.json'));
+  const methods = JSON.parse(serializeMethods());
+  for (const [id, summary] of Object.entries(methods.variants)) {
+    const means = receipt.independent_test_roots.map(r => {
+      const cells = r.models[id].cells;
+      for(const c of cells) assert(Math.abs(c.rmse/c.truth_population_sd-c.nrmse)<1e-12);
+      return cells.reduce((sum,c)=>sum+c.nrmse,0)/6;
+    });
+    const mean = means.reduce((a,b)=>a+b)/3;
+    assert(Math.abs(mean-summary.root_mean_nrmse)<1e-12,id);
+    assert(Math.abs(Math.sqrt(means.reduce((s,v)=>s+(v-mean)**2,0)/2)-summary.root_sample_sd_nrmse)<1e-12,id);
+  }
+});

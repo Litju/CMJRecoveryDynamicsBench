@@ -1,5 +1,18 @@
 import { ArrowDown, ArrowUpRight } from "lucide-react";
 import { aggregate, models, sourceLink } from "@/lib/science";
+import { MetricLesson, StudyMethods } from "./experiment-methods";
+
+export function QuickRoute() {
+  return <aside className="shell quick-route" aria-labelledby="quick-title">
+    <div><span className="eyebrow">UNDERSTAND IN 90 SECONDS</span><h2 id="quick-title">One question.<br/><span>A testable research program.</span></h2><p>Follow the story, or open “Methods & evidence” in each exhibit for the scientific detail.</p></div>
+    <ol>
+      <li><a href="#world"><span>01 / THE QUESTION</span><strong>Can past assessments and a known exposure predict later force and impulse changes?</strong></a></li>
+      <li><a href="#lineage"><span>02 / THE METHOD</span><strong>Build eight explicit synthetic formulations. Separate the world, measurement and model.</strong></a></li>
+      <li><a href="#experiment"><span>03 / THE FINDING</span><strong>Learning helped here. Ridge recorded {aggregate("ridge_full","mean").toFixed(3)} mean NRMSE, below the structured model’s {aggregate("structured_full","mean").toFixed(3)}.</strong></a></li>
+      <li><a href="#evidence"><span>04 / THE BOUNDARY</span><strong>Reproducible synthetic evidence. Human validity, world shifts and exact historical replay remain open.</strong></a></li>
+    </ol>
+  </aside>;
+}
 
 export function Question() {
   return (
@@ -80,8 +93,8 @@ export function Question() {
           Read the task contract ↗
         </a>
       </p>
-      <a className="quiet-link chapter-next" href="#lineage">
-        How did the question evolve? <ArrowDown size={16} />
+      <a className="quiet-link chapter-next" href="#world">
+        Step inside a synthetic episode <ArrowDown size={16} />
       </a>
     </section>
   );
@@ -121,6 +134,7 @@ export function Experiment() {
               <span aria-hidden="true">+</span>
             </summary>
             <p>{m.description}</p>
+            <p>{m.id === "zero_innovation" ? "Knows no fitted relationship. A useful reference for how far observations move from baseline." : m.id === "training_constant" ? "Knows training-cell label means, but cannot adapt to the particular current exposure or prior response history." : m.id === "ridge_full" ? "Learns a flexible regularized linear relationship from public inputs. A strong regression baseline is not an explanation of biological recovery or learned physical kinetics." : "Imposes a 24 h / 84 h basis on public exposures. It does not receive the generator’s amplitudes, hidden states or discrepancy. The structured assumption is tested, not validated as biology."}</p>
           </details>
         ))}
       </div>
@@ -182,6 +196,8 @@ export function Experiment() {
         camp-bootstrap contrasts are against zero; no ridge-versus-structured
         interval is claimed.
       </p>
+      <MetricLesson />
+      <StudyMethods />
       <a className="quiet-link chapter-next" href="#explorer">
         Now inspect the cells, roots and comparisons <ArrowDown size={16} />
       </a>
