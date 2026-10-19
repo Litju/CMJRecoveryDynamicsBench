@@ -32,6 +32,7 @@ export const experiments = [
 ];
 export const acts = [
   { id: "question", label: "The question" },
+  { id: "world", label: "The world" },
   { id: "lineage", label: "The evolution" },
   { id: "experiment", label: "The experiment" },
   { id: "remaining", label: "What remains" },
