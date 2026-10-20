@@ -61,7 +61,7 @@ export default function ScrollJourney({ children }: {
       <h2>{chapter.title}</h2>
       <div className="journey-viewport" role="group" aria-label={`${chapter.label}: interactive 3D scientific illustration`}>
         <SceneBoundary onError={onUnavailable} fallback={<Diagram kind={chapter.kind}/>}>{ready ? <Scene kind={chapter.kind} progress={progress} drag={drag} onUnavailable={onUnavailable} onModel={(id) => {
-                document.querySelector<HTMLButtonElement>(`#explorer button[data-model-id="${id}"]`)?.click();
+                window.dispatchEvent(new CustomEvent("cmj:inspect-model", { detail: id }));
                 document.getElementById("explorer")?.scrollIntoView({ block: "start" });
             }} onFormulation={(id) => {
                 const button = document.querySelector<HTMLButtonElement>(`[data-formulation="${id}"] > button`);

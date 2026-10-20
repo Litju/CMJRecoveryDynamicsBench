@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { IntervalPlot } from "./experiment-methods";
 import Benchmark3D from "./benchmark-3d";
 import { plotTheme as theme, plotTooltip } from "@/lib/plot-theme.mjs";
@@ -42,6 +42,19 @@ export default function Explorer() {
   const [outcome, setOutcome] = useState<Outcome>("force");
   const [plotMode, setPlotMode] = useState("2d");
   const [metric, setMetric] = useState<"nrmse" | "rmse">("nrmse");
+  useEffect(() => {
+    const inspect = (event: Event) => {
+      const selected = models.find((m) => m.id === (event as CustomEvent<unknown>).detail);
+      if (!selected) return;
+      setModel(selected.id);
+      setRoot("mean");
+      setHorizon(24);
+      setOutcome("force");
+      setMetric("nrmse");
+    };
+    window.addEventListener("cmj:inspect-model", inspect);
+    return () => window.removeEventListener("cmj:inspect-model", inspect);
+  }, []);
   const selected = models.find((m) => m.id === model)!;
   const comparison = models.find((m) => m.id === compare)!;
   const current = cell(model, root, horizon, outcome);
