@@ -18,8 +18,13 @@ res-291-v1-publication-candidate at
 main at the audit. It was not merged, rebased, or changed.
 
 The GitHub account Litju has admin permission on the canonical repository. On 2026-10-20, the owner approved Apache-2.0 for Julio Rodriguez-authored website source and authorized public branch publication; the approval is recorded in RES-538.
-The destination is public, so pushing this branch publishes the website source and its reviewed history.
-The owner authorized publication. This snapshot precedes the branch push and PR creation; hosted results will be added after GitHub runs.
+The destination is public, so this branch publishes the website source and its reviewed history.
+The owner authorized publication. PR #9 is open against main at https://github.com/Litju/CMJRecoveryDynamicsBench/pull/9.
+
+## Publication and hosted checks
+
+The approved website license was added in c4e68ac. Approval for Apache-2.0 and public branch publication was recorded in Linear. The current PR is https://github.com/Litju/CMJRecoveryDynamicsBench/pull/9. The branch was 34 commits ahead of origin/main immediately before this documentation commit; this commit adds one.
+The initial push run 39517286430 and pull_request run 39517302876 passed on application head 4acd4cf. This final documentation commit triggers new hosted runs; see PR #9 for their results. The PR remains open and unmerged.
 
 ## Local repository inventory
 
@@ -117,8 +122,8 @@ Reconciliation commits:
 - Strict Pyright: 0 errors, 0 warnings.
 - Wheel and source distribution builds and wheel import smoke test: passed.
 
-Chromium and the required runtime libraries were available only after extracting the missing libraries locally. The workflow’s npx playwright install --with-deps command could not install system packages because this environment has no sudo password. This did not prevent the full 31-test local browser run. GitHub Actions will run after the authorized branch push.
+Chromium and the required runtime libraries were available only after extracting the missing libraries locally. The workflow’s npx playwright install --with-deps command could not install system packages because this environment has no sudo password. This did not prevent the full 31-test local browser run. The initial push and pull_request Website CI runs passed on head 4acd4cf; this document update triggers fresh runs.
 
 ## Decision and remaining launch limits
 
-Local reconciliation is GO_WITH_LIMITATIONS. The owner approved website-source Apache-2.0 licensing and authorized public branch publication. Merge, tag, deployment, and production release remain out of scope. PR #8 remains independent and open.
+Local reconciliation is GO_WITH_LIMITATIONS. The owner approved website-source Apache-2.0 licensing and authorized public branch publication. PR #9 is open; initial hosted Website CI passed on the published head. No merge, tag, deployment, or production release was performed. PR #8 remains independent and open.

@@ -39,4 +39,4 @@ After the owner approves the final name/hostname and a deployment:
 
 ## GitHub repository
 
-The website is part of the canonical repository at website/. The owner authorized public branch publication; the review PR and hosted CI results will be recorded in the reconciliation manifest. No Vercel project or deployment is linked or authorized. See the release checklist for the remaining launch gates.
+The website is part of the canonical repository at website/. The owner authorized public branch publication; PR #9 is open and the initial push and pull_request Website CI runs passed. This reconciliation-document update triggers fresh runs; see PR #9 for current results. No Vercel project or deployment is linked or authorized.

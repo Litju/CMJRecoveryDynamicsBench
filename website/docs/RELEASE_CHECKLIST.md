@@ -43,4 +43,4 @@ The owner approved Apache-2.0 for Julio Rodriguez-authored website source and au
 
 ## CI and external environments
 
-The root .github/workflows/website-ci.yml runs the independent website npm checks, static build, and Chromium suite from website/. Its hosted results will be recorded after publication. The scientific Python package and its tests remain separate. Automated axe coverage and local Chromium/SwiftShader testing do not establish complete WCAG conformance or real-device graphics performance. Firefox, WebKit, physical phones, hardware GPU profiling and live assistive-technology sessions remain untested.
+Initial hosted Website CI push run 39517286430 and PR run 39517302876 passed at application head 4acd4cf. The current reconciliation-document commit triggers a follow-up run; PR #9 shows the latest checks. The scientific Python package and its tests remain separate. Automated axe and Chromium checks do not establish complete WCAG conformance or real-device graphics performance; Firefox, WebKit, physical phones and hardware GPU profiling remain untested.

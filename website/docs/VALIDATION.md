@@ -4,7 +4,7 @@
 
 **Scientific authority:** [`Litju/CMJRecoveryDynamicsBench@3dc4c82f0c948add6e4a9ebdebfd227933c823d3`](https://github.com/Litju/CMJRecoveryDynamicsBench/tree/3dc4c82f0c948add6e4a9ebdebfd227933c823d3).
 
-**Decision:** GO_WITH_LIMITATIONS for the local showcase candidate only; public source publication and Vercel deployment are NO-GO pending owner actions. See the [release checklist](RELEASE_CHECKLIST.md).
+**Decision:** GO_WITH_LIMITATIONS for the validated local candidate. Owner-approved source publication is in review; Vercel deployment remains NO-GO. See the [release checklist](RELEASE_CHECKLIST.md).
 
 ## Build and test results
 
@@ -61,7 +61,7 @@ The measured interaction samples use headless Chromium and SwiftShader (software
 
 - The app has no server secrets, API, database or runtime environment variables. No `.env` file or video is tracked; generated build and test outputs are ignored.
 - The original website source is licensed under Apache-2.0 by website/LICENSE. The upstream scientific source and Geist font retain their separate licenses.
-- The website workflow lives at the monorepo root in .github/workflows/website-ci.yml. Hosted Actions results will be recorded after the authorized branch push.
+- Hosted Website CI push and pull_request runs passed on application head 4acd4cf (run IDs 39517286430 and 39517302876). This reconciliation-document update triggers follow-up runs; latest results are linked from PR #9.
 - No Vercel project or deployment exists. The handoff records a previous 403; this environment's CLI shim fails to load its missing `dist/vc.js`. Static output is ready for an approved host, but Vercel access is not.
 - A read-only check of the separate scientific clone at `878ba71` showed a clean worktree. GitHub currently reports [PR #8](https://github.com/Litju/CMJRecoveryDynamicsBench/pull/8) open and unmerged. No scientific-repository file or PR was changed.
 - The local 34 MB walkthrough recording is not included or linked: its capture timeline does not bind it to a source revision, and its video metadata could not be independently checked with `ffprobe` on this host. It remains local and ignored.
