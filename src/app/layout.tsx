@@ -6,6 +6,18 @@ export const metadata: Metadata = {
   title: `${brand.name} — Synthetic recovery research`,
   description: brand.description,
   robots: { index: false, follow: false },
+  openGraph: {
+    type: "website",
+    locale: "en_US",
+    siteName: brand.name,
+    title: `${brand.name} — Synthetic recovery research`,
+    description: brand.description,
+  },
+  twitter: {
+    card: "summary",
+    title: `${brand.name} — Synthetic recovery research`,
+    description: brand.description,
+  },
 };
 export default function RootLayout({
   children,

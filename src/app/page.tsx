@@ -74,7 +74,7 @@ export default function Home() {
               hidden dynamics and the limits of prediction.
             </p>
             <p className="hero-byline">
-              <span>RESEARCH SOFTWARE BY</span> Julio Rodriguez{" "}
+              <span>UPSTREAM RESEARCH SOFTWARE BY</span> Julio Rodriguez{" "}
               <a
                 href={sourceLink("CITATION.cff")}
                 aria-label="Verified research software citation"
@@ -157,16 +157,16 @@ export default function Home() {
             Citation <ArrowUpRight size={13} />
           </a>
           <a href={sourceLink("LICENSE")}>
-            Apache-2.0 software <ArrowUpRight size={13} />
+            Scientific source license <ArrowUpRight size={13} />
           </a>
           <a href={data.provenance.repository}>
             Scientific source <ArrowUpRight size={13} />
           </a>
         </div>
         <p className="footer-credit">
-          Research software by Julio Rodriguez.
+          The cited scientific software is by Julio Rodriguez.
           <br />
-          Original code license excludes external datasets and third-party
+          Its Apache-2.0 license excludes external datasets and third-party
           materials.
         </p>
       </footer>
