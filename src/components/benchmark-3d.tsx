@@ -134,7 +134,8 @@ export default function Benchmark3D({
         ))}
       </div>
       <p className="scene-explanation">
-        Each solid bar is one cell score, measured from zero. Hover to inspect;
+        Column labels: F = force; I = net impulse. Each solid bar is one cell
+        score, measured from zero. Hover to inspect;
         tap or click a bar to select its model, horizon and outcome. The
         orthographic view limits perspective scaling; rotation can still obscure
         bars. The exact matrix supports direct comparison.

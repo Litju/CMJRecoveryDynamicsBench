@@ -141,11 +141,6 @@ export default function BenchmarkScene({
           />
         </mesh>
       ))}
-      <SceneLabel
-        text="F = FORCE / I = NET IMPULSE"
-        position={[0, -0.2, 3.65]}
-        width={3.6}
-      />
     </Canvas>
   );
 }
