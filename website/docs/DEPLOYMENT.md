@@ -23,13 +23,13 @@ This Python server is for review only. It is not a production web server. The co
 
 [`vercel.json`](../vercel.json) currently declares the Next.js framework, `npm ci`, `npm run build` and `out/` as the output directory. These values match the local static export. A compatible static host must serve the files under `out/` and return the exported HTML for the root page. No API routes or dynamic routes need server rewrites.
 
-The public launch configuration is not complete: this checkout has no `.vercel/project.json`, no approved production hostname and no canonical URL. The root layout keeps `robots.index` and `robots.follow` disabled while the site is unpublished. No sitemap or robots file advertises an unapproved URL. Open Graph and Twitter text metadata are present; an absolute canonical URL, public indexing and social preview image require an owner-approved hostname and final brand decision.
+The public launch configuration is not complete: this checkout has no .vercel/project.json, no approved production hostname and no canonical URL. In the canonical monorepo, configure the Vercel project root directory as website/. The root layout keeps robots.index and robots.follow disabled while the site is unpublished. No sitemap or robots file advertises an unapproved URL. Open Graph and Twitter text metadata are present; an absolute canonical URL, public indexing and social preview image require an owner-approved hostname and final brand decision.
 
 ## Access and release steps
 
 No Vercel project was linked or deployment attempted for this task. The handoff records a previous Vercel 403. In this environment, the read-only `vercel whoami` command also fails because the installed global CLI shim points to a missing `dist/vc.js`, and there is no linked project file. Do not work around account permissions.
 
-After the owner approves the repository, visibility, final name/hostname and deployment:
+After the owner approves website-source licensing and publication, the final name/hostname, and deployment:
 
 1. Install or repair the Vercel CLI through the owner's approved package manager and authenticate with the authorized Vercel account.
 2. Ask a project owner to grant access or create/link the approved Vercel project.
@@ -39,4 +39,4 @@ After the owner approves the repository, visibility, final name/hostname and dep
 
 ## GitHub repository
 
-No remote is configured in this checkout, and a read-only GitHub search found no showcase repository. Do not push this work or create a repository without the owner's explicit approval. The CI workflow in `.github/workflows/ci.yml` is ready for a later authorized repository, but no hosted GitHub Actions run has occurred. See the [release checklist](RELEASE_CHECKLIST.md) for the current decision and blockers.
+A separate website remote is not configured. The site is prepared under website/ on a local branch of the canonical repository, but that branch has not been pushed because the destination is public and website-source licensing and publication approval are pending. The root workflow at ../../.github/workflows/website-ci.yml is in place; no hosted GitHub Actions run has occurred. See the [release checklist](RELEASE_CHECKLIST.md) for the current decision and blockers.

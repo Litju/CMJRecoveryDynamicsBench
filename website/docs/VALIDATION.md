@@ -61,11 +61,11 @@ The measured interaction samples use headless Chromium and SwiftShader (software
 
 - The app has no server secrets, API, database or runtime environment variables. No `.env` file or video is tracked; generated build and test outputs are ignored.
 - The public font carries its local OFL notice. The scientific source license is scoped to the upstream materials; this website has no root reuse license yet. See [attribution and licensing](../README.md#attribution-and-licensing).
-- GitHub Actions configuration is present but no hosted run exists because the showcase has no Git remote and GitHub search found no matching repository.
+- The website workflow now lives at the monorepo root, ../../.github/workflows/website-ci.yml; no hosted run exists because the prepared branch is not published pending website-source license and owner approval.
 - No Vercel project or deployment exists. The handoff records a previous 403; this environment's CLI shim fails to load its missing `dist/vc.js`. Static output is ready for an approved host, but Vercel access is not.
 - A read-only check of the separate scientific clone at `878ba71` showed a clean worktree. GitHub currently reports [PR #8](https://github.com/Litju/CMJRecoveryDynamicsBench/pull/8) open and unmerged. No scientific-repository file or PR was changed.
 - The local 34 MB walkthrough recording is not included or linked: its capture timeline does not bind it to a source revision, and its video metadata could not be independently checked with `ffprobe` on this host. It remains local and ignored.
 
 ## Not tested
 
-Only Chromium is installed. Firefox, WebKit/Safari, physical phones, hardware-GPU performance, Lighthouse/field metrics and live assistive-technology sessions were not tested. The current screenshots and SwiftShader checks do not replace those environments. No public domain, canonical URL, final commercial brand, root website license, GitHub destination or Vercel access is approved.
+Only Chromium is installed. Firefox, WebKit/Safari, physical phones, hardware-GPU performance, Lighthouse/field metrics and live assistive-technology sessions were not tested. The current screenshots and SwiftShader checks do not replace those environments. No public domain, canonical URL, final commercial brand, root website license, publication of the website branch or Vercel access is approved.
