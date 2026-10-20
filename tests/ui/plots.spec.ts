@@ -239,13 +239,14 @@ test("3D remains usable with reduced motion, missing WebGL, mobile touch and no 
   browser,
 }) => {
   const context = await browser.newContext({
+    baseURL: "http://127.0.0.1:4174",
     viewport: { width: 390, height: 844 },
     hasTouch: true,
     isMobile: true,
     reducedMotion: "reduce",
   });
   const page = await context.newPage();
-  await page.goto("http://127.0.0.1:4173/#explorer");
+  await page.goto("http://127.0.0.1:4174/#explorer");
   await page.getByRole("button", { name: "3D comparison", exact: true }).tap();
   await expect(page.locator(".benchmark-canvas canvas")).toHaveCount(0);
   await expect(page.locator(".benchmark-3d-fallback")).toContainText(
@@ -303,7 +304,9 @@ test("3D remains usable with reduced motion, missing WebGL, mobile touch and no 
     ).violations,
   ).toEqual([]);
   await context.close();
-  const unavailable = await browser.newContext();
+  const unavailable = await browser.newContext({
+    baseURL: "http://127.0.0.1:4174",
+  });
   await unavailable.addInitScript(() => {
     const original = HTMLCanvasElement.prototype.getContext;
     HTMLCanvasElement.prototype.getContext = function (
@@ -316,7 +319,7 @@ test("3D remains usable with reduced motion, missing WebGL, mobile touch and no 
     } as typeof original;
   });
   const fallback = await unavailable.newPage();
-  await fallback.goto("http://127.0.0.1:4173/#explorer");
+  await fallback.goto("http://127.0.0.1:4174/#explorer");
   await fallback
     .getByRole("button", { name: "3D comparison", exact: true })
     .click();

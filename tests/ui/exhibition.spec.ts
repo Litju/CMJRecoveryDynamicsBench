@@ -302,7 +302,7 @@ test("mobile touch episode, methods and diagnostics at narrow and tablet widths"
   browser,
 }) => {
   const context = await browser.newContext({
-    baseURL: "http://127.0.0.1:4173",
+    baseURL: "http://127.0.0.1:4174",
     viewport: { width: 390, height: 844 },
     isMobile: true,
     hasTouch: true,

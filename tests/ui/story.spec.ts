@@ -137,7 +137,7 @@ test("mobile tap details stay next to their node; reduced motion and evidence bo
   browser,
 }) => {
   const context = await browser.newContext({
-    baseURL: "http://127.0.0.1:4173",
+    baseURL: "http://127.0.0.1:4174",
     viewport: { width: 390, height: 844 },
     isMobile: true,
     hasTouch: true,

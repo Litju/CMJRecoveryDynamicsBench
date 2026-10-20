@@ -80,13 +80,14 @@ test("editorial surfaces use solid colour and new exhibits work on touch without
   browser,
 }) => {
   const c = await browser.newContext({
+    baseURL: "http://127.0.0.1:4174",
     viewport: { width: 390, height: 844 },
     isMobile: true,
     hasTouch: true,
     reducedMotion: "reduce",
   });
   const page = await c.newPage();
-  await page.goto("http://127.0.0.1:4173/");
+  await page.goto("http://127.0.0.1:4174/");
   await page.locator(".measurement-tabs button").nth(1).tap();
   await expect(page.locator(".measurement-explanation")).toContainText(
     "durations differ",

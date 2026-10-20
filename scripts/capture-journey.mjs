@@ -1,5 +1,6 @@
 import { chromium } from "@playwright/test";
 import { mkdir, writeFile } from "node:fs/promises";
+const baseURL = process.env.CMJ_PREVIEW_URL || "http://127.0.0.1:4173";
 const browser = await chromium.launch({ args: ["--enable-unsafe-swiftshader"] });
 const captures = [];
 const errors = [];
@@ -7,7 +8,7 @@ await mkdir("docs/journey", { recursive: true });
 for (const [device, viewport] of [["desktop", { width: 1440, height: 1000 }], ["mobile", { width: 390, height: 844 }]]) {
   const page = await browser.newPage({ viewport, isMobile: device === "mobile", hasTouch: device === "mobile" });
   page.on("pageerror", (error) => errors.push(`${device}: ${error.message}`));
-  await page.goto("http://127.0.0.1:4173", { waitUntil: "networkidle" });
+  await page.goto(baseURL, { waitUntil: "networkidle" });
   await page.locator(".journey-viewport canvas").waitFor();
   for (const chapter of ["intro", "question", "world", "lineage", "experiment", "explorer", "remaining", "lab", "evidence"]) {
     await page.locator(`#${chapter}`).evaluate((e) => e.scrollIntoView({ block: "start", behavior: "instant" }));

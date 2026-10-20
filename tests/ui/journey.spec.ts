@@ -63,7 +63,7 @@ test("all scientific figures use light surfaces and readable native alternatives
 test("mobile keeps chapter navigation, touch scrolling and controls reachable", async ({ browser }) => {
     const context = await browser.newContext({ viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true, reducedMotion: "reduce" });
     const page = await context.newPage();
-    await page.goto("http://127.0.0.1:4173/");
+    await page.goto("http://127.0.0.1:4174/");
     for (const id of ["question", "world", "lineage", "explorer", "lab", "evidence"]) {
         await page.locator(`.journey-index a[href="#${id}"]`).tap();
         await expect(page.locator(".journey-stage")).toHaveAttribute("data-chapter", id);

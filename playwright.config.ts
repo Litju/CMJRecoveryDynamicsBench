@@ -5,14 +5,14 @@ export default defineConfig({
   workers: 1,
   timeout: 60000,
   use: {
-    baseURL: "http://127.0.0.1:4173",
+    baseURL: "http://127.0.0.1:4174",
     trace: "retain-on-failure",
     launchOptions: { args: ["--enable-unsafe-swiftshader"] },
   },
   webServer: {
-    command: "python3 -m http.server 4173 --directory out",
-    url: "http://127.0.0.1:4173",
-    reuseExistingServer: true,
+    command: "python3 -m http.server 4174 --bind 127.0.0.1 --directory out",
+    url: "http://127.0.0.1:4174",
+    reuseExistingServer: false,
   },
   projects: [
     {
