@@ -1,6 +1,6 @@
 # Scientific plots and 3D upgrade · 2026-10-20
 
-The existing editorial exhibition is preserved. The plotting layer now uses the same ink, cobalt, terracotta and ochre palette across Recharts, SVG and WebGL, with consistent square tooltips, grid lines, model legends and selection states.
+The existing editorial exhibition is preserved. Every figure now uses a light paper surface with dark ink, cobalt, terracotta and ochre across Recharts, SVG and WebGL, with consistent square tooltips, grid lines, model legends and selection states.
 
 ## What changed
 
@@ -15,12 +15,12 @@ The 3D benchmark has 24 solid bars: four models × force/impulse at H24/H48/H72.
 
 The response figure uses 169 hourly samples of the existing two-exponential equation. Its total, fast and slow lanes share one response scale. The moving slice marks elapsed hours. Clicking a curve selects the nearest displayed hour, with exact equation readouts. It is a mathematical illustration, not an athlete trace, generator sample or fitted forecast.
 
-Both scenes have orthographic camera presets, opt-in pointer/touch rotation and native keyboard-operable scene scale. Zoom preserves manual rotation; view presets reset orientation and scale. Page scrolling remains available until rotation is explicitly enabled. Rendering is on demand, viewport loading is deferred and scenes are released when leaving. Shared cleanup disposes controls, labels and geometry. Missing WebGL, reduced motion and actual graphics-context loss preserve exact data / 2D curves.
+The two focused scenes have orthographic camera presets, opt-in pointer/touch rotation and native keyboard-operable scene scale. Zoom preserves manual rotation; view presets reset orientation and scale. Page scrolling remains available until rotation is explicitly enabled. Rendering is on demand, viewport loading is deferred and scenes are released when leaving. Shared cleanup disposes controls, labels and geometry. Missing WebGL, reduced motion and actual graphics-context loss preserve exact data / 2D curves.
 
 ## Validation
 
 - **15 Node tests pass**, including all original source/metric tests and exact time, component sum, amplitude and lane checks for the new response geometry.
-- **25 Chromium browser tests pass** on the production static build, including all original 96 numerical combinations and the new matrix's 96 root/model/cell values.
+- **29 Chromium browser tests pass** on the production static build, including all original 96 numerical combinations and the new matrix's 96 root/model/cell values.
 - Real 3D ray picking is exercised against independently projected world coordinates, proving bar selection updates the existing controls and curve picking selects 84 h correctly.
 - Camera preset and pointer-drag changes are checked against actual rendered canvas images. Scene scale is checked through keyboard input.
 - Live `WEBGL_lose_context` is exercised: the 3D canvas is removed, the exact matrix opens and the application remains usable without uncaught errors.
@@ -29,7 +29,7 @@ Both scenes have orthographic camera presets, opt-in pointer/touch rotation and 
 - Strict TypeScript and the production static build pass. The original numerical fixture SHA-256 remains `4d3b9d8ce4d40a8fdf956ee19585aee01dc5a6b6cf1af802b7011ecf03803bca`.
 - The scientific Python repository, source authorities, package identity, lockfile, citation, original result fixtures and release artifacts are unchanged. No new dependency, training, simulation, inference or deployment is introduced.
 
-The screenshot script refreshes 52 exhibition chapter/state views, including desktop/mobile 3D figures, camera views, exact matrix and fallback captures. Tall desktop 3D captures use a taller viewport so the compositor paints the complete figure. See [the gallery](../SCREENSHOTS.md) and [raw capture/performance evidence](../browser-evidence.json). Existing browser libraries are used as documented in the root README.
+The screenshot scripts refresh 52 detailed exhibition chapter/state views plus 20 complete viewport views of the persistent scroll-driven stage, including desktop/mobile 3D figures, camera views, exact matrix and fallback captures. Tall desktop 3D captures use a taller viewport so the compositor paints the complete figure. See [the gallery](../SCREENSHOTS.md) and [raw capture/performance evidence](../browser-evidence.json). Existing browser libraries are used as documented in the root README.
 
 ## Scientific and testing limits
 
@@ -37,4 +37,4 @@ Orthographic projection avoids perspective-dependent size scaling, but rotation 
 
 Safari, Firefox, physical touch devices, hardware GPU profiling and live screen readers were not tested. Browser measurements use this host's software WebGL and are not field INP or physical-device performance guarantees. Same-generator synthetic evidence still does not establish athlete validity or a production recovery score.
 
-Feature commit: `6d5f79e`. The following validation commit contains final captures, documentation, the capture-script viewport adjustment and a duplicated-caption copy fix.
+The whole-site upgrade is recorded in `9acc1b4` (light figures), `2e42684` (continuous 3D journey), `5eb7a6e` (exact selection and landscape) and `70e53e7` (readable native axis key). See [the journey validation and captures](../journey/VALIDATION.md).

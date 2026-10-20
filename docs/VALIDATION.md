@@ -1,8 +1,12 @@
-# RES-536 plotting and 3D validation · 2026-10-20
+# RES-536 continuous 3D exhibition validation · 2026-10-20
 
 **GO_WITH_LIMITATIONS** for the local scientific exhibition. The application is implemented and runs as a production static export at <http://localhost:4173>. No remote preview or production deployment was created.
 
+A persistent 3D stage now follows every chapter of the complete website. Native scroll drives its camera, schematic pose and mathematical time slice; chapter links, pause and opt-in rotation stay available. On mobile the stage pins above the content, with a compact landscape layout. Selecting a sourced bar opens its exact model / across-root mean / H24 / force / NRMSE configuration, even after other filters were selected. Formulation blocks select the original contracts.
+
 The completed visitor journey is concrete research cover → 90-second route → setting, exposure and measurement → Synthetic Episode Theater → scientific decision history and exact eight-formulation lineage → actual experiment and metric teaching → original numerical explorer → mathematical lab → negative findings, evidence and proposed research questions. Scientist-level methods stay inside the same experience and disclose exact protocol JSON, scientific status, model authorities, source links and limitations.
+
+The complete 29-case Chromium suite passes. After the final native axis-key change, the nine focused journey/plot cases also pass on the final production export.
 
 ## Verification results
 
@@ -11,7 +15,7 @@ The completed visitor journey is concrete research cover → 90-second route →
 | `npm test` | **15/15 passed**: original numerical checks, deterministic source/fixture checks, all 17 model aggregates and root sample SDs, all six selection minima, exact eight questions/statuses/parents/world/observation symbols, knowledge boundary, signed derivative/integral identities; exact observation constants, eight exposure descriptors and eight decision narratives |
 | `npm run typecheck` | Passed, strict TypeScript, no emit |
 | `npm run build` | Passed, production static export; checks original, lineage and exhibition source checksums and both downloadable fixtures |
-| `npm run test:ui` | **25/25 passed** in the complete Chromium suite; final complete run: 1.5 min, including linked 3D cells, real ray picking, camera controls, actual mobile WebGL and context-loss fallback |
+| `npm run test:ui` | **29/29 passed** in the complete Chromium suite, including all nine scroll-driven chapters, real rendered-pixel changes and pause, mobile portrait/landscape bounds, overview selection after changing filters, linked 3D cells, real ray picking and context-loss fallback |
 | Original numerical UI | All **96** model × root × horizon × outcome combinations retain exact sourced values; comparator, RMSE units, ledger and intervals pass original assertions |
 | Metric teaching | All **72** model × test-root × cell views match exact receipt RMSE, population SD, NRMSE and six-cell aggregate; exact frozen protocol JSON matches the fixture |
 | Diagnostics | All four ablations, all three sample sizes × three families, all six selected configurations and downloaded diagnostic JSON checked |
@@ -19,7 +23,7 @@ The completed visitor journey is concrete research cover → 90-second route →
 | Episode | All six events, both perspectives, all four layers, measurement lens, immutable forecast boundary, keyboard scrubbing, playback/pause/reset and public feature budget checked |
 | Lab / 3D | Signed scenarios; response/slope/integral plotted values; exact mathematical readouts; sliders and keyboard; reset and playback; hero mode isolation; actual WebGL render at the model chapter; viewport-based loading/release; unavailable and throwing context fallbacks |
 | Accessibility | Zero axe violations in tested WCAG 2 A/AA + 2.1 AA rules: default desktop/mobile, expanded scientific methods, expanded lineage evidence and mobile touch state. Native focusable scroll regions, text alternatives, labels and keyboard controls verified |
-| Responsive | No page overflow at **320, 375, 390, 768, 1024, 1440 px**; expanded methods also checked. Wide numerical tables keep local scrolling |
+| Responsive | No page overflow at **320, 375, 390, 768, 1024, 1440 px**; the pinned stage also passes **844 × 390 landscape** bounds; expanded methods also checked. Wide numerical tables keep local scrolling |
 | Motion | Reduced motion omits Three.js scene loading/rendering and disables automatic visual reveals; explicit playback remains controllable; preference changes stop lab playback |
 | Browser runtime | No uncaught page errors in tested journeys or screenshot capture run |
 | Scope | Scientific repository Git status remains clean. Package identity, lockfile, CFF, original release audit and original numerical fixture unchanged. No PR #8 or release operations |
@@ -40,22 +44,22 @@ The signed Recovery Lab exposes exact analytic derivatives and integrals, distin
 
 ## Visual inspection and iteration
 
-[52 chapter/state captures](SCREENSHOTS.md) cover every major chapter on desktop and mobile, including the observer reveal, apparatus/measurement exhibits, exposure glossary, history reader, expanded formulation methods, signed-area lab, 3D benchmark, camera views, exact matrix and mobile WebGL/fallback states. Full-page desktop/mobile and focused lineage regression images are also retained. The capture script uses real controls and suppresses only sticky navigation and the offscreen skip link when taking a tall chapter image; it does not substitute scientific content.
+[52 detailed chapter/state captures](SCREENSHOTS.md) plus [20 complete scroll-driven viewport captures](journey/VALIDATION.md) cover every major chapter on desktop and mobile, including the observer reveal, apparatus/measurement exhibits, exposure glossary, history reader, expanded formulation methods, signed-area lab, 3D benchmark, camera views, exact matrix and mobile WebGL/fallback states. Full-page desktop/mobile and focused lineage regression images are also retained. Focused captures use real controls and suppress the persistent stage, sticky header/navigation and offscreen skip link so they do not obscure tall scientific content. The separate viewport gallery retains the actual stage and header.
 
 Inspection included the hero, question, Episode Theater, observation lens, lineage, study design, metric teaching, interval plot, mobile lab and evidence. Iteration corrected a five-chapter navigation wrap and made the lab’s response/slope/area labels, plotted values and legends match the selected mathematical quantity. A final mobile review also found percentage grid gaps overflowing stacked content; fixed mobile gaps and bounding-box regressions now prevent result-caption/caveat overlap. New test-only dynamic JSON import failures were corrected to the project’s static-import convention. Initial TypeScript checks also caught and corrected the details-element test type; final checks pass without relaxed scientific assertions.
 
 ## Local performance measurements
 
-The capture script records browser navigation, script resources, long tasks, one/zero WebGL canvases, and 20 scripted model switches, measured through the next two animation frames. See [raw measurements](browser-evidence.json). These are local headless Chromium measurements using software WebGL on this host, not field INP, Lighthouse, Core Web Vitals or physical-device GPU measurements.
+The capture script records browser navigation, script resources, long tasks, two/zero WebGL canvases, and 20 scripted model switches, measured through the next two animation frames. See [raw measurements](browser-evidence.json). These are local headless Chromium measurements using software WebGL on this host, not field INP, Lighthouse, Core Web Vitals or physical-device GPU measurements.
 
-Final isolated capture run (20 scripted model switches per mode):
+Recorded local capture run (20 scripted model switches per mode; browser checks also running on this host):
 
 | Mode | Script resources | Decoded JS | Estimated gzip JS | Switch median / p95 / max | Longest observed task |
 | --- | ---: | ---: | ---: | ---: | ---: |
-| Reduced motion / 2D | 6 | 983.4 KiB | 284.8 KiB | 33.3 / 33.6 / 34.1 ms | 83 ms |
-| After entering response 3D chapter | 8 | 1863.6 KiB | 517.7 KiB | 33.3 / 33.6 / 33.8 ms | 160 ms |
+| Reduced motion / 2D | 6 | 991.7 KiB | 288.1 KiB | 33.3 / 33.5 / 33.5 ms | 124 ms |
+| Persistent stage + response 3D | 9 | 1877.3 KiB | 523.0 KiB | 33.4 / 34.2 / 49.0 ms | 237 ms |
 
-The reduced-motion run renders zero canvases. The normal-mode measurement deliberately enters the response-model chapter and waits for its canvas before collecting interaction measurements. Both WebGL views load only when needed and render on demand. The 3D benchmark is opt-in and is tested/captured separately. The Python server serves scripts uncompressed; gzip sizes are computed from emitted files. These local software-WebGL timings are not production-network, physical-device or field INP claims.
+The reduced-motion run renders zero canvases. The normal-mode measurement deliberately enters the response-model chapter and waits for its canvas before collecting interaction measurements. The persistent stage loads in the opening viewport; the focused WebGL figures load near their own chapters. All render on demand. The 3D benchmark is opt-in and is tested/captured separately. The Python server serves scripts uncompressed; gzip sizes are computed from emitted files. These local software-WebGL timings are not production-network, physical-device or field INP claims.
 
 Camera presets, orthographic projection, opt-in drag rotation, keyboard scene scale and explicit axes support inspection. Graphics contexts, controls, geometry and label textures are cleaned up on exit. Actual context loss is tested and falls back to exact data. Tall desktop 3D figure captures temporarily use a taller viewport to avoid compositor clipping below the viewport; scientific content is not replaced.
 

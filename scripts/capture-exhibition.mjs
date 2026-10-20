@@ -23,7 +23,7 @@ for (const [device, viewport] of [
   await page.evaluate(() => document.fonts.ready);
   await page.addStyleTag({
     content:
-      ".story-progress{position:relative!important;top:auto!important;} .skip-link{display:none!important;}",
+      ".story-progress,.site-header{position:relative!important;top:auto!important;} .journey-stage{visibility:hidden!important;} .skip-link{display:none!important;}",
   });
   for (const id of [
     "hero",

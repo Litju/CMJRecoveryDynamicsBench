@@ -8,9 +8,10 @@ test("story precedes the benchmark; scroll navigation and sourced result reveal 
 }) => {
   await page.goto("/");
   const ids = await page
-    .locator("main > section[id]")
+    .locator(".journey-content > section[id]")
     .evaluateAll((sections) => sections.map((s) => s.id));
   expect(ids).toEqual([
+    "intro",
     "question",
     "world",
     "lineage",

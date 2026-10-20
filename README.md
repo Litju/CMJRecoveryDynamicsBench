@@ -4,6 +4,10 @@ A static-first scientific field journal built on the RES-533/534 observatory and
 
 ## Experience
 
+The **whole exhibition is a continuous scroll-driven journey**. A persistent 3D stage follows nine chapters, with scrolling controlling the camera, schematic movement and mathematical time slice. Select a 3D model bar to open its exact benchmark view, or a formulation block to inspect that contract. Native scrolling, direct chapter links, pause and opt-in rotation keep navigation predictable. The stage becomes a compact pinned panel on phones, with a separate landscape layout. Reduced motion and unavailable graphics preserve native explanations and exact SVG values.
+
+All scientific figures use the same light paper surface, dark axes and consistent cobalt / terracotta / ochre palette. See the [complete journey captures](docs/journey/VALIDATION.md) and [detailed scientific chapter gallery](docs/SCREENSHOTS.md).
+
 A four-point **Understand in 90 seconds** route shares its evidence with five chapters and progressive **Methods & evidence** sheets:
 
 - **Setting & signal:** the real sports-science motivation and the actual synthetic setting are distinguished before the models. A four-dimension exposure glossary explains all eight public load descriptors. An interactive apparatus/measurement exhibit switches among mean force, net-impulse area and baseline-relative innovation, with explicit units, construction and purpose. Cited primary background studies motivate the question; the pinned source defines this benchmark’s own observation law.
@@ -73,6 +77,7 @@ The retired rich-history 24-cell raw-progress specimen stays outside the active 
 
 | File | Purpose |
 | --- | --- |
+| `scroll-journey.tsx`, `journey-scene.tsx`, `src/lib/journey.ts` | Whole-site chapter tracking, continuous scroll-controlled 3D, linked model/formulation selection and native fallbacks |
 | `src/lib/brand.ts` | Configurable provisional branding |
 | `src/app/page.tsx`, `globals.css` | Exhibition composition, typography and responsive design |
 | `measurement-exhibit.tsx`, `src/data/context.json` | Setting, public exposure descriptors, force/impulse/innovation and primary background citations |
