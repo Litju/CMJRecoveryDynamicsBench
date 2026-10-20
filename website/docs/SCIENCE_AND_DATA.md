@@ -63,4 +63,4 @@ Five parent edges are registered. The rich-history branch has no exact direct pa
 
 ## Source and license boundary
 
-Upstream scientific code and its Apache-2.0 license are preserved in `source/`; the upstream citation remains in `source/CITATION.cff`. This license does not automatically extend to the website's original source, screenshots or prose. The site currently has no root license. The Geist font's separate OFL notice is included under `public/fonts/`. See the [release checklist](RELEASE_CHECKLIST.md) before making this repository public.
+Upstream scientific code and its Apache-2.0 license are preserved in source/; the upstream citation remains in source/CITATION.cff. The original website source authored by Julio Rodriguez is separately licensed under Apache-2.0 in LICENSE. Neither license covers the Geist font, npm packages, or other third-party materials. The Geist font's separate OFL notice is included under public/fonts/. See the release checklist for scope and deployment status.

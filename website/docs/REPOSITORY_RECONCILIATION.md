@@ -17,10 +17,9 @@ res-291-v1-publication-candidate at
 618a56bbcc8de6fb1cd3a5d4d8f71bf7fcb61529, seven commits ahead and zero behind
 main at the audit. It was not merged, rebased, or changed.
 
-The GitHub account Litju has admin permission on the canonical repository.
-The destination is public, so pushing this branch would publish the website
-source and its history. The branch has not been pushed, and no PR or hosted
-Actions run exists.
+The GitHub account Litju has admin permission on the canonical repository. On 2026-10-20, the owner approved Apache-2.0 for Julio Rodriguez-authored website source and authorized public branch publication; the approval is recorded in RES-538.
+The destination is public, so pushing this branch publishes the website source and its reviewed history.
+The owner authorized publication. This snapshot precedes the branch push and PR creation; hosted results will be added after GitHub runs.
 
 ## Local repository inventory
 
@@ -76,14 +75,8 @@ Wheel and source-distribution builds both succeeded. A wheel import smoke test
 found all eight benchmark registrations. The wheel contained 85 entries and
 the source distribution 144 entries; neither contains website files.
 
-The website has no root LICENSE file, so its original source has no reuse
-license granted yet. Proposed license: Apache-2.0 for Julio Rodriguez-authored
-website source, subject to explicit owner approval before publication.
-Third-party licenses remain separate: the local Geist font carries OFL 1.1;
-all 164 locked npm packages declare license metadata. The lock includes
-optional Sharp/libvips packages with LGPL-3.0-or-later metadata and
-caniuse-lite with CC-BY-4.0 metadata. These dependencies are not vendored in
-the repository; the static site does not use next/image or bundle Sharp.
+website/LICENSE applies Apache-2.0 to original website source authored by Julio Rodriguez; the owner approved this license and publication in RES-538.
+Third-party licenses remain separate: the local Geist font carries OFL 1.1; all 164 locked npm packages declare license metadata. The lock includes optional Sharp/libvips packages with LGPL-3.0-or-later metadata and caniuse-lite with CC-BY-4.0 metadata. These dependencies are not vendored in the repository; the static site does not use next/image or bundle Sharp.
 
 The website presents pinned synthetic evidence and states that it contains no
 human records. Screenshots are project captures. No credentials, private
@@ -124,18 +117,8 @@ Reconciliation commits:
 - Strict Pyright: 0 errors, 0 warnings.
 - Wheel and source distribution builds and wheel import smoke test: passed.
 
-Chromium and the required runtime libraries were available only after
-extracting the missing libraries locally. The workflow’s
-npx playwright install --with-deps command could not install system packages
-because this environment has no sudo password. This did not prevent the full
-31-test local browser run. Hosted GitHub Actions has not run because the branch
-is not published.
+Chromium and the required runtime libraries were available only after extracting the missing libraries locally. The workflow’s npx playwright install --with-deps command could not install system packages because this environment has no sudo password. This did not prevent the full 31-test local browser run. GitHub Actions will run after the authorized branch push.
 
-## Decision and required approval
+## Decision and remaining launch limits
 
-Local reconciliation is GO_WITH_LIMITATIONS. Public publication is NO-GO until
-the owner approves a license for the website source and authorizes publication
-of this branch and its preserved history to the public canonical repository.
-Apache-2.0 is proposed for owner-authored website source; existing upstream
-scientific, font, and package licenses remain unchanged. No push, PR, merge,
-tag, or deployment was performed. PR #8 remains independent and open.
+Local reconciliation is GO_WITH_LIMITATIONS. The owner approved website-source Apache-2.0 licensing and authorized public branch publication. Merge, tag, deployment, and production release remain out of scope. PR #8 remains independent and open.

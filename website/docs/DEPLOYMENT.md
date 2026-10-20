@@ -29,7 +29,7 @@ The public launch configuration is not complete: this checkout has no .vercel/pr
 
 No Vercel project was linked or deployment attempted for this task. The handoff records a previous Vercel 403. In this environment, the read-only `vercel whoami` command also fails because the installed global CLI shim points to a missing `dist/vc.js`, and there is no linked project file. Do not work around account permissions.
 
-After the owner approves website-source licensing and publication, the final name/hostname, and deployment:
+After the owner approves the final name/hostname and a deployment:
 
 1. Install or repair the Vercel CLI through the owner's approved package manager and authenticate with the authorized Vercel account.
 2. Ask a project owner to grant access or create/link the approved Vercel project.
@@ -39,4 +39,4 @@ After the owner approves website-source licensing and publication, the final nam
 
 ## GitHub repository
 
-A separate website remote is not configured. The site is prepared under website/ on a local branch of the canonical repository, but that branch has not been pushed because the destination is public and website-source licensing and publication approval are pending. The root workflow at ../../.github/workflows/website-ci.yml is in place; no hosted GitHub Actions run has occurred. See the [release checklist](RELEASE_CHECKLIST.md) for the current decision and blockers.
+The website is part of the canonical repository at website/. The owner authorized public branch publication; the review PR and hosted CI results will be recorded in the reconciliation manifest. No Vercel project or deployment is linked or authorized. See the release checklist for the remaining launch gates.
