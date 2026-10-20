@@ -1,4 +1,4 @@
-# RES-536 editorial/context redesign validation · 2026-10-19
+# RES-536 plotting and 3D validation · 2026-10-20
 
 **GO_WITH_LIMITATIONS** for the local scientific exhibition. The application is implemented and runs as a production static export at <http://localhost:4173>. No remote preview or production deployment was created.
 
@@ -8,10 +8,10 @@ The completed visitor journey is concrete research cover → 90-second route →
 
 | Check | Result |
 | --- | --- |
-| `npm test` | **14/14 passed**: original numerical checks, deterministic source/fixture checks, all 17 model aggregates and root sample SDs, all six selection minima, exact eight questions/statuses/parents/world/observation symbols, knowledge boundary, signed derivative/integral identities; exact observation constants, eight exposure descriptors and eight decision narratives |
+| `npm test` | **15/15 passed**: original numerical checks, deterministic source/fixture checks, all 17 model aggregates and root sample SDs, all six selection minima, exact eight questions/statuses/parents/world/observation symbols, knowledge boundary, signed derivative/integral identities; exact observation constants, eight exposure descriptors and eight decision narratives |
 | `npm run typecheck` | Passed, strict TypeScript, no emit |
 | `npm run build` | Passed, production static export; checks original, lineage and exhibition source checksums and both downloadable fixtures |
-| `npm run test:ui` | **20/20 passed** in the complete Chromium suite; final complete run: 1.3 min, including the new measurement, history, solid-colour and viewport-loading checks |
+| `npm run test:ui` | **25/25 passed** in the complete Chromium suite; final complete run: 1.5 min, including linked 3D cells, real ray picking, camera controls, actual mobile WebGL and context-loss fallback |
 | Original numerical UI | All **96** model × root × horizon × outcome combinations retain exact sourced values; comparator, RMSE units, ledger and intervals pass original assertions |
 | Metric teaching | All **72** model × test-root × cell views match exact receipt RMSE, population SD, NRMSE and six-cell aggregate; exact frozen protocol JSON matches the fixture |
 | Diagnostics | All four ablations, all three sample sizes × three families, all six selected configurations and downloaded diagnostic JSON checked |
@@ -40,7 +40,7 @@ The signed Recovery Lab exposes exact analytic derivatives and integrals, distin
 
 ## Visual inspection and iteration
 
-[Forty chapter/state captures](SCREENSHOTS.md) cover every major chapter on desktop and mobile, including the observer reveal, original measurement lens, new apparatus/force/impulse/innovation exhibits, exposure glossary, history reader, expanded formulation methods, split/selection methods and signed-area lab. Full-page desktop/mobile and focused lineage regression images are also retained. The capture script uses real controls and suppresses only sticky navigation and the offscreen skip link when taking a tall chapter image; it does not substitute scientific content.
+[52 chapter/state captures](SCREENSHOTS.md) cover every major chapter on desktop and mobile, including the observer reveal, apparatus/measurement exhibits, exposure glossary, history reader, expanded formulation methods, signed-area lab, 3D benchmark, camera views, exact matrix and mobile WebGL/fallback states. Full-page desktop/mobile and focused lineage regression images are also retained. The capture script uses real controls and suppresses only sticky navigation and the offscreen skip link when taking a tall chapter image; it does not substitute scientific content.
 
 Inspection included the hero, question, Episode Theater, observation lens, lineage, study design, metric teaching, interval plot, mobile lab and evidence. Iteration corrected a five-chapter navigation wrap and made the lab’s response/slope/area labels, plotted values and legends match the selected mathematical quantity. A final mobile review also found percentage grid gaps overflowing stacked content; fixed mobile gaps and bounding-box regressions now prevent result-caption/caveat overlap. New test-only dynamic JSON import failures were corrected to the project’s static-import convention. Initial TypeScript checks also caught and corrected the details-element test type; final checks pass without relaxed scientific assertions.
 
@@ -48,16 +48,16 @@ Inspection included the hero, question, Episode Theater, observation lens, linea
 
 The capture script records browser navigation, script resources, long tasks, one/zero WebGL canvases, and 20 scripted model switches, measured through the next two animation frames. See [raw measurements](browser-evidence.json). These are local headless Chromium measurements using software WebGL on this host, not field INP, Lighthouse, Core Web Vitals or physical-device GPU measurements.
 
-Final isolated capture run (20 scripted switches per mode):
+Final isolated capture run (20 scripted model switches per mode):
 
 | Mode | Script resources | Decoded JS | Estimated gzip JS | Switch median / p95 / max | Longest observed task |
 | --- | ---: | ---: | ---: | ---: | ---: |
-| Reduced motion / 2D | 6 | 974.9 KiB | 281.5 KiB | 33.5 / 50.1 / 54.1 ms | 91 ms |
-| After entering WebGL chapter | 7 | 1829.2 KiB | 507.8 KiB | 33.9 / 50.8 / 375.9 ms | 254 ms |
+| Reduced motion / 2D | 6 | 983.4 KiB | 284.8 KiB | 33.3 / 33.6 / 34.1 ms | 83 ms |
+| After entering response 3D chapter | 8 | 1863.6 KiB | 517.7 KiB | 33.3 / 33.6 / 33.8 ms | 160 ms |
 
-The reduced-motion run rendered zero canvases. The normal-mode measurement deliberately enters the model chapter and waits for its one canvas before collecting interaction measurements. The deferred scene adds about 226 KiB estimated gzip; it is not requested at the opening. The Python server serves scripts uncompressed; gzip sizes are computed from emitted files. This local run includes software-WebGL initialisation: the full-mode maximum switch/frame wait was 375.9 ms while the p95 was 50.8 ms. These are not production-network, physical-device or field INP claims.
+The reduced-motion run renders zero canvases. The normal-mode measurement deliberately enters the response-model chapter and waits for its canvas before collecting interaction measurements. Both WebGL views load only when needed and render on demand. The 3D benchmark is opt-in and is tested/captured separately. The Python server serves scripts uncompressed; gzip sizes are computed from emitted files. These local software-WebGL timings are not production-network, physical-device or field INP claims.
 
-The canvas uses on-demand frames, low-power preference and capped device pixel ratio, with no continuous animation loop. Browser tests verify that it is absent at the opening, appears when the model chapter is reached, and is released when leaving. A loading/2D fallback and working mathematical controls remain available.
+Camera presets, orthographic projection, opt-in drag rotation, keyboard scene scale and explicit axes support inspection. Graphics contexts, controls, geometry and label textures are cleaned up on exit. Actual context loss is tested and falls back to exact data. Tall desktop 3D figure captures temporarily use a taller viewport to avoid compositor clipping below the viewport; scientific content is not replaced.
 
 
 ## Reproduce the checks
@@ -90,6 +90,17 @@ Background context is grounded in primary investigations by [Cormack et al. (200
 The palette uses paper/ink, cobalt, vermilion and ochre with solid surfaces; CSS and SVG decorative gradients were removed. Colour supplements explicit text, units and selection states. Contrast issues at the light/dark boundaries and narrow-screen minimum-content overflows found during testing were fixed before the final passing run. No interaction or numerical assertion was relaxed. Existing WebGL tests now navigate to the relocated model chapter before checking the same rendering/fallback behaviour.
 
 Code/content commit: `cc8314e`. A following validation commit preserves the audit, current captures, script changes and measurements. No scientific repository, PR #8, package identity, release, CFF or original fixture changes.
+
+## Plot consistency and genuine 3D upgrade · 2026-10-20
+
+[The focused plot validation report](plots/VALIDATION.md) lists the reviewed figures, previous mismatches, camera/data interactions, scientific interpretation and testing limits. Code/interaction commit: `6d5f79e`.
+
+- A shared `plot-theme.mjs` unifies SVG, Recharts and WebGL colours. Tooltip, grid, interval, slider and selection colours now follow the editorial palette. Intervals use the selected model's colour. No decorative gradients are introduced.
+- The benchmark's optional 3D view maps height to the exact cell NRMSE, columns to the six target cells and depth to four model categories. Bar picking and the 24-cell matrix update the original model/horizon/outcome controls. All 96 root/model/cell values are verified against the frozen fixture.
+- The response scene replaces the decorative spatial field with total/24h/84h mathematical curves, a time slice, labelled axes and direct curve picking. The 169 hourly samples are checked against the original equation, including component sums and signed mathematical edge cases.
+- Browser tests use independently projected world coordinates to exercise real 3D ray picking. Actual rendered pixels verify camera and pointer-drag changes. Touch, keyboard, reduced motion, missing WebGL, viewport release and live graphics-context loss are exercised, including mobile WebGL rendering.
+- Orthographic projection reduces perspective scaling but does not prevent occlusion or foreshortening at every camera angle. This is disclosed; exact matrices and the original 2D views remain available. No per-cell or direct between-model confidence intervals are invented.
+- No scientific result, root identity, source authority, package identity, dependency, citation, Python repository or release artifact changes.
 
 ## Remaining limitations
 

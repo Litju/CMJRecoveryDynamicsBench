@@ -12,7 +12,10 @@ A four-point **Understand in 90 seconds** route shares its evidence with five ch
 - **The experiment:** four principal recorded scores, model knowledge cards, 72 real teaching cells, frozen train/development/test design and all six selection configurations. Interactive ablations and 24/48/96-camp sample efficiency use a separate receipt-derived fixture. The original **96 numerical filter combinations** remain intact. Aggregate bootstrap interval plots accompany exact root tables; comparisons never invent direct ridge-versus-structured intervals.
 - **What remains:** signed 24h/84h amplitude lab with scenarios, response / derivative / signed integral charts, exact contributions, playback/reset, half-life and assumption explanations. Five evidence levels, negative findings, separately proposed falsification questions, reproducibility and citation.
 
-The single Three.js scene appears later, beside the structured modelling hypothesis. It loads only when its chapter approaches the viewport, responds to elapsed time and isolated mathematical modes, and releases its canvas when leaving the chapter. Its spatial geometry is decorative and disclosed. Reduced motion or unavailable WebGL retains the 2D plate and working mathematical controls.
+Scientific figures share one palette and tooltip treatment across SVG, Recharts and WebGL. The original 2D plots stay available; the benchmark also offers **3D comparison**, showing all 24 model/outcome/horizon cell scores for the selected root. Bar picking and the exact matrix update the same model/horizon/outcome controls. Height is NRMSE from zero; model depth is categorical. Orthographic camera presets, opt-in drag rotation and scene scale work alongside exact values.
+
+The response-model chapter now plots the combined mathematical response and its two components as three real 3D curves, with named axes, a moving time slice and curve picking to scrub elapsed hours. It replaces the decorative spatial field. Both scenes load near their viewport only, render on demand and release when leaving. Reduced motion, missing WebGL or context loss retain 2D curves / exact data. Touch scrolling is preserved until rotation is explicitly enabled.
+
 
 ## Run
 
@@ -78,7 +81,9 @@ The retired rich-history 24-cell raw-progress specimen stays outside the active 
 | `lineage.tsx`, `src/lib/story.ts`, `src/data/formulation-methods.json` | Scientific ancestry, reconstruction and formulation methods |
 | `experiment-methods.tsx`, `explorer.tsx`, `src/lib/science.ts` | Metric teaching, study design, diagnostics and original numerical explorer |
 | `recovery-lab.tsx`, `src/lib/decay.mjs` | Signed mathematical response, analytic slope/integral and assumption drilldowns |
-| `hero-instrument.tsx`, `instrument-scene.tsx` | One on-demand WebGL scene, mode isolation, time scrub and fallbacks |
+| `hero-instrument.tsx`, `instrument-scene.tsx`, `src/lib/response-geometry.mjs` | 3D response curves, mode isolation, curve picking and exact mathematical fallback |
+| `benchmark-3d.tsx`, `benchmark-scene.tsx` | Linked 24-cell WebGL comparison and exact source-backed matrix |
+| `scene-availability.tsx`, `scene-primitives.tsx`, `camera-controls.tsx`, `src/lib/plot-theme.mjs` | Shared plotting colours, camera controls, viewport loading, disposal and context-loss fallback |
 | `evidence.tsx` | Negative results, evidence ladder, proposed roadmap and provenance |
 | `tests/`, `scripts/capture-exhibition.mjs` | Scientific, interaction, accessibility, responsive and capture verification |
 

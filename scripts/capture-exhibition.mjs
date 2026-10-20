@@ -60,12 +60,10 @@ for (const [device, viewport] of [
     ["exposure", ".exposure-context"],
     ["history", ".history-reader"],
   ]) {
-    await page
-      .locator(selector)
-      .screenshot({
-        path: `docs/screenshots/${device}-${chapter}.png`,
-        animations: "disabled",
-      });
+    await page.locator(selector).screenshot({
+      path: `docs/screenshots/${device}-${chapter}.png`,
+      animations: "disabled",
+    });
     captures.push({
       device,
       chapter,
@@ -77,12 +75,10 @@ for (const [device, viewport] of [
     [2, "innovation"],
   ]) {
     await page.locator(".measurement-tabs button").nth(index).click();
-    await page
-      .locator(".measurement-workbench")
-      .screenshot({
-        path: `docs/screenshots/${device}-${chapter}.png`,
-        animations: "disabled",
-      });
+    await page.locator(".measurement-workbench").screenshot({
+      path: `docs/screenshots/${device}-${chapter}.png`,
+      animations: "disabled",
+    });
     captures.push({
       device,
       chapter,
@@ -164,6 +160,51 @@ for (const [device, viewport] of [
     chapter: "formulation-methods",
     path: `docs/screenshots/${device}-formulation-methods.png`,
   });
+  const savePlot = async (chapter, selector) => {
+    const path = `docs/screenshots/${device}-${chapter}.png`;
+    const originalViewport = page.viewportSize();
+    if (device === "desktop" && chapter === "benchmark-3d") {
+      const height = await page
+        .locator(selector)
+        .evaluate((e) => e.getBoundingClientRect().height);
+      await page.setViewportSize({
+        width: 1440,
+        height: Math.ceil(height) + 180,
+      });
+    }
+    await page.locator(selector).screenshot({ path, animations: "disabled" });
+    if (originalViewport) await page.setViewportSize(originalViewport);
+    captures.push({ device, chapter, path });
+  };
+  await savePlot("plot-uncertainty", ".interval-plot");
+  await savePlot("plot-lab", ".lab-panel");
+  await page
+    .getByRole("button", { name: "3D comparison", exact: true })
+    .click();
+  if (device === "desktop") {
+    await page.locator(".benchmark-canvas canvas").waitFor();
+    await savePlot("benchmark-3d", ".benchmark-3d");
+    await page
+      .locator(".benchmark-3d")
+      .getByRole("button", { name: "Front view", exact: true })
+      .click();
+    await savePlot("benchmark-front", ".benchmark-canvas");
+    await page.locator(".scene-matrix summary").click();
+    await savePlot("benchmark-matrix", ".scene-matrix");
+    await page.locator(".hero-instrument").scrollIntoViewIfNeeded();
+    await page.locator(".instrument-visual canvas").waitFor();
+    await savePlot("response-3d", ".hero-instrument");
+  } else {
+    await savePlot("benchmark-fallback", ".benchmark-3d");
+    await savePlot("response-fallback", ".hero-instrument");
+    await page.emulateMedia({ reducedMotion: "no-preference" });
+    await page.locator(".benchmark-3d").scrollIntoViewIfNeeded();
+    await page.locator(".benchmark-canvas canvas").waitFor();
+    await savePlot("benchmark-3d", ".benchmark-3d");
+    await page.locator(".hero-instrument").scrollIntoViewIfNeeded();
+    await page.locator(".instrument-visual canvas").waitFor();
+    await savePlot("response-3d", ".hero-instrument");
+  }
   await page.close();
 }
 const performance = [];

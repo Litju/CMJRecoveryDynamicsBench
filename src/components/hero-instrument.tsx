@@ -244,8 +244,7 @@ export default function HeroInstrument() {
         </output>{" "}
         arbitrary units · y(t) = {fast}e⁻ᵗ/²⁴ + {slow}e⁻ᵗ/⁸⁴.
         <br />X is elapsed hours; Y is the mathematical response; Z separates
-        the three curves. Click a curve to select its elapsed hour. Click a
-        curve to select its elapsed hour. Not measured motion or model
+        the three curves. Click a curve to select its elapsed hour. Not measured motion or model
         predictions.
       </p>
     </div>

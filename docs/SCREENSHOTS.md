@@ -1,6 +1,6 @@
 # RES-536 chapter captures
 
-Refreshed after the editorial/context redesign from the production static export using Chromium, desktop 1440 × 1000 and mobile 390 × 844 with touch/reduced motion. The opening is a solid-colour experimental cover. The response-model chapter loads WebGL on desktop and retains its 2D fallback on mobile. Each file captures one chapter or focused scientific state; full-page regression captures remain in `desktop.png` and `mobile.png`.
+Refreshed after the editorial/context redesign from the production static export using Chromium, desktop 1440 × 1000 and mobile 390 × 844 with touch/reduced motion. The opening is a solid-colour experimental cover. Default mobile chapter captures respect reduced motion; explicit normal-mode mobile 3D views and reduced-motion fallbacks are captured separately. Both the benchmark and response-model chapter use real WebGL with exact numerical alternatives. Each file captures one chapter or focused scientific state; full-page regression captures remain in `desktop.png` and `mobile.png`.
 
 Sticky navigation and the offscreen skip link are suppressed only during chapter captures so neither covers the middle of tall images. Scientific content and user-visible state are not replaced. The capture script selects expanded states through real controls. Run `node scripts/capture-exhibition.mjs` against the production preview to refresh; this host needs the browser-library prefix documented in the README.
 
@@ -30,3 +30,17 @@ Sticky navigation and the offscreen skip link are suppressed only during chapter
 Capture metadata, runtime errors, network script sizes and local interaction measurements are recorded in [browser-evidence.json](browser-evidence.json). Measurements describe this host and browser run; they are not field Core Web Vitals.
 
 The [four before screenshots and audit notes](editorial/AUDIT.md) preserve the starting point for this redesign. Background literature is cited in the setting chapter, separately from the benchmark’s own synthetic evidence.
+
+## Unified plotting and 3D views
+
+| Figure / state | Desktop | Mobile |
+| --- | --- | --- |
+| Updated uncertainty intervals | [View](screenshots/desktop-plot-uncertainty.png) | [View](screenshots/mobile-plot-uncertainty.png) |
+| Updated signed-area lab plot | [View](screenshots/desktop-plot-lab.png) | [View](screenshots/mobile-plot-lab.png) |
+| Linked 3D benchmark | [View](screenshots/desktop-benchmark-3d.png) | [View](screenshots/mobile-benchmark-3d.png) |
+| Front camera | [View](screenshots/desktop-benchmark-front.png) | Native camera presets are also touch-operated in browser tests |
+| Exact 24-cell matrix / fallback | [View](screenshots/desktop-benchmark-matrix.png) | [View](screenshots/mobile-benchmark-fallback.png) |
+| 3D response curves | [View](screenshots/desktop-response-3d.png) | [View](screenshots/mobile-response-3d.png) |
+| Response mathematical fallback | Included in reduced-motion chapter captures | [View](screenshots/mobile-response-fallback.png) |
+
+[Plot review, scientific interpretation and validation](plots/VALIDATION.md). The full capture run now contains 52 chapter/state images. Four additional [before figures](plots/before/) preserve the plotting mismatches addressed in this iteration.
