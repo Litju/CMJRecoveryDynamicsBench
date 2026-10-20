@@ -14,7 +14,7 @@
 | `npm run typecheck` | Passed with strict TypeScript |
 | `npm test` | **15/15 passed**, including deterministic source/fixture checks, all 17 reported model variants, six-cell selection minima, all eight lineage contracts and mathematical identities |
 | `npm run build` | Passed; verifies all source manifests and static fixtures, then emits the Next.js 16.4.2 export to `out/` (2.7 MB) |
-| `npm run test:ui` | **31/31 passed** in Chromium against the production static export in 2.3 minutes |
+| `npm run test:ui` | **31/31 passed** in Chromium against the production static export in 2.0 minutes |
 | `npm audit` | 0 known vulnerabilities in the lockfile at assessment time |
 | `npm audit --omit=dev` | 0 known production-dependency vulnerabilities at assessment time |
 
@@ -42,7 +42,7 @@ No hydration warnings appeared in the fresh-browser console checks after the her
 
 ## Screenshots and local performance
 
-The production export produced **52 chapter/state captures** in [`docs/screenshots/`](screenshots/) and **20 scroll-stage viewport captures** in [`docs/journey/`](journey/). Refreshed full-page views are [`docs/desktop.png`](desktop.png) at 1440 × 23,869 and [`docs/mobile.png`](mobile.png) at 390 × 33,184. The [gallery index](SCREENSHOTS.md) links the focused chapter states. Both screenshot scripts completed with zero page errors. The source, output URL, capture counts, script resources and local timings are recorded in [`docs/browser-evidence.json`](browser-evidence.json) and [`docs/journey/captures.json`](journey/captures.json).
+The production export produced **52 chapter/state captures** in [`docs/screenshots/`](screenshots/) and **20 scroll-stage viewport captures** in [`docs/journey/`](journey/). Refreshed full-page views are [`docs/desktop.png`](desktop.png) at 1440 × 23,850 and [`docs/mobile.png`](mobile.png) at 390 × 33,184. The [gallery index](SCREENSHOTS.md) links the focused chapter states. Both screenshot scripts completed with zero page errors. The source, output URL, capture counts, script resources and local timings are recorded in [`docs/browser-evidence.json`](browser-evidence.json) and [`docs/journey/captures.json`](journey/captures.json).
 
 The measured interaction samples use headless Chromium and SwiftShader (software WebGL), not a physical GPU. In the scripted chart-switch sample, median / p95 / max were 33.4 / 40.9 / 49.7 ms with the normal scene and 33.4 / 33.5 / 33.8 ms with reduced motion. They are local two-animation-frame observations, not field INP, Core Web Vitals or mobile-network timings.
 
