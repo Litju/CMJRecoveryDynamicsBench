@@ -1,45 +1,35 @@
-# Recovery Observatory · RES-536
+# Recovery Observatory
 
-A static-first scientific field journal built on the RES-533/534 observatory and RES-536 exhibition. Warm paper and dark ink, cobalt, vermilion and ochre; solid surfaces without decorative gradients. Next.js / TypeScript, React Three Fiber, Recharts, locally served Geist and system serif typography. No backend, login, model training, benchmark generation or inference. Package and scientific identities remain unchanged.
+**An interactive exhibition of synthetic countermovement-jump recovery research.**
 
-## Experience
+Recovery Observatory is a static-first research showcase about one question: after a training exposure, can we forecast how mean force and net impulse will change over the following three days? It introduces the measurement, synthetic study design, model comparisons, research history and scientific limits in one navigable story.
 
-The **whole exhibition is a continuous scroll-driven journey**. A persistent 3D stage follows nine chapters, with scrolling controlling the camera, schematic movement and mathematical time slice. Select a 3D model bar to open its exact benchmark view, or a formulation block to inspect that contract. Native scrolling, direct chapter links, pause and opt-in rotation keep navigation predictable. The stage becomes a compact pinned panel on phones, with a separate landscape layout. Reduced motion and unavailable graphics preserve native explanations and exact SVG values.
+The title and visual identity are provisional. The exhibit is a portfolio and research-communication site, not an athlete assessment, coaching tool or accepted recovery score. It contains no human records, backend, authentication, model training or live inference.
 
-All scientific figures use the same light paper surface, dark axes and consistent cobalt / terracotta / ochre palette. See the [complete journey captures](docs/journey/VALIDATION.md) and [detailed scientific chapter gallery](docs/SCREENSHOTS.md).
+| Desktop | Mobile |
+| --- | --- |
+| ![Desktop view of the interactive research exhibition](docs/screenshots/desktop-hero.png) | ![Mobile view of the interactive research exhibition](docs/screenshots/mobile-hero.png) |
 
-A four-point **Understand in 90 seconds** route shares its evidence with five chapters and progressive **Methods & evidence** sheets:
+## Take a 90-second tour
 
-- **Setting & signal:** the real sports-science motivation and the actual synthetic setting are distinguished before the models. A four-dimension exposure glossary explains all eight public load descriptors. An interactive apparatus/measurement exhibit switches among mean force, net-impulse area and baseline-relative innovation, with explicit units, construction and purpose. Cited primary background studies motivate the question; the pinned source defines this benchmark’s own observation law.
-- **The world:** six-event Episode Theater with playback, keyboard/touch scrubbing, reset, model-at-origin and later-observer perspectives. World / observation / predictor / scorer layers; 82-field feature budget; an interactive mean-force/net-impulse schematic; conceptual world cards linked to the correct formulation.
-- **The evolution:** a focus-preserving, interactive history reader connects each of eight source-defined formulations to its scientific issue, design decision and consequence. The exact graph retains two families and an unresolved retired branch. Exact research questions and statuses, five documented parent edges, world/observation/task/metric/model evidence sheets, URL selection and browser-history restoration. A separate reconstruction strand preserves the distinction between fresh public generation and historical replay.
-- **The experiment:** four principal recorded scores, model knowledge cards, 72 real teaching cells, frozen train/development/test design and all six selection configurations. Interactive ablations and 24/48/96-camp sample efficiency use a separate receipt-derived fixture. The original **96 numerical filter combinations** remain intact. Aggregate bootstrap interval plots accompany exact root tables; comparisons never invent direct ridge-versus-structured intervals.
-- **What remains:** signed 24h/84h amplitude lab with scenarios, response / derivative / signed integral charts, exact contributions, playback/reset, half-life and assumption explanations. Five evidence levels, negative findings, separately proposed falsification questions, reproducibility and citation.
+1. Choose **Start the story** and follow the short route through the research question.
+2. In the Synthetic Episode Theater, switch between the forecast-origin and later-observer views. Scrub the events and open the methods notes to see which information is available to a forecast.
+3. Follow the eight source-defined formulations. Open a node to inspect its question, status, parent evidence and limitations.
+4. In the explorer, select a model, root, horizon, outcome and metric. Every plotted value comes from the pinned receipt; the 3D view and exact-value matrix use the same controls.
+5. Open the Recovery Lab to change two mathematical modes and inspect their response, derivative and signed integral. These curves are illustrations, not model predictions.
 
-Scientific figures share one palette and tooltip treatment across SVG, Recharts and WebGL. The original 2D plots stay available; the benchmark also offers **3D comparison**, showing all 24 model/outcome/horizon cell scores for the selected root. Bar picking and the exact matrix update the same model/horizon/outcome controls. Height is NRMSE from zero; model depth is categorical. Orthographic camera presets, opt-in drag rotation and scene scale work alongside exact values.
+The persistent 3D stage follows the story on desktop and moves above it on mobile. Scrolling remains native. Reduced motion, unavailable WebGL and graphics-context loss retain text, 2D plots and exact numerical alternatives. [The screenshot gallery](docs/SCREENSHOTS.md) shows desktop and mobile chapters and expanded research states.
 
-The response-model chapter now plots the combined mathematical response and its two components as three real 3D curves, with named axes, a moving time slice and curve picking to scrub elapsed hours. It replaces the decorative spatial field. Both scenes load near their viewport only, render on demand and release when leaving. Reduced motion, missing WebGL or context loss retain 2D curves / exact data. Touch scrolling is preserved until rotation is explicitly enabled.
+## Run locally
 
-
-## Run
-
-Node.js 22+:
+Use Node.js 22 and npm. No environment variables, API keys, private datasets or Python setup are needed for the site.
 
 ```sh
 npm ci
 npm run dev
 ```
 
-Development: <http://localhost:3000>. Production static preview:
-
-```sh
-npm run build
-python3 -m http.server 4173 --directory out
-```
-
-Preview: <http://localhost:4173>. The existing preview process is left running after validation. Any static host can serve `out/`.
-
-## Validate and capture
+Open <http://localhost:3000>. The fixture generator uses only the pinned source files in this repository; `npm run build` verifies their checksums and rejects stale generated JSON before exporting the site.
 
 ```sh
 npm test
@@ -47,55 +37,51 @@ npm run typecheck
 npm run build
 npx playwright install --with-deps chromium
 npm run test:ui
-node scripts/capture-exhibition.mjs
 ```
 
-This host uses extracted browser libraries; prefix browser commands with:
+The browser suite expects the production build from `npm run build`. It starts an isolated static server on `127.0.0.1:4174` so an existing development server cannot be mistaken for the production export. The complete browser run checks all 96 model/root/horizon/outcome views, mobile/touch states, accessibility, reduced motion and WebGL fallbacks.
+
+`npm run build` writes the deployable static site to `out/`. To inspect it manually:
 
 ```sh
-LD_LIBRARY_PATH=/tmp/cmj-browser-libs/extracted/usr/lib/x86_64-linux-gnu
+python3 -m http.server 4173 --directory out
 ```
 
-See [editorial audit and brief](docs/editorial/AUDIT.md), [validation](docs/VALIDATION.md), [browser measurements](docs/browser-evidence.json), [chapter screenshots](docs/SCREENSHOTS.md) and [implementation map](docs/IMPLEMENTATION.md). Screenshots are individual desktop/mobile chapters and selected expanded states, in addition to full-page regression captures. The capture script disables sticky positioning only while taking chapter images, preventing navigation from covering the middle of a tall capture.
+Open <http://localhost:4173>. The export can be served by any static file host; see [deployment notes](docs/DEPLOYMENT.md).
 
-## Scientific provenance
+## Scientific source and limits
 
-Source: [Litju/CMJRecoveryDynamicsBench](https://github.com/Litju/CMJRecoveryDynamicsBench), immutable audited commit **`3dc4c82f0c948add6e4a9ebdebfd227933c823d3`**.
+The exhibition cites and preserves scientific source materials from [`Litju/CMJRecoveryDynamicsBench`](https://github.com/Litju/CMJRecoveryDynamicsBench) at immutable commit [`3dc4c82f0c948add6e4a9ebdebfd227933c823d3](https://github.com/Litju/CMJRecoveryDynamicsBench/tree/3dc4c82f0c948add6e4a9ebdebfd227933c823d3). It presents precomputed receipts; it does not execute the Python generators, reproduce a historical private campaign, fit models in the browser or infer athlete outcomes.
 
-- `source/manifest.json`: original receipts, study documents, citation and license with checksums.
-- `source/lineage/manifest.json`: seven verbatim benchmark files defining eight formulations; tests compare exact questions, statuses, parentage and world/observation symbols.
-- `source/exhibition/manifest.json`: verbatim observation, fixed-mode dynamics, correlated-exposure dynamics and reference-study implementation, fetched read-only at the same commit.
-- `scripts/prepare-data.mjs`: verifies authority checksums and deterministically exports `results.json` and the separate `methods.json` fixture, to both `src/data/` and downloadable `public/data/`. Production builds reject stale fixtures. Builds need no network.
-- Original result receipt SHA-256: `cd991366c30a29723318b034bcbacff357544eff8d529678fcdcd849b0f08ce9`.
-- Original numerical fixture remains byte-identical: SHA-256 `4d3b9d8ce4d40a8fdf956ee19585aee01dc5a6b6cf1af802b7011ecf03803bca`.
+The active fixed-mode comparison is a **new synthetic diagnostic study** with three public roots generated by the same declared world. Its six-cell mean NRMSE is not empirical evidence, an out-of-distribution guarantee or a production benchmark score. The eight historical formulations have partial exact-replay authority. The retired rich-history raw-progress result is a different experiment and is excluded from the active NRMSE comparison. See [scientific provenance and interpretation](docs/SCIENCE_AND_DATA.md) for the metric definition, lineage, receipt hashes and claim boundaries.
 
-Cell NRMSE is RMSE / truth **population** SD (`ddof=0`); six cells receive equal weight. Across-root values average root-specific ratios, never mean RMSE / mean SD. Cross-root sample SD uses `ddof=1`. Force and impulse RMSE remain in their separate units. Bootstrap intervals are per-root, conditional on a fixed fit, using 5,000 whole-camp resamples of 16 camps; reported paired contrasts are against **zero**. No pooled interval or new between-model interval is computed.
+## Project map
 
-The retired rich-history 24-cell raw-progress specimen stays outside the active six-cell leaderboard. Scientific status, reconstruction evidence, new public-study execution, production score implementation and empirical validity are distinct. Mathematical figures are explicitly illustrations; they are not raw generated trials, model outputs or athlete data.
-
-## Main files
-
-| File | Purpose |
+| Path | Role |
 | --- | --- |
-| `scroll-journey.tsx`, `journey-scene.tsx`, `src/lib/journey.ts` | Whole-site chapter tracking, continuous scroll-controlled 3D, linked model/formulation selection and native fallbacks |
-| `src/lib/brand.ts` | Configurable provisional branding |
-| `src/app/page.tsx`, `globals.css` | Exhibition composition, typography and responsive design |
-| `measurement-exhibit.tsx`, `src/data/context.json` | Setting, public exposure descriptors, force/impulse/innovation and primary background citations |
-| `src/app/editorial.css`, `src/data/research-history.json` | Editorial design and eight source-grounded scientific decision narratives |
-| `episode-theater.tsx`, `src/data/exhibition.json` | Timeline, information boundary, measurement lens and world cards |
-| `lineage.tsx`, `src/lib/story.ts`, `src/data/formulation-methods.json` | Scientific ancestry, reconstruction and formulation methods |
-| `experiment-methods.tsx`, `explorer.tsx`, `src/lib/science.ts` | Metric teaching, study design, diagnostics and original numerical explorer |
-| `recovery-lab.tsx`, `src/lib/decay.mjs` | Signed mathematical response, analytic slope/integral and assumption drilldowns |
-| `hero-instrument.tsx`, `instrument-scene.tsx`, `src/lib/response-geometry.mjs` | 3D response curves, mode isolation, curve picking and exact mathematical fallback |
-| `benchmark-3d.tsx`, `benchmark-scene.tsx` | Linked 24-cell WebGL comparison and exact source-backed matrix |
-| `scene-availability.tsx`, `scene-primitives.tsx`, `camera-controls.tsx`, `src/lib/plot-theme.mjs` | Shared plotting colours, camera controls, viewport loading, disposal and context-loss fallback |
-| `evidence.tsx` | Negative results, evidence ladder, proposed roadmap and provenance |
-| `tests/`, `scripts/capture-exhibition.mjs` | Scientific, interaction, accessibility, responsive and capture verification |
+| `src/app/` | Single-page App Router entry, metadata and styles |
+| `src/components/` | Story, measurements, lineage, explorer, mathematical lab and optional WebGL scenes |
+| `src/lib/` | Receipt selectors, chart geometry, chapter state and mathematical calculations |
+| `src/data/` | Build-time JSON fixtures imported by the page and components |
+| `source/` | Read-only scientific source snapshots, receipts, manifests and citation metadata |
+| `scripts/prepare-data.mjs` | Verifies pinned source hashes and deterministically writes the public fixtures |
+| `tests/` | Scientific assertions and production-browser interaction/accessibility checks |
+| `docs/` | Architecture, science, deployment, validation and screenshots |
 
-Component filenames above are under `src/components/` unless otherwise specified. Geist is distributed under the SIL Open Font License in `public/fonts/OFL.txt`. Upstream research software is Apache-2.0, excluding external datasets and third-party materials; unchanged CFF credit is Julio Rodriguez, version 0.1.0.
+[Architecture details](docs/ARCHITECTURE.md) explain how those parts connect.
 
-## Scope and preview hosting
+## Attribution and licensing
 
-Only this showcase is modified. The scientific Python repository, PR #8, package metadata, CFF and release artifacts are untouched. No production release, tag, domain, publication or historical replay is claimed.
+The preserved scientific software identifies Julio Rodriguez as its author in [`source/CITATION.cff`](source/CITATION.cff) and carries its upstream Apache-2.0 license at [`source/LICENSE`](source/LICENSE). That license is for the scientific source it accompanies; it does **not** license this showcase's TypeScript, CSS, tests, documentation or screenshots.
 
-The prior Vercel connector attempt returned 403 and the CLI was logged out. This implementation does not retry or bypass those restrictions. No remote deployment was created; use the running local preview above.
+The showcase itself currently has no root `LICENSE` file, so no reuse license for its original contents is granted by this checkout. The locally served Geist font is accompanied by its SIL Open Font License in [`public/fonts/OFL.txt`](public/fonts/OFL.txt). Runtime and development packages are pinned in `package-lock.json`; their license identifiers are package metadata, and their code is installed from npm rather than vendored here. Details and the public-release license gate are recorded in [the release checklist](docs/RELEASE_CHECKLIST.md).
+
+Direct runtime dependencies in the lockfile are Next.js 16.4.2, React/React DOM 19.3.1, React Three Fiber 9.8.2, Three.js 0.180.0, Recharts 3.10.1, Lucide React 0.468.0, Tailwind CSS 4.3.3 and `@tailwindcss/postcss` 4.3.3. The lockfile reports MIT for these packages except Lucide React (ISC). Development tooling includes TypeScript 5.9.3, Playwright 1.64.1 and axe-core Playwright 4.14.0 (MPL-2.0 metadata). `npm audit` reported no known vulnerabilities at the readiness check; this is time-specific and should be rerun before a later launch.
+
+The lockfile also contains Next.js's optional Sharp/libvips image packages; some platform package metadata declares LGPL-3.0-or-later. This app has no `next/image` import and the static export does not bundle Sharp. The exact package and license metadata remains in `package-lock.json`; review it again before changing image handling or shipping bundled dependencies.
+
+## Release state
+
+This repository is a local release candidate. It has no configured Git remote, no approved showcase repository URL and no production hostname. Its metadata intentionally blocks indexing while the site remains unpublished. The Vercel project/account access check is unresolved. The scientific Python release and its PR #8 are separate from this site and are not changed here.
+
+See [current validation evidence](docs/VALIDATION.md), [deployment readiness](docs/DEPLOYMENT.md) and the [release decision](docs/RELEASE_CHECKLIST.md). No public repository, deployment, domain, release or tag has been created by this work.

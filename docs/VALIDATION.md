@@ -1,115 +1,71 @@
-# RES-536 continuous 3D exhibition validation · 2026-10-20
+# Final validation · 2026-10-20
 
-**GO_WITH_LIMITATIONS** for the local scientific exhibition. The application is implemented and runs as a production static export at <http://localhost:4173>. No remote preview or production deployment was created.
+**Validated source/test revision:** `3ab3bc4` (`fix(metadata): separate scientific source attribution`). Documentation and capture evidence follow in the RES-537 documentation commit.
 
-A persistent 3D stage now follows every chapter of the complete website. Native scroll drives its camera, schematic pose and mathematical time slice; chapter links, pause and opt-in rotation stay available. On mobile the stage pins above the content, with a compact landscape layout. Selecting a sourced bar opens its exact model / across-root mean / H24 / force / NRMSE configuration, even after other filters were selected. Formulation blocks select the original contracts.
+**Scientific authority:** [`Litju/CMJRecoveryDynamicsBench@3dc4c82f0c948add6e4a9ebdebfd227933c823d3`](https://github.com/Litju/CMJRecoveryDynamicsBench/tree/3dc4c82f0c948add6e4a9ebdebfd227933c823d3).
 
-The completed visitor journey is concrete research cover → 90-second route → setting, exposure and measurement → Synthetic Episode Theater → scientific decision history and exact eight-formulation lineage → actual experiment and metric teaching → original numerical explorer → mathematical lab → negative findings, evidence and proposed research questions. Scientist-level methods stay inside the same experience and disclose exact protocol JSON, scientific status, model authorities, source links and limitations.
+**Decision:** GO_WITH_LIMITATIONS for the local showcase candidate only; public source publication and Vercel deployment are NO-GO pending owner actions. See the [release checklist](RELEASE_CHECKLIST.md).
 
-The complete 29-case Chromium suite passes. After the final native axis-key change, the nine focused journey/plot cases also pass on the final production export.
-
-## Verification results
+## Build and test results
 
 | Check | Result |
 | --- | --- |
-| `npm test` | **15/15 passed**: original numerical checks, deterministic source/fixture checks, all 17 model aggregates and root sample SDs, all six selection minima, exact eight questions/statuses/parents/world/observation symbols, knowledge boundary, signed derivative/integral identities; exact observation constants, eight exposure descriptors and eight decision narratives |
-| `npm run typecheck` | Passed, strict TypeScript, no emit |
-| `npm run build` | Passed, production static export; checks original, lineage and exhibition source checksums and both downloadable fixtures |
-| `npm run test:ui` | **29/29 passed** in the complete Chromium suite, including all nine scroll-driven chapters, real rendered-pixel changes and pause, mobile portrait/landscape bounds, overview selection after changing filters, linked 3D cells, real ray picking and context-loss fallback |
-| Original numerical UI | All **96** model × root × horizon × outcome combinations retain exact sourced values; comparator, RMSE units, ledger and intervals pass original assertions |
-| Metric teaching | All **72** model × test-root × cell views match exact receipt RMSE, population SD, NRMSE and six-cell aggregate; exact frozen protocol JSON matches the fixture |
-| Diagnostics | All four ablations, all three sample sizes × three families, all six selected configurations and downloaded diagnostic JSON checked |
-| Scientific lineage | Eight exact source questions/statuses, five documented parent edges, proposed/active fork, unresolved retired ancestry, parent navigation, methods, valid/invalid deep links, reload and Back restoration |
-| Episode | All six events, both perspectives, all four layers, measurement lens, immutable forecast boundary, keyboard scrubbing, playback/pause/reset and public feature budget checked |
-| Lab / 3D | Signed scenarios; response/slope/integral plotted values; exact mathematical readouts; sliders and keyboard; reset and playback; hero mode isolation; actual WebGL render at the model chapter; viewport-based loading/release; unavailable and throwing context fallbacks |
-| Accessibility | Zero axe violations in tested WCAG 2 A/AA + 2.1 AA rules: default desktop/mobile, expanded scientific methods, expanded lineage evidence and mobile touch state. Native focusable scroll regions, text alternatives, labels and keyboard controls verified |
-| Responsive | No page overflow at **320, 375, 390, 768, 1024, 1440 px**; the pinned stage also passes **844 × 390 landscape** bounds; expanded methods also checked. Wide numerical tables keep local scrolling |
-| Motion | Reduced motion omits Three.js scene loading/rendering and disables automatic visual reveals; explicit playback remains controllable; preference changes stop lab playback |
-| Browser runtime | No uncaught page errors in tested journeys or screenshot capture run |
-| Scope | Scientific repository Git status remains clean. Package identity, lockfile, CFF, original release audit and original numerical fixture unchanged. No PR #8 or release operations |
+| Clean `npm ci` | Passed with Node.js 22.23.2 / npm 10.9.8; 118 packages installed; no package or lockfile changes |
+| `npm run typecheck` | Passed with strict TypeScript |
+| `npm test` | **15/15 passed**, including deterministic source/fixture checks, all 17 reported model variants, six-cell selection minima, all eight lineage contracts and mathematical identities |
+| `npm run build` | Passed; verifies all source manifests and static fixtures, then emits the Next.js 16.4.2 export to `out/` (2.7 MB) |
+| `npm run test:ui` | **31/31 passed** in Chromium against the production static export in 2.3 minutes |
+| `npm audit` | 0 known vulnerabilities in the lockfile at assessment time |
+| `npm audit --omit=dev` | 0 known production-dependency vulnerabilities at assessment time |
 
-## Scientific evidence and claim boundaries
+The browser suite uses an isolated Python static server on `127.0.0.1:4174` with `reuseExistingServer: false`; it cannot silently attach to the Next development server on port 4173. Its `all 96 model/root/horizon/outcome combinations` test verifies exact sourced values. The 3D matrix separately checks all 96 root/model/cell values. Other cases cover the study, lineage/history, keyboard and touch interaction, chart picking, reduced motion, axe checks, unavailable WebGL, context loss, and responsive bounds.
 
-All authorities are pinned to `3dc4c82f0c948add6e4a9ebdebfd227933c823d3` in `Litju/CMJRecoveryDynamicsBench`. Original receipts remain unchanged under `source/`. Seven benchmark contracts and four additional verbatim observation/dynamics/study files have separate checksum manifests. Builds validate all three authority groups, and reject fixture drift without requiring network access.
-
-The original numerical fixture still hashes to **`4d3b9d8ce4d40a8fdf956ee19585aee01dc5a6b6cf1af802b7011ecf03803bca`**. The result receipt hash is **`cd991366c30a29723318b034bcbacff357544eff8d529678fcdcd849b0f08ce9`**. New diagnostic results are derived deterministically from that same receipt into a separate `methods.json`, with all 17 reported variants and the six training/development selection records. No new performance metrics were invented, fitted or simulated.
-
-The Episode Theater is a conceptual information-flow exhibit. The optional two-mode curve has an explicit arbitrary-unit equation and is never called a raw generated sample, fitted prediction or observed athlete trace. Its later-observer view never changes which variables are eligible at forecast origin. The measurement lens is a labeled normalized half-sine schematic, not a raw trial; its force/impulse identity is checked against the pinned observation source.
-
-Scientific ancestry, reconstruction and new public studies remain separate. All eight historical generation-plus-result chains are partial; six historical numeric results are evidence-only and two have no registered public M1 numeric result. The active four-model comparison is a new synthetic study, not a historical campaign replay. The retired rich-history 24-cell raw-progress specimen is excluded from the active six-cell NRMSE ranking.
-
-Scores average six separately normalized cells and then root-specific ratios. No force/impulse RMSE pooling occurs. Root sample SD uses ddof=1; within-cell truth SD uses ddof=0. Plotted aggregate bootstrap intervals are copied per root, with a disclosed zoomed axis. Paired differences remain against zero regardless of comparator selection. No direct ridge-versus-structured or ablation confidence interval, pooled across-root interval, production score or biological kinetic identification is claimed.
-
-The signed Recovery Lab exposes exact analytic derivatives and integrals, distinguishes time constants from half-lives, and labels its arbitrary amplitudes and omitted discrepancy/noise/exposure effects. Negative shapes do not purport to satisfy generator amplitude supports. Integral area is not training dose or physiological burden. Proposed shifts, empirical studies, training-refit uncertainty and weaker regularization are questions, not achievements.
-
-## Visual inspection and iteration
-
-[52 detailed chapter/state captures](SCREENSHOTS.md) plus [20 complete scroll-driven viewport captures](journey/VALIDATION.md) cover every major chapter on desktop and mobile, including the observer reveal, apparatus/measurement exhibits, exposure glossary, history reader, expanded formulation methods, signed-area lab, 3D benchmark, camera views, exact matrix and mobile WebGL/fallback states. Full-page desktop/mobile and focused lineage regression images are also retained. Focused captures use real controls and suppress the persistent stage, sticky header/navigation and offscreen skip link so they do not obscure tall scientific content. The separate viewport gallery retains the actual stage and header.
-
-Inspection included the hero, question, Episode Theater, observation lens, lineage, study design, metric teaching, interval plot, mobile lab and evidence. Iteration corrected a five-chapter navigation wrap and made the lab’s response/slope/area labels, plotted values and legends match the selected mathematical quantity. A final mobile review also found percentage grid gaps overflowing stacked content; fixed mobile gaps and bounding-box regressions now prevent result-caption/caveat overlap. New test-only dynamic JSON import failures were corrected to the project’s static-import convention. Initial TypeScript checks also caught and corrected the details-element test type; final checks pass without relaxed scientific assertions.
-
-## Local performance measurements
-
-The capture script records browser navigation, script resources, long tasks, two/zero WebGL canvases, and 20 scripted model switches, measured through the next two animation frames. See [raw measurements](browser-evidence.json). These are local headless Chromium measurements using software WebGL on this host, not field INP, Lighthouse, Core Web Vitals or physical-device GPU measurements.
-
-Recorded local capture run (20 scripted model switches per mode; browser checks also running on this host):
-
-| Mode | Script resources | Decoded JS | Estimated gzip JS | Switch median / p95 / max | Longest observed task |
-| --- | ---: | ---: | ---: | ---: | ---: |
-| Reduced motion / 2D | 6 | 991.7 KiB | 288.1 KiB | 33.3 / 33.5 / 33.5 ms | 124 ms |
-| Persistent stage + response 3D | 9 | 1877.3 KiB | 523.0 KiB | 33.4 / 34.2 / 49.0 ms | 237 ms |
-
-The reduced-motion run renders zero canvases. The normal-mode measurement deliberately enters the response-model chapter and waits for its canvas before collecting interaction measurements. The persistent stage loads in the opening viewport; the focused WebGL figures load near their own chapters. All render on demand. The 3D benchmark is opt-in and is tested/captured separately. The Python server serves scripts uncompressed; gzip sizes are computed from emitted files. These local software-WebGL timings are not production-network, physical-device or field INP claims.
-
-Camera presets, orthographic projection, opt-in drag rotation, keyboard scene scale and explicit axes support inspection. Graphics contexts, controls, geometry and label textures are cleaned up on exit. Actual context loss is tested and falls back to exact data. Tall desktop 3D figure captures temporarily use a taller viewport to avoid compositor clipping below the viewport; scientific content is not replaced.
-
-
-## Reproduce the checks
+On this host, Playwright's Chromium binary could not initially find `libnspr4.so` in the system library path. No test body ran in that attempt. Re-running with the host's already-extracted browser libraries passed all tests:
 
 ```sh
-npm test
-npm run typecheck
-npm run build
 LD_LIBRARY_PATH=/tmp/cmj-browser-libs/extracted/usr/lib/x86_64-linux-gnu npm run test:ui
-LD_LIBRARY_PATH=/tmp/cmj-browser-libs/extracted/usr/lib/x86_64-linux-gnu node scripts/capture-exhibition.mjs
 ```
 
-The static server already runs on port 4173. On another host use `python3 -m http.server 4173 --directory out`. This environment’s NSPR/NSS/ALSA libraries were already extracted under `/tmp/cmj-browser-libs`; no system or project dependency change was needed for this upgrade. The formatting tool ran through npm exec and was not added to the package or lockfile.
+On a normal Linux host, install the browser and system dependencies first with `npx playwright install --with-deps chromium`; do not copy the `/tmp` path above to other machines.
 
-Implementation commits: `0669211` source authorities/diagnostics; `f0c865f` Episode Theater; `9205ced` formulation methods/deep links; `e163c02` experiment teaching/diagnostics; `a7dc6b1` mathematical exhibits/evidence. The sixth commit, `test(exhibition): validate scientific interactions and capture every chapter`, contains final verification, visual refinements, readable formatting and documentation. Use `git log --oneline -6` for its resolved commit hash.
+## Fresh-browser and layout evidence
 
-## Editorial/context redesign
+A separate production-export smoke opened fresh Chromium sessions at desktop `1440 × 1000`, mobile `390 × 844`, and mobile `390 × 844` at device scale factor 2. The desktop rendered its WebGL stage; the reduced-motion mobile modes correctly used the non-WebGL alternative. All three reported:
 
-The current iteration is driven by the user's request for a professional, more colourful scientific story without decorative gradients. [Current-run before screenshots and findings](editorial/AUDIT.md) identify the original context and hierarchy problems; the updated chapter screenshots show the implemented result. New source-grounded content explains:
+- zero browser console errors and uncaught page errors;
+- zero failed requests or HTTP responses at status 400 or higher;
+- no horizontal page overflow (scroll width equaled 1440 px or 390 px).
 
-- The difference between sports-science motivation and the actual synthetic experiment; verified software authorship is attributed without invented biography or quotations.
-- A CMJ as an assessment, training as the exposure, and the concentric interval used by the benchmark. Mean force, derived net impulse and baseline-relative innovations each have an interactive what/why/how explanation. The force–impulse identity is per trial; the three outcomes are averaged separately for an assessment.
-- All eight public exposure descriptors grouped into volume, speed, changes of speed and perceived effort. Units and exact public field names are shown without fabricating a session's values.
-- Why an explicit generated world is useful for methodological questions, what the learner is denied, and why same-world success does not establish empirical validity.
-- The scientific issue, design decision and consequence for every formulation, connected to the existing graph with keyboard/touch focus retained. No chronology, parent edge or result was invented.
-- Train/select/test design before the recorded model comparison. The numerical fixture and original scientific authorities remain byte-identical.
+The browser suite checked responsive widths **320, 375, 390, 768, 1024 and 1440 px**, plus **844 × 390** landscape. Axe checks reported zero violations for the tested WCAG 2 A/AA and 2.1 AA rules/states. This is automated coverage, not a complete accessibility-conformance assessment.
 
-Background context is grounded in primary investigations by [Cormack et al. (2008)](https://doi.org/10.1123/ijspp.3.2.131) and [Gathercole et al. (2015)](https://doi.org/10.1123/ijspp.2013-0413), checked against accessible copies of the original papers. They are not represented as the benchmark's data, exact protocol or empirical validation. This benchmark's own pinned observation and exposure source defines the displayed construction.
+No hydration warnings appeared in the fresh-browser console checks after the hero SVG coordinate-rounding fix. The current page title, `noindex,nofollow` robots policy, Open Graph text tags and Twitter summary card were confirmed in the emitted HTML. A canonical URL and image-based social card are still withheld because no public host or final brand is approved.
 
-The palette uses paper/ink, cobalt, vermilion and ochre with solid surfaces; CSS and SVG decorative gradients were removed. Colour supplements explicit text, units and selection states. Contrast issues at the light/dark boundaries and narrow-screen minimum-content overflows found during testing were fixed before the final passing run. No interaction or numerical assertion was relaxed. Existing WebGL tests now navigate to the relocated model chapter before checking the same rendering/fallback behaviour.
+## Screenshots and local performance
 
-Code/content commit: `cc8314e`. A following validation commit preserves the audit, current captures, script changes and measurements. No scientific repository, PR #8, package identity, release, CFF or original fixture changes.
+The production export produced **52 chapter/state captures** in [`docs/screenshots/`](screenshots/) and **20 scroll-stage viewport captures** in [`docs/journey/`](journey/). Refreshed full-page views are [`docs/desktop.png`](desktop.png) at 1440 × 23,869 and [`docs/mobile.png`](mobile.png) at 390 × 33,184. The [gallery index](SCREENSHOTS.md) links the focused chapter states. Both screenshot scripts completed with zero page errors. The source, output URL, capture counts, script resources and local timings are recorded in [`docs/browser-evidence.json`](browser-evidence.json) and [`docs/journey/captures.json`](journey/captures.json).
 
-## Plot consistency and genuine 3D upgrade · 2026-10-20
+The measured interaction samples use headless Chromium and SwiftShader (software WebGL), not a physical GPU. In the scripted chart-switch sample, median / p95 / max were 33.4 / 40.9 / 49.7 ms with the normal scene and 33.4 / 33.5 / 33.8 ms with reduced motion. They are local two-animation-frame observations, not field INP, Core Web Vitals or mobile-network timings.
 
-[The focused plot validation report](plots/VALIDATION.md) lists the reviewed figures, previous mismatches, camera/data interactions, scientific interpretation and testing limits. Code/interaction commit: `6d5f79e`.
+## Scientific receipt verification
 
-- A shared `plot-theme.mjs` unifies SVG, Recharts and WebGL colours. Tooltip, grid, interval, slider and selection colours now follow the editorial palette. Intervals use the selected model's colour. No decorative gradients are introduced.
-- The benchmark's optional 3D view maps height to the exact cell NRMSE, columns to the six target cells and depth to four model categories. Bar picking and the 24-cell matrix update the original model/horizon/outcome controls. All 96 root/model/cell values are verified against the frozen fixture.
-- The response scene replaces the decorative spatial field with total/24h/84h mathematical curves, a time slice, labelled axes and direct curve picking. The 169 hourly samples are checked against the original equation, including component sums and signed mathematical edge cases.
-- Browser tests use independently projected world coordinates to exercise real 3D ray picking. Actual rendered pixels verify camera and pointer-drag changes. Touch, keyboard, reduced motion, missing WebGL, viewport release and live graphics-context loss are exercised, including mobile WebGL rendering.
-- Orthographic projection reduces perspective scaling but does not prevent occlusion or foreshortening at every camera angle. This is disclosed; exact matrices and the original 2D views remain available. No per-cell or direct between-model confidence intervals are invented.
-- No scientific result, root identity, source authority, package identity, dependency, citation, Python repository or release artifact changes.
+| File | SHA-256 |
+| --- | --- |
+| `source/M8_FIXED_MODE_PUBLIC_REFERENCE_RESULTS.json` | `cd991366c30a29723318b034bcbacff357544eff8d529678fcdcd849b0f08ce9` |
+| `src/data/results.json` and `public/data/results.json` | `4d3b9d8ce4d40a8fdf956ee19585aee01dc5a6b6cf1af802b7011ecf03803bca` |
+| `src/data/methods.json` and `public/data/methods.json` | `4d0e1302eb8a8d075d41f563d8b9c5e0e2d1341c3bccb74bd710308aff43b7fa` |
+| `source/M8_V1_RELEASE_AUDIT_RECEIPT.json` | `60b17138deee66d22e766740847a344bede3f07ff794fe6ad524ea4a690151ba` |
 
-## Remaining limitations
+`npm run build` verified the three pinned source manifests and both public fixture pairs. The synthetic scores, statuses, protocol, NRMSE and 24 h / 84 h mathematical illustration are documented in [Science and data](SCIENCE_AND_DATA.md). No Python generator, training run, historical replay or new score was produced for this website pass.
 
-Firefox, Safari, physical devices, hardware GPU profiling and live screen-reader sessions were not tested. Automated axe checks do not establish complete accessibility conformance. Performance measurements are local and do not establish behavior on a mobile network or slow physical device.
+## Repository and launch checks
 
-No scientific generator, training pipeline or full historical replay was rerun here; this website validates preserved public receipts and mathematical illustrations. Same-generator synthetic findings do not establish athlete validity, out-of-distribution applicability or an implemented production recovery score. Historical model/checkpoint/calibration gaps remain visible. No external cohort results, new biological claims, future research achievements or publication status were fabricated.
+- The app has no server secrets, API, database or runtime environment variables. No `.env` file or video is tracked; generated build and test outputs are ignored.
+- The public font carries its local OFL notice. The scientific source license is scoped to the upstream materials; this website has no root reuse license yet. See [attribution and licensing](../README.md#attribution-and-licensing).
+- GitHub Actions configuration is present but no hosted run exists because the showcase has no Git remote and GitHub search found no matching repository.
+- No Vercel project or deployment exists. The handoff records a previous 403; this environment's CLI shim fails to load its missing `dist/vc.js`. Static output is ready for an approved host, but Vercel access is not.
+- A read-only check of the separate scientific clone at `878ba71` showed a clean worktree. GitHub currently reports [PR #8](https://github.com/Litju/CMJRecoveryDynamicsBench/pull/8) open and unmerged. No scientific-repository file or PR was changed.
+- The local 34 MB walkthrough recording is not included or linked: its capture timeline does not bind it to a source revision, and its video metadata could not be independently checked with `ffprobe` on this host. It remains local and ignored.
 
-No Vercel deployment was attempted during RES-536. Prior 403/authentication restrictions remain unresolved; this work does not bypass them. The local preview is the reviewable deliverable.
+## Not tested
+
+Only Chromium is installed. Firefox, WebKit/Safari, physical phones, hardware-GPU performance, Lighthouse/field metrics and live assistive-technology sessions were not tested. The current screenshots and SwiftShader checks do not replace those environments. No public domain, canonical URL, final commercial brand, root website license, GitHub destination or Vercel access is approved.

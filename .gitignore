@@ -6,4 +6,9 @@ out/
 !.env.example
 test-results/
 playwright-report/
+coverage/
 *.tsbuildinfo
+.DS_Store
+*.log
+/docs/videos/
+/scripts/record-walkthrough.mjs

@@ -1,5 +1,7 @@
 # Continuous scientific exhibition · 2026-10-20
 
+This is the journey implementation's original validation report. Its test count and captures are historical; the current release-grade run is recorded in [the final validation report](../VALIDATION.md).
+
 The complete website now uses one persistent, chapter-aware 3D stage. The stage remains beside the scientific content on desktop and above it on mobile. Native scrolling continuously changes the camera and the schematic posture or elapsed-hour slice. It does not intercept wheel events, lock scrolling or require a scripted tour. Direct chapter links, pause and explicit rotation remain available.
 
 The four spatial subjects have different scientific roles:

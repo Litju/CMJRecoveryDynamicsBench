@@ -1,8 +1,8 @@
-# RES-536 chapter captures
+# Visual evidence gallery
 
 Refreshed after the whole-site scroll-driven redesign from the production static export using Chromium, desktop 1440 × 1000 and mobile 390 × 844 with touch/reduced motion. Every scientific figure and the experimental cover share a light paper surface. Default mobile chapter captures respect reduced motion; explicit normal-mode mobile 3D views and reduced-motion fallbacks are captured separately. Both the benchmark and response-model chapter use real WebGL with exact numerical alternatives. Each file captures one chapter or focused scientific state; full-page regression captures remain in `desktop.png` and `mobile.png`.
 
-Focused chapter captures suppress the persistent stage, sticky navigation and offscreen skip link so they do not cover tall scientific figures. The [20 complete viewport captures](journey/VALIDATION.md) retain the actual stage, header and controls on desktop and mobile. Scientific content and user-visible state are not replaced. The capture script selects expanded states through real controls. Run `node scripts/capture-exhibition.mjs` against the production preview to refresh; this host needs the browser-library prefix documented in the README.
+Focused chapter captures suppress the persistent stage, sticky navigation and offscreen skip link so they do not cover tall scientific figures. The [20 complete viewport captures](journey/VALIDATION.md) retain the actual stage, header and controls on desktop and mobile. Scientific content and user-visible state are not replaced. The capture script selects expanded states through real controls. Refresh after `npm run build` and start a static preview with `CMJ_PREVIEW_URL` set to its address; the current host-specific browser command is in [validation](VALIDATION.md).
 
 | Chapter / state | Desktop | Mobile |
 | --- | --- | --- |
