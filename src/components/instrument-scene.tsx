@@ -6,6 +6,7 @@ import { decay } from "@/lib/decay.mjs";
 import { responsePaths } from "@/lib/response-geometry.mjs";
 import { plotTheme as theme } from "@/lib/plot-theme.mjs";
 import {
+  SceneLighting,
   CameraRig,
   SceneLabel,
   SceneLine,
@@ -31,33 +32,35 @@ function ResponseCurve({
   color: string;
   onSelectTime: (time: number) => void;
 }) {
-  const geometry = useMemo(
-    () =>
-      new THREE.TubeGeometry(
-        new THREE.CatmullRomCurve3(
-          points.map((p) => new THREE.Vector3(p[0], p[1], p[2])),
-        ),
-        168,
-        0.024,
-        6,
-        false,
-      ),
-    [points],
-  );
-  useEffect(() => () => geometry.dispose(), [geometry]);
+  const { geometry, hitArea } = useMemo(() => {
+    const curve = new THREE.CatmullRomCurve3(
+      points.map((p) => new THREE.Vector3(p[0], p[1], p[2])),
+    );
+    return {
+      geometry: new THREE.TubeGeometry(curve, 168, 0.03, 8, false),
+      hitArea: new THREE.TubeGeometry(curve, 168, 0.16, 6, false),
+    };
+  }, [points]);
+  useEffect(() => () => { geometry.dispose(); hitArea.dispose(); }, [geometry, hitArea]);
   return (
-    <mesh
-      geometry={geometry}
-      onClick={(event) => {
-        event.stopPropagation();
-        if (event.delta < 5)
-          onSelectTime(
-            Math.max(0, Math.min(168, Math.round((event.point.x + 4) * 21))),
-          );
-      }}
-    >
-      <meshStandardMaterial color={color} roughness={0.7} />
-    </mesh>
+    <group>
+      <mesh geometry={geometry} castShadow>
+        <meshStandardMaterial color={color} roughness={0.7} />
+      </mesh>
+      {/* A wider invisible target makes the thin scientific curve easier to pick. */}
+      <mesh
+        geometry={hitArea}
+        onClick={(event) => {
+          event.stopPropagation();
+          if (event.delta < 5)
+            onSelectTime(
+              Math.max(0, Math.min(168, Math.round((event.point.x + 4) * 21))),
+            );
+        }}
+      >
+        <meshBasicMaterial transparent opacity={0} depthWrite={false} />
+      </mesh>
+    </group>
   );
 }
 export default function InstrumentScene({
@@ -75,6 +78,7 @@ export default function InstrumentScene({
   const colors = { total: theme.text, fast: theme.fast, slow: theme.slow };
   return (
     <Canvas
+      shadows
       orthographic
       frameloop="demand"
       dpr={[1, 1.5]}
@@ -84,9 +88,8 @@ export default function InstrumentScene({
     >
       <CameraRig pose={pose} drag={drag} zoom={zoom} />
       <ContextGuard onUnavailable={onUnavailable} />
-      <ambientLight intensity={2} />
-      <directionalLight position={[3, 8, 5]} intensity={2.5} />
-      <mesh position={[0, -0.09, 0]}>
+      <SceneLighting />
+      <mesh receiveShadow position={[0, -0.09, 0]}>
         <boxGeometry args={[9.5, 0.14, 5.6]} />
         <meshStandardMaterial color={theme.panel} roughness={1} />
       </mesh>
@@ -100,6 +103,7 @@ export default function InstrumentScene({
             color={theme.grid}
           />
           <SceneLabel
+            compact={t % 48 === 0 || t === 168}
             text={`${t}h`}
             position={[t / 21 - 4, 0.02, 2.4]}
             width={0.7}
@@ -152,12 +156,13 @@ export default function InstrumentScene({
               color={theme.grid}
             />
             <SceneLabel
+              compact={false}
               text={row.label}
               position={[5, 0, row.z]}
               color={color}
               width={1.6}
             />
-            <mesh position={[x, value * 3, row.z]}>
+            <mesh castShadow position={[x, value * 3, row.z]}>
               <sphereGeometry args={[0.075, 16, 12]} />
               <meshStandardMaterial
                 color={color}
@@ -185,10 +190,11 @@ export default function InstrumentScene({
           depthWrite={false}
         />
       </mesh>
-      <SceneLabel text="TIME / HOURS" position={[0, -0.18, 3]} width={2} />
+      <SceneLabel compact={false} text="TIME / HOURS" position={[0, -0.18, 3]} width={2} />
       <SceneLabel
+        compact={false}
         text="RESPONSE / ARBITRARY UNITS"
-        position={[-2, 3.65, 0]}
+        position={[-2, 4.8, 0]}
         width={3.6}
       />
     </Canvas>

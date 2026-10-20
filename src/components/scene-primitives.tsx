@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useMemo, useRef } from "react";
-import { useThree } from "@react-three/fiber";
+import { useFrame, useThree } from "@react-three/fiber";
 import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 import * as THREE from "three";
 import { plotTheme } from "@/lib/plot-theme.mjs";
@@ -9,13 +9,22 @@ export function CameraRig({
   pose,
   drag,
   zoom,
+  smooth = false,
 }: {
   pose: CameraPose;
   drag: boolean;
   zoom: number;
+  smooth?: boolean;
 }) {
   const { camera, gl, invalidate, size } = useThree();
   const controls = useRef<OrbitControls | null>(null);
+  const target = useMemo(() => new THREE.Vector3(...pose), [pose]);
+  useFrame((_, delta) => {
+    if (!smooth || drag || camera.position.distanceToSquared(target) < 0.000001) return;
+    camera.position.lerp(target, 1 - Math.exp(-12 * Math.min(delta, 0.05)));
+    camera.lookAt(0, 1, 0);
+    invalidate();
+  });
   useEffect(() => {
     const orbit = new OrbitControls(camera, gl.domElement);
     orbit.enableDamping = false;
@@ -34,11 +43,13 @@ export function CameraRig({
     };
   }, [camera, gl, invalidate]);
   useEffect(() => {
-    camera.position.set(...pose);
-    camera.lookAt(0, 1, 0);
-    controls.current?.update();
+    if (!smooth) {
+      camera.position.copy(target);
+      camera.lookAt(0, 1, 0);
+      controls.current?.update();
+    }
     invalidate();
-  }, [camera, pose, invalidate]);
+  }, [camera, target, smooth, invalidate]);
   useEffect(() => {
     if (camera instanceof THREE.OrthographicCamera) {
       camera.zoom =
@@ -59,12 +70,15 @@ export function SceneLabel({
   position,
   color = plotTheme.muted,
   width = 1.5,
+  compact = true,
 }: {
   text: string;
   position: [number, number, number];
   color?: string;
   width?: number;
+  compact?: boolean;
 }) {
+  const narrow = useThree((state) => state.size.width < 480);
   const texture = useMemo(() => {
     const canvas = document.createElement("canvas");
     const context = canvas.getContext("2d");
@@ -83,17 +97,17 @@ export function SceneLabel({
     return map;
   }, [text, color]);
   useEffect(() => () => texture?.dispose(), [texture]);
-  if (!texture) return null;
+  if (!texture || (narrow && !compact)) return null;
   return (
     <sprite
       position={position}
       scale={[
-        Math.min(0.38 / 80, width / texture.image.width) * texture.image.width,
-        Math.min(0.38 / 80, width / texture.image.width) * 80,
+        Math.min(0.46 / 80, width / texture.image.width) * texture.image.width,
+        Math.min(0.46 / 80, width / texture.image.width) * 80,
         1,
       ]}
     >
-      <spriteMaterial map={texture} transparent depthTest={false} />
+      <spriteMaterial map={texture} transparent depthTest={false} toneMapped={false} />
     </sprite>
   );
 }
@@ -138,4 +152,14 @@ export function ContextGuard({ onUnavailable }: { onUnavailable: () => void }) {
     return () => gl.domElement.removeEventListener("webglcontextlost", lose);
   }, [gl, onUnavailable]);
   return null;
+}
+
+export function SceneLighting() {
+  return <>
+    <hemisphereLight args={["#fffdf7", "#b9c3cd", 1.1]} />
+    <directionalLight position={[-3, 10, 6]} intensity={2} castShadow
+      shadow-mapSize={[1024, 1024]} shadow-camera-left={-8} shadow-camera-right={8}
+      shadow-camera-top={8} shadow-camera-bottom={-8} shadow-normalBias={0.04} />
+    <directionalLight position={[5, 4, -6]} intensity={0.6} />
+  </>;
 }

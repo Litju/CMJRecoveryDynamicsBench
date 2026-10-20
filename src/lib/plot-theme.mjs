@@ -23,6 +23,8 @@ export const plotTooltip = {
   color: plotTheme.text,
   fontFamily: "inherit",
   fontSize: 12,
+  lineHeight: 1.6,
+  maxWidth: "min(280px, calc(100vw - 64px))",
   padding: "12px 14px",
-  boxShadow: "4px 4px 0 #dddcd2",
+  boxShadow: "0 4px 16px #202c3318",
 };

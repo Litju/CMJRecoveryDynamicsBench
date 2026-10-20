@@ -72,13 +72,14 @@ function InstrumentFallback({
             </text>
           </g>
         ))}
+        {/* Round display coordinates so Node and browser Math.exp serialize matching SVG paths. */}
         {(["total", "fast", "slow"] as const).map((id) => (
           <path
             key={id}
             d={series
               .map(
                 (p, i) =>
-                  `${i ? "L" : "M"}${50 + p.time * 3.1},${275 - p[id] * 220}`,
+                  `${i ? "L" : "M"}${(50 + p.time * 3.1).toFixed(3)},${(275 - p[id] * 220).toFixed(3)}`,
               )
               .join(" ")}
             fill="none"

@@ -388,12 +388,12 @@ export function IntervalPlot({
   );
   const low = Math.min(...bounds) - pad,
     high = Math.max(...bounds) + pad;
-  const x = (v: number) => 90 + ((v - low) / (high - low)) * 720;
+  const x = (v: number) => 70 + ((v - low) / (high - low)) * 460;
   return (
     <figure className="interval-plot">
       <figcaption>REPORTED AGGREGATE INTERVALS · 95% CAMP BOOTSTRAP</figcaption>
       <svg
-        viewBox={`0 0 900 ${70 + roots.length * 48}`}
+        viewBox={`0 0 600 ${70 + roots.length * 48}`}
         role="img"
         aria-label="Each root’s aggregate NRMSE and its recorded 95 percent camp-bootstrap interval. Exact endpoints are in the following table; these are not cell intervals or paired differences between selected models."
       >
@@ -403,12 +403,12 @@ export function IntervalPlot({
           return (
             <g key={r.id}>
               <title>{`Root ${r.id}: NRMSE ${m.mean_six_cell_nrmse.toFixed(6)}, 95% interval ${a.toFixed(6)} to ${b.toFixed(6)}`}</title>
-              <text x="12" y={44 + i * 48} fill={theme.muted} fontSize="13">
+              <text x="12" y={44 + i * 48} fill={theme.muted} fontSize="16">
                 Root {r.id}
               </text>
               <line
-                x1="90"
-                x2="810"
+                x1="70"
+                x2="530"
                 y1={40 + i * 48}
                 y2={40 + i * 48}
                 stroke={theme.grid}
@@ -450,7 +450,7 @@ export function IntervalPlot({
             x={x(v)}
             y={65 + roots.length * 48}
             fill={theme.muted}
-            fontSize="12"
+            fontSize="16"
             textAnchor="middle"
           >
             {v.toFixed(4)}

@@ -60,7 +60,7 @@ export default function ScrollJourney({ children }: {
       <div className="journey-stage-heading"><span>CMJ / FIELD NOTES</span><span>{String(position.chapter + 1).padStart(2, "0")} / 09</span></div>
       <h2>{chapter.title}</h2>
       <div className="journey-viewport" role="group" aria-label={`${chapter.label}: interactive 3D scientific illustration`}>
-        <SceneBoundary onError={onUnavailable} fallback={<Diagram kind={chapter.kind}/>}>{ready ? <Scene kind={chapter.kind} progress={progress} drag={drag} onUnavailable={onUnavailable} onModel={(id) => {
+        <SceneBoundary onError={onUnavailable} fallback={<Diagram kind={chapter.kind}/>}>{ready ? <Scene kind={chapter.kind} progress={progress} drag={drag} paused={paused} onUnavailable={onUnavailable} onModel={(id) => {
                 window.dispatchEvent(new CustomEvent("cmj:inspect-model", { detail: id }));
                 document.getElementById("explorer")?.scrollIntoView({ block: "start" });
             }} onFormulation={(id) => {

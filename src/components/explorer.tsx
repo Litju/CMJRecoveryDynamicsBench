@@ -1,4 +1,5 @@
 "use client";
+import { PlotSelection } from "./plot-selection";
 import { useEffect, useState } from "react";
 import { IntervalPlot } from "./experiment-methods";
 import Benchmark3D from "./benchmark-3d";
@@ -323,7 +324,7 @@ export default function Explorer() {
                 <ResponsiveContainer width="100%" height="100%" minWidth={0}>
                   <LineChart
                     data={chart}
-                    margin={{ top: 25, right: 24, left: 0, bottom: 0 }}
+                    margin={{ top: 32, right: 24, left: 0, bottom: 10 }}
                     accessibilityLayer
                   >
                     <CartesianGrid
@@ -336,7 +337,7 @@ export default function Explorer() {
                       tick={{ fill: theme.muted, fontSize: 12 }}
                       tickLine={false}
                       axisLine={false}
-                      dy={12}
+                      dy={8}
                     />
                     <YAxis
                       width={43}
@@ -350,10 +351,11 @@ export default function Explorer() {
                     />
                     <Tooltip
                       contentStyle={plotTooltip}
+                      labelFormatter={(label) => `${label} · ${outcome === "force" ? "Force" : "Net impulse"} · ${metric.toUpperCase()} · ${root === "mean" ? "Across-root mean" : `Root ${root}`}`}
                       labelStyle={{ color: theme.text }}
                       itemStyle={{ color: theme.text }}
                       formatter={(value, name) => [
-                        `${Number(value).toFixed(5)}${metric === "rmse" ? ` ${unit}` : ""}`,
+                        `${Number(value).toFixed(6)}${metric === "rmse" ? ` ${unit}` : ""}`,
                         name,
                       ]}
                       cursor={{ stroke: theme.ochre, strokeDasharray: "3 6" }}
@@ -383,6 +385,10 @@ export default function Explorer() {
                       activeDot={{ r: 7 }}
                       isAnimationActive={false}
                     />
+                    <PlotSelection onSelect={(value) => {
+                      const h = horizons.find((h) => `H${h}` === value);
+                      if (h) setHorizon(h);
+                    }} />
                   </LineChart>
                 </ResponsiveContainer>
               </div>
@@ -399,7 +405,7 @@ export default function Explorer() {
                   {comparison.name}
                 </span>
                 <span className="chart-hint">
-                  Discrete evaluation cells, not a recovery trajectory
+                  Click or tap a horizon to select. Discrete cells, not a recovery trajectory
                 </span>
               </div>
             </>

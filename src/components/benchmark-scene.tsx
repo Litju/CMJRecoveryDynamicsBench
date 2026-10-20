@@ -4,6 +4,7 @@ import { useState } from "react";
 import { models } from "@/lib/science";
 import { plotTheme as theme } from "@/lib/plot-theme.mjs";
 import {
+  SceneLighting,
   CameraRig,
   SceneLabel,
   SceneLine,
@@ -34,6 +35,7 @@ export default function BenchmarkScene({
   const maximum = Math.ceil(Math.max(...entries.map((e) => e.nrmse)));
   return (
     <Canvas
+      shadows
       orthographic
       frameloop="demand"
       dpr={[1, 1.5]}
@@ -43,9 +45,8 @@ export default function BenchmarkScene({
     >
       <CameraRig pose={pose} drag={drag} zoom={zoom} />
       <ContextGuard onUnavailable={onUnavailable} />
-      <ambientLight intensity={2} />
-      <directionalLight position={[3, 9, 5]} intensity={2.8} />
-      <mesh position={[0, -0.1, 0]}>
+      <SceneLighting />
+      <mesh receiveShadow position={[0, -0.1, 0]}>
         <boxGeometry args={[9.6, 0.16, 6.6]} />
         <meshStandardMaterial color={theme.panel} roughness={1} />
       </mesh>
@@ -75,6 +76,7 @@ export default function BenchmarkScene({
             color={theme.grid}
           />
           <SceneLabel
+            compact={false}
             text={m.short}
             color={m.color}
             position={[4.5, 0.05, (i - 1.5) * 1.4]}
@@ -102,12 +104,15 @@ export default function BenchmarkScene({
         color={theme.muted}
       />
       <SceneLabel
+        compact={false}
         text="CELL NRMSE"
         position={[-2.3, maximum + 0.55, 0]}
         width={2.2}
       />
       {entries.map((entry) => (
         <mesh
+          castShadow
+          receiveShadow
           key={entry.key}
           name={entry.key}
           position={[
@@ -133,12 +138,19 @@ export default function BenchmarkScene({
           <meshStandardMaterial
             color={entry.color}
             roughness={0.65}
-            metalness={0.12}
+            metalness={0}
             emissive={entry.color}
             emissiveIntensity={
               selected === entry.key ? 0.2 : hovered === entry.key ? 0.12 : 0
             }
           />
+          {selected === entry.key && <SceneLine color={theme.text} points={[
+            [-0.33, entry.nrmse / 2 + 0.01, -0.33],
+            [0.33, entry.nrmse / 2 + 0.01, -0.33],
+            [0.33, entry.nrmse / 2 + 0.01, 0.33],
+            [-0.33, entry.nrmse / 2 + 0.01, 0.33],
+            [-0.33, entry.nrmse / 2 + 0.01, -0.33],
+          ]} />}
         </mesh>
       ))}
     </Canvas>

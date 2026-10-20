@@ -123,7 +123,7 @@ export default function Benchmark3D({
         <strong data-testid="scene-cell-score">
           {inspection.nrmse.toFixed(6)}
         </strong>
-        <small>Cell NRMSE · unitless</small>
+        <small>Cell NRMSE · unitless · {ready && hovered ? "Hover preview" : "Selected cell"}</small>
       </div>
       <div className="chart-legend scene-legend">
         {models.map((m) => (

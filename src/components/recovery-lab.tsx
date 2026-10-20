@@ -1,4 +1,5 @@
 "use client";
+import { PlotSelection } from "./plot-selection";
 import { useEffect, useState } from "react";
 import { Pause, Play, RotateCcw, FlaskConical } from "lucide-react";
 import {
@@ -211,7 +212,7 @@ export default function RecoveryLab() {
               <ResponsiveContainer width="100%" height="100%" minWidth={0}>
                 <ComposedChart
                   data={series}
-                  margin={{ top: 15, right: 20, bottom: 8, left: 0 }}
+                  margin={{ top: 20, right: 24, bottom: 8, left: 0 }}
                   accessibilityLayer
                 >
                   <CartesianGrid
@@ -224,6 +225,8 @@ export default function RecoveryLab() {
                     type="number"
                     domain={[0, 168]}
                     ticks={[0, 24, 48, 72, 96, 120, 144, 168]}
+                    minTickGap={20}
+                    interval="preserveStartEnd"
                     tickFormatter={(v) => `${v}h`}
                     stroke={theme.muted}
                     tickLine={false}
@@ -231,11 +234,12 @@ export default function RecoveryLab() {
                     tick={{ fontSize: 11 }}
                   />
                   <YAxis
-                    domain={view === "response" ? [-3, 3] : ["auto", "auto"]}
+                    domain={[(min: number) => Math.min(0, min), (max: number) => Math.max(0, max)]}
+                    tickFormatter={(v) => Number(v).toLocaleString("en-US", { maximumSignificantDigits: 3 })}
                     stroke={theme.muted}
                     tickLine={false}
                     axisLine={false}
-                    width={35}
+                    width={60}
                     tick={{ fontSize: 11 }}
                   />
                   <Tooltip
@@ -243,7 +247,8 @@ export default function RecoveryLab() {
                     labelStyle={{ color: theme.text }}
                     itemStyle={{ color: theme.text }}
                     labelFormatter={(v) => `${v} hours`}
-                    formatter={(v) => Number(v).toFixed(4)}
+                    formatter={(v) => Number(v).toFixed(view === "slope" ? 6 : 4)}
+                    cursor={{ stroke: theme.ochre, strokeDasharray: "3 6" }}
                   />
                   <Area
                     type="monotone"
@@ -285,17 +290,23 @@ export default function RecoveryLab() {
                       isAnimationActive={false}
                     />
                   )}
-                  <ReferenceLine y={0} stroke={theme.grid} />
+                  <ReferenceLine y={0} stroke={theme.muted} />
                   <ReferenceLine
                     x={time}
-                    stroke={theme.fast}
+                    stroke={theme.ochre}
                     label={{
                       value: `${time} h`,
                       position: "insideTopRight",
-                      fill: theme.fast,
+                      fill: theme.ochre,
                       fontSize: 11,
                     }}
                   />
+                  <PlotSelection onSelect={(value) => {
+                    if (typeof value === "number" && value >= 0 && value <= 168) {
+                      setTime(value);
+                      setPlaying(false);
+                    }
+                  }} />
                 </ComposedChart>
               </ResponsiveContainer>
             </div>
@@ -306,6 +317,7 @@ export default function RecoveryLab() {
                   ? "Derivative · arbitrary units per hour"
                   : "Signed integral from 0 to t · arbitrary units × hours"}
             </p>
+            <p className="plot-interaction-hint">Click or tap the plot to set time. The vertical scale adapts to the shown values.</p>
             <div className="lab-time">
               <label htmlFor="lab-time">
                 TIME <output htmlFor="lab-time">{time} h</output>

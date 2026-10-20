@@ -2716,3 +2716,38 @@ html { scroll-padding-top: 0; }
   .journey-index { grid-row: 3; }
   .journey-content [id], .journey-content .quick-route { scroll-margin-top: 250px; }
 }
+
+/* Plot polish: preserve the paper palette while giving values room to breathe. */
+.chart, .lab-chart, .benchmark-3d, .interval-plot {
+  border-color: #ccd1ce !important;
+}
+.recharts-default-tooltip {
+  white-space: normal;
+  font-variant-numeric: tabular-nums;
+}
+.recharts-tooltip-item { white-space: normal; overflow-wrap: anywhere; }
+.recharts-tooltip-label { font-weight: 600; margin-bottom: 5px !important; }
+.chart .recharts-surface, .lab-chart .recharts-surface { cursor: crosshair; }
+.plot-interaction-hint {
+  color: #566169;
+  font-size: 11px;
+  line-height: 1.7;
+  margin: 8px 0 16px;
+}
+.scene-controls legend, .scene-controls label, .scene-controls small,
+.hero-instrument .scene-controls small { font-size: 11px; }
+.scene-view-buttons button { min-height: 44px; font-size: 11px; }
+.scene-view-buttons button:hover:not(:disabled), .scene-matrix td button:hover {
+  background: #e5eaf3;
+  border-color: #2854b8;
+  color: #202c33;
+}
+.scene-controls input[type="range"] { min-height: 44px; }
+.scene-readout strong { color: #202c33; font-variant-numeric: tabular-nums; }
+.scene-matrix td button { min-height: 44px; }
+.interval-plot svg { max-width: 720px; display: block; margin-inline: auto; }
+@media (max-width: 650px) {
+  .scene-view-buttons { display: grid; grid-template-columns: 1fr 1fr; }
+  .scene-controls legend { font-size: 10px; }
+  .scene-legend span, .response-legend span { font-size: 11px; }
+}
