@@ -6,6 +6,7 @@ import RecoveryLab from "@/components/recovery-lab";
 import Evidence from "@/components/evidence";
 import Lineage from "@/components/lineage";
 import EpisodeTheater from "@/components/episode-theater";
+import ScrollJourney from "@/components/scroll-journey";
 import StoryProgress from "@/components/story-progress";
 import {
   Question,
@@ -50,7 +51,8 @@ export default function Home() {
         </div>
       </header>
       <main id="main">
-        <section className="hero shell" aria-labelledby="hero-title">
+        <ScrollJourney>
+        <section id="intro" className="hero shell" aria-labelledby="hero-title">
           <div className="hero-copy">
             <div className="eyebrow">
               <span className="status-dot" />
@@ -140,6 +142,7 @@ export default function Home() {
         <Remaining />
         <RecoveryLab />
         <Evidence />
+        </ScrollJourney>
       </main>
       <footer className="shell footer">
         <div>

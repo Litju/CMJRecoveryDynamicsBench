@@ -108,6 +108,7 @@ export default function Explorer() {
                   type="button"
                   aria-pressed={model === m.id}
                   onClick={() => setModel(m.id)}
+                  data-model-id={m.id}
                   className={`model-option ${model === m.id ? "selected" : ""}`}
                 >
                   <span className="model-number">0{i + 1}</span>
