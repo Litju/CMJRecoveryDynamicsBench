@@ -143,9 +143,10 @@ button:not(.primary):hover {
   box-shadow: none;
 }
 .research-cover {
-  background: #234aa0;
-  color: #fffaf0;
+  background: #fffdf7;
+  color: #202c33;
   margin: 0;
+  border: 1px solid #ccd1ce;
   padding: 28px 30px;
   align-self: stretch;
   display: flex;
@@ -166,7 +167,7 @@ button:not(.primary):hover {
 .cover-heading > span {
   font: 9px var(--mono);
   letter-spacing: 1px;
-  color: #dce4f3;
+  color: #566169;
 }
 .cover-heading h2 {
   font: 400 44px/1.05 var(--editorial);
@@ -174,7 +175,7 @@ button:not(.primary):hover {
   margin: 17px 0 25px;
 }
 .cover-heading h2 em {
-  color: #f0ca7d;
+  color: #b6422b;
 }
 .cover-flow {
   display: grid;
@@ -248,14 +249,14 @@ button:not(.primary):hover {
 .cover-legend i {
   width: 7px;
   height: 7px;
-  background: #bdd6ff;
+  background: #2854b8;
   display: inline-block;
 }
 .cover-legend > span:last-child i {
-  background: #f7ac8f;
+  background: #b6422b;
 }
 .research-cover > p {
-  color: #d8e3f6;
+  color: #566169;
   font-size: 10px;
   margin: 12px 0 0;
 }
@@ -712,53 +713,53 @@ button:not(.primary):hover {
   line-height: 1.85;
   max-width: 950px;
 }
-/* The episode and numerical instruments use ink surfaces, with explicit local tokens. */
+/* Every scientific instrument shares the paper surface and ink typography. */
 .episode-panel,
 .layer-exhibit,
 .instrument-interlude > .hero-instrument,
 #experiment,
 #explorer,
 .lab-section {
-  --bg: #192b35;
-  --panel: #21343e;
+  --bg: #fffdf7;
+  --panel: #fffdf7;
   --line: #465861;
-  --text: #f4f0e7;
-  --muted: #bdc8cf;
-  --mint: #a6c6f3;
-  --lavender: #f1a486;
+  --text: #202c33;
+  --muted: #566169;
+  --mint: #2854b8;
+  --lavender: #b6422b;
   color: var(--text);
-  color-scheme: dark;
+  color-scheme: light;
 }
 #world .exhibit-heading > p {
   color: #52616b;
 }
 #world .episode-panel,
 #world .layer-exhibit {
-  background: #192b35;
+  background: #fffdf7;
   border-color: #899b9f;
   border-radius: 0;
 }
 .episode-caption {
-  background: #20343e;
+  background: #fffdf7;
 }
 .episode-caption .eyebrow,
 .episode-toolbar .panel-label,
 .layer-detail .eyebrow {
-  color: #b1caf1;
+  color: #566169;
 }
 .episode-caption p,
 .layer-detail p {
-  color: #c0cbd0;
+  color: #566169;
 }
 .layer-detail {
-  background: #20343e;
+  background: #fffdf7;
 }
 .layer-choices button {
-  color: #e6edf0;
+  color: #202c33;
 }
 .layer-choices button[aria-pressed="true"] {
-  color: #b1caf1;
-  background: #294452;
+  color: #2854b8;
+  background: #e5eaf3;
   box-shadow: inset 3px 0 #95b9ee;
 }
 #world .methods-sheet {
@@ -851,11 +852,11 @@ button:not(.primary):hover {
   font-weight: 400;
 }
 .history-selector button[aria-pressed="true"] {
-  background: #294c99;
+  background: #fffdf7;
 }
 .history-selector button[aria-pressed="true"] span,
 .history-selector button[aria-pressed="true"] strong {
-  color: #fff9ed;
+  color: #202c33;
 }
 .history-reading {
   padding: 35px;
@@ -1020,23 +1021,23 @@ button:not(.primary):hover {
 #experiment,
 #explorer {
   padding: 60px;
-  background: #192b35;
+  background: #fffdf7;
   width: min(1280px, calc(100% - 64px));
   margin-bottom: 0;
 }
 #experiment .eyebrow,
 #explorer .eyebrow {
-  color: #b7d0f1;
+  color: #566169;
 }
 #experiment .section-number,
 #explorer .section-number {
-  color: #b8c8d1;
+  color: #566169;
 }
 #experiment .editorial-heading > span {
-  color: #f3b397;
+  color: #566169;
 }
 #experiment .story-deck {
-  color: #c0ccd2;
+  color: #566169;
 }
 .experiment-setup {
   display: grid;
@@ -1057,14 +1058,14 @@ button:not(.primary):hover {
 .experiment-setup span {
   font: 9px var(--mono);
   letter-spacing: 1px;
-  color: #bed0da;
+  color: #566169;
 }
 .experiment-setup h3 {
   font: 24px/1.2 var(--editorial);
   margin: 18px 0;
 }
 .experiment-setup p {
-  color: #bdcbd3;
+  color: #566169;
   font-size: 13px;
   line-height: 1.8;
 }
@@ -1072,13 +1073,13 @@ button:not(.primary):hover {
   font-size: 15px;
 }
 .model-primer summary .mono {
-  color: #f1c674;
+  color: #566169;
 }
 .model-primer details {
   border-color: #50616b;
 }
 .model-primer p {
-  color: #bdcbd3;
+  color: #566169;
   font-size: 13px;
 }
 .experiment-layout {
@@ -1088,31 +1089,31 @@ button:not(.primary):hover {
   font: 32px var(--editorial);
 }
 .experiment-layout p {
-  color: #c0cbd0;
+  color: #566169;
 }
 .experiment-answer strong {
-  color: #f1c674;
+  color: #566169;
   font: 67px var(--editorial);
   letter-spacing: -2px;
 }
 .story-results {
-  background: #243b48;
+  background: #fffdf7;
   border-color: #526872;
   border-radius: 0;
 }
 .story-results figcaption,
 .story-results figcaption span {
-  color: #c8d4db;
+  color: #566169;
 }
 .story-results a,
 .story-caveat {
-  color: #bed0db;
+  color: #566169;
 }
 .story-caveat {
   border-color: #e5a389;
 }
 .metric-lesson {
-  background: #243943;
+  background: #fffdf7;
   border-color: #6c8290;
   border-radius: 0;
 }
@@ -1120,52 +1121,52 @@ button:not(.primary):hover {
   font: 35px/1.2 var(--editorial);
 }
 .lesson-heading h3 span {
-  color: #f0b195;
+  color: #566169;
 }
 .lesson-heading p {
-  color: #c0cdd3;
+  color: #566169;
 }
 .lesson-selects select,
 .diagnostic-panel select {
-  background: #1a2d37;
+  background: #fffdf7;
   border-color: #58727e;
-  color: #f4f0e7;
+  color: #202c33;
   border-radius: 0;
 }
 .six-cells button {
-  background: #1a2d37;
+  background: #fffdf7;
   border-color: #58707b;
   border-radius: 0;
 }
 .six-cells button[aria-pressed="true"] {
-  background: #34546c;
+  background: #e5eaf3;
   border-color: #a8c8f5;
 }
 .lesson-aggregate {
-  background: #314957;
+  background: #fffdf7;
   border-radius: 0;
 }
 #experiment .methods-sheet,
 #explorer .methods-sheet {
-  background: #213640;
+  background: #fffdf7;
   border-color: #526c77;
   border-radius: 0;
 }
 #experiment .methods-sheet summary,
 #experiment .methods-sheet .quiet-link {
-  color: #b6d1f5;
+  color: #566169;
 }
 #experiment .methods-sheet p,
 #experiment .story-caption,
 #explorer .control-note,
 #explorer .chart-hint {
-  color: #c1cdd2;
+  color: #566169;
 }
 #experiment .methods-sheet p.formula-text {
-  color: #eee9de;
+  color: #202c33;
 }
 .diagnostic-panel {
-  background: #223843;
+  background: #fffdf7;
   border-color: #4c6672;
   border-radius: 0;
 }
@@ -1173,10 +1174,10 @@ button:not(.primary):hover {
   font: 28px/1.2 var(--editorial);
 }
 .diagnostic-panel p {
-  color: #bdcbd3;
+  color: #566169;
 }
 .diagnostic-number strong {
-  color: #f1c674;
+  color: #566169;
 }
 .diagnostic-bars i {
   background: #a8c7f1;
@@ -1186,16 +1187,16 @@ button:not(.primary):hover {
 }
 .diagnostic-panel .segmented button,
 .lesson-selects label {
-  color: #c4d3da;
+  color: #566169;
 }
 #experiment .segmented button[aria-pressed="true"],
 #explorer .segmented button[aria-pressed="true"] {
-  background: #34546c;
-  color: #f0f5fa;
+  background: #e5eaf3;
+  color: #2854b8;
 }
 .protocol-raw pre {
-  background: #152630;
-  color: #c5d2d8;
+  background: #fffdf7;
+  color: #566169;
 }
 #explorer {
   border-top: 1px solid #526771;
@@ -1206,12 +1207,12 @@ button:not(.primary):hover {
   letter-spacing: -1px;
 }
 #explorer h2 span {
-  color: #f0b195;
+  color: #566169;
 }
 #explorer .section-heading p,
 #explorer .live-label,
 #explorer .quiet-link {
-  color: #bed2df;
+  color: #566169;
 }
 .explorer-panel,
 .cell-panel,
@@ -1220,27 +1221,27 @@ button:not(.primary):hover {
   border-radius: 0;
 }
 .explorer-controls {
-  background: #1b2d36;
+  background: #fffdf7;
 }
 .model-option.selected {
-  background: #304d61;
+  background: #e5eaf3;
   border-color: #8daecc;
 }
 .model-option.selected .model-number,
 .model-option.selected .model-check,
 .primary-metric strong {
-  color: #bfd9fc;
+  color: #566169;
 }
 #explorer a:hover,
 #experiment a:hover {
-  color: #fff2d5;
+  color: #202c33;
 }
 #explorer .interval-plot {
-  background: #1c303b;
+  background: #fffdf7;
   border-radius: 0;
 }
 #explorer .interval-plot figcaption {
-  color: #c0d8f5;
+  color: #566169;
 }
 .remaining-act .story-deck,
 .remaining-copy {
@@ -1267,65 +1268,65 @@ button:not(.primary):hover {
   line-height: 1.85;
 }
 .instrument-interlude > .hero-instrument {
-  background: #192b35;
+  background: #fffdf7;
   padding: 22px;
   animation: none;
 }
 .instrument-interlude .hero-instrument p {
   font-size: 10px;
-  color: #bdcbd3;
+  color: #566169;
 }
 .hero-instrument .hero-mode legend {
-  color: #c4d0d6;
+  color: #566169;
 }
 .hero-instrument button {
-  color: #d3e0e8;
+  color: #566169;
 }
 .hero-instrument .segmented button[aria-pressed="true"] {
-  color: #f5f4e9;
-  background: #34546b;
+  color: #2854b8;
+  background: #e5eaf3;
 }
 .lab-section {
-  background: #192b35;
+  background: #fffdf7;
 }
 .lab-section h2 {
   font: 46px/1.15 var(--editorial);
   letter-spacing: -1px;
 }
 .lab-section h2 span {
-  color: #f0b195;
+  color: #566169;
 }
 .lab-section .eyebrow,
 .lab-section .illustration-tag {
-  color: #c0d7f3;
+  color: #566169;
 }
 .lab-panel {
   border-radius: 0;
-  background: #20353f;
+  background: #fffdf7;
 }
 .lab-section .methods-sheet {
-  background: #213640;
+  background: #fffdf7;
 }
 .lab-section .methods-sheet summary {
-  color: #b5d1f3;
+  color: #566169;
 }
 .lab-section .methods-sheet p,
 .lab-section .methods-sheet dd,
 .lab-boundary p {
-  color: #bdcbd3;
+  color: #566169;
 }
 .lab-readout {
-  background: #213640;
+  background: #fffdf7;
   border-color: #58747e;
 }
 .lab-scenarios button {
-  background: #294754;
+  background: #fffdf7;
   border-color: #75929f;
   border-radius: 0;
 }
 .lab-view .segmented button[aria-pressed="true"] {
-  background: #36566b;
-  color: #f3f2e8;
+  background: #e5eaf3;
+  color: #2854b8;
 }
 .evidence-section {
   padding-top: 90px;
@@ -2163,10 +2164,10 @@ button:not(.primary):hover {
   text-wrap: initial;
 }
 .lab-section .legend-dot.mint {
-  background: #a6c6f3;
+  background: #2854b8;
 }
 .lab-section .legend-dot.lavender {
-  background: #f1a486;
+  background: #b6422b;
 }
 .hero-discipline,
 .hero-byline > span,
@@ -2182,14 +2183,14 @@ button:not(.primary):hover {
   color: var(--mint);
 }
 .layer-detail > .quiet-link {
-  color: #bed5f5;
+  color: #566169;
 }
 .graph-legend > span:first-child,
 .lineage-evidence summary {
   color: #365473;
 }
 .lab-section .section-number {
-  color: #bdcbd3;
+  color: #566169;
 }
 .evidence-section .provenance-links a,
 .evidence-section .provenance summary > .mono {
@@ -2201,7 +2202,7 @@ button:not(.primary):hover {
 #explorer button:not(.primary):hover,
 .lab-section button:not(.primary):hover,
 .hero-instrument button:not(.primary):hover {
-  color: #c1d9fa;
+  color: #566169;
 }
 .world-purpose {
   display: grid;
@@ -2259,14 +2260,14 @@ button:not(.primary):hover {
 /* Consistent scientific plotting and genuine, optional 3D specimen views. */
 .chart,
 .lab-chart {
-  background: #192b35;
+  background: #fffdf7;
   border: 1px solid #465e6b;
   padding: 10px 6px 4px;
 }
 .chart .axis-unit {
   left: 18px;
   top: 12px;
-  color: #bdcbd3;
+  color: #566169;
   font: 9px var(--mono);
 }
 .recharts-default-tooltip {
@@ -2282,21 +2283,21 @@ button:not(.primary):hover {
 .scene-view-buttons button {
   border: 1px solid #6d8796;
   background: transparent;
-  color: #d0dce3;
+  color: #566169;
   min-height: 42px;
   padding: 9px 13px;
   font-size: 11px;
 }
 .plot-view-switch button[aria-pressed="true"],
 .scene-view-buttons button[aria-pressed="true"] {
-  background: #385b7b;
-  color: #fff9ee;
-  border-color: #a6c6f3;
+  background: #e5eaf3;
+  color: #2854b8;
+  border-color: #2854b8;
 }
 .benchmark-3d {
   margin-top: 20px;
   border: 1px solid #627b8b;
-  background: #192b35;
+  background: #fffdf7;
   min-width: 0;
 }
 .scene-heading {
@@ -2309,14 +2310,14 @@ button:not(.primary):hover {
   flex-wrap: wrap;
 }
 .scene-heading > span {
-  color: #bdcbd3;
+  color: #566169;
   font: 9px var(--mono);
   letter-spacing: 0.6px;
 }
 .scene-heading > strong {
   font-size: 12px;
   font-weight: 500;
-  color: #f4f0e7;
+  color: #202c33;
 }
 .scene-controls {
   border: 0;
@@ -2328,7 +2329,7 @@ button:not(.primary):hover {
 .scene-controls legend {
   font: 9px var(--mono);
   padding: 0;
-  color: #bdcbd3;
+  color: #566169;
 }
 .scene-view-buttons {
   display: flex;
@@ -2346,7 +2347,7 @@ button:not(.primary):hover {
   align-items: center;
   gap: 15px;
   margin-top: 15px;
-  color: #bdcbd3;
+  color: #566169;
   font-size: 10px;
 }
 .scene-controls label input {
@@ -2356,7 +2357,7 @@ button:not(.primary):hover {
 }
 .scene-controls small {
   display: block;
-  color: #bdcbd3;
+  color: #566169;
   font-size: 10px;
   line-height: 1.8;
   margin-top: 10px;
@@ -2381,21 +2382,21 @@ button:not(.primary):hover {
   gap: 5px 16px;
   padding: 20px;
   border-block: 1px solid #465e6b;
-  background: #223a48;
+  background: #fffdf7;
 }
 .scene-readout > span {
   font-size: 12px;
-  color: #d0dce3;
+  color: #566169;
 }
 .scene-readout strong {
   font: 25px var(--mono);
-  color: #f2c36d;
+  color: #566169;
   grid-column: 2;
   grid-row: 1 / span 2;
   align-self: center;
 }
 .scene-readout small {
-  color: #bdcbd3;
+  color: #566169;
   font-size: 10px;
 }
 .scene-legend {
@@ -2404,7 +2405,7 @@ button:not(.primary):hover {
 }
 .scene-explanation {
   font-size: 11px !important;
-  color: #bdcbd3 !important;
+  color: #566169 !important;
   line-height: 1.9;
   padding: 0 20px;
   margin: 15px 0;
@@ -2414,14 +2415,14 @@ button:not(.primary):hover {
   border-block: 1px solid #465e6b;
 }
 .scene-matrix summary {
-  color: #bfd5f4;
+  color: #566169;
   font-size: 12px;
   padding: 16px 0;
   cursor: pointer;
 }
 .scene-matrix caption {
   text-align: left;
-  color: #bdcbd3;
+  color: #566169;
   font-size: 10px;
   padding-bottom: 12px;
 }
@@ -2440,14 +2441,14 @@ button:not(.primary):hover {
   font: 11px var(--mono);
   background: transparent;
   border: 1px solid transparent;
-  color: #e4ebef;
+  color: #202c33;
   padding: 8px 5px;
   min-height: 38px;
 }
 .scene-matrix td button[aria-pressed="true"] {
-  background: #365875;
-  border-color: #a6c6f3;
-  color: #fff9ef;
+  background: #e5eaf3;
+  border-color: #2854b8;
+  color: #2854b8;
 }
 .benchmark-3d-fallback {
   display: flex;
@@ -2459,21 +2460,21 @@ button:not(.primary):hover {
 }
 .benchmark-3d-fallback strong {
   font: 30px/1.2 var(--editorial);
-  color: #f4f0e7;
+  color: #202c33;
 }
 .benchmark-3d-fallback p {
-  color: #bdcbd3;
+  color: #566169;
   font-size: 13px;
   line-height: 1.8;
 }
 .scene-loading {
   padding: 30px;
-  color: #bdcbd3;
+  color: #566169;
   font-size: 13px;
 }
 .scene-fallback-note {
   font-size: 10px;
-  color: #bdcbd3;
+  color: #566169;
 }
 .instrument-visual .instrument-coordinate,
 .instrument-visual .instrument-annotation,
@@ -2575,45 +2576,45 @@ button:not(.primary):hover {
 #explorer .cell-panel,
 #explorer .model-panel,
 #explorer .uncertainty {
-  background: #21343e;
+  background: #fffdf7;
   border-color: #526b78;
 }
 #explorer .explorer-controls {
-  background: #192b35;
+  background: #fffdf7;
 }
 .comparison-note {
-  background: #233c49;
+  background: #fffdf7;
   border-color: #526b78;
-  color: #c9d7de;
+  color: #566169;
 }
 .comparison-note strong {
-  color: #f2c36d;
+  color: #566169;
 }
 .favorable {
-  color: #bfd5f4;
+  color: #566169;
 }
 .explorer-controls .segmented,
 .metric-toggle,
 .lab-view .segmented,
 .hero-mode .segmented {
-  background: #172b36;
+  background: #fffdf7;
   border-color: #536d7b;
 }
 .bar-track,
 .diagnostic-bars > div > div {
-  background: #344e5d;
+  background: #fffdf7;
 }
 #explorer .interval-plot {
-  background: #192b35;
+  background: #fffdf7;
 }
 .lab-panel {
-  background: #21343e;
+  background: #fffdf7;
 }
 .lab-section .slow-slider input::-webkit-slider-thumb {
-  background: #f1a486;
+  background: #b6422b;
 }
 .lab-section .slow-slider input::-moz-range-thumb {
-  background: #f1a486;
+  background: #b6422b;
 }
 @media (max-width: 650px) {
   .scene-view-buttons button,

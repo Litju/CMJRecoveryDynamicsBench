@@ -124,7 +124,7 @@ a:hover {
   border: 1px solid #4a645c;
   border-radius: 50%;
   color: var(--mint);
-  background: #1c2d27;
+  background: var(--panel);
 }
 .edition {
   font-family: var(--mono);
@@ -139,7 +139,7 @@ a:hover {
 .site-header nav {
   display: flex;
   gap: 30px;
-  color: #c1c8c4;
+  color: var(--text);
   font-size: 12px;
 }
 .source-nav {
@@ -165,7 +165,7 @@ a:hover {
   display: flex;
   align-items: center;
   gap: 10px;
-  color: #bed1c8;
+  color: var(--text);
 }
 .status-dot {
   display: inline-block;
@@ -230,7 +230,7 @@ a:hover {
   display: flex;
   gap: 10px;
   align-items: center;
-  color: #9faeaa;
+  color: var(--text);
   font-family: var(--mono);
   font-size: 8px;
   letter-spacing: 1.1px;
@@ -253,7 +253,7 @@ a:hover {
   gap: 15px;
   font: 8px var(--mono);
   letter-spacing: 1px;
-  color: #95a5a0;
+  color: var(--muted);
 }
 .instrument-top > span:first-child {
   display: flex;
@@ -261,7 +261,7 @@ a:hover {
   gap: 8px;
 }
 .instrument-top > span:last-child {
-  color: #97a3a2;
+  color: var(--muted);
 }
 .instrument-visual {
   height: 390px;
@@ -286,7 +286,7 @@ a:hover {
 .instrument-cross {
   position: absolute;
   font: 14px var(--mono);
-  color: #628577;
+  color: var(--muted);
 }
 .cross-top {
   top: 30px;
@@ -299,7 +299,7 @@ a:hover {
 .instrument-coordinate {
   font: 7px/1.9 var(--mono);
   letter-spacing: 0.8px;
-  color: #849b94;
+  color: var(--muted);
   position: absolute;
   top: 43px;
   left: 12px;
@@ -309,7 +309,7 @@ a:hover {
   right: 0;
   top: 62px;
   font: 7px/1.6 var(--mono);
-  color: #9bb0a5;
+  color: var(--text);
   letter-spacing: 0.8px;
   z-index: 2;
   pointer-events: none;
@@ -318,11 +318,11 @@ a:hover {
   display: block;
   font-size: 13px;
   font-weight: 400;
-  color: #dcf8eb;
+  color: var(--text);
   letter-spacing: 0.2px;
 }
 .instrument-annotation strong span {
-  color: #758a7e;
+  color: var(--muted);
   margin: 0 5px;
 }
 .annotation-line {
@@ -343,7 +343,7 @@ a:hover {
   gap: 10px;
   align-items: center;
   font: 8px var(--mono);
-  color: #96a99e;
+  color: var(--muted);
 }
 .instrument-scrub {
   max-width: 350px;
@@ -357,7 +357,7 @@ a:hover {
 .instrument-scrub label {
   font: 8px var(--mono);
   letter-spacing: 1px;
-  color: #acbcb5;
+  color: var(--text);
 }
 .instrument-scrub output {
   font: 15px var(--mono);
@@ -365,7 +365,7 @@ a:hover {
 }
 .instrument-scrub output span {
   font-size: 10px;
-  color: #b1c5ba;
+  color: var(--text);
 }
 input[type="range"] {
   appearance: none;
@@ -403,13 +403,13 @@ input[type="range"]::-moz-range-thumb {
 .scrub-ticks {
   display: flex;
   justify-content: space-between;
-  color: #92a59b;
+  color: var(--muted);
   font: 8px var(--mono);
 }
 .instrument-caption {
   text-align: center;
   font-size: 9px;
-  color: #a0aca5;
+  color: var(--text);
   margin-top: 17px;
 }
 .instrument-fallback {
@@ -423,7 +423,7 @@ input[type="range"]::-moz-range-thumb {
   left: 19%;
   width: 65%;
   height: 47%;
-  background: #203344;
+  background: var(--panel);
   border: 1px solid #94ccb1;
   transform: rotateX(60deg) rotateZ(-28deg);
   box-shadow:
@@ -505,7 +505,7 @@ input[type="range"]::-moz-range-thumb {
 }
 .research-strip strong span {
   font-size: 10px;
-  color: #a0aaa5;
+  color: var(--text);
   letter-spacing: 0;
   margin-left: 8px;
 }
@@ -550,7 +550,7 @@ input[type="range"]::-moz-range-thumb {
   align-items: center;
   gap: 8px;
   font: 8px var(--mono);
-  color: #9bafa4;
+  color: var(--text);
   letter-spacing: 0.8px;
 }
 .section-heading {
@@ -568,7 +568,7 @@ h2 {
   margin: 0;
 }
 h2 span {
-  color: #9ba6a2;
+  color: var(--muted);
 }
 .section-heading p {
   font-size: 12px;
@@ -588,7 +588,7 @@ h2 span {
 }
 .explorer-controls {
   padding: 25px 23px;
-  background: #12191b;
+  background: var(--panel);
   border-right: 1px solid var(--line);
 }
 .panel-label {
@@ -597,7 +597,7 @@ h2 span {
   gap: 8px;
   font: 8px var(--mono);
   letter-spacing: 1px;
-  color: #a8b7b0;
+  color: var(--text);
 }
 .explorer-controls > .panel-label {
   margin-bottom: 26px;
@@ -612,7 +612,7 @@ legend,
 .select-label {
   font-size: 10px;
   font-weight: 600;
-  color: #bec7c2;
+  color: var(--text);
   margin-bottom: 10px;
   display: block;
 }
@@ -636,11 +636,11 @@ legend,
 .model-option.selected {
   background: #a9f5dc0c;
   border-color: #577368;
-  color: #c1f4df;
+  color: var(--text);
 }
 .model-number {
   font: 8px var(--mono);
-  color: #91a298;
+  color: var(--muted);
 }
 .model-check {
   margin-left: auto;
@@ -658,7 +658,7 @@ legend,
   border: 1px solid #394541;
   border-radius: 4px;
   padding: 3px;
-  background: #11181a;
+  background: var(--panel);
   gap: 3px;
 }
 .segmented button {
@@ -670,12 +670,12 @@ legend,
   font-size: 10px;
   min-height: 32px;
   white-space: nowrap;
-  color: #aab6af;
+  color: var(--text);
 }
 .segmented button[aria-pressed="true"] {
-  background: #293c34;
+  background: var(--panel);
   border-color: #3e5a4c;
-  color: #d2f8e6;
+  color: var(--text);
 }
 .select-wrap {
   position: relative;
@@ -686,10 +686,10 @@ legend,
   width: 100%;
   padding: 10px 30px 10px 10px;
   min-height: 40px;
-  background: #192224;
+  background: var(--panel);
   border: 1px solid #3c4843;
   border-radius: 3px;
-  color: #dae1dc;
+  color: var(--text);
   font-size: 10px;
   cursor: pointer;
 }
@@ -699,19 +699,19 @@ legend,
   top: auto;
   bottom: 13px;
   pointer-events: none;
-  color: #a6b4aa;
+  color: var(--text);
 }
 .control-note {
   font-size: 9px;
   line-height: 1.8;
-  color: #a6b1a9;
+  color: var(--text);
   margin: 20px 0 0;
   padding-top: 17px;
   border-top: 1px solid var(--line);
 }
 .control-note strong {
   font-weight: 400;
-  color: #d1ddd5;
+  color: var(--text);
 }
 .explorer-results {
   padding: 27px 29px 22px;
@@ -736,7 +736,7 @@ legend,
   padding: 4px 7px;
   font: 8px var(--mono);
   letter-spacing: 0.7px;
-  color: #b3c3b7;
+  color: var(--text);
   white-space: nowrap;
 }
 .metric-strip {
@@ -751,7 +751,7 @@ legend,
 }
 .metric-strip > div > span {
   font-size: 9px;
-  color: #b7c3ba;
+  color: var(--text);
   display: block;
   white-space: nowrap;
 }
@@ -776,13 +776,13 @@ legend,
   font-size: 10px;
   letter-spacing: 0;
   font-style: normal;
-  color: #b2c2b7;
+  color: var(--text);
   margin-left: 5px;
 }
 .metric-strip small {
   display: block;
   font-size: 8px;
-  color: #a5b2a9;
+  color: var(--text);
   line-height: 1.6;
 }
 .chart-title {
@@ -817,7 +817,7 @@ legend,
   top: 0;
   left: 1px;
   font: 7px var(--mono);
-  color: #9faf9f;
+  color: var(--text);
   letter-spacing: 0.7px;
 }
 .chart-legend {
@@ -827,7 +827,7 @@ legend,
   flex-wrap: wrap;
   margin-top: 17px;
   font-size: 9px;
-  color: #bcc9bf;
+  color: var(--text);
 }
 .chart-legend > span {
   display: flex;
@@ -847,7 +847,7 @@ legend,
   max-width: 180px;
   text-align: right;
   font-size: 8px;
-  color: #a5b3aa;
+  color: var(--text);
 }
 .comparison-note {
   display: flex;
@@ -858,7 +858,7 @@ legend,
   border: 1px solid #35493e;
   border-radius: 3px;
   margin-top: 21px;
-  color: #bfd9c7;
+  color: var(--text);
   font-size: 9px;
 }
 .comparison-note > svg {
@@ -868,13 +868,13 @@ legend,
   font-family: var(--mono);
   font-size: 12px;
   font-weight: 400;
-  color: #d0f5de;
+  color: var(--text);
   margin-right: 5px;
 }
 .comparison-note small {
   display: block;
   font-size: 8px;
-  color: #a9b9ac;
+  color: var(--text);
   margin-top: 3px;
 }
 .detail-grid {
@@ -888,7 +888,7 @@ legend,
   border: 1px solid var(--line);
   border-radius: 5px;
   min-width: 0;
-  background: #141b1d;
+  background: var(--panel);
 }
 .detail-title {
   display: flex;
@@ -925,9 +925,9 @@ thead th {
   font-size: 8px;
   font-weight: 400;
   letter-spacing: 0.4px;
-  color: #adbbb1;
+  color: var(--text);
   white-space: nowrap;
-  background: #12191a;
+  background: var(--panel);
 }
 tbody th {
   font-weight: 400;
@@ -957,7 +957,7 @@ tbody tr:last-child td {
   white-space: nowrap;
 }
 .outcome-name {
-  color: #b7c6bb;
+  color: var(--text);
   font-size: 9px;
   margin-left: 1px;
 }
@@ -981,14 +981,14 @@ tbody tr:last-child td {
 }
 td small {
   font-size: 7px;
-  color: #b0bfb2;
+  color: var(--text);
 }
 .favorable {
-  color: #a9e2c3;
+  color: var(--text);
 }
 .table-note {
   font-size: 9px;
-  color: #a5b3a9;
+  color: var(--text);
   line-height: 1.8;
   margin: 0;
   padding: 14px 20px;
@@ -1004,7 +1004,7 @@ td small {
 }
 .model-panel > p {
   font-size: 10px;
-  color: #aab9ae;
+  color: var(--text);
   line-height: 1.85;
 }
 .model-facts {
@@ -1021,7 +1021,7 @@ td small {
   font-size: 10px;
 }
 .model-facts span {
-  color: #aebdb1;
+  color: var(--text);
 }
 .model-facts strong {
   font: 10px var(--mono);
@@ -1029,7 +1029,7 @@ td small {
 }
 .model-panel .method-note {
   font-size: 9px;
-  color: #bfcaaf;
+  color: var(--text);
 }
 .model-panel > .quiet-link {
   margin-top: 10px;
@@ -1039,7 +1039,7 @@ td small {
   margin-top: 20px;
   border: 1px solid var(--line);
   border-radius: 4px;
-  background: #141b1d;
+  background: var(--panel);
 }
 .uncertainty summary {
   padding: 17px 21px;
@@ -1064,18 +1064,18 @@ summary::-webkit-details-marker {
   margin: 0;
   font-size: 10px;
   line-height: 1.9;
-  color: #b2c0b5;
+  color: var(--text);
 }
 .uncertainty-content strong {
   font-weight: 400;
-  color: #d5e2d9;
+  color: var(--text);
 }
 .root-seed {
   display: block;
   max-width: 245px;
   overflow-wrap: anywhere;
   font: 7px/1.8 var(--mono);
-  color: #acb9ae;
+  color: var(--text);
   margin-top: 3px;
 }
 .uncertainty td,
@@ -1088,7 +1088,7 @@ summary::-webkit-details-marker {
   align-items: flex-start;
   gap: 25px;
   font-size: 8px;
-  color: #a3b1a6;
+  color: var(--text);
   margin-top: 15px;
 }
 .data-footnote a {
@@ -1096,10 +1096,10 @@ summary::-webkit-details-marker {
   align-items: center;
   gap: 6px;
   white-space: nowrap;
-  color: #c2d4c5;
+  color: var(--text);
 }
 .lab-section {
-  background: #192b35;
+  background: var(--panel);
   border-block: 1px solid #32423a;
 }
 .lab-section .section {
@@ -1110,7 +1110,7 @@ summary::-webkit-details-marker {
   display: flex;
   gap: 7px;
   align-items: center;
-  color: #cccae5;
+  color: var(--text);
   background: #aaa5ef0b;
   border: 1px solid #6c698055;
   padding: 6px 9px;
@@ -1133,13 +1133,13 @@ summary::-webkit-details-marker {
 .equation-label {
   font: 8px var(--mono);
   letter-spacing: 1px;
-  color: #b1c8b8;
+  color: var(--text);
 }
 .equation {
   font-family: Georgia, "Times New Roman", serif;
   font-size: 23px;
   font-style: italic;
-  color: #e0f7e4;
+  color: var(--text);
   letter-spacing: -0.5px;
   margin: 17px 0;
 }
@@ -1150,7 +1150,7 @@ summary::-webkit-details-marker {
 .lab-intro {
   font-size: 10px;
   line-height: 1.9;
-  color: #b3c4b5;
+  color: var(--text);
   margin-bottom: 27px;
 }
 .slider-control {
@@ -1167,20 +1167,20 @@ summary::-webkit-details-marker {
   align-items: center;
   gap: 7px;
   font-size: 10px;
-  color: #d0dfd2;
+  color: var(--text);
 }
 .slider-control label span {
   font: italic 15px Georgia;
   margin-left: 4px;
-  color: #aac3b0;
+  color: var(--text);
 }
 .slider-control output {
   font: 12px var(--mono);
-  color: #d5f5df;
+  color: var(--text);
 }
 .slider-control small {
   font: 8px var(--mono);
-  color: #adc1b0;
+  color: var(--text);
 }
 .legend-dot {
   width: 5px;
@@ -1201,9 +1201,9 @@ summary::-webkit-details-marker {
   background: var(--lavender);
 }
 .secondary {
-  background: #293e32;
+  background: var(--panel);
   border: 1px solid #53745d;
-  color: #d7f2df;
+  color: var(--text);
   padding: 9px 13px;
   gap: 9px;
   font-size: 10px;
@@ -1221,7 +1221,7 @@ summary::-webkit-details-marker {
   gap: 7px;
   padding: 8px 0;
   border: 0;
-  color: #bfd1c1;
+  color: var(--text);
   font-size: 10px;
   min-height: 40px;
 }
@@ -1237,12 +1237,12 @@ summary::-webkit-details-marker {
 }
 .lab-plot-title output {
   font: 24px var(--mono);
-  color: #dbf6e2;
+  color: var(--text);
   letter-spacing: -1px;
 }
 .lab-plot-title > div > span {
   font-size: 10px;
-  color: #b1c4b3;
+  color: var(--text);
 }
 .lab-chart {
   height: 250px;
@@ -1258,11 +1258,11 @@ summary::-webkit-details-marker {
   justify-content: space-between;
   font: 8px var(--mono);
   letter-spacing: 1px;
-  color: #bfd2c1;
+  color: var(--text);
 }
 .lab-time output {
   font-size: 10px;
-  color: #d0e9d4;
+  color: var(--text);
 }
 .lab-plot .chart-legend {
   gap: 20px;
@@ -1284,17 +1284,17 @@ summary::-webkit-details-marker {
   height: 18px;
   display: grid;
   place-items: center;
-  color: #d1e3d2;
+  color: var(--text);
   flex-shrink: 0;
 }
 .lab-boundary p {
   margin: 0;
   font-size: 9px;
-  color: #b3c6b7;
+  color: var(--text);
   line-height: 1.8;
 }
 .lab-boundary strong {
-  color: #ddeddf;
+  color: var(--text);
   font-weight: 400;
 }
 .evidence-section {
@@ -1316,7 +1316,7 @@ summary::-webkit-details-marker {
   border-bottom: 1px solid var(--line);
 }
 .evidence-notes article > svg {
-  color: #a1c0ab;
+  color: var(--text);
   flex-shrink: 0;
   margin-top: 2px;
 }
@@ -1328,7 +1328,7 @@ summary::-webkit-details-marker {
 }
 .evidence-notes p {
   margin: 0;
-  color: #aebfb0;
+  color: var(--text);
   font-size: 10px;
   line-height: 1.9;
 }
@@ -1339,7 +1339,7 @@ summary::-webkit-details-marker {
 .retired-note > .small-tag {
   border: 0;
   padding: 0;
-  color: #cbb99c;
+  color: var(--text);
   font-size: 7px;
 }
 .retired-note h4 {
@@ -1370,7 +1370,7 @@ summary::-webkit-details-marker {
 .provenance summary > span {
   margin-left: auto;
   font-size: 9px;
-  color: #b8d6bf;
+  color: var(--text);
 }
 .provenance-content {
   padding-bottom: 23px;
@@ -1386,13 +1386,13 @@ summary::-webkit-details-marker {
   font-size: 9px;
 }
 .provenance dt {
-  color: #a2b6a6;
+  color: var(--text);
 }
 .provenance dd {
   margin: 0;
   font: 9px/1.6 var(--mono);
   overflow-wrap: anywhere;
-  color: #d0e1d4;
+  color: var(--text);
 }
 .provenance-links {
   display: flex;
@@ -1405,11 +1405,11 @@ summary::-webkit-details-marker {
   align-items: center;
   gap: 5px;
   font-size: 10px;
-  color: #c8e0d0;
+  color: var(--text);
 }
 .provenance-content > p {
   font-size: 9px;
-  color: #acbdae;
+  color: var(--text);
   max-width: 690px;
   margin-top: 19px;
 }
@@ -1428,12 +1428,12 @@ summary::-webkit-details-marker {
   font-size: 13px;
 }
 .footer-brand svg {
-  color: #b1d4bc;
+  color: var(--text);
 }
 .footer p {
   font-size: 8px;
   line-height: 1.9;
-  color: #a5b5a8;
+  color: var(--text);
   margin: 8px 0 0;
 }
 .footer-links {
@@ -2515,7 +2515,7 @@ table {
 .retired-result strong {
   font-weight: 400;
   font-family: var(--mono);
-  color: #d9c3aa;
+  color: var(--text);
 }
 
 /* The story shares the observatory's palette and type; numerical panels retain their layout. */
@@ -2543,7 +2543,7 @@ table {
 }
 .story-progress a span {
   font: 10px var(--mono);
-  color: #9ea9a5;
+  color: var(--text);
 }
 .story-progress a[aria-current] {
   color: var(--mint);
@@ -2568,7 +2568,7 @@ table {
 .story-deck {
   font-size: clamp(17px, 1.6vw, 21px);
   line-height: 1.65;
-  color: #bcc7c2;
+  color: var(--text);
   max-width: 760px;
   margin: 26px 0 42px;
 }
@@ -2595,7 +2595,7 @@ table {
 }
 .question-copy p:nth-child(2) {
   font-size: 20px;
-  color: #d0e0d7;
+  color: var(--text);
   line-height: 1.5;
 }
 .forecast-strip {
@@ -2687,7 +2687,7 @@ table {
   display: flex;
   align-items: center;
   gap: 9px;
-  color: #c5e0d2;
+  color: var(--text);
 }
 .graph-legend i {
   width: 22px;
@@ -2704,13 +2704,13 @@ table {
   display: flex;
   justify-content: space-between;
   gap: 10px;
-  color: #b5c3bc;
+  color: var(--text);
   font: 10px var(--mono);
   letter-spacing: 1px;
   margin-bottom: 20px;
 }
 .family-heading span {
-  color: #b1bcb8;
+  color: var(--text);
   font-size: 9px;
 }
 .family-tree,
@@ -2754,7 +2754,7 @@ table {
   text-align: left;
   border: 1px solid var(--line);
   border-radius: 4px;
-  background: #141c1e;
+  background: var(--panel);
   min-height: 78px;
 }
 .lineage-node strong {
@@ -2765,7 +2765,7 @@ table {
 }
 .lineage-node small {
   display: block;
-  color: #acb9b3;
+  color: var(--text);
   font: 9px var(--mono);
   margin-top: 5px;
   letter-spacing: 0.7px;
@@ -2791,7 +2791,7 @@ table {
 }
 .node-open {
   margin-left: auto;
-  color: #a4b5ab;
+  color: var(--text);
 }
 .fork > li + li {
   margin-top: 18px;
@@ -2819,14 +2819,14 @@ table {
 .contract-name {
   display: block;
   overflow-wrap: anywhere;
-  color: #b4c3bb;
+  color: var(--text);
   font-size: 10px;
 }
 .lineage-question {
   font-size: 17px;
   line-height: 1.65;
   margin: 26px 0;
-  color: #d5e3da;
+  color: var(--text);
 }
 .lineage-facts {
   margin: 0;
@@ -2837,7 +2837,7 @@ table {
 }
 .lineage-facts dt {
   font: 10px var(--mono);
-  color: #b2bfb8;
+  color: var(--text);
   margin-bottom: 7px;
 }
 .lineage-facts dd {
@@ -2868,11 +2868,11 @@ table {
 }
 .lineage-evidence summary {
   cursor: pointer;
-  color: #d0ddd6;
+  color: var(--text);
   min-height: 28px;
 }
 .lineage-evidence dl {
-  color: #bdc9c1;
+  color: var(--text);
   font-size: 11px;
 }
 .lineage-evidence dt {
@@ -3017,7 +3017,7 @@ table {
 }
 .experiment-layout .experiment-answer {
   font-size: 18px;
-  color: #c8d9cf;
+  color: var(--text);
   line-height: 1.5;
 }
 .experiment-answer strong {
@@ -3039,7 +3039,7 @@ table {
 .story-results figcaption {
   font: 9px/1.8 var(--mono);
   letter-spacing: 0.8px;
-  color: #bcc8c1;
+  color: var(--text);
 }
 .story-results figcaption span {
   display: block;
@@ -3061,7 +3061,7 @@ table {
 }
 .bar-track {
   height: 7px;
-  background: #263331;
+  background: var(--panel);
 }
 .bar-track > span {
   height: 100%;
@@ -3094,7 +3094,7 @@ table {
   padding: 0 0 0 22px;
   max-width: 880px;
   font-size: 13px;
-  color: #b5c1ba;
+  color: var(--text);
   line-height: 1.9;
   margin-top: 45px;
 }
@@ -3111,7 +3111,7 @@ table {
 .evidence-ladder {
   padding: 30px;
   border: 1px solid var(--line);
-  background: #141d1e;
+  background: var(--panel);
 }
 .evidence-rung {
   border-top: 1px solid var(--line);
@@ -3310,7 +3310,7 @@ table {
     display: block;
     padding: 25px 17px;
     margin-top: 12px;
-    background: #192822;
+    background: var(--panel);
     border: 1px solid #527261;
     border-radius: 4px;
   }
@@ -3453,7 +3453,7 @@ p {
   border: 1px solid #45675c;
   border-radius: 8px;
   overflow: hidden;
-  background: #192b35;
+  background: var(--panel);
   margin-top: 30px;
 }
 .episode-toolbar {
@@ -3491,7 +3491,7 @@ p {
   letter-spacing: 1px;
 }
 .episode-scene-label > span:last-child {
-  color: #bdb8ed;
+  color: var(--text);
 }
 .episode-boundary {
   font-size: 12px;
@@ -3611,7 +3611,7 @@ p {
 }
 .layer-detail {
   padding: 30px 36px;
-  background: #151e1e;
+  background: var(--panel);
 }
 .layer-detail h3 {
   font-size: 26px;
@@ -3632,7 +3632,7 @@ p {
   padding: 0 25px;
   border: 1px solid var(--line);
   border-radius: 5px;
-  background: #131b1d;
+  background: var(--panel);
 }
 .methods-sheet summary {
   padding: 20px 0;
@@ -3956,7 +3956,7 @@ p {
 .lesson-selects select,
 .diagnostic-panel select {
   width: 100%;
-  background: #15201e;
+  background: var(--panel);
   border: 1px solid #465d53;
   border-radius: 4px;
   padding: 11px;
@@ -3978,7 +3978,7 @@ p {
 }
 .six-cells button {
   padding: 13px 10px;
-  background: #15201e;
+  background: var(--panel);
   border: 1px solid var(--line);
   border-radius: 4px;
   text-align: left;
@@ -3988,7 +3988,7 @@ p {
 }
 .six-cells button[aria-pressed="true"] {
   border-color: var(--mint);
-  background: #263c32;
+  background: var(--panel);
 }
 .six-cells span {
   font-size: 10px;
@@ -4085,7 +4085,7 @@ p {
 }
 .diagnostic-panel {
   border: 1px solid var(--line);
-  background: #151e20;
+  background: var(--panel);
   border-radius: 5px;
   padding: 30px;
   min-width: 0;
@@ -4135,7 +4135,7 @@ p {
   font-weight: 400;
 }
 .diagnostic-bars > div > div {
-  background: #263631;
+  background: var(--panel);
   height: 5px;
   margin-top: 8px;
 }
@@ -4178,7 +4178,7 @@ p {
 .interval-plot {
   margin: 10px 0 25px;
   padding: 20px;
-  background: #111b1b;
+  background: var(--panel);
   border: 1px solid var(--line);
   border-radius: 4px;
 }
@@ -4356,7 +4356,7 @@ p {
   gap: 5px;
 }
 .lab-scenarios button {
-  background: #20312a;
+  background: var(--panel);
   border: 1px solid #4a6356;
   border-radius: 3px;
   padding: 8px;
@@ -4382,7 +4382,7 @@ p {
   grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 20px;
   padding: 25px;
-  background: #14201c;
+  background: var(--panel);
   border: 1px solid #3c5d4c;
   border-top: 0;
 }
@@ -4443,7 +4443,7 @@ p {
 }
 .scrutiny-cards .mono {
   font-size: 9px;
-  color: #c3b9f5;
+  color: var(--text);
 }
 .scrutiny-cards h4 {
   font-size: 23px;
@@ -4579,7 +4579,7 @@ p {
   padding: 20px;
   border: 1px solid #456456;
   border-radius: 4px;
-  background: #101b18;
+  background: var(--panel);
 }
 .measurement-lens .segmented button {
   min-height: 40px;
@@ -4626,7 +4626,7 @@ p {
 }
 .protocol-raw pre {
   padding: 18px;
-  background: #0f1816;
+  background: var(--panel);
   color: var(--muted);
   font: 11px/1.8 var(--mono);
   white-space: pre-wrap;

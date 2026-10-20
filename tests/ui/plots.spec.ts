@@ -55,7 +55,7 @@ test("SVG and Recharts use the same specimen palette, model colours and square t
   await expect(page.locator(".chart .recharts-default-tooltip")).toBeVisible();
   await expect(page.locator(".chart .recharts-default-tooltip")).toHaveCSS(
     "background-color",
-    "rgb(33, 52, 62)",
+    "rgb(255, 253, 247)",
   );
   await expect(page.locator(".chart .recharts-default-tooltip")).toHaveCSS(
     "border-radius",
