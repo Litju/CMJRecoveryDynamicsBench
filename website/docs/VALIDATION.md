@@ -18,12 +18,12 @@
 | `npm audit` | 0 known vulnerabilities in the lockfile at assessment time |
 | `npm audit --omit=dev` | 0 known production-dependency vulnerabilities at assessment time |
 
-The browser suite uses an isolated Python static server on `127.0.0.1:4174` with `reuseExistingServer: false`; it cannot silently attach to the Next development server on port 4173. Its `all 96 model/root/horizon/outcome combinations` test verifies exact sourced values. The 3D matrix separately checks all 96 root/model/cell values. Other cases cover the study, lineage/history, keyboard and touch interaction, chart picking, reduced motion, axe checks, unavailable WebGL, context loss, and responsive bounds.
+The browser suite uses an isolated Python static server on `127.0.0.1:4174` with `reuseExistingServer: false`; it cannot silently attach to the Next development server on port 4173. Its `all 96 model, root, horizon, and outcome combinations` test verifies exact sourced values. The 3D matrix separately checks all 96 root/model/cell values. Other cases cover the study, lineage/history, keyboard and touch interaction, chart picking, reduced motion, axe checks, unavailable WebGL, context loss, and responsive bounds.
 
 On this host, Playwright's Chromium binary could not initially find `libnspr4.so` in the system library path. No test body ran in that attempt. Re-running with the host's already-extracted browser libraries passed all tests:
 
 ```sh
-LD_LIBRARY_PATH=/tmp/cmj-browser-libs/extracted/usr/lib/x86_64-linux-gnu npm run test:ui
+LD_LIBRARY_PATH=/path/to/browser-libraries npm run test:ui
 ```
 
 On a normal Linux host, install the browser and system dependencies first with `npx playwright install --with-deps chromium`; do not copy the `/tmp` path above to other machines.

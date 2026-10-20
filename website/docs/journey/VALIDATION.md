@@ -9,7 +9,7 @@ The four spatial subjects have different scientific roles:
 - **Measurement:** a schematic force plate, articulated figure and ground-reaction-force arrow. Its geometry and movement are illustrative; they are not motion-capture data or a biomechanical simulation.
 - **World, limits and lab:** the existing 24 h / 84 h mathematical modes and their combined response. Depth separates curves; scroll selects illustrative elapsed hours. These are not fitted forecasts or athlete measurements.
 - **History and evidence:** eight source-defined formulations with exactly five documented parent edges. Unresolved ancestry stays disconnected. Selecting a block opens the corresponding existing contract.
-- **Experiment and comparison:** four source-backed NRMSE bars, from zero, for 24 h force averaged across three same-generator roots. Selecting a bar opens that exact model/root/horizon/outcome/metric configuration in the original Explorer, including after changing its filters. It does not introduce a new result or uncertainty interval.
+- **Experiment and comparison:** four source-backed NRMSE bars, from zero, for 24 h force averaged across three same-generator roots. Selecting a bar opens that exact model, root, horizon, and outcome/metric configuration in the original Explorer, including after changing its filters. It does not introduce a new result or uncertainty interval.
 
 All chart surfaces, controls, SVG axes, WebGL backgrounds, labels, tooltips and mathematical figures share the light paper theme. Selection uses a restrained cobalt tint. The focused 24-cell 3D benchmark, exact matrices and original 2D comparison remain available.
 

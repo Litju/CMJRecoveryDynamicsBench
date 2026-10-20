@@ -17,7 +17,7 @@ const ids = [
   "ridge_full",
   "structured_full",
 ] as const;
-test("all 96 model/root/horizon/outcome combinations show exact sourced values", async ({
+test("all 96 model, root, horizon, and outcome combinations show exact sourced values", async ({
   page,
 }) => {
   await page.emulateMedia({ reducedMotion: "reduce" });

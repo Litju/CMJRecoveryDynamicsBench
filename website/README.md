@@ -29,7 +29,7 @@ npm ci
 npm run dev
 ```
 
-Open <http://localhost:3000>. The fixture generator uses only the pinned source files in this repository; `npm run build` verifies their checksums and rejects stale generated JSON before exporting the site.
+Open <http://127.0.0.1:3000>. The fixture generator uses only the pinned source files in this repository; `npm run build` verifies their checksums and rejects stale generated JSON before exporting the site.
 
 ```sh
 npm test
@@ -39,7 +39,7 @@ npx playwright install --with-deps chromium
 npm run test:ui
 ```
 
-The browser suite expects the production build from `npm run build`. It starts an isolated static server on `127.0.0.1:4174` so an existing development server cannot be mistaken for the production export. The complete browser run checks all 96 model/root/horizon/outcome views, mobile/touch states, accessibility, reduced motion and WebGL fallbacks.
+The browser suite expects the production build from `npm run build`. It starts an isolated static server on `127.0.0.1:4174` so an existing development server cannot be mistaken for the production export. The complete browser run checks all 96 model, root, horizon, and outcome views, mobile/touch states, accessibility, reduced motion and WebGL fallbacks.
 
 `npm run build` writes the deployable static site to `out/`. To inspect it manually:
 
@@ -47,7 +47,7 @@ The browser suite expects the production build from `npm run build`. It starts a
 python3 -m http.server 4173 --directory out
 ```
 
-Open <http://localhost:4173>. The export can be served by any static file host; see [deployment notes](docs/DEPLOYMENT.md).
+Open <http://127.0.0.1:4173>. The export can be served by any static file host; see [deployment notes](docs/DEPLOYMENT.md).
 
 ## Scientific source and limits
 

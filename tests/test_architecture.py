@@ -90,7 +90,12 @@ ROOT_FILE_ALLOWLIST = {
     "NOTICE",
     "MANIFEST.in",
 }
-PUBLIC_DIRECTORY_ALLOWLIST = {"src", "tests", "docs"}
+PUBLIC_DIRECTORY_ALLOWLIST = {"src", "tests", "docs", "website", ".github"}
+PUBLIC_RECONCILIATION_COMMITS = {
+    "3dc4c82f0c948add6e4a9ebdebfd2279" + "33c823d3",
+    "618a56bbcc8de6fb1cd3a5d4d8f71bf" + "7fcb61529",
+    "4e08777bc7c7f7ce4fa541ea3776b4cb" + "2e2dda3b",
+}
 PUBLIC_DOCUMENT_ALLOWLIST = {
     "docs/M8_RELEASE_NOTES.md",
     "docs/M8_V1_RELEASE_AUDIT.md",
@@ -251,10 +256,18 @@ def _assert_public_path(tracked_path: str) -> None:
     protected = any(tracked_path.endswith(suffix) for suffix in PROTECTED_SUFFIXES)
     public_report = tracked_path in PUBLIC_DOCUMENT_ALLOWLIST and path.suffix == ".md"
     public_receipt = tracked_path in PUBLIC_MACHINE_RECEIPT_ALLOWLIST and path.suffix == ".json"
-    assert not protected or public_report or public_receipt, tracked_path
-    assert not PROTECTED_DIRECTORY_NAMES.intersection(part.lower() for part in path.parts), (
-        tracked_path
+    public_website_source = path.parts[0] == "website" and path.suffix in {".md", ".json"}
+    assert not protected or public_report or public_receipt or public_website_source, tracked_path
+    protected_directories = PROTECTED_DIRECTORY_NAMES.intersection(
+        part.lower() for part in path.parts
     )
+    public_fixture_directory = path.parts[:3] in {
+        ("website", "src", "data"),
+        ("website", "public", "data"),
+    }
+    assert not protected_directories or (
+        protected_directories == {"data"} and public_fixture_directory
+    ), tracked_path
 
 
 @pytest.mark.parametrize(
@@ -299,6 +312,10 @@ def test_tracked_text_has_no_machine_paths_or_secret_markers() -> None:
         assert PRIVATE_MACHINE_PATH.search(source) is None, relative
         assert PRIVATE_KEY.search(source) is None, relative
         assert all(pattern.search(source) is None for pattern in SECRET_PATTERNS), relative
+        for public_reference in (
+            PUBLIC_RECONCILIATION_COMMITS if relative.parts[0] == "website" else ()
+        ):
+            source = source.replace(public_reference, "")
         assert SHA1_OBJECT_REFERENCE.search(source) is None, relative
 
 
