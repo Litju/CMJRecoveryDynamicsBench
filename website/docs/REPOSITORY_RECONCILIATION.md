@@ -7,9 +7,10 @@ Assessment date: 2026-10-20
 Canonical destination: public GitHub repository Litju/CMJRecoveryDynamicsBench.
 The repository default branch is main at 3dc4c82f0c948add6e4a9ebdebfd227933c823d3.
 The integration branch res-538-showcase-reconciliation was created directly
-from that commit in a separate worktree. The branch was 30 commits ahead of
-origin/main before this manifest commit; this manifest is the 31st branch-only
-commit. No commit was made to main.
+from that commit in a separate worktree. The branch was 30 commits ahead of origin/main before this manifest commit.
+The manifest is the 31st branch-only commit; a later trailing-space-only cleanup
+in the bundled font license makes the final branch 32 commits ahead. No commit
+was made to main.
 
 Scientific PR #8 remains open against main. Its branch is
 res-291-v1-publication-candidate at
@@ -106,6 +107,7 @@ Reconciliation commits:
 - d9d18b9: root workflow, scoped ignore rules, and monorepo navigation.
 - 160db66: public-boundary test adjustment and machine-path cleanup.
 - This manifest is committed separately after validation.
+- 0bc0ec7: one trailing space trimmed from the bundled OFL copy; license wording is unchanged.
 
 ## Validation results
 
