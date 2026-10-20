@@ -159,7 +159,7 @@ export default function MeasurementExhibit() {
                 <path
                   d={curve}
                   fill="none"
-                  stroke={selected === "force" ? "#2854b8" : "#bc432c"}
+                  stroke={selected === "force" ? "#2854b8" : "#b6422b"}
                   strokeWidth="3"
                 />
                 {selected === "force" && (

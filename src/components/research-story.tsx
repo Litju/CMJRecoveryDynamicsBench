@@ -457,9 +457,10 @@ export function Remaining() {
             still needs a strong comparator.
           </p>
           <p>
-            The height of this illustrative field follows the equation; its
-            spatial geometry is decorative. It is not a measured force trace,
-            body motion or a fitted forecast.
+            Each curve follows the same equation. Depth separates the combined
+            response from its two modes, and the slice marks elapsed time. These
+            are mathematical illustrations, not measured force traces or fitted
+            forecasts.
           </p>
         </div>
         <HeroInstrument />

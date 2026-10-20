@@ -1,74 +1,126 @@
 "use client";
 import dynamic from "next/dynamic";
-import { Component, useEffect, useRef, useState, type ReactNode } from "react";
+import { useState } from "react";
+import { useWebGL, SceneBoundary } from "./scene-availability";
+import { CameraControls, type CameraPose } from "./camera-controls";
+import { plotTheme as theme } from "@/lib/plot-theme.mjs";
 import { MoveUpRight } from "lucide-react";
-import { decay } from "@/lib/decay.mjs";
+import { decay, decaySeries } from "@/lib/decay.mjs";
 const Scene = dynamic(() => import("./instrument-scene"), {
   ssr: false,
-  loading: () => <InstrumentFallback />,
+  loading: () => (
+    <p className="scene-loading">Preparing the 3D response curves…</p>
+  ),
 });
-function InstrumentFallback() {
+function InstrumentFallback({
+  time = 24,
+  fast = 0.7,
+  slow = 0.3,
+}: {
+  time?: number;
+  fast?: number;
+  slow?: number;
+}) {
+  const series = decaySeries(fast, slow);
   return (
-    <div className="instrument-fallback" data-testid="instrument-fallback">
-      <div className="plate-orbit orbit-one" />
-      <div className="plate-orbit orbit-two" />
-      <div className="fallback-plate">
-        <div className="plate-grid" />
-        <span className="plate-core" />
-      </div>
-      <div className="fallback-shadow" />
+    <div
+      className="instrument-fallback response-fallback"
+      data-testid="instrument-fallback"
+    >
+      <svg
+        viewBox="0 0 620 330"
+        role="img"
+        aria-label="Exact two-dimensional mathematical fallback. Response against time in hours."
+      >
+        {[0, 0.5, 1].map((v) => (
+          <g key={v}>
+            <line
+              x1="50"
+              x2="572"
+              y1={275 - v * 220}
+              y2={275 - v * 220}
+              stroke={theme.grid}
+            />
+            <text
+              x="37"
+              y={279 - v * 220}
+              textAnchor="end"
+              fill={theme.muted}
+              fontSize="11"
+            >
+              {v.toFixed(1)}
+            </text>
+          </g>
+        ))}
+        {[0, 24, 48, 72, 96, 120, 144, 168].map((t) => (
+          <g key={t}>
+            <line
+              x1={50 + t * 3.1}
+              x2={50 + t * 3.1}
+              y1="35"
+              y2="275"
+              stroke={theme.grid}
+            />
+            <text
+              x={50 + t * 3.1}
+              y="300"
+              fill={theme.muted}
+              fontSize="11"
+              textAnchor="middle"
+            >
+              {t}h
+            </text>
+          </g>
+        ))}
+        {(["total", "fast", "slow"] as const).map((id) => (
+          <path
+            key={id}
+            d={series
+              .map(
+                (p, i) =>
+                  `${i ? "L" : "M"}${50 + p.time * 3.1},${275 - p[id] * 220}`,
+              )
+              .join(" ")}
+            fill="none"
+            stroke={
+              id === "total"
+                ? theme.text
+                : id === "fast"
+                  ? theme.fast
+                  : theme.slow
+            }
+            strokeWidth={id === "total" ? 2.5 : 1.5}
+          />
+        ))}
+        <line
+          x1={50 + time * 3.1}
+          x2={50 + time * 3.1}
+          y1="35"
+          y2="275"
+          stroke={theme.ochre}
+          strokeDasharray="4 4"
+        />
+        <text x="50" y="20" fill={theme.muted} fontSize="11">
+          RESPONSE / ARBITRARY UNITS
+        </text>
+      </svg>
     </div>
   );
 }
-class SceneBoundary extends Component<
-  { children: ReactNode },
-  { failed: boolean }
-> {
-  state = { failed: false };
-  static getDerivedStateFromError() {
-    return { failed: true };
-  }
-  render() {
-    return this.state.failed ? <InstrumentFallback /> : this.props.children;
-  }
-}
 export default function HeroInstrument() {
-  const instrument = useRef<HTMLDivElement>(null);
+  const {
+    ref: instrument,
+    ready: render3d,
+    reason,
+    onUnavailable,
+  } = useWebGL();
+  const [pose, setPose] = useState<CameraPose>([9, 8, 11]);
+  const [drag, setDrag] = useState(false);
+  const [zoom, setZoom] = useState(42);
   const [time, setTime] = useState(24);
-  const [render3d, setRender3d] = useState(false);
   const [mode, setMode] = useState("both");
   const fast = mode === "slow" ? 0 : 0.7;
   const slow = mode === "fast" ? 0 : 0.3;
-  useEffect(() => {
-    const media = window.matchMedia("(prefers-reduced-motion: reduce)");
-    let nearViewport = false;
-    const enable = () => {
-      if (!nearViewport || media.matches) {
-        setRender3d(false);
-        return;
-      }
-      try {
-        const context = document.createElement("canvas").getContext("webgl2");
-        setRender3d(!!context);
-        context?.getExtension("WEBGL_lose_context")?.loseContext();
-      } catch {
-        setRender3d(false);
-      }
-    };
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        nearViewport = entry.isIntersecting;
-        enable();
-      },
-      { rootMargin: "250px" },
-    );
-    if (instrument.current) observer.observe(instrument.current);
-    media.addEventListener("change", enable);
-    return () => {
-      observer.disconnect();
-      media.removeEventListener("change", enable);
-    };
-  }, []);
   return (
     <div className="hero-instrument" ref={instrument}>
       <div className="instrument-top">
@@ -79,22 +131,34 @@ export default function HeroInstrument() {
       </div>
       <div
         className="instrument-visual"
-        role="img"
-        aria-label="Illustrative abstract force plate with exponential impulse field; not measured motion"
+        role="group"
+        aria-label="Interactive three-dimensional mathematical response curves. Exact values are displayed below."
       >
         <div className="instrument-cross cross-top">+</div>
         <div className="instrument-cross cross-bottom">+</div>
-        <SceneBoundary>
+        <SceneBoundary
+          onError={onUnavailable}
+          fallback={<InstrumentFallback time={time} fast={fast} slow={slow} />}
+        >
           {render3d ? (
-            <Scene time={time} fast={fast} slow={slow} />
+            <Scene
+              time={time}
+              fast={fast}
+              slow={slow}
+              pose={pose}
+              drag={drag}
+              zoom={zoom}
+              onSelectTime={setTime}
+              onUnavailable={onUnavailable}
+            />
           ) : (
-            <InstrumentFallback />
+            <InstrumentFallback time={time} fast={fast} slow={slow} />
           )}
         </SceneBoundary>
         <div className="instrument-coordinate">
-          X / FORCE
+          X / ELAPSED HOURS
           <br />Y / RESPONSE
-          <br />T / TIME
+          <br />Z / MODE
         </div>
         <div className="instrument-annotation">
           <span className="annotation-line" />
@@ -108,6 +172,32 @@ export default function HeroInstrument() {
           FIG. 01 <MoveUpRight size={13} />
         </span>
       </div>
+      <div className="chart-legend response-legend">
+        <span>
+          <i style={{ background: theme.text }} />
+          Combined
+        </span>
+        <span>
+          <i style={{ background: theme.fast }} />
+          24 h mode
+        </span>
+        <span>
+          <i style={{ background: theme.slow }} />
+          84 h mode
+        </span>
+      </div>
+      <CameraControls
+        onView={(p) => {
+          setPose(p);
+          setZoom(42);
+        }}
+        drag={drag}
+        onDrag={() => setDrag((v) => !v)}
+        zoom={zoom}
+        onZoom={setZoom}
+        disabled={!render3d}
+      />
+      {!render3d && <p className="scene-fallback-note">{reason}</p>}
       <fieldset className="hero-mode">
         <legend>Isolate a mathematical mode</legend>
         <div className="segmented">
@@ -153,9 +243,10 @@ export default function HeroInstrument() {
           {decay(time, fast, slow).toFixed(4)}
         </output>{" "}
         arbitrary units · y(t) = {fast}e⁻ᵗ/²⁴ + {slow}e⁻ᵗ/⁸⁴.
-        <br />
-        Height follows the equation; spatial geometry is decorative. Not
-        measured motion or model predictions.
+        <br />X is elapsed hours; Y is the mathematical response; Z separates
+        the three curves. Click a curve to select its elapsed hour. Click a
+        curve to select its elapsed hour. Not measured motion or model
+        predictions.
       </p>
     </div>
   );

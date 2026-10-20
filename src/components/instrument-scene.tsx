@@ -1,113 +1,196 @@
 "use client";
 import { Canvas } from "@react-three/fiber";
-import { useMemo } from "react";
+import { useMemo, useEffect } from "react";
 import * as THREE from "three";
 import { decay } from "@/lib/decay.mjs";
-type SceneProps = { time: number; fast: number; slow: number };
-function Plate({ time, fast, slow }: SceneProps) {
-  const field = useMemo(() => {
-    const p: number[] = [];
-    for (let x = -2.8; x <= 2.8; x += 0.16)
-      for (let z = -2.6; z <= 2.6; z += 0.16) {
-        const r = Math.sqrt(x * x + z * z);
-        const y =
-          0.35 + 1.9 * Math.exp(-r * r * 0.65) * decay(time, fast, slow);
-        p.push(x, y, z);
-      }
-    return new Float32Array(p);
-  }, [time, fast, slow]);
-  const edges = useMemo(
-    () => new THREE.EdgesGeometry(new THREE.BoxGeometry(4.25, 0.22, 3.15)),
-    [],
-  );
-  return (
-    <group rotation={[0, -0.35, 0]}>
-      <mesh position={[0, -0.25, 0]}>
-        <boxGeometry args={[4.35, 0.18, 3.25]} />
-        <meshStandardMaterial
-          color="#080f14"
-          metalness={0.9}
-          roughness={0.25}
-        />
-      </mesh>
-      <mesh>
-        <boxGeometry args={[4.25, 0.22, 3.15]} />
-        <meshStandardMaterial
-          color="#1d3539"
-          metalness={0.75}
-          roughness={0.32}
-        />
-      </mesh>
-      <lineSegments geometry={edges}>
-        <lineBasicMaterial color="#a6c6f3" transparent opacity={0.85} />
-      </lineSegments>
-      <gridHelper
-        args={[4.2, 20, "#8ac9b6", "#315356"]}
-        position={[0, 0.12, 0]}
-        scale={[1, 1, 0.73]}
-      />
-      {[-1.7, 1.7].flatMap((x) =>
-        [-1.1, 1.1].map((z) => (
-          <mesh key={`${x}/${z}`} position={[x, -0.45, z]}>
-            <cylinderGeometry args={[0.15, 0.13, 0.3, 20]} />
-            <meshStandardMaterial
-              color="#3f6467"
-              metalness={0.9}
-              roughness={0.2}
-            />
-          </mesh>
-        )),
-      )}
-      <points>
-        <bufferGeometry>
-          <bufferAttribute attach="attributes-position" args={[field, 3]} />
-        </bufferGeometry>
-        <pointsMaterial
-          size={0.024}
-          color="#bcd7fa"
-          transparent
-          opacity={0.65}
-          sizeAttenuation
-        />
-      </points>
-      {[fast * Math.exp(-time / 24), slow * Math.exp(-time / 84)].map(
-        (contribution, i) => (
-          <mesh
-            key={i}
-            rotation={[-Math.PI / 2, 0, 0]}
-            position={[0, 0.35 + contribution * 1.9, 0]}
-          >
-            <torusGeometry args={[1.1 + i * 0.5, 0.006, 5, 100]} />
-            <meshBasicMaterial
-              color={i === 1 ? "#f1a486" : "#9abcef"}
-              transparent
-              opacity={0.42 - i * 0.07}
-            />
-          </mesh>
+import { responsePaths } from "@/lib/response-geometry.mjs";
+import { plotTheme as theme } from "@/lib/plot-theme.mjs";
+import {
+  CameraRig,
+  SceneLabel,
+  SceneLine,
+  ContextGuard,
+} from "./scene-primitives";
+import type { CameraPose } from "./camera-controls";
+type SceneProps = {
+  time: number;
+  fast: number;
+  slow: number;
+  pose: CameraPose;
+  drag: boolean;
+  zoom: number;
+  onSelectTime: (time: number) => void;
+  onUnavailable: () => void;
+};
+function ResponseCurve({
+  points,
+  color,
+  onSelectTime,
+}: {
+  points: number[][];
+  color: string;
+  onSelectTime: (time: number) => void;
+}) {
+  const geometry = useMemo(
+    () =>
+      new THREE.TubeGeometry(
+        new THREE.CatmullRomCurve3(
+          points.map((p) => new THREE.Vector3(p[0], p[1], p[2])),
         ),
-      )}
-      <mesh position={[0, 0.25, 0]} rotation={[-Math.PI / 2, 0, 0]}>
-        <ringGeometry args={[0.15, 0.17, 48]} />
-        <meshBasicMaterial color="#bcd7fa" side={THREE.DoubleSide} />
-      </mesh>
-    </group>
+        168,
+        0.024,
+        6,
+        false,
+      ),
+    [points],
   );
-}
-export default function InstrumentScene({ time, fast, slow }: SceneProps) {
+  useEffect(() => () => geometry.dispose(), [geometry]);
   return (
-    <Canvas
-      frameloop="demand"
-      dpr={[1, 1.5]}
-      camera={{ position: [7, 6.2, 8], fov: 29 }}
-      gl={{ alpha: true, antialias: true, powerPreference: "low-power" }}
-      onCreated={({ gl }) => {
-        gl.setClearColor(0x000000, 0);
+    <mesh
+      geometry={geometry}
+      onClick={(event) => {
+        event.stopPropagation();
+        if (event.delta < 5)
+          onSelectTime(
+            Math.max(0, Math.min(168, Math.round((event.point.x + 4) * 21))),
+          );
       }}
     >
-      <ambientLight intensity={1.7} />
-      <directionalLight position={[3, 8, 4]} color="#bdd7f4" intensity={3} />
-      <pointLight position={[-4, 3, -2]} color="#efb18d" intensity={15} />
-      <Plate time={time} fast={fast} slow={slow} />
+      <meshStandardMaterial color={color} roughness={0.7} />
+    </mesh>
+  );
+}
+export default function InstrumentScene({
+  time,
+  fast,
+  slow,
+  pose,
+  drag,
+  zoom,
+  onSelectTime,
+  onUnavailable,
+}: SceneProps) {
+  const paths = useMemo(() => responsePaths(fast, slow), [fast, slow]);
+  const x = time / 21 - 4;
+  const colors = { total: theme.text, fast: theme.fast, slow: theme.slow };
+  return (
+    <Canvas
+      orthographic
+      frameloop="demand"
+      dpr={[1, 1.5]}
+      camera={{ position: [9, 8, 11], zoom: 42, near: 0.1, far: 100 }}
+      gl={{ alpha: true, antialias: true, powerPreference: "low-power" }}
+      onCreated={({ gl }) => gl.setClearColor(theme.surface, 1)}
+    >
+      <CameraRig pose={pose} drag={drag} zoom={zoom} />
+      <ContextGuard onUnavailable={onUnavailable} />
+      <ambientLight intensity={2} />
+      <directionalLight position={[3, 8, 5]} intensity={2.5} />
+      <mesh position={[0, -0.09, 0]}>
+        <boxGeometry args={[9.5, 0.14, 5.6]} />
+        <meshStandardMaterial color={theme.panel} roughness={1} />
+      </mesh>
+      {[0, 24, 48, 72, 96, 120, 144, 168].map((t) => (
+        <group key={t}>
+          <SceneLine
+            points={[
+              [t / 21 - 4, 0, -2.1],
+              [t / 21 - 4, 0, 2.1],
+            ]}
+            color={theme.grid}
+          />
+          <SceneLabel
+            text={`${t}h`}
+            position={[t / 21 - 4, 0.02, 2.4]}
+            width={0.7}
+          />
+        </group>
+      ))}
+      {[0, 0.5, 1].map((v) => (
+        <group key={v}>
+          <SceneLine
+            points={[
+              [-4.2, v * 3, -2.1],
+              [-4.2, v * 3, 2.1],
+            ]}
+            color={theme.grid}
+          />
+          <SceneLabel
+            text={v.toFixed(1)}
+            position={[-4.7, v * 3, 2.1]}
+            width={0.6}
+          />
+        </group>
+      ))}
+      <SceneLine
+        points={[
+          [-4.2, 0, 2.1],
+          [-4.2, 3.3, 2.1],
+        ]}
+        color={theme.muted}
+      />
+      {paths.map((row) => {
+        const color = colors[row.id as keyof typeof colors];
+        const value =
+          row.id === "total"
+            ? decay(time, fast, slow)
+            : row.id === "fast"
+              ? fast * Math.exp(-time / 24)
+              : slow * Math.exp(-time / 84);
+        return (
+          <group key={row.id}>
+            <ResponseCurve
+              points={row.points}
+              color={color}
+              onSelectTime={onSelectTime}
+            />
+            <SceneLine
+              points={[
+                [-4, 0, row.z],
+                [4, 0, row.z],
+              ]}
+              color={theme.grid}
+            />
+            <SceneLabel
+              text={row.label}
+              position={[5, 0, row.z]}
+              color={color}
+              width={1.6}
+            />
+            <mesh position={[x, value * 3, row.z]}>
+              <sphereGeometry args={[0.075, 16, 12]} />
+              <meshStandardMaterial
+                color={color}
+                emissive={color}
+                emissiveIntensity={0.18}
+              />
+            </mesh>
+            <SceneLine
+              points={[
+                [x, 0, row.z],
+                [x, value * 3, row.z],
+              ]}
+              color={color}
+            />
+          </group>
+        );
+      })}
+      <mesh position={[x, 1.5, 0]} rotation={[0, Math.PI / 2, 0]}>
+        <planeGeometry args={[4.2, 3]} />
+        <meshBasicMaterial
+          color={theme.ochre}
+          transparent
+          opacity={0.065}
+          side={THREE.DoubleSide}
+          depthWrite={false}
+        />
+      </mesh>
+      <SceneLabel text="TIME / HOURS" position={[0, -0.18, 3]} width={2} />
+      <SceneLabel
+        text="RESPONSE / ARBITRARY UNITS"
+        position={[-2, 3.65, 0]}
+        width={3.6}
+      />
     </Canvas>
   );
 }

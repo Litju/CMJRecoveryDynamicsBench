@@ -1,6 +1,8 @@
 "use client";
 import { useState } from "react";
 import { IntervalPlot } from "./experiment-methods";
+import Benchmark3D from "./benchmark-3d";
+import { plotTheme as theme, plotTooltip } from "@/lib/plot-theme.mjs";
 import {
   ArrowDownRight,
   ArrowUpRight,
@@ -38,6 +40,7 @@ export default function Explorer() {
   const [root, setRoot] = useState<RootId>("mean");
   const [horizon, setHorizon] = useState(24);
   const [outcome, setOutcome] = useState<Outcome>("force");
+  const [plotMode, setPlotMode] = useState("2d");
   const [metric, setMetric] = useState<"nrmse" | "rmse">("nrmse");
   const selected = models.find((m) => m.id === model)!;
   const comparison = models.find((m) => m.id === compare)!;
@@ -67,7 +70,8 @@ export default function Explorer() {
     >
       <div className="section-top">
         <div className="eyebrow">
-          <span className="section-number">III / DETAIL</span> THE BENCHMARK EXPLORER
+          <span className="section-number">III / DETAIL</span> THE BENCHMARK
+          EXPLORER
         </div>
         <span className="live-label">
           <span className="status-dot" /> FROZEN RESULTS · LIVE INTERACTION
@@ -231,7 +235,9 @@ export default function Explorer() {
           <div className="chart-title">
             <div>
               <h4>
-                {outcome === "force" ? "Force" : "Net impulse"} across horizons
+                {plotMode === "3d"
+                  ? "All six cells · four models"
+                  : `${outcome === "force" ? "Force" : "Net impulse"} across horizons`}
               </h4>
               <p>
                 {root === "mean"
@@ -240,112 +246,150 @@ export default function Explorer() {
                 · lower is better
               </p>
             </div>
-            <div className="segmented metric-toggle" aria-label="Chart metric">
-              <button
-                onClick={() => setMetric("nrmse")}
-                aria-pressed={metric === "nrmse"}
+            {plotMode === "2d" && (
+              <div
+                className="segmented metric-toggle"
+                aria-label="Chart metric"
               >
-                NRMSE
-              </button>
-              <button
-                onClick={() => setMetric("rmse")}
-                aria-pressed={metric === "rmse"}
-              >
-                RMSE
-              </button>
-            </div>
+                <button
+                  onClick={() => setMetric("nrmse")}
+                  aria-pressed={metric === "nrmse"}
+                >
+                  NRMSE
+                </button>
+                <button
+                  onClick={() => setMetric("rmse")}
+                  aria-pressed={metric === "rmse"}
+                >
+                  RMSE
+                </button>
+              </div>
+            )}
           </div>
           <div
-            className="chart"
+            className="plot-view-switch"
             role="group"
-            aria-label={`${metric.toUpperCase()} comparison by horizon; exact values available in the table below`}
+            aria-label="Benchmark presentation"
           >
-            <span className="axis-unit">
-              {metric === "nrmse" ? "NRMSE · UNITLESS" : `RMSE · ${unit}`}
-            </span>
-            <ResponsiveContainer width="100%" height="100%" minWidth={0}>
-              <LineChart
-                data={chart}
-                margin={{ top: 25, right: 24, left: 0, bottom: 0 }}
-                accessibilityLayer
+            <button
+              aria-pressed={plotMode === "2d"}
+              onClick={() => setPlotMode("2d")}
+            >
+              2D horizon plot
+            </button>
+            <button
+              aria-pressed={plotMode === "3d"}
+              onClick={() => setPlotMode("3d")}
+            >
+              3D comparison
+            </button>
+          </div>
+          {plotMode === "3d" ? (
+            <Benchmark3D
+              root={root}
+              model={model}
+              horizon={horizon}
+              outcome={outcome}
+              onSelect={(entry) => {
+                setModel(entry.model);
+                setHorizon(entry.horizon);
+                setOutcome(entry.outcome);
+              }}
+            />
+          ) : (
+            <>
+              <div
+                className="chart"
+                role="group"
+                aria-label={`${metric.toUpperCase()} comparison by horizon; exact values available in the table below`}
               >
-                <CartesianGrid
-                  stroke="#283034"
-                  strokeDasharray="3 6"
-                  vertical={false}
-                />
-                <XAxis
-                  dataKey="horizon"
-                  tick={{ fill: "#a1aaa9", fontSize: 12 }}
-                  tickLine={false}
-                  axisLine={false}
-                  dy={12}
-                />
-                <YAxis
-                  width={43}
-                  tick={{ fill: "#a1aaa9", fontSize: 11 }}
-                  tickLine={false}
-                  axisLine={false}
-                  domain={[0, "auto"]}
-                  tickFormatter={(v) =>
-                    Number(v).toFixed(metric === "nrmse" ? 1 : 2)
-                  }
-                />
-                <Tooltip
-                  contentStyle={{
-                    background: "#1b2528",
-                    border: "1px solid #465651",
-                    borderRadius: 8,
-                    color: "#f0f4f1",
-                    fontSize: 12,
-                  }}
-                  formatter={(value, name) => [
-                    `${Number(value).toFixed(5)}${metric === "rmse" ? ` ${unit}` : ""}`,
-                    name,
-                  ]}
-                  cursor={{ stroke: "#a9f5dc", strokeDasharray: "3 6" }}
-                />
-                <ReferenceLine
-                  x={`H${horizon}`}
-                  stroke="#55776c"
-                  strokeDasharray="4 6"
-                />
-                <Line
-                  type="linear"
-                  dataKey="comparison"
-                  name={comparison.name}
-                  stroke={comparison.color}
-                  strokeWidth={1.5}
-                  strokeDasharray="5 5"
-                  dot={{ r: 4, fill: "#151c1f", strokeWidth: 2 }}
-                  isAnimationActive={false}
-                />
-                <Line
-                  type="linear"
-                  dataKey="selected"
-                  name={selected.name}
-                  stroke={selected.color}
-                  strokeWidth={2.5}
-                  dot={{ r: 5, fill: "#151c1f", strokeWidth: 2 }}
-                  activeDot={{ r: 7 }}
-                  isAnimationActive={false}
-                />
-              </LineChart>
-            </ResponsiveContainer>
-          </div>
-          <div className="chart-legend">
-            <span>
-              <i style={{ background: selected.color }} />
-              {selected.name}
-            </span>
-            <span>
-              <i className="dashed" style={{ background: comparison.color }} />
-              {comparison.name}
-            </span>
-            <span className="chart-hint">
-              Discrete evaluation cells, not a recovery trajectory
-            </span>
-          </div>
+                <span className="axis-unit">
+                  {metric === "nrmse" ? "NRMSE · UNITLESS" : `RMSE · ${unit}`}
+                </span>
+                <ResponsiveContainer width="100%" height="100%" minWidth={0}>
+                  <LineChart
+                    data={chart}
+                    margin={{ top: 25, right: 24, left: 0, bottom: 0 }}
+                    accessibilityLayer
+                  >
+                    <CartesianGrid
+                      stroke={theme.grid}
+                      strokeDasharray="3 6"
+                      vertical={false}
+                    />
+                    <XAxis
+                      dataKey="horizon"
+                      tick={{ fill: theme.muted, fontSize: 12 }}
+                      tickLine={false}
+                      axisLine={false}
+                      dy={12}
+                    />
+                    <YAxis
+                      width={43}
+                      tick={{ fill: theme.muted, fontSize: 11 }}
+                      tickLine={false}
+                      axisLine={false}
+                      domain={[0, "auto"]}
+                      tickFormatter={(v) =>
+                        Number(v).toFixed(metric === "nrmse" ? 1 : 2)
+                      }
+                    />
+                    <Tooltip
+                      contentStyle={plotTooltip}
+                      labelStyle={{ color: theme.text }}
+                      itemStyle={{ color: theme.text }}
+                      formatter={(value, name) => [
+                        `${Number(value).toFixed(5)}${metric === "rmse" ? ` ${unit}` : ""}`,
+                        name,
+                      ]}
+                      cursor={{ stroke: theme.ochre, strokeDasharray: "3 6" }}
+                    />
+                    <ReferenceLine
+                      x={`H${horizon}`}
+                      stroke={theme.ochre}
+                      strokeDasharray="4 6"
+                    />
+                    <Line
+                      type="linear"
+                      dataKey="comparison"
+                      name={comparison.name}
+                      stroke={comparison.color}
+                      strokeWidth={1.5}
+                      strokeDasharray="5 5"
+                      dot={{ r: 4, fill: theme.surface, strokeWidth: 2 }}
+                      isAnimationActive={false}
+                    />
+                    <Line
+                      type="linear"
+                      dataKey="selected"
+                      name={selected.name}
+                      stroke={selected.color}
+                      strokeWidth={2.5}
+                      dot={{ r: 5, fill: theme.surface, strokeWidth: 2 }}
+                      activeDot={{ r: 7 }}
+                      isAnimationActive={false}
+                    />
+                  </LineChart>
+                </ResponsiveContainer>
+              </div>
+              <div className="chart-legend">
+                <span>
+                  <i style={{ background: selected.color }} />
+                  {selected.name}
+                </span>
+                <span>
+                  <i
+                    className="dashed"
+                    style={{ background: comparison.color }}
+                  />
+                  {comparison.name}
+                </span>
+                <span className="chart-hint">
+                  Discrete evaluation cells, not a recovery trajectory
+                </span>
+              </div>
+            </>
+          )}
           <div className="comparison-note">
             <ArrowDownRight size={18} />
             <span>

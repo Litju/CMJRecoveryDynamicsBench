@@ -2256,3 +2256,368 @@ button:not(.primary):hover {
 .chapter-next svg {
   flex-shrink: 0;
 }
+/* Consistent scientific plotting and genuine, optional 3D specimen views. */
+.chart,
+.lab-chart {
+  background: #192b35;
+  border: 1px solid #465e6b;
+  padding: 10px 6px 4px;
+}
+.chart .axis-unit {
+  left: 18px;
+  top: 12px;
+  color: #bdcbd3;
+  font: 9px var(--mono);
+}
+.recharts-default-tooltip {
+  font-family: inherit !important;
+}
+.plot-view-switch {
+  display: flex;
+  gap: 8px;
+  margin: 16px 0;
+  flex-wrap: wrap;
+}
+.plot-view-switch button,
+.scene-view-buttons button {
+  border: 1px solid #6d8796;
+  background: transparent;
+  color: #d0dce3;
+  min-height: 42px;
+  padding: 9px 13px;
+  font-size: 11px;
+}
+.plot-view-switch button[aria-pressed="true"],
+.scene-view-buttons button[aria-pressed="true"] {
+  background: #385b7b;
+  color: #fff9ee;
+  border-color: #a6c6f3;
+}
+.benchmark-3d {
+  margin-top: 20px;
+  border: 1px solid #627b8b;
+  background: #192b35;
+  min-width: 0;
+}
+.scene-heading {
+  padding: 18px 20px;
+  border-bottom: 1px solid #465e6b;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+.scene-heading > span {
+  color: #bdcbd3;
+  font: 9px var(--mono);
+  letter-spacing: 0.6px;
+}
+.scene-heading > strong {
+  font-size: 12px;
+  font-weight: 500;
+  color: #f4f0e7;
+}
+.scene-controls {
+  border: 0;
+  padding: 18px 20px;
+  margin: 0;
+  border-bottom: 1px solid #465e6b;
+  min-width: 0;
+}
+.scene-controls legend {
+  font: 9px var(--mono);
+  padding: 0;
+  color: #bdcbd3;
+}
+.scene-view-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  margin-top: 6px;
+}
+.scene-view-buttons button {
+  font-size: 10px;
+  min-height: 38px;
+  padding: 8px 10px;
+}
+.scene-controls label {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-top: 15px;
+  color: #bdcbd3;
+  font-size: 10px;
+}
+.scene-controls label input {
+  flex: 1;
+  min-width: 40px;
+  max-width: 260px;
+}
+.scene-controls small {
+  display: block;
+  color: #bdcbd3;
+  font-size: 10px;
+  line-height: 1.8;
+  margin-top: 10px;
+}
+.scene-controls:disabled {
+  opacity: 0.7;
+}
+.scene-controls:disabled button {
+  cursor: default;
+}
+.benchmark-canvas {
+  height: 430px;
+  position: relative;
+  min-width: 0;
+}
+.benchmark-canvas canvas {
+  display: block;
+}
+.scene-readout {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 5px 16px;
+  padding: 20px;
+  border-block: 1px solid #465e6b;
+  background: #223a48;
+}
+.scene-readout > span {
+  font-size: 12px;
+  color: #d0dce3;
+}
+.scene-readout strong {
+  font: 25px var(--mono);
+  color: #f2c36d;
+  grid-column: 2;
+  grid-row: 1 / span 2;
+  align-self: center;
+}
+.scene-readout small {
+  color: #bdcbd3;
+  font-size: 10px;
+}
+.scene-legend {
+  padding: 0 20px;
+  gap: 15px !important;
+}
+.scene-explanation {
+  font-size: 11px !important;
+  color: #bdcbd3 !important;
+  line-height: 1.9;
+  padding: 0 20px;
+  margin: 15px 0;
+}
+.scene-matrix {
+  margin: 18px 20px;
+  border-block: 1px solid #465e6b;
+}
+.scene-matrix summary {
+  color: #bfd5f4;
+  font-size: 12px;
+  padding: 16px 0;
+  cursor: pointer;
+}
+.scene-matrix caption {
+  text-align: left;
+  color: #bdcbd3;
+  font-size: 10px;
+  padding-bottom: 12px;
+}
+.scene-matrix .table-scroll {
+  margin-bottom: 16px;
+}
+.scene-matrix table {
+  min-width: 450px;
+}
+.scene-matrix th,
+.scene-matrix td {
+  font-size: 10px;
+  padding: 10px 6px;
+}
+.scene-matrix td button {
+  font: 11px var(--mono);
+  background: transparent;
+  border: 1px solid transparent;
+  color: #e4ebef;
+  padding: 8px 5px;
+  min-height: 38px;
+}
+.scene-matrix td button[aria-pressed="true"] {
+  background: #365875;
+  border-color: #a6c6f3;
+  color: #fff9ef;
+}
+.benchmark-3d-fallback {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100%;
+  padding: 30px;
+  max-width: 600px;
+}
+.benchmark-3d-fallback strong {
+  font: 30px/1.2 var(--editorial);
+  color: #f4f0e7;
+}
+.benchmark-3d-fallback p {
+  color: #bdcbd3;
+  font-size: 13px;
+  line-height: 1.8;
+}
+.scene-loading {
+  padding: 30px;
+  color: #bdcbd3;
+  font-size: 13px;
+}
+.scene-fallback-note {
+  font-size: 10px;
+  color: #bdcbd3;
+}
+.instrument-visual .instrument-coordinate,
+.instrument-visual .instrument-annotation,
+.instrument-visual .instrument-cross {
+  display: none;
+}
+.instrument-visual {
+  height: 430px;
+}
+.response-fallback {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: grid;
+  place-items: center;
+}
+.response-fallback svg {
+  width: 100%;
+  height: auto;
+  max-height: 100%;
+}
+.hero-instrument .scene-controls {
+  padding-inline: 0;
+}
+.hero-instrument .scene-controls small {
+  font-size: 9px;
+}
+.interval-plot svg text {
+  font-family: var(--mono);
+}
+.interval-plot {
+  border-color: #627b8b !important;
+}
+.interval-plot figcaption {
+  letter-spacing: 0.5px;
+}
+@media (max-width: 650px) {
+  .benchmark-canvas {
+    height: 360px;
+  }
+  .scene-heading {
+    padding: 16px;
+  }
+  .scene-heading > span {
+    font-size: 8px;
+  }
+  .scene-controls {
+    padding: 16px;
+  }
+  .scene-controls legend {
+    font-size: 8px;
+  }
+  .scene-view-buttons {
+    gap: 6px;
+  }
+  .scene-view-buttons button {
+    font-size: 9px;
+    padding: 8px;
+    min-height: 40px;
+  }
+  .scene-readout {
+    padding: 16px;
+    grid-template-columns: 1fr;
+  }
+  .scene-readout strong {
+    grid-column: auto;
+    grid-row: auto;
+    font-size: 25px;
+  }
+  .scene-readout > span {
+    font-size: 11px;
+  }
+  .scene-explanation {
+    padding-inline: 16px;
+    font-size: 10px !important;
+  }
+  .scene-matrix {
+    margin-inline: 16px;
+  }
+  .scene-matrix summary {
+    font-size: 11px;
+  }
+  .scene-legend {
+    padding-inline: 16px;
+    gap: 10px !important;
+  }
+  .scene-legend span {
+    font-size: 10px;
+  }
+  .instrument-visual {
+    height: 350px;
+  }
+  .plot-view-switch button {
+    font-size: 10px;
+    min-height: 44px;
+  }
+}
+#explorer .explorer-panel,
+#explorer .cell-panel,
+#explorer .model-panel,
+#explorer .uncertainty {
+  background: #21343e;
+  border-color: #526b78;
+}
+#explorer .explorer-controls {
+  background: #192b35;
+}
+.comparison-note {
+  background: #233c49;
+  border-color: #526b78;
+  color: #c9d7de;
+}
+.comparison-note strong {
+  color: #f2c36d;
+}
+.favorable {
+  color: #bfd5f4;
+}
+.explorer-controls .segmented,
+.metric-toggle,
+.lab-view .segmented,
+.hero-mode .segmented {
+  background: #172b36;
+  border-color: #536d7b;
+}
+.bar-track,
+.diagnostic-bars > div > div {
+  background: #344e5d;
+}
+#explorer .interval-plot {
+  background: #192b35;
+}
+.lab-panel {
+  background: #21343e;
+}
+.lab-section .slow-slider input::-webkit-slider-thumb {
+  background: #f1a486;
+}
+.lab-section .slow-slider input::-moz-range-thumb {
+  background: #f1a486;
+}
+@media (max-width: 650px) {
+  .scene-view-buttons button,
+  .scene-matrix td button {
+    min-height: 44px;
+  }
+}

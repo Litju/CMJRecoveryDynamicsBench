@@ -14,6 +14,7 @@ import {
 } from "recharts";
 import { decay, decaySeries, decaySlope, decayIntegral } from "@/lib/decay.mjs";
 import { sourceLink } from "@/lib/science";
+import { plotTheme as theme, plotTooltip } from "@/lib/plot-theme.mjs";
 export default function RecoveryLab() {
   const [fast, setFast] = useState(0.7);
   const [slow, setSlow] = useState(0.3);
@@ -214,7 +215,7 @@ export default function RecoveryLab() {
                   accessibilityLayer
                 >
                   <CartesianGrid
-                    stroke="#2a3436"
+                    stroke={theme.grid}
                     vertical={false}
                     strokeDasharray="3 6"
                   />
@@ -224,27 +225,23 @@ export default function RecoveryLab() {
                     domain={[0, 168]}
                     ticks={[0, 24, 48, 72, 96, 120, 144, 168]}
                     tickFormatter={(v) => `${v}h`}
-                    stroke="#a1aaa9"
+                    stroke={theme.muted}
                     tickLine={false}
                     axisLine={false}
                     tick={{ fontSize: 11 }}
                   />
                   <YAxis
                     domain={view === "response" ? [-3, 3] : ["auto", "auto"]}
-                    stroke="#a1aaa9"
+                    stroke={theme.muted}
                     tickLine={false}
                     axisLine={false}
                     width={35}
                     tick={{ fontSize: 11 }}
                   />
                   <Tooltip
-                    contentStyle={{
-                      background: "#1b2528",
-                      border: "1px solid #465651",
-                      borderRadius: 8,
-                      color: "#f0f4f1",
-                      fontSize: 12,
-                    }}
+                    contentStyle={plotTooltip}
+                    labelStyle={{ color: theme.text }}
+                    itemStyle={{ color: theme.text }}
                     labelFormatter={(v) => `${v} hours`}
                     formatter={(v) => Number(v).toFixed(4)}
                   />
@@ -258,9 +255,9 @@ export default function RecoveryLab() {
                           ? "Rate · arbitrary units / h"
                           : "Area · arbitrary units × h"
                     }
-                    fill="#a6c6f3"
+                    fill={theme.fast}
                     fillOpacity={0.13}
-                    stroke="#f0eee6"
+                    stroke={theme.text}
                     strokeWidth={2}
                     isAnimationActive={false}
                   />
@@ -269,7 +266,7 @@ export default function RecoveryLab() {
                       type="monotone"
                       dataKey="fast"
                       name="24 h term"
-                      stroke="#a6c6f3"
+                      stroke={theme.fast}
                       dot={false}
                       strokeDasharray="4 4"
                       strokeWidth={1.3}
@@ -281,21 +278,21 @@ export default function RecoveryLab() {
                       type="monotone"
                       dataKey="slow"
                       name="84 h term"
-                      stroke="#f1a486"
+                      stroke={theme.slow}
                       dot={false}
                       strokeDasharray="4 4"
                       strokeWidth={1.3}
                       isAnimationActive={false}
                     />
                   )}
-                  <ReferenceLine y={0} stroke="#5d746b" />
+                  <ReferenceLine y={0} stroke={theme.grid} />
                   <ReferenceLine
                     x={time}
-                    stroke="#a6c6f3"
+                    stroke={theme.fast}
                     label={{
                       value: `${time} h`,
                       position: "insideTopRight",
-                      fill: "#a6c6f3",
+                      fill: theme.fast,
                       fontSize: 11,
                     }}
                   />
@@ -325,15 +322,15 @@ export default function RecoveryLab() {
             {view === "response" && (
               <div className="chart-legend">
                 <span>
-                  <i style={{ background: "#f0eee6" }} />
+                  <i style={{ background: theme.text }} />
                   Combined
                 </span>
                 <span>
-                  <i style={{ background: "#a6c6f3" }} />
+                  <i style={{ background: theme.fast }} />
                   24 h term
                 </span>
                 <span>
-                  <i style={{ background: "#f1a486" }} />
+                  <i style={{ background: theme.slow }} />
                   84 h term
                 </span>
               </div>

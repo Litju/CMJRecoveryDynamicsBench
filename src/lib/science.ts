@@ -1,11 +1,12 @@
 import fixture from "@/data/results.json";
+import { plotTheme } from "./plot-theme.mjs";
 export const data = fixture;
 export const models = [
   {
     id: "zero_innovation",
     name: "Zero innovation",
     short: "Zero",
-    color: "#a6b1b8",
+    color: plotTheme.zero,
     description:
       "Persistence on the innovation scale. Predicts zero change from the pre-index baseline.",
   },
@@ -13,7 +14,7 @@ export const models = [
     id: "training_constant",
     name: "Training constant",
     short: "Constant",
-    color: "#e8be6c",
+    color: plotTheme.ochre,
     description:
       "A training-fitted mean for each outcome and horizon. No validation means enter the predictions.",
   },
@@ -21,7 +22,7 @@ export const models = [
     id: "ridge_full",
     name: "Full ridge",
     short: "Ridge",
-    color: "#92bbf3",
+    color: plotTheme.ridge,
     description:
       "Cellwise ridge using the complete 82-field public predictor schema, encoded into 84 numeric columns.",
   },
@@ -29,7 +30,7 @@ export const models = [
     id: "structured_full",
     name: "Fixed-mode structured",
     short: "Structured",
-    color: "#f19a7c",
+    color: plotTheme.structured,
     description:
       "Training-fitted coefficients on public exposure primitives and fixed 24 h / 84 h exponential bases. No oracle states.",
   },

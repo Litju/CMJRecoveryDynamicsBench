@@ -3,6 +3,7 @@ import { useState } from "react";
 import { ArrowUpRight } from "lucide-react";
 import { data, models, sourceLink, type ModelId } from "@/lib/science";
 import methods from "@/data/methods.json";
+import { plotTheme as theme } from "@/lib/plot-theme.mjs";
 
 export function MetricLesson() {
   const [model, setModel] = useState<ModelId>("ridge_full");
@@ -376,6 +377,7 @@ export function IntervalPlot({
   model: ModelId;
   root: string;
 }) {
+  const colour = models.find((m) => m.id === model)!.color;
   const roots = data.roots.filter((r) => root === "mean" || r.id === root);
   const bounds = roots.flatMap(
     (r) => r.models[model].bootstrap.mean_six_cell_nrmse_95_percentile_interval,
@@ -400,7 +402,8 @@ export function IntervalPlot({
           const [a, b] = m.bootstrap.mean_six_cell_nrmse_95_percentile_interval;
           return (
             <g key={r.id}>
-              <text x="12" y={44 + i * 48} fill="#a6b0ae" fontSize="13">
+              <title>{`Root ${r.id}: NRMSE ${m.mean_six_cell_nrmse.toFixed(6)}, 95% interval ${a.toFixed(6)} to ${b.toFixed(6)}`}</title>
+              <text x="12" y={44 + i * 48} fill={theme.muted} fontSize="13">
                 Root {r.id}
               </text>
               <line
@@ -408,35 +411,35 @@ export function IntervalPlot({
                 x2="810"
                 y1={40 + i * 48}
                 y2={40 + i * 48}
-                stroke="#2d3639"
+                stroke={theme.grid}
               />
               <line
                 x1={x(a)}
                 x2={x(b)}
                 y1={40 + i * 48}
                 y2={40 + i * 48}
-                stroke="#a9f5dc"
+                stroke={colour}
                 strokeWidth="5"
               />
               <circle
                 cx={x(m.mean_six_cell_nrmse)}
                 cy={40 + i * 48}
                 r="6"
-                fill="#eef2ef"
+                fill={theme.text}
               />
               <line
                 x1={x(a)}
                 x2={x(a)}
                 y1={32 + i * 48}
                 y2={48 + i * 48}
-                stroke="#a9f5dc"
+                stroke={colour}
               />
               <line
                 x1={x(b)}
                 x2={x(b)}
                 y1={32 + i * 48}
                 y2={48 + i * 48}
-                stroke="#a9f5dc"
+                stroke={colour}
               />
             </g>
           );
@@ -446,7 +449,7 @@ export function IntervalPlot({
             key={v}
             x={x(v)}
             y={65 + roots.length * 48}
-            fill="#a6b0ae"
+            fill={theme.muted}
             fontSize="12"
             textAnchor="middle"
           >

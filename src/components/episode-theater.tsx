@@ -12,9 +12,11 @@ import {
 import exhibit from "@/data/exhibition.json";
 import { sourceLink } from "@/lib/science";
 import { decay } from "@/lib/decay.mjs";
+import { plotTheme as theme } from "@/lib/plot-theme.mjs";
 
 function MeasurementLens() {
   const [view, setView] = useState("force");
+  const measurementColour = view === "force" ? theme.fast : theme.slow;
   const shape = Array.from(
     { length: 65 },
     (_, i) =>
@@ -44,29 +46,40 @@ function MeasurementLens() {
         {view === "impulse" && (
           <path
             d={`${shape} L360 160 L40 160 Z`}
-            fill="#a6c6f3"
+            fill={theme.slow}
             opacity=".17"
           />
         )}
-        <path d={shape} stroke="#a6c6f3" strokeWidth="2" fill="none" />
-        <line x1="40" x2="360" y1="160" y2="160" stroke="#72887d" />
+        <path
+          d={shape}
+          stroke={measurementColour}
+          strokeWidth="2"
+          fill="none"
+        />
+        <line x1="40" x2="360" y1="160" y2="160" stroke={theme.grid} />
         {view === "force" && (
           <line
             x1="40"
             x2="360"
             y1={160 - (105 * 2) / Math.PI}
             y2={160 - (105 * 2) / Math.PI}
-            stroke="#f1a486"
+            stroke={theme.fast}
             strokeDasharray="5 5"
           />
         )}
-        <text x="40" y="187" fill="#a6b0ae" fontSize="11">
+        <text x="40" y="187" fill={theme.muted} fontSize="11">
           Concentric onset
         </text>
-        <text x="360" y="187" textAnchor="end" fill="#a6b0ae" fontSize="11">
+        <text x="360" y="187" textAnchor="end" fill={theme.muted} fontSize="11">
           Take-off
         </text>
-        <text x="200" y="210" textAnchor="middle" fill="#a6b0ae" fontSize="10">
+        <text
+          x="200"
+          y="210"
+          textAnchor="middle"
+          fill={theme.muted}
+          fontSize="10"
+        >
           Normalized phase · schematic s(φ) = sin(πφ)
         </text>
       </svg>
@@ -218,7 +231,7 @@ export default function EpisodeTheater() {
                 x2="960"
                 y1={y}
                 y2={y}
-                stroke="#2d3c3d"
+                stroke={theme.grid}
                 strokeDasharray="3 8"
               />
             ))}
@@ -227,7 +240,7 @@ export default function EpisodeTheater() {
               y="30"
               width="510"
               height="260"
-              fill="#a6c6f3"
+              fill={theme.fast}
               opacity=".025"
             />
             <line
@@ -235,10 +248,10 @@ export default function EpisodeTheater() {
               x2="430"
               y1="35"
               y2="295"
-              stroke="#a6c6f3"
+              stroke={theme.fast}
               strokeDasharray="5 5"
             />
-            <text x="445" y="52" fill="#a6c6f3" fontSize="12">
+            <text x="445" y="52" fill={theme.fast} fontSize="12">
               FORECAST BOUNDARY / t = 0
             </text>
             {[0, 1, 2, 3].map((i) => (
@@ -249,52 +262,57 @@ export default function EpisodeTheater() {
                   width="24"
                   height={65 + (i % 2) * 15}
                   rx="4"
-                  fill="#28463e"
-                  stroke="#7ebba7"
+                  fill={theme.panel}
+                  stroke={theme.fast}
                 />
                 <line
                   x1={55 + i * 38}
                   x2={65 + i * 38}
                   y1="195"
                   y2="195"
-                  stroke="#a6c6f3"
+                  stroke={theme.fast}
                 />
               </g>
             ))}
-            <text x="44" y="273" fill="#a6b0ae" fontSize="12">
+            <text x="44" y="273" fill={theme.muted} fontSize="12">
               4 PRIOR RECORDS
             </text>
             <g>
               <path
                 d="M235 240 L235 200 L260 184 L285 200 L285 240 Z"
-                fill="#28463e"
-                stroke="#a6c6f3"
+                fill={theme.panel}
+                stroke={theme.fast}
               />
-              <text x="223" y="273" fill="#a6b0ae" fontSize="12">
+              <text x="223" y="273" fill={theme.muted} fontSize="12">
                 BASELINE
               </text>
             </g>
             <path
               d="M400 240 L420 240 L430 100 L440 240 L460 240"
               fill="none"
-              stroke="#a6c6f3"
+              stroke={theme.fast}
               strokeWidth="2"
             />
-            <text x="394" y="315" fill="#a6c6f3" fontSize="12">
+            <text x="394" y="315" fill={theme.fast} fontSize="12">
               EXPOSURE
             </text>
             {layer === "world" && (
               <g>
                 <path
                   d={`${path} L891 265 L430 265 Z`}
-                  fill="#a6c6f3"
+                  fill={theme.fast}
                   fillOpacity={0.12}
                 />
-                <path d={path} fill="none" stroke="#f1a486" strokeWidth="2" />
-                <text x="560" y="112" fill="#c6c1ff" fontSize="13">
+                <path
+                  d={path}
+                  fill="none"
+                  stroke={theme.text}
+                  strokeWidth="2"
+                />
+                <text x="560" y="112" fill={theme.text} fontSize="13">
                   ILLUSTRATIVE y(t) = 0.7e⁻ᵗ/²⁴ + 0.3e⁻ᵗ/⁸⁴
                 </text>
-                <text x="560" y="133" fill="#a6b0ae" fontSize="12">
+                <text x="560" y="133" fill={theme.muted} fontSize="12">
                   arbitrary units · not a generated response
                 </text>
               </g>
@@ -308,21 +326,21 @@ export default function EpisodeTheater() {
                     x2={600 + i * 160}
                     y1="190"
                     y2="270"
-                    stroke={revealed ? "#a6c6f3" : "#a6b0ae"}
+                    stroke={revealed ? theme.fast : theme.muted}
                     strokeDasharray={revealed ? undefined : "3 5"}
                   />
                   <circle
                     cx={600 + i * 160}
                     cy="225"
                     r="17"
-                    fill="#172522"
-                    stroke={revealed ? "#a6c6f3" : "#a6b0ae"}
+                    fill={theme.surface}
+                    stroke={revealed ? theme.fast : theme.muted}
                   />
                   <text
                     x={600 + i * 160}
                     y="230"
                     textAnchor="middle"
-                    fill="#eef2ef"
+                    fill={theme.text}
                     fontSize="14"
                   >
                     {revealed ? "✓" : "?"}
@@ -331,7 +349,7 @@ export default function EpisodeTheater() {
                     x={600 + i * 160}
                     y="292"
                     textAnchor="middle"
-                    fill="#eef2ef"
+                    fill={theme.text}
                     fontSize="13"
                   >
                     {h} h
@@ -339,7 +357,7 @@ export default function EpisodeTheater() {
                 </g>
               );
             })}
-            <circle cx={event.position * 10} cy="75" r="5" fill="#a6c6f3" />
+            <circle cx={event.position * 10} cy="75" r="5" fill={theme.fast} />
           </svg>
           <p className="episode-boundary" aria-live="polite">
             {perspective === "model"
