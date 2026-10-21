@@ -432,11 +432,16 @@ export default function Explorer() {
             <h3>The six-cell ledger</h3>
             <span className="panel-label">SELECT A ROW TO EXPLORE</span>
           </div>
+          <p className="table-scroll-hint" id="six-cell-scroll-hint">
+            Swipe sideways or use arrow keys to inspect all columns
+            <span aria-hidden="true"> →</span>
+          </p>
           <div
             className="table-scroll"
             tabIndex={0}
             role="region"
             aria-label="Six-cell metric ledger"
+            aria-describedby="six-cell-scroll-hint"
           >
             <table className="cell-table">
               <caption className="sr-only">
@@ -553,11 +558,16 @@ export default function Explorer() {
             resamples of 16 whole camps per root; they are descriptive and may
             be coarse. No pooled across-root confidence interval is reported.
           </p>
+          <p className="table-scroll-hint" id="root-uncertainty-scroll-hint">
+            Swipe sideways or use arrow keys to inspect all intervals
+            <span aria-hidden="true"> →</span>
+          </p>
           <div
             className="table-scroll"
             tabIndex={0}
             role="region"
             aria-label="Root uncertainty table"
+            aria-describedby="root-uncertainty-scroll-hint"
           >
             <table>
               <caption className="sr-only">

@@ -2751,3 +2751,51 @@ html { scroll-padding-top: 0; }
   .scene-controls legend { font-size: 10px; }
   .scene-legend span, .response-legend span { font-size: 11px; }
 }
+
+/* Post-launch: make horizontally scrollable scientific tables discoverable and legible on phones. */
+.table-scroll-hint {
+  display: none;
+}
+@media (max-width: 650px) {
+  .table-scroll-hint {
+    display: block;
+    margin: 0;
+    padding: 11px 15px;
+    background: #edf1f0;
+    border-top: 1px solid #cbd3d1;
+    border-bottom: 1px solid #cbd3d1;
+    color: #294354;
+    font: 12px/1.6 var(--mono);
+    letter-spacing: 0.01em;
+  }
+  .cell-table {
+    min-width: 560px;
+  }
+  .cell-table th,
+  .cell-table td,
+  .uncertainty-content table th,
+  .uncertainty-content table td {
+    font-size: 12px;
+    line-height: 1.5;
+  }
+  .cell-table thead th {
+    font-size: 11px;
+  }
+  .cell-table th button {
+    font-size: 12px;
+    min-height: 44px;
+  }
+  .cell-table td small,
+  .cell-table .outcome-name {
+    font-size: 11px;
+  }
+  .cell-panel .table-note,
+  .uncertainty-content .table-note {
+    font-size: 11px;
+    line-height: 1.6;
+  }
+  .uncertainty-content .root-seed {
+    font-size: 10px;
+    line-height: 1.5;
+  }
+}
