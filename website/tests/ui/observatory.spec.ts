@@ -213,3 +213,45 @@ test("WebGL unavailable uses the 2D instrument and keeps research interactive", 
   await page.locator(".model-option").first().click();
   await expect(page.getByTestId("aggregate-score")).toHaveText("2.4307");
 });
+
+test("mobile science tables advertise and support horizontal scrolling", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await page.goto("/");
+
+  for (const [label, hintId] of [
+    ["Six-cell metric ledger", "six-cell-scroll-hint"],
+    ["Root uncertainty table", "root-uncertainty-scroll-hint"],
+  ] as const) {
+    const hint = page.locator(`#${hintId}`);
+    const region = page.getByRole("region", { name: label });
+    await expect(hint).toBeVisible();
+    await expect(hint).toContainText("Swipe sideways");
+    await expect(region).toHaveAttribute("tabindex", "0");
+    await expect(region).toHaveAttribute("aria-describedby", hintId);
+    const dimensions = await region.evaluate((el) => ({
+      viewport: el.clientWidth,
+      content: el.scrollWidth,
+    }));
+    expect(dimensions.content).toBeGreaterThan(dimensions.viewport);
+    await region.focus();
+    await expect(region).toBeFocused();
+    await region.evaluate((el) => {
+      el.scrollLeft = el.scrollWidth;
+    });
+    expect(await region.evaluate((el) => el.scrollLeft)).toBeGreaterThan(0);
+  }
+
+  const ledgerFont = await page
+    .locator(".cell-table tbody td")
+    .first()
+    .evaluate((el) => Number.parseFloat(getComputedStyle(el).fontSize));
+  expect(ledgerFont).toBeGreaterThanOrEqual(12);
+  await page.locator(".model-option").nth(2).click();
+  await expect(page.getByTestId("aggregate-score")).toHaveText("0.7363");
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(
+    true,
+  );
+});
