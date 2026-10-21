@@ -93,7 +93,9 @@ pre-release; no DOI, v1.0 publication, or empirical validation is claimed.
 Research showcase
 -----------------
 
-The interactive research showcase lives in the separate Next.js package at
-`website/README.md <website/README.md>`__. Its source, fixtures, and browser tests
-have their own workflow; the scientific Python package and its tests remain
-independent.
+The interactive research showcase is live at
+https://recovery-observatory.vercel.app and its Next.js source, fixtures, and
+browser tests are in the separate package at `website/README.md
+<website/README.md>`__. The scientific Python package and its tests remain
+independent; the site is a synthetic research exhibit, not empirical athlete
+validation.
