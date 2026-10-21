@@ -70,3 +70,25 @@ data/
 datasets/
 artifacts/
 raw-data/
+
+# Keep the reviewed website package, fixtures, lockfile, and documentation.
+!website/README.md
+!website/CHANGELOG.md
+!website/AGENTS.md
+!website/package.json
+!website/package-lock.json
+!website/tsconfig.json
+!website/vercel.json
+!website/docs/
+!website/docs/*.md
+!website/docs/**/*.md
+!website/docs/*.json
+!website/docs/**/*.json
+!website/src/data/
+!website/src/data/*.json
+!website/public/data/
+!website/public/data/*.json
+!website/source/**/*.md
+!website/source/**/*.json
+website/.env*
+website/**/.env*

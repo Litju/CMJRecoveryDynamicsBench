@@ -1,0 +1,33 @@
+{
+  "commit": "3dc4c82f0c948add6e4a9ebdebfd227933c823d3",
+  "files": {
+    "preliminary_post_exposure_recovery.py": {
+      "path": "src/cmj_recovery_dynamics/benchmarks/preliminary_post_exposure_recovery.py",
+      "sha256": "e8fc0881a5aee35d240ce5ef4bf47f831b9f2fac91799379b7c17cd3a36f2618"
+    },
+    "fixed_mode_discrepancy_recovery.py": {
+      "path": "src/cmj_recovery_dynamics/benchmarks/fixed_mode_discrepancy_recovery.py",
+      "sha256": "647b5be6f93d717ff91999a1f81b88c00657ce8a41bf7bd02bb82ce818aba390"
+    },
+    "rich_history_recovery.py": {
+      "path": "src/cmj_recovery_dynamics/benchmarks/rich_history_recovery.py",
+      "sha256": "ce0954435828303619547d0ebd9f5f0b596946bbfc3b0a738eb55d0570882665"
+    },
+    "threshold_response_recovery.py": {
+      "path": "src/cmj_recovery_dynamics/benchmarks/threshold_response_recovery.py",
+      "sha256": "0877fb9db8d2c307ab2888e7278a78e100e236fe1097f75435c9b31fb6a50c77"
+    },
+    "correlated_exposure_recovery.py": {
+      "path": "src/cmj_recovery_dynamics/benchmarks/correlated_exposure_recovery.py",
+      "sha256": "de4861f2c80e4cf3e6970d7ee5ec6ec598dc38455877830a996545c7f1ce59fc"
+    },
+    "phase_consistent_post_exposure_recovery.py": {
+      "path": "src/cmj_recovery_dynamics/benchmarks/phase_consistent_post_exposure_recovery.py",
+      "sha256": "415e164910ca0f796207485e1013f0a470f8547b528185020f10ecc4afb433cd"
+    },
+    "preseason_camp_recovery.py": {
+      "path": "src/cmj_recovery_dynamics/benchmarks/preseason_camp_recovery.py",
+      "sha256": "87204630eff2b03121524fa5605cfade616737ea8f7acc274472b03601e6fe9b"
+    }
+  }
+}

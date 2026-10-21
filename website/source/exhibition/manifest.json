@@ -1,0 +1,21 @@
+{
+  "commit": "3dc4c82f0c948add6e4a9ebdebfd227933c823d3",
+  "files": {
+    "phase_consistent_force_impulse.py": {
+      "path": "src/cmj_recovery_dynamics/observations/phase_consistent_force_impulse.py",
+      "sha256": "3dffe781c00b64ed5fdd33e541673c0482f4c023fae86eb8959cb2590e2ad4ff"
+    },
+    "fixed_mode_discrepancy_response.py": {
+      "path": "src/cmj_recovery_dynamics/dynamics/fixed_mode_discrepancy_response.py",
+      "sha256": "710ad750a2cd7d1d72ffc87b517af52911f7e144688da673f30736f1a2ada7f1"
+    },
+    "correlated_exposure_response.py": {
+      "path": "src/cmj_recovery_dynamics/dynamics/correlated_exposure_response.py",
+      "sha256": "68c3b842effe3aa507da113bf79a6c09444ee284e5e6858fe7bddfe002c0cb31"
+    },
+    "fixed_mode_reference_study.py": {
+      "path": "src/cmj_recovery_dynamics/studies/fixed_mode_reference_study.py",
+      "sha256": "ab6d349747b54ee606066d56b5da91f33dc9b2d6b6ad18538e14513ab08accd7"
+    }
+  }
+}

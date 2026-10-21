@@ -1,0 +1,13 @@
+import { cell, models } from "./science";
+export const chapters = [
+    { id: "intro", title: "One jump. A research program.", label: "Begin", kind: "measurement", note: "A force plate records force through a countermovement jump. Schematic apparatus; no human measurements.", source: "docs/M8_FIXED_MODE_PUBLIC_REFERENCE_STUDY.md" },
+    { id: "question", title: "What does a jump tell us?", label: "Measure", kind: "measurement", note: "Force and net impulse describe different aspects of the same concentric phase. Geometry is schematic, not a measured jump.", source: "docs/M8_FIXED_MODE_PUBLIC_REFERENCE_STUDY.md" },
+    { id: "world", title: "The world knows more.", label: "World", kind: "response", note: "Illustrative 24 h and 84 h modes. The generator can contain hidden state; the learner receives public predictors only.", source: "docs/M8_FIXED_MODE_PUBLIC_REFERENCE_STUDY.md" },
+    { id: "lineage", title: "Eight formulations. New questions.", label: "History", kind: "lineage", note: "Eight formulations, connected by explicit changes in contracts. These are branches of research, not eight comparable scores.", source: "docs/M8_REPRODUCIBILITY_MATRIX.md" },
+    { id: "experiment", title: "Make the comparison fair.", label: "Design", kind: "benchmark", note: "Sourced NRMSE: 24 h force, mean of three independent same-generator roots. Lower is better. Bars start at zero.", source: "docs/M8_FIXED_MODE_PUBLIC_REFERENCE_RESULTS.json" },
+    { id: "explorer", title: "Inspect the evidence.", label: "Compare", kind: "benchmark", note: "Sourced NRMSE: 24 h force, mean of three roots. Use the benchmark controls for all 96 numerical combinations.", source: "docs/M8_FIXED_MODE_PUBLIC_REFERENCE_RESULTS.json" },
+    { id: "remaining", title: "A result has a boundary.", label: "Limits", kind: "response", note: "Illustrative mathematical response, not a fitted result. Same-generator tests do not establish validity in real athletes.", source: "docs/M8_FIXED_MODE_PUBLIC_REFERENCE_STUDY.md" },
+    { id: "lab", title: "Change a mode. Follow its effect.", label: "Lab", kind: "response", note: "Illustrative 0.7 exp(−t/24) + 0.3 exp(−t/84). Scroll moves the time slice; the lab below exposes the mathematics.", source: "docs/M8_FIXED_MODE_PUBLIC_REFERENCE_STUDY.md" },
+    { id: "evidence", title: "Evidence you can follow.", label: "Source", kind: "lineage", note: "A source trail, not a claim of complete replay. Historical evidence, executable adapters and fresh studies remain distinct.", source: "docs/M8_REPRODUCIBILITY_MATRIX.md" },
+] as const;
+export const journeyBars = models.map((model) => ({ ...model, value: cell(model.id, "mean", 24, "force").nrmse }));

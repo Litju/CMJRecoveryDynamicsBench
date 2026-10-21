@@ -1,0 +1,103 @@
+{
+  "references": [
+    {
+      "id": "cormack2008",
+      "title": "Reliability of Measures Obtained During Single and Repeated Countermovement Jumps",
+      "authors": "Cormack, Newton, McGuigan & Doyle",
+      "year": 2008,
+      "doi": "10.1123/ijspp.3.2.131",
+      "href": "https://doi.org/10.1123/ijspp.3.2.131",
+      "evidence": "A primary investigation of the repeatability of CMJ variables measured using a force plate. Measurement reliability matters before interpreting a change."
+    },
+    {
+      "id": "gathercole2015",
+      "title": "Alternative Countermovement-Jump Analysis to Quantify Acute Neuromuscular Fatigue",
+      "authors": "Gathercole, Sporer, Stellingwerff & Sleivert",
+      "year": 2015,
+      "doi": "10.1123/ijspp.2013-0413",
+      "href": "https://doi.org/10.1123/ijspp.2013-0413",
+      "evidence": "A primary investigation of changes in CMJ mechanics after fatiguing exercise. It motivates examining the force-time behaviour, rather than treating jump performance as one number."
+    }
+  ],
+  "source": "src/cmj_recovery_dynamics/observations/phase_consistent_force_impulse.py",
+  "gravity": 9.80665,
+  "trials": 3,
+  "traceNodes": 65,
+  "horizons": [
+    24,
+    48,
+    72
+  ],
+  "boundary": "Background literature motivates the question. It does not validate this generator, prescribe training or establish an athlete recovery score.",
+  "exposureSource": "src/cmj_recovery_dynamics/dynamics/correlated_exposure_response.py",
+  "exposures": [
+    {
+      "id": "volume",
+      "label": "Volume",
+      "fields": [
+        {
+          "name": "duration_min",
+          "label": "Session duration",
+          "unit": "minutes"
+        },
+        {
+          "name": "total_distance_m",
+          "label": "Total distance",
+          "unit": "metres"
+        }
+      ],
+      "text": "How much activity was performed: session length and total distance. These are observed descriptors, not latent recovery amplitudes."
+    },
+    {
+      "id": "speed",
+      "label": "Speed",
+      "fields": [
+        {
+          "name": "high_speed_distance_m",
+          "label": "High-speed distance",
+          "unit": "metres"
+        },
+        {
+          "name": "sprint_distance_m",
+          "label": "Sprint distance",
+          "unit": "metres"
+        }
+      ],
+      "text": "How much of the movement occurred at high speed or in sprinting. The synthetic sampler keeps sprint distance within high-speed distance."
+    },
+    {
+      "id": "change",
+      "label": "Changes of speed",
+      "fields": [
+        {
+          "name": "high_intensity_accel_count",
+          "label": "High-intensity accelerations",
+          "unit": "count"
+        },
+        {
+          "name": "high_intensity_decel_count",
+          "label": "High-intensity decelerations",
+          "unit": "count"
+        }
+      ],
+      "text": "Counts of high-intensity accelerations and decelerations describe changes of speed. A hidden four-factor distribution makes the exposure descriptors correlated."
+    },
+    {
+      "id": "internal",
+      "label": "Perceived effort",
+      "fields": [
+        {
+          "name": "session_rpe_cr10",
+          "label": "Session RPE",
+          "unit": "CR10 rating"
+        },
+        {
+          "name": "session_rpe_load_au",
+          "label": "Session RPE load",
+          "unit": "duration \u00d7 RPE"
+        }
+      ],
+      "text": "Session rating of perceived exertion, plus a derived duration \u00d7 RPE load. The latter is a public descriptor in arbitrary units, not a measured physiological recovery state."
+    }
+  ]
+}

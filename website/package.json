@@ -1,0 +1,33 @@
+{
+  "name": "cmj-research-showcase",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev --hostname 0.0.0.0",
+    "data": "node scripts/prepare-data.mjs",
+    "test": "node --test tests/*.test.mjs",
+    "typecheck": "tsc --noEmit",
+    "build": "node scripts/prepare-data.mjs --check && next build",
+    "test:ui": "playwright test"
+  },
+  "dependencies": {
+    "next": "16.4.2",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
+    "@react-three/fiber": "^9.4.0",
+    "three": "^0.180.0",
+    "recharts": "^3.3.0",
+    "lucide-react": "^0.468.0",
+    "tailwindcss": "^4.1.0",
+    "@tailwindcss/postcss": "^4.1.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.9.0",
+    "@types/node": "^22.0.0",
+    "@types/react": "^19.2.0",
+    "@types/react-dom": "^19.2.0",
+    "@types/three": "^0.180.0",
+    "@playwright/test": "^1.56.0",
+    "@axe-core/playwright": "^4.10.0"
+  }
+}

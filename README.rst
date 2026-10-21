@@ -97,3 +97,13 @@ release record, if any, identifies its publication date and artifacts.
 Original experiment receipts retain their audited version and provenance.
 Exact M8 digest replay uses the original frozen study snapshot. Version metadata
 changes the package-source hash, so pre-1.0 selection locks cannot be reused.
+
+Research showcase
+-----------------
+
+The interactive research showcase is live at
+https://recovery-observatory.vercel.app and its Next.js source, fixtures, and
+browser tests are in the separate package at `website/README.md
+<website/README.md>`__. The scientific Python package and its tests remain
+independent; the site is a synthetic research exhibit, not empirical athlete
+validation.
