@@ -95,6 +95,7 @@ PUBLIC_RECONCILIATION_COMMITS = {
     "3dc4c82f0c948add6e4a9ebdebfd2279" + "33c823d3",
     "618a56bbcc8de6fb1cd3a5d4d8f71bf" + "7fcb61529",
     "4e08777bc7c7f7ce4fa541ea3776b4cb" + "2e2dda3b",
+    "582a8c3f86fad7e20ebb6a5d907a1965" + "7ee0d8c2",
 }
 PUBLIC_DOCUMENT_ALLOWLIST = {
     "docs/M8_RELEASE_NOTES.md",
@@ -109,11 +110,13 @@ PUBLIC_DOCUMENT_ALLOWLIST = {
     "docs/M8_FIXED_MODE_PUBLIC_REFERENCE_STUDY.md",
     "docs/M8_FIXED_MODE_PUBLIC_REFERENCE_RESULTS.json",
     "docs/M8_V1_RELEASE_AUDIT_RECEIPT.json",
+    "docs/M8_V1_PUBLICATION_RECEIPT.json",
 }
 PUBLIC_MACHINE_RECEIPT_ALLOWLIST = {
     "docs/M8_PUBLIC_REPRODUCTION_RECEIPTS.json",
     "docs/M8_FIXED_MODE_PUBLIC_REFERENCE_RESULTS.json",
     "docs/M8_V1_RELEASE_AUDIT_RECEIPT.json",
+    "docs/M8_V1_PUBLICATION_RECEIPT.json",
 }
 PROTECTED_SUFFIXES = (
     ".bundle",
@@ -332,20 +335,17 @@ def test_public_github_identity_is_allowed_but_private_markers_are_rejected() ->
     assert "ali-999" not in PUBLIC_HISTORICAL_LABELS
 
 
-def test_release_and_package_metadata_do_not_claim_m8_or_v1() -> None:
+def test_v1_version_and_scientific_claim_boundary() -> None:
     project = tomllib.loads((REPOSITORY_ROOT / "pyproject.toml").read_text())["project"]
-    assert project["version"] != "1.0.0"
-    for name in ("README.rst", "CITATION.cff"):
-        path = REPOSITORY_ROOT / name
-        if path.exists():
-            text = path.read_text(encoding="utf-8")
-            assert (
-                re.search(
-                    r"(?i)\b(?:released|published|complete|reproduced)\b[^\n]{0,60}\bv?1\.0(?:\.0)?\b",
-                    text,
-                )
-                is None
-            )
+    assert project["version"] == "1.0.0"
+    readme = (REPOSITORY_ROOT / "README.rst").read_text().casefold()
+    notes = (REPOSITORY_ROOT / "docs/M8_RELEASE_NOTES.md").read_text().casefold()
+    assert "official github release" in readme
+    assert "matching official github release/tag" in notes
+    assert "its production scorer remains unimplemented" in readme
+    assert "neither ood robustness nor human athlete performance" in readme
+    assert "the fixed-mode production scorer is unimplemented" in notes
+    assert "this is not exact historical replay" in notes
 
 
 def test_license_and_citation_versions_match_package_metadata() -> None:

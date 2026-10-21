@@ -266,3 +266,11 @@ study-code identity; otherwise compare data hashes, feature contract, selection,
 per-cell/per-root metrics and intervals separately, and report differences.
 The file SHA-256 includes pretty-printing and runtime costs and is expected to
 differ on rerun. No original receipt should be overwritten to make hashes match.
+
+
+For exact replay of the receipt above, use its original 0.1.0 study snapshot.
+The 1.0.0 publication candidate changes only version metadata in package Python,
+which changes the package-source digest and invalidates older selection locks.
+For runs from a 1.0.0 installation, resolve and verify the matching candidate
+source commit for `--git-sha`; do not label that package with the original study
+SHA or reuse its lock. The original numerical receipt remains unchanged.

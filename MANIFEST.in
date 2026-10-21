@@ -11,3 +11,4 @@ include docs/M8_REPRODUCIBILITY_MATRIX.md
 include docs/M8_REPRODUCTION_RESULTS.md
 include docs/M8_V1_RELEASE_AUDIT.md
 include docs/M8_V1_RELEASE_AUDIT_RECEIPT.json
+include docs/M8_V1_PUBLICATION_RECEIPT.json

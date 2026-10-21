@@ -24,6 +24,7 @@
 !docs/M8_RELEASE_NOTES.md
 !docs/M8_V1_RELEASE_AUDIT.md
 !docs/M8_V1_RELEASE_AUDIT_RECEIPT.json
+!docs/M8_V1_PUBLICATION_RECEIPT.json
 *.mmd
 *.parquet
 *.pkl

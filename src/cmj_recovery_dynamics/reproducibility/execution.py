@@ -611,7 +611,7 @@ def capture_runtime_fingerprint(*, accelerator: str | None = None) -> RuntimeFin
     try:
         package_version = version("cmj-recovery-dynamics")
     except PackageNotFoundError:
-        package_version = "0.1.0"
+        package_version = "1.0.0"
     return RuntimeFingerprint(
         python_version=platform.python_version(),
         python_implementation=platform.python_implementation(),
