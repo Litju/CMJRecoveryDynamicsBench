@@ -94,6 +94,6 @@ Research showcase
 -----------------
 
 The interactive research showcase lives in the separate Next.js package at
-website/README.md <website/README.md>__. Its source, fixtures, and browser tests
+`website/README.md <website/README.md>`__. Its source, fixtures, and browser tests
 have their own workflow; the scientific Python package and its tests remain
 independent.
