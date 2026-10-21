@@ -5,10 +5,16 @@ on:
     paths:
       - "website/**"
       - ".github/workflows/website-ci.yml"
+      - ".gitignore"
+      - "README.rst"
+      - "tests/test_architecture.py"
   pull_request:
     paths:
       - "website/**"
       - ".github/workflows/website-ci.yml"
+      - ".gitignore"
+      - "README.rst"
+      - "tests/test_architecture.py"
   workflow_dispatch:
 
 permissions:
