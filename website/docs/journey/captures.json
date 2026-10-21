@@ -1,0 +1,105 @@
+{
+  "captures": [
+    {
+      "device": "desktop",
+      "chapter": "intro",
+      "path": "docs/journey/desktop-intro.png"
+    },
+    {
+      "device": "desktop",
+      "chapter": "question",
+      "path": "docs/journey/desktop-question.png"
+    },
+    {
+      "device": "desktop",
+      "chapter": "world",
+      "path": "docs/journey/desktop-world.png"
+    },
+    {
+      "device": "desktop",
+      "chapter": "lineage",
+      "path": "docs/journey/desktop-lineage.png"
+    },
+    {
+      "device": "desktop",
+      "chapter": "experiment",
+      "path": "docs/journey/desktop-experiment.png"
+    },
+    {
+      "device": "desktop",
+      "chapter": "explorer",
+      "path": "docs/journey/desktop-explorer.png"
+    },
+    {
+      "device": "desktop",
+      "chapter": "remaining",
+      "path": "docs/journey/desktop-remaining.png"
+    },
+    {
+      "device": "desktop",
+      "chapter": "lab",
+      "path": "docs/journey/desktop-lab.png"
+    },
+    {
+      "device": "desktop",
+      "chapter": "evidence",
+      "path": "docs/journey/desktop-evidence.png"
+    },
+    {
+      "device": "desktop",
+      "chapter": "reduced-motion",
+      "path": "docs/journey/desktop-reduced-motion.png"
+    },
+    {
+      "device": "mobile",
+      "chapter": "intro",
+      "path": "docs/journey/mobile-intro.png"
+    },
+    {
+      "device": "mobile",
+      "chapter": "question",
+      "path": "docs/journey/mobile-question.png"
+    },
+    {
+      "device": "mobile",
+      "chapter": "world",
+      "path": "docs/journey/mobile-world.png"
+    },
+    {
+      "device": "mobile",
+      "chapter": "lineage",
+      "path": "docs/journey/mobile-lineage.png"
+    },
+    {
+      "device": "mobile",
+      "chapter": "experiment",
+      "path": "docs/journey/mobile-experiment.png"
+    },
+    {
+      "device": "mobile",
+      "chapter": "explorer",
+      "path": "docs/journey/mobile-explorer.png"
+    },
+    {
+      "device": "mobile",
+      "chapter": "remaining",
+      "path": "docs/journey/mobile-remaining.png"
+    },
+    {
+      "device": "mobile",
+      "chapter": "lab",
+      "path": "docs/journey/mobile-lab.png"
+    },
+    {
+      "device": "mobile",
+      "chapter": "evidence",
+      "path": "docs/journey/mobile-evidence.png"
+    },
+    {
+      "device": "mobile",
+      "chapter": "reduced-motion",
+      "path": "docs/journey/mobile-reduced-motion.png"
+    }
+  ],
+  "errors": []
+}

@@ -1,0 +1,557 @@
+{
+  "baseURL": "http://127.0.0.1:4174",
+  "capturedAt": "2026-10-20T04:19:17.980Z",
+  "captures": [
+    {
+      "device": "desktop",
+      "chapter": "hero",
+      "path": "docs/screenshots/desktop-hero.png"
+    },
+    {
+      "device": "desktop",
+      "chapter": "quick-route",
+      "path": "docs/screenshots/desktop-quick-route.png"
+    },
+    {
+      "device": "desktop",
+      "chapter": "question",
+      "path": "docs/screenshots/desktop-question.png"
+    },
+    {
+      "device": "desktop",
+      "chapter": "world",
+      "path": "docs/screenshots/desktop-world.png"
+    },
+    {
+      "device": "desktop",
+      "chapter": "lineage",
+      "path": "docs/screenshots/desktop-lineage.png"
+    },
+    {
+      "device": "desktop",
+      "chapter": "experiment",
+      "path": "docs/screenshots/desktop-experiment.png"
+    },
+    {
+      "device": "desktop",
+      "chapter": "explorer",
+      "path": "docs/screenshots/desktop-explorer.png"
+    },
+    {
+      "device": "desktop",
+      "chapter": "remaining",
+      "path": "docs/screenshots/desktop-remaining.png"
+    },
+    {
+      "device": "desktop",
+      "chapter": "lab",
+      "path": "docs/screenshots/desktop-lab.png"
+    },
+    {
+      "device": "desktop",
+      "chapter": "evidence",
+      "path": "docs/screenshots/desktop-evidence.png"
+    },
+    {
+      "device": "desktop",
+      "chapter": "apparatus",
+      "path": "docs/screenshots/desktop-apparatus.png"
+    },
+    {
+      "device": "desktop",
+      "chapter": "exposure",
+      "path": "docs/screenshots/desktop-exposure.png"
+    },
+    {
+      "device": "desktop",
+      "chapter": "history",
+      "path": "docs/screenshots/desktop-history.png"
+    },
+    {
+      "device": "desktop",
+      "chapter": "impulse",
+      "path": "docs/screenshots/desktop-impulse.png"
+    },
+    {
+      "device": "desktop",
+      "chapter": "innovation",
+      "path": "docs/screenshots/desktop-innovation.png"
+    },
+    {
+      "device": "desktop",
+      "chapter": "world-revealed",
+      "path": "docs/screenshots/desktop-world-revealed.png"
+    },
+    {
+      "device": "desktop",
+      "chapter": "lab-methods",
+      "path": "docs/screenshots/desktop-lab-methods.png"
+    },
+    {
+      "device": "desktop",
+      "chapter": "measurement",
+      "path": "docs/screenshots/desktop-measurement.png"
+    },
+    {
+      "device": "desktop",
+      "chapter": "selection",
+      "path": "docs/screenshots/desktop-selection.png"
+    },
+    {
+      "device": "desktop",
+      "chapter": "formulation-methods",
+      "path": "docs/screenshots/desktop-formulation-methods.png"
+    },
+    {
+      "device": "desktop",
+      "chapter": "plot-uncertainty",
+      "path": "docs/screenshots/desktop-plot-uncertainty.png"
+    },
+    {
+      "device": "desktop",
+      "chapter": "plot-lab",
+      "path": "docs/screenshots/desktop-plot-lab.png"
+    },
+    {
+      "device": "desktop",
+      "chapter": "benchmark-3d",
+      "path": "docs/screenshots/desktop-benchmark-3d.png"
+    },
+    {
+      "device": "desktop",
+      "chapter": "benchmark-front",
+      "path": "docs/screenshots/desktop-benchmark-front.png"
+    },
+    {
+      "device": "desktop",
+      "chapter": "benchmark-matrix",
+      "path": "docs/screenshots/desktop-benchmark-matrix.png"
+    },
+    {
+      "device": "desktop",
+      "chapter": "response-3d",
+      "path": "docs/screenshots/desktop-response-3d.png"
+    },
+    {
+      "device": "mobile",
+      "chapter": "hero",
+      "path": "docs/screenshots/mobile-hero.png"
+    },
+    {
+      "device": "mobile",
+      "chapter": "quick-route",
+      "path": "docs/screenshots/mobile-quick-route.png"
+    },
+    {
+      "device": "mobile",
+      "chapter": "question",
+      "path": "docs/screenshots/mobile-question.png"
+    },
+    {
+      "device": "mobile",
+      "chapter": "world",
+      "path": "docs/screenshots/mobile-world.png"
+    },
+    {
+      "device": "mobile",
+      "chapter": "lineage",
+      "path": "docs/screenshots/mobile-lineage.png"
+    },
+    {
+      "device": "mobile",
+      "chapter": "experiment",
+      "path": "docs/screenshots/mobile-experiment.png"
+    },
+    {
+      "device": "mobile",
+      "chapter": "explorer",
+      "path": "docs/screenshots/mobile-explorer.png"
+    },
+    {
+      "device": "mobile",
+      "chapter": "remaining",
+      "path": "docs/screenshots/mobile-remaining.png"
+    },
+    {
+      "device": "mobile",
+      "chapter": "lab",
+      "path": "docs/screenshots/mobile-lab.png"
+    },
+    {
+      "device": "mobile",
+      "chapter": "evidence",
+      "path": "docs/screenshots/mobile-evidence.png"
+    },
+    {
+      "device": "mobile",
+      "chapter": "apparatus",
+      "path": "docs/screenshots/mobile-apparatus.png"
+    },
+    {
+      "device": "mobile",
+      "chapter": "exposure",
+      "path": "docs/screenshots/mobile-exposure.png"
+    },
+    {
+      "device": "mobile",
+      "chapter": "history",
+      "path": "docs/screenshots/mobile-history.png"
+    },
+    {
+      "device": "mobile",
+      "chapter": "impulse",
+      "path": "docs/screenshots/mobile-impulse.png"
+    },
+    {
+      "device": "mobile",
+      "chapter": "innovation",
+      "path": "docs/screenshots/mobile-innovation.png"
+    },
+    {
+      "device": "mobile",
+      "chapter": "world-revealed",
+      "path": "docs/screenshots/mobile-world-revealed.png"
+    },
+    {
+      "device": "mobile",
+      "chapter": "lab-methods",
+      "path": "docs/screenshots/mobile-lab-methods.png"
+    },
+    {
+      "device": "mobile",
+      "chapter": "measurement",
+      "path": "docs/screenshots/mobile-measurement.png"
+    },
+    {
+      "device": "mobile",
+      "chapter": "selection",
+      "path": "docs/screenshots/mobile-selection.png"
+    },
+    {
+      "device": "mobile",
+      "chapter": "formulation-methods",
+      "path": "docs/screenshots/mobile-formulation-methods.png"
+    },
+    {
+      "device": "mobile",
+      "chapter": "plot-uncertainty",
+      "path": "docs/screenshots/mobile-plot-uncertainty.png"
+    },
+    {
+      "device": "mobile",
+      "chapter": "plot-lab",
+      "path": "docs/screenshots/mobile-plot-lab.png"
+    },
+    {
+      "device": "mobile",
+      "chapter": "benchmark-fallback",
+      "path": "docs/screenshots/mobile-benchmark-fallback.png"
+    },
+    {
+      "device": "mobile",
+      "chapter": "response-fallback",
+      "path": "docs/screenshots/mobile-response-fallback.png"
+    },
+    {
+      "device": "mobile",
+      "chapter": "benchmark-3d",
+      "path": "docs/screenshots/mobile-benchmark-3d.png"
+    },
+    {
+      "device": "mobile",
+      "chapter": "response-3d",
+      "path": "docs/screenshots/mobile-response-3d.png"
+    }
+  ],
+  "errors": [],
+  "performance": [
+    {
+      "reducedMotion": "reduce",
+      "modelSwitchTwoFramesMs": {
+        "median": 33.399999998509884,
+        "p95": 33.5,
+        "max": 33.79999999701977
+      },
+      "navigation": {
+        "name": "http://127.0.0.1:4174/",
+        "entryType": "navigation",
+        "startTime": 0,
+        "duration": 202.69999999925494,
+        "navigationId": 9949,
+        "initiatorType": "navigation",
+        "deliveryType": "",
+        "nextHopProtocol": "http/1.0",
+        "renderBlockingStatus": "non-blocking",
+        "contentType": "text/html",
+        "contentEncoding": "",
+        "workerStart": 0,
+        "workerRouterEvaluationStart": 0,
+        "workerCacheLookupStart": 0,
+        "workerMatchedSourceType": "",
+        "workerFinalSourceType": "",
+        "redirectStart": 0,
+        "redirectEnd": 0,
+        "fetchStart": 0.19999999925494194,
+        "domainLookupStart": 0.8000000007450581,
+        "domainLookupEnd": 1,
+        "connectStart": 1,
+        "secureConnectionStart": 0,
+        "connectEnd": 1.0999999977648258,
+        "requestStart": 1.0999999977648258,
+        "responseStart": 1.800000000745058,
+        "firstInterimResponseStart": 0,
+        "finalResponseHeadersStart": 1.800000000745058,
+        "responseEnd": 2.800000000745058,
+        "transferSize": 195831,
+        "encodedBodySize": 195531,
+        "decodedBodySize": 195531,
+        "responseStatus": 200,
+        "serverTiming": [],
+        "unloadEventStart": 0,
+        "unloadEventEnd": 0,
+        "domInteractive": 32.899999998509884,
+        "domContentLoadedEventStart": 32.899999998509884,
+        "domContentLoadedEventEnd": 32.899999998509884,
+        "domComplete": 202.5,
+        "loadEventStart": 202.69999999925494,
+        "loadEventEnd": 202.69999999925494,
+        "type": "navigate",
+        "redirectCount": 0,
+        "activationStart": 0,
+        "criticalCHRestart": 0,
+        "notRestoredReasons": null,
+        "confidence": {
+          "randomizedTriggerRate": 0.4994798,
+          "value": "high"
+        }
+      },
+      "longTasks": [
+        {
+          "start": 32.899999998509884,
+          "duration": 91
+        },
+        {
+          "start": 265.80000000074506,
+          "duration": 88
+        }
+      ],
+      "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.8078.4 Safari/537.36",
+      "resources": [
+        {
+          "name": "/_next/static/chunks/252emj-uqymdm.js",
+          "bytes": 181018
+        },
+        {
+          "name": "/_next/static/chunks/2khxl0v1q4i6n.js",
+          "bytes": 229820
+        },
+        {
+          "name": "/_next/static/chunks/turbopack-3-ry682tkyiqk.js",
+          "bytes": 10030
+        },
+        {
+          "name": "/_next/static/chunks/2ue8_4o83nd4-.js",
+          "bytes": 52290
+        },
+        {
+          "name": "/_next/static/chunks/0umf92h1sb77c.js",
+          "bytes": 13822
+        },
+        {
+          "name": "/_next/static/chunks/0of2f5qo3urgn.js",
+          "bytes": 530074
+        }
+      ],
+      "canvases": 0
+    },
+    {
+      "reducedMotion": "no-preference",
+      "modelSwitchTwoFramesMs": {
+        "median": 33.399999998509884,
+        "p95": 40.899999998509884,
+        "max": 49.69999999925494
+      },
+      "navigation": {
+        "name": "http://127.0.0.1:4174/",
+        "entryType": "navigation",
+        "startTime": 0,
+        "duration": 186.30000000074506,
+        "navigationId": 5087,
+        "initiatorType": "navigation",
+        "deliveryType": "",
+        "nextHopProtocol": "http/1.0",
+        "renderBlockingStatus": "non-blocking",
+        "contentType": "text/html",
+        "contentEncoding": "",
+        "workerStart": 0,
+        "workerRouterEvaluationStart": 0,
+        "workerCacheLookupStart": 0,
+        "workerMatchedSourceType": "",
+        "workerFinalSourceType": "",
+        "redirectStart": 0,
+        "redirectEnd": 0,
+        "fetchStart": 0.10000000149011612,
+        "domainLookupStart": 1.1000000014901161,
+        "domainLookupEnd": 1.199999999254942,
+        "connectStart": 1.199999999254942,
+        "secureConnectionStart": 0,
+        "connectEnd": 1.4000000022351742,
+        "requestStart": 1.5,
+        "responseStart": 2.300000000745058,
+        "firstInterimResponseStart": 0,
+        "finalResponseHeadersStart": 2.300000000745058,
+        "responseEnd": 3.300000000745058,
+        "transferSize": 195831,
+        "encodedBodySize": 195531,
+        "decodedBodySize": 195531,
+        "responseStatus": 200,
+        "serverTiming": [],
+        "unloadEventStart": 0,
+        "unloadEventEnd": 0,
+        "domInteractive": 140.5,
+        "domContentLoadedEventStart": 140.5,
+        "domContentLoadedEventEnd": 140.60000000149012,
+        "domComplete": 186,
+        "loadEventStart": 186.30000000074506,
+        "loadEventEnd": 186.30000000074506,
+        "type": "navigate",
+        "redirectCount": 0,
+        "activationStart": 0,
+        "criticalCHRestart": 0,
+        "notRestoredReasons": null,
+        "confidence": {
+          "randomizedTriggerRate": 0.4994798,
+          "value": "high"
+        }
+      },
+      "longTasks": [
+        {
+          "start": 37.600000001490116,
+          "duration": 102
+        },
+        {
+          "start": 283.30000000074506,
+          "duration": 96
+        },
+        {
+          "start": 418.69999999925494,
+          "duration": 80
+        },
+        {
+          "start": 800,
+          "duration": 146
+        },
+        {
+          "start": 1143.9000000022352,
+          "duration": 52
+        },
+        {
+          "start": 1550,
+          "duration": 314
+        }
+      ],
+      "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.8078.4 Safari/537.36",
+      "resources": [
+        {
+          "name": "/_next/static/chunks/252emj-uqymdm.js",
+          "bytes": 181018
+        },
+        {
+          "name": "/_next/static/chunks/2khxl0v1q4i6n.js",
+          "bytes": 229820
+        },
+        {
+          "name": "/_next/static/chunks/turbopack-3-ry682tkyiqk.js",
+          "bytes": 10030
+        },
+        {
+          "name": "/_next/static/chunks/0umf92h1sb77c.js",
+          "bytes": 13822
+        },
+        {
+          "name": "/_next/static/chunks/2ue8_4o83nd4-.js",
+          "bytes": 52290
+        },
+        {
+          "name": "/_next/static/chunks/0of2f5qo3urgn.js",
+          "bytes": 530074
+        },
+        {
+          "name": "/_next/static/chunks/3xdk7zhk2pk_9.js",
+          "bytes": 5504
+        },
+        {
+          "name": "/_next/static/chunks/1s58fp2q_he90.js",
+          "bytes": 899078
+        },
+        {
+          "name": "/_next/static/chunks/1tzn75b-vhqsw.js",
+          "bytes": 3398
+        }
+      ],
+      "canvases": 2
+    }
+  ],
+  "chunks": [
+    {
+      "file": "0cz1d0mv5g_q7.js",
+      "bytes": 112594,
+      "gzipBytes": 39627
+    },
+    {
+      "file": "0of2f5qo3urgn.js",
+      "bytes": 530074,
+      "gzipBytes": 152655
+    },
+    {
+      "file": "0t3-xq24jojj8.js",
+      "bytes": 2448,
+      "gzipBytes": 1122
+    },
+    {
+      "file": "0umf92h1sb77c.js",
+      "bytes": 13822,
+      "gzipBytes": 3514
+    },
+    {
+      "file": "19wg2q9r2_sev.js",
+      "bytes": 21767,
+      "gzipBytes": 7304
+    },
+    {
+      "file": "1s58fp2q_he90.js",
+      "bytes": 899078,
+      "gzipBytes": 237436
+    },
+    {
+      "file": "1tzn75b-vhqsw.js",
+      "bytes": 3398,
+      "gzipBytes": 1499
+    },
+    {
+      "file": "252emj-uqymdm.js",
+      "bytes": 181018,
+      "gzipBytes": 48743
+    },
+    {
+      "file": "2khxl0v1q4i6n.js",
+      "bytes": 229820,
+      "gzipBytes": 71969
+    },
+    {
+      "file": "2ue8_4o83nd4-.js",
+      "bytes": 52290,
+      "gzipBytes": 14344
+    },
+    {
+      "file": "3xdk7zhk2pk_9.js",
+      "bytes": 5504,
+      "gzipBytes": 2009
+    },
+    {
+      "file": "turbopack-3-ry682tkyiqk.js",
+      "bytes": 10030,
+      "gzipBytes": 3940
+    }
+  ]
+}

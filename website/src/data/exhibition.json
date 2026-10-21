@@ -1,0 +1,31 @@
+{
+  "scope": "Conceptual episode of the active fixed-mode synthetic formulation. No generated sample, fitted prediction or athlete trace.",
+  "source": "docs/M8_FIXED_MODE_PUBLIC_REFERENCE_STUDY.md",
+  "predictors": [
+    {"id":"horizon","label":"Known horizon","count":1,"text":"The requested H24, H48 or H72 is known at origin. It is not the future outcome."},
+    {"id":"baseline","label":"Current baseline","count":3,"text":"Force, net impulse and depth from a dedicated pre-exposure assessment."},
+    {"id":"context","label":"Participant context","count":2,"text":"Training age and strength. Hidden participant response effects are excluded."},
+    {"id":"exposure","label":"Current exposure","count":8,"text":"Public exposure descriptors. The latent load factors that generated them stay hidden."},
+    {"id":"history","label":"Four prior episodes","count":68,"text":"Each prior record has 17 fields: baseline, exposure and later outcomes that were already observed before the current query."}
+  ],
+  "events": [
+    {"id":"history","label":"Prior episodes","time":null,"position":8,"available":true,"title":"History is already observed.","text":"Four earlier episode records provide examples of baseline, exposure and subsequent response. Their observations precede this forecast; their spacing here is schematic."},
+    {"id":"baseline","label":"Baseline CMJ","time":-2,"position":26,"available":true,"title":"Measure a reference, before exposure.","text":"A dedicated assessment about two hours before exposure supplies force, net impulse and depth. Later innovations are changes relative to this baseline."},
+    {"id":"origin","label":"Exposure / origin","time":0,"position":43,"available":true,"title":"Freeze the information boundary.","text":"Current baseline, context, exposure, four prior episodes and requested horizon are available. The model commits its forecast before any current future outcome is observed."},
+    {"id":"h24","label":"24 h assessment","time":24,"position":60,"available":false,"title":"A later assessment becomes a target.","text":"Force and net impulse are measured from the same concentric phase. Their baseline-relative innovations are scoring targets, never current-query predictors."},
+    {"id":"h48","label":"48 h assessment","time":48,"position":76,"available":false,"title":"Another horizon, another target cell.","text":"The requested horizon was known at origin; the measured outcome was not. Each outcome and horizon has its own normalization for scoring."},
+    {"id":"h72","label":"72 h assessment","time":72,"position":92,"available":false,"title":"Score the forecast, with the boundary intact.","text":"The six outcome/horizon cells receive equal weight. Observing a target later does not make it an input to this earlier forecast."}
+  ],
+  "layers": [
+    {"id":"world","label":"World","title":"The process behind the measurement","text":"The generator controls correlated exposures, hidden participant and camp effects, fixed 24 h / 84 h modes and bounded smooth discrepancy. A learner is not given those hidden effects.","source":"src/cmj_recovery_dynamics/dynamics/fixed_mode_discrepancy_response.py"},
+    {"id":"observation","label":"Observation","title":"One phase, two related measurements","text":"Each assessment averages three valid paired trials. Force and net impulse come from the same concentric force trace; measurement discrepancy and noise are not exposed as predictors.","source":"src/cmj_recovery_dynamics/observations/phase_consistent_force_impulse.py"},
+    {"id":"predictor","label":"Predictor","title":"A deliberately restricted view","text":"82 public fields encode to 84 numeric columns for ridge. No labels, identity keys, future realizations, hidden effects or random-generator states enter. Transformations are fitted on training data only.","source":"docs/M8_FIXED_MODE_PUBLIC_REFERENCE_STUDY.md"},
+    {"id":"scorer","label":"Scorer","title":"Compare a forecast with a later observation","text":"RMSE is divided by the truth population SD inside each of six cells. Six normalized errors are averaged equally. This research metric is not the unimplemented production score.","source":"docs/M8_FIXED_MODE_PUBLIC_REFERENCE_STUDY.md"}
+  ],
+  "worlds": [
+    {"id":"phase_consistent_post_exposure_recovery","label":"Repair the observation","category":"MEASUREMENT","text":"Derive both outcomes from one concentric trace. Retain the episode response law."},
+    {"id":"correlated_exposure_recovery","label":"Change the exposure","category":"WORLD DISTRIBUTION","text":"Volume, speed, change and internal factors create correlated loads; public descriptors are the model inputs."},
+    {"id":"threshold_response_recovery","label":"Question the response","category":"PROPOSED ALTERNATE","text":"A participant-weighted high/low threshold is a different hypothesis. No accepted successor or evaluated live forecast is implied."},
+    {"id":"fixed_mode_discrepancy_recovery","label":"Anchor the response","category":"ACTIVE CANDIDATE","text":"Fix mathematical modes at 24 and 84 hours, with bounded smooth discrepancy. These are not biological compartments."}
+  ]
+}

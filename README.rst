@@ -89,3 +89,11 @@ or other third-party materials.
 
 Use ``CITATION.cff`` to cite this software. Version ``0.1.0`` remains
 pre-release; no DOI, v1.0 publication, or empirical validation is claimed.
+
+Research showcase
+-----------------
+
+The interactive research showcase lives in the separate Next.js package at
+`website/README.md <website/README.md>`__. Its source, fixtures, and browser tests
+have their own workflow; the scientific Python package and its tests remain
+independent.
