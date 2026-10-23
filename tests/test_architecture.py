@@ -74,7 +74,9 @@ PUBLIC_HISTORICAL_LABELS = frozenset(
 )
 HISTORICAL_PATH_ALLOWLIST = {
     "src/cmj_recovery_dynamics/reproduction/d04_membership.py",
+    "src/cmj_recovery_dynamics/model_reproduction/gate7_projection.py",
     "tests/test_d04_membership.py",
+    "tests/test_gate7_projection.py",
 }
 HISTORICAL_PATH_IDENTIFIER = re.compile(
     r"(?:^|[/_.-])(?:SP\d{2}|[WODT]\d{2}|ALI-\d+|Gate\s*\d+|Candidate[ _-]*H|V[123])(?=$|[/_.-])",

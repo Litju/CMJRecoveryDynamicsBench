@@ -93,3 +93,43 @@ reproduction, and no rows or models were created in RES-545.
 - No private checkpoint, unsafe serialized estimator, raw result packet, or
   protected dataset enters the repository or release artifacts.
 - The v1.0.0 release remains unchanged.
+
+## RES-546 Gate7 feature projection V1 implementation status
+
+The recovered Gate7 M0 configuration and model/data manifests establish the
+ordered 39-field names, units, horizon encoding, routine-assessment categories,
+and train-only mean/std preprocessing. The public projection contract uses the
+required float64 matrix dtype.
+The typed contract is implemented in
+`cmj_recovery_dynamics.model_reproduction.gate7_projection` under the distinct
+`gate7_m0_candidate` identity. It does not alias the initial-preseason public
+M0. The contract records raw feature construction; fitted normalization values
+are not included.
+
+The public `CampPredictionRow` can safely construct the two baseline values,
+H72/D7 indicators, query time, registered window bounds, and index-exposure
+time. The executable available-fields projection returns those eight named
+columns as a finite float64 matrix. The complete 39-column projection returns
+`BLOCKED_ON_EXACT_FEATURE_AUTHORITY` with machine-readable blockers; it does
+not fill missing values or expose a model-ready matrix.
+
+The unresolved feature groups are:
+
+- `history_assessments[0..3]`: source code must establish slot direction and
+  selection, trial aggregation, padding, and invalid or absent value handling.
+- `history_exposures[0]`: source code must establish slot order and selection.
+- Exposure and known-plan duration fields: source code must identify the exact
+  duration component, validate its unit, and define unavailable values.
+- `known_plan[0..2]`: source code must establish slot order, selection,
+  truncation, and padding.
+- `routine_assessment.scheduled` and its five availability indicators: the
+  current public row has no such fields. Source evidence must define their
+  prediction-origin availability and show that the state does not depend on
+  future measurements or target labels.
+
+The evidence needed to unblock the full projection is the original public
+feature-extraction rule for these slots and missing values, plus a public
+prediction-row contract that supplies routine-assessment metadata at the
+prediction origin. Until then, the eight directly supported columns are
+diagnostic contract coverage only; they do not establish Gate7 model execution
+or historical prediction parity.
