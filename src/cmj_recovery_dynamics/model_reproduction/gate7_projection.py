@@ -5,7 +5,7 @@ from __future__ import annotations
 from collections.abc import Iterable
 from dataclasses import dataclass
 from enum import StrEnum
-from typing import cast
+from typing import Any, cast
 
 import numpy as np
 from numpy.typing import NDArray
@@ -27,24 +27,50 @@ class Gate7FeatureUnit(StrEnum):
 
 
 class Gate7FeatureConstruction(StrEnum):
-    CAMP_ROW = "constructible_from_camp_prediction_row"
-    MISSING_AUTHORITY = "blocked_on_exact_feature_authority"
+    CAMP_ROW_DIRECT = "constructible_from_camp_prediction_row"
+    GATE7_PUBLIC_ROW = "constructible_from_gate7_public_feature_row"
 
 
 class Gate7ProjectionStatus(StrEnum):
+    READY_FOR_GATE7_FULL_PROJECTION_REVIEW = "READY_FOR_GATE7_FULL_PROJECTION_REVIEW"
     BLOCKED_ON_EXACT_FEATURE_AUTHORITY = "BLOCKED_ON_EXACT_FEATURE_AUTHORITY"
 
 
 class Gate7MissingAuthorityCode(StrEnum):
-    ASSESSMENT_SLOT_POLICY_UNRESOLVED = "assessment_slot_policy_unresolved"
-    ASSESSMENT_MISSINGNESS_RULE_UNRESOLVED = "assessment_missingness_rule_unresolved"
-    HISTORY_EXPOSURE_SLOT_POLICY_UNRESOLVED = "history_exposure_slot_policy_unresolved"
-    EXPOSURE_DURATION_MAPPING_UNRESOLVED = "exposure_duration_mapping_unresolved"
-    KNOWN_PLAN_SLOT_POLICY_UNRESOLVED = "known_plan_slot_policy_unresolved"
-    ROUTINE_ASSESSMENT_INPUT_ABSENT = "routine_assessment_input_absent"
-    ROUTINE_ASSESSMENT_TEMPORAL_AUTHORITY_UNRESOLVED = (
-        "routine_assessment_temporal_authority_unresolved"
-    )
+    CAMP_ROW_ASSESSMENT_HISTORY_SHAPE = "camp_row_assessment_history_shape_incompatible"
+    CAMP_ROW_HISTORY_EXPOSURE_SHAPE = "camp_row_history_exposure_shape_incompatible"
+    CAMP_ROW_KNOWN_PLAN_SHAPE = "camp_row_known_plan_shape_incompatible"
+    CAMP_ROW_ROUTINE_ASSESSMENT_ABSENT = "camp_row_routine_assessment_absent"
+    CAMP_ROW_VALUE_INVALID = "camp_row_value_invalid"
+    ROUTINE_TEMPORAL_AUTHORITY_UNRESOLVED = "routine_temporal_authority_unresolved"
+    ROUTINE_ASSESSMENT_POST_ORIGIN = "routine_assessment_post_origin"
+
+
+class Gate7ProjectionInputCode(StrEnum):
+    ASSESSMENT_HISTORY_COUNT = "assessment_history_count"
+    HISTORY_EXPOSURE_COUNT = "history_exposure_count"
+    KNOWN_PLAN_COUNT = "known_plan_count"
+    INVALID_OR_MISSING_FEATURE = "invalid_or_missing_feature"
+    DURATION_COMPONENT_INVALID = "duration_component_invalid"
+    FUTURE_ASSESSMENT_HISTORY = "future_assessment_history"
+    FUTURE_EXPOSURE_HISTORY = "future_exposure_history"
+    INVALID_INDEX_EXPOSURE_TIME = "invalid_index_exposure_time"
+    UNKNOWN_OR_FUTURE_PLAN = "unknown_or_future_plan"
+    ROUTINE_TEMPORAL_AUTHORITY = "routine_temporal_authority"
+
+
+class Gate7RoutineState(StrEnum):
+    FIELD_STRUCTURALLY_ABSENT = "FIELD_STRUCTURALLY_ABSENT"
+    OBSERVED_MASKED = "OBSERVED_MASKED"
+    SCHEDULED_UNAVAILABLE = "SCHEDULED_UNAVAILABLE"
+    TRIAL_INVALID = "TRIAL_INVALID"
+    UNSCHEDULED = "UNSCHEDULED"
+
+
+class Gate7RoutineTemporalAuthority(StrEnum):
+    ORIGIN_KEYED_PUBLIC_STATE = "origin_keyed_public_state"
+    UNRESOLVED = "unresolved"
+    POST_ORIGIN = "post_origin"
 
 
 @dataclass(frozen=True, slots=True)
@@ -58,7 +84,6 @@ class Gate7FeatureDefinition:
     temporal_availability: str
     missingness_handling: str
     construction: Gate7FeatureConstruction
-    missing_authority_codes: tuple[Gate7MissingAuthorityCode, ...] = ()
 
     def __post_init__(self) -> None:
         if self.index < 0 or not all(
@@ -74,10 +99,6 @@ class Gate7FeatureDefinition:
             raise ValueError("Gate7 feature definitions require complete non-empty metadata")
         if self.dtype != "float64":
             raise ValueError("the public Gate7 projection matrix uses float64 columns")
-        if (self.construction is Gate7FeatureConstruction.MISSING_AUTHORITY) != bool(
-            self.missing_authority_codes
-        ):
-            raise ValueError("blocked features must identify their missing authority")
 
 
 @dataclass(frozen=True, slots=True)
@@ -127,6 +148,96 @@ class Gate7MissingAuthority:
             raise ValueError("missing-authority feature names must be unique")
 
 
+class Gate7ProjectionInputError(ValueError):
+    def __init__(
+        self,
+        code: Gate7ProjectionInputCode,
+        message: str,
+        feature_names: tuple[str, ...] = (),
+    ) -> None:
+        self.code = code
+        self.feature_names = feature_names
+        super().__init__(f"{code.value}: {message}")
+
+
+@dataclass(frozen=True, slots=True)
+class Gate7HistoryAssessment:
+    time_from_origin_hours: float
+    relative_mean_concentric_force: float | None
+    relative_concentric_net_impulse: float | None
+    depth_m: float | None
+    validity_state: str | None = None
+
+
+@dataclass(frozen=True, slots=True)
+class Gate7ExposureFeature:
+    time_from_origin_hours: float
+    duration_minutes: float | None
+
+
+@dataclass(frozen=True, slots=True)
+class Gate7PlanFeature:
+    time_from_origin_hours: float
+    duration_minutes: float | None
+    known_at_origin: bool = True
+
+    def __post_init__(self) -> None:
+        if type(self.known_at_origin) is not bool:
+            raise TypeError("known_plan.known_at_origin must be boolean")
+
+
+@dataclass(frozen=True, slots=True)
+class Gate7RoutineAssessment:
+    scheduled: bool
+    availability_state: Gate7RoutineState
+    temporal_authority: Gate7RoutineTemporalAuthority
+
+    def __post_init__(self) -> None:
+        if type(self.scheduled) is not bool:
+            raise TypeError("routine assessment scheduled must be boolean")
+        state: object = self.availability_state
+        if type(state) is not Gate7RoutineState:
+            raise TypeError("routine assessment availability_state is not registered")
+        temporal_authority: object = self.temporal_authority
+        if type(temporal_authority) is not Gate7RoutineTemporalAuthority:
+            raise TypeError("routine assessment temporal authority is not registered")
+        if self.scheduled is (self.availability_state is Gate7RoutineState.UNSCHEDULED):
+            raise ValueError("scheduled must be false exactly for UNSCHEDULED routine states")
+
+
+@dataclass(frozen=True, slots=True)
+class Gate7PublicFeatureRow:
+    """Exact public input surface consumed by the recovered Gate7 extractor."""
+
+    baseline_relative_mean_concentric_force: float
+    baseline_relative_concentric_net_impulse: float
+    horizon: ForecastHorizon
+    target_time_hours: float
+    target_window_hours: tuple[float, float]
+    history_assessments: tuple[Gate7HistoryAssessment, ...]
+    history_exposures: tuple[Gate7ExposureFeature, ...]
+    index_exposure: Gate7ExposureFeature
+    known_plan: tuple[Gate7PlanFeature, ...]
+    routine_assessment: Gate7RoutineAssessment
+
+
+@dataclass(frozen=True, slots=True)
+class Gate7CampPredictionInput:
+    row: CampPredictionRow
+    routine_assessment: Gate7RoutineAssessment | None = None
+
+    def __post_init__(self) -> None:
+        row: object = self.row
+        if type(row) is not CampPredictionRow:
+            raise TypeError("row must be a CampPredictionRow")
+        routine_assessment: object = self.routine_assessment
+        if (
+            routine_assessment is not None
+            and type(routine_assessment) is not Gate7RoutineAssessment
+        ):
+            raise TypeError("routine_assessment must be a Gate7RoutineAssessment")
+
+
 @dataclass(frozen=True, slots=True)
 class Gate7AvailableFeatureProjection:
     """The source-closed columns only; this is not a model-ready 39-column matrix."""
@@ -158,12 +269,21 @@ class Gate7ProjectionAttempt:
     def __post_init__(self) -> None:
         if self.row_count < 0:
             raise ValueError("row count must be non-negative")
-        if self.status is not Gate7ProjectionStatus.BLOCKED_ON_EXACT_FEATURE_AUTHORITY:
-            raise ValueError("the current projector only represents a blocked projection")
-        if self.matrix is not None:
-            raise ValueError("a blocked projection must not return a feature matrix")
-        if not self.missing_authority:
-            raise ValueError("a blocked projection must return missing authority")
+        if self.status is Gate7ProjectionStatus.BLOCKED_ON_EXACT_FEATURE_AUTHORITY:
+            if self.matrix is not None or not self.missing_authority:
+                raise ValueError("a blocked projection must return authority gaps and no matrix")
+        elif self.matrix is None or self.missing_authority:
+            raise ValueError("a ready projection needs a matrix and no authority gaps")
+        else:
+            object.__setattr__(
+                self,
+                "matrix",
+                _validate_matrix(
+                    self.matrix,
+                    row_count=self.row_count,
+                    column_count=GATE7_FEATURE_CONTRACT.feature_count,
+                ),
+            )
 
 
 def _unit(name: str) -> Gate7FeatureUnit:
@@ -236,100 +356,96 @@ _ROUTINE_STATES = (
 
 
 def _feature_definition(index: int, name: str) -> Gate7FeatureDefinition:
-    construction = Gate7FeatureConstruction.MISSING_AUTHORITY
-    authority_codes: tuple[Gate7MissingAuthorityCode, ...] = ()
-    if index <= 6 or index == 25:
-        construction = Gate7FeatureConstruction.CAMP_ROW
-
+    construction = (
+        Gate7FeatureConstruction.CAMP_ROW_DIRECT
+        if index in (*range(7), 25)
+        else Gate7FeatureConstruction.GATE7_PUBLIC_ROW
+    )
     if index == 0:
-        input_field = "row.baseline.force_n_per_kg"
-        derivation = "Copy the finite public baseline mean force in N/kg."
+        input_field = "baseline.relative_mean_concentric_force"
+        derivation = "Copy the finite baseline relative mean concentric force in N/kg."
         temporal = "Baseline is measured before the prediction origin."
-        missingness = "Required; CampPredictionRow rejects non-finite baseline values."
+        missingness = "Required finite numeric value; no imputation."
     elif index == 1:
-        input_field = "row.baseline.net_impulse_m_s"
-        derivation = "Copy the finite public baseline net impulse in m/s."
+        input_field = "baseline.relative_concentric_net_impulse"
+        derivation = "Copy the finite baseline relative concentric net impulse in m/s."
         temporal = "Baseline is measured before the prediction origin."
-        missingness = "Required; CampPredictionRow rejects non-finite baseline values."
+        missingness = "Required finite numeric value; no imputation."
     elif index in (2, 3):
         horizon = "H72" if index == 2 else "D7"
-        input_field = "row.horizon"
-        derivation = f"One-hot indicator: 1.0 when the horizon is {horizon}, else 0.0."
+        input_field = "horizon"
+        derivation = f"One-hot indicator: 1.0 when horizon is {horizon}, else 0.0."
         temporal = "Forecast horizon is fixed at the prediction origin."
-        missingness = "Required enum value; exactly one registered horizon indicator is 1.0."
+        missingness = "Required registered enum; exactly one horizon indicator is 1.0."
     elif index == 4:
-        input_field = "row.target_time_hours"
+        input_field = "target_time_hours"
         derivation = "Copy the finite forecast query time in hours."
         temporal = "Query time is registered at the prediction origin."
-        missingness = "Required; CampPredictionRow rejects non-finite or out-of-window times."
+        missingness = "Required finite numeric value; no imputation."
     elif index in (5, 6):
-        edge = "start_offset_hours" if index == 5 else "end_offset_hours"
-        input_field = f"PRESEASON_CAMP_RECOVERY_TASK.horizon_windows.{edge}"
-        derivation = f"Read the registered {edge} for row.horizon, in hours."
-        temporal = "Forecast window is part of the task contract at the prediction origin."
-        missingness = "Required registered task value; no imputation."
+        edge = "low" if index == 5 else "high"
+        input_field = f"target_window_hours.{edge}"
+        derivation = f"Copy the registered {edge} boundary in hours."
+        temporal = "Forecast window is fixed at the prediction origin."
+        missingness = "Required finite task-contract value; no imputation."
     elif 7 <= index <= 22:
-        input_field = "row.assessment_history"
-        derivation = "Read the named field from its recovered ordered history-assessment slot."
-        temporal = "CampPredictionRow permits pre-origin assessment history only."
+        input_field = name
+        derivation = (
+            "Stable sort all history assessments by ascending time_from_origin_hours; require "
+            "exactly four; copy the named finite field from its slot."
+        )
+        temporal = "History assessments are pre-origin records."
         missingness = (
-            "Slot selection, trial aggregation, padding, and invalid-value handling unresolved."
+            "No padding or imputation. The extractor does not inspect validity_state; absent, "
+            "null, or non-finite values fail numeric conversion."
         )
-        authority_codes = (
-            Gate7MissingAuthorityCode.ASSESSMENT_SLOT_POLICY_UNRESOLVED,
-            Gate7MissingAuthorityCode.ASSESSMENT_MISSINGNESS_RULE_UNRESOLVED,
+    elif 23 <= index <= 24:
+        input_field = name
+        derivation = (
+            "Stable sort history exposures by ascending time_from_origin_hours; require exactly "
+            "one; copy the named finite field."
         )
-    elif index in (23, 24):
-        input_field = "row.exposure_history"
-        derivation = "Read the named field from recovered history-exposure slot 0."
-        temporal = "CampPredictionRow permits pre-origin exposure history only."
-        missingness = "Slot ordering, selection, and duration mapping unresolved."
-        authority_codes = (Gate7MissingAuthorityCode.HISTORY_EXPOSURE_SLOT_POLICY_UNRESOLVED,)
-        if index == 24:
-            authority_codes += (Gate7MissingAuthorityCode.EXPOSURE_DURATION_MAPPING_UNRESOLVED,)
+        temporal = "History exposure is a pre-origin record."
+        missingness = "No padding or imputation; duration is copied in minutes."
     elif index == 25:
-        input_field = "row.index_exposure.time_from_origin_hours"
+        input_field = name
         derivation = "Copy the index exposure time; the public row contract requires 0 hours."
-        temporal = "Index exposure is timestamped at the prediction origin."
-        missingness = "Required; CampPredictionRow enforces a zero-hour index exposure."
+        temporal = "Index exposure occurs at the prediction origin."
+        missingness = "Required finite numeric value; no imputation."
     elif index == 26:
-        input_field = "row.index_exposure.components"
-        derivation = "Read the duration_minutes component using the original source rule."
-        temporal = "Index exposure is timestamped at the prediction origin."
-        missingness = (
-            "Exact duration component selection and unavailable-value handling unresolved."
-        )
-        authority_codes = (Gate7MissingAuthorityCode.EXPOSURE_DURATION_MAPPING_UNRESOLVED,)
+        input_field = name
+        derivation = "Copy duration_minutes directly in minutes; no unit conversion."
+        temporal = "Index exposure occurs at the prediction origin."
+        missingness = "Required finite numeric value; no imputation."
     elif 27 <= index <= 32:
-        input_field = "row.known_plan"
-        derivation = "Read the named field from its recovered known-plan slot."
-        temporal = "Plan must be known at origin and occur no later than the query time."
-        missingness = "Slot ordering, selection, padding, and duration mapping unresolved."
-        authority_codes = (Gate7MissingAuthorityCode.KNOWN_PLAN_SLOT_POLICY_UNRESOLVED,)
-        if index in (28, 30, 32):
-            authority_codes += (Gate7MissingAuthorityCode.EXPOSURE_DURATION_MAPPING_UNRESOLVED,)
-    elif index == 33:
-        input_field = "not represented by CampPredictionRow"
-        derivation = "Encode the routine assessment scheduled flag as 1.0 or 0.0."
-        temporal = "Availability at the prediction origin is not established."
-        missingness = "Required source field is absent; do not infer from future assessment rows."
-        authority_codes = (
-            Gate7MissingAuthorityCode.ROUTINE_ASSESSMENT_INPUT_ABSENT,
-            Gate7MissingAuthorityCode.ROUTINE_ASSESSMENT_TEMPORAL_AUTHORITY_UNRESOLVED,
+        input_field = name
+        derivation = (
+            "Stable sort the query-specific known plan by ascending time_from_origin_hours; "
+            "require two or three records; copy finite fields by slot."
         )
+        temporal = "Plan events are known at origin and do not exceed the query time."
+        missingness = (
+            "If there are two records, pad only slot 2 time and duration with 0.0; other missing "
+            "or non-finite values fail. Durations are copied in minutes."
+        )
+    elif index == 33:
+        input_field = name
+        derivation = "Copy the source scheduled boolean as a float64 1.0 or 0.0."
+        temporal = (
+            "L05-R01 public generation assigns one origin-keyed state and copies it unchanged to "
+            "the horizon queries; the state is independent of future targets."
+        )
+        missingness = "Required boolean value; no default or inference from assessment rows."
     else:
         state = _ROUTINE_STATES[index - 34]
-        input_field = "not represented by CampPredictionRow"
-        derivation = f"One-hot indicator for routine assessment state {state}."
-        temporal = "Availability-state cutoff is unresolved and may be after the origin."
-        missingness = "Required source field is absent; no state may be inferred or defaulted."
-        authority_codes = (
-            Gate7MissingAuthorityCode.ROUTINE_ASSESSMENT_INPUT_ABSENT,
-            Gate7MissingAuthorityCode.ROUTINE_ASSESSMENT_TEMPORAL_AUTHORITY_UNRESOLVED,
+        input_field = name.rsplit(".", maxsplit=1)[0]
+        derivation = f"One-hot indicator for availability_state == {state}."
+        temporal = (
+            "L05-R01 public generation assigns one origin-keyed state and copies it unchanged to "
+            "the horizon queries; the state is independent of future targets."
         )
+        missingness = "State must be one of the five registered categories."
 
-    if not authority_codes and construction is Gate7FeatureConstruction.MISSING_AUTHORITY:
-        raise AssertionError(f"missing Gate7 authority code for feature {name}")
     return Gate7FeatureDefinition(
         index=index,
         name=name,
@@ -340,7 +456,6 @@ def _feature_definition(index: int, name: str) -> Gate7FeatureDefinition:
         temporal_availability=temporal,
         missingness_handling=missingness,
         construction=construction,
-        missing_authority_codes=authority_codes,
     )
 
 
@@ -348,66 +463,45 @@ GATE7_FEATURE_CONTRACT = Gate7FeatureContract(
     version="gate7_feature_projection_v1",
     model_identity="gate7_m0_candidate",
     source_evidence=(
-        "Recovered Gate7 M0 run configuration feature order and raw transform.",
-        "Recovered Gate7 model-family and public data manifests.",
+        "Recovered Gate7 common.feature_vector and feature_matrix call chain.",
+        "Recovered Gate7 M0 model Preprocessor and train-only preprocessing rules.",
+        "L05-R01 final public generator and Gate6 public surface and target contracts.",
         "Public CampPredictionRow and preseason camp task contracts.",
     ),
     features=tuple(
         _feature_definition(index, name) for index, name in enumerate(GATE7_FEATURE_NAMES)
     ),
     model_input_preprocessing=(
-        "The recovered model configuration records train-only mean/std standardization after "
-        "raw feature construction. Fitted means and scales are not part of this public contract."
+        "The original M0 fits raw feature means and sample standard deviations (ddof=1) on "
+        "training rows only, replaces zero scales with 1.0, applies (x - mean) / scale, then "
+        "casts model tensors to float32. This projection returns raw float64 values; fitted "
+        "means and scales are not included."
     ),
 )
 
 
-GATE7_MISSING_AUTHORITY = (
+GATE7_CAMP_ROW_GAPS = (
     Gate7MissingAuthority(
-        Gate7MissingAuthorityCode.ASSESSMENT_SLOT_POLICY_UNRESOLVED,
+        Gate7MissingAuthorityCode.CAMP_ROW_ASSESSMENT_HISTORY_SHAPE,
         GATE7_FEATURE_NAMES[7:23],
-        "Recover the source extractor rule for slot direction, selection to four records, "
-        "trial aggregation, padding, and invalid or absent assessment values.",
+        "Supply exactly four finite pre-origin assessment summaries in the Gate7 public field "
+        "shape; current CampPredictionRow permits variable-length trial observations.",
     ),
     Gate7MissingAuthority(
-        Gate7MissingAuthorityCode.ASSESSMENT_MISSINGNESS_RULE_UNRESOLVED,
-        GATE7_FEATURE_NAMES[7:23],
-        "Recover the exact missing-value and preprocessing behavior for each history field.",
-    ),
-    Gate7MissingAuthority(
-        Gate7MissingAuthorityCode.HISTORY_EXPOSURE_SLOT_POLICY_UNRESOLVED,
+        Gate7MissingAuthorityCode.CAMP_ROW_HISTORY_EXPOSURE_SHAPE,
         GATE7_FEATURE_NAMES[23:25],
-        "Recover the source rule for ordering and selecting history exposure slot 0.",
+        "Supply exactly one finite pre-origin history exposure with a public duration_minutes "
+        "component; current CampPredictionRow permits zero or multiple events.",
     ),
     Gate7MissingAuthority(
-        Gate7MissingAuthorityCode.EXPOSURE_DURATION_MAPPING_UNRESOLVED,
-        (
-            GATE7_FEATURE_NAMES[24],
-            GATE7_FEATURE_NAMES[26],
-            GATE7_FEATURE_NAMES[28],
-            GATE7_FEATURE_NAMES[30],
-            GATE7_FEATURE_NAMES[32],
-        ),
-        "Recover the exact duration component name, unit validation, and unavailable-value rule.",
-    ),
-    Gate7MissingAuthority(
-        Gate7MissingAuthorityCode.KNOWN_PLAN_SLOT_POLICY_UNRESOLVED,
-        GATE7_FEATURE_NAMES[27:33],
-        "Recover the source rule for sorting, slot assignment, truncation, padding, and missing "
-        "duration handling for the three known-plan records.",
-    ),
-    Gate7MissingAuthority(
-        Gate7MissingAuthorityCode.ROUTINE_ASSESSMENT_INPUT_ABSENT,
+        Gate7MissingAuthorityCode.CAMP_ROW_ROUTINE_ASSESSMENT_ABSENT,
         GATE7_FEATURE_NAMES[33:39],
-        "Provide a public versioned prediction-row field for scheduled and availability state.",
-    ),
-    Gate7MissingAuthority(
-        Gate7MissingAuthorityCode.ROUTINE_ASSESSMENT_TEMPORAL_AUTHORITY_UNRESOLVED,
-        GATE7_FEATURE_NAMES[33:39],
-        "Provide source evidence that schedule and state are known at the prediction origin and "
-        "do not depend on future measurements or target labels.",
+        "Supply the source scheduled boolean and five-state availability value as an explicit "
+        "origin-keyed public input; do not derive it from assessment_history.",
     ),
 )
+
+GATE7_MISSING_AUTHORITY = GATE7_CAMP_ROW_GAPS
 
 
 def _collect_rows(rows: Iterable[object]) -> tuple[CampPredictionRow, ...]:
@@ -419,6 +513,19 @@ def _collect_rows(rows: Iterable[object]) -> tuple[CampPredictionRow, ...]:
     for index, row in enumerate(values):
         if not isinstance(row, CampPredictionRow):
             raise TypeError(f"row {index} must be a CampPredictionRow")
+        row_values.append(row)
+    return tuple(row_values)
+
+
+def _collect_public_rows(rows: Iterable[object]) -> tuple[Gate7PublicFeatureRow, ...]:
+    try:
+        values = tuple(rows)
+    except TypeError as error:
+        raise TypeError("rows must be an iterable of Gate7PublicFeatureRow values") from error
+    row_values: list[Gate7PublicFeatureRow] = []
+    for index, row in enumerate(values):
+        if not isinstance(row, Gate7PublicFeatureRow):
+            raise TypeError(f"row {index} must be a Gate7PublicFeatureRow")
         row_values.append(row)
     return tuple(row_values)
 
@@ -436,6 +543,296 @@ def _validate_matrix(values: object, *, row_count: int, column_count: int) -> Fl
     frozen = matrix.copy()
     frozen.setflags(write=False)
     return frozen
+
+
+def _feature_float(value: object, feature_name: str) -> float:
+    try:
+        result = float(cast(Any, value))
+    except (TypeError, ValueError, OverflowError) as error:
+        raise Gate7ProjectionInputError(
+            Gate7ProjectionInputCode.INVALID_OR_MISSING_FEATURE,
+            f"{feature_name} is missing or non-numeric",
+            (feature_name,),
+        ) from error
+    if not np.isfinite(result):
+        raise Gate7ProjectionInputError(
+            Gate7ProjectionInputCode.INVALID_OR_MISSING_FEATURE,
+            f"{feature_name} is non-finite",
+            (feature_name,),
+        )
+    return result
+
+
+def _source_feature_vector(row: Gate7PublicFeatureRow) -> Float64Matrix:
+    horizon: object = row.horizon
+    if type(horizon) is not ForecastHorizon:
+        raise Gate7ProjectionInputError(
+            Gate7ProjectionInputCode.INVALID_OR_MISSING_FEATURE,
+            "horizon is not registered",
+            GATE7_FEATURE_NAMES[2:4],
+        )
+    values: list[float] = []
+    names: list[str] = []
+
+    def add(name: str, value: object) -> None:
+        names.append(name)
+        values.append(_feature_float(value, name))
+
+    add(GATE7_FEATURE_NAMES[0], row.baseline_relative_mean_concentric_force)
+    add(GATE7_FEATURE_NAMES[1], row.baseline_relative_concentric_net_impulse)
+    add(GATE7_FEATURE_NAMES[2], row.horizon is ForecastHorizon.H72)
+    add(GATE7_FEATURE_NAMES[3], row.horizon is ForecastHorizon.D7)
+    add(GATE7_FEATURE_NAMES[4], row.target_time_hours)
+    if len(row.target_window_hours) != 2:
+        raise Gate7ProjectionInputError(
+            Gate7ProjectionInputCode.INVALID_OR_MISSING_FEATURE,
+            "target_window_hours must contain low and high values",
+            GATE7_FEATURE_NAMES[5:7],
+        )
+    add(GATE7_FEATURE_NAMES[5], row.target_window_hours[0])
+    add(GATE7_FEATURE_NAMES[6], row.target_window_hours[1])
+
+    history = sorted(
+        row.history_assessments,
+        key=lambda item: _feature_float(item.time_from_origin_hours, GATE7_FEATURE_NAMES[7]),
+    )
+    if len(history) != 4:
+        raise Gate7ProjectionInputError(
+            Gate7ProjectionInputCode.ASSESSMENT_HISTORY_COUNT,
+            "the original extractor requires exactly four history assessments",
+            GATE7_FEATURE_NAMES[7:23],
+        )
+    for index, item in enumerate(history):
+        start = 7 + index * 4
+        add(GATE7_FEATURE_NAMES[start], item.time_from_origin_hours)
+        add(GATE7_FEATURE_NAMES[start + 1], item.relative_mean_concentric_force)
+        add(GATE7_FEATURE_NAMES[start + 2], item.relative_concentric_net_impulse)
+        add(GATE7_FEATURE_NAMES[start + 3], item.depth_m)
+
+    exposures = sorted(
+        row.history_exposures,
+        key=lambda item: _feature_float(item.time_from_origin_hours, GATE7_FEATURE_NAMES[23]),
+    )
+    if len(exposures) != 1:
+        raise Gate7ProjectionInputError(
+            Gate7ProjectionInputCode.HISTORY_EXPOSURE_COUNT,
+            "the original extractor requires exactly one history exposure",
+            GATE7_FEATURE_NAMES[23:25],
+        )
+    add(GATE7_FEATURE_NAMES[23], exposures[0].time_from_origin_hours)
+    add(GATE7_FEATURE_NAMES[24], exposures[0].duration_minutes)
+    add(GATE7_FEATURE_NAMES[25], row.index_exposure.time_from_origin_hours)
+    add(GATE7_FEATURE_NAMES[26], row.index_exposure.duration_minutes)
+
+    plan = sorted(
+        row.known_plan,
+        key=lambda item: _feature_float(item.time_from_origin_hours, GATE7_FEATURE_NAMES[27]),
+    )
+    if len(plan) not in (2, 3):
+        raise Gate7ProjectionInputError(
+            Gate7ProjectionInputCode.KNOWN_PLAN_COUNT,
+            "the original extractor requires two or three query-specific plan records",
+            GATE7_FEATURE_NAMES[27:33],
+        )
+    for index in range(3):
+        item = plan[index] if index < len(plan) else None
+        start = 27 + index * 2
+        add(GATE7_FEATURE_NAMES[start], 0.0 if item is None else item.time_from_origin_hours)
+        add(GATE7_FEATURE_NAMES[start + 1], 0.0 if item is None else item.duration_minutes)
+
+    routine = row.routine_assessment
+    routine_state: object = routine.availability_state
+    if type(routine_state) is not Gate7RoutineState:
+        raise Gate7ProjectionInputError(
+            Gate7ProjectionInputCode.INVALID_OR_MISSING_FEATURE,
+            "routine assessment state is outside the frozen five-state category set",
+            GATE7_FEATURE_NAMES[33:39],
+        )
+    add(GATE7_FEATURE_NAMES[33], routine.scheduled)
+    for offset, state in enumerate(_ROUTINE_STATES):
+        add(GATE7_FEATURE_NAMES[34 + offset], routine.availability_state.value == state)
+
+    if tuple(names) != GATE7_FEATURE_NAMES:
+        raise AssertionError("Gate7 source feature order drifted")
+    return np.asarray(values, dtype=np.float64)
+
+
+def _duration_minutes(components: tuple[object, ...], feature_name: str) -> float:
+    matches = tuple(
+        component
+        for component in components
+        if getattr(component, "name", None) == "duration_minutes"
+    )
+    if len(matches) != 1:
+        raise Gate7ProjectionInputError(
+            Gate7ProjectionInputCode.DURATION_COMPONENT_INVALID,
+            f"{feature_name} requires exactly one duration_minutes component",
+            (feature_name,),
+        )
+    component = matches[0]
+    if (
+        getattr(component, "units", None) != "minutes"
+        or getattr(component, "observed", None) is not True
+    ):
+        raise Gate7ProjectionInputError(
+            Gate7ProjectionInputCode.DURATION_COMPONENT_INVALID,
+            f"{feature_name} requires an observed minutes component",
+            (feature_name,),
+        )
+    return _feature_float(getattr(component, "value", None), feature_name)
+
+
+def _public_row_from_camp_input(value: Gate7CampPredictionInput) -> Gate7PublicFeatureRow:
+    row = value.row
+    if value.routine_assessment is None:
+        raise Gate7ProjectionInputError(
+            Gate7ProjectionInputCode.ROUTINE_TEMPORAL_AUTHORITY,
+            "CampPredictionRow has no routine_assessment; supply the source public state",
+            GATE7_FEATURE_NAMES[33:39],
+        )
+    assessments = tuple(
+        Gate7HistoryAssessment(
+            item.time_from_origin_hours,
+            item.force_summary_n_per_kg,
+            item.impulse_summary_m_s,
+            item.depth_summary_m,
+            item.availability.value,
+        )
+        for item in row.assessment_history
+    )
+    exposures = tuple(
+        Gate7ExposureFeature(
+            item.time_from_origin_hours,
+            _duration_minutes(item.components, GATE7_FEATURE_NAMES[24]),
+        )
+        for item in row.exposure_history
+    )
+    index = Gate7ExposureFeature(
+        row.index_exposure.time_from_origin_hours,
+        _duration_minutes(row.index_exposure.components, GATE7_FEATURE_NAMES[26]),
+    )
+    plan = (
+        Gate7PlanFeature(index.time_from_origin_hours, index.duration_minutes),
+        *(
+            Gate7PlanFeature(
+                item.time_from_origin_hours,
+                _duration_minutes(item.components, GATE7_FEATURE_NAMES[28]),
+                item.known_at_origin,
+            )
+            for item in row.known_plan
+        ),
+    )
+    return Gate7PublicFeatureRow(
+        baseline_relative_mean_concentric_force=row.baseline.force_n_per_kg,
+        baseline_relative_concentric_net_impulse=row.baseline.net_impulse_m_s,
+        horizon=row.horizon,
+        target_time_hours=row.target_time_hours,
+        target_window_hours=_HORIZON_WINDOWS[row.horizon],
+        history_assessments=assessments,
+        history_exposures=exposures,
+        index_exposure=index,
+        known_plan=plan,
+        routine_assessment=value.routine_assessment,
+    )
+
+
+def _prospective_row_authority(row: Gate7PublicFeatureRow) -> tuple[Gate7MissingAuthority, ...]:
+    gaps: list[Gate7MissingAuthority] = []
+    horizon: object = row.horizon
+    if type(horizon) is not ForecastHorizon or horizon not in _HORIZON_WINDOWS:
+        gaps.append(
+            Gate7MissingAuthority(
+                Gate7MissingAuthorityCode.CAMP_ROW_VALUE_INVALID,
+                GATE7_FEATURE_NAMES[2:7],
+                "Gate7 rows require a registered H72 or D7 horizon and its forecast window.",
+            )
+        )
+    else:
+        low, high = _HORIZON_WINDOWS[row.horizon]
+        if row.target_window_hours != (low, high) or not low <= row.target_time_hours <= high:
+            gaps.append(
+                Gate7MissingAuthority(
+                    Gate7MissingAuthorityCode.CAMP_ROW_VALUE_INVALID,
+                    GATE7_FEATURE_NAMES[2:7],
+                    "Horizon, target time, and target window must match the registered "
+                    "task contract.",
+                )
+            )
+    if row.routine_assessment.temporal_authority is Gate7RoutineTemporalAuthority.UNRESOLVED:
+        gaps.append(
+            Gate7MissingAuthority(
+                Gate7MissingAuthorityCode.ROUTINE_TEMPORAL_AUTHORITY_UNRESOLVED,
+                GATE7_FEATURE_NAMES[33:39],
+                "Bind the routine state to an origin-keyed public source record before using it "
+                "for prospective prediction.",
+            )
+        )
+    elif row.routine_assessment.temporal_authority is Gate7RoutineTemporalAuthority.POST_ORIGIN:
+        gaps.append(
+            Gate7MissingAuthority(
+                Gate7MissingAuthorityCode.ROUTINE_ASSESSMENT_POST_ORIGIN,
+                GATE7_FEATURE_NAMES[33:39],
+                "The routine state is post-origin and cannot be used for prospective prediction.",
+            )
+        )
+    if any(item.time_from_origin_hours >= 0 for item in row.history_assessments):
+        gaps.append(
+            Gate7MissingAuthority(
+                Gate7MissingAuthorityCode.CAMP_ROW_ASSESSMENT_HISTORY_SHAPE,
+                GATE7_FEATURE_NAMES[7:23],
+                "Assessment history must end before the prediction origin.",
+            )
+        )
+    if any(item.time_from_origin_hours >= 0 for item in row.history_exposures):
+        gaps.append(
+            Gate7MissingAuthority(
+                Gate7MissingAuthorityCode.CAMP_ROW_HISTORY_EXPOSURE_SHAPE,
+                GATE7_FEATURE_NAMES[23:25],
+                "History exposures must end before the prediction origin.",
+            )
+        )
+    if row.index_exposure.time_from_origin_hours != 0.0:
+        gaps.append(
+            Gate7MissingAuthority(
+                Gate7MissingAuthorityCode.CAMP_ROW_VALUE_INVALID,
+                GATE7_FEATURE_NAMES[25:27],
+                "Index exposure must occur at the prediction origin.",
+            )
+        )
+    if any(
+        not item.known_at_origin
+        or item.time_from_origin_hours < 0
+        or item.time_from_origin_hours > row.target_time_hours
+        for item in row.known_plan
+    ):
+        gaps.append(
+            Gate7MissingAuthority(
+                Gate7MissingAuthorityCode.CAMP_ROW_KNOWN_PLAN_SHAPE,
+                GATE7_FEATURE_NAMES[27:33],
+                "Every plan feature must have been known at origin and occur no later than "
+                "the query.",
+            )
+        )
+    return tuple(gaps)
+
+
+def _camp_row_gap(error: Gate7ProjectionInputError) -> Gate7MissingAuthority:
+    if error.code is Gate7ProjectionInputCode.ASSESSMENT_HISTORY_COUNT:
+        code = Gate7MissingAuthorityCode.CAMP_ROW_ASSESSMENT_HISTORY_SHAPE
+        names = GATE7_FEATURE_NAMES[7:23]
+    elif error.code is Gate7ProjectionInputCode.HISTORY_EXPOSURE_COUNT:
+        code = Gate7MissingAuthorityCode.CAMP_ROW_HISTORY_EXPOSURE_SHAPE
+        names = GATE7_FEATURE_NAMES[23:25]
+    elif error.code is Gate7ProjectionInputCode.KNOWN_PLAN_COUNT:
+        code = Gate7MissingAuthorityCode.CAMP_ROW_KNOWN_PLAN_SHAPE
+        names = GATE7_FEATURE_NAMES[27:33]
+    elif error.code is Gate7ProjectionInputCode.ROUTINE_TEMPORAL_AUTHORITY:
+        code = Gate7MissingAuthorityCode.CAMP_ROW_ROUTINE_ASSESSMENT_ABSENT
+        names = GATE7_FEATURE_NAMES[33:39]
+    else:
+        code = Gate7MissingAuthorityCode.CAMP_ROW_VALUE_INVALID
+        names = error.feature_names or GATE7_FEATURE_NAMES
+    return Gate7MissingAuthority(code, names, str(error))
 
 
 def project_gate7_available_fields_v1(
@@ -461,20 +858,89 @@ def project_gate7_available_fields_v1(
     return Gate7AvailableFeatureProjection(GATE7_AVAILABLE_FEATURE_NAMES, matrix)
 
 
-def project_gate7_v1(rows: Iterable[CampPredictionRow]) -> Gate7ProjectionAttempt:
-    """Fail closed until every feature has exact extraction and temporal authority."""
-    row_values = _collect_rows(rows)
+def project_gate7_v1(inputs: Iterable[object]) -> Gate7ProjectionAttempt:
+    """Build the full float64 matrix after source-shape and temporal checks."""
+    try:
+        input_values = tuple(inputs)
+    except TypeError as error:
+        raise TypeError("inputs must be an iterable of Gate7CampPredictionInput values") from error
+    camp_inputs: list[Gate7CampPredictionInput] = []
+    for index, item in enumerate(input_values):
+        if not isinstance(item, Gate7CampPredictionInput):
+            raise TypeError(f"input {index} must be a Gate7CampPredictionInput")
+        camp_inputs.append(item)
+
+    vectors: list[Float64Matrix] = []
+    for item in camp_inputs:
+        try:
+            row = _public_row_from_camp_input(item)
+        except Gate7ProjectionInputError as error:
+            missing = (_camp_row_gap(error),)
+            return Gate7ProjectionAttempt(
+                Gate7ProjectionStatus.BLOCKED_ON_EXACT_FEATURE_AUTHORITY,
+                len(input_values),
+                None,
+                missing,
+            )
+        temporal_gaps = _prospective_row_authority(row)
+        if temporal_gaps:
+            return Gate7ProjectionAttempt(
+                Gate7ProjectionStatus.BLOCKED_ON_EXACT_FEATURE_AUTHORITY,
+                len(input_values),
+                None,
+                temporal_gaps,
+            )
+        try:
+            vectors.append(_source_feature_vector(row))
+        except Gate7ProjectionInputError as error:
+            missing = (_camp_row_gap(error),)
+            return Gate7ProjectionAttempt(
+                Gate7ProjectionStatus.BLOCKED_ON_EXACT_FEATURE_AUTHORITY,
+                len(input_values),
+                None,
+                missing,
+            )
+
+    matrix = (
+        np.asarray(vectors, dtype=np.float64)
+        if vectors
+        else np.empty((0, GATE7_FEATURE_CONTRACT.feature_count), dtype=np.float64)
+    )
+    matrix = _validate_matrix(
+        matrix,
+        row_count=len(input_values),
+        column_count=GATE7_FEATURE_CONTRACT.feature_count,
+    )
     return Gate7ProjectionAttempt(
-        status=Gate7ProjectionStatus.BLOCKED_ON_EXACT_FEATURE_AUTHORITY,
+        Gate7ProjectionStatus.READY_FOR_GATE7_FULL_PROJECTION_REVIEW,
+        len(input_values),
+        matrix,
+        (),
+    )
+
+
+def project_gate7_historical_v1(
+    rows: Iterable[Gate7PublicFeatureRow],
+) -> Float64Matrix:
+    """Faithfully reproduce the recovered raw extractor, with no temporal filtering."""
+    row_values = _collect_public_rows(rows)
+    vectors = tuple(_source_feature_vector(row) for row in row_values)
+    matrix = (
+        np.asarray(vectors, dtype=np.float64)
+        if vectors
+        else np.empty((0, GATE7_FEATURE_CONTRACT.feature_count), dtype=np.float64)
+    )
+    return _validate_matrix(
+        matrix,
         row_count=len(row_values),
-        matrix=None,
-        missing_authority=GATE7_MISSING_AUTHORITY,
+        column_count=GATE7_FEATURE_CONTRACT.feature_count,
     )
 
 
 __all__ = [
     "GATE7_AVAILABLE_FEATURE_INDICES",
     "GATE7_AVAILABLE_FEATURE_NAMES",
+    "GATE7_CAMP_ROW_GAPS",
     "GATE7_FEATURE_CONTRACT",
     "GATE7_FEATURE_NAMES",
     "GATE7_FEATURE_UNITS",
@@ -484,10 +950,21 @@ __all__ = [
     "Gate7FeatureContract",
     "Gate7FeatureDefinition",
     "Gate7FeatureUnit",
+    "Gate7CampPredictionInput",
+    "Gate7ExposureFeature",
+    "Gate7HistoryAssessment",
     "Gate7MissingAuthority",
     "Gate7MissingAuthorityCode",
+    "Gate7PlanFeature",
+    "Gate7ProjectionInputCode",
+    "Gate7ProjectionInputError",
     "Gate7ProjectionAttempt",
     "Gate7ProjectionStatus",
+    "Gate7PublicFeatureRow",
+    "Gate7RoutineAssessment",
+    "Gate7RoutineState",
+    "Gate7RoutineTemporalAuthority",
     "project_gate7_available_fields_v1",
+    "project_gate7_historical_v1",
     "project_gate7_v1",
 ]

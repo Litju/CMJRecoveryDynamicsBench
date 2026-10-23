@@ -38,10 +38,10 @@ extend Apache-2.0 to weights or datasets.
    empirical material and confidential third-party data keep their existing
    restrictions.
 
-The owner-rights gate is complete for the attested families. RES-546 remains
-metadata-only and must not add a runnable recovered model adapter until the
-input, dataset, evaluation, technical, and distribution-term gates for the
-specific artifact pass.
+The owner-rights gate is complete for the attested families. RES-546 now adds
+source-verified feature projection software. It still does not add a recovered
+checkpoint adapter or inference path; dataset, evaluation, technical, and
+distribution-term gates for each model artifact remain separate.
 
 ## Planned integration
 
@@ -96,40 +96,65 @@ reproduction, and no rows or models were created in RES-545.
 
 ## RES-546 Gate7 feature projection V1 implementation status
 
-The recovered Gate7 M0 configuration and model/data manifests establish the
-ordered 39-field names, units, horizon encoding, routine-assessment categories,
-and train-only mean/std preprocessing. The public projection contract uses the
-required float64 matrix dtype.
-The typed contract is implemented in
-`cmj_recovery_dynamics.model_reproduction.gate7_projection` under the distinct
-`gate7_m0_candidate` identity. It does not alias the initial-preseason public
-M0. The contract records raw feature construction; fitted normalization values
-are not included.
+**Outcome: `READY_FOR_GATE7_FULL_PROJECTION_REVIEW`.** The original feature
+builder and its caller chain are recovered. `solution/train.py` and inference
+call `Preprocessor.fit` or `Preprocessor.transform`, which call
+`baselines.common.feature_matrix` and `feature_vector`. The ordered names match
+the Gate7 M0 configuration and the versioned public data contract. The typed
+contract keeps `gate7_m0_candidate` distinct from the initial-preseason public
+M0.
 
-The public `CampPredictionRow` can safely construct the two baseline values,
-H72/D7 indicators, query time, registered window bounds, and index-exposure
-time. The executable available-fields projection returns those eight named
-columns as a finite float64 matrix. The complete 39-column projection returns
-`BLOCKED_ON_EXACT_FEATURE_AUTHORITY` with machine-readable blockers; it does
-not fill missing values or expose a model-ready matrix.
+The source-exact raw projection is implemented in
+`cmj_recovery_dynamics.model_reproduction.gate7_projection`. It returns a
+finite float64 matrix of shape `(N, 39)` and was differentially checked against
+the recovered extractor on independent synthetic H72 and D7 rows. The tests
+also cover stable ordering ties, invalid and missing fields, plan padding,
+duration units, category one-hot order, reproducibility, and future-information
+injection.
 
-The unresolved feature groups are:
+The recovered rules are:
 
-- `history_assessments[0..3]`: source code must establish slot direction and
-  selection, trial aggregation, padding, and invalid or absent value handling.
-- `history_exposures[0]`: source code must establish slot order and selection.
-- Exposure and known-plan duration fields: source code must identify the exact
-  duration component, validate its unit, and define unavailable values.
-- `known_plan[0..2]`: source code must establish slot order, selection,
-  truncation, and padding.
-- `routine_assessment.scheduled` and its five availability indicators: the
-  current public row has no such fields. Source evidence must define their
-  prediction-origin availability and show that the state does not depend on
-  future measurements or target labels.
+- Sort the four history assessments by ascending `time_from_origin_hours` and
+  copy time, force, impulse, and depth. The extractor does not filter on
+  `validity_state`. All required values must convert to finite numbers; history
+  is never padded or imputed.
+- Sort history exposures by time and require exactly one. Copy its time and
+  `duration_minutes` directly. Copy index-exposure time and duration directly.
+  Duration values remain in minutes; the projection does not divide by the
+  exposure normalization reference.
+- Sort the query-specific known plan by time and accept exactly two or three
+  records. With two records, only slot 2 is filled with zero time and duration.
+  The source public plan includes the index event at time zero, so the Camp-row
+  adapter prepends that event before sorting.
+- Copy `routine_assessment.scheduled` as 0.0 or 1.0, then encode the five
+  availability categories in the frozen feature order. The L05-R01 final
+  public generator assigns one origin-keyed state independently of target
+  values and copies it unchanged to H72 and D7 queries. This source state is
+  available at origin in the synthetic Gate7 fixture. The prospective
+  projection also requires this temporal authority and rejects an unresolved
+  or post-origin state.
+- Raw projection values use float64. M0 fits raw means and sample standard
+  deviations (`ddof=1`) on training rows only, replaces zero scales with 1.0,
+  applies `(x - mean) / scale`, then casts model tensors to float32. Fitted
+  means and scales are not included.
 
-The evidence needed to unblock the full projection is the original public
-feature-extraction rule for these slots and missing values, plus a public
-prediction-row contract that supplies routine-assessment metadata at the
-prediction origin. Until then, the eight directly supported columns are
-diagnostic contract coverage only; they do not establish Gate7 model execution
-or historical prediction parity.
+`project_gate7_historical_v1` reproduces the raw historical transformation
+without temporal filtering. `project_gate7_v1` adapts the public
+`CampPredictionRow` plus an explicit `Gate7RoutineAssessment`, checks
+prediction-origin availability, and returns a full matrix only when the row
+contains exactly four usable assessment summaries and one prior exposure.
+Missing or invalid inputs return machine-readable blockers; no values are
+invented. The base `CampPredictionRow` has no routine-assessment field, so a
+caller must provide that origin-keyed public metadata through the typed
+wrapper. The current clean-room sample generator can produce rows that fail
+the Gate7 cardinality checks; those rows remain blocked.
+
+This establishes the feature projection for review. It does not load a
+checkpoint, claim model inference, publish fitted preprocessing values, alter
+historical scores, or change v1.0.0. No checkpoint, raw training row, private
+source path, or private identifier is in the public diff.
+
+The next integration step is to wire the origin-keyed routine state and
+source-compatible assessment/exposure shape into the public observation
+builder. Checkpoint distribution terms and model inference remain separate
+review gates.
