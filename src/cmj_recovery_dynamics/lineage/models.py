@@ -73,7 +73,8 @@ _PRESERVED_REFERENCE = ArtifactReference(
     "initial_public_reference_artifact",
     "reference model checkpoint metadata",
     ArtifactAvailability.PRESERVED_PRIVATELY,
-    RedistributionStatus.UNRESOLVED,
+    RedistributionStatus.ALLOWED,
+    "RES-545 owner declaration dated 2026-10-22; downstream license not assigned",
 )
 _THRESHOLD_MODEL_ARTIFACT = ArtifactReference(
     "threshold_response_model_artifacts",
