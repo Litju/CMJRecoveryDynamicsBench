@@ -1,5 +1,7 @@
 """Golden and boundary checks for the recovered Gate7 feature projection."""
 
+import hashlib
+import json
 from dataclasses import replace
 
 import numpy as np
@@ -28,6 +30,7 @@ from cmj_recovery_dynamics.model_reproduction.gate7_projection import (
     Gate7ProjectionStatus,
     Gate7PublicFeatureRow,
     Gate7RoutineAssessment,
+    Gate7RoutineSource,
     Gate7RoutineState,
     Gate7RoutineTemporalAuthority,
     project_gate7_available_fields_v1,
@@ -204,6 +207,11 @@ _GOLDEN_D7 = np.asarray(
 )
 
 
+def _routine_source(origin: str = "origin") -> Gate7RoutineSource:
+    payload = json.dumps([[origin, True, "TRIAL_INVALID", 0.0]]).encode()
+    return Gate7RoutineSource(payload, hashlib.sha256(payload).hexdigest())
+
+
 def _source_row(
     horizon: ForecastHorizon = ForecastHorizon.H72,
     *,
@@ -239,6 +247,9 @@ def _source_row(
             routine_state is not Gate7RoutineState.UNSCHEDULED,
             routine_state,
             routine_temporal,
+            "origin",
+            _routine_source().expected_sha256,
+            0.0,
         ),
     )
 
@@ -423,17 +434,18 @@ def test_origin_safe_projection_blocks_unresolved_or_post_origin_routine_state()
         _camp_row(ForecastHorizon.D7),
         _source_row(
             ForecastHorizon.D7,
-            routine_state=Gate7RoutineState.OBSERVED_MASKED,
         ).routine_assessment,
     )
-    ready = project_gate7_v1((h72, d7))
+    ready = project_gate7_v1((h72, d7), routine_source=_routine_source())
     assert ready.status is Gate7ProjectionStatus.READY_FOR_GATE7_FULL_PROJECTION_REVIEW
     assert ready.matrix is not None
     assert ready.matrix.shape == (2, 39)
     assert ready.matrix.dtype == np.dtype(np.float64)
     assert np.isfinite(ready.matrix).all()
     np.testing.assert_array_equal(ready.matrix[0], _GOLDEN_H72)
-    np.testing.assert_array_equal(ready.matrix[1], _GOLDEN_D7)
+    expected_d7 = _GOLDEN_D7.copy()
+    expected_d7[34:39] = (0, 0, 0, 1, 0)
+    np.testing.assert_array_equal(ready.matrix[1], expected_d7)
 
     for authority, code in (
         (
@@ -445,7 +457,7 @@ def test_origin_safe_projection_blocks_unresolved_or_post_origin_routine_state()
             Gate7MissingAuthorityCode.ROUTINE_ASSESSMENT_POST_ORIGIN,
         ),
     ):
-        routine = Gate7RoutineAssessment(True, Gate7RoutineState.TRIAL_INVALID, authority)
+        routine = replace(_source_row().routine_assessment, temporal_authority=authority)
         blocked = project_gate7_v1(
             (Gate7CampPredictionInput(_camp_row(ForecastHorizon.H72), routine),)
         )
@@ -490,9 +502,10 @@ def test_current_camp_row_gaps_are_machine_readable_and_no_routine_is_inferred()
 
     with_routine = project_gate7_v1(
         tuple(
-            Gate7CampPredictionInput(row, _source_row(row.horizon).routine_assessment)
+            Gate7CampPredictionInput(row, _routine_source(row.origin_id).records()[0])
             for row in rows
-        )
+        ),
+        routine_source=_routine_source(rows[0].origin_id),
     )
     assert with_routine.matrix is None
     assert with_routine.missing_authority[0].code is (
@@ -504,10 +517,18 @@ def test_current_camp_row_gaps_are_machine_readable_and_no_routine_is_inferred()
 def test_projection_excludes_grouping_keys_and_is_reproducible() -> None:
     row = _camp_row(ForecastHorizon.H72)
     routine = _source_row().routine_assessment
-    first = project_gate7_v1((Gate7CampPredictionInput(row, routine),))
-    repeated = project_gate7_v1((Gate7CampPredictionInput(row, routine),))
+    first = project_gate7_v1(
+        (Gate7CampPredictionInput(row, routine),), routine_source=_routine_source()
+    )
+    repeated = project_gate7_v1(
+        (Gate7CampPredictionInput(row, routine),), routine_source=_routine_source()
+    )
     changed_ids = replace(row, participant_key="p2", origin_id="o2", query_id="q2")
-    changed = project_gate7_v1((Gate7CampPredictionInput(changed_ids, routine),))
+    changed_source = _routine_source("o2")
+    changed = project_gate7_v1(
+        (Gate7CampPredictionInput(changed_ids, changed_source.records()[0]),),
+        routine_source=changed_source,
+    )
 
     assert first.matrix is not None and repeated.matrix is not None and changed.matrix is not None
     np.testing.assert_array_equal(first.matrix, repeated.matrix)
@@ -568,3 +589,155 @@ def test_projection_matrix_validation_rejects_wrong_width_dtype_and_nonfinite_va
             np.zeros((1, 38), dtype=np.float64),
             (),
         )
+
+
+@pytest.mark.parametrize(
+    "change,code",
+    [
+        ({"origin_id": "another"}, Gate7MissingAuthorityCode.ROUTINE_ORIGIN_MISMATCH),
+        ({"source_sha256": "unverified"}, Gate7MissingAuthorityCode.ROUTINE_SOURCE_MISMATCH),
+        (
+            {"available_at_origin_hours": 1.0},
+            Gate7MissingAuthorityCode.ROUTINE_ASSESSMENT_POST_ORIGIN,
+        ),
+        (
+            {"availability_state": Gate7RoutineState.OBSERVED_MASKED},
+            Gate7MissingAuthorityCode.ROUTINE_SOURCE_MISMATCH,
+        ),
+    ],
+)
+def test_origin_source_rejects_adversarial_metadata(
+    change: dict[str, object],
+    code: Gate7MissingAuthorityCode,
+) -> None:
+    source = _routine_source()
+    routine = replace(source.records()[0], **change)
+    inputs = (
+        Gate7CampPredictionInput(_camp_row(ForecastHorizon.H72), source.records()[0]),
+        Gate7CampPredictionInput(_camp_row(ForecastHorizon.D7), routine),
+    )
+    for batch in (inputs, inputs[1:]):
+        result = project_gate7_v1(batch, routine_source=source)
+        assert result.matrix is None
+        assert result.missing_authority[0].code is code
+
+
+def test_enum_alone_and_unpinned_source_never_grant_authority() -> None:
+    routine = _source_row().routine_assessment
+    result = project_gate7_v1((Gate7CampPredictionInput(_camp_row(ForecastHorizon.H72), routine),))
+    assert result.matrix is None
+    assert result.missing_authority[0].code is Gate7MissingAuthorityCode.ROUTINE_SOURCE_MISMATCH
+    with pytest.raises(ValueError, match="SHA-256"):
+        Gate7RoutineSource(_routine_source().payload, "untrusted")
+
+
+@pytest.mark.parametrize(
+    "records",
+    [
+        [["origin", True, "TRIAL_INVALID", 0], ["origin", True, "OBSERVED_MASKED", 0]],
+        [["origin", True, "TRIAL_INVALID", float("nan")]],
+        [["origin", True, "TRIAL_INVALID", "0"]],
+        [["origin", 1, "TRIAL_INVALID", 0]],
+        [["", True, "TRIAL_INVALID", 0]],
+        [["origin", True, "unknown", 0]],
+        {"origin": "invalid shape"},
+        [["origin"]],
+    ],
+)
+def test_source_rejects_ambiguous_or_malformed_records(records: object) -> None:
+    payload = json.dumps(records).encode()
+    with pytest.raises(ValueError):
+        Gate7RoutineSource(payload, hashlib.sha256(payload).hexdigest())
+
+
+def test_post_origin_authoritative_source_is_blocked() -> None:
+    payload = json.dumps([["origin", True, "TRIAL_INVALID", 1.0]]).encode()
+    source = Gate7RoutineSource(payload, hashlib.sha256(payload).hexdigest())
+    result = project_gate7_v1(
+        (Gate7CampPredictionInput(_camp_row(ForecastHorizon.H72), source.records()[0]),),
+        routine_source=source,
+    )
+    assert result.matrix is None
+    assert result.missing_authority[0].code is (
+        Gate7MissingAuthorityCode.ROUTINE_ASSESSMENT_POST_ORIGIN
+    )
+
+
+@pytest.mark.parametrize("horizon", (ForecastHorizon.H72, ForecastHorizon.D7))
+def test_shared_origin_source_is_consistent_across_separate_calls(horizon: ForecastHorizon) -> None:
+    source = _routine_source()
+    result = project_gate7_v1(
+        (Gate7CampPredictionInput(_camp_row(horizon), source.records()[0]),),
+        routine_source=source,
+    )
+    assert result.matrix is not None
+    np.testing.assert_array_equal(result.matrix[0, 33:39], (1, 0, 0, 0, 1, 0))
+
+
+@pytest.mark.parametrize(
+    "component",
+    [
+        ExposureComponent("duration_minutes", None, "minutes", 100, observed=False),
+        ExposureComponent("duration_minutes", 80, "minutes", 100, day_mask=False),
+        ExposureComponent("duration_minutes", 80, "minutes", 100, event_mask=False),
+        ExposureComponent("duration_minutes", 80, "seconds", 100),
+        ExposureComponent("other", 80, "minutes", 100),
+    ],
+)
+@pytest.mark.parametrize("slot", ("history", "index", "plan"))
+def test_prospective_duration_rejects_unobserved_masked_or_mislabelled(
+    component: ExposureComponent,
+    slot: str,
+) -> None:
+    # A separate observed component keeps the exposure valid at its own boundary.
+    row = _camp_row(ForecastHorizon.H72)
+    components = (component, ExposureComponent("load", 1, "dimensionless", 1))
+    if slot == "index":
+        row = replace(row, index_exposure=replace(row.index_exposure, components=components))
+    elif slot == "history":
+        row = replace(
+            row, exposure_history=(replace(row.exposure_history[0], components=components),)
+        )
+    else:
+        row = replace(row, known_plan=(replace(row.known_plan[0], components=components),))
+    result = project_gate7_v1(
+        (Gate7CampPredictionInput(row, _routine_source().records()[0]),),
+        routine_source=_routine_source(),
+    )
+    assert result.matrix is None
+    assert "duration_component_invalid" in result.missing_authority[0].evidence_required
+
+
+def test_duration_validation_at_component_and_event_boundaries() -> None:
+    for value in (-1.0, float("nan"), float("inf")):
+        with pytest.raises(ValueError, match="finite and non-negative"):
+            ExposureComponent("duration_minutes", value, "minutes", 100)
+    row = _camp_row(ForecastHorizon.H72)
+    duplicate = replace(
+        row, index_exposure=replace(row.index_exposure, components=_duration(80) * 2)
+    )
+    result = project_gate7_v1(
+        (Gate7CampPredictionInput(duplicate, _routine_source().records()[0]),),
+        routine_source=_routine_source(),
+    )
+    assert result.matrix is None
+    assert "exactly one duration_minutes" in result.missing_authority[0].evidence_required
+    component = _duration(80)[0]
+    assert component.contribution == 0.8
+    assert replace(component, day_mask=False).contribution is None
+    # Historical rows contain raw minutes, with no component mask or normalization.
+    assert project_gate7_historical_v1((_source_row(),))[0, 26] == 80
+
+
+def test_originless_enum_only_metadata_is_blocked_even_with_a_trusted_source() -> None:
+    routine = Gate7RoutineAssessment(
+        True,
+        Gate7RoutineState.TRIAL_INVALID,
+        Gate7RoutineTemporalAuthority.ORIGIN_KEYED_PUBLIC_STATE,
+    )
+    result = project_gate7_v1(
+        (Gate7CampPredictionInput(_camp_row(ForecastHorizon.H72), routine),),
+        routine_source=_routine_source(),
+    )
+    assert result.matrix is None
+    assert result.missing_authority[0].code is Gate7MissingAuthorityCode.ROUTINE_ORIGIN_MISMATCH

@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+import hashlib
+import json
 from collections.abc import Iterable
 from dataclasses import dataclass
 from enum import StrEnum
@@ -44,6 +46,8 @@ class Gate7MissingAuthorityCode(StrEnum):
     CAMP_ROW_VALUE_INVALID = "camp_row_value_invalid"
     ROUTINE_TEMPORAL_AUTHORITY_UNRESOLVED = "routine_temporal_authority_unresolved"
     ROUTINE_ASSESSMENT_POST_ORIGIN = "routine_assessment_post_origin"
+    ROUTINE_ORIGIN_MISMATCH = "routine_origin_mismatch"
+    ROUTINE_SOURCE_MISMATCH = "routine_source_mismatch"
 
 
 class Gate7ProjectionInputCode(StrEnum):
@@ -191,6 +195,9 @@ class Gate7RoutineAssessment:
     scheduled: bool
     availability_state: Gate7RoutineState
     temporal_authority: Gate7RoutineTemporalAuthority
+    origin_id: str | None = None
+    source_sha256: str | None = None
+    available_at_origin_hours: float | None = None
 
     def __post_init__(self) -> None:
         if type(self.scheduled) is not bool:
@@ -203,6 +210,56 @@ class Gate7RoutineAssessment:
             raise TypeError("routine assessment temporal authority is not registered")
         if self.scheduled is (self.availability_state is Gate7RoutineState.UNSCHEDULED):
             raise ValueError("scheduled must be false exactly for UNSCHEDULED routine states")
+
+
+@dataclass(frozen=True, slots=True)
+class Gate7RoutineSource:
+    """Immutable origin records verified against an externally trusted SHA-256.
+
+    The application must pin the digest from its authoritative ingestion process,
+    independently of prediction requests, and reuse this source across calls.
+    A matching digest proves byte identity, not that a caller's data are truthful.
+    """
+
+    payload: bytes
+    expected_sha256: str
+
+    def __post_init__(self) -> None:
+        if type(self.payload) is not bytes:
+            raise TypeError("routine source payload must be immutable bytes")
+        if hashlib.sha256(self.payload).hexdigest() != self.expected_sha256:
+            raise ValueError("routine source SHA-256 mismatch")
+        self.records()
+
+    def records(self) -> tuple[Gate7RoutineAssessment, ...]:
+        # Array records avoid ambiguous duplicate JSON object keys.
+        data: object = json.loads(self.payload)
+        if not isinstance(data, list):
+            raise ValueError("routine source must be an array of origin records")
+        records: list[Gate7RoutineAssessment] = []
+        for raw in cast(list[object], data):
+            if not isinstance(raw, list) or len(cast(list[object], raw)) != 4:
+                raise ValueError("routine source records require origin, scheduled, state, time")
+            origin, scheduled, state, time = cast(list[object], raw)
+            if not isinstance(origin, str) or not origin.strip():
+                raise ValueError("routine source requires a non-empty origin_id")
+            if type(scheduled) is not bool or not isinstance(state, str):
+                raise ValueError("routine source requires boolean scheduled and registered state")
+            if type(time) not in (int, float) or not np.isfinite(cast(float, time)):
+                raise ValueError("routine source availability time must be finite numeric hours")
+            records.append(
+                Gate7RoutineAssessment(
+                    scheduled,
+                    Gate7RoutineState(state),
+                    Gate7RoutineTemporalAuthority.ORIGIN_KEYED_PUBLIC_STATE,
+                    origin,
+                    self.expected_sha256,
+                    float(cast(float, time)),
+                )
+            )
+        if len({record.origin_id for record in records}) != len(records):
+            raise ValueError("routine source requires exactly one record per origin")
+        return tuple(records)
 
 
 @dataclass(frozen=True, slots=True)
@@ -658,6 +715,7 @@ def _source_feature_vector(row: Gate7PublicFeatureRow) -> Float64Matrix:
 
 
 def _duration_minutes(components: tuple[object, ...], feature_name: str) -> float:
+    """Prospective components must be usable; historical rows already carry raw minutes."""
     matches = tuple(
         component
         for component in components
@@ -673,10 +731,12 @@ def _duration_minutes(components: tuple[object, ...], feature_name: str) -> floa
     if (
         getattr(component, "units", None) != "minutes"
         or getattr(component, "observed", None) is not True
+        or getattr(component, "day_mask", None) is not True
+        or getattr(component, "event_mask", None) is not True
     ):
         raise Gate7ProjectionInputError(
             Gate7ProjectionInputCode.DURATION_COMPONENT_INVALID,
-            f"{feature_name} requires an observed minutes component",
+            f"{feature_name} requires an observed, unmasked minutes component",
             (feature_name,),
         )
     return _feature_float(getattr(component, "value", None), feature_name)
@@ -758,23 +818,6 @@ def _prospective_row_authority(row: Gate7PublicFeatureRow) -> tuple[Gate7Missing
                     "task contract.",
                 )
             )
-    if row.routine_assessment.temporal_authority is Gate7RoutineTemporalAuthority.UNRESOLVED:
-        gaps.append(
-            Gate7MissingAuthority(
-                Gate7MissingAuthorityCode.ROUTINE_TEMPORAL_AUTHORITY_UNRESOLVED,
-                GATE7_FEATURE_NAMES[33:39],
-                "Bind the routine state to an origin-keyed public source record before using it "
-                "for prospective prediction.",
-            )
-        )
-    elif row.routine_assessment.temporal_authority is Gate7RoutineTemporalAuthority.POST_ORIGIN:
-        gaps.append(
-            Gate7MissingAuthority(
-                Gate7MissingAuthorityCode.ROUTINE_ASSESSMENT_POST_ORIGIN,
-                GATE7_FEATURE_NAMES[33:39],
-                "The routine state is post-origin and cannot be used for prospective prediction.",
-            )
-        )
     if any(item.time_from_origin_hours >= 0 for item in row.history_assessments):
         gaps.append(
             Gate7MissingAuthority(
@@ -858,8 +901,16 @@ def project_gate7_available_fields_v1(
     return Gate7AvailableFeatureProjection(GATE7_AVAILABLE_FEATURE_NAMES, matrix)
 
 
-def project_gate7_v1(inputs: Iterable[object]) -> Gate7ProjectionAttempt:
-    """Build the full float64 matrix after source-shape and temporal checks."""
+def project_gate7_v1(
+    inputs: Iterable[object],
+    *,
+    routine_source: Gate7RoutineSource | None = None,
+) -> Gate7ProjectionAttempt:
+    """Project with an application-pinned origin source, shared across calls.
+
+    No global registry is inferred: replacing the trusted source is an application
+    authority decision. Request-supplied enums or hashes alone grant no authority.
+    """
     try:
         input_values = tuple(inputs)
     except TypeError as error:
@@ -870,6 +921,11 @@ def project_gate7_v1(inputs: Iterable[object]) -> Gate7ProjectionAttempt:
             raise TypeError(f"input {index} must be a Gate7CampPredictionInput")
         camp_inputs.append(item)
 
+    records = (
+        {}
+        if routine_source is None
+        else {record.origin_id: record for record in routine_source.records()}
+    )
     vectors: list[Float64Matrix] = []
     for item in camp_inputs:
         try:
@@ -881,6 +937,33 @@ def project_gate7_v1(inputs: Iterable[object]) -> Gate7ProjectionAttempt:
                 len(input_values),
                 None,
                 missing,
+            )
+        routine = item.routine_assessment
+        assert routine is not None
+        authority_code: Gate7MissingAuthorityCode | None = None
+        if routine.temporal_authority is Gate7RoutineTemporalAuthority.POST_ORIGIN or (
+            routine.available_at_origin_hours is not None and routine.available_at_origin_hours > 0
+        ):
+            authority_code = Gate7MissingAuthorityCode.ROUTINE_ASSESSMENT_POST_ORIGIN
+        elif routine.origin_id != item.row.origin_id:
+            authority_code = Gate7MissingAuthorityCode.ROUTINE_ORIGIN_MISMATCH
+        elif routine.temporal_authority is Gate7RoutineTemporalAuthority.UNRESOLVED:
+            authority_code = Gate7MissingAuthorityCode.ROUTINE_TEMPORAL_AUTHORITY_UNRESOLVED
+        elif routine_source is None or records.get(item.row.origin_id) != routine:
+            authority_code = Gate7MissingAuthorityCode.ROUTINE_SOURCE_MISMATCH
+        if authority_code is not None:
+            return Gate7ProjectionAttempt(
+                Gate7ProjectionStatus.BLOCKED_ON_EXACT_FEATURE_AUTHORITY,
+                len(input_values),
+                None,
+                (
+                    Gate7MissingAuthority(
+                        authority_code,
+                        GATE7_FEATURE_NAMES[33:39],
+                        "Routine metadata must match the prediction origin and its unique record "
+                        "in the application-pinned source, available no later than origin.",
+                    ),
+                ),
             )
         temporal_gaps = _prospective_row_authority(row)
         if temporal_gaps:
@@ -962,6 +1045,7 @@ __all__ = [
     "Gate7ProjectionStatus",
     "Gate7PublicFeatureRow",
     "Gate7RoutineAssessment",
+    "Gate7RoutineSource",
     "Gate7RoutineState",
     "Gate7RoutineTemporalAuthority",
     "project_gate7_available_fields_v1",
