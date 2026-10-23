@@ -7,23 +7,70 @@ bindings, safe-loading records, and score evidence. It did not train models or
 copy checkpoint payloads into this repository. The v1.0.0 release artifacts were
 not changed.
 
-No recovered model artifact currently has explicit public redistribution
-authorization. The OLS JSON is a `PUBLIC_CANDIDATE`, which still requires the
-separate rights review recorded by the authority registry. Neural checkpoints
-remain private under `LICENSE_REVIEW`.
+## Ownership and publication authority
+
+The owner declaration dated **2026-10-22** resolves first-party provenance for
+independently authored historical Preseason research models, including Gate7
+M0-M8. The owner states that the models were trained with data they were
+entitled to use, were not contracted deliverables assigned to another party,
+and remain under the owner's publication authority. RES-362's generic
+`LICENSE_REVIEW` classification represented missing documentation; it was not
+evidence of third-party ownership. The declaration supersedes that ownership
+question for the artifact families matched below.
+
+**Rights outcome:** `FIRST_PARTY_RIGHTS_REVIEW_RESOLVED` for the attested
+historical Preseason model families.
+
+The declaration does not select a public license for weights, fitted parameter
+files, or datasets. Apache-2.0 remains scoped to original repository software.
+No recovered model bytes are added or released by this review. Model ownership,
+publication authority, technical qualification, distribution terms, and actual
+release status are recorded separately in the typed
+[`model_reproduction` rights registry](../src/cmj_recovery_dynamics/model_reproduction/rights.py).
+
+### Artifact-specific rights decisions
+
+| Artifact | Ownership and publication authority | Distribution terms | Actual release status |
+|---|---|---|---|
+| Gate7 M0 | Owner-attested first-party; includes repeats r0 and r1. Distinct from the public initial-preseason M0 identity. | Owner-controlled; no public checkpoint license assigned. | Not released. |
+| Gate7 M1 | Owner-attested first-party; includes recorded repeats. | Owner-controlled; no public checkpoint license assigned. | Not released. |
+| Gate7 M2 | Owner-attested first-party; includes recorded repeats. | Owner-controlled; no public checkpoint license assigned. | Not released. |
+| Gate7 M3 | Owner-attested first-party; includes recorded repeats. | Owner-controlled; no public checkpoint license assigned. | Not released. |
+| Gate7 M4 | Owner-attested first-party; includes recorded repeats. | Owner-controlled; no public checkpoint license assigned. | Not released. |
+| Gate7 M5 | Owner-attested first-party; includes recorded repeats. | Owner-controlled; no public checkpoint license assigned. | Not released. |
+| Gate7 M6 | Owner-attested first-party; includes recorded repeats. | Owner-controlled; no public checkpoint license assigned. | Not released. |
+| Gate7 M7 | Owner-attested first-party; includes recorded repeats. This rights decision does not reopen the administratively closed M7 remediation. | Owner-controlled; no public checkpoint license assigned. | Not released. |
+| Gate7 M8 | Owner-attested first-party; includes recorded repeats. | Owner-controlled; no public checkpoint license assigned. | Not released. |
+| Initial-preseason public M0 reference | Owner-attested first-party. This is the existing public M0 identity, not the Gate7 M0 candidate. | Owner-controlled; no checkpoint license assigned. | No recovered checkpoint bytes released. |
+| Gate5 OLS fitted JSON | Owner-attested first-party. RES-362's `PUBLIC_CANDIDATE` classification remains a handling candidate, not a license grant. | Owner-controlled; the fitted parameters are not covered by Apache-2.0. | Not released. |
+| P8L6 S00 | Owner-attested first-party. | Owner-controlled; no public checkpoint license assigned. | Not released. |
+| P8L6 S01 | Owner-attested first-party. | Owner-controlled; no public checkpoint license assigned. | Not released. |
+| P8L6 S02 | Owner-attested first-party. | Owner-controlled; no public checkpoint license assigned. | Not released. |
+| V3.1 R1-AKN ensemble | Owner-attested first-party Preseason model. | Owner-controlled; no public checkpoint license assigned. | Not released; validation was pooled into final fitting and forward inference was not qualified. |
+| V3 HistGradientBoosting parameters | Owner-attested first-party Preseason model. | Owner-controlled; no public parameter license assigned. | Not released; safe array parsing did not qualify inference. |
+| V3 residual MLP parameters | Owner-attested first-party Preseason model. | Owner-controlled; no public parameter license assigned. | Not released; safe array parsing did not qualify inference, and validation was pooled into fitting. |
+| Preseason early and V3 GBT pickle estimators | Owner-attested first-party model artifacts. | Owner-controlled; no public model license assigned. | Not released; pickles remain unopened because ownership does not make pickle loading safe. |
+| SP07 C1 NPZ parameter archives and pickle estimators | The recovery identifies SP07 C1 artifacts but does not match their author/task identity to the attested Preseason scope. | Unresolved; no owner authority or third-party permission is inferred. | Private archive only; NPZ parsing was partial, pickle estimators remain unopened, and no accepted evaluation is bound. Excluded from RES-546; no further rights review is open in this scope. |
+| ALI543 G3 joblib teacher and ALI544 G4 attack checkpoints | Outside the attested historical Preseason model scope. | Unresolved; no rights are inferred from preservation or task association. | Private archive only; joblib stayed unopened and G4 safe loading was rejected without fallback. |
+
+R2I records contain configuration/results but no fitted estimator or checkpoint
+in the recovered scope, so they do not create a model artifact rights decision.
+The owner declaration does not clear White-derived empirical material,
+confidential third-party data, datasets, or result packets. Existing prohibitions
+remain in force for those materials.
 
 ## Status by model
 
-| Model | Recovered and inference-qualified | Historical score | Public redistribution | Review status |
+| Model | Recovered and inference-qualified | Historical score | Rights and actual release | Review status |
 |---|---|---|---|---|
-| Gate7 M0-r0 and M0-r1 | Yes in the recovery record: safe weights-only loads and finite original-source forward smoke | The complete score objects were exactly reproduced from the preserved validation predictions. This review did not rerun full checkpoint inference. | No | Score replay complete; checkpoint inference was previously qualified |
-| Gate7 M1-M8 repeats | Yes in the recovery record for the final states | Prediction digests and per-cell metrics reconcile; some aggregate fields have floating-point aggregation differences. | No | Within-family repeat comparison only |
-| Gate5 OLS comparator | Yes: the original JSON model and source predictor produced finite two-target output on the shared evaluation rows; the JSON path did not call pickle loading | The Gate7 comparator is reproduced within `1e-12`. No native OLS result packet appears in the recovered result index, so its own historical validation score is unresolved. | No; `PUBLIC_CANDIDATE` is not clearance | External comparator replay complete |
-| V2R-P8L6 S00-S02 | Yes in the recovery record: safe weights-only loads and finite original-source forward smoke | No validation score exists; the configs record no validation-data access. | No | Same candidate/data/schema, but training-contract hashes vary; no performance comparison |
-| V3.1 R1-AKN and V3 HGB/MLP arrays | Partial: safe tensor/array parsing only; no complete forward or score replay | No; V3.1 validation was pooled into final fitting | No | Partial reproduction |
-| SP07 C1 arrays | Partial: safe NPZ parsing; no accepted evaluation binding | No | No | Partial reproduction |
-| R2I result packets | No fitted estimator or checkpoint was recovered for the nine result families | No independent replay | No | Results-only evidence |
-| Pickle/joblib estimators and G4 checkpoints | No | No | No | Unresolved or unsafe; pickle/joblib stayed unopened and G4 safe loading was rejected without fallback |
+| Gate7 M0-r0 and M0-r1 | Yes in the recovery record: safe weights-only loads and finite original-source forward smoke | The complete score objects were exactly reproduced from the preserved validation predictions. This review did not rerun full checkpoint inference. | Owner-attested first-party; not released; no public checkpoint license assigned. | Score replay complete; checkpoint inference was previously qualified |
+| Gate7 M1-M8 repeats | Yes in the recovery record for the final states | Prediction digests and per-cell metrics reconcile; some aggregate fields have floating-point aggregation differences. | Owner-attested first-party; not released; no public checkpoint license assigned. | Within-family repeat comparison only |
+| Gate5 OLS comparator | Yes: the original JSON model and source predictor produced finite two-target output on the shared evaluation rows; the JSON path did not call pickle loading | The Gate7 comparator is reproduced within `1e-12`. No native OLS result packet appears in the recovered result index, so its own historical validation score is unresolved. | Owner-attested first-party; `PUBLIC_CANDIDATE` is not an Apache-2.0 grant; not released. | External comparator replay complete |
+| V2R-P8L6 S00-S02 | Yes in the recovery record: safe weights-only loads and finite original-source forward smoke | No validation score exists; the configs record no validation-data access. | Owner-attested first-party; not released; no public checkpoint license assigned. | Same candidate/data/schema, but training-contract hashes vary; no performance comparison |
+| V3.1 R1-AKN and V3 HGB/MLP arrays | Partial: safe tensor/array parsing only; no complete forward or score replay | No; V3.1 validation was pooled into final fitting | Owner-attested first-party; not released; technical qualification remains partial. | Partial reproduction |
+| SP07 C1 arrays | Partial: safe NPZ parsing; no accepted evaluation binding | No | Ownership/task identity is not matched to the attestation; private archive only. | Partial reproduction |
+| R2I result packets | No fitted estimator or checkpoint was recovered for the nine result families | No independent replay | No model artifact; result packets remain outside this release. | Results-only evidence |
+| Preseason pickle estimators, SP07 pickles, and G3/G4 artifacts | No | No | Preseason GBT ownership is owner-attested but unsafe pickles remain unopened; SP07 identity is unresolved; G3/G4 are outside scope and private. | Unresolved or unsafe; no unsafe serializer or G4 fallback was used |
 
 ## Integrity and source closure
 
@@ -110,5 +157,6 @@ matrix](M8_REPRODUCIBILITY_MATRIX.md). Do not alias the recovered candidate to
 that existing M0 or auto-load its private checkpoint.
 
 This document omits private checkpoint bytes, per-row data/predictions, full
-hashes, machine paths, and source commit identifiers. No model, source file,
-dataset, or checkpoint is cleared for redistribution by this review.
+hashes, machine paths, and source commit identifiers. The first-party ownership
+review is resolved for the attested families; no checkpoint or dataset is
+released or assigned Apache-2.0 terms by this review.
