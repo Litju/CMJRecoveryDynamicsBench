@@ -254,3 +254,139 @@ Ruff, strict Pyright, a wheel/sdist build, and installed-wheel projection tests
 outside the checkout. The private-source differential harness is deliberately
 not run by public GitHub CI. Review readiness and CI outcomes are reported for
 the atomic repair commit; no approval or merge is implied by these checks.
+
+## Public observation builder v1
+
+The separately versioned `cmj_recovery_dynamics.observations.public_builder`
+module implements `gate7_public_observation_v1`. It leaves the historical camp
+generator, dataset identities, raw historical projection, scores, rights records,
+and official v1.0.0 artifacts unchanged. The package version remains unchanged;
+a review-branch build is not a replacement official release artifact.
+
+`Gate7OriginObservation` is a complete, label-free origin snapshot. It requires
+four distinct valid pre-origin assessments, each with exactly three criterion
+trials. Force is in N/kg, net impulse in m/s, and depth in meters; all are finite
+and positive. Assessment summaries are arithmetic trial means. The existing
+`select_camp_baseline` takes the two latest valid assessment means in the inclusive
+24–240 hour window. No historical assessments are modified, padded or discarded
+to meet this contract.
+
+Exactly one prior exposure, an index event at zero, and two origin-known plan
+events at 48 and 120 hours are required. Each event carries exactly one observed,
+unmasked public `duration_minutes` component labelled `minutes`; its raw
+nonnegative value is used without dividing by its normalization reference.
+The snapshot's `available_at_origin_hours` is the time its last datum became
+known, including all trial measurements and plan details. It must be finite,
+no later than zero, and no earlier than any historical assessment/exposure.
+This field is an ingestion authority assertion, not a timestamp inferred from
+an outcome. Realized future durations or retrospective validity decisions must
+never be entered as origin-known observations. Plan durations are the declared
+plan measurements at origin, not later realized event measurements.
+
+### Independent public ingestion and pinned authority
+
+An application obtains independently authorized public observations and routine
+metadata before prediction. It builds typed `AssessmentObservation`,
+`CriterionTrial`, `CampExposure`, and `PlannedExposure` values and submits the
+seven exact fields of `Gate7OriginObservation` through
+`gate7_origin_from_mapping`. This is a typed ingestion API, not a JSON decoder.
+Unknown or missing fields, including labels and future target assessments, fail
+closed. Nested records require the registered concrete types; trial counts,
+availability states, times, units and masks are checked without imputation.
+
+The authority canonicalizes origins with
+`gate7_observation_payload_v1(source_identity, origins)` and independently pins
+its SHA-256. The UTF-8 payload binds the schema, independently named source,
+participant grouping, all observation fields and origin identity. JSON uses
+sorted object keys, compact separators, ASCII escaping and no NaN; origins are
+ordered by origin id, and submitted history/trial arrays retain their order.
+It separately pins a `Gate7RoutineSource` payload and SHA-256 using the existing
+four-field origin-record format. Exactly the same origin set is required in
+both sources. Routine flags must be consistent with their registered category,
+and availability must be no later than origin.
+
+Configure `Gate7ObservationBuilderV1(source_identity, origins,
+expected_observations_sha256, routine_source)` once outside prediction requests.
+Retain that immutable builder and source for both horizons and subsequent calls.
+`build(origin_id, horizon, target_time_hours=None)` accepts only an existing
+origin and a registered query. It cannot accept replacement source data or
+routine metadata. Pinning proves byte identity, not truth or authorization:
+constructing an entirely new builder with new trusted digests is an explicit
+application authority change, outside this request API. There is no global
+registry across independently configured applications.
+
+The builder returns the existing `Gate7CampPredictionInput`. It derives the
+baseline, orders assessments, and projects the complete known plan through the
+query time: H72 gets the 48-hour plan event, D7 gets both events. The existing
+projection adapter includes the index in the plan slots and zero-pads the final
+H72 plan slot, as required by the recovered extractor. Routine records and
+all other origin observations stay identical across horizons and calls.
+`project_gate7_v1((builder.build(origin_id, horizon),),
+routine_source=builder.routine_source)` executes the existing projection contract.
+`builder.inputs()` orders origin ids ascending, then H72 before D7;
+`builder.matrix()` returns finite float64 `(N, 39)` values in the existing frozen
+feature order and units, without scaling or inference.
+
+### Distinct synthetic fixture and reproduction
+
+Run the complete pipeline and print its verification receipts with:
+
+```sh
+python -m cmj_recovery_dynamics.observations.public_builder
+```
+
+Or obtain a matrix directly:
+
+```python
+from cmj_recovery_dynamics.observations.public_builder import generate_gate7_fixture_v1
+
+builder = generate_gate7_fixture_v1("training")
+matrix = builder.matrix()  # float64, (16, 39)
+```
+
+Generator `oss_gate7_observation_fixture_v1`, dataset
+`oss_gate7_observation_integration_v1`, and seed `20261024` are new OSS
+identities. Split names are `training` and `public_validation`, with four and
+two participants respectively, two origins per participant, and two horizons
+per origin. Split-qualified SHA-256 participant keys keep groups disjoint;
+grouping keys never enter the 39 predictors. Draws use SHA-256 of generator,
+seed and semantic keys, first eight bytes as a big-endian integer divided by
+2**64, affine scaling and rounding to nine decimal places. Participant, origin,
+session, trial, duration and routine keys are distinct. Session deviations are
+shared within each three-trial assessment; trial errors use independent semantic
+keys. Routine state depends only on its origin key and never on a target.
+Fixture history is at -240, -72, -48 and -24 hours; prior exposure is at -96.
+These schedules match the recovered L05-R01 public shape.
+
+This predictor-only integration fixture does not simulate a calibrated response
+law, provide labels, or establish athlete performance. Its numerical ranges and
+seed are new conventions. Shape/units and extractor compatibility do not mean
+exact replay of Gate7 training/validation membership, measurements, generator
+randomness, fitted preprocessing, or scores. Historical dataset authorities
+remain separate; the existing clean-room camp sample is not silently adapted.
+
+Frozen source and output SHA-256 values:
+
+| Split | Origin observations | Routine source | Matrix |
+| --- | --- | --- | --- |
+| training | `cc9df5158b4ccd3100f42588a69ca79a4e0f04ed5685f2dddf76f80a94d354cf` | `60f813fcc98bca2444c28ab94e07c74f042b5661e176fa5d7482399c586b5eed` | `3404bd1c6c2988a76b33cebbeb40de9a5152f0881a5182d47a4248e3a213c8a6` |
+| public_validation | `979adc14bf17250dfaf38061e2ff1c962ad95a27da13692d4f612f62ef594726` | `7fb7915f3d8e88e6487b9713ed759d9ada82cedb71763f78bfff040c8216c25b` | `2d236629413f250697a6f21df66ff04bec56a6e8ddc760ae49c63d2dc6a6e147` |
+
+Matrix hashes use little-endian float64 bytes in C order. Shapes are `(16, 39)`
+and `(8, 39)`. Tests pin these six hashes, verify every column against independent
+literal H72/D7 vectors, cover all five routine categories, and test temporal
+leakage, source replacement, cardinalities, invalid trials, durations and group
+isolation. The original extractor identified by SHA-256
+`b414b8928396af65e716a15dd05ce200464b6e94431439bc077fdf4612e20adb`
+was also executed privately on the 24 new fixture rows: every column was exactly
+equal. Only synthetic inputs were used; no recovered data or source is published.
+
+Local verification: full pytest **437 passed**, including repository boundaries;
+Ruff lint/format passed; strict Pyright reported zero errors, warnings or
+informations. The wheel (88 entries) contained only package Python and dist-info,
+and its builder bytes matched source. The sdist (153 entries) included the
+builder and its tests, with no model/data payloads. A fresh Python 3.12 environment
+installed the wheel and NumPy 2.5.3, then ran outside the checkout: **111 tests
+passed**, and both complete CLI receipts matched the source run exactly.
+GitHub Python CI now repeats builder/projection tests and the executable fixture
+pipeline after installing the wheel outside the checkout.
