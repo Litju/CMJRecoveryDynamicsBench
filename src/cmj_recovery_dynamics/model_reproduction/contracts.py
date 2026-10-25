@@ -5,6 +5,7 @@ from __future__ import annotations
 import math
 import re
 from dataclasses import dataclass
+from datetime import date
 from enum import StrEnum
 from pathlib import PurePosixPath
 
@@ -45,6 +46,84 @@ class CheckpointState(StrEnum):
     NOT_RECOVERED = "NOT_RECOVERED"
     UNKNOWN = "UNKNOWN"
     NOT_APPLICABLE = "NOT_APPLICABLE"
+
+
+class ModelOwnershipStatus(StrEnum):
+    OWNER_ATTESTED_FIRST_PARTY = "OWNER_ATTESTED_FIRST_PARTY"
+    IDENTITY_UNRESOLVED = "IDENTITY_UNRESOLVED"
+    OUTSIDE_ATTESTATION_SCOPE = "OUTSIDE_ATTESTATION_SCOPE"
+
+
+class PublicationAuthorityStatus(StrEnum):
+    OWNER_CONTROL_CONFIRMED = "OWNER_CONTROL_CONFIRMED"
+    NOT_ESTABLISHED = "NOT_ESTABLISHED"
+
+
+class ModelDistributionTermsStatus(StrEnum):
+    OWNER_CONTROLLED_NO_PUBLIC_LICENSE = "OWNER_CONTROLLED_NO_PUBLIC_LICENSE"
+    THIRD_PARTY_CLEARANCE_REQUIRED = "THIRD_PARTY_CLEARANCE_REQUIRED"
+    UNRESOLVED = "UNRESOLVED"
+
+
+class ModelArtifactReleaseStatus(StrEnum):
+    NOT_RELEASED = "NOT_RELEASED"
+    PRIVATE_ARCHIVE_ONLY = "PRIVATE_ARCHIVE_ONLY"
+
+
+@dataclass(frozen=True, slots=True)
+class OwnerModelAttestation:
+    reference: str
+    attestation_date: date
+    scope: str
+    exclusions: tuple[str, ...]
+
+    def __post_init__(self) -> None:
+        if not self.reference or not self.scope or not self.exclusions:
+            raise ValueError("owner attestation needs a reference, scope, and exclusions")
+        if any(not exclusion for exclusion in self.exclusions):
+            raise ValueError("owner attestation exclusions must be non-empty")
+
+
+@dataclass(frozen=True, slots=True)
+class ModelArtifactRightsDecision:
+    artifact_name: str
+    artifact_scope: str
+    ownership_status: ModelOwnershipStatus
+    publication_authority: PublicationAuthorityStatus
+    distribution_terms: ModelDistributionTermsStatus
+    release_status: ModelArtifactReleaseStatus
+    evidence_sources: tuple[str, ...]
+    note: str
+
+    def __post_init__(self) -> None:
+        if not self.artifact_name or not self.artifact_scope or not self.note:
+            raise ValueError("model rights decisions need an artifact, scope, and decision note")
+        if not self.evidence_sources or any(not source for source in self.evidence_sources):
+            raise ValueError("model rights decisions need non-empty evidence sources")
+        if self.ownership_status is ModelOwnershipStatus.OWNER_ATTESTED_FIRST_PARTY:
+            if self.publication_authority is not PublicationAuthorityStatus.OWNER_CONTROL_CONFIRMED:
+                raise ValueError("owner-attested models must record owner publication authority")
+            if (
+                self.distribution_terms
+                is not ModelDistributionTermsStatus.OWNER_CONTROLLED_NO_PUBLIC_LICENSE
+            ):
+                raise ValueError("owner-attested models must not inherit external licensing status")
+            if self.release_status is not ModelArtifactReleaseStatus.NOT_RELEASED:
+                raise ValueError(
+                    "this rights registry records owner-attested artifacts as unreleased"
+                )
+        elif self.publication_authority is PublicationAuthorityStatus.OWNER_CONTROL_CONFIRMED:
+            raise ValueError("owner publication authority requires an owner-attested artifact")
+        elif (
+            self.distribution_terms
+            is ModelDistributionTermsStatus.OWNER_CONTROLLED_NO_PUBLIC_LICENSE
+        ):
+            raise ValueError(
+                "owner-controlled distribution terms require owner-attested provenance"
+            )
+        if self.ownership_status is not ModelOwnershipStatus.OWNER_ATTESTED_FIRST_PARTY:
+            if self.release_status is not ModelArtifactReleaseStatus.PRIVATE_ARCHIVE_ONLY:
+                raise ValueError("unattested model artifacts must remain private")
 
 
 class ResultReproductionStatus(StrEnum):
