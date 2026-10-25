@@ -1,0 +1,168 @@
+# RES-546 Gate7 M0 inference verification
+
+**READY_FOR_PRIVATE_GATE7_M0_INFERENCE_REVIEW** — both recovered original M0
+repeats executed on 2026-10-25 using safe weights-only loading. The public adapter
+matched the unmodified preserved original-source predictor. This report supersedes
+planning-only status for these two repeats; it does not alter rights or scores.
+
+## Artifact and source verification
+
+The private RES-545 bundle checksums verified before use. Each repeat's checkpoint,
+configuration and result packet matched the recovery inventory and Gate7 checksum
+ledger. The result's checkpoint hash, repeat, candidate, seed identity, data
+contract and canonical configuration digest matched the corresponding run. The
+checkpoint manifest independently identified each selected state. Original model,
+training and feature-extractor source bytes matched the preserved source index.
+Both fitted preprocessors have identical content, embedded in their independently
+verified repeat configs. No preprocessing fit, retraining or model selection ran.
+
+The private receipt retains full artifact/configuration/source identities, fixture
+receipts, runtimes, numerical comparisons and private prediction arrays. These
+materials remain outside public Git; no private source, fitted scalers, weights,
+restricted rows, per-row predictions, machine locators or source commit IDs are
+published here.
+
+## Synthetic execution and independent source parity
+
+Inputs were the existing public observation builder's frozen v1 fixture: 16 rows
+from its `training` partition followed by 8 from its `public_validation` partition,
+each in origin-id order, H72 then D7. These names identify new synthetic predictor
+fixtures, not the historical training or evaluation split. There are no target
+labels and this execution establishes no predictive accuracy.
+
+An independent conversion of the source observations to original participant-visible
+records passed the unmodified original extractor with exact equality to all 936
+entries of the builder's `(24, 39)` raw float64 matrix. Original and adapter fitted
+standardization produced identical `(24, 39)` float32 tensors. The adapter uses
+only the raw-feature branch required by M0; the original predictor also executes
+its preserved history/basis preprocessing. The network has 1,346 parameters:
+Linear(39,32), exact GELU, Linear(32,2). Both final outputs were finite `(24, 2)`
+arrays, float32 network values returned as float64.
+
+Outputs are innovations ordered as relative mean concentric force (N/kg) and
+relative concentric net impulse (m/s). The original output transform is identity:
+train-only per-cell target scales belong to loss/evaluation and must not be
+multiplied into predictions. Baseline addition is not part of this adapter.
+
+Numerical tolerances were declared in the private runner before loading or
+predicting: `abs(a-b) <= 1e-6 + 1e-5 * abs(b)`. Maximum relative error is
+`abs(a-b) / max(abs(b), float64.tiny)`.
+
+| Repeat | Max absolute error | Max relative error | Finite output | Repeated call |
+|---|---:|---:|---|---|
+| M0-r0 | 0 | 0 | (24, 2) | Exactly equal |
+| M0-r1 | 0 | 0 | (24, 2) | Exactly equal |
+
+Runtime: Linux x86_64, Python 3.12, NumPy 2.5.3, PyTorch 2.14.1+cpu,
+one CPU inference thread, deterministic algorithms enabled. Single-call wall times
+are execution evidence, not a throughput benchmark; imports are excluded.
+
+| Repeat | Adapter load | Adapter forward | Original load + forward |
+|---|---:|---:|---:|
+| M0-r0 | 3.32 ms | 0.84 ms | 2.41 ms |
+| M0-r1 | 1.54 ms | 0.28 ms | 2.98 ms |
+
+## Separately identified historical prediction replay
+
+The exact 512 historical validation rows were accessible from the run-bound source
+and matched the configuration's split SHA-256. Query order, horizons and target
+order matched the saved predictions. Their canonical innovation matrices matched
+the original result/manifest prediction digests before comparison. No hidden split
+or empirical athlete dataset was used.
+
+Predeclared historical tolerance: `abs(a-b) <= 1e-5 + 1e-4 * abs(b)`.
+Original-source versus adapter CPU predictions again had zero maximum absolute
+and relative error for both repeats. Against saved training-runtime predictions:
+
+| Repeat | Max absolute error | Max relative error | Tolerance | Adapter forward |
+|---|---:|---:|---|---:|
+| M0-r0 | 1.430511474609375e-6 | 6.355414324126131e-5 | Pass | 0.82 ms |
+| M0-r1 | 1.430511474609375e-6 | 1.439026395855604e-4 | Pass | 0.62 ms |
+
+The combined absolute/relative tolerance applies elementwise; the maximum relative
+error alone need not be below `rtol`. Saved predictions came from PyTorch
+2.11.0+cu128 on CUDA; this CPU replay is tolerance parity, not bitwise historical
+reproduction. No scientific score was redefined or recomputed by this execution.
+
+## Reusable implementation and verification
+
+Install the optional `inference` extra to import
+`cmj_recovery_dynamics.model_reproduction.checkpoint_inference`. Call
+`load_gate7_m0(config_path, checkpoint_path, config_sha256=..., checkpoint_sha256=...,
+repeat=...)`, then `.predict(builder.matrix())`. Supply the exact pair of hashes
+from independently verified private run evidence. Hashes pin bytes; they do not
+establish provenance or pair association by themselves. There is no artifact
+discovery, downloading or automatic private loading.
+
+The loader verifies hashes on the same bytes it deserializes, checks the repeat,
+feature/target order, preprocessing and identity output transform, and accepts
+only the four finite float32 tensors of the exact architecture. It always calls
+`torch.load(..., map_location="cpu", weights_only=True)` without allowlisting or
+unsafe fallback. The NumPy-only package import and initial-preseason public M0
+remain independent. CI installs the optional CPU runtime to exercise the tests.
+
+Synthetic tests cover exact nonzero forward execution, deterministic inference,
+RNG preservation, malformed features, float32 overflow, invalid fitted scales,
+wrong configuration/repeat/hash/tensor contracts, unsafe-global rejection and
+one-call weights-only loading without fallback. Verification completed: **445 pytest tests passed** (including repository boundary
+and eight inference tests); Ruff check and format check passed; strict Pyright
+reported zero errors or warnings. The built wheel passed **119 tests** outside the
+checkout, including inference, projection and observation-builder checks. Wheel
+and source archive inspection found no private model/data/source artifacts.
+PyTorch is optional at runtime; CI explicitly installs it so inference tests run.
+
+## Scientific and publication limits
+
+This qualifies the two private Gate7 M0 checkpoints for inference review. It does
+not establish clinical validity, human athlete performance, out-of-distribution
+robustness, production scorer readiness or checkpoint redistribution permission.
+The frozen synthetic fixture is never a historical evaluation claim. Gate7 M0
+remains distinct from the initial-preseason public M0. Rights declarations,
+official v1.0.0 release artifacts and existing PRs are unchanged. No PR is merged.
+
+## Final integration qualification — 2026-10-25
+
+**READY_FOR_M0_STACK_INTEGRATION** after the remaining inference findings were
+repaired. Positive synthetic tests now execute both repeat identities, compare
+nonzero forward outputs exactly, check deterministic repeated calls, distinguish
+repeat-specific checkpoint/configuration bytes and outputs, and reject the other
+repeat's requested identity. The authoritative target order is a `Final` tuple;
+validation still accepts the original JSON arrays in their exact order.
+
+An independent private audit verified the existing execution receipt against its
+verification receipt and original adapter commit. It checked the RES-545 bundle,
+repeat-specific checkpoint/config/result records, canonical config digests,
+embedded preprocessing identities and original source bytes. Both the saved
+prediction files' byte checksums and their canonical innovation digests verified.
+The 512 historical rows matched the run-bound split identity; query order,
+horizons and target order matched the saved predictions. Fresh safe execution
+reproduced every preserved synthetic and historical output array exactly.
+Original-source parity remains zero for both repeats, and both historical
+comparisons retain the tolerances and errors reported above. No score was
+recomputed. Detailed audit records remain private.
+
+Source-fingerprint handling is reconciled in PR #14 and propagated through #15
+and #16. The current trees use `RES-546-EXTRACTOR-AUTHORITY-01`; the differential
+harness verifies a reviewer-supplied private SHA-256 pin before source execution.
+Its actual original-source replay passed all 780 synthetic column comparisons
+with zero difference. Existing decisions did not establish public disclosure
+permission for that fingerprint, so the public identifier was replaced without
+reopening rights decisions or rewriting history. Previously published commits
+are unchanged.
+
+Final local checks: **449 pytest tests passed**, including **21 repository
+boundary tests** and **11 inference tests**; Ruff lint/format and strict Pyright
+passed. The installed wheel passed **122 projection, builder and inference tests**
+outside the checkout. Wheel and sdist inspection found no private payloads or
+private source fingerprint. The separately checked #13, #14 and #15 source scopes
+passed 326, 373 and 438 tests respectively, plus Ruff and strict Pyright. PR #13
+predates Python CI; its Python checks were executed locally rather than inferred
+from its website CI status.
+
+All four sequential integration simulations were conflict-free and yielded the
+intended branch trees. Repairs were propagated as ordinary commits; no merge or
+force-push was performed. Preserve ancestry with merge commits when integration
+is authorized: #13 into main, retarget and integrate #14, then #15, then #16.
+Refresh CI and review the incremental diff after each retarget. Draft/review and
+merge authorization remain separate from this technical qualification. Existing
+rights, scientific definitions and official release artifacts remain unchanged.
