@@ -252,13 +252,6 @@ surrogate or a comparison to copied goldens.
 }
 ```
 
-The Python CI workflow runs full pytest (including architecture boundaries),
-Ruff, strict Pyright, a wheel/sdist build, and installed-wheel projection tests
-outside the checkout. The private-source differential harness is deliberately
-not run by public GitHub CI. Review readiness and CI outcomes are reported for
-the atomic repair commit; no approval or merge is implied by these checks.
-
-
 ### Source-fingerprint publication handling
 
 `RES-546-EXTRACTOR-AUTHORITY-01` is an opaque reference to the privately verified
@@ -270,3 +263,9 @@ with those decisions, the full digest stays in the private recovery index and
 reviewer-supplied pin file. The harness still verifies exact bytes before source
 execution and publishes only the opaque reference. This is a current-tree repair,
 not a history rewrite, and does not reopen ownership or licensing decisions.
+
+The Python CI workflow runs full pytest (including architecture boundaries),
+Ruff, strict Pyright, a wheel/sdist build, and installed-wheel projection tests
+outside the checkout. The private-source differential harness is deliberately
+not run by public GitHub CI. Review readiness and CI outcomes are reported for
+the atomic repair commit; no approval or merge is implied by these checks.
