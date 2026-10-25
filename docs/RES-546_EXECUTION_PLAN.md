@@ -379,8 +379,8 @@ Matrix hashes use little-endian float64 bytes in C order. Shapes are `(16, 39)`
 and `(8, 39)`. Tests pin these six hashes, verify every column against independent
 literal H72/D7 vectors, cover all five routine categories, and test temporal
 leakage, source replacement, cardinalities, invalid trials, durations and group
-isolation. The original extractor identified by SHA-256
-`b414b8928396af65e716a15dd05ce200464b6e94431439bc077fdf4612e20adb`
+isolation. The original extractor identified privately by the opaque authority
+`RES-546-EXTRACTOR-AUTHORITY-01`
 was also executed privately on the 24 new fixture rows: every column was exactly
 equal. Only synthetic inputs were used; no recovered data or source is published.
 
