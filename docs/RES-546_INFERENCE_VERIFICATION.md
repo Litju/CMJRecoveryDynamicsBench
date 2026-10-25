@@ -119,3 +119,50 @@ robustness, production scorer readiness or checkpoint redistribution permission.
 The frozen synthetic fixture is never a historical evaluation claim. Gate7 M0
 remains distinct from the initial-preseason public M0. Rights declarations,
 official v1.0.0 release artifacts and existing PRs are unchanged. No PR is merged.
+
+## Final integration qualification — 2026-10-25
+
+**READY_FOR_M0_STACK_INTEGRATION** after the remaining inference findings were
+repaired. Positive synthetic tests now execute both repeat identities, compare
+nonzero forward outputs exactly, check deterministic repeated calls, distinguish
+repeat-specific checkpoint/configuration bytes and outputs, and reject the other
+repeat's requested identity. The authoritative target order is a `Final` tuple;
+validation still accepts the original JSON arrays in their exact order.
+
+An independent private audit verified the existing execution receipt against its
+verification receipt and original adapter commit. It checked the RES-545 bundle,
+repeat-specific checkpoint/config/result records, canonical config digests,
+embedded preprocessing identities and original source bytes. Both the saved
+prediction files' byte checksums and their canonical innovation digests verified.
+The 512 historical rows matched the run-bound split identity; query order,
+horizons and target order matched the saved predictions. Fresh safe execution
+reproduced every preserved synthetic and historical output array exactly.
+Original-source parity remains zero for both repeats, and both historical
+comparisons retain the tolerances and errors reported above. No score was
+recomputed. Detailed audit records remain private.
+
+Source-fingerprint handling is reconciled in PR #14 and propagated through #15
+and #16. The current trees use `RES-546-EXTRACTOR-AUTHORITY-01`; the differential
+harness verifies a reviewer-supplied private SHA-256 pin before source execution.
+Its actual original-source replay passed all 780 synthetic column comparisons
+with zero difference. Existing decisions did not establish public disclosure
+permission for that fingerprint, so the public identifier was replaced without
+reopening rights decisions or rewriting history. Previously published commits
+are unchanged.
+
+Final local checks: **449 pytest tests passed**, including **21 repository
+boundary tests** and **11 inference tests**; Ruff lint/format and strict Pyright
+passed. The installed wheel passed **122 projection, builder and inference tests**
+outside the checkout. Wheel and sdist inspection found no private payloads or
+private source fingerprint. The separately checked #13, #14 and #15 source scopes
+passed 326, 373 and 438 tests respectively, plus Ruff and strict Pyright. PR #13
+predates Python CI; its Python checks were executed locally rather than inferred
+from its website CI status.
+
+All four sequential integration simulations were conflict-free and yielded the
+intended branch trees. Repairs were propagated as ordinary commits; no merge or
+force-push was performed. Preserve ancestry with merge commits when integration
+is authorized: #13 into main, retarget and integrate #14, then #15, then #16.
+Refresh CI and review the incremental diff after each retarget. Draft/review and
+merge authorization remain separate from this technical qualification. Existing
+rights, scientific definitions and official release artifacts remain unchanged.
