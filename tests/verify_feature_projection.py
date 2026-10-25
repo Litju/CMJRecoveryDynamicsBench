@@ -31,7 +31,7 @@ from cmj_recovery_dynamics.model_reproduction.gate7_projection import (
     project_gate7_historical_v1,
 )
 
-SOURCE_SHA256 = "b414b8928396af65e716a15dd05ce200464b6e94431439bc077fdf4612e20adb"
+SOURCE_AUTHORITY = "RES-546-EXTRACTOR-AUTHORITY-01"
 
 
 def fixtures() -> list[dict[str, Any]]:
@@ -117,9 +117,9 @@ def public_row(row: dict[str, Any]) -> Gate7PublicFeatureRow:
     )
 
 
-def verify(source: Path) -> dict[str, Any]:
+def verify(source: Path, *, expected_source_sha256: str) -> dict[str, Any]:
     source_bytes = source.read_bytes()
-    if hashlib.sha256(source_bytes).hexdigest() != SOURCE_SHA256:
+    if hashlib.sha256(source_bytes).hexdigest() != expected_source_sha256:
         raise ValueError("original extractor source identity mismatch")
     # Execute the unmodified preserved module; none of its I/O/model helpers are called.
     original = runpy.run_path(str(source))
@@ -166,7 +166,7 @@ def verify(source: Path) -> dict[str, Any]:
     return {
         "source_contract": GATE7_FEATURE_CONTRACT.version,
         "model_identity": GATE7_FEATURE_CONTRACT.model_identity,
-        "source_module_sha256": SOURCE_SHA256,
+        "source_authority": SOURCE_AUTHORITY,
         "fixture_identity": "independent_synthetic_projection_v1",
         "fixture_sha256": hashlib.sha256(fixture_bytes).hexdigest(),
         "method": "unmodified original feature_vector versus public historical projection",
@@ -194,4 +194,14 @@ def verify(source: Path) -> dict[str, Any]:
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--original-source", type=Path, required=True)
-    print(json.dumps(verify(parser.parse_args().original_source), indent=2))
+    parser.add_argument("--source-sha256-file", type=Path, required=True)
+    args = parser.parse_args()
+    print(
+        json.dumps(
+            verify(
+                args.original_source,
+                expected_source_sha256=args.source_sha256_file.read_text().strip(),
+            ),
+            indent=2,
+        )
+    )

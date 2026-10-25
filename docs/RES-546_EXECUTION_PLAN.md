@@ -209,11 +209,14 @@ To reproduce with authorized access to the original source, run from this
 checkout with the project environment:
 
 ```sh
-PYTHONPATH=src python tests/verify_feature_projection.py --original-source "$AUTHORIZED_ORIGINAL_SOURCE"
+PYTHONPATH=src python tests/verify_feature_projection.py \
+  --original-source "$AUTHORIZED_ORIGINAL_SOURCE" \
+  --source-sha256-file "$PRIVATE_AUTHORITY_SHA256_FILE"
 ```
 
-The harness requires the exact source-module SHA-256 below and fails on a
-mismatch. The original source is intentionally excluded from public Git and
+The harness requires the exact source-module SHA-256 from the independently
+verified private recovery index and fails on a mismatch. Supply that digest in a
+private text file; neither its value nor its path enters the public receipt. The original source is intentionally excluded from public Git and
 release artifacts; a public checkout alone cannot execute that private half of
 the comparison. The fixture construction, comparison logic, source identity,
 and sanitized observed results are public and independently rerunnable by an
@@ -224,7 +227,7 @@ surrogate or a comparison to copied goldens.
 {
   "source_contract": "gate7_feature_projection_v1",
   "model_identity": "gate7_m0_candidate",
-  "source_module_sha256": "b414b8928396af65e716a15dd05ce200464b6e94431439bc077fdf4612e20adb",
+  "source_authority": "RES-546-EXTRACTOR-AUTHORITY-01",
   "fixture_identity": "independent_synthetic_projection_v1",
   "fixture_sha256": "7dd45f9e9c2111a0b9b4596aa5af6620ca07fd7dcaf2c4c7e4c0735f47dfa60a",
   "method": "unmodified original feature_vector versus public historical projection",
@@ -254,3 +257,16 @@ Ruff, strict Pyright, a wheel/sdist build, and installed-wheel projection tests
 outside the checkout. The private-source differential harness is deliberately
 not run by public GitHub CI. Review readiness and CI outcomes are reported for
 the atomic repair commit; no approval or merge is implied by these checks.
+
+
+### Source-fingerprint publication handling
+
+`RES-546-EXTRACTOR-AUTHORITY-01` is an opaque reference to the privately verified
+extractor source record. Existing M7 occurrence handling uses opaque references
+and does not infer disclosure permission from private preservation; the RES-545
+public review and PR #13 also withhold source hashes. No separate decision
+clearing this source fingerprint for public disclosure was found. Consistent
+with those decisions, the full digest stays in the private recovery index and
+reviewer-supplied pin file. The harness still verifies exact bytes before source
+execution and publishes only the opaque reference. This is a current-tree repair,
+not a history rewrite, and does not reopen ownership or licensing decisions.
