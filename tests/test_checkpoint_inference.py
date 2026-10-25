@@ -174,7 +174,7 @@ def test_repeats_have_distinct_identities_and_outputs(tmp_path: Path) -> None:
     assert artifacts[0][0].read_bytes() != artifacts[1][0].read_bytes()
     assert artifacts[0][1].read_bytes() != artifacts[1][1].read_bytes()
     predictions = [p.predict(matrix) for p in predictors]
-    assert not np.array_equal(*predictions)
+    assert not np.array_equal(predictions[0], predictions[1])
     for repeat, predictor in enumerate(predictors):
         np.testing.assert_array_equal(predictions[repeat], predictor.predict(matrix))
         config, weights, _ = artifacts[repeat]
