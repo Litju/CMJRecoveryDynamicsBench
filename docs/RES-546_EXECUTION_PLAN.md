@@ -252,6 +252,18 @@ surrogate or a comparison to copied goldens.
 }
 ```
 
+### Source-fingerprint publication handling
+
+`RES-546-EXTRACTOR-AUTHORITY-01` is an opaque reference to the privately verified
+extractor source record. Existing M7 occurrence handling uses opaque references
+and does not infer disclosure permission from private preservation; the RES-545
+public review and PR #13 also withhold source hashes. No separate decision
+clearing this source fingerprint for public disclosure was found. Consistent
+with those decisions, the full digest stays in the private recovery index and
+reviewer-supplied pin file. The harness still verifies exact bytes before source
+execution and publishes only the opaque reference. This is a current-tree repair,
+not a history rewrite, and does not reopen ownership or licensing decisions.
+
 The Python CI workflow runs full pytest (including architecture boundaries),
 Ruff, strict Pyright, a wheel/sdist build, and installed-wheel projection tests
 outside the checkout. The private-source differential harness is deliberately
@@ -393,15 +405,3 @@ installed the wheel and NumPy 2.5.3, then ran outside the checkout: **111 tests
 passed**, and both complete CLI receipts matched the source run exactly.
 GitHub Python CI now repeats builder/projection tests and the executable fixture
 pipeline after installing the wheel outside the checkout.
-
-### Source-fingerprint publication handling
-
-`RES-546-EXTRACTOR-AUTHORITY-01` is an opaque reference to the privately verified
-extractor source record. Existing M7 occurrence handling uses opaque references
-and does not infer disclosure permission from private preservation; the RES-545
-public review and PR #13 also withhold source hashes. No separate decision
-clearing this source fingerprint for public disclosure was found. Consistent
-with those decisions, the full digest stays in the private recovery index and
-reviewer-supplied pin file. The harness still verifies exact bytes before source
-execution and publishes only the opaque reference. This is a current-tree repair,
-not a history rewrite, and does not reopen ownership or licensing decisions.
