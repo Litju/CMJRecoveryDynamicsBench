@@ -12,7 +12,7 @@ import io
 import json
 from dataclasses import dataclass
 from pathlib import Path
-from typing import cast
+from typing import Final, cast
 
 import numpy as np
 import torch
@@ -26,7 +26,7 @@ from cmj_recovery_dynamics.model_reproduction.baselines import (
 from cmj_recovery_dynamics.model_reproduction.gate7_projection import GATE7_FEATURE_NAMES
 
 FAMILY = "LCMJ-G6-public-sequence-hybrid-M0-M8-v1"
-TARGETS = ["relative_mean_concentric_force", "relative_concentric_net_impulse"]
+TARGETS: Final = ("relative_mean_concentric_force", "relative_concentric_net_impulse")
 TARGET_TRANSFORM = "none; loss/evaluation uses train-only cell standard deviations"
 
 
@@ -85,8 +85,8 @@ def load_gate7_m0(
         or config["seed_identity"]["repeat"] != repeat
         or config["raw_feature_count"] != 39
         or config["data"]["feature_names"] != list(GATE7_FEATURE_NAMES)
-        or config["target_order"] != TARGETS
-        or config["data"]["target_order"] != TARGETS
+        or config["target_order"] != list(TARGETS)
+        or config["data"]["target_order"] != list(TARGETS)
         or config["target_representation"] != "innovation"
         or config["target_transform"] != TARGET_TRANSFORM
         or config["raw_transform"] != "train-only mean/std standardization"

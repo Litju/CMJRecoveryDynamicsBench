@@ -26,46 +26,51 @@ from cmj_recovery_dynamics.observations.public_builder import (  # noqa: E402
 )
 
 
-def _artifacts(tmp_path: Path) -> tuple[Path, Path, dict[str, Any]]:
+def _artifacts(tmp_path: Path, repeat: int = 0) -> tuple[Path, Path, dict[str, Any]]:
     config: dict[str, Any] = {
         "family": FAMILY,
         "candidate": "M0",
-        "seed_identity": {"candidate": "M0", "repeat": 0},
+        "seed_identity": {"candidate": "M0", "repeat": repeat},
         "raw_feature_count": 39,
-        "data": {"feature_names": list(GATE7_FEATURE_NAMES), "target_order": TARGETS},
-        "target_order": TARGETS,
+        "data": {"feature_names": list(GATE7_FEATURE_NAMES), "target_order": list(TARGETS)},
+        "target_order": list(TARGETS),
         "target_representation": "innovation",
         "target_transform": TARGET_TRANSFORM,
         "raw_transform": "train-only mean/std standardization",
         "preprocessor": {"raw_mean": [1.0] * 39, "raw_scale": [2.0] * 39},
     }
-    config_path, weights_path = tmp_path / "config.json", tmp_path / "weights.pt"
+    config_path, weights_path = (
+        tmp_path / f"config-r{repeat}.json",
+        tmp_path / f"weights-r{repeat}.pt",
+    )
     config_path.write_text(json.dumps(config))
     # Nonzero synthetic weights catch wrong matrix orientation and skipped scaling.
     state = {
         "raw_small.0.weight": torch.arange(32 * 39).reshape(32, 39).float() / 100000,
         "raw_small.0.bias": torch.linspace(-0.5, 0.5, 32),
         "raw_small.2.weight": torch.arange(64).reshape(2, 32).float() / 100,
-        "raw_small.2.bias": torch.tensor([0.25, -0.25]),
+        "raw_small.2.bias": torch.tensor([0.25 + repeat, -0.25 - repeat]),
     }
     torch.save(state, weights_path)
     return config_path, weights_path, config
 
 
-def _load(config: Path, weights: Path):
+def _load(config: Path, weights: Path, repeat: int = 0):
     return load_gate7_m0(
         config,
         weights,
         config_sha256=hashlib.sha256(config.read_bytes()).hexdigest(),
         checkpoint_sha256=hashlib.sha256(weights.read_bytes()).hexdigest(),
-        repeat=0,
+        repeat=repeat,
     )
 
 
-def test_exact_forward_and_determinism(tmp_path: Path) -> None:
-    config, weights, _ = _artifacts(tmp_path)
+@pytest.mark.parametrize("repeat", (0, 1))
+def test_exact_forward_and_determinism(tmp_path: Path, repeat: int) -> None:
+    config, weights, _ = _artifacts(tmp_path, repeat)
     rng = torch.random.get_rng_state().clone()
-    predictor = _load(config, weights)
+    predictor = _load(config, weights, repeat)
+    assert predictor.repeat == repeat
     assert torch.equal(rng, torch.random.get_rng_state())
     matrix = np.concatenate(
         [generate_gate7_fixture_v1(split).matrix() for split in ("training", "public_validation")]
@@ -157,3 +162,27 @@ def test_loader_always_requests_weights_only(
     with pytest.raises(pickle.UnpicklingError):
         _load(config, weights)
     assert calls == [{"map_location": "cpu", "weights_only": True}]
+
+
+def test_repeats_have_distinct_identities_and_outputs(tmp_path: Path) -> None:
+    matrix = generate_gate7_fixture_v1().matrix()
+    artifacts = [_artifacts(tmp_path, repeat) for repeat in (0, 1)]
+    predictors = [
+        _load(config, weights, repeat) for repeat, (config, weights, _) in enumerate(artifacts)
+    ]
+    assert tuple(p.repeat for p in predictors) == (0, 1)
+    assert artifacts[0][0].read_bytes() != artifacts[1][0].read_bytes()
+    assert artifacts[0][1].read_bytes() != artifacts[1][1].read_bytes()
+    predictions = [p.predict(matrix) for p in predictors]
+    assert not np.array_equal(*predictions)
+    for repeat, predictor in enumerate(predictors):
+        np.testing.assert_array_equal(predictions[repeat], predictor.predict(matrix))
+        config, weights, _ = artifacts[repeat]
+        with pytest.raises(ValueError, match="contract"):
+            _load(config, weights, 1 - repeat)
+
+
+def test_target_order_is_immutable_and_json_compatible() -> None:
+    assert type(TARGETS) is tuple
+    assert TARGETS == ("relative_mean_concentric_force", "relative_concentric_net_impulse")
+    assert json.loads(json.dumps(TARGETS)) == list(TARGETS)
