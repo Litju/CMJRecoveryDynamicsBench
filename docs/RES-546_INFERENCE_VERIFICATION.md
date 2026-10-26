@@ -166,3 +166,137 @@ is authorized: #13 into main, retarget and integrate #14, then #15, then #16.
 Refresh CI and review the incremental diff after each retarget. Draft/review and
 merge authorization remain separate from this technical qualification. Existing
 rights, scientific definitions and official release artifacts remain unchanged.
+
+## Gate7 M1 recovered inference qualification — 2026-10-26
+
+**READY_FOR_PRIVATE_GATE7_M1_INFERENCE_REVIEW** for both recovered final repeats,
+M1-r0 and M1-r1. The recovery inventory, final-weight records, run registry and
+checkpoint manifest agree on this complete final-repeat set. Intermediate epoch
+and environment-qualification checkpoints are not final-repeat artifacts and were
+not selected or executed. No training, fitting or model selection ran.
+
+### Recovered contract and implementation
+
+The independently verified original model source defines M1 as a raw-only
+39→64→2 network with exact GELU between its two linear layers: **2,690 parameters**.
+Its exact float32 state dictionary is:
+
+| Tensor | Shape |
+|---|---|
+| `raw_wide.0.weight` | `(64, 39)` |
+| `raw_wide.0.bias` | `(64,)` |
+| `raw_wide.2.weight` | `(2, 64)` |
+| `raw_wide.2.bias` | `(2,)` |
+
+There is no dropout in this candidate's forward path. The original preprocessing
+also constructs history `(N, 4, 4)`, horizon `(N,)` and basis `(N, 5)` inputs, but
+M1's forward method uses only raw features. The adapter accepts the existing
+finite float64 `(N, 39)` projection in `GATE7_FEATURE_NAMES` order. It applies the
+M1 run's fitted `(raw - raw_mean) / raw_scale` in float64 and casts to float32.
+The original fitting rule is training-only mean and sample standard deviation
+(`ddof=1`), replacing zero scales with one. No fitted values are published or
+refitted. Each repeat's own configuration supplies its preprocessing; equal
+preprocessing content was verified rather than inferred from M0.
+
+Outputs are `(N, 2)` innovations, ordered as relative mean concentric force
+(N/kg), then relative concentric net impulse (m/s). Network float32 outputs are
+returned as float64. The output transform is identity. Target scales used by the
+original loss/evaluation are not applied to inference, and baseline addition is
+not part of this adapter.
+
+Install the optional `inference` extra and import `load_gate7_m1` from
+`cmj_recovery_dynamics.model_reproduction.checkpoint_inference`. Its arguments
+match the existing M0 loader: explicit config/checkpoint paths, independently
+pinned `config_sha256`, `checkpoint_sha256`, and `repeat=0` or `repeat=1`; call the
+returned `Gate7M1Predictor.predict(raw_features)`. No private files are discovered
+or downloaded. The shared raw-network execution and validation are justified by
+the recovered source; M1's width and tensor namespace remain distinct from M0.
+M0's public API, configuration contract and inference behavior are preserved.
+
+The loader pins the exact bytes it consumes and uses only
+`torch.load(..., map_location="cpu", weights_only=True)`, with no unsafe fallback
+or added allowlisted globals. It rejects wrong candidate/repeat/input/output
+contracts, M1 width mismatches, invalid fitted scales, incompatible tensor keys,
+shapes or dtypes, and nonfinite tensors, preprocessing or predictions. Digest
+pins alone do not establish candidate/checkpoint association: the private
+qualification independently verifies the inventory, run configuration, canonical
+configuration digest, result, seed identity, source binding and final checkpoint.
+A caller must supply the corresponding verified pair of pins.
+
+### Frozen synthetic fixture execution
+
+The fixture is unchanged: 16 `training` rows followed by 8 `public_validation`
+rows, ordered by origin then H72/D7. These are synthetic fixture partition names,
+not historical evaluation membership. Independent conversion of observations to
+original-source records reproduced all 936 raw feature values exactly. The
+original preprocessing and adapter produced exactly equal `(24, 39)` float32
+inputs for both repeats. All outputs were finite and repeated calls were exactly
+equal. The unmodified original M1 predictor used its own source-defined network
+and complete preprocessing path.
+
+Source-parity tolerance was declared before execution:
+`abs(adapter - original) <= 1e-6 + 1e-5 * abs(original)`.
+
+| Repeat | Max absolute error | Max relative error | Output | Deterministic |
+|---|---:|---:|---|---|
+| M1-r0 | 0 | 0 | Finite `(24, 2)` | Exact |
+| M1-r1 | 0 | 0 | Finite `(24, 2)` | Exact |
+
+### Separate historical prediction replay
+
+For each repeat, the original validation bytes were retrieved from its verified
+run-bound source and matched the split digest in its configuration. Both splits
+contained exactly 512 rows. Before replay, saved prediction file byte checksums
+matched the preserved ledger; canonical innovation digests matched the original
+result, run registry and checkpoint manifest. Saved query ordering, horizons and
+target order matched the validation rows exactly. Byte digests, canonical
+prediction digests and query-order digests remain in the private receipt.
+
+The historical tolerance was separately predeclared:
+`abs(replayed - saved) <= 1e-5 + 1e-4 * abs(saved)`. Both adapter replays matched
+the unmodified original CPU predictor exactly, including preprocessing. Against
+the saved training-runtime predictions:
+
+| Repeat | Max absolute error | Max relative error | Historical replay |
+|---|---:|---:|---|
+| M1-r0 | 1.430511474609375e-6 | 5.814875508801607e-5 | Pass, 512 rows |
+| M1-r1 | 1.430511474609375e-6 | 4.9153575431076854e-5 | Pass, 512 rows |
+
+Relative error is `abs(replayed - saved) / max(abs(saved), float64.tiny)`.
+The elementwise combined tolerance defines acceptance. Runtime was Python 3.12,
+NumPy 2.5.3 and PyTorch 2.14.1+cpu, one CPU thread, deterministic algorithms
+enabled. Saved predictions originated on the preserved CUDA training runtime;
+this is numerical prediction parity, not bitwise cross-device reproduction.
+Historical scores were neither recomputed nor reinterpreted. The synthetic
+fixture results establish execution parity only.
+
+### Private evidence and review scope
+
+The private execution receipt records repeat-specific artifact and configuration
+identities, original source bindings, fitted preprocessing digests, tensor shapes,
+fixture receipts, deterministic execution, errors, runtimes and historical
+prediction/order digests. The private runner re-verifies preserved authorities
+before loading; its own digest and adapter digest bind the execution. A separate
+private verification receipt binds local checks, package inspection, installed
+wheel tests, the draft PR head and hosted CI. These receipts and prediction
+arrays remain outside Git. Only aggregate qualification findings are published.
+
+Synthetic tests exercise both candidates and both repeat identities, nonzero
+exact forward execution, RNG preservation, deterministic inference, wrong
+candidate/checkpoint and pinned repeat associations, preprocessing failures,
+tensor incompatibilities, invalid inputs, output overflow and weights-only
+rejection without fallback. Original M0 synthetic and historical executions were
+also rerun and compared exactly with their preserved private output arrays.
+No rights declaration, scorer, scientific result, original v1.0.0 tag or release
+artifact is changed. This qualification grants no checkpoint redistribution
+permission and makes no new predictive-performance or production-readiness claim.
+
+Local verification passed **508 pytest tests**, including **70 inference tests**
+and **21 repository boundary tests**, plus Ruff lint/format and strict Pyright
+with zero errors or warnings. A fresh environment installed the built wheel and
+passed **181 projection, observation-builder and inference tests** outside the
+checkout. Wheel and source archive entries were inspected against the public
+file boundary and scanned for private artifact/source identities; both passed.
+The existing Python CI workflow exercises these expanded inference tests in its
+full suite and installed-wheel smoke; hosted results are bound to the PR head in
+the private verification receipt.
