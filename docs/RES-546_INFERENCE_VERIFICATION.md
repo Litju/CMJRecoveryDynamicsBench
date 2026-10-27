@@ -1,11 +1,18 @@
-# RES-546 Gate7 M0 inference verification
+# RES-546 Gate7 M0/M1 inference verification
+
+The current M1 findings appear under **Gate7 M1 recovered inference
+qualification** and **Final M1 integration qualification** below. The M0 sections
+record historical qualification snapshots from 2026-10-25; their statuses and
+test totals describe those snapshots, not the current M1 qualification.
+
+## Historical M0 qualification snapshot — 2026-10-25
 
 **READY_FOR_PRIVATE_GATE7_M0_INFERENCE_REVIEW** — both recovered original M0
 repeats executed on 2026-10-25 using safe weights-only loading. The public adapter
 matched the unmodified preserved original-source predictor. This report supersedes
 planning-only status for these two repeats; it does not alter rights or scores.
 
-## Artifact and source verification
+### Artifact and source verification
 
 The private RES-545 bundle checksums verified before use. Each repeat's checkpoint,
 configuration and result packet matched the recovery inventory and Gate7 checksum
@@ -22,7 +29,7 @@ materials remain outside public Git; no private source, fitted scalers, weights,
 restricted rows, per-row predictions, machine locators or source commit IDs are
 published here.
 
-## Synthetic execution and independent source parity
+### Synthetic execution and independent source parity
 
 Inputs were the existing public observation builder's frozen v1 fixture: 16 rows
 from its `training` partition followed by 8 from its `public_validation` partition,
@@ -62,7 +69,7 @@ are execution evidence, not a throughput benchmark; imports are excluded.
 | M0-r0 | 3.32 ms | 0.84 ms | 2.41 ms |
 | M0-r1 | 1.54 ms | 0.28 ms | 2.98 ms |
 
-## Separately identified historical prediction replay
+### Separately identified historical prediction replay
 
 The exact 512 historical validation rows were accessible from the run-bound source
 and matched the configuration's split SHA-256. Query order, horizons and target
@@ -84,7 +91,7 @@ error alone need not be below `rtol`. Saved predictions came from PyTorch
 2.11.0+cu128 on CUDA; this CPU replay is tolerance parity, not bitwise historical
 reproduction. No scientific score was redefined or recomputed by this execution.
 
-## Reusable implementation and verification
+### Reusable implementation and verification
 
 Install the optional `inference` extra to import
 `cmj_recovery_dynamics.model_reproduction.checkpoint_inference`. Call
@@ -111,7 +118,7 @@ checkout, including inference, projection and observation-builder checks. Wheel
 and source archive inspection found no private model/data/source artifacts.
 PyTorch is optional at runtime; CI explicitly installs it so inference tests run.
 
-## Scientific and publication limits
+### Scientific and publication limits
 
 This qualifies the two private Gate7 M0 checkpoints for inference review. It does
 not establish clinical validity, human athlete performance, out-of-distribution
@@ -120,7 +127,7 @@ The frozen synthetic fixture is never a historical evaluation claim. Gate7 M0
 remains distinct from the initial-preseason public M0. Rights declarations,
 official v1.0.0 release artifacts and existing PRs are unchanged. No PR is merged.
 
-## Final integration qualification — 2026-10-25
+## Historical M0 integration qualification — 2026-10-25
 
 **READY_FOR_M0_STACK_INTEGRATION** after the remaining inference findings were
 repaired. Positive synthetic tests now execute both repeat identities, compare
@@ -300,3 +307,40 @@ file boundary and scanned for private artifact/source identities; both passed.
 The existing Python CI workflow exercises these expanded inference tests in its
 full suite and installed-wheel smoke; hosted results are bound to the PR head in
 the private verification receipt.
+
+## Final M1 integration qualification — 2026-10-27
+
+An independent audit verified the original private M1 verification receipt, its
+embedded execution receipt, all 55 bound evidence files and the checksum ledger.
+Fresh execution rechecked the recovered source identity, complete final-repeat
+set, checkpoint/config/result associations, repeat and seed identities, fitted
+preprocessing, original validation splits, saved-prediction bytes and canonical
+prediction bindings. Every preserved M1 synthetic and historical output array
+was reproduced exactly. The original receipts and evidence were left unchanged;
+the new audit and execution records remain private.
+
+Both M1 repeats retain zero numerical difference from the original CPU source
+on all 24 frozen synthetic observations and their separate 512-row historical
+replays. The saved CUDA prediction comparisons retain the errors and predeclared
+combined tolerances reported above; they are tolerance-based historical parity,
+not bitwise cross-device reproduction. Query order, horizons and target order
+were independently verified. No training, fitting, selection or scientific-score
+recomputation ran.
+
+M0's loader, predictor constructor and predict signatures match the base API.
+Fresh M0 executions reproduced both repeats' original private synthetic and
+historical arrays exactly. No M0 evidence, rights decision, scientific contract,
+v1.0.0 tag or published release artifact was changed.
+
+Final local qualification passed **508 pytest tests**, including **70 inference
+tests** and **21 repository boundary tests**, Ruff lint/format and strict Pyright.
+Fresh wheel/sdist inspection verified public payload boundaries and absence of
+private source/artifact identities. The installed wheel passed **181 tests**
+outside the checkout. Exact-head hosted results and release-identity checks are
+recorded separately in the final private qualification receipt. Integration
+readiness requires those checks to pass on the pushed documentation commit;
+this historical report alone is not evidence of hosted status for a later head.
+
+PR #17 remains subject to explicit merge approval. No merge, force-push,
+checkpoint/scaler publication or release modification is authorized by this
+qualification. Existing production-readiness and scientific limitations remain.
