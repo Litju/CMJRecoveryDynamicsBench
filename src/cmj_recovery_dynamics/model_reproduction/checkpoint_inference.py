@@ -1,4 +1,4 @@
-"""Explicit private Gate7 M0/M1 execution; importing this module requires PyTorch.
+"""Explicit private Gate7 M0/M1/M2 execution; importing this module requires PyTorch.
 
 No artifacts are bundled or discovered. Callers must supply independently verified
 config/checkpoint hash pairs from their private inventory. Outputs are innovations
@@ -39,7 +39,7 @@ def _verified_bytes(path: Path, expected: str) -> bytes:
 
 @dataclass(frozen=True)
 class _Gate7RawPredictor:
-    """Verified raw-only float32 inference shared by the recovered M0 and M1."""
+    """Verified raw-only float32 inference shared by the recovered M0, M1 and M2."""
 
     repeat: int
     feature_mean: NDArray[np.float64]
@@ -69,6 +69,11 @@ class Gate7M0Predictor(_Gate7RawPredictor):
 @dataclass(frozen=True)
 class Gate7M1Predictor(_Gate7RawPredictor):
     """CPU float32 Gate7 M1: source-verified 39→64→2 raw-only network."""
+
+
+@dataclass(frozen=True)
+class Gate7M2Predictor(_Gate7RawPredictor):
+    """CPU float32 Gate7 M2: source-verified 39→64→64→2 raw-only network."""
 
 
 def load_gate7_m0(
@@ -123,6 +128,33 @@ def load_gate7_m1(
     return Gate7M1Predictor(repeat, mean, scale, model)
 
 
+def load_gate7_m2(
+    config_path: Path,
+    checkpoint_path: Path,
+    *,
+    config_sha256: str,
+    checkpoint_sha256: str,
+    repeat: int,
+) -> Gate7M2Predictor:
+    """Load an independently pinned M2 pair with weights-only deserialization.
+
+    Establish candidate/repeat/config/checkpoint association against the private
+    recovery inventory first. Digest pins alone do not establish provenance.
+    M2 consumes only raw features; its original forward ignores other branches.
+    """
+    mean, scale, model = _load_gate7_raw_mlp(
+        config_path,
+        checkpoint_path,
+        config_sha256=config_sha256,
+        checkpoint_sha256=checkpoint_sha256,
+        repeat=repeat,
+        candidate="M2",
+        width=64,
+        prefix="raw_deep",
+    )
+    return Gate7M2Predictor(repeat, mean, scale, model)
+
+
 def _load_gate7_raw_mlp(
     config_path: Path,
     checkpoint_path: Path,
@@ -143,7 +175,7 @@ def _load_gate7_raw_mlp(
         or config["candidate"] != candidate
         or config["seed_identity"]["candidate"] != candidate
         or config["seed_identity"]["repeat"] != repeat
-        or (candidate == "M1" and config.get("hidden_width") != 64)
+        or (candidate in ("M1", "M2") and config.get("hidden_width") != 64)
         or config["raw_feature_count"] != 39
         or config["data"]["feature_names"] != list(GATE7_FEATURE_NAMES)
         or config["target_order"] != list(TARGETS)
@@ -172,6 +204,15 @@ def _load_gate7_raw_mlp(
         f"{prefix}.2.weight": (2, width),
         f"{prefix}.2.bias": (2,),
     }
+    if candidate == "M2":
+        shapes.update(
+            {
+                f"{prefix}.2.weight": (64, 64),
+                f"{prefix}.2.bias": (64,),
+                f"{prefix}.4.weight": (2, 64),
+                f"{prefix}.4.bias": (2,),
+            }
+        )
     if not isinstance(loaded, dict) or set(cast(dict[str, object], loaded)) != set(shapes):
         raise ValueError(f"checkpoint is not an exact Gate7 {candidate} state dict")
     state = cast(dict[str, torch.Tensor], loaded)
@@ -191,6 +232,14 @@ def _load_gate7_raw_mlp(
             nn.GELU(approximate="none"),
             nn.Linear(width, 2, device="cpu", dtype=torch.float32),
         )
+        if candidate == "M2":
+            model = nn.Sequential(
+                nn.Linear(39, 64, device="cpu", dtype=torch.float32),
+                nn.GELU(approximate="none"),
+                nn.Linear(64, 64, device="cpu", dtype=torch.float32),
+                nn.GELU(approximate="none"),
+                nn.Linear(64, 2, device="cpu", dtype=torch.float32),
+            )
     model.load_state_dict({key.removeprefix(f"{prefix}."): value for key, value in state.items()})
     model.eval().requires_grad_(False)
     mean.setflags(write=False)
