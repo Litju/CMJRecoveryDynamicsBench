@@ -1,9 +1,9 @@
-# RES-546 Gate7 M0/M1 inference verification
+# RES-546 Gate7 M0/M1/M2 inference verification
 
-The current M1 findings appear under **Gate7 M1 recovered inference
-qualification** and **Final M1 integration qualification** below. The M0 sections
-record historical qualification snapshots from 2026-10-25; their statuses and
-test totals describe those snapshots, not the current M1 qualification.
+The current M2 findings appear under **Gate7 M2 recovered inference
+qualification** and **Final independent M2 integration qualification** below.
+Earlier M0/M1 sections retain historical qualification snapshots; their statuses
+and test totals describe those snapshots.
 
 ## Historical M0 qualification snapshot — 2026-10-25
 
@@ -344,3 +344,173 @@ this historical report alone is not evidence of hosted status for a later head.
 PR #17 remains subject to explicit merge approval. No merge, force-push,
 checkpoint/scaler publication or release modification is authorized by this
 qualification. Existing production-readiness and scientific limitations remain.
+
+## Gate7 M2 recovered inference qualification — 2026-10-28
+
+**READY_FOR_PRIVATE_GATE7_M2_INFERENCE_REVIEW** for the complete recovered final
+repeat set, **M2-r0 and M2-r1**. The RES-545 final-weight inventory, checkpoint
+manifest and usable-run registry independently agree on this set. Intermediate
+and environment-qualification states were excluded. The preceding M0/M1 sections
+remain historical records; the findings below describe the current M2 execution.
+
+### Source-defined contract and safe implementation
+
+Verified original model, extractor and training source define M2 as
+Linear(39,64) → exact GELU → Linear(64,64) → exact GELU → Linear(64,2), with
+**6,850 parameters**. There is no dropout, normalization, recurrence or embedding
+in its forward path. All six state tensors must be finite float32:
+
+| Tensor | Shape |
+|---|---|
+| `raw_deep.0.weight` | `(64, 39)` |
+| `raw_deep.0.bias` | `(64,)` |
+| `raw_deep.2.weight` | `(64, 64)` |
+| `raw_deep.2.bias` | `(64,)` |
+| `raw_deep.4.weight` | `(2, 64)` |
+| `raw_deep.4.bias` | `(2,)` |
+
+The original full preprocessing constructs raw `(N,39)`, history `(N,4,4)`,
+horizon `(N,)` and basis `(N,5)` tensors. Independent source inspection established
+that M2's forward uses only raw features. No additional builder contract is needed.
+The adapter accepts the existing raw matrix in `GATE7_FEATURE_NAMES` order,
+standardizes in float64 using the run's fitted raw mean/scale, then casts to
+float32. Original fitting uses training-only mean and sample standard deviation
+(`ddof=1`), replacing zero scales with one. No fitting or retraining ran.
+
+Outputs are finite `(N,2)` innovations: relative mean concentric force (N/kg),
+then relative concentric net impulse (m/s). Float32 network outputs are returned
+as float64. The target transform is identity; evaluation cell scales and baseline
+addition do not belong to this predictor.
+
+With the optional `inference` extra installed, import `load_gate7_m2` and
+`Gate7M2Predictor` from `model_reproduction.checkpoint_inference` under the
+`cmj_recovery_dynamics` package. Supply explicit configuration/checkpoint paths,
+independently verified `config_sha256`, `checkpoint_sha256`, and `repeat=0` or
+`repeat=1`, then call `.predict(raw_features)`. This follows the M0/M1 API.
+Private inventory/config/result/source association must be established before
+supplying digest pins: hashes alone prove bytes, not provenance or pairing.
+
+The loader checks candidate/repeat, width, feature and target ordering, fitted
+preprocessing and output semantics. It rejects incompatible tensor names, shapes,
+dtypes and nonfinite values. It deserializes only verified bytes using
+`torch.load(..., map_location="cpu", weights_only=True)`, without unsafe fallback
+or added globals. Execution uses evaluation mode and `torch.inference_mode()`.
+M2's extra hidden layer and namespace remain distinct from M0/M1.
+
+### Frozen synthetic source parity
+
+The unchanged fixture contains 16 `training` observations followed by 8
+`public_validation` observations, in the existing origin/H72/D7 order. These
+partition names describe predictor-only synthetic inputs, not historical split
+membership. Independent conversion into original-source records reproduced all
+936 raw values exactly. The unmodified original predictor executed its complete
+preprocessing path, and both fitted float32 raw tensors matched the adapter
+exactly. Every output was finite `(24,2)`; repeated calls were exactly equal.
+
+Before inference, source tolerance was fixed at `atol=1e-6`, `rtol=1e-5`, applied
+as `abs(adapter-original) <= atol + rtol*abs(original)`.
+
+| Repeat | Max absolute error | Max relative error | Source parity |
+|---|---:|---:|---|
+| M2-r0 | 0 | 0 | Pass, exactly equal |
+| M2-r1 | 0 | 0 | Pass, exactly equal |
+
+### Separate historical prediction replay
+
+Each run-bound validation split contains **512 rows**. Before historical inference,
+validation bytes matched the configuration's digest; participant cardinality,
+training/validation participant separation, split role, query ordering, horizon
+and target ordering verified. Saved prediction file checksums matched the ledger,
+and canonical innovation digests matched result, registry and checkpoint manifest.
+The configuration, result, final checkpoint, repeat, seed identity, original
+source and canonical configuration digest were independently bound for each run.
+
+Historical tolerance was separately predeclared at `atol=1e-5`, `rtol=1e-4`, using
+the same elementwise combined rule. Original CPU source and adapter outputs were
+exactly equal for both 512-row replays, with exact repeated adapter calls.
+Against the saved CUDA-era predictions:
+
+| Repeat | Max absolute error | Max relative error | Historical replay |
+|---|---:|---:|---|
+| M2-r0 | 1.9073486328125e-6 | 2.625571608819003e-4 | Pass, 512 rows |
+| M2-r1 | 1.9073486328125e-6 | 4.186718942504574e-4 | Pass, 512 rows |
+
+Relative error uses `abs(adapter-saved)/max(abs(saved), float64.tiny)`; its maximum
+alone does not determine acceptance under the combined rule. This establishes
+tolerance parity with saved cross-device predictions, not bitwise historical
+reproducibility. Historical scores were not recomputed or reinterpreted.
+
+Execution used Linux x86_64, Python 3.12, NumPy 2.5.3, PyTorch 2.14.1+cpu,
+one CPU thread and deterministic algorithms. The private receipt retains complete
+artifact/source identities, preprocessing digests, repeat associations, fixture
+receipts, ordered prediction digests, errors, runtimes and reproduction commands.
+Private sources, configurations, fitted values and prediction arrays remain
+outside Git; no private fingerprints or machine locators are published here.
+
+### Regression, packaging and limits
+
+The complete suite passed **564 tests**, including **126 inference tests** and
+**21 architecture/boundary tests**. Synthetic coverage checks all six M2 tensors,
+nonzero multilayer execution, both repeats, deterministic inference, RNG
+preservation, wrong candidate/repeat/pin associations, feature/target order,
+invalid preprocessing, nonfinite inputs/weights, float32/output overflow and
+weights-only rejection without fallback. Ruff lint and formatting passed; strict
+Pyright reported zero diagnostics. Wheel and source-distribution builds passed.
+Package inspection passed for both archives, including a private-identity and
+machine-path scan. A fresh environment passed **237 installed-wheel tests** outside
+the checkout. Actual M2 checkpoint execution was also repeated with the installed
+wheel. The private verification receipt binds these checks and exact-final-commit
+hosted CI results.
+
+Fresh M0 and M1 original-source executions also replayed their synthetic and
+historical inputs; every array matched the respective preserved private arrays
+exactly. Existing public M0/M1 signatures and inference semantics are unchanged.
+
+This qualifies private checkpoint inference for review. It does not establish
+scientific validity, predictive accuracy, clinical applicability, production
+readiness or checkpoint redistribution permission. No rights declarations,
+scientific scores, original v1.0.0 tag or published artifacts changed.
+
+## Final independent M2 integration qualification — 2026-10-28
+
+The final qualification independently rechecked the preserved execution and
+verification receipts against their evidence bytes, then re-executed both
+original M2 repeats from verified, unmodified source. The recovery bundle,
+complete final-repeat inventory, source tree, checkpoint/configuration/result
+associations, six fitted float32 tensors, repeat-bound preprocessing, validation
+split bytes and 512-row query/horizon/participant/target ordering all verified.
+Original evidence was preserved; new receipts and arrays remain private.
+
+The remaining construction finding is repaired: the loader now constructs only
+the selected source-defined network. M0 remains 39→32→2, M1 remains 39→64→2,
+and M2 remains 39→64→64→2. Focused regression coverage checks every constructed
+linear layer for both repeats of all three candidates. Public APIs, weights-only
+loading, fitted preprocessing, tensor validation and outputs are unchanged.
+
+| Repeat | CPU source equality, 24 synthetic rows | CPU source equality, 512 historical rows | Saved CUDA predictions |
+|---|---|---|---|
+| M2-r0 | Exact | Exact | Pass, max absolute error 1.9073486328125e-6 |
+| M2-r1 | Exact | Exact | Pass, max absolute error 1.9073486328125e-6 |
+
+CPU comparisons require exact array equality. CUDA comparisons separately use the
+previously declared elementwise tolerance `atol=1e-5`, `rtol=1e-4`; their maximum
+relative errors remain those reported above. Deterministic repeated execution and
+all preserved M2 output arrays match exactly. Fresh original-source and historical
+M0/M1 replays also match all preserved arrays exactly; their public signatures and
+prediction implementation are unchanged. No historical scientific score was
+recomputed.
+
+Final local qualification passed **570 pytest tests**, including **132 inference
+tests** and **21 repository boundary tests** with adversarial path/secret cases.
+Ruff lint and formatting passed; strict Pyright reported zero diagnostics.
+Wheel/sdist builds and content inspection passed. Outside the checkout, the
+installed-wheel environment passed **243 inference, projection and builder tests**
+and reran both original M2 repeats with exact preserved-array equality. Private
+qualification records bind the final commit, package identities and exact-head
+GitHub CI results; these identities and machine locators are not published here.
+
+This is private inference qualification only. Saved CUDA parity is tolerance
+based; accuracy, clinical validity, out-of-distribution robustness, production
+readiness and redistribution rights remain unestablished. Original v1.0.0 tag and
+published release assets are preserved. No retraining, model selection, rights
+change, force-push, merge or release publication is part of this qualification.

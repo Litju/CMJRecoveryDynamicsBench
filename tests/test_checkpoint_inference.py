@@ -18,6 +18,7 @@ from cmj_recovery_dynamics.model_reproduction.checkpoint_inference import (  # n
     TARGETS,
     load_gate7_m0,
     load_gate7_m1,
+    load_gate7_m2,
 )
 from cmj_recovery_dynamics.model_reproduction.gate7_projection import (  # noqa: E402
     GATE7_FEATURE_NAMES,
@@ -26,14 +27,14 @@ from cmj_recovery_dynamics.observations.public_builder import (  # noqa: E402
     generate_gate7_fixture_v1,
 )
 
-pytestmark = pytest.mark.parametrize("candidate", ("M0", "M1"))
+pytestmark = pytest.mark.parametrize("candidate", ("M0", "M1", "M2"))
 
 
 def _artifacts(
     tmp_path: Path, repeat: int = 0, *, candidate: str
 ) -> tuple[Path, Path, dict[str, Any]]:
     width = 32 if candidate == "M0" else 64
-    prefix = "raw_small" if candidate == "M0" else "raw_wide"
+    prefix = {"M0": "raw_small", "M1": "raw_wide", "M2": "raw_deep"}[candidate]
     config: dict[str, Any] = {
         "family": FAMILY,
         "candidate": candidate,
@@ -59,12 +60,21 @@ def _artifacts(
         f"{prefix}.2.weight": torch.arange(2 * width).reshape(2, width).float() / 100,
         f"{prefix}.2.bias": torch.tensor([0.25 + repeat, -0.25 - repeat]),
     }
+    if candidate == "M2":
+        state.update(
+            {
+                f"{prefix}.2.weight": torch.arange(64 * 64).reshape(64, 64).float() / 100000,
+                f"{prefix}.2.bias": torch.linspace(-0.25, 0.25, 64),
+                f"{prefix}.4.weight": torch.arange(2 * 64).reshape(2, 64).float() / 100,
+                f"{prefix}.4.bias": torch.tensor([0.25 + repeat, -0.25 - repeat]),
+            }
+        )
     torch.save(state, weights_path)
     return config_path, weights_path, config
 
 
 def _load(config: Path, weights: Path, repeat: int = 0, *, candidate: str):
-    loader = load_gate7_m0 if candidate == "M0" else load_gate7_m1
+    loader = {"M0": load_gate7_m0, "M1": load_gate7_m1, "M2": load_gate7_m2}[candidate]
     return loader(
         config,
         weights,
@@ -87,23 +97,38 @@ def test_exact_forward_and_determinism(tmp_path: Path, repeat: int, candidate: s
     assert matrix.shape == (24, 39)
     raw = torch.from_numpy(((matrix - 1) / 2).astype(np.float32))
     state = torch.load(weights, weights_only=True)
-    prefix = "raw_small" if candidate == "M0" else "raw_wide"
+    prefix = {"M0": "raw_small", "M1": "raw_wide", "M2": "raw_deep"}[candidate]
     hidden = torch.nn.functional.gelu(
         torch.nn.functional.linear(raw, state[f"{prefix}.0.weight"], state[f"{prefix}.0.bias"]),
         approximate="none",
     )
+    output_layer = 2
+    if candidate == "M2":
+        hidden = torch.nn.functional.gelu(
+            torch.nn.functional.linear(
+                hidden, state[f"{prefix}.2.weight"], state[f"{prefix}.2.bias"]
+            ),
+            approximate="none",
+        )
+        output_layer = 4
     expected = torch.nn.functional.linear(
-        hidden, state[f"{prefix}.2.weight"], state[f"{prefix}.2.bias"]
+        hidden, state[f"{prefix}.{output_layer}.weight"], state[f"{prefix}.{output_layer}.bias"]
     ).numpy()
     actual = predictor.predict(matrix)
     np.testing.assert_array_equal(actual, expected)
     np.testing.assert_array_equal(actual, predictor.predict(matrix))
     assert actual.dtype == np.float64 and np.isfinite(actual).all()
     assert not predictor.model.training
-    assert sum(p.numel() for p in predictor.model.parameters()) == (
-        1346 if candidate == "M0" else 2690
+    assert (
+        sum(p.numel() for p in predictor.model.parameters())
+        == ({"M0": 1346, "M1": 2690, "M2": 6850}[candidate])
     )
-    for malformed in (np.zeros((1, 38)), np.full((1, 39), np.nan), np.full((1, 39), 1e300)):
+    for malformed in (
+        np.zeros((1, 38)),
+        np.full((1, 39), np.nan),
+        np.full((1, 39), np.inf),
+        np.full((1, 39), 1e300),
+    ):
         with pytest.raises(ValueError):
             predictor.predict(malformed)
 
@@ -136,7 +161,7 @@ def test_scaler_repeat_and_hash_rejection(tmp_path: Path, candidate: str, repeat
     with pytest.raises(ValueError, match="contract"):
         _load(path, weights, repeat, candidate=candidate)
     with pytest.raises(ValueError, match="SHA-256"):
-        loader = load_gate7_m0 if candidate == "M0" else load_gate7_m1
+        loader = {"M0": load_gate7_m0, "M1": load_gate7_m1, "M2": load_gate7_m2}[candidate]
         loader(path, weights, config_sha256="0" * 64, checkpoint_sha256="0" * 64, repeat=0)
 
 
@@ -144,19 +169,17 @@ def test_scaler_repeat_and_hash_rejection(tmp_path: Path, candidate: str, repeat
 def test_tensor_contract_rejection(tmp_path: Path, candidate: str, repeat: int) -> None:
     config, weights, _ = _artifacts(tmp_path, repeat, candidate=candidate)
     state = torch.load(weights, weights_only=True)
-    prefix = "raw_small" if candidate == "M0" else "raw_wide"
-    width = 32 if candidate == "M0" else 64
-    for value in (
-        torch.zeros(1),
-        torch.zeros(width, dtype=torch.float64),
-        torch.full((width,), np.nan),
-        torch.full((width,), np.inf),
-        [0.0] * width,
-    ):
-        state[f"{prefix}.0.bias"] = value
-        torch.save(state, weights)
-        with pytest.raises(ValueError, match="tensor"):
-            _load(config, weights, repeat, candidate=candidate)
+    for key, tensor in state.copy().items():
+        for value in (
+            torch.zeros(1),
+            torch.zeros_like(tensor, dtype=torch.float64),
+            torch.full_like(tensor, np.nan),
+            torch.full_like(tensor, np.inf),
+            tensor.tolist(),
+        ):
+            torch.save({**state, key: value}, weights)
+            with pytest.raises(ValueError, match="tensor"):
+                _load(config, weights, repeat, candidate=candidate)
     torch.save({"other": torch.zeros(1)}, weights)
     with pytest.raises(ValueError, match="state dict"):
         _load(config, weights, repeat, candidate=candidate)
@@ -226,7 +249,7 @@ def test_wrong_candidate_checkpoint_and_pinned_repeat_pair(
     config, weights, _ = _artifacts(tmp_path, repeat, candidate=candidate)
     config_hash = hashlib.sha256(config.read_bytes()).hexdigest()
     checkpoint_hash = hashlib.sha256(weights.read_bytes()).hexdigest()
-    loader = load_gate7_m0 if candidate == "M0" else load_gate7_m1
+    loader = {"M0": load_gate7_m0, "M1": load_gate7_m1, "M2": load_gate7_m2}[candidate]
     _, wrong_repeat_weights, _ = _artifacts(tmp_path, 1 - repeat, candidate=candidate)
     with pytest.raises(ValueError, match="SHA-256"):
         loader(
@@ -269,7 +292,7 @@ def test_nonfinite_network_output_rejected(tmp_path: Path, candidate: str, repea
         predictor.predict(np.full((1, 39), 2.0))
 
 
-def test_m1_width_identity_rejected(tmp_path: Path, candidate: str) -> None:
+def test_hidden_width_identity_rejected(tmp_path: Path, candidate: str) -> None:
     config, weights, values = _artifacts(tmp_path, candidate=candidate)
     if candidate == "M0":
         assert (
@@ -281,3 +304,44 @@ def test_m1_width_identity_rejected(tmp_path: Path, candidate: str) -> None:
         config.write_text(json.dumps(values))
         with pytest.raises(ValueError, match="contract"):
             _load(config, weights, candidate=candidate)
+
+
+@pytest.mark.parametrize("repeat", (0, 1))
+@pytest.mark.parametrize("field", ("feature_names", "target_order"))
+def test_data_order_rejected(tmp_path: Path, candidate: str, repeat: int, field: str) -> None:
+    config, weights, values = _artifacts(tmp_path, repeat, candidate=candidate)
+    values["data"][field].reverse()
+    config.write_text(json.dumps(values))
+    with pytest.raises(ValueError, match="contract"):
+        _load(config, weights, repeat, candidate=candidate)
+
+
+@pytest.mark.parametrize("repeat", (-1, 2, True))
+def test_unverified_repeat_rejected(tmp_path: Path, candidate: str, repeat: int) -> None:
+    config, weights, _ = _artifacts(tmp_path, candidate=candidate)
+    with pytest.raises(ValueError, match="contract"):
+        _load(config, weights, repeat, candidate=candidate)
+
+
+@pytest.mark.parametrize("repeat", (0, 1))
+def test_only_source_defined_layers_constructed(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch, candidate: str, repeat: int
+) -> None:
+    config, weights, _ = _artifacts(tmp_path, repeat, candidate=candidate)
+    linear = torch.nn.Linear
+    calls: list[tuple[int, int]] = []
+
+    def tracked_linear(inputs: int, outputs: int, **kwargs: Any) -> Any:
+        calls.append((inputs, outputs))
+        return linear(inputs, outputs, **kwargs)
+
+    monkeypatch.setattr(torch.nn, "Linear", tracked_linear)
+    _load(config, weights, repeat, candidate=candidate)
+    assert (
+        calls
+        == {
+            "M0": [(39, 32), (32, 2)],
+            "M1": [(39, 64), (64, 2)],
+            "M2": [(39, 64), (64, 64), (64, 2)],
+        }[candidate]
+    )
