@@ -321,3 +321,27 @@ def test_unverified_repeat_rejected(tmp_path: Path, candidate: str, repeat: int)
     config, weights, _ = _artifacts(tmp_path, candidate=candidate)
     with pytest.raises(ValueError, match="contract"):
         _load(config, weights, repeat, candidate=candidate)
+
+
+@pytest.mark.parametrize("repeat", (0, 1))
+def test_only_source_defined_layers_constructed(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch, candidate: str, repeat: int
+) -> None:
+    config, weights, _ = _artifacts(tmp_path, repeat, candidate=candidate)
+    linear = torch.nn.Linear
+    calls: list[tuple[int, int]] = []
+
+    def tracked_linear(inputs: int, outputs: int, **kwargs: Any) -> Any:
+        calls.append((inputs, outputs))
+        return linear(inputs, outputs, **kwargs)
+
+    monkeypatch.setattr(torch.nn, "Linear", tracked_linear)
+    _load(config, weights, repeat, candidate=candidate)
+    assert (
+        calls
+        == {
+            "M0": [(39, 32), (32, 2)],
+            "M1": [(39, 64), (64, 2)],
+            "M2": [(39, 64), (64, 64), (64, 2)],
+        }[candidate]
+    )

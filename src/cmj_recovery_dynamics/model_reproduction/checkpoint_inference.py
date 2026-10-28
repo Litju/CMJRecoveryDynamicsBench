@@ -227,11 +227,6 @@ def _load_gate7_raw_mlp(
             raise ValueError(f"checkpoint contains an invalid Gate7 {candidate} tensor")
     # Preserve the caller's RNG state; initialization is overwritten by fitted weights.
     with torch.random.fork_rng(devices=[]):  # pyright: ignore[reportUnknownMemberType]
-        model = nn.Sequential(
-            nn.Linear(39, width, device="cpu", dtype=torch.float32),
-            nn.GELU(approximate="none"),
-            nn.Linear(width, 2, device="cpu", dtype=torch.float32),
-        )
         if candidate == "M2":
             model = nn.Sequential(
                 nn.Linear(39, 64, device="cpu", dtype=torch.float32),
@@ -239,6 +234,12 @@ def _load_gate7_raw_mlp(
                 nn.Linear(64, 64, device="cpu", dtype=torch.float32),
                 nn.GELU(approximate="none"),
                 nn.Linear(64, 2, device="cpu", dtype=torch.float32),
+            )
+        else:
+            model = nn.Sequential(
+                nn.Linear(39, width, device="cpu", dtype=torch.float32),
+                nn.GELU(approximate="none"),
+                nn.Linear(width, 2, device="cpu", dtype=torch.float32),
             )
     model.load_state_dict({key.removeprefix(f"{prefix}."): value for key, value in state.items()})
     model.eval().requires_grad_(False)
