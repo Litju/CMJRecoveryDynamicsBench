@@ -1,9 +1,8 @@
-# RES-546 Gate7 M0/M1/M2 inference verification
+# RES-546 Gate7 M0/M1/M2/M3 inference verification
 
-The current M2 findings appear under **Gate7 M2 recovered inference
-qualification** and **Final independent M2 integration qualification** below.
-Earlier M0/M1 sections retain historical qualification snapshots; their statuses
-and test totals describe those snapshots.
+The current M3 findings appear under **Gate7 M3 recovered inference
+qualification** below. Earlier M0/M1/M2 sections retain historical qualification
+snapshots; their statuses and test totals describe those snapshots.
 
 ## Historical M0 qualification snapshot — 2026-10-25
 
@@ -514,3 +513,160 @@ based; accuracy, clinical validity, out-of-distribution robustness, production
 readiness and redistribution rights remain unestablished. Original v1.0.0 tag and
 published release assets are preserved. No retraining, model selection, rights
 change, force-push, merge or release publication is part of this qualification.
+
+
+## Gate7 M3 recovered inference qualification — 2026-10-28
+
+**READY_FOR_PRIVATE_GATE7_M3_INFERENCE_REVIEW**, for the complete independently
+verified final set **M3-r0 and M3-r1**. This is the original Gate7 trained
+candidate, distinct from the earlier scientific-reproduction milestone named M3.
+Inventory, checkpoint manifest, usable-run registry, original seed derivation,
+configuration and result records establish both final repeats. Intermediate and
+environment-qualification checkpoints are excluded.
+
+### Original architecture and state contract
+
+The verified original model, extractor and training source establish **7,138
+parameters**, with these branches:
+
+- Raw: Linear(39,64) → exact GELU → Linear(64,64) → exact GELU → Dropout(0.10).
+- History: a shared Linear(4,32) → exact GELU applied to each of four tokens.
+  Concatenate the mean of all four encoded tokens with the latest encoded token.
+- Concatenate the 64 raw and 64 history values, apply Dropout(0.10), then
+  Linear(128,2). The same source-defined dropout module is used at both sites;
+  dropout is disabled in evaluation mode.
+
+There is no normalization, recurrence, embedding, attention, history mask or
+padding. All eight checkpoint tensors must be finite float32:
+
+| State key | Shape |
+|---|---|
+| `raw_backbone.0.weight` | `(64,39)` |
+| `raw_backbone.0.bias` | `(64,)` |
+| `raw_backbone.2.weight` | `(64,64)` |
+| `raw_backbone.2.bias` | `(64,)` |
+| `history_encoder.0.weight` | `(32,4)` |
+| `history_encoder.0.bias` | `(32,)` |
+| `head.weight` | `(2,128)` |
+| `head.bias` | `(2,)` |
+
+### Versioned history input and preprocessing
+
+M3 consumes raw `(N,39)` in the existing `GATE7_FEATURE_NAMES` order and explicit
+history `(N,4,4)`. The new `gate7_history_projection_v1` contract is bound to the
+privately verified source by opaque authority **RES-546-M3-INPUT-AUTHORITY-01**.
+`project_gate7_history_v1` reads existing typed `CampPredictionRow` observations:
+it requires exactly four valid pre-origin assessments, sorts oldest to latest,
+and reads the arithmetic trial summaries directly. It does not reconstruct
+history from the raw matrix. The columns are:
+
+| Column | Meaning | Unit |
+|---|---|---|
+| 0 | Time relative to prediction origin | h |
+| 1 | Relative mean concentric force | N/kg |
+| 2 | Relative concentric net impulse | m/s |
+| 3 | Assessment depth | m |
+
+No unavailable or masked assessment is filled, dropped or padded. The adapter
+rejects masked arrays, nonfinite values, wrong shapes, nonchronological or
+post-origin histories, and mispaired raw/history observation ordering. The
+existing observation builder retains independently pinned origin and routine
+metadata authority. Hashes establish bytes, not permission or truthful ingestion.
+
+The original full preprocessor also constructs integer horizon `(N,)` and basis
+`(N,5)` tensors. M3's forward does not consume them; its predictor accepts neither
+as a separate argument. Horizon information already present in raw features
+remains unchanged. No new horizon or basis builder is introduced.
+
+Both consumed branches use their run-bound training-only means and sample
+standard deviations (`ddof=1`, zero scales replaced with one). History statistics
+are over the flattened training tokens, one mean and scale per column. Subtraction
+and division occur in float64, followed by float32 conversion and execution.
+No statistics were fitted or refitted during recovery.
+
+Import `load_gate7_m3` and `Gate7M3Predictor` from
+`cmj_recovery_dynamics.model_reproduction.checkpoint_inference` with the optional
+`inference` extra installed. Supply explicit configuration/checkpoint paths,
+independently associated SHA-256 pins and the verified repeat; call
+`.predict(raw_features, history)`. The loader uses verified bytes and
+`torch.load(..., map_location="cpu", weights_only=True)` exclusively. It validates
+candidate/repeat, source-defined widths, dropout, feature/history/target order,
+preprocessing and every state tensor. Inference preserves caller RNG state during
+construction, uses evaluation mode and `torch.inference_mode()`, and rejects
+nonfinite float32 preprocessing or outputs.
+
+Outputs are `(N,2)` float64 representations of the original float32 innovations:
+relative mean concentric force (N/kg), then relative concentric net impulse (m/s).
+There is no inverse target scaling, cell-scale adjustment or baseline addition.
+
+### Original trained-checkpoint execution and numerical parity
+
+Before inference, the private harness verifies the recovery bundle, original
+source bytes/tree, final checkpoint inventory, checkpoint/config/result digests,
+canonical configuration digest, seed identities and repeat-bound preprocessing.
+The unmodified original source executes its complete preprocessing and forward
+path; its fitting and training functions are never invoked.
+
+The frozen fixture supplies 16 training-named and 8 public-validation-named
+synthetic observations. These are predictor-only fixture partitions, unrelated to
+historical split membership. Both raw and history tensors, including the actual
+float32 tensors entering the adapter, match original-source preprocessing exactly.
+Source parity was predeclared at `atol=1e-6`, `rtol=1e-5`; exact array equality was
+also required and achieved:
+
+| Repeat | Synthetic output shape | Max absolute / relative error | Deterministic |
+|---|---|---|---|
+| M3-r0 | `(24,2)` | 0 / 0, exact | Yes |
+| M3-r1 | `(24,2)` | 0 / 0, exact | Yes |
+
+Each original run independently binds a **512-row, 128-participant** historical
+validation split. The harness checks split bytes and role, participant counts and
+train/validation separation, row/query order, horizons, target order and units,
+saved prediction bytes and canonical innovation digest before replay. Historical
+raw/history inputs and actual preprocessed model tensors match original source
+exactly. CPU source and adapter outputs are exactly equal for both `(512,2)`
+replays, with deterministic repeated inference.
+
+Saved training-runtime CUDA predictions are compared separately using the
+predeclared combined elementwise rule `abs(new-saved) <= 1e-5 + 1e-4*abs(saved)`:
+
+| Repeat | Max absolute error | Max relative error | CUDA replay |
+|---|---:|---:|---|
+| M3-r0 | 2.384185791015625e-6 | 2.8760632446307496e-5 | Pass |
+| M3-r1 | 1.1920928955078125e-6 | 3.515350363252871e-5 | Pass |
+
+Relative error divides absolute error by the greater of absolute saved value and
+float64 tiny. Its maximum alone does not define the combined-rule outcome.
+No historical scientific score was recomputed.
+
+### Regression, package qualification and limitations
+
+Full pytest passed **652 tests**, including **214 inference tests** and **21
+repository/architecture boundary tests**. Synthetic tests cover both repeats,
+nonzero raw/history execution, pooling, every tensor, source-defined construction,
+configuration/order/pin rejection, invalid preprocessing, unavailable history,
+masks, nonfinite inputs/weights, float32/output overflow, RNG preservation and
+weights-only rejection without fallback. M0/M1/M2 APIs and implementation remain
+unchanged; fresh original-source executions match every preserved synthetic and
+historical prediction array exactly for all six original repeats.
+
+Ruff lint and formatting passed; strict Pyright reported zero diagnostics. Wheel
+and sdist builds and content inspection passed, including private identity,
+fitted-vector, restricted-row, secret and machine-path scans. Outside the checkout,
+**325 installed-wheel tests** passed; both actual original M3 checkpoints also
+execute through the installed wheel with exact source and preserved-array equality.
+The Python CI workflow includes the new sequence-inference tests in its installed
+wheel check. Exact-head hosted CI qualification is bound privately to the public
+commit; no private artifact fingerprints or machine locators are published here.
+
+The original v1.0.0 tag and all four published release asset identities are
+unchanged. Existing rights decisions and evaluation contracts remain intact.
+No retraining, fitting, model selection, score recomputation, checkpoint
+redistribution, merge or package release is part of this recovery.
+
+This qualifies historical private inference on the executed inputs. CPU equality
+does not prove accuracy, clinical validity, out-of-distribution robustness or
+production readiness. Saved CUDA parity is tolerance based, not bitwise
+cross-device reproduction. Redistribution rights remain unestablished. Authorized
+observations with all four valid assessments and independently paired artifact
+pins remain required; no general missing-history behavior is claimed.

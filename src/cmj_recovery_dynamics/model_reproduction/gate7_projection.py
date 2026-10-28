@@ -1020,7 +1020,61 @@ def project_gate7_historical_v1(
     )
 
 
+# Source identities are bound privately to this opaque authority, never published.
+GATE7_HISTORY_SOURCE_AUTHORITY_V1 = "RES-546-M3-INPUT-AUTHORITY-01"
+GATE7_HISTORY_SCHEMA_V1 = "gate7_history_projection_v1"
+GATE7_HISTORY_FEATURE_NAMES = (
+    "time_from_origin_hours",
+    "relative_mean_concentric_force",
+    "relative_concentric_net_impulse",
+    "depth_m",
+)
+
+
+def project_gate7_history_v1(rows: Iterable[CampPredictionRow]) -> Float64Matrix:
+    """Unscaled float64 (N,4,4) history from authorized typed observations.
+
+    Columns are hours, N/kg, m/s, m; tokens sort oldest to latest. All four
+    assessments must be valid and strictly pre-origin. There is no mask, padding
+    or imputation. Fitted train-only statistics belong to the pinned predictor.
+    This reads observations directly, never reconstructs history from raw features.
+    """
+    values = _collect_rows(rows)
+    histories: list[list[list[float]]] = []
+    for row in values:
+        history = sorted(row.assessment_history, key=lambda item: item.time_from_origin_hours)
+        if len(history) != 4 or any(not item.is_valid for item in history):
+            raise ValueError("Gate7 history requires four valid assessments; no masks or padding")
+        if any(item.time_from_origin_hours >= 0 for item in history):
+            raise ValueError("Gate7 history assessments must precede origin")
+        histories.append(
+            [
+                [
+                    _feature_float(value, name)
+                    for name, value in zip(
+                        GATE7_HISTORY_FEATURE_NAMES,
+                        (
+                            item.time_from_origin_hours,
+                            item.force_summary_n_per_kg,
+                            item.impulse_summary_m_s,
+                            item.depth_summary_m,
+                        ),
+                        strict=True,
+                    )
+                ]
+                for item in history
+            ]
+        )
+    result = np.asarray(histories, dtype=np.float64).reshape(len(values), 4, 4)
+    result.setflags(write=False)
+    return result
+
+
 __all__ = [
+    "GATE7_HISTORY_SOURCE_AUTHORITY_V1",
+    "GATE7_HISTORY_SCHEMA_V1",
+    "GATE7_HISTORY_FEATURE_NAMES",
+    "project_gate7_history_v1",
     "GATE7_AVAILABLE_FEATURE_INDICES",
     "GATE7_AVAILABLE_FEATURE_NAMES",
     "GATE7_CAMP_ROW_GAPS",
