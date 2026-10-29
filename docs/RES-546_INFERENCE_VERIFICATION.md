@@ -1,8 +1,8 @@
-# RES-546 Gate7 M0/M1/M2/M3 inference verification
+# RES-546 Gate7 M0/M1/M2/M3/M4 inference verification
 
-The current M3 findings appear under **Gate7 M3 recovered inference
-qualification** below. Earlier M0/M1/M2 sections retain historical qualification
-snapshots; their statuses and test totals describe those snapshots.
+The current M4 findings appear under **Gate7 M4 recovered inference — blocked
+CUDA qualification** below. Earlier M0/M1/M2/M3 sections retain historical
+qualification snapshots; their statuses and test totals describe those snapshots.
 
 ## Historical M0 qualification snapshot — 2026-10-25
 
@@ -670,3 +670,160 @@ production readiness. Saved CUDA parity is tolerance based, not bitwise
 cross-device reproduction. Redistribution rights remain unestablished. Authorized
 observations with all four valid assessments and independently paired artifact
 pins remain required; no general missing-history behavior is claimed.
+
+
+## Gate7 M4 recovered inference — blocked CUDA qualification
+
+**M4_INFERENCE_BLOCKED** — 2026-10-29. The complete original final set is
+**M4-r0 and M4-r1**, independently identified from the preserved final-weight
+inventory, authoritative checkpoint manifest and usable-run registry. Both
+checkpoints execute safely and reproduce unmodified original CPU source exactly.
+Both fail the separately predeclared saved-CUDA numerical compatibility gate.
+This draft recovery must not be treated as integration qualification.
+
+### Original source architecture and state
+
+Opaque authority **RES-546-M4-INFERENCE-AUTHORITY-01** binds the original model,
+extractor, training implementation and artifact associations privately. Original
+source and both checkpoints establish **10,626 parameters**:
+
+- Raw backbone: Linear(39,64) → exact GELU → Linear(64,64) → exact GELU.
+- History: `GRU(4,32,num_layers=1,batch_first=True)`, unidirectional, with biases,
+  implicit zero initial hidden state and zero internal GRU dropout. It uses the
+  standard PyTorch reset/update/new gate layout and sigmoid/tanh operations.
+- Concatenate mean over all four GRU output tokens with the latest output token,
+  yielding 64 history values. Concatenate these with the 64 raw values, then
+  Linear(128,2).
+- The source's Dropout(0.10) is applied after the raw backbone and after combined
+  features; it is disabled in evaluation mode. No normalization, embedding,
+  masking, sequence packing, padding or imputation is present.
+
+All ten checkpoint tensors must be finite float32:
+
+| State key | Shape |
+|---|---|
+| `raw_backbone.0.weight` | `(64,39)` |
+| `raw_backbone.0.bias` | `(64,)` |
+| `raw_backbone.2.weight` | `(64,64)` |
+| `raw_backbone.2.bias` | `(64,)` |
+| `history_gru.weight_ih_l0` | `(96,4)` |
+| `history_gru.weight_hh_l0` | `(96,32)` |
+| `history_gru.bias_ih_l0` | `(96,)` |
+| `history_gru.bias_hh_l0` | `(96,)` |
+| `head.weight` | `(2,128)` |
+| `head.bias` | `(2,)` |
+
+M4 has its own explicit model, predictor and loader; M0–M3 implementation,
+preprocessing and public signatures remain unchanged.
+
+### Input, preprocessing and output authority
+
+The original M4 forward consumes raw `(N,39)` in `GATE7_FEATURE_NAMES` order and
+history `(N,4,4)`. The existing `gate7_history_projection_v1` reads four valid,
+chronological, strictly pre-origin typed assessments directly. Its columns are
+relative time (h), relative mean concentric force (N/kg), relative concentric net
+impulse (m/s) and depth (m). Original trial-summary aggregation and duplicated
+raw/history information agree exactly. Numerical agreement is a consistency check,
+not authorization: the independently pinned observation builder remains responsible
+for origin availability and authorized ingestion.
+
+The original full preprocessor also constructs horizon `(N,)` and basis `(N,5)`;
+M4 does not consume these as separate branches. No additional input builder is
+needed. No history is reconstructed from raw features or invented for missing data.
+
+Both consumed branches use their original run-bound train-only fitted statistics.
+History statistics are over flattened training tokens. Original fitting uses
+sample standard deviation (`ddof=1`), replacing zero scales with one. Recovery
+performs no fitting: it applies float64 subtraction/division using pinned values,
+then casts to float32. Outputs are finite `(N,2)` float64 representations of
+float32 innovations, ordered force (N/kg), then impulse (m/s). There is no target
+rescaling, cell-scale adjustment or baseline addition.
+
+With the optional inference extra, import `load_gate7_m4` / `Gate7M4Predictor`
+from `cmj_recovery_dynamics.model_reproduction.checkpoint_inference`. The loader
+requires explicit configuration/checkpoint paths, independently associated SHA-256
+pins and repeat identity. It checks the M4 architecture/configuration, feature and
+history ordering, preprocessing and every tensor before verified-byte
+`torch.load(..., map_location="cpu", weights_only=True)`, without unsafe fallback.
+Call `.predict(raw_features, history)`. Construction preserves caller RNG state;
+execution uses evaluation mode and `torch.inference_mode()`.
+
+### Independent original-checkpoint executions
+
+Before each execution, the harness authenticates recovery and Gate7 ledgers,
+original source/tree, inventory, configuration/result/checkpoint associations,
+canonical configuration digest, original seed derivation and preprocessing pins.
+Both source and adapter load exactly the original trained tensors.
+
+The unchanged synthetic fixture contains 24 observations, with legitimate typed
+raw and history inputs. Both actual preprocessed forward inputs and intermediate
+GRU sequence `(N,4,32)` and final hidden `(1,N,32)` outputs match original source
+exactly. The source comparison requires exact equality, stronger than the preceding
+`atol=1e-6, rtol=1e-5` source precedent.
+
+Each original M4 run independently binds a **512-row, 128-participant** historical
+validation split. Split byte identities, train/validation participant separation,
+row/query ordering, horizons, target order/units, saved prediction bytes and
+canonical innovation digests all verify before replay.
+
+| Repeat | Synthetic CPU source, `(24,2)` | Historical CPU source, `(512,2)` | Repeated inference |
+|---|---|---|---|
+| M4-r0 | Exact, zero error | Exact, zero error | Exact |
+| M4-r1 | Exact, zero error | Exact, zero error | Exact |
+
+### Saved CUDA prediction incompatibility
+
+Before predictions, CUDA compatibility was fixed at the existing combined rule:
+`abs(replayed-saved) <= 1e-5 + 1e-4*abs(saved)`. It was not widened after observing
+failures. Compared with the preserved CUDA-era innovations:
+
+| Repeat | Max absolute error | Max relative error | Failing elements / 1024 | Result |
+|---|---:|---:|---:|---|
+| M4-r0 | 0.00047588348388671875 | 0.0485345624100217 | 254 | Fail |
+| M4-r1 | 0.00032639503479003906 | 0.02698545132189602 | 146 | Fail |
+
+Relative error divides by `max(abs(saved), float64.tiny)`; acceptance uses the
+combined elementwise rule, not the relative-error maximum alone. Maximum error
+relative to the allowed elementwise error is approximately 25.51 for r0 and 13.27
+for r1. Saved prediction identities are verified; their numerical agreement fails.
+Historical scientific scores were not recomputed.
+
+The discrepancy persists with both PyTorch 2.14.1+cpu and 2.11.0+cpu. Both CPU
+versions reproduce the unmodified original source exactly and yield the same
+reported CUDA error aggregates. The original recorded training-runtime predictor
+used PyTorch 2.11.0+cu128. CUDA hardware is unavailable in the recovery environment;
+the historical backend cause remains unresolved. No backend equivalence or
+alternate tolerance acceptance is claimed.
+
+### Engineering qualification and limits
+
+Engineering checks passed **738 pytest tests**, including **300 inference tests**
+and **21 repository boundary tests**. Shared synthetic tests now cover M3 and M4,
+including independent GRU gate equations, zero initial state, source-defined
+construction, tensor/configuration/order/pin rejection, determinism, masks,
+nonfinite inputs/weights, overflow and weights-only deserialization rejection.
+All eight previously qualified M0–M3 repeats reproduce their original CPU source
+and preserved synthetic/historical arrays exactly; their existing definitions and
+public signatures are unchanged.
+
+Ruff lint and formatting, strict Pyright with zero diagnostics, wheel/sdist builds
+and package-content inspection passed. Outside checkout, **411 installed-wheel
+tests** passed, and both real M4 checkpoints executed through the installed wheel.
+Installed execution retains exact CPU source and forward-input parity and repeats
+the saved-CUDA incompatibility. Exact-head push/PR engineering CI identities and
+results are bound privately to the public commit. Engineering CI success does not
+remove this historical numerical blocker.
+
+Private receipts retain source and artifact identities, seed/configuration and
+preprocessing bindings, dataset and prediction digests, per-repeat measurements,
+runtime investigation, package identities and CI results. Private sources, fitted
+vectors, checkpoints, restricted rows, machine locators and per-row arrays remain
+outside Git and built packages. Original v1.0.0 tag and all published release asset
+identities remain unchanged; existing rights and evaluation definitions are intact.
+
+This is partial historical CPU inference recovery. Saved CUDA compatibility remains
+blocked and must be independently resolved before qualification. CPU equality on
+executed observations establishes neither predictive accuracy, clinical validity,
+OOD robustness, production readiness nor redistribution permission. No retraining,
+refitting, selection, score recomputation, checkpoint redistribution, merge,
+force-push or package release is part of this work.
