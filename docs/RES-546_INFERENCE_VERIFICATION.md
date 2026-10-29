@@ -1,8 +1,8 @@
-# RES-546 Gate7 M0/M1/M2/M3 inference verification
+# RES-546 Gate7 M0/M1/M2/M3/M5 inference verification
 
-The current M3 findings appear under **Gate7 M3 recovered inference
-qualification** below. Earlier M0/M1/M2 sections retain historical qualification
-snapshots; their statuses and test totals describe those snapshots.
+The current M5 findings appear under **Gate7 M5 recovery: CPU source qualified,
+historical CUDA blocked** below. Earlier M0–M3 sections retain historical
+qualification snapshots; their statuses and test totals describe those snapshots.
 
 ## Historical M0 qualification snapshot — 2026-10-25
 
@@ -670,3 +670,172 @@ production readiness. Saved CUDA parity is tolerance based, not bitwise
 cross-device reproduction. Redistribution rights remain unestablished. Authorized
 observations with all four valid assessments and independently paired artifact
 pins remain required; no general missing-history behavior is claimed.
+
+## Gate7 M5 recovery: CPU source qualified, historical CUDA blocked — 2026-10-29
+
+**M5_CPU_SOURCE_QUALIFIED_CUDA_BLOCKED** for the complete final-repeat set
+**M5-r0 and M5-r1**. CPU source recovery and saved-CUDA compatibility are separate
+qualification axes. Both original CPU executions reproduce exactly; both saved
+CUDA comparisons fail the unchanged elementwise rule. Full inference
+qualification remains blocked. This result does not erase the CPU evidence or
+claim historical CUDA equivalence.
+
+M5 is based directly on integrated main. Blocked M4 PR #20 is neither merged nor
+used as an implementation dependency; its findings and qualification requirements
+are unchanged. M5's recurrent and horizon behavior was independently established
+from authenticated original M5 source, configuration and checkpoint tensors.
+No cloud execution or cloud-processing authorization is part of this work.
+
+### Original authority and architecture
+
+The private recovery bundle and Gate7 evidence ledger were checked before
+loading. The checkpoint inventory, authoritative final-checkpoint manifest and
+usable-run registry independently agree on both repeats. Original source Git
+objects match the recovery source index and each run's recorded source tree.
+Checkpoint bytes, configuration and result identities, canonical configuration
+digests, original seed derivation and run-specific train-only fitted preprocessing
+are bound together in private receipts. The opaque public review reference is
+`RES-546-M5-INPUT-AUTHORITY-01`; source locators and full digests remain private.
+
+The original M5 network has **10,658 trainable parameters**, all float32:
+
+| Component | Exact source behavior |
+|---|---|
+| Raw backbone | Linear 39→64, exact GELU, Linear 64→64, exact GELU |
+| History | Four chronological tokens, each with four features; GRU input 4, hidden 32, one unidirectional layer, batch first, biases enabled, implicit zero hidden state |
+| History pooling | Concatenate mean over all four GRU output tokens and latest output token: 64 values |
+| Separate horizon | Embedding with two entries of width 8; H72=0, D7=1 |
+| Head | Concatenate raw 64, pooled history 64 and horizon 8, then Linear 136→2 |
+| Dropout | Source dropout probability 0.10, disabled by evaluation mode; GRU dropout 0 |
+| Output | Innovations in force then impulse order; no inverse target scaling or baseline addition |
+
+There is no attention, masking, padding, bidirectionality, learned normalization,
+or basis projection in M5. The original preprocessing constructs a five-column
+basis tensor, but the M5 forward does not consume it. Independently changing that
+unused original argument leaves the predictions exactly unchanged.
+
+The exact state contract is:
+
+| Tensor | Shape |
+|---|---|
+| `raw_backbone.0.weight`, `.bias` | `(64,39)`, `(64,)` |
+| `raw_backbone.2.weight`, `.bias` | `(64,64)`, `(64,)` |
+| `history_gru.weight_ih_l0`, `.weight_hh_l0` | `(96,4)`, `(96,32)` |
+| `history_gru.bias_ih_l0`, `.bias_hh_l0` | `(96,)`, `(96,)` |
+| `horizon_embedding.weight` | `(2,8)` |
+| `head.weight`, `.bias` | `(2,136)`, `(2,)` |
+
+### Public input and loading contract
+
+Import `load_gate7_m5` and `Gate7M5Predictor` directly from the optional
+`model_reproduction.checkpoint_inference` module. No checkpoint is bundled,
+discovered or loaded at package import. Independently establish the exact
+candidate/repeat/configuration/checkpoint association, then supply both byte
+SHA-256 pins and the original repeat to the loader. Pins authenticate bytes;
+they do not establish ownership, source authority or pair association by
+themselves. Weights-only CPU loading has no unsafe fallback.
+
+`predict(features, history, horizon)` requires:
+
+- Finite unstandardized raw features `(N,39)` in `gate7_feature_projection_v1` order.
+- Finite unstandardized history `(N,4,4)` in `gate7_history_projection_v1` order:
+  hours relative to origin, force N/kg, impulse m/s, depth m. All assessments
+  are pre-origin and chronological; their flattened values must exactly match
+  raw columns 7–22. No masks, padding or missing-history imputation are accepted.
+- An explicit int64 horizon vector `(N,)`, H72=0 and D7=1. Its indices must agree
+  with the raw H72/D7 indicator columns. Float, boolean, masked, out-of-range
+  and mispaired horizon inputs are rejected. No separate basis argument is
+  accepted because that branch is unused by the original M5 forward.
+
+Raw and history values are standardized with their independently associated
+original train-only means and scales in float64, then cast to float32 exactly
+as the source does. Original fitting uses training observations only and sample
+standard deviations, replacing zero scales with one. This recovery loads those
+preserved statistics; it does not refit them. Horizon indices are not normalized.
+The output is finite float64 `(N,2)` containing the source's float32 predictions
+in the original target order. Existing M0–M3 APIs and implementation bodies are
+unchanged. Mathematical agreement among input branches is not origin authority;
+callers still need authenticated observations and separately verified artifact
+associations.
+
+### Axis A: CPU_SOURCE_PARITY — PASS
+
+The adapter and the unmodified original CPU source executed independently for
+each repeat on the existing 24-row synthetic fixture and the actual 512-row
+historical validation split. Every consumed forward tensor matched exactly:
+float32 raw `(N,39)`, float32 history `(N,4,4)` and int64 horizon `(N,)`.
+Original four-argument source calls also recorded the unused basis branch.
+GRU output sequences and final hidden states matched exactly. Dropout was off,
+outputs were finite and deterministic repetition was exact.
+
+| Repeat | Synthetic CPU source max abs / relative error | Historical CPU source max abs / relative error |
+|---|---|---|
+| M5-r0 | 0 / 0; `(24,2)` | 0 / 0; `(512,2)` |
+| M5-r1 | 0 / 0; `(24,2)` | 0 / 0; `(512,2)` |
+
+The first CPU output arrays were preserved separately. Fresh executions,
+including an isolated PyTorch 2.11.0 CPU environment and the installed wheel,
+reproduced those arrays exactly. These checks establish source reproduction on
+the executed observations, not new predictive-performance evidence.
+
+Historical validation bytes matched their run-bound source/configuration
+identities. Training and validation participant groups were disjoint; validation
+contained 512 rows from 128 participant groups. Query uniqueness/order, horizon
+order and target order matched the original saved predictions. Both saved file
+byte checksums and canonical innovation digests matched the ledger, result,
+registry and final-checkpoint manifest before numerical comparison. No historical
+scientific scores were recomputed.
+
+### Axis B: HISTORICAL_CUDA_COMPATIBILITY — BLOCKED
+
+The rule was fixed before execution:
+`abs(replayed - saved) <= 1e-5 + 1e-4 * abs(saved)`.
+CPU source equality does not replace this separate historical check.
+
+| Repeat | Max absolute error | Max relative error | Failing elements |
+|---|---:|---:|---:|
+| M5-r0 | 0.0003714561462402344 | 0.8963192561022859 | 443 / 1024 |
+| M5-r1 | 0.0002703666687011719 | 0.08694005544530457 | 206 / 1024 |
+
+Relative error is `abs(replayed-saved) / max(abs(saved), float64.tiny)`;
+near-zero reference predictions can make relative error large. Acceptance uses
+the fixed combined elementwise rule, not either maximum alone. No tolerance was
+changed after observing these errors.
+
+The principal replay used Python 3.12.13, NumPy 2.5.3, PyTorch 2.14.1+cpu,
+one CPU thread, deterministic algorithms, float32 inference and no autocast.
+A separate PyTorch 2.11.0+cpu replay produced exactly the same CPU arrays and
+historical discrepancies. The preserved original result records CUDA inference
+with PyTorch 2.11.0+cu128 on an RTX 5090. A matching torch version on CPU is not
+the historical CUDA backend; no NVIDIA execution or cuDNN parity is claimed
+here. The source, checkpoint and preprocessing findings do not establish the
+cause of this discrepancy. It remains a numerical qualification blocker, separate
+from M4's unresolved result.
+
+### Regression and review evidence
+
+All eight previously qualified M0–M3 final repeats were re-executed privately.
+Their synthetic and historical outputs matched the preserved arrays exactly;
+all retained their original-source parity and saved-CUDA tolerance passes. An AST
+comparison also confirmed every integrated M0–M3 function/class body is unchanged.
+
+Local verification passed **732 tests**, including **294 inference tests** and
+**21 repository boundary tests**, Ruff lint/format and strict Pyright with zero
+errors or warnings. The built wheel passed **405 projection, observation-builder
+and inference tests** outside the checkout; real original M5 checkpoint execution
+was also repeated through the installed package. Public tests use synthetic
+parameters only and check the GRU gate equations, all three consumed branches,
+state/configuration/input contracts, pinned-repeat separation, overflow and safe
+weights-only rejection. CI includes the M5 tests in both the full suite and
+installed-wheel checks. Wheel/sdist payload and private-identity boundary audits
+are recorded privately, as are exact-head hosted checks.
+
+Private execution and verification receipts retain the original identities,
+seed/config/source associations, actual tensor digests, preserved CPU arrays,
+per-repeat numerical evidence, backend limitations, regressions, package identities
+and CI bindings. Only sanitized aggregate findings are public. No checkpoint,
+fitted vector, participant metadata, historical observations/predictions, source
+archive or private digest is published. The original v1.0.0 release identities,
+rights declarations and scientific scores remain unchanged. The draft M5 PR is
+reviewable as CPU source recovery while full inference qualification remains
+CUDA-blocked; it is not a request to merge or publish a release.
