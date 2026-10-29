@@ -1,8 +1,8 @@
-# RES-546 Gate7 M0/M1/M2/M3 inference verification
+# RES-546 Gate7 M0/M1/M2/M3/M6 inference verification
 
-The current M3 findings appear under **Gate7 M3 recovered inference
-qualification** below. Earlier M0/M1/M2 sections retain historical qualification
-snapshots; their statuses and test totals describe those snapshots.
+The current M6 findings appear under **Gate7 M6 recovery: CPU source qualified,
+historical CUDA blocked** below. Earlier M0–M3 sections retain historical
+qualification snapshots; their statuses and test totals describe those snapshots.
 
 ## Historical M0 qualification snapshot — 2026-10-25
 
@@ -670,3 +670,130 @@ production readiness. Saved CUDA parity is tolerance based, not bitwise
 cross-device reproduction. Redistribution rights remain unestablished. Authorized
 observations with all four valid assessments and independently paired artifact
 pins remain required; no general missing-history behavior is claimed.
+
+## Gate7 M6 recovery: CPU source qualified, historical CUDA blocked — 2026-10-29
+
+**M6_CPU_SOURCE_QUALIFIED_CUDA_BLOCKED** for the complete original final-repeat
+set **M6-r0 and M6-r1**. Both reproduce the unmodified original CPU source
+exactly on the frozen 24-row synthetic fixture and 512-row historical validation
+split. Both fail the separate, unchanged saved-CUDA acceptance rule. Full
+inference qualification remains blocked.
+
+This implementation is based directly on integrated main and independently
+verified original M6 source and checkpoint contracts. Neither M4 PR #20 nor M5
+PR #21 is merged, used as an implementation dependency or modified here.
+
+### Source architecture and input contract
+
+The original M6 has **10,738 float32 parameters**. Its branches are:
+
+- Raw: Linear 39→64, exact GELU, Linear 64→64, exact GELU.
+- History: four ordered tokens, unidirectional single-layer GRU 4→32, implicit
+  zero hidden state, mean/latest output pooling to 64 values.
+- Horizon: two-entry, eight-dimensional embedding; H72=0 and D7=1.
+- Basis: source-defined five-value basis, independently standardized; only the
+  first two W2 values feed Linear 2→16 and exact GELU. The remaining three W3
+  values are preprocessed by the original source but unused by the M6 forward.
+- Head: concatenate raw 64, history 64, horizon 8 and basis 16; Linear 152→2.
+  Dropout 0.10 is disabled in eval mode; GRU dropout is zero. Output is the
+  force/impulse innovation pair, without inverse scaling or baseline addition.
+
+No attention, masks, padding, bidirectionality or learned normalization occur.
+The complete checkpoint state consists of raw weights/biases `(64,39)`, `(64,)`,
+`(64,64)`, `(64,)`; GRU input/recurrent weights `(96,4)`, `(96,32)` and two
+biases `(96,)`; horizon embedding `(2,8)`; basis projection weight/bias `(16,2)`,
+`(16,)`; and head weight/bias `(2,152)`, `(2,)`. Each is float32.
+
+Import `load_gate7_m6` and `Gate7M6Predictor` from the optional
+`model_reproduction.checkpoint_inference` module. Independently verify the
+candidate, repeat, source, configuration/checkpoint pair and both supplied
+SHA-256 pins before loading. Pins authenticate bytes, not provenance or the
+association between artifacts. Deserialization uses weights-only CPU loading
+with no unsafe fallback; exact names, shapes, dtypes and finite values are
+required. No checkpoint or fitted vector is bundled.
+
+`predict(features, history, horizon, basis)` requires finite unscaled raw
+features `(N,39)` in `gate7_feature_projection_v1` order; four finite,
+chronological pre-origin history tokens `(N,4,4)` in
+`gate7_history_projection_v1` order; an int64 horizon `(N,)`; and a finite,
+unscaled source-defined basis `(N,5)`. Raw columns 7–22 must exactly match
+flattened history, and raw horizon indicators must agree with the supplied
+horizon. Masks and padding are rejected. Raw, history and all five basis values
+are standardized in float64 using the preserved run-bound train-only means and
+scales and then converted to float32. Outputs are finite float64 copies of the
+source's float32 predictions.
+
+The caller must construct and authenticate the basis and its row pairing against
+trusted source observations; the integrated public projections do not certify
+that association. Merely passing valid shapes and finite values grants no input
+origin authority. Source basis names in order are W2 fast duration-weighted,
+W2 slow duration-weighted, W3 total dose, W3 fast increment-weighted and W3 slow
+increment-weighted. The first two sum `duration_minutes / 100` times an
+exponential decay with time constants 36 and 120 hours, respectively, over the
+source's pre-origin history exposures and known plan events at or before target
+time. The index exposure is already in the known plan and must not be counted
+twice. For cumulative dose `d`, the source uses `S(d)=10*d/(1+d)`: W3 total is
+`S` at the final cumulative dose, and the remaining W3 entries sum each
+`S` increment weighted by the same 36/120-hour decays.
+Callers must provide all five original values, including the unused tail, so the
+original preprocessing and its finiteness requirements remain verifiable.
+
+### Independent qualification axes
+
+**CPU_SOURCE_PARITY: PASS.** The original source, final checkpoint/config/result
+associations, original seed derivation and preserved train-only preprocessing
+were authenticated for both repeats. All four actual forward tensors matched
+exactly for both synthetic and historical inputs, including the full basis and
+horizon. GRU output sequences and final hidden states matched exactly. Predictions
+were finite and exactly equal to the original CPU source; repetitions were
+bitwise deterministic. The two consumed basis values affect predictions; changing
+only the unused basis tail does not. First CPU output arrays were preserved and
+independently reproduced, including through the installed wheel. Training and
+validation participant groups are disjoint; historical input bytes, query and
+horizon ordering, target units/order and saved-prediction bytes/canonical digests
+were independently checked. No scores were recomputed.
+
+**HISTORICAL_CUDA_COMPATIBILITY: BLOCKED.** The comparison was declared before
+execution: `abs(replayed-saved) <= 1e-5 + 1e-4*abs(saved)`. Saved predictions
+were authenticated before comparison.
+
+| Repeat | CPU source max abs / relative | Saved CUDA max absolute error | Max relative error | Failing elements |
+|---|---|---:|---:|---:|
+| M6-r0 | 0 / 0 | 0.00019931793212890625 | 0.0418589845615152 | 88 / 1024 |
+| M6-r1 | 0 / 0 | 0.00027930736541748047 | 0.038512389644730666 | 140 / 1024 |
+
+Relative error uses `max(abs(saved), float64.tiny)`; the unchanged combined
+rule decides acceptance. CPU execution used Python 3.12, NumPy 2.5.3, PyTorch
+2.14.1+cpu, one thread, deterministic algorithms and float32 inference. The
+saved predictions were generated on CUDA with PyTorch 2.11.0+cu128. CPU source
+parity does not qualify the original CUDA backend, and no new NVIDIA execution
+is claimed.
+
+M6's source includes the same GRU operation type examined in the earlier separate
+M4/M5 investigation. One fixed, local, predeclared input-projection TF32 operand
+rounding approximation was checked without changing original weights or input
+arrays. It produced maximum saved-prediction discrepancies of
+0.000003337860107421875 for r0 and 0.0000019073486328125 for r1, with zero
+failing elements for either repeat. This is a numerical plausibility control,
+not original CUDA execution, proof of the historical math mode, a tolerance
+change, or a reason to erase the failed CPU-to-saved-CUDA comparisons. No broad
+precision search was performed.
+
+All eight integrated M0–M3 repeats were re-executed privately; their synthetic
+and historical arrays remain exactly equal to preserved outputs and their
+original CPU sources. Their APIs and implementation bodies are unchanged.
+Private receipts retain artifact identities, seed/config/source associations,
+actual input digests, preserved arrays, error counts and limitations. No private
+weights, fitted values, observations, prediction arrays or source digests enter
+public Git. Original v1.0.0 release identities and rights decisions are unchanged.
+The draft M6 PR is for independent review of CPU source recovery; it does not
+claim full CUDA qualification or request a merge.
+
+Local verification passed **748 tests**, including **310 inference** and **21
+repository boundary** tests, Ruff lint/format and strict Pyright with zero
+errors or warnings. The built wheel passed **421 tests** outside the checkout,
+including M6 synthetic safe-loading and input-contract tests; actual original
+M6 checkpoints were also executed through that installed wheel. Wheel/sdist
+contents, private identities, fitted vectors and prediction rows were audited
+against the public boundary. Exact-head hosted results are retained in the
+private verification receipt.
