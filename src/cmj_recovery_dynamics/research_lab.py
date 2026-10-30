@@ -429,6 +429,8 @@ class ResearchLab:
 
 def _worker(lab: ResearchLab, request: object, connection: Any) -> None:
     try:
+        torch.set_num_threads(1)
+        torch.use_deterministic_algorithms(True)
         connection.send((200, lab.predict(request)))
     except Refusal as exc:
         connection.send(

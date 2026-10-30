@@ -12,7 +12,7 @@ from typing import Any
 import numpy as np
 import pytest
 
-pytest.importorskip("torch")
+torch = pytest.importorskip("torch")
 
 from cmj_recovery_dynamics import research_lab as lab  # noqa: E402
 
@@ -181,6 +181,16 @@ def test_loopback_http_and_end_to_end_synthetic_fixture() -> None:
             and result["kind"] == "synthetic_demo"
             and result["outputs"][0]["unit"] == "N/kg"
         )
+        prior_threads = torch.get_num_threads()
+        prior_determinism = torch.are_deterministic_algorithms_enabled()
+        try:
+            torch.set_num_threads(1)
+            torch.use_deterministic_algorithms(True)
+            direct = lab.ResearchLab(lab.fixture_observations()).predict(request())
+            assert result["outputs"] == direct["outputs"]
+        finally:
+            torch.set_num_threads(prior_threads)
+            torch.use_deterministic_algorithms(prior_determinism)
         status, result = _exchange(
             port, "POST", "/v1/predict", b'{"version":"a","version":"b"}', headers=headers
         )
