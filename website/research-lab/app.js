@@ -24,6 +24,7 @@
     if (typeof value === "string" || typeof value === "number") return String(value);
     return "Not provided";
   }
+  function formatOutput(value) { return String(Number(value.toPrecision(8))); }
   function qualificationLabel(value) {
     return ({ qualified: "CPU source qualified", CPU_SOURCE_QUALIFIED: "CPU source qualified", pass: "Passed tolerance", failed: "Failed tolerance", not_applicable_synthetic_weights: "Not applicable — synthetic weights" })[value] || describe(value);
   }
@@ -194,8 +195,8 @@
       if (data.candidate !== expected.candidate || data.repeat !== expected.repeat || data.observation_id !== expected.observation_id || data.origin !== selectedObservation()?.origin || data.horizon !== selectedObservation()?.horizon || data.kind !== (expected.mode === "original" ? "original_checkpoint" : "synthetic_demo") || !Number.isFinite(force?.value) || !Number.isFinite(impulse?.value)) {
         throw new Error("The response did not match the requested model, input or output contract.");
       }
-      text("force", force.value.toFixed(4));
-      text("impulse", impulse.value.toFixed(4));
+      text("force", formatOutput(force.value));
+      text("impulse", formatOutput(impulse.value));
       text("result-kind", data.kind === "original_checkpoint" ? "ORIGINAL TRAINED CHECKPOINT" : "SYNTHETIC-WEIGHT DEMONSTRATION · NOT A RECOVERED PREDICTION");
       text("result-model", `${data.candidate} / r${data.repeat}`);
       text("result-origin", `${describe(data.origin)} / ${describe(data.horizon)}`);

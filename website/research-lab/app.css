@@ -3,3 +3,5 @@
 .intro-aside{color:#485c4f}
 
 .input-contract span,.inspection span,.qual-grid span,.result-meta span,.result-values span{font-size:11px}
+
+.result-values strong{overflow-wrap:anywhere}

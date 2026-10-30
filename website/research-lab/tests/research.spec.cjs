@@ -31,11 +31,11 @@ test("connect, execute, inspect, refuse and recover without retaining the token"
   await expect(page.getByLabel("Model family").locator("option")).toHaveCount(9);
   await page.getByRole("button", { name: /run research inference/i }).click();
   await expect(page.locator("#result-kind")).toBeVisible();
-  await expect(page.locator("#force")).toHaveText("-0.2500");
+  await expect(page.locator("#force")).toHaveText("-0.25");
   await expect(page.locator("#force")).toHaveAccessibleName("RELATIVE MEAN CONCENTRIC FORCE N/kg");
   await expect(page.locator("#impulse")).toHaveAccessibleName("RELATIVE CONCENTRIC NET IMPULSE m/s");
   await expect(page.locator("#result-status")).toHaveAttribute("aria-live", "polite");
-  await expect(page.locator("#impulse")).toHaveText("0.0300");
+  await expect(page.locator("#impulse")).toHaveText("0.03");
   await expect(page.locator("#cpu-status")).toHaveText("Not applicable — synthetic weights");
   await page.getByLabel("Model family").selectOption("M8");
   await expect(page.locator("#availability-text")).toContainText("Basis authority is unavailable");
@@ -146,4 +146,19 @@ test("a stalled response times out with reconnect guidance", async ({ page }) =>
   await expect(page.getByText("NOT CONNECTED", { exact: true })).toBeVisible();
   await expect(page.getByRole("status").filter({ hasText: "timed out" })).toBeVisible();
   release();
+});
+
+
+test("small nonzero innovations stay visible and fit the viewport", async ({ page }) => {
+  await page.route("http://127.0.0.1:8765/v1/predict", async (route) => {
+    const body = route.request().postDataJSON();
+    await route.fulfill({ headers: cors, body: JSON.stringify({ version, kind: "synthetic_demo", candidate: body.candidate, repeat: body.repeat, observation_id: body.observation_id, origin: "Example origin", horizon: "H72", outputs: [{ target: "relative_mean_concentric_force", unit: "N/kg", value: 0.000000123456789 }, { target: "relative_concentric_net_impulse", unit: "m/s", value: -0.00000004 }] }) });
+  });
+  await page.goto("/");
+  await page.getByLabel("Local access token").fill("local-test-token");
+  await page.getByRole("button", { name: /connect/i }).click();
+  await page.getByRole("button", { name: /run research inference/i }).click();
+  await expect(page.locator("#force")).toHaveText("1.2345679e-7");
+  await expect(page.locator("#impulse")).toHaveText("-4e-8");
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBeTruthy();
 });
