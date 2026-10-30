@@ -193,6 +193,9 @@ def synthetic_native_rmse_v1(
     query_by_id: dict[str, NativeQuery] = {}
     query_by_origin_horizon: dict[tuple[str, str, NativeHorizon], str] = {}
     participant_by_origin: dict[tuple[str, str], str] = {}
+    baseline_by_origin: dict[
+        tuple[str, str], tuple[tuple[str, str], tuple[float, float], tuple[int, int]]
+    ] = {}
 
     def record_key(row: NativePrediction | NativeObservation) -> tuple[str, NativeTarget]:
         _query(row.query)
@@ -211,6 +214,13 @@ def synthetic_native_rmse_v1(
             != row.query.participant
         ):
             raise ValueError("origin participant identity mismatch")
+        baseline = (
+            row.query.baseline_assessment_ids,
+            row.query.baseline_offsets_hours,
+            row.query.baseline_valid_trial_counts,
+        )
+        if baseline_by_origin.setdefault(origin_key, baseline) != baseline:
+            raise ValueError("origin baseline identity mismatch")
         horizon_key = (*origin_key, row.query.horizon)
         if query_by_origin_horizon.setdefault(horizon_key, row.query.query) != row.query.query:
             raise ValueError("duplicate origin and horizon query")
@@ -248,6 +258,8 @@ def synthetic_native_rmse_v1(
         lo, hi = windows[row.query.horizon]
         if not _finite(row.observed_at_hours) or not lo <= row.observed_at_hours <= hi:
             raise ValueError("native observation falls outside its target window")
+        if row.assessment_identity in row.query.baseline_assessment_ids:
+            raise ValueError("target assessment cannot be a baseline assessment")
         if type(row.valid_trial_count) is not int or row.valid_trial_count != 3:
             raise ValueError("native criterion requires three valid trials")
     if len({q.dataset for q in query_by_id.values()}) != 1:

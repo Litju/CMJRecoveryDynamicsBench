@@ -188,3 +188,19 @@ def test_synthetic_rmse_aggregates_paired_rows_without_canonical_mapping() -> No
     assert result[1].rmse == pytest.approx(0.4 / 2**0.5)
     assert result[2].rmse == pytest.approx(2.0 / 2**0.5)
     assert result[3].rmse == pytest.approx(0.4 / 2**0.5)
+
+
+def test_horizons_cannot_silently_change_origin_baseline() -> None:
+    p, o = fixture()
+    wrong = replace(p[2].query, baseline_assessment_ids=("different", "assessment-2"))
+    with pytest.raises(ValueError, match="origin baseline identity"):
+        run([*p[:2], replace(p[2], query=wrong), *p[3:]], o)
+    with pytest.raises(ValueError, match="target assessment cannot be a baseline"):
+        run(
+            p,
+            [
+                replace(o[0], assessment_identity="assessment-1"),
+                replace(o[1], assessment_identity="assessment-1"),
+                *o[2:],
+            ],
+        )
