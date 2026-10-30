@@ -24,7 +24,7 @@
     if (typeof value === "string" || typeof value === "number") return String(value);
     return "Not provided";
   }
-  function formatOutput(value) { return String(Number(value.toPrecision(8))); }
+  function formatOutput(value) { return String(Number(value.toPrecision(9))); }
   function qualificationLabel(value) {
     return ({ qualified: "CPU source qualified", CPU_SOURCE_QUALIFIED: "CPU source qualified", pass: "Passed tolerance", failed: "Failed tolerance", not_applicable_synthetic_weights: "Not applicable — synthetic weights" })[value] || describe(value);
   }

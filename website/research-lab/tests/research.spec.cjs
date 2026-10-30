@@ -158,7 +158,23 @@ test("small nonzero innovations stay visible and fit the viewport", async ({ pag
   await page.getByLabel("Local access token").fill("local-test-token");
   await page.getByRole("button", { name: /connect/i }).click();
   await page.getByRole("button", { name: /run research inference/i }).click();
-  await expect(page.locator("#force")).toHaveText("1.2345679e-7");
+  await expect(page.locator("#force")).toHaveText("1.23456789e-7");
   await expect(page.locator("#impulse")).toHaveText("-4e-8");
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBeTruthy();
+});
+
+
+test("displayed precision preserves a float32 value", async ({ page }) => {
+  const original = 0.10000206530094147;
+  await page.route("http://127.0.0.1:8765/v1/predict", async (route) => {
+    const body = route.request().postDataJSON();
+    await route.fulfill({ headers: cors, body: JSON.stringify({ version, kind: "synthetic_demo", candidate: body.candidate, repeat: body.repeat, observation_id: body.observation_id, origin: "Example origin", horizon: "H72", outputs: [{ target: "relative_mean_concentric_force", unit: "N/kg", value: original }, { target: "relative_concentric_net_impulse", unit: "m/s", value: 0 }] }) });
+  });
+  await page.goto("/");
+  await page.getByLabel("Local access token").fill("local-test-token");
+  await page.getByRole("button", { name: /connect/i }).click();
+  await page.getByRole("button", { name: /run research inference/i }).click();
+  await expect(page.locator("#force")).toHaveText("0.100002065");
+  expect(Math.fround(Number(await page.locator("#force").innerText()))).toBe(Math.fround(original));
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBeTruthy();
 });
