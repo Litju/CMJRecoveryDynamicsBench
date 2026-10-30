@@ -15,12 +15,16 @@
   let capabilities = null;
   let busy = false;
   let revision = 0;
+  let pendingPrediction = null;
+
+  class ServiceUnavailable extends Error {}
 
   function text(id, value) { elements[id].textContent = value; }
   function describe(value) {
     if (typeof value === "string" || typeof value === "number") return String(value);
     return "Not provided";
   }
+  function formatOutput(value) { return String(Number(value.toPrecision(9))); }
   function qualificationLabel(value) {
     return ({ qualified: "CPU source qualified", CPU_SOURCE_QUALIFIED: "CPU source qualified", pass: "Passed tolerance", failed: "Failed tolerance", not_applicable_synthetic_weights: "Not applicable — synthetic weights" })[value] || describe(value);
   }
@@ -58,28 +62,50 @@
     }
     text("qualification-text", "CPU source fidelity and comparison with saved CUDA predictions are separate. A comparison is not an authentic GPU replay or predictive validation.");
     const blocked = !observation || observation.availability !== "available" || (original && model?.available !== true);
-    elements.availability.className = `availability ${blocked ? "blocked" : "ready"}`;
+    const missingBasis = Number(elements.candidate.value.slice(1)) >= 6 && observation?.basis_availability === "unavailable";
+    elements.availability.className = `availability ${blocked || missingBasis ? "blocked" : "ready"}`;
     text("availability-text", !observation || observation.availability !== "available" ? "No authorized input is available." : blocked
       ? "Original checkpoint is unavailable for this model and repeat."
+      : missingBasis ? "Basis authority is unavailable; the service will refuse this request."
       : original ? "Original checkpoint configured. The service will verify input and basis authority."
       : "Synthetic demonstration selected. The service will validate required inputs.");
     elements.predict.disabled = busy || !token || blocked;
   }
   async function request(path, options = {}) {
-    const response = await fetch(`${API}${path}`, {
-      ...options,
-      headers: { "X-Lab-Token": token, ...(options.body ? { "Content-Type": "application/json" } : {}) },
-      cache: "no-store",
-    });
-    let value;
-    try { value = await response.json(); } catch { throw new Error("The local service returned an invalid response."); }
-    if (!response.ok) {
-      const error = value?.error;
-      throw new Error(error && typeof error.code === "string" && typeof error.message === "string"
-        ? `${error.code}: ${error.message}` : "The local service refused the request.");
+    const controller = new AbortController();
+    let timedOut = false;
+    const timer = setTimeout(() => { timedOut = true; controller.abort(); }, 30000);
+    const abort = () => controller.abort();
+    options.signal?.addEventListener("abort", abort, { once: true });
+    try {
+      const response = await fetch(`${API}${path}`, {
+        ...options,
+        signal: controller.signal,
+        headers: { "X-Lab-Token": token, ...(options.body ? { "Content-Type": "application/json" } : {}) },
+        cache: "no-store",
+      });
+      let value;
+      try { value = await response.json(); } catch (error) {
+        if (controller.signal.aborted) throw error;
+        throw new Error("The local service returned an invalid response.");
+      }
+      if (!response.ok) {
+        const error = value?.error;
+        throw new Error(error && typeof error.code === "string" && typeof error.message === "string"
+          ? `${error.code}: ${error.message}` : "The local service refused the request.");
+      }
+      if (value?.version !== VERSION) throw new Error("The local service returned an incompatible contract version.");
+      return value;
+    } catch (error) {
+      if (timedOut) throw new ServiceUnavailable("The local service timed out. Reconnect to try again.");
+      if (!controller.signal.aborted && error instanceof TypeError) {
+        throw new ServiceUnavailable("Cannot reach the local service. Reconnect to try again.");
+      }
+      throw error;
+    } finally {
+      clearTimeout(timer);
+      options.signal?.removeEventListener("abort", abort);
     }
-    if (value?.version !== VERSION) throw new Error("The local service returned an incompatible contract version.");
-    return value;
   }
   function populate(items) {
     const select = elements.observation;
@@ -93,8 +119,13 @@
     }
   }
   function disconnect(message = "Disconnected. The token was cleared.") {
+    pendingPrediction?.abort();
+    pendingPrediction = null;
+    busy = false;
+    elements.predict.textContent = "Run research inference ↗";
     token = "";
     capabilities = null;
+    elements.observation.replaceChildren();
     elements.token.value = "";
     elements.token.disabled = false;
     elements.controls.disabled = true;
@@ -148,6 +179,8 @@
     if (busy || !token || !selectedObservation()) return;
     const expected = { version: VERSION, candidate: elements.candidate.value, repeat: Number(elements.repeat.value), observation_id: elements.observation.value, mode: elements.mode.value };
     const current = ++revision;
+    const controller = new AbortController();
+    pendingPrediction = controller;
     busy = true;
     resetResult();
     const requestRevision = revision;
@@ -155,15 +188,15 @@
     elements.predict.textContent = "Running inference…";
     update();
     try {
-      const data = await request("/predict", { method: "POST", body: JSON.stringify(expected) });
+      const data = await request("/predict", { method: "POST", body: JSON.stringify(expected), signal: controller.signal });
       if (requestRevision !== revision || current + 1 !== revision) return;
       const force = data.outputs?.find((item) => item.target === "relative_mean_concentric_force" && item.unit === "N/kg");
       const impulse = data.outputs?.find((item) => item.target === "relative_concentric_net_impulse" && item.unit === "m/s");
       if (data.candidate !== expected.candidate || data.repeat !== expected.repeat || data.observation_id !== expected.observation_id || data.origin !== selectedObservation()?.origin || data.horizon !== selectedObservation()?.horizon || data.kind !== (expected.mode === "original" ? "original_checkpoint" : "synthetic_demo") || !Number.isFinite(force?.value) || !Number.isFinite(impulse?.value)) {
         throw new Error("The response did not match the requested model, input or output contract.");
       }
-      text("force", force.value.toFixed(4));
-      text("impulse", impulse.value.toFixed(4));
+      text("force", formatOutput(force.value));
+      text("impulse", formatOutput(impulse.value));
       text("result-kind", data.kind === "original_checkpoint" ? "ORIGINAL TRAINED CHECKPOINT" : "SYNTHETIC-WEIGHT DEMONSTRATION · NOT A RECOVERED PREDICTION");
       text("result-model", `${data.candidate} / r${data.repeat}`);
       text("result-origin", `${describe(data.origin)} / ${describe(data.horizon)}`);
@@ -176,13 +209,19 @@
       text("result-status", "COMPLETE");
     } catch (error) {
       if (requestRevision === revision) {
-        text("prediction-error", error instanceof Error ? error.message : "Inference could not be completed.");
-        text("result-status", "REFUSED");
+        if (error instanceof ServiceUnavailable) disconnect(error.message);
+        else {
+          text("prediction-error", error instanceof Error ? error.message : "Inference could not be completed.");
+          text("result-status", "REFUSED");
+        }
       }
     } finally {
-      busy = false;
-      elements.predict.textContent = "Run research inference ↗";
-      update();
+      if (pendingPrediction === controller) {
+        pendingPrediction = null;
+        busy = false;
+        elements.predict.textContent = "Run research inference ↗";
+        update();
+      }
     }
   });
   update();
