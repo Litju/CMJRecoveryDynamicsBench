@@ -11,6 +11,7 @@ Before any predictions or outcome access, record dataset and source identities, 
 ## Target crosswalk authority gate
 
 The correspondence between the original Gate7 target names and the canonical evaluation-cell identifiers has not been established by source authority. Before independent scoring, explicitly verify and document that crosswalk against the authenticated original target definitions, units, baseline and horizon contracts; do not infer equivalence from similar names. Until then, independent scoring is blocked. This requirement does not grant dataset access, scoring or publication permission.
+The read-only findings and acquisition requirements are recorded in `GATE7_TARGET_AUTHORITY_AND_DATA_READINESS_V1.md`; neither crosswalk has been established as exact.
 
 ## Candidate comparisons and baselines
 
