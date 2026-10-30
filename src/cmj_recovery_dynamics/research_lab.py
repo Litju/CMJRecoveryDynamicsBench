@@ -390,9 +390,36 @@ class ResearchLab:
         except Exception as exc:
             raise Refusal("INFERENCE_FAILED", "Inference could not be completed.", 422) from exc
         output = [float(result[0, 0]), float(result[0, 1])]
+        source_binding: list[object] = [
+            observation.builder.source_identity,
+            observation.builder.expected_observations_sha256,
+            observation.builder.routine_source.expected_sha256,
+            observation.origin_id,
+            observation.horizon.label,
+            observation.authority,
+        ]
+        if index >= 6 and observation.basis is not None:
+            source_binding.extend((observation.basis.row_sha256, observation.basis.authority))
+        model_binding: list[object] = ["synthetic-weights-v1"]
+        if model_grant is not None and mode == "original":
+            model_binding = [
+                model_grant.config_sha256,
+                model_grant.checkpoint_sha256,
+                model_grant.source_authority,
+                model_grant.association_authority,
+            ]
         identity = hashlib.sha256(
             json.dumps(
-                [VERSION, candidate, repeat, observation.id, mode, output],
+                [
+                    VERSION,
+                    candidate,
+                    repeat,
+                    observation.id,
+                    mode,
+                    source_binding,
+                    model_binding,
+                    output,
+                ],
                 separators=(",", ":"),
                 allow_nan=False,
             ).encode()

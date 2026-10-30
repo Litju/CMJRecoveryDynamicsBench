@@ -128,6 +128,41 @@ def test_candidate_loader_dispatch_and_explicit_grants(
     assert len(calls) == 9
 
 
+def test_output_identity_binds_private_grants_without_disclosing_them(
+    monkeypatch: pytest.MonkeyPatch, tmp_path: Path
+) -> None:
+    class FixedPredictor:
+        def predict(self, *args: Any) -> Any:
+            return np.asarray([[0.5, -0.5]])
+
+    def load(_: lab.ModelGrant) -> FixedPredictor:
+        return FixedPredictor()
+
+    monkeypatch.setattr(lab, "_original", load)
+    observation = lab.fixture_observations()[0]
+    model = lab.ModelGrant(
+        "M0",
+        0,
+        tmp_path / "config",
+        tmp_path / "weights",
+        "a" * 64,
+        "b" * 64,
+        "private-source",
+        "private-association",
+        "model",
+    )
+
+    def predict(obs: lab.ObservationGrant, grant: lab.ModelGrant) -> dict[str, object]:
+        return lab.ResearchLab((obs,), (grant,)).predict(request(mode="original"))
+
+    first = predict(observation, model)
+    changed_pin = predict(observation, replace(model, config_sha256="c" * 64))
+    changed_authority = predict(replace(observation, authority="different-authority"), model)
+    assert first["outputs"] == changed_pin["outputs"] == changed_authority["outputs"]
+    assert len({first["identity"], changed_pin["identity"], changed_authority["identity"]}) == 3
+    assert "private-source" not in json.dumps(first) and "a" * 64 not in json.dumps(first)
+
+
 def test_future_observation_rejected() -> None:
     builder = lab.generate_gate7_fixture_v1()
     with pytest.raises(ValueError):

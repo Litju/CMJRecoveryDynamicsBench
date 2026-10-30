@@ -20,6 +20,38 @@ Responses identify synthetic weights or original checkpoints, observation alias,
 
 To use original checkpoints or authorized observations, a trusted operator writes and executes a private Python startup script. The script constructs `ResearchLab` with immutable `ObservationGrant` and `ModelGrant` tuples and calls `serve`. An `ObservationGrant` selects an origin and horizon in an independently authorized `Gate7ObservationBuilderV1`, whose constructor pins observation bytes and routine authority and enforces pre-origin availability. Give it public-safe aliases only. Model grants require independently authenticated source and candidate/repeat/config/checkpoint associations, plus both SHA-256 pins; their paths are supplied only by the operator at startup. The loader rechecks the pins, contracts and weights-only deserialization. The service cannot independently establish an attestation just because a string or digest was supplied: the operator must verify it against the private evidence first. Never expose the operator script, pins, data or checkpoints through the static site or public Git.
 
+
+For example, the following private startup script selects one public synthetic fixture observation and an operator-authorized original M0 checkpoint. The environment values must come from the operator's independently verified inventory; the example does not grant authority or discover files. Replace the fixture builder with an authorized pinned builder for other observations.
+
+```python
+import os
+from pathlib import Path
+from cmj_recovery_dynamics.research_lab import (
+    ModelGrant, ObservationGrant, ResearchLab, serve,
+)
+from cmj_recovery_dynamics.observations.public_builder import generate_gate7_fixture_v1
+
+def main():
+    builder = generate_gate7_fixture_v1("training")
+    item = builder.inputs()[0]
+    observation = ObservationGrant(
+        "example-0", "Synthetic-1", "Origin-1", builder,
+        item.row.origin_id, item.row.horizon, "synthetic", "public-fixture-v1",
+    )
+    model = ModelGrant(
+        "M0", 0, Path(os.environ["LAB_CONFIG"]), Path(os.environ["LAB_CHECKPOINT"]),
+        os.environ["LAB_CONFIG_SHA256"], os.environ["LAB_CHECKPOINT_SHA256"],
+        os.environ["LAB_SOURCE_AUTHORITY"], os.environ["LAB_ASSOCIATION_AUTHORITY"],
+        "M0-r0",
+    )
+    serve(ResearchLab((observation,), (model,)), os.environ["GATE7_LAB_TOKEN"])
+
+if __name__ == "__main__":
+    main()
+```
+
+The main guard is required because each inference runs in a fresh spawned process. Do not commit the startup script if it contains private paths, identities or pins.
+
 M6–M8 additionally require a `BasisGrant` for the selected observation. Its five unscaled values and independently verified `row_sha256` bind the observation-source digest, origin, exact projected raw/history tensors, horizon and basis values using `row_digest`. The matching authority must be independently established from source evidence; computing a digest from untrusted submitted values is not authorization. Missing or mismatched basis is refused. The first two standardized values alone are consumed by M6; M7/M8 use all five.
 
 The service processes one request at a time, admits one row per request, rejects bodies over 8 KiB, limits operator checkpoint/config files to 8 MB/1 MB, and terminates an inference worker after 20 seconds. A connection has a 25-second overall deadline and a five-second inactivity limit. These limits do not establish production readiness; local operating-system scheduling, process startup and filesystem behavior can still delay shutdown or resource release. Only trusted local operators may provision grants; access to the machine and token remains a security boundary.
