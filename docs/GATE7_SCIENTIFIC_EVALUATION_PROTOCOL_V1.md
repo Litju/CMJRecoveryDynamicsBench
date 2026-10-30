@@ -8,6 +8,10 @@ For each origin, predict the additive innovation from the pre-index baseline in 
 
 Before any predictions or outcome access, record dataset and source identities, provenance and permission, participant identity linkage, observation and label extraction, query order, target/units, cohort inclusion, site/date coverage, split identities, checkpoint and run-bound preprocessing identities, code/version and environment. Pin these in a restricted study manifest. Observations, dataset keys, fitted values, checkpoints, individual predictions and restricted identities are not public artifacts merely because code is public.
 
+## Target crosswalk authority gate
+
+The correspondence between the original Gate7 target names and the canonical evaluation-cell identifiers has not been established by source authority. Before independent scoring, explicitly verify and document that crosswalk against the authenticated original target definitions, units, baseline and horizon contracts; do not infer equivalence from similar names. Until then, independent scoring is blocked. This requirement does not grant dataset access, scoring or publication permission.
+
 ## Candidate comparisons and baselines
 
 All original M0–M8 candidates and final repeats r0/r1 are identified before independent testing. The primary confirmatory candidate must be selected using the historical training/validation evidence only, before access to independent test outcomes; lock both selection and failure handling. Report r0 and r1 separately. The primary family estimate is the arithmetic mean of the two **per-repeat cell metrics**, not a prediction ensemble; never fit, refit, select, or reweight repeats using test outcomes. For uncertainty, resample the same participants and query identities jointly across both repeats and baselines, then recompute the prespecified family metric. Report per-repeat disagreement as a stability diagnostic, not a confidence interval or an estimated predictive distribution.
