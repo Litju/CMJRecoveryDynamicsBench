@@ -2,7 +2,7 @@ const { test, expect } = require("@playwright/test");
 const version = "gate7-lab-v1";
 const cors = { "Access-Control-Allow-Origin": "http://127.0.0.1:3000", "Access-Control-Allow-Headers": "X-Lab-Token, Content-Type", "Access-Control-Allow-Methods": "GET, POST, OPTIONS", "Content-Type": "application/json" };
 const models = Array.from({ length: 18 }, (_, i) => ({ candidate: `M${Math.floor(i / 2)}`, repeat: i % 2, available: false, qualification: "CPU_SOURCE_QUALIFIED", input_contract: "raw" }));
-const observations = [{ id: "training-0", label: "Synthetic training origin", origin: "Example origin", horizon: "H72", source: "synthetic", availability: "available" }];
+const observations = [{ id: "training-0", label: "Synthetic training origin", origin: "Example origin", horizon: "H72", source: "synthetic", availability: "available", basis_availability: "unavailable" }];
 
 test.beforeEach(async ({ page }) => {
   await page.route("http://127.0.0.1:8765/v1/**", async (route) => {
@@ -13,7 +13,7 @@ test.beforeEach(async ({ page }) => {
     if (url.pathname.endsWith("/health")) return route.fulfill({ headers: cors, body: JSON.stringify({ version, status: "ok" }) });
     if (url.pathname.endsWith("/capabilities")) return route.fulfill({ headers: cors, body: JSON.stringify({ version, models, observations }) });
     const body = request.postDataJSON();
-    if (body.candidate === "M8") return route.fulfill({ status: 422, headers: cors, body: JSON.stringify({ version, error: { code: "BASIS_AUTHORITY_REQUIRED", message: "Authenticated basis is unavailable." } }) });
+    if (body.candidate === "M8") return route.fulfill({ status: 422, headers: cors, body: JSON.stringify({ version, error: { code: "BASIS_AUTHORITY_UNAVAILABLE", message: "Authenticated basis is unavailable." } }) });
     return route.fulfill({ headers: cors, body: JSON.stringify({ version, kind: "synthetic_demo", candidate: body.candidate, repeat: body.repeat, observation_id: body.observation_id, origin: "Example origin", horizon: "H72", outputs: [{ target: "relative_mean_concentric_force", unit: "N/kg", value: -0.25 }, { target: "relative_concentric_net_impulse", unit: "m/s", value: 0.03 }], qualification: { cpu_source: "not_applicable_synthetic_weights", cuda_comparison: "not_applicable_synthetic_weights" }, provenance: "synthetic-weights", identity: "synthetic-example" }) });
   });
 });
@@ -32,11 +32,15 @@ test("connect, execute, inspect, refuse and recover without retaining the token"
   await page.getByRole("button", { name: /run research inference/i }).click();
   await expect(page.locator("#result-kind")).toBeVisible();
   await expect(page.locator("#force")).toHaveText("-0.2500");
+  await expect(page.locator("#force")).toHaveAccessibleName("RELATIVE MEAN CONCENTRIC FORCE N/kg");
+  await expect(page.locator("#impulse")).toHaveAccessibleName("RELATIVE CONCENTRIC NET IMPULSE m/s");
+  await expect(page.locator("#result-status")).toHaveAttribute("aria-live", "polite");
   await expect(page.locator("#impulse")).toHaveText("0.0300");
   await expect(page.locator("#cpu-status")).toHaveText("Not applicable — synthetic weights");
   await page.getByLabel("Model family").selectOption("M8");
+  await expect(page.locator("#availability-text")).toContainText("Basis authority is unavailable");
   await page.getByRole("button", { name: /run research inference/i }).click();
-  await expect(page.getByRole("alert")).toContainText("BASIS_AUTHORITY_REQUIRED");
+  await expect(page.getByRole("alert")).toContainText("BASIS_AUTHORITY_UNAVAILABLE");
   await page.getByLabel("Execution mode").selectOption("original");
   await expect(page.getByText("Original checkpoint is unavailable", { exact: false })).toBeVisible();
   await expect(page.getByRole("button", { name: /run research inference/i })).toBeDisabled();
@@ -86,4 +90,60 @@ test("rejects a response for a different horizon", async ({ page }) => {
   await page.getByRole("button", { name: /run research inference/i }).click();
   await expect(page.getByRole("alert")).toContainText("did not match");
   await expect(page.locator("#result")).toBeHidden();
+});
+
+test("reports a lost service and reconnects", async ({ page }) => {
+  await page.goto("/");
+  await page.getByLabel("Local access token").fill("local-test-token");
+  await page.getByRole("button", { name: /connect/i }).click();
+  await page.route("http://127.0.0.1:8765/v1/predict", (route) => route.abort("connectionfailed"));
+  await page.getByRole("button", { name: /run research inference/i }).click();
+  await expect(page.getByText("NOT CONNECTED", { exact: true })).toBeVisible();
+  await expect(page.getByRole("status").filter({ hasText: "Cannot reach the local service" })).toBeVisible();
+  await page.unroute("http://127.0.0.1:8765/v1/predict");
+  await page.getByLabel("Local access token").fill("local-test-token");
+  await page.getByRole("button", { name: /connect/i }).click();
+  await page.getByRole("button", { name: /run research inference/i }).click();
+  await expect(page.locator("#result-status")).toHaveText("COMPLETE");
+  const AxeBuilder = require("@axe-core/playwright").default;
+  const result = await new AxeBuilder({ page }).analyze();
+  expect(result.violations.map(({ id }) => id)).toEqual([]);
+});
+
+test("disconnect cancels an in-flight prediction and permits a new connection", async ({ page }) => {
+  await page.goto("/");
+  await page.getByLabel("Local access token").fill("local-test-token");
+  await page.getByRole("button", { name: /connect/i }).click();
+  await page.route("http://127.0.0.1:8765/v1/predict", async (route) => {
+    await new Promise((resolve) => setTimeout(resolve, 1200));
+    await route.abort().catch(() => {});
+  });
+  await page.getByRole("button", { name: /run research inference/i }).click();
+  await expect(page.getByRole("button", { name: "Running inference…" })).toBeDisabled();
+  await page.getByRole("button", { name: "Disconnect" }).click();
+  await page.getByLabel("Local access token").fill("local-test-token");
+  await page.getByRole("button", { name: /connect/i }).click();
+  await expect(page.getByRole("button", { name: /run research inference/i })).toBeEnabled();
+  await page.waitForTimeout(1300);
+  await expect(page.getByRole("button", { name: /run research inference/i })).toBeEnabled();
+  await expect(page.locator("#result-status")).toHaveText("AWAITING RUN");
+});
+
+test("a stalled response times out with reconnect guidance", async ({ page }) => {
+  await page.clock.install();
+  await page.goto("/");
+  await page.getByLabel("Local access token").fill("local-test-token");
+  await page.getByRole("button", { name: /connect/i }).click();
+  let release;
+  const stalled = new Promise((resolve) => { release = resolve; });
+  await page.route("http://127.0.0.1:8765/v1/predict", async (route) => {
+    await stalled;
+    await route.abort().catch(() => {});
+  });
+  await page.getByRole("button", { name: /run research inference/i }).click();
+  await expect(page.getByRole("button", { name: "Running inference…" })).toBeDisabled();
+  await page.clock.fastForward(30001);
+  await expect(page.getByText("NOT CONNECTED", { exact: true })).toBeVisible();
+  await expect(page.getByRole("status").filter({ hasText: "timed out" })).toBeVisible();
+  release();
 });
