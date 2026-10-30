@@ -57,9 +57,9 @@
       text("cuda-status", !original ? "Not applicable — synthetic weights" : qualified ? (Number(elements.candidate.value.slice(1)) < 4 ? "Passed tolerance" : "Failed tolerance") : "Not provided");
     }
     text("qualification-text", "CPU source fidelity and comparison with saved CUDA predictions are separate. A comparison is not an authentic GPU replay or predictive validation.");
-    const blocked = !observation || (original && model?.available !== true);
+    const blocked = !observation || observation.availability !== "available" || (original && model?.available !== true);
     elements.availability.className = `availability ${blocked ? "blocked" : "ready"}`;
-    text("availability-text", !observation ? "No authorized input is available." : blocked
+    text("availability-text", !observation || observation.availability !== "available" ? "No authorized input is available." : blocked
       ? "Original checkpoint is unavailable for this model and repeat."
       : original ? "Original checkpoint configured. The service will verify input and basis authority."
       : "Synthetic demonstration selected. The service will validate required inputs.");
@@ -159,7 +159,7 @@
       if (requestRevision !== revision || current + 1 !== revision) return;
       const force = data.outputs?.find((item) => item.target === "relative_mean_concentric_force" && item.unit === "N/kg");
       const impulse = data.outputs?.find((item) => item.target === "relative_concentric_net_impulse" && item.unit === "m/s");
-      if (data.candidate !== expected.candidate || data.repeat !== expected.repeat || data.observation_id !== expected.observation_id || data.kind !== (expected.mode === "original" ? "original_checkpoint" : "synthetic_demo") || !Number.isFinite(force?.value) || !Number.isFinite(impulse?.value)) {
+      if (data.candidate !== expected.candidate || data.repeat !== expected.repeat || data.observation_id !== expected.observation_id || data.origin !== selectedObservation()?.origin || data.horizon !== selectedObservation()?.horizon || data.kind !== (expected.mode === "original" ? "original_checkpoint" : "synthetic_demo") || !Number.isFinite(force?.value) || !Number.isFinite(impulse?.value)) {
         throw new Error("The response did not match the requested model, input or output contract.");
       }
       text("force", force.value.toFixed(4));

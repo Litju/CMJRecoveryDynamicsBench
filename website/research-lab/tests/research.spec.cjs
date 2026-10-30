@@ -74,3 +74,16 @@ test("the initial screen has no automatically detectable accessibility violation
   const result = await new AxeBuilder({ page }).analyze();
   expect(result.violations.map(({ id, nodes }) => ({ id, targets: nodes.map((node) => node.target) }))).toEqual([]);
 });
+
+test("rejects a response for a different horizon", async ({ page }) => {
+  await page.route("http://127.0.0.1:8765/v1/predict", async (route) => {
+    const body = route.request().postDataJSON();
+    await route.fulfill({ headers: cors, body: JSON.stringify({ version, kind: "synthetic_demo", candidate: body.candidate, repeat: body.repeat, observation_id: body.observation_id, origin: "Example origin", horizon: "D7", outputs: [{ target: "relative_mean_concentric_force", unit: "N/kg", value: 0 }, { target: "relative_concentric_net_impulse", unit: "m/s", value: 0 }] }) });
+  });
+  await page.goto("/");
+  await page.getByLabel("Local access token").fill("local-test-token");
+  await page.getByRole("button", { name: /connect/i }).click();
+  await page.getByRole("button", { name: /run research inference/i }).click();
+  await expect(page.getByRole("alert")).toContainText("did not match");
+  await expect(page.locator("#result")).toBeHidden();
+});
