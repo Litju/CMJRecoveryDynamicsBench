@@ -45,7 +45,7 @@ jobs:
       - name: Installed wheel projection smoke outside checkout
         run: |
           python -m pip install --force-reinstall --no-deps dist/*.whl
-          cp tests/test_gate7_projection.py tests/test_public_observation_builder.py tests/test_checkpoint_inference.py tests/test_checkpoint_sequence_inference.py tests/test_checkpoint_horizon_inference.py tests/test_checkpoint_m6_inference.py tests/test_checkpoint_all_loaders.py tests/test_checkpoint_m7_inference.py tests/test_checkpoint_m8_inference.py "$RUNNER_TEMP/"
+          cp tests/test_gate7_projection.py tests/test_public_observation_builder.py tests/test_checkpoint_inference.py tests/test_checkpoint_sequence_inference.py tests/test_checkpoint_horizon_inference.py tests/test_checkpoint_m6_inference.py tests/test_checkpoint_all_loaders.py tests/test_checkpoint_m7_inference.py tests/test_checkpoint_m8_inference.py tests/test_research_lab.py "$RUNNER_TEMP/"
           cd "$RUNNER_TEMP"
-          python -m pytest -q test_gate7_projection.py test_public_observation_builder.py test_checkpoint_inference.py test_checkpoint_sequence_inference.py test_checkpoint_horizon_inference.py test_checkpoint_m6_inference.py test_checkpoint_all_loaders.py test_checkpoint_m7_inference.py test_checkpoint_m8_inference.py
+          python -m pytest -q test_gate7_projection.py test_public_observation_builder.py test_checkpoint_inference.py test_checkpoint_sequence_inference.py test_checkpoint_horizon_inference.py test_checkpoint_m6_inference.py test_checkpoint_all_loaders.py test_checkpoint_m7_inference.py test_checkpoint_m8_inference.py test_research_lab.py
           python -m cmj_recovery_dynamics.observations.public_builder

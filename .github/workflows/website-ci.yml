@@ -40,3 +40,30 @@ jobs:
       - run: npm run build
       - run: npx playwright install --with-deps chromium
       - run: npm run test:ui
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install local inference runtime
+        working-directory: .
+        run: |
+          python -m pip install torch --index-url https://download.pytorch.org/whl/cpu
+          python -m pip install '.[inference]'
+      - name: Exercise local research lab in browser
+        working-directory: .
+        run: |
+          GATE7_LAB_TOKEN="$(python -c 'import secrets; print(secrets.token_urlsafe(32))')"
+          export GATE7_LAB_TOKEN
+          export LAB_LIVE_TOKEN="$GATE7_LAB_TOKEN"
+          python -m cmj_recovery_dynamics.research_lab > "$RUNNER_TEMP/lab-service.log" 2>&1 &
+          service_pid=$!
+          trap 'kill "$service_pid" 2>/dev/null || true' EXIT
+          ready=0
+          for attempt in $(seq 1 60); do
+            if curl --silent --fail -H "X-Lab-Token: $GATE7_LAB_TOKEN" http://127.0.0.1:8765/v1/health > /dev/null; then
+              ready=1
+              break
+            fi
+            sleep 1
+          done
+          test "$ready" = 1
+          website/node_modules/.bin/playwright test --config website/research-lab/playwright.config.cjs
