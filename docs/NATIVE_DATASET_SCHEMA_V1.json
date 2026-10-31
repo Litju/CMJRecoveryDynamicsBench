@@ -1,0 +1,933 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:cmj:native-dataset-preflight:v1",
+  "title": "Native dataset preflight v1; structural schema is not scientific or use authorization",
+  "type": "object",
+  "properties": {
+    "version": {
+      "const": "native_dataset_preflight_v1"
+    },
+    "dataset_kind": {
+      "enum": [
+        "synthetic",
+        "empirical"
+      ],
+      "description": "Declaration is not proof. Empirical scoring remains blocked even when structural checks pass."
+    },
+    "dataset_id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^\\S(?:.*\\S)?$"
+    },
+    "candidate_indices": {
+      "type": "array",
+      "items": {
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 8
+      },
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "source_authority": {
+      "type": "object",
+      "properties": {
+        "reference": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "^\\S(?:.*\\S)?$"
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        }
+      },
+      "required": [
+        "reference",
+        "sha256"
+      ],
+      "additionalProperties": false
+    },
+    "basis_source_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "routine_source_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "participant_splits": {
+      "type": "object",
+      "properties": {
+        "train": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "^\\S(?:.*\\S)?$"
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "validation": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "^\\S(?:.*\\S)?$"
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "test": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "^\\S(?:.*\\S)?$"
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        }
+      },
+      "required": [
+        "train",
+        "validation",
+        "test"
+      ],
+      "additionalProperties": false
+    },
+    "aliases": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string",
+        "minLength": 1,
+        "pattern": "^\\S(?:.*\\S)?$"
+      },
+      "description": "Complete steward-attested alias to canonical group graph; cycles, duplicate canonical membership and cross-split overlap refused. Completeness cannot be proven by this file."
+    },
+    "preprocessing": {
+      "type": "object",
+      "properties": {
+        "reference": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "^\\S(?:.*\\S)?$"
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "frozen": {
+          "const": true
+        },
+        "training_only": {
+          "const": true
+        }
+      },
+      "required": [
+        "reference",
+        "sha256",
+        "frozen",
+        "training_only"
+      ],
+      "additionalProperties": false
+    },
+    "missingness": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "pattern": "^\\S(?:.*\\S)?$"
+      },
+      "maxItems": 0
+    },
+    "support_mismatches": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "pattern": "^\\S(?:.*\\S)?$"
+      },
+      "maxItems": 0
+    },
+    "history_complete_through_h": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "number"
+      },
+      "description": "Per-canonical-participant complete-history boundary; assertion requires independent review."
+    },
+    "reviews": {
+      "type": "object",
+      "properties": {
+        "measurement_authority": {
+          "$ref": "#/$defs/review"
+        },
+        "participant_independence": {
+          "$ref": "#/$defs/review"
+        },
+        "data_use_authorization": {
+          "$ref": "#/$defs/review"
+        },
+        "result_generation_authorization": {
+          "$ref": "#/$defs/review"
+        },
+        "result_disclosure_authorization": {
+          "$ref": "#/$defs/review"
+        }
+      },
+      "required": [
+        "measurement_authority",
+        "participant_independence",
+        "data_use_authorization",
+        "result_generation_authorization",
+        "result_disclosure_authorization"
+      ],
+      "additionalProperties": false
+    },
+    "assessments": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/assessment"
+      },
+      "minItems": 1
+    },
+    "queries": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/query"
+      },
+      "minItems": 2
+    }
+  },
+  "required": [
+    "version",
+    "dataset_kind",
+    "dataset_id",
+    "candidate_indices",
+    "source_authority",
+    "basis_source_sha256",
+    "routine_source_sha256",
+    "participant_splits",
+    "aliases",
+    "preprocessing",
+    "missingness",
+    "support_mismatches",
+    "history_complete_through_h",
+    "reviews",
+    "assessments",
+    "queries"
+  ],
+  "additionalProperties": false,
+  "$defs": {
+    "trial": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "^\\S(?:.*\\S)?$"
+        },
+        "valid": {
+          "type": "boolean"
+        },
+        "force_n_per_kg": {
+          "type": "number",
+          "description": "Time-mean gross vertical force over the concentric interval divided by explicit system mass, N/kg."
+        },
+        "impulse_m_per_s": {
+          "type": "number",
+          "description": "Concentric integral of (Fz - m*g)dt / m, m/s."
+        },
+        "depth_m": {
+          "type": "number",
+          "description": "Nonnegative source reference-COM minus bottom-COM displacement in metres; independently authenticate COM reference and measurement provenance; do not infer depth from force alone.",
+          "minimum": 0
+        },
+        "force_time": {
+          "$ref": "#/$defs/force_time"
+        }
+      },
+      "required": [
+        "id",
+        "valid",
+        "force_n_per_kg",
+        "impulse_m_per_s",
+        "depth_m",
+        "force_time"
+      ],
+      "additionalProperties": false
+    },
+    "assessment": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "^\\S(?:.*\\S)?$"
+        },
+        "participant": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "^\\S(?:.*\\S)?$"
+        },
+        "time_h": {
+          "type": "number",
+          "description": "Assessment time in hours on the dataset clock; exact origin offsets are derived."
+        },
+        "available_at_h": {
+          "type": "number",
+          "description": "When the assessment values were actually available, on the same clock."
+        },
+        "valid": {
+          "type": "boolean"
+        },
+        "system_mass_kg": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "description": "Explicit accelerated system mass, including any external carried load; no body-mass substitution."
+        },
+        "mechanics": {
+          "const": {
+            "force": "time_mean_gross_concentric_force_per_system_mass",
+            "impulse": "concentric_net_impulse_per_system_mass",
+            "events": "source_supplied_onset_and_takeoff",
+            "integration": "interpolated_boundaries_in_contact_trapezoid",
+            "criterion": "mean_three_valid_trials"
+          },
+          "description": "Records source implementation conventions, not proof of empirical phase-detection/calibration authority."
+        },
+        "provenance_sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "trials": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/trial"
+          },
+          "minItems": 3,
+          "maxItems": 3
+        }
+      },
+      "required": [
+        "id",
+        "participant",
+        "time_h",
+        "available_at_h",
+        "valid",
+        "system_mass_kg",
+        "mechanics",
+        "provenance_sha256",
+        "trials"
+      ],
+      "additionalProperties": false
+    },
+    "exposure": {
+      "type": "object",
+      "properties": {
+        "time_h": {
+          "type": "number"
+        },
+        "duration_minutes": {
+          "type": "number",
+          "minimum": 0
+        },
+        "known_at_h": {
+          "type": "number",
+          "description": "Evidence-backed time the event duration or prescription was known; must be <= origin."
+        }
+      },
+      "required": [
+        "time_h",
+        "duration_minutes",
+        "known_at_h"
+      ],
+      "additionalProperties": false
+    },
+    "routine": {
+      "type": "object",
+      "properties": {
+        "scheduled": {
+          "type": "boolean"
+        },
+        "state": {
+          "enum": [
+            "FIELD_STRUCTURALLY_ABSENT",
+            "OBSERVED_MASKED",
+            "SCHEDULED_UNAVAILABLE",
+            "TRIAL_INVALID",
+            "UNSCHEDULED"
+          ]
+        },
+        "origin_id": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "^\\S(?:.*\\S)?$"
+        },
+        "available_at_h": {
+          "type": "number"
+        },
+        "source_sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        }
+      },
+      "required": [
+        "scheduled",
+        "state",
+        "origin_id",
+        "available_at_h",
+        "source_sha256"
+      ],
+      "additionalProperties": false
+    },
+    "review": {
+      "type": "object",
+      "properties": {
+        "decision": {
+          "enum": [
+            "approved",
+            "pending",
+            "rejected"
+          ]
+        },
+        "reference": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "^\\S(?:.*\\S)?$"
+        },
+        "reviewer": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "^\\S(?:.*\\S)?$"
+        },
+        "scope": {
+          "enum": [
+            "measurement_authority",
+            "participant_independence",
+            "data_use_authorization",
+            "result_generation_authorization",
+            "result_disclosure_authorization"
+          ]
+        },
+        "dataset_sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$",
+          "description": "SHA256 of canonical complete dataset payload excluding reviews: JSON sort_keys=True,separators=(comma,colon),allow_nan=False. Bind every identity, numeric value, source, trial and preprocessing field."
+        }
+      },
+      "required": [
+        "decision",
+        "reference",
+        "reviewer",
+        "scope",
+        "dataset_sha256"
+      ],
+      "additionalProperties": false
+    },
+    "raw_features": {
+      "type": "array",
+      "minItems": 39,
+      "maxItems": 39,
+      "prefixItems": [
+        {
+          "type": "number",
+          "title": "baseline.relative_mean_concentric_force",
+          "description": "Copy the finite baseline relative mean concentric force in N/kg. Baseline is measured before the prediction origin. Required finite numeric value; no imputation.",
+          "x-unit": "N/kg"
+        },
+        {
+          "type": "number",
+          "title": "baseline.relative_concentric_net_impulse",
+          "description": "Copy the finite baseline relative concentric net impulse in m/s. Baseline is measured before the prediction origin. Required finite numeric value; no imputation.",
+          "x-unit": "m/s"
+        },
+        {
+          "type": "number",
+          "title": "horizon.H72",
+          "description": "One-hot indicator: 1.0 when horizon is H72, else 0.0. Forecast horizon is fixed at the prediction origin. Required registered enum; exactly one horizon indicator is 1.0.",
+          "x-unit": "dimensionless"
+        },
+        {
+          "type": "number",
+          "title": "horizon.D7",
+          "description": "One-hot indicator: 1.0 when horizon is D7, else 0.0. Forecast horizon is fixed at the prediction origin. Required registered enum; exactly one horizon indicator is 1.0.",
+          "x-unit": "dimensionless"
+        },
+        {
+          "type": "number",
+          "title": "target_time_hours",
+          "description": "Copy the finite forecast query time in hours. Query time is registered at the prediction origin. Required finite numeric value; no imputation.",
+          "x-unit": "h"
+        },
+        {
+          "type": "number",
+          "title": "target_window_hours.low",
+          "description": "Copy the registered low boundary in hours. Forecast window is fixed at the prediction origin. Required finite task-contract value; no imputation.",
+          "x-unit": "h"
+        },
+        {
+          "type": "number",
+          "title": "target_window_hours.high",
+          "description": "Copy the registered high boundary in hours. Forecast window is fixed at the prediction origin. Required finite task-contract value; no imputation.",
+          "x-unit": "h"
+        },
+        {
+          "type": "number",
+          "title": "public_features.history_assessments[0].time_from_origin_hours",
+          "description": "Stable sort all history assessments by ascending time_from_origin_hours; require exactly four; copy the named finite field from its slot. History assessments are pre-origin records. No padding or imputation. The extractor does not inspect validity_state; absent, null, or non-finite values fail numeric conversion.",
+          "x-unit": "h"
+        },
+        {
+          "type": "number",
+          "title": "public_features.history_assessments[0].relative_mean_concentric_force",
+          "description": "Stable sort all history assessments by ascending time_from_origin_hours; require exactly four; copy the named finite field from its slot. History assessments are pre-origin records. No padding or imputation. The extractor does not inspect validity_state; absent, null, or non-finite values fail numeric conversion.",
+          "x-unit": "N/kg"
+        },
+        {
+          "type": "number",
+          "title": "public_features.history_assessments[0].relative_concentric_net_impulse",
+          "description": "Stable sort all history assessments by ascending time_from_origin_hours; require exactly four; copy the named finite field from its slot. History assessments are pre-origin records. No padding or imputation. The extractor does not inspect validity_state; absent, null, or non-finite values fail numeric conversion.",
+          "x-unit": "m/s"
+        },
+        {
+          "type": "number",
+          "title": "public_features.history_assessments[0].depth_m",
+          "description": "Stable sort all history assessments by ascending time_from_origin_hours; require exactly four; copy the named finite field from its slot. History assessments are pre-origin records. No padding or imputation. The extractor does not inspect validity_state; absent, null, or non-finite values fail numeric conversion.",
+          "x-unit": "m"
+        },
+        {
+          "type": "number",
+          "title": "public_features.history_assessments[1].time_from_origin_hours",
+          "description": "Stable sort all history assessments by ascending time_from_origin_hours; require exactly four; copy the named finite field from its slot. History assessments are pre-origin records. No padding or imputation. The extractor does not inspect validity_state; absent, null, or non-finite values fail numeric conversion.",
+          "x-unit": "h"
+        },
+        {
+          "type": "number",
+          "title": "public_features.history_assessments[1].relative_mean_concentric_force",
+          "description": "Stable sort all history assessments by ascending time_from_origin_hours; require exactly four; copy the named finite field from its slot. History assessments are pre-origin records. No padding or imputation. The extractor does not inspect validity_state; absent, null, or non-finite values fail numeric conversion.",
+          "x-unit": "N/kg"
+        },
+        {
+          "type": "number",
+          "title": "public_features.history_assessments[1].relative_concentric_net_impulse",
+          "description": "Stable sort all history assessments by ascending time_from_origin_hours; require exactly four; copy the named finite field from its slot. History assessments are pre-origin records. No padding or imputation. The extractor does not inspect validity_state; absent, null, or non-finite values fail numeric conversion.",
+          "x-unit": "m/s"
+        },
+        {
+          "type": "number",
+          "title": "public_features.history_assessments[1].depth_m",
+          "description": "Stable sort all history assessments by ascending time_from_origin_hours; require exactly four; copy the named finite field from its slot. History assessments are pre-origin records. No padding or imputation. The extractor does not inspect validity_state; absent, null, or non-finite values fail numeric conversion.",
+          "x-unit": "m"
+        },
+        {
+          "type": "number",
+          "title": "public_features.history_assessments[2].time_from_origin_hours",
+          "description": "Stable sort all history assessments by ascending time_from_origin_hours; require exactly four; copy the named finite field from its slot. History assessments are pre-origin records. No padding or imputation. The extractor does not inspect validity_state; absent, null, or non-finite values fail numeric conversion.",
+          "x-unit": "h"
+        },
+        {
+          "type": "number",
+          "title": "public_features.history_assessments[2].relative_mean_concentric_force",
+          "description": "Stable sort all history assessments by ascending time_from_origin_hours; require exactly four; copy the named finite field from its slot. History assessments are pre-origin records. No padding or imputation. The extractor does not inspect validity_state; absent, null, or non-finite values fail numeric conversion.",
+          "x-unit": "N/kg"
+        },
+        {
+          "type": "number",
+          "title": "public_features.history_assessments[2].relative_concentric_net_impulse",
+          "description": "Stable sort all history assessments by ascending time_from_origin_hours; require exactly four; copy the named finite field from its slot. History assessments are pre-origin records. No padding or imputation. The extractor does not inspect validity_state; absent, null, or non-finite values fail numeric conversion.",
+          "x-unit": "m/s"
+        },
+        {
+          "type": "number",
+          "title": "public_features.history_assessments[2].depth_m",
+          "description": "Stable sort all history assessments by ascending time_from_origin_hours; require exactly four; copy the named finite field from its slot. History assessments are pre-origin records. No padding or imputation. The extractor does not inspect validity_state; absent, null, or non-finite values fail numeric conversion.",
+          "x-unit": "m"
+        },
+        {
+          "type": "number",
+          "title": "public_features.history_assessments[3].time_from_origin_hours",
+          "description": "Stable sort all history assessments by ascending time_from_origin_hours; require exactly four; copy the named finite field from its slot. History assessments are pre-origin records. No padding or imputation. The extractor does not inspect validity_state; absent, null, or non-finite values fail numeric conversion.",
+          "x-unit": "h"
+        },
+        {
+          "type": "number",
+          "title": "public_features.history_assessments[3].relative_mean_concentric_force",
+          "description": "Stable sort all history assessments by ascending time_from_origin_hours; require exactly four; copy the named finite field from its slot. History assessments are pre-origin records. No padding or imputation. The extractor does not inspect validity_state; absent, null, or non-finite values fail numeric conversion.",
+          "x-unit": "N/kg"
+        },
+        {
+          "type": "number",
+          "title": "public_features.history_assessments[3].relative_concentric_net_impulse",
+          "description": "Stable sort all history assessments by ascending time_from_origin_hours; require exactly four; copy the named finite field from its slot. History assessments are pre-origin records. No padding or imputation. The extractor does not inspect validity_state; absent, null, or non-finite values fail numeric conversion.",
+          "x-unit": "m/s"
+        },
+        {
+          "type": "number",
+          "title": "public_features.history_assessments[3].depth_m",
+          "description": "Stable sort all history assessments by ascending time_from_origin_hours; require exactly four; copy the named finite field from its slot. History assessments are pre-origin records. No padding or imputation. The extractor does not inspect validity_state; absent, null, or non-finite values fail numeric conversion.",
+          "x-unit": "m"
+        },
+        {
+          "type": "number",
+          "title": "public_features.history_exposures[0].time_from_origin_hours",
+          "description": "Stable sort history exposures by ascending time_from_origin_hours; require exactly one; copy the named finite field. History exposure is a pre-origin record. No padding or imputation; duration is copied in minutes.",
+          "x-unit": "h"
+        },
+        {
+          "type": "number",
+          "title": "public_features.history_exposures[0].duration_minutes",
+          "description": "Stable sort history exposures by ascending time_from_origin_hours; require exactly one; copy the named finite field. History exposure is a pre-origin record. No padding or imputation; duration is copied in minutes.",
+          "x-unit": "min"
+        },
+        {
+          "type": "number",
+          "title": "public_features.index_exposure.time_from_origin_hours",
+          "description": "Copy the index exposure time; the public row contract requires 0 hours. Index exposure occurs at the prediction origin. Required finite numeric value; no imputation.",
+          "x-unit": "h"
+        },
+        {
+          "type": "number",
+          "title": "public_features.index_exposure.duration_minutes",
+          "description": "Copy duration_minutes directly in minutes; no unit conversion. Index exposure occurs at the prediction origin. Required finite numeric value; no imputation.",
+          "x-unit": "min"
+        },
+        {
+          "type": "number",
+          "title": "public_features.known_plan[0].time_from_origin_hours",
+          "description": "Stable sort the query-specific known plan by ascending time_from_origin_hours; require two or three records; copy finite fields by slot. Plan events are known at origin and do not exceed the query time. If there are two records, pad only slot 2 time and duration with 0.0; other missing or non-finite values fail. Durations are copied in minutes.",
+          "x-unit": "h"
+        },
+        {
+          "type": "number",
+          "title": "public_features.known_plan[0].duration_minutes",
+          "description": "Stable sort the query-specific known plan by ascending time_from_origin_hours; require two or three records; copy finite fields by slot. Plan events are known at origin and do not exceed the query time. If there are two records, pad only slot 2 time and duration with 0.0; other missing or non-finite values fail. Durations are copied in minutes.",
+          "x-unit": "min"
+        },
+        {
+          "type": "number",
+          "title": "public_features.known_plan[1].time_from_origin_hours",
+          "description": "Stable sort the query-specific known plan by ascending time_from_origin_hours; require two or three records; copy finite fields by slot. Plan events are known at origin and do not exceed the query time. If there are two records, pad only slot 2 time and duration with 0.0; other missing or non-finite values fail. Durations are copied in minutes.",
+          "x-unit": "h"
+        },
+        {
+          "type": "number",
+          "title": "public_features.known_plan[1].duration_minutes",
+          "description": "Stable sort the query-specific known plan by ascending time_from_origin_hours; require two or three records; copy finite fields by slot. Plan events are known at origin and do not exceed the query time. If there are two records, pad only slot 2 time and duration with 0.0; other missing or non-finite values fail. Durations are copied in minutes.",
+          "x-unit": "min"
+        },
+        {
+          "type": "number",
+          "title": "public_features.known_plan[2].time_from_origin_hours",
+          "description": "Stable sort the query-specific known plan by ascending time_from_origin_hours; require two or three records; copy finite fields by slot. Plan events are known at origin and do not exceed the query time. If there are two records, pad only slot 2 time and duration with 0.0; other missing or non-finite values fail. Durations are copied in minutes.",
+          "x-unit": "h"
+        },
+        {
+          "type": "number",
+          "title": "public_features.known_plan[2].duration_minutes",
+          "description": "Stable sort the query-specific known plan by ascending time_from_origin_hours; require two or three records; copy finite fields by slot. Plan events are known at origin and do not exceed the query time. If there are two records, pad only slot 2 time and duration with 0.0; other missing or non-finite values fail. Durations are copied in minutes.",
+          "x-unit": "min"
+        },
+        {
+          "type": "number",
+          "title": "public_features.routine_assessment.scheduled",
+          "description": "Copy the source scheduled boolean as a float64 1.0 or 0.0. L05-R01 public generation assigns one origin-keyed state and copies it unchanged to the horizon queries; the state is independent of future targets. Required boolean value; no default or inference from assessment rows.",
+          "x-unit": "dimensionless"
+        },
+        {
+          "type": "number",
+          "title": "public_features.routine_assessment.availability_state.FIELD_STRUCTURALLY_ABSENT",
+          "description": "One-hot indicator for availability_state == FIELD_STRUCTURALLY_ABSENT. L05-R01 public generation assigns one origin-keyed state and copies it unchanged to the horizon queries; the state is independent of future targets. State must be one of the five registered categories.",
+          "x-unit": "dimensionless"
+        },
+        {
+          "type": "number",
+          "title": "public_features.routine_assessment.availability_state.OBSERVED_MASKED",
+          "description": "One-hot indicator for availability_state == OBSERVED_MASKED. L05-R01 public generation assigns one origin-keyed state and copies it unchanged to the horizon queries; the state is independent of future targets. State must be one of the five registered categories.",
+          "x-unit": "dimensionless"
+        },
+        {
+          "type": "number",
+          "title": "public_features.routine_assessment.availability_state.SCHEDULED_UNAVAILABLE",
+          "description": "One-hot indicator for availability_state == SCHEDULED_UNAVAILABLE. L05-R01 public generation assigns one origin-keyed state and copies it unchanged to the horizon queries; the state is independent of future targets. State must be one of the five registered categories.",
+          "x-unit": "dimensionless"
+        },
+        {
+          "type": "number",
+          "title": "public_features.routine_assessment.availability_state.TRIAL_INVALID",
+          "description": "One-hot indicator for availability_state == TRIAL_INVALID. L05-R01 public generation assigns one origin-keyed state and copies it unchanged to the horizon queries; the state is independent of future targets. State must be one of the five registered categories.",
+          "x-unit": "dimensionless"
+        },
+        {
+          "type": "number",
+          "title": "public_features.routine_assessment.availability_state.UNSCHEDULED",
+          "description": "One-hot indicator for availability_state == UNSCHEDULED. L05-R01 public generation assigns one origin-keyed state and copies it unchanged to the horizon queries; the state is independent of future targets. State must be one of the five registered categories.",
+          "x-unit": "dimensionless"
+        }
+      ],
+      "items": false
+    },
+    "query": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "^\\S(?:.*\\S)?$"
+        },
+        "input_id": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "^\\S(?:.*\\S)?$"
+        },
+        "participant": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "^\\S(?:.*\\S)?$"
+        },
+        "origin_id": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "^\\S(?:.*\\S)?$"
+        },
+        "origin_h": {
+          "type": "number"
+        },
+        "horizon": {
+          "enum": [
+            "H72",
+            "D7"
+          ]
+        },
+        "target_time_hours": {
+          "enum": [
+            72.0,
+            168.0
+          ]
+        },
+        "baseline_assessment_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "^\\S(?:.*\\S)?$"
+          },
+          "minItems": 2,
+          "maxItems": 2,
+          "uniqueItems": true,
+          "description": "Two latest qualifying valid assessment IDs in chronological order; offsets inclusive -240 through -24 hours."
+        },
+        "history_assessment_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "^\\S(?:.*\\S)?$"
+          },
+          "minItems": 4,
+          "maxItems": 4,
+          "uniqueItems": true,
+          "description": "Exactly four chronological strictly pre-origin, actually available assessment summaries."
+        },
+        "target_assessment_id": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "^\\S(?:.*\\S)?$"
+        },
+        "units": {
+          "const": {
+            "relative_mean_concentric_force": "N/kg",
+            "relative_concentric_net_impulse": "m/s"
+          }
+        },
+        "history_exposures": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/exposure"
+          },
+          "minItems": 1,
+          "maxItems": 1
+        },
+        "index_exposure": {
+          "$ref": "#/$defs/exposure"
+        },
+        "plans": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/exposure"
+          },
+          "minItems": 2,
+          "maxItems": 3,
+          "description": "Origin-frozen query-specific plans, including the index event at time zero. Third raw slot padding only follows original two-plan contract. H72 and D7 queries for one origin must agree on their shared plan prefix and historical/index exposures."
+        },
+        "routine": {
+          "$ref": "#/$defs/routine"
+        },
+        "raw_features": {
+          "$ref": "#/$defs/raw_features"
+        },
+        "history_tokens": {
+          "type": "array",
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "number"
+            },
+            "minItems": 4,
+            "maxItems": 4
+          },
+          "minItems": 4,
+          "maxItems": 4,
+          "description": "Columns h,N/kg,m/s,m; exactly equals raw feature columns 7\u201322 reshaped 4x4."
+        },
+        "basis_source_sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "basis": {
+          "type": "array",
+          "items": {
+            "type": "number"
+          },
+          "minItems": 5,
+          "maxItems": 5,
+          "description": "Unscaled original-source W2 fast/slow duration-weighted, W3 total/fast/slow increment-weighted values; reconstructed and compared to same row."
+        },
+        "targets": {
+          "type": "object",
+          "properties": {
+            "relative_mean_concentric_force": {
+              "type": "number"
+            },
+            "relative_concentric_net_impulse": {
+              "type": "number"
+            }
+          },
+          "required": [
+            "relative_mean_concentric_force",
+            "relative_concentric_net_impulse"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "id",
+        "input_id",
+        "participant",
+        "origin_id",
+        "origin_h",
+        "horizon",
+        "target_time_hours",
+        "baseline_assessment_ids",
+        "history_assessment_ids",
+        "target_assessment_id",
+        "units",
+        "history_exposures",
+        "index_exposure",
+        "plans",
+        "routine",
+        "raw_features",
+        "history_tokens",
+        "basis_source_sha256",
+        "basis",
+        "targets"
+      ],
+      "additionalProperties": false
+    },
+    "force_time": {
+      "type": "object",
+      "properties": {
+        "timestamps_s": {
+          "type": "array",
+          "items": {
+            "type": "number"
+          },
+          "minItems": 2,
+          "description": "Strictly increasing seconds on signal clock; onset/takeoff must lie inside support."
+        },
+        "force_n": {
+          "type": "array",
+          "items": {
+            "type": "number"
+          },
+          "minItems": 2,
+          "description": "Calibrated total vertical ground reaction force in N, matching timestamp count."
+        },
+        "gravity_m_s2": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "concentric_onset_s": {
+          "type": "number"
+        },
+        "takeoff_s": {
+          "type": "number"
+        },
+        "sop_sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "calibration_sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "movement_start_s": {
+          "type": "number",
+          "description": "Source-supplied movement start in seconds; first signal timestamp <= movement_start < concentric onset."
+        },
+        "assessment_end_s": {
+          "type": "number",
+          "description": "Source-supplied assessment end in seconds; takeoff <= assessment_end <= last signal timestamp."
+        }
+      },
+      "required": [
+        "timestamps_s",
+        "force_n",
+        "gravity_m_s2",
+        "concentric_onset_s",
+        "takeoff_s",
+        "sop_sha256",
+        "calibration_sha256",
+        "movement_start_s",
+        "assessment_end_s"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "x-authority-boundary": "Scoped review records bind the entire dataset manifest (excluding reviews) and must match independently supplied trusted review pins. Pins establish byte identity, not provenance, consent or permission. All empirical execution is blocked. Metadata-only mode checks only identity/version/kind/candidate/source headers.",
+  "x-origin-windows": {
+    "baseline_hours_inclusive": [
+      -240,
+      -24
+    ],
+    "H72_hours_inclusive": [
+      66,
+      78
+    ],
+    "D7_hours_inclusive": [
+      156,
+      180
+    ]
+  },
+  "x-candidate-coverage": {
+    "M0-M5": "39 raw fields, four chronological history tokens and horizon identity validated for complete common input coverage.",
+    "M6-M8": "Additionally all five original-source basis components, source authority and row pairing."
+  },
+  "x-expected-refusals": [
+    "wrong units/targets",
+    "missing source/review authority",
+    "alias cycle/overlap",
+    "duplicate records or near-copy query vectors",
+    "future/unavailable assessment or plan",
+    "latest baseline mismatch",
+    "invalid three-trial criterion",
+    "missing raw/history/basis components",
+    "unfrozen preprocessing",
+    "incomplete four-cell origin",
+    "missingness/support mismatch",
+    "empirical execution"
+  ],
+  "x-steward-output-scope": "All counts refer only to canonical declared test groups and their queries. Training and validation records remain necessary for separation checks but are excluded from every released count. Suppress entire vector for any small nonzero count/complement; disclose only with steward review."
+}

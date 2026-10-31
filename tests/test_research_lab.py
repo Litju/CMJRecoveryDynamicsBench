@@ -169,6 +169,43 @@ def test_future_observation_rejected() -> None:
         replace(builder.origins[0], available_at_origin_hours=1.0)
 
 
+def test_original_runtime_status_preserves_historical_failures(
+    monkeypatch: pytest.MonkeyPatch, tmp_path: Path
+) -> None:
+    """Stub inference only: status presentation must retain the historical boundary."""
+
+    class FixedPredictor:
+        def predict(self, *args: Any) -> Any:
+            return np.asarray([[0.1, -0.1]])
+
+    def load(_: lab.ModelGrant) -> FixedPredictor:
+        return FixedPredictor()
+
+    monkeypatch.setattr(lab, "_original", load)
+    observation = with_basis(lab.fixture_observations()[0])
+    for index in range(9):
+        candidate = f"M{index}"
+        grant = lab.ModelGrant(
+            candidate,
+            0,
+            tmp_path / "config",
+            tmp_path / "weights",
+            "a" * 64,
+            "b" * 64,
+            "invented-source",
+            "invented-association",
+            "test-model",
+        )
+        result = lab.ResearchLab((observation,), (grant,)).predict(
+            request(candidate, mode="original")
+        )
+        assert result["qualification"] == {
+            "cpu_source": "qualified",
+            "cuda_comparison": "pass" if index < 4 else "failed",
+        }
+        assert result["cuda_evidence"] == "cpu_vs_saved_cuda_not_gpu_replay"
+
+
 def _exchange(
     port: int, method: str, path: str, body: bytes = b"", *, headers: dict[str, str]
 ) -> tuple[int, dict[str, Any]]:

@@ -178,3 +178,29 @@ test("displayed precision preserves a float32 value", async ({ page }) => {
   expect(Math.fround(Number(await page.locator("#force").innerText()))).toBe(Math.fround(original));
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBeTruthy();
 });
+
+test("original CPU qualification does not hide a failed saved-CUDA comparison", async ({ page }) => {
+  await page.route("http://127.0.0.1:8765/v1/capabilities", route => route.fulfill({
+    headers: cors,
+    body: JSON.stringify({ version, models: models.map(model => ({ ...model, available: true })), observations: observations.map(observation => ({ ...observation, basis_availability: "authorized" })) }),
+  }));
+  await page.route("http://127.0.0.1:8765/v1/predict", route => {
+    const body = route.request().postDataJSON();
+    return route.fulfill({ headers: cors, body: JSON.stringify({
+      version, kind: "original_checkpoint", candidate: body.candidate, repeat: body.repeat,
+      observation_id: body.observation_id, origin: "Example origin", horizon: "H72",
+      outputs: [{ target: "relative_mean_concentric_force", unit: "N/kg", value: 0.1 }, { target: "relative_concentric_net_impulse", unit: "m/s", value: -0.1 }],
+      qualification: { cpu_source: "qualified", cuda_comparison: "failed" },
+      cuda_evidence: "cpu_vs_saved_cuda_not_gpu_replay", provenance: "test-double", identity: "test-double",
+    }) });
+  });
+  await page.goto("/");
+  await page.getByLabel("Local access token").fill("local-test-token");
+  await page.getByRole("button", { name: /connect/i }).click();
+  await page.getByLabel("Model family").selectOption("M8");
+  await page.getByLabel("Execution mode").selectOption("original");
+  await page.getByRole("button", { name: /run research inference/i }).click();
+  await expect(page.locator("#cpu-status")).toHaveText("CPU source qualified");
+  await expect(page.locator("#cuda-status")).toHaveText("Failed tolerance");
+  await expect(page.locator("#result-provenance")).toHaveText("test-double");
+});

@@ -1,0 +1,240 @@
+{
+  "version": "gate7_native_dependencies_v1",
+  "source_authority": {
+    "mechanics_authority": {
+      "scope": "authenticated original source mathematics; private locator and pin retained separately",
+      "public_reference": "native measurement contract v1"
+    },
+    "mechanics_implementation": {
+      "scope": "authenticated supplied-event interpolation and sequential trapezoid implementation"
+    },
+    "measurement_implementation": {
+      "scope": "authenticated trial, criterion and two-latest baseline implementation"
+    },
+    "basis_implementation": {
+      "scope": "authenticated original reference basis_vector and Preprocessor implementation"
+    },
+    "public_schedule_projection": {
+      "scope": "authenticated query-specific plan construction and existing recovered observation converter; final materialization unresolved"
+    }
+  },
+  "authority_levels": {
+    "mathematics": "AUTHENTICATED_SOURCE",
+    "original_implementation": "AUTHENTICATED_SOURCE",
+    "historical_materialization": "UNRESOLVED_EXACT_FINAL_INVOCATION_AND_ARITHMETIC_LINEAGE",
+    "empirical_measurement": "REQUIRES_INDEPENDENT_STEWARD_AUTHORITY",
+    "canonical_crosswalks": "UNRESOLVED"
+  },
+  "measurement": {
+    "system_mass": {
+      "symbol": "m",
+      "unit": "kg",
+      "requirement": "finite strictly positive explicit total accelerated mass",
+      "forbidden": [
+        "body_mass_fallback",
+        "quiet_standing_inference"
+      ]
+    },
+    "force": {
+      "expression": "integral(Fz dt)/(m*(t_to-t_co))",
+      "unit": "N/kg",
+      "signal": "gross vertical ground reaction force"
+    },
+    "impulse": {
+      "expression": "integral((Fz-m*g)dt)/m",
+      "unit": "m/s",
+      "signal": "net vertical force over same concentric interval"
+    },
+    "events": {
+      "ordering": "movement_start < t_co < t_to <= assessment_end",
+      "event_detector": "UNRESOLVED_EMPIRICAL_AUTHORITY; source accepts caller-supplied times",
+      "support": "closed [t_co,t_to], exact samples once, linear intersample boundaries, strictly interior original nodes, no additional airborne node"
+    },
+    "integration": "sequential composite trapezoid with authoritative potentially nonuniform seconds",
+    "criterion": {
+      "valid_trials": 3,
+      "aggregation": "scalar_sum/3",
+      "invalid_policy": "reject; no best-trial or median substitution"
+    },
+    "baseline": {
+      "assessments": 2,
+      "window_preorigin_h": [
+        24,
+        240
+      ],
+      "bounds": "inclusive",
+      "selection": "descending(timestamp,assessment_id), unique assessment IDs; first two qualifying valid records",
+      "aggregation": "(first+second)/2"
+    },
+    "windows": {
+      "H72": {
+        "nominal_h": 72,
+        "low_h": 66,
+        "high_h": 78
+      },
+      "D7": {
+        "nominal_h": 168,
+        "low_h": 156,
+        "high_h": 180
+      }
+    },
+    "innovation": {
+      "mathematical": "absolute_native_criterion - baseline_native_criterion",
+      "source_implementation": "absolute=(baseline+latent)+error; innovation=latent+error independently",
+      "stored_value_subtraction_equivalence": "NOT_ESTABLISHED"
+    }
+  },
+  "basis": {
+    "version": "gate7_public_schedule_basis_v1",
+    "implementation": "cmj_recovery_dynamics.observations.native_mechanics.gate7_basis_v1",
+    "input_fields": [
+      "public_features.history_exposures[*].time_from_origin_hours",
+      "public_features.history_exposures[*].duration_minutes",
+      "public_features.known_plan[*].time_from_origin_hours",
+      "public_features.known_plan[*].duration_minutes",
+      "target_time_hours"
+    ],
+    "excluded_inputs": [
+      "target_labels",
+      "realized_future_exposure",
+      "latent_physiological_dose",
+      "separately_added_index_exposure"
+    ],
+    "preconditions": [
+      "one pre-origin history exposure",
+      "two or three query-specific plans",
+      "time-zero plan matches index duration exactly once",
+      "plan snapshots independently proven known at origin",
+      "finite nonnegative durations",
+      "full participant/origin/query/input pairing"
+    ],
+    "constants": {
+      "duration_reference_minutes": 100,
+      "w2_fast_h": 36,
+      "w2_slow_h": 120,
+      "w2_beta": 1,
+      "w3_kappa": 10,
+      "w3_delta": 1,
+      "w3_gamma_declared_but_not_separately_consumed": 1
+    },
+    "intermediate_nodes": {
+      "ordered_events": "sort(history_exposures + known_plan) as (time,duration/100) tuples; original skips time>T",
+      "dose_i": "duration_minutes_i/100 minutes; dimensionless",
+      "C_i": "sum doses through event i; C_0=0",
+      "h_C": "10*C/(1+C), explicitly zero at C=0",
+      "delta_i": "h(C_i)-h(C_(i-1))",
+      "weight_fast_i": "exp(-(max(0,T-t_i)/36)^1)",
+      "weight_slow_i": "exp(-(max(0,T-t_i)/120)^1)"
+    },
+    "components": [
+      {
+        "index": 0,
+        "name": "w2_fast_duration_weighted",
+        "equation": "sum_i dose_i * weight_fast_i",
+        "depends_on": [
+          "ordered_events",
+          "dose_i",
+          "weight_fast_i"
+        ],
+        "unit": "dimensionless",
+        "source_authority": "basis_implementation",
+        "status": "SOURCE_CONSTRUCTION_AUTHENTICATED; EMPIRICAL_INPUTS_REQUIRE_AUTHORITY"
+      },
+      {
+        "index": 1,
+        "name": "w2_slow_duration_weighted",
+        "equation": "sum_i dose_i * weight_slow_i",
+        "depends_on": [
+          "ordered_events",
+          "dose_i",
+          "weight_slow_i"
+        ],
+        "unit": "dimensionless",
+        "source_authority": "basis_implementation",
+        "status": "SOURCE_CONSTRUCTION_AUTHENTICATED; EMPIRICAL_INPUTS_REQUIRE_AUTHORITY"
+      },
+      {
+        "index": 2,
+        "name": "w3_total_dose",
+        "equation": "h(C_final)",
+        "depends_on": [
+          "ordered_events",
+          "dose_i",
+          "C_i",
+          "h_C"
+        ],
+        "unit": "dimensionless",
+        "source_authority": "basis_implementation",
+        "status": "SOURCE_CONSTRUCTION_AUTHENTICATED; EMPIRICAL_INPUTS_REQUIRE_AUTHORITY"
+      },
+      {
+        "index": 3,
+        "name": "w3_fast_increment_weighted",
+        "equation": "sum_i delta_i * weight_fast_i",
+        "depends_on": [
+          "ordered_events",
+          "dose_i",
+          "C_i",
+          "h_C",
+          "delta_i",
+          "weight_fast_i"
+        ],
+        "unit": "dimensionless",
+        "source_authority": "basis_implementation",
+        "status": "SOURCE_CONSTRUCTION_AUTHENTICATED; EMPIRICAL_INPUTS_REQUIRE_AUTHORITY"
+      },
+      {
+        "index": 4,
+        "name": "w3_slow_increment_weighted",
+        "equation": "sum_i delta_i * weight_slow_i",
+        "depends_on": [
+          "ordered_events",
+          "dose_i",
+          "C_i",
+          "h_C",
+          "delta_i",
+          "weight_slow_i"
+        ],
+        "unit": "dimensionless",
+        "source_authority": "basis_implementation",
+        "status": "SOURCE_CONSTRUCTION_AUTHENTICATED; EMPIRICAL_INPUTS_REQUIRE_AUTHORITY"
+      }
+    ],
+    "origin_availability": "Conditional on authenticated history/index duration, original plan snapshots and query at origin; arithmetic alone does not prove availability.",
+    "row_pairing": "Basis/raw/history/horizon constructed from same ordered input row list; external identity associations independently authenticated.",
+    "preprocessing": {
+      "basis_shape": "N,5 float64",
+      "fit_scope": "original training rows only",
+      "mean": "per-component training arithmetic mean",
+      "scale": "per-component training std ddof=1; zero replaced with1",
+      "transform": "(basis-frozen_mean)/frozen_scale then float32",
+      "cohort_refitting": "FORBIDDEN"
+    },
+    "model_consumption": {
+      "M6": [
+        0,
+        1
+      ],
+      "M7": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "M8": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ]
+    },
+    "authority_boundary": "No source pin, code version, schema match or boolean assertion grants dataset use or disclosure permission."
+  },
+  "serialization": {
+    "earlier_world_generator": "declares nine-decimal rounding; sorted-key compact JSON",
+    "pre_final_shadow": "converts NumPy floats to Python floats; JSON writer has no explicit nine-decimal rounding",
+    "historical_final_split": "UNRESOLVED; neither source path attributed to every stored row"
+  }
+}
