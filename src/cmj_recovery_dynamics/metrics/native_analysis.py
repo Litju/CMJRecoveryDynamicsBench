@@ -7,7 +7,7 @@ import json
 import math
 from collections.abc import Mapping, Sequence
 from dataclasses import asdict, dataclass
-from typing import Any
+from typing import Any, cast
 
 import numpy as np
 from numpy.typing import NDArray
@@ -18,6 +18,7 @@ from cmj_recovery_dynamics.metrics.native_research import (
     NativeHorizon,
     NativeObservation,
     NativePrediction,
+    NativeQuery,
     NativeTarget,
     synthetic_native_rmse_v1,
 )
@@ -94,12 +95,15 @@ def _synthetic(dataset_kind: str) -> None:
 
 
 def _finite_nonnegative(value: object) -> bool:
-    return (
-        isinstance(value, (int, float))
-        and not isinstance(value, bool)
-        and math.isfinite(value)
-        and value >= 0
-    )
+    try:
+        return (
+            isinstance(value, (int, float))
+            and not isinstance(value, bool)
+            and math.isfinite(value)
+            and value >= 0
+        )
+    except OverflowError:
+        return False
 
 
 def cell_identity(horizon: NativeHorizon, target: NativeTarget) -> str:
@@ -111,7 +115,9 @@ def validate_analysis_plan(plan: AnalysisPlan) -> None:
     if (
         type(plan) is not AnalysisPlan
         or plan.locked is not True
+        or type(plan.identity) is not str
         or not plan.identity.strip()
+        or type(plan.primary_candidate) is not str
         or not plan.primary_candidate.strip()
         or plan.analysis_unit != "query_weighted_participant_cluster"
         or plan.ci_method != "percentile_linear_95"
@@ -129,7 +135,11 @@ def validate_analysis_plan(plan: AnalysisPlan) -> None:
         or any(type(item) is not str or not item.strip() for item in plan.exclusions)
     ):
         raise ValueError("LOCKED_PLAN_REQUIRED: incomplete or unsupported prespecified methods")
-    if len(plan.rules) != 4 or {(r.horizon, r.target) for r in plan.rules} != set(CELLS):
+    if (
+        type(plan.rules) is not tuple
+        or len(plan.rules) != 4
+        or any(type(rule) is not CellRule for rule in plan.rules)
+    ):
         raise ValueError("FOUR_CELL_RULES_REQUIRED")
     units = {NativeTarget.FORCE: "N/kg", NativeTarget.IMPULSE: "m/s"}
     for rule in plan.rules:
@@ -150,6 +160,29 @@ def validate_analysis_plan(plan: AnalysisPlan) -> None:
             or rule.minimum_participants < 2
         ):
             raise ValueError("NATIVE_CELL_THRESHOLDS_REQUIRED: margins, bounds, units and groups")
+
+    if {(rule.horizon, rule.target) for rule in plan.rules} != set(CELLS):
+        raise ValueError("FOUR_CELL_RULES_REQUIRED")
+
+
+def _record_inputs(
+    observations: Sequence[NativeObservation], participant_splits: Mapping[str, Sequence[object]]
+) -> None:
+    if (
+        not isinstance(cast(object, observations), Sequence)
+        or isinstance(observations, (str, bytes))
+        or any(
+            type(row) is not NativeObservation or type(row.query) is not NativeQuery
+            for row in observations
+        )
+        or not isinstance(cast(object, participant_splits), Mapping)
+        or set(participant_splits) != {"train", "validation", "test"}
+        or any(
+            not isinstance(cast(object, values), Sequence) or isinstance(values, (str, bytes))
+            for values in participant_splits.values()
+        )
+    ):
+        raise ValueError("NATIVE_RECORD_TYPES_REQUIRED")
 
 
 def holm_adjust(p_values: Sequence[float]) -> tuple[float, ...]:
@@ -175,6 +208,7 @@ def fit_synthetic_constant_baseline(
 ) -> FrozenConstantBaseline:
     """Freeze four training-only constants. Validation/test labels are rejected."""
     _synthetic(dataset_kind)
+    _record_inputs(observations, participant_splits)
     validation_splits = {
         "train": participant_splits["validation"],
         "validation": participant_splits["test"],
@@ -221,6 +255,15 @@ def _constant_valid(
     authority: NativeAuthority,
     participant_splits: Mapping[str, Sequence[object]],
 ) -> None:
+    if (
+        type(artifact) is not FrozenConstantBaseline
+        or type(artifact.source_authority) is not NativeAuthority
+        or type(artifact.training_participants) is not tuple
+        or any(type(value) is not str for value in artifact.training_participants)
+        or type(artifact.values) is not tuple
+        or any(type(value) not in (int, float) for value in artifact.values)
+    ):
+        raise ValueError("FROZEN_TRAINING_ARTIFACT_REQUIRED")
     content = (
         artifact.version,
         asdict(artifact.source_authority),
@@ -236,7 +279,7 @@ def _constant_valid(
         or set(artifact.training_participants)
         & (set(participant_splits["test"]) | set(participant_splits["validation"]))
         or len(artifact.values) != 4
-        or not all(math.isfinite(x) for x in artifact.values)
+        or not all(_finite_nonnegative(abs(x)) for x in artifact.values)
         or artifact.artifact_sha256 != _digest(content)
     ):
         raise ValueError("FROZEN_TRAINING_ARTIFACT_REQUIRED")
@@ -315,37 +358,29 @@ def synthetic_native_analysis_v1(
     """
     _synthetic(dataset_kind)
     validate_analysis_plan(plan)
-    if set(admission_stages) != set(STAGES) or any(
-        admission_stages[name] is not True for name in STAGES
+    _record_inputs(observations, participant_splits)
+    if (
+        not isinstance(cast(object, admission_stages), Mapping)
+        or set(admission_stages) != set(STAGES)
+        or any(admission_stages[name] is not True for name in STAGES)
     ):
         raise ValueError("ELIGIBILITY_AUTHORITY_REQUIRED: all preflight decisions must pass")
-    if len(admission_receipt_sha256) != 64 or any(
-        c not in "0123456789abcdef" for c in admission_receipt_sha256
+    if (
+        type(admission_receipt_sha256) is not str
+        or len(admission_receipt_sha256) != 64
+        or any(c not in "0123456789abcdef" for c in admission_receipt_sha256)
     ):
         raise ValueError("PREFLIGHT_RECEIPT_PIN_REQUIRED")
-    if (
-        _digest(dict(admission_receipt)) != admission_receipt_sha256
-        or admission_receipt.get("version") != "gate7_analysis_admission_v1"
-        or admission_receipt.get("dataset_kind") != "synthetic"
-        or admission_receipt.get("stages") != dict(admission_stages)
-        or admission_receipt.get("source_authority") != asdict(source_authority)
-        or admission_receipt.get("participant_splits_sha256") != _digest(dict(participant_splits))
-        or admission_receipt.get("observations_sha256")
-        != _digest([asdict(row) for row in observations])
-        or not observations
-        or admission_receipt.get("dataset_identity") != observations[0].query.dataset
-        or not isinstance(admission_receipt.get("preflight_payload_sha256"), str)
-        or len(str(admission_receipt.get("preflight_payload_sha256"))) != 64
-        or any(
-            c not in "0123456789abcdef"
-            for c in str(admission_receipt.get("preflight_payload_sha256"))
-        )
-    ):
-        raise ValueError("ADMISSION_INPUT_BINDING: receipt does not qualify these exact inputs")
+    if not isinstance(cast(object, candidates), Sequence) or isinstance(candidates, (str, bytes)):
+        raise ValueError("CANDIDATE_REPEAT_IDENTITY_INVALID")
     by_model: dict[str, dict[int, CandidatePredictions]] = {}
     for candidate in candidates:
         if (
-            not candidate.model_id.strip()
+            type(candidate) is not CandidatePredictions
+            or type(candidate.model_id) is not str
+            or not candidate.model_id.strip()
+            or not isinstance(cast(object, candidate.predictions), Sequence)
+            or isinstance(candidate.predictions, (str, bytes))
             or candidate.model_id in {"zero_innovation", "train_constant"}
             or type(candidate.repeat) is not int
             or candidate.repeat not in (0, 1)
@@ -364,6 +399,37 @@ def synthetic_native_analysis_v1(
         )
     if plan.primary_candidate not in by_model or any(set(r) != {0, 1} for r in by_model.values()):
         raise ValueError("PRIMARY_CANDIDATE_AND_BOTH_REPEATS_REQUIRED")
+    if (
+        not isinstance(cast(object, admission_receipt), Mapping)
+        or set(admission_receipt)
+        != {
+            "version",
+            "dataset_kind",
+            "stages",
+            "source_authority",
+            "participant_splits_sha256",
+            "observations_sha256",
+            "dataset_identity",
+            "preflight_payload_sha256",
+        }
+        or admission_receipt.get("version") != "gate7_analysis_admission_v1"
+        or admission_receipt.get("dataset_kind") != "synthetic"
+        or admission_receipt.get("stages") != dict(admission_stages)
+        or admission_receipt.get("source_authority") != asdict(source_authority)
+        or admission_receipt.get("participant_splits_sha256") != _digest(dict(participant_splits))
+        or admission_receipt.get("observations_sha256")
+        != _digest([asdict(row) for row in observations])
+        or not observations
+        or admission_receipt.get("dataset_identity") != observations[0].query.dataset
+        or not isinstance(admission_receipt.get("preflight_payload_sha256"), str)
+        or len(str(admission_receipt.get("preflight_payload_sha256"))) != 64
+        or any(
+            c not in "0123456789abcdef"
+            for c in str(admission_receipt.get("preflight_payload_sha256"))
+        )
+        or _digest(dict(admission_receipt)) != admission_receipt_sha256
+    ):
+        raise ValueError("ADMISSION_INPUT_BINDING: receipt does not qualify these exact inputs")
     obs_by_key = {(row.query.query, row.target): row for row in observations}
     origins = {(r.query.dataset, r.query.origin) for r in observations}
     if any(

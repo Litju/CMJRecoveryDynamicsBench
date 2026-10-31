@@ -341,3 +341,61 @@ def test_admission_receipt_cannot_qualify_different_labels_source_or_groups() ->
             admission_receipt=receipt,
             admission_receipt_sha256=pin,
         )
+
+
+def test_malformed_runtime_inputs_are_clear_value_errors() -> None:
+    candidates, observations = invented_records()
+    unchecked_analysis: Any = synthetic_native_analysis_v1
+    unchecked_fit: Any = fit_synthetic_constant_baseline
+    result = run(candidates, observations)
+    args: dict[str, Any] = dict(
+        plan=locked_plan(),
+        admission_stages=result["admission_stages"],
+        admission_receipt_sha256=result["admission_receipt_sha256"],
+        admission_receipt=result["admission_receipt"],
+        source_authority=AUTHORITY,
+        expected_authority=AUTHORITY,
+        participant_splits=SPLITS,
+        dataset_kind="synthetic",
+    )
+    plan_mutations: list[dict[str, Any]] = [
+        {"identity": None},
+        {"primary_candidate": None},
+        {"rules": None},
+        {"rules": (None,) * 4},
+        {"rules": (replace(locked_plan().rules[0], target=[]),) * 4},
+        {"rules": (replace(locked_plan().rules[0], max_mae=10**1000), *locked_plan().rules[1:])},
+    ]
+    for mutation in plan_mutations:
+        with pytest.raises(ValueError):
+            run(candidates, observations, plan=replace(locked_plan(), **mutation))
+    for mutation in [
+        {"admission_receipt_sha256": None},
+        {"admission_receipt": None},
+        {"source_authority": None},
+        {"admission_stages": None},
+        {"participant_splits": None},
+        {"participant_splits": {**SPLITS, "test": 2}},
+        {"constant_baseline": object()},
+    ]:
+        with pytest.raises(ValueError):
+            unchecked_analysis(candidates, observations, **{**args, **mutation})
+    for bad in [None, [None], [replace(observations[0], query=None)], []]:
+        with pytest.raises(ValueError):
+            unchecked_analysis(candidates, bad, **args)
+    for bad in [
+        None,
+        [None],
+        [replace(candidates[0], model_id=None)],
+        [replace(candidates[0], predictions=None)],
+    ]:
+        with pytest.raises(ValueError):
+            unchecked_analysis(bad, observations, **args)
+    with pytest.raises(ValueError):
+        unchecked_fit(
+            [None],
+            source_authority=AUTHORITY,
+            expected_authority=AUTHORITY,
+            participant_splits=SPLITS,
+            dataset_kind="synthetic",
+        )
