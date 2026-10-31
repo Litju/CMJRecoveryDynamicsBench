@@ -54,7 +54,7 @@ jobs:
           GATE7_LAB_TOKEN="$(python -c 'import secrets; print(secrets.token_urlsafe(32))')"
           export GATE7_LAB_TOKEN
           export LAB_LIVE_TOKEN="$GATE7_LAB_TOKEN"
-          python -m cmj_recovery_dynamics.research_lab > "$RUNNER_TEMP/lab-service.log" 2>&1 &
+          python tests/research_lab_service.py > "$RUNNER_TEMP/lab-service.log" 2>&1 &
           service_pid=$!
           trap 'kill "$service_pid" 2>/dev/null || true' EXIT
           ready=0

@@ -74,6 +74,14 @@ The fixed-mode comparison uses three public RNG roots from the same synthetic
 world; it establishes neither OOD robustness nor human athlete performance.
 Its production scorer remains unimplemented.
 
+The separate native research engineering rehearsal is executable with
+``python -m cmj_recovery_dynamics.metrics.native_rehearsal --synthetic-rehearsal``.
+It tests native mechanics, dataset admission, four-cell errors, paired participant
+uncertainty and locked decisions using invented labels and predictions only.
+It does not authorize empirical execution or reproduce historical scores.
+See ``docs/GATE7_INTERNAL_RESEARCH_V1.md`` for the schema, steward-side assessment,
+measurement specification, basis dependencies and qualification boundaries.
+
 The source distribution includes these protocols, receipts, and citation file.
 Wheel users should obtain the matching source distribution for documentation;
 all runtime modules are in the wheel. Candidate changes and release limits are

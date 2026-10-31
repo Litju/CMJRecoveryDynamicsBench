@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import copy
+import inspect
 import json
 import os
 import subprocess
@@ -294,7 +295,7 @@ def test_steward_cli_does_not_echo_input_errors_or_rows(tmp_path: Path) -> None:
     path = tmp_path / "invented.json"
     path.write_text(json.dumps(synthetic_preflight_fixture()))
     env = dict(os.environ)
-    env["PYTHONPATH"] = str(Path(__file__).parents[1] / "src")
+    env["PYTHONPATH"] = str(Path(inspect.getfile(validate_native_dataset)).parents[2])
     result = subprocess.run(
         [sys.executable, "-m", "cmj_recovery_dynamics.observations.native_preflight", str(path)],
         capture_output=True,
