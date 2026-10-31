@@ -242,7 +242,8 @@
         },
         "depth_m": {
           "type": "number",
-          "description": "Source-authenticated assessment depth in metres; no generic depth substitution."
+          "description": "Nonnegative source reference-COM minus bottom-COM displacement in metres; independently authenticate COM reference and measurement provenance; do not infer depth from force alone.",
+          "minimum": 0
         },
         "force_time": {
           "$ref": "#/$defs/force_time"
@@ -871,6 +872,14 @@
         "calibration_sha256": {
           "type": "string",
           "pattern": "^[a-f0-9]{64}$"
+        },
+        "movement_start_s": {
+          "type": "number",
+          "description": "Source-supplied movement start in seconds; first signal timestamp <= movement_start < concentric onset."
+        },
+        "assessment_end_s": {
+          "type": "number",
+          "description": "Source-supplied assessment end in seconds; takeoff <= assessment_end <= last signal timestamp."
         }
       },
       "required": [
@@ -880,7 +889,9 @@
         "concentric_onset_s",
         "takeoff_s",
         "sop_sha256",
-        "calibration_sha256"
+        "calibration_sha256",
+        "movement_start_s",
+        "assessment_end_s"
       ],
       "additionalProperties": false
     }

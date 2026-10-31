@@ -132,7 +132,22 @@ def _assessment_values(assessment: Mapping[str, Any]) -> tuple[float, float, flo
     from cmj_recovery_dynamics.observations.native_mechanics import native_force_metrics_v1
 
     for trial in trials:
+        _require(
+            _number(trial["depth_m"]) >= 0,
+            "DEPTH_INVALID",
+            "Source depth is nonnegative reference-COM minus bottom-COM displacement.",
+        )
         signal = trial["force_time"]
+        _require(
+            _number(signal["timestamps_s"][0])
+            <= _number(signal["movement_start_s"])
+            < _number(signal["concentric_onset_s"])
+            < _number(signal["takeoff_s"])
+            <= _number(signal["assessment_end_s"])
+            <= _number(signal["timestamps_s"][-1]),
+            "FORCE_TIME_EVENTS",
+            "Movement start, onset, takeoff and assessment end must be ordered within the signal.",
+        )
         _require(
             _pin(signal["sop_sha256"]) and _pin(signal["calibration_sha256"]),
             "MECHANICS_AUTHORITY",
@@ -910,8 +925,10 @@ def synthetic_preflight_fixture(participants: int = 6) -> dict[str, Any]:
                     "timestamps_s": [0.0, 0.2, 0.2 + duration / 2, 0.2 + duration, 0.3 + duration],
                     "force_n": [peak_force, peak_force, peak_force, 0.0, 0.0],
                     "gravity_m_s2": gravity,
+                    "movement_start_s": 0.1,
                     "concentric_onset_s": 0.2,
                     "takeoff_s": 0.2 + duration,
+                    "assessment_end_s": 0.3 + duration,
                     "sop_sha256": "f" * 64,
                     "calibration_sha256": "9" * 64,
                 }

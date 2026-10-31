@@ -228,6 +228,27 @@ def test_signal_events_and_trial_arithmetic_are_not_just_labels() -> None:
     assert "MECHANICS_AUTHORITY" in codes(payload)
 
 
+@pytest.mark.parametrize(
+    ("field", "value"),
+    [
+        ("movement_start_s", 0.2),
+        ("movement_start_s", -1.0),
+        ("assessment_end_s", 0.2),
+        ("assessment_end_s", 99.0),
+    ],
+)
+def test_full_movement_event_order_and_support(field: str, value: float) -> None:
+    payload = synthetic_preflight_fixture()
+    payload["assessments"][0]["trials"][0]["force_time"][field] = value
+    assert "FORCE_TIME_EVENTS" in codes(payload)
+
+
+def test_negative_source_depth_is_refused() -> None:
+    payload = synthetic_preflight_fixture()
+    payload["assessments"][0]["trials"][0]["depth_m"] = -0.1
+    assert "DEPTH_INVALID" in codes(payload)
+
+
 def test_tied_baseline_times_need_adjudication() -> None:
     payload = synthetic_preflight_fixture()
     assessment = copy.deepcopy(payload["assessments"][2])
