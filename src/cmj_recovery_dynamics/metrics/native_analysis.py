@@ -25,6 +25,9 @@ from cmj_recovery_dynamics.metrics.native_research import (
 
 VERSION = "gate7_native_analysis_v1"
 CELLS = tuple((horizon, target) for horizon in NativeHorizon for target in NativeTarget)
+EXACT_SIGN_FLIP_MAX_GROUPS = 16
+CONSTANT_FIT_PROTOCOL = "training_only_native_cell_arithmetic_mean_v1"
+CONSTANT_CELL_ORDER = tuple(f"{h.value}/{t.value}" for h, t in CELLS)
 STAGES = (
     "metadata",
     "structural",
@@ -81,6 +84,8 @@ class FrozenConstantBaseline:
     training_identity_sha256: str
     training_participants: tuple[str, ...]
     values: tuple[float, ...]
+    fit_protocol: str
+    cell_order: tuple[str, ...]
 
 
 def _digest(value: object) -> str:
@@ -233,25 +238,41 @@ def fit_synthetic_constant_baseline(
         / sum((row.query.horizon, row.target) == cell for row in observations)
         for cell in CELLS
     )
-    identities = sorted(
-        (row.query.participant, row.query.query, row.target.value) for row in observations
-    )
+    identities = [
+        asdict(row)
+        for row in sorted(
+            observations,
+            key=lambda row: (
+                row.query.dataset,
+                row.query.participant,
+                row.query.origin,
+                row.query.query,
+                row.target.value,
+            ),
+        )
+    ]
     identity = _digest(identities)
     training_participants = tuple(sorted({row.query.participant for row in observations}))
+    if set(training_participants) != set(participant_splits["train"]):
+        raise ValueError("DESIGNATED_TRAINING_GROUPS_REQUIRED")
     content = (
-        "gate7_train_constant_v1",
+        "gate7_train_constant_v2",
         asdict(source_authority),
         identity,
         training_participants,
         values,
+        CONSTANT_FIT_PROTOCOL,
+        CONSTANT_CELL_ORDER,
     )
     return FrozenConstantBaseline(
-        "gate7_train_constant_v1",
+        "gate7_train_constant_v2",
         _digest(content),
         source_authority,
         identity,
         training_participants,
         values,
+        CONSTANT_FIT_PROTOCOL,
+        CONSTANT_CELL_ORDER,
     )
 
 
@@ -259,7 +280,14 @@ def _constant_valid(
     artifact: FrozenConstantBaseline,
     authority: NativeAuthority,
     participant_splits: Mapping[str, Sequence[object]],
+    expected_sha256: str | None,
 ) -> None:
+    if (
+        type(expected_sha256) is not str
+        or len(expected_sha256) != 64
+        or any(c not in "0123456789abcdef" for c in expected_sha256)
+    ):
+        raise ValueError("BASELINE_PIN_REQUIRED: supply the independently trusted fit artifact pin")
     if (
         type(artifact) is not FrozenConstantBaseline
         or type(artifact.source_authority) is not NativeAuthority
@@ -275,19 +303,25 @@ def _constant_valid(
         artifact.training_identity_sha256,
         artifact.training_participants,
         artifact.values,
+        artifact.fit_protocol,
+        artifact.cell_order,
     )
     if (
-        artifact.version != "gate7_train_constant_v1"
+        artifact.version != "gate7_train_constant_v2"
+        or artifact.fit_protocol != CONSTANT_FIT_PROTOCOL
+        or artifact.cell_order != CONSTANT_CELL_ORDER
+        or artifact.artifact_sha256 != expected_sha256
         or artifact.source_authority != authority
         or not artifact.training_participants
-        or not set(artifact.training_participants) <= set(participant_splits["train"])
+        or set(artifact.training_participants) != set(participant_splits["train"])
+        or len(artifact.training_participants) != len(participant_splits["train"])
         or set(artifact.training_participants)
         & (set(participant_splits["test"]) | set(participant_splits["validation"]))
         or len(artifact.values) != 4
         or not all(_finite_nonnegative(abs(x)) for x in artifact.values)
         or artifact.artifact_sha256 != _digest(content)
     ):
-        raise ValueError("FROZEN_TRAINING_ARTIFACT_REQUIRED")
+        raise ValueError("FROZEN_TRAINING_ARTIFACT_REQUIRED: baseline differs from trusted fit")
 
 
 def _summary(errors: NDArray[np.float64]) -> NDArray[np.float64]:
@@ -324,12 +358,19 @@ def _interval(values: NDArray[np.float64]) -> list[float]:
     return [float(x) for x in np.quantile(values, [0.025, 0.975], method="linear")]
 
 
-def _sign_flip_p(paired_cluster_loss: NDArray[np.float64], signs: NDArray[np.int64]) -> float:
+def _sign_flip_p(
+    paired_cluster_loss: NDArray[np.float64], signs: NDArray[np.int64] | None
+) -> float:
     observed = float(paired_cluster_loss.sum())
     if not math.isfinite(observed) or not np.isfinite(paired_cluster_loss).all():
         raise ValueError("PAIRED_LOSS_OVERFLOW")
-    if observed <= 0:
-        return 1.0
+    exact = len(paired_cluster_loss) <= EXACT_SIGN_FLIP_MAX_GROUPS
+    if exact:
+        # At most 65,536 x 16 int64 signs (8 MiB); never enumerate a larger cohort.
+        bits = np.arange(1 << len(paired_cluster_loss), dtype=np.int64)[:, None]
+        signs = 2 * ((bits >> np.arange(len(paired_cluster_loss))) & 1) - 1
+    if signs is None:
+        raise ValueError("MONTE_CARLO_ALLOCATIONS_REQUIRED")
     randomized = (signs * paired_cluster_loss).sum(axis=1)
     tolerance = (
         8
@@ -337,8 +378,11 @@ def _sign_flip_p(paired_cluster_loss: NDArray[np.float64], signs: NDArray[np.int
         * len(paired_cluster_loss)
         * float(np.abs(paired_cluster_loss).sum())
     )
-    # Plus-one Monte Carlo correction includes the observed allocation; no zero p values.
-    return float((1 + np.count_nonzero(randomized >= observed - tolerance)) / (len(signs) + 1))
+    exceedances = int(np.count_nonzero(randomized >= observed - tolerance))
+    if exact:
+        return exceedances / len(signs)
+    # Plus-one correction is only for sampled allocations, never full enumeration.
+    return (1 + exceedances) / (len(signs) + 1)
 
 
 def synthetic_native_analysis_v1(
@@ -354,6 +398,7 @@ def synthetic_native_analysis_v1(
     participant_splits: Mapping[str, Sequence[object]],
     dataset_kind: str,
     constant_baseline: FrozenConstantBaseline | None = None,
+    expected_constant_baseline_sha256: str | None = None,
 ) -> dict[str, Any]:
     """Analyze invented records only; even asserted empirical approvals cannot unlock this API.
 
@@ -448,7 +493,8 @@ def synthetic_native_analysis_v1(
     draws = rng.integers(
         0, len(participants), size=(plan.resamples, len(participants)), dtype=np.int64
     )
-    signs = rng.choice(np.array([-1, 1], dtype=np.int64), size=draws.shape)
+    exact_test = len(participants) <= EXACT_SIGN_FLIP_MAX_GROUPS
+    signs = None if exact_test else rng.choice(np.array([-1, 1], dtype=np.int64), size=draws.shape)
     participant_index = {p: i for i, p in enumerate(participants)}
     predictions = {
         (candidate.model_id, candidate.repeat): {
@@ -457,7 +503,14 @@ def synthetic_native_analysis_v1(
         for candidate in candidates
     }
     if constant_baseline is not None:
-        _constant_valid(constant_baseline, source_authority, participant_splits)
+        _constant_valid(
+            constant_baseline,
+            source_authority,
+            participant_splits,
+            expected_constant_baseline_sha256,
+        )
+    elif expected_constant_baseline_sha256 is not None:
+        raise ValueError("FROZEN_TRAINING_ARTIFACT_REQUIRED: expected baseline is missing")
     rules = {(r.horizon, r.target): r for r in plan.rules}
     cells: list[dict[str, Any]] = []
     raw_p: list[float] = []
@@ -641,12 +694,27 @@ def synthetic_native_analysis_v1(
                 "Holm test is at zero improvement; RMSE margin is assessed "
                 "separately with paired bootstrap CI"
             ),
-            "p_value": "one-sided sign-flip Monte Carlo; plus-one correction",
+            "p_value": "one-sided sign-flip exact enumeration"
+            if exact_test
+            else "one-sided sign-flip Monte Carlo; plus-one correction",
+            "sign_flip": {
+                "mode": "exact" if exact_test else "monte_carlo",
+                "allocations": (1 << len(participants)) if exact_test else plan.resamples,
+                "seed": None if exact_test else plan.seed,
+                "exact_max_groups": EXACT_SIGN_FLIP_MAX_GROUPS,
+                "limitations": "Conditional on the stated cluster symmetry null; discrete p values."
+                if exact_test
+                else (
+                    "Finite Monte Carlo approximation, not an exact tail probability; "
+                    "resolution 1/(B+1); repeated allocations and seed dependence remain."
+                ),
+            },
             "ci": (
                 "two-sided 95% percentile, NumPy linear quantile; marginal CIs are not simultaneous"
             ),
         },
         "constant_baseline": None if constant_baseline is None else asdict(constant_baseline),
+        "expected_constant_baseline_sha256": expected_constant_baseline_sha256,
         "exclusions": list(plan.exclusions),
         "cells": cells,
         "decisions": decisions,

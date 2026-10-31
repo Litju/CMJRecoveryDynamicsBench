@@ -175,9 +175,8 @@ def test_reference_metrics_cluster_resampling_and_repeat_family() -> None:
     assert model["comparisons"]["zero_innovation"]["rmse_improvement_ci95"] == pytest.approx(
         expected_ci
     )
-    signs = rng.choice(np.array([-1, 1], dtype=np.int64), size=draws.shape)
-    # All cluster improvements are positive: only the all-positive sign allocation ties/exceeds.
-    expected_p = (1 + int(np.all(signs == 1, axis=1).sum())) / 10_001
+    # Full three-cluster null distribution: one of eight allocations attains the maximum.
+    expected_p = 1 / 8
     assert all(result["decisions"][i]["unadjusted_p"] == pytest.approx(expected_p) for i in (0, 2))
     assert "zero_innovation" in model["repeats"][0]["comparisons"]
     assert result == run(candidates, observations)
@@ -289,7 +288,12 @@ def test_train_only_frozen_constant_and_heldout_refusal() -> None:
         dataset_kind="synthetic",
     )
     assert artifact.training_participants == ("training",)
-    result = run(candidates, observations, constant_baseline=artifact)
+    result = run(
+        candidates,
+        observations,
+        constant_baseline=artifact,
+        expected_constant_baseline_sha256=artifact.artifact_sha256,
+    )
     assert all("train_constant" in cell["baselines"] for cell in result["cells"])
     with pytest.raises(ValueError, match="test split"):
         fit_synthetic_constant_baseline(
@@ -304,6 +308,7 @@ def test_train_only_frozen_constant_and_heldout_refusal() -> None:
             candidates,
             observations,
             constant_baseline=replace(artifact, values=(1.0, 1.0, 1.0, 1.0)),
+            expected_constant_baseline_sha256=artifact.artifact_sha256,
         )
     other_splits = {**SPLITS, "train": ["different-training"]}
     with pytest.raises(ValueError, match="ADMISSION_INPUT_BINDING"):

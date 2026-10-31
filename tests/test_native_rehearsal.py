@@ -16,3 +16,11 @@ def test_all_eighteen_synthetic_routes_admit_analyze_and_refuse_corruptions() ->
     assert result["analysis"]["synthetic_decision"] == "criteria_not_met"
     assert not result["empirical_execution_authorized"]
     assert all(d["holm_adjusted_p"] > 0.05 for d in result["analysis"]["decisions"])
+    assert all(d["unadjusted_p"] == 1 / 64 for d in result["analysis"]["decisions"])
+    assert all(d["holm_adjusted_p"] == 1 / 16 for d in result["analysis"]["decisions"])
+    assert result["analysis"]["methods"]["sign_flip"]["allocations"] == 64
+    assert result["analysis"]["methods"]["sign_flip"]["mode"] == "exact"
+    assert (
+        result["analysis"]["expected_constant_baseline_sha256"]
+        == result["analysis"]["constant_baseline"]["artifact_sha256"]
+    )

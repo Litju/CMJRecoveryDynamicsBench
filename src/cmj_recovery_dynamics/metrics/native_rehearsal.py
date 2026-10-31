@@ -32,6 +32,9 @@ from cmj_recovery_dynamics.observations.native_preflight import (
     validate_native_dataset,
 )
 
+# Independently frozen identity of this invented training fixture, not an incoming artifact hash.
+SYNTHETIC_CONSTANT_PIN = "a0654d563057494a028c5943f724995f7e2517ba8ebf44e326f2d324b71e23df"
+
 
 def rehearsal_plan() -> AnalysisPlan:
     """Hypothetical numerical thresholds exercise decisions; no clinical meaning."""
@@ -172,6 +175,7 @@ def synthetic_rehearsal_v1() -> dict[str, Any]:
         participant_splits=payload["participant_splits"],
         dataset_kind="synthetic",
         constant_baseline=baseline,
+        expected_constant_baseline_sha256=SYNTHETIC_CONSTANT_PIN,
     )
     negatives: dict[str, list[str]] = {}
     corruptions: dict[str, tuple[str, object]] = {
