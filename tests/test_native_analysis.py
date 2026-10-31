@@ -347,6 +347,10 @@ def test_malformed_runtime_inputs_are_clear_value_errors() -> None:
     candidates, observations = invented_records()
     unchecked_analysis: Any = synthetic_native_analysis_v1
     unchecked_fit: Any = fit_synthetic_constant_baseline
+    unchecked_holm: Any = holm_adjust
+    for probabilities in (None, 2, object()):
+        with pytest.raises(ValueError):
+            unchecked_holm(probabilities)
     result = run(candidates, observations)
     args: dict[str, Any] = dict(
         plan=locked_plan(),

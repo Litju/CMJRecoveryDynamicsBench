@@ -187,7 +187,12 @@ def _record_inputs(
 
 def holm_adjust(p_values: Sequence[float]) -> tuple[float, ...]:
     """Step-down Holm adjusted p values, retaining input order."""
-    if not p_values or any(not _finite_nonnegative(p) or p > 1 for p in p_values):
+    if (
+        not isinstance(cast(object, p_values), Sequence)
+        or isinstance(p_values, (str, bytes))
+        or not p_values
+        or any(not _finite_nonnegative(p) or p > 1 for p in p_values)
+    ):
         raise ValueError("p values must be finite probabilities")
     order = sorted(range(len(p_values)), key=lambda i: p_values[i])
     adjusted = [0.0] * len(order)
