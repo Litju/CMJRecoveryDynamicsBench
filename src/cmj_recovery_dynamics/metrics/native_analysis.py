@@ -1,4 +1,4 @@
-"""Synthetic-only native analysis; caller declarations never authorize empirical execution."""
+"""Shared native analysis arithmetic with a preserved synthetic-only public API."""
 
 from __future__ import annotations
 
@@ -20,6 +20,7 @@ from cmj_recovery_dynamics.metrics.native_research import (
     NativePrediction,
     NativeQuery,
     NativeTarget,
+    _native_rmse_v1,  # pyright: ignore[reportPrivateUsage]
     synthetic_native_rmse_v1,
 )
 
@@ -385,7 +386,7 @@ def _sign_flip_p(
     return (1 + exceedances) / (len(signs) + 1)
 
 
-def synthetic_native_analysis_v1(
+def _native_analysis_v1(
     candidates: Sequence[CandidatePredictions],
     observations: Sequence[NativeObservation],
     *,
@@ -400,13 +401,14 @@ def synthetic_native_analysis_v1(
     constant_baseline: FrozenConstantBaseline | None = None,
     expected_constant_baseline_sha256: str | None = None,
 ) -> dict[str, Any]:
-    """Analyze invented records only; even asserted empirical approvals cannot unlock this API.
+    """Shared validated arithmetic; empirical callers enter through native_study authorization.
 
     CI contrasts are candidate-minus-comparator errors, except RMSE improvement
     (comparator-minus-candidate). Holm tests the zero-improvement paired MSE null;
     a separate bootstrap bound must beat the prespecified native-unit RMSE margin.
     """
-    _synthetic(dataset_kind)
+    if dataset_kind not in ("synthetic", "empirical"):
+        raise ValueError("invalid dataset kind")
     validate_analysis_plan(plan)
     _record_inputs(observations, participant_splits)
     if (
@@ -438,7 +440,7 @@ def synthetic_native_analysis_v1(
         ):
             raise ValueError("CANDIDATE_REPEAT_IDENTITY_INVALID")
         by_model[candidate.model_id][candidate.repeat] = candidate
-        synthetic_native_rmse_v1(
+        _native_rmse_v1(
             candidate.predictions,
             observations,
             source_contract=NATIVE_SOURCE_V1,
@@ -463,7 +465,7 @@ def synthetic_native_analysis_v1(
             "preflight_payload_sha256",
         }
         or admission_receipt.get("version") != "gate7_analysis_admission_v1"
-        or admission_receipt.get("dataset_kind") != "synthetic"
+        or admission_receipt.get("dataset_kind") != dataset_kind
         or admission_receipt.get("stages") != dict(admission_stages)
         or admission_receipt.get("source_authority") != asdict(source_authority)
         or admission_receipt.get("participant_splits_sha256") != _digest(dict(participant_splits))
@@ -662,8 +664,10 @@ def synthetic_native_analysis_v1(
         )
     result: dict[str, Any] = {
         "version": VERSION,
-        "dataset_kind": "synthetic",
-        "scope": "engineering rehearsal only; no empirical or clinical validity",
+        "dataset_kind": dataset_kind,
+        "scope": "engineering rehearsal only; no empirical or clinical validity"
+        if dataset_kind == "synthetic"
+        else "authorized native research; no clinical validity claim",
         "source_contract": asdict(NATIVE_SOURCE_V1),
         "source_authority": asdict(source_authority),
         "admission_stages": dict(admission_stages),
@@ -718,10 +722,43 @@ def synthetic_native_analysis_v1(
         "exclusions": list(plan.exclusions),
         "cells": cells,
         "decisions": decisions,
-        "synthetic_decision": "criteria_met"
-        if all(d["passed"] for d in decisions)
-        else "criteria_not_met",
+        (
+            "synthetic_decision" if dataset_kind == "synthetic" else "research_decision"
+        ): "criteria_met" if all(d["passed"] for d in decisions) else "criteria_not_met",
         "empirical_execution_authorized": False,
     }
     result["receipt_sha256"] = _digest(result)
     return result
+
+
+def synthetic_native_analysis_v1(
+    candidates: Sequence[CandidatePredictions],
+    observations: Sequence[NativeObservation],
+    *,
+    plan: AnalysisPlan,
+    admission_stages: Mapping[str, bool],
+    admission_receipt_sha256: str,
+    admission_receipt: Mapping[str, object],
+    source_authority: NativeAuthority,
+    expected_authority: NativeAuthority,
+    participant_splits: Mapping[str, Sequence[object]],
+    dataset_kind: str,
+    constant_baseline: FrozenConstantBaseline | None = None,
+    expected_constant_baseline_sha256: str | None = None,
+) -> dict[str, Any]:
+    """Synthetic-only public entry point; even asserted approvals cannot unlock it."""
+    _synthetic(dataset_kind)
+    return _native_analysis_v1(
+        candidates,
+        observations,
+        plan=plan,
+        admission_stages=admission_stages,
+        admission_receipt_sha256=admission_receipt_sha256,
+        admission_receipt=admission_receipt,
+        source_authority=source_authority,
+        expected_authority=expected_authority,
+        participant_splits=participant_splits,
+        dataset_kind=dataset_kind,
+        constant_baseline=constant_baseline,
+        expected_constant_baseline_sha256=expected_constant_baseline_sha256,
+    )

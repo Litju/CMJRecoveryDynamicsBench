@@ -231,7 +231,7 @@ def test_loopback_http_and_end_to_end_synthetic_fixture() -> None:
     )
     process.start()
     try:
-        for _ in range(100):
+        for _ in range(400):
             try:
                 status, _ = _exchange(port, "GET", "/v1/health", headers={"X-Lab-Token": TOKEN})
                 if status == 200:

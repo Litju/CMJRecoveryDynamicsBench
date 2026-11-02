@@ -150,7 +150,7 @@ def _query(query: NativeQuery) -> None:
         )
 
 
-def synthetic_native_rmse_v1(
+def _native_rmse_v1(
     predictions: Sequence[NativePrediction],
     observations: Sequence[NativeObservation],
     *,
@@ -160,14 +160,14 @@ def synthetic_native_rmse_v1(
     participant_splits: Mapping[str, Sequence[object]],
     dataset_kind: str,
 ) -> tuple[NativeCellRMSE, ...]:
-    """Calculate native-unit RMSE for explicitly synthetic test data only.
+    """Shared native-unit pairing validation and arithmetic, without authority grants.
 
-    The caller must independently authenticate the source pins and synthetic
-    data: this structural check cannot prove either or authorize empirical use.
+    Callers must independently authenticate source pins and dataset authority:
+    this structural check cannot prove either or authorize empirical use.
     It is not a historical calibrated benchmark score.
     """
-    if dataset_kind != "synthetic":
-        raise ValueError("only synthetic test data are supported")
+    if dataset_kind not in ("synthetic", "empirical"):
+        raise ValueError("invalid dataset kind")
     if (
         type(source_contract) is not NativeSourceContract
         or source_contract != NATIVE_SOURCE_V1
@@ -280,3 +280,27 @@ def synthetic_native_rmse_v1(
                 raise ValueError("native RMSE is outside its finite range") from exc
             result.append(NativeCellRMSE(target, horizon, units[target], len(keys), error))
     return tuple(result)
+
+
+def synthetic_native_rmse_v1(
+    predictions: Sequence[NativePrediction],
+    observations: Sequence[NativeObservation],
+    *,
+    source_contract: NativeSourceContract,
+    source_authority: NativeAuthority,
+    expected_authority: NativeAuthority,
+    participant_splits: Mapping[str, Sequence[object]],
+    dataset_kind: str,
+) -> tuple[NativeCellRMSE, ...]:
+    """Synthetic-only public entry point; permissions cannot unlock this API."""
+    if dataset_kind != "synthetic":
+        raise ValueError("only synthetic test data are supported")
+    return _native_rmse_v1(
+        predictions,
+        observations,
+        source_contract=source_contract,
+        source_authority=source_authority,
+        expected_authority=expected_authority,
+        participant_splits=participant_splits,
+        dataset_kind=dataset_kind,
+    )

@@ -53,7 +53,11 @@ test("all eighteen candidate/repeat routes preserve live response identity", asy
   }
   expect(identities.size).toBe(18);
   await page.getByLabel("Observation selection").selectOption("training-2");
+  const refusal = page.waitForResponse(response => response.url().endsWith("/v1/predict") && response.request().method() === "POST");
   await page.getByRole("button", { name: /run research inference/i }).click();
+  const rejected = await refusal;
+  expect(rejected.status()).toBe(403);
+  expect((await rejected.json()).error.code).toBe("BASIS_AUTHORITY_UNAVAILABLE");
   await expect(page.getByRole("alert")).toContainText("BASIS_AUTHORITY_UNAVAILABLE");
   await page.getByLabel("Execution mode").selectOption("original");
   await expect(page.getByRole("button", { name: /run research inference/i })).toBeDisabled();

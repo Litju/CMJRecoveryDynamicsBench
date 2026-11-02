@@ -1,5 +1,11 @@
 # Native research engineering package, version 1
 
+Offline execution extension: `native_study.execute_native_study` now provides a separate,
+independently pinned study-authorization boundary for future legitimate execution.
+The synthetic APIs and preflight refusal semantics documented below are unchanged.
+See [offline study execution](GATE7_OFFLINE_STUDY_V1.md); no actual cohort or approvals
+are supplied or established by this implementation.
+
 This package prepares internal research tooling. It does not qualify an independent cohort, authorize empirical execution or establish predictive performance. Recovered model loaders, checkpoint restrictions, historical CPU/CUDA findings and release identities remain unchanged. Investigator and partner documents, detailed evidence receipts and experimental outputs are maintained outside the public repository.
 
 ## Executable components

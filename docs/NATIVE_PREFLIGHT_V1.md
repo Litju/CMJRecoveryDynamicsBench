@@ -1,5 +1,11 @@
 # Native dataset preflight and optional steward assessment, version 1
 
+Offline execution extension: `native_study.execute_native_study` now provides a separate,
+independently pinned study-authorization boundary for future legitimate execution.
+The synthetic APIs and preflight refusal semantics documented below are unchanged.
+See [offline study execution](GATE7_OFFLINE_STUDY_V1.md); no actual cohort or approvals
+are supplied or established by this implementation.
+
 `observations.native_preflight` inspects a self-contained dataset representation without loading a model or scoring predictions. `NATIVE_DATASET_SCHEMA_V1.json` specifies required fields, types, units, native measurements, source-order input components, timing, participant linkage, provenance and refusal conditions. It is an acquisition specification, not evidence that a cohort satisfies it.
 
 The result separates metadata, structural compatibility, measurement authority, participant independence, dataset-use authorization, result-generation authorization and result-disclosure authorization. Metadata-only mode reads the dataset header without inspecting observations. Full validation checks linked participant splits and alias cycles; reused assessment/trial/query/input IDs; copied and near-copy query vectors; exact query/assessment/participant associations; target windows and units; three valid trial means and positive explicit system mass; complete history and the two latest qualifying baselines; the source 39-feature projection and four history tokens; actual origin-known exposure plans; origin-keyed routine state; frozen training preprocessing; and the independently reconstructed five-value basis when any candidate 6–8 is declared. Every origin must have H72 and D7 with both native targets.
