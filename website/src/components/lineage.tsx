@@ -33,13 +33,12 @@ function FormulationDetail({
     <>
       <span className="eyebrow">THE QUESTION INSIDE THIS FORMULATION</span>
       <h3>{node.label}</h3>
-      <code className="contract-name">{node.id}</code>
       <p className="lineage-question">{node.question}</p>
       <dl className="lineage-facts">
         <div>
           <dt>Scientific status</dt>
           <dd className={node.status === "ACTIVE_CANDIDATE" ? "mint-text" : ""}>
-            {node.status}
+            {node.status.replaceAll("_", " ").toLowerCase()}
           </dd>
         </div>
         <div>
@@ -65,6 +64,9 @@ function FormulationDetail({
       <p className="formulation-relevance">{method.relevance}</p>
       <details className="methods-sheet formulation-methods" key={node.id}>
         <summary>Methods & evidence · this formulation</summary>
+        <p>
+          Source identifier: <code className="contract-name">{node.id}</code>
+        </p>
         <dl>
           <dt>World / dynamics family</dt>
           <dd>
@@ -96,9 +98,14 @@ function FormulationDetail({
         <summary>Inspect the evidence level</summary>
         <dl>
           <dt>Public generation + result chain</dt>
-          <dd>{reconstruction.chain}</dd>
+          <dd>{reconstruction.chain.replaceAll("_", " ").toLowerCase()}</dd>
           <dt>Historical numeric result</dt>
-          <dd>{reconstruction.historical(node.id)}</dd>
+          <dd>
+            {reconstruction
+              .historical(node.id)
+              .replaceAll("_", " ")
+              .toLowerCase()}
+          </dd>
         </dl>
         <p>
           A fresh synthetic generator runs. No exact historical score replay.
@@ -141,7 +148,7 @@ function Branch({
         className="lineage-node"
         aria-pressed={selected === node.id}
         onClick={() => onSelect(node.id)}
-        title={node.id}
+        title={node.label}
       >
         <span className="node-mark" aria-hidden="true" />
         <span>

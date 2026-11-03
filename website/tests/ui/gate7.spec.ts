@@ -26,7 +26,7 @@ test("Gate7 routes, mechanics, tour, accessible diagrams and responsive export",
     "0px",
   );
   expect(await page.locator("body").innerText()).not.toMatch(
-    /Gate7|GATE7|RES-\d+/,
+    /Gate7|GATE7|RES-\d+|fixed_mode_discrepancy_recovery|ACTIVE_CANDIDATE/,
   );
   for (let i = 0; i < 9; i++)
     for (const r of ["r0", "r1"]) {

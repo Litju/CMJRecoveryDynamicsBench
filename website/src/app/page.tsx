@@ -154,7 +154,7 @@ export default function Home() {
             <Activity size={20} />
             {brand.name}
           </a>
-          <p>A provisional identity. A reproducible foundation.</p>
+          <p>Open methods. Traceable evidence.</p>
         </div>
         <div className="footer-links">
           <a href={sourceLink("CITATION.cff")}>

@@ -79,14 +79,16 @@ test("all lineage contracts, exact statuses, parent selection and evidence are a
     await expect(button).toHaveAttribute("aria-pressed", "true");
     await expect(panel.locator(".contract-name")).toHaveText(node.id);
     await expect(panel.locator(".lineage-question")).toHaveText(node.question);
-    await expect(panel.locator(".lineage-facts")).toContainText(node.status);
+    await expect(panel.locator(".lineage-facts")).toContainText(
+      node.status.replaceAll("_", " ").toLowerCase(),
+    );
     await expect(panel.locator(".lineage-evidence dd").last()).toHaveText(
       [
         "preliminary_post_exposure_recovery",
         "threshold_response_recovery",
       ].includes(node.id)
-        ? "NOT_REPRODUCIBLE"
-        : "HISTORICAL_EVIDENCE_ONLY",
+        ? "not reproducible"
+        : "historical evidence only",
     );
     await expect(panel.locator(".contract-link")).toHaveAttribute(
       "href",
@@ -95,10 +97,10 @@ test("all lineage contracts, exact statuses, parent selection and evidence are a
   }
   await panel.locator(".lineage-evidence summary").click();
   await expect(panel.locator(".lineage-evidence")).toContainText(
-    "PARTIALLY_REPRODUCIBLE",
+    "partially reproducible",
   );
   await expect(panel.locator(".lineage-evidence")).toContainText(
-    "HISTORICAL_EVIDENCE_ONLY",
+    "historical evidence only",
   );
   await panel.getByRole("button", { name: "Correlated exposure" }).click();
   await expect(panel.locator(".contract-name")).toHaveText(
@@ -110,7 +112,7 @@ test("all lineage contracts, exact statuses, parent selection and evidence are a
   await expect(panel).toContainText("not an accepted successor");
   await panel.locator(".lineage-evidence summary").click();
   await expect(panel.locator(".lineage-evidence dd").last()).toHaveText(
-    "NOT_REPRODUCIBLE",
+    "not reproducible",
   );
   await page
     .locator('[data-formulation="fixed_mode_discrepancy_recovery"] > button')

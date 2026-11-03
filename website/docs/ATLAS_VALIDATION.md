@@ -46,3 +46,7 @@ legacy restoration and descriptive-URL reload, keyboard controls, SVG download,
 axe, and 320/390/768/1440 layouts. The revised desktop/mobile captures replace the
 initial dark-atlas captures. Unit tests (18), strict TypeScript, production export
 and the focused browser test passed locally.
+
+The lineage explorer also uses readable status labels and keeps canonical source
+identifiers inside its methods disclosure. Its three desktop/mobile/keyboard
+story tests passed after updating the expected public labels.
