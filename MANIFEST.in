@@ -32,3 +32,4 @@ include docs/NATIVE_DATASET_SCHEMA_V1.json
 include docs/NATIVE_PREFLIGHT_V1.md
 include docs/GATE7_NVDA_ACCEPTANCE_V1.md
 include docs/GATE7_INTERNAL_RESEARCH_V1.md
+include docs/GATE7_OFFLINE_STUDY_V1.md

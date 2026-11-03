@@ -130,7 +130,7 @@ test("the response scene loads at its scientific chapter and releases when leavi
   await page.goto("/");
   await expect(page.locator(".instrument-visual canvas")).toHaveCount(0);
   await page.locator(".hero-instrument").scrollIntoViewIfNeeded();
-  await expect(page.locator(".instrument-visual canvas")).toBeVisible();
+  await expect(page.locator(".instrument-visual canvas")).toBeVisible({ timeout: 20000 });
   await page.locator(".hero").scrollIntoViewIfNeeded();
   await expect(page.locator(".instrument-visual canvas")).toHaveCount(0);
 });

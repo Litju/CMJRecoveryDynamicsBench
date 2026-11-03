@@ -1,5 +1,11 @@
 # Gate7 native analysis, version 1
 
+Offline execution extension: `native_study.execute_native_study` now provides a separate,
+independently pinned study-authorization boundary for future legitimate execution.
+The synthetic APIs and preflight refusal semantics documented below are unchanged.
+See [offline study execution](GATE7_OFFLINE_STUDY_V1.md); no actual cohort or approvals
+are supplied or established by this implementation.
+
 `metrics.native_analysis` is a synthetic-only analysis implementation. It preserves the separately versioned native measurement/identity contract; it does not use generic canonical targets, calibrate a historical score, authorize empirical execution, or load checkpoints. A caller declaration cannot establish that records really are synthetic. Both the evaluator and training-constant constructor reject a non-synthetic dataset kind, even if supplied permission decisions claim approval. A future empirical path requires separate review and authorization.
 
 The plan must explicitly lock its primary candidate, four target/horizon rules with native units, RMSE improvement margins, maximum RMSE/MAE and absolute signed-bias bounds, minimum participant counts, analysis unit, confidence-interval method, multiplicity family, test method/assumption, random seed, resamples and exclusions. There are no default scientifically meaningful margins. Rehearsal thresholds are hypothetical engineering inputs, with no clinical or human-validity interpretation. Every candidate requires repeats r0 and r1 on exactly the same query/target rows. Preflight stages for structure, measurement authority, independence, use, result generation and result disclosure must all pass and the preflight receipt must be pinned. The analysis admission receipt binds the exact dataset, source authority, participant splits, native observations and inspected preflight payload fingerprint; a receipt for another file is rejected. These are separately reviewed declarations, not permissions inferred from a valid file.
