@@ -36,7 +36,7 @@ export default function Home() {
             <a href="#lineage">Research lineage</a>
             <a href="#explorer">Benchmark</a>
             <a href="#lab">Recovery lab</a>
-            <a href="#gate7">Gate7 atlas</a>
+            <a href="#model-atlas">Model atlas</a>
             <a href="#research-docs">Methods</a>
           </nav>
           <a

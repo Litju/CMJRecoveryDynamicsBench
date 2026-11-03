@@ -46,7 +46,7 @@ No uncertainty is inferred from parity categories or analytical signals.
 
 ## Interaction and accessibility
 
-`?gate7=M8&repeat=r1#gate7` restores a route; selection updates the URL.
+`?architecture=additive-basis-model&run=2#model-atlas` restores a route; selection updates the URL. Older model/repeat links remain supported.
 All 18 routes are native buttons with `aria-pressed`; detail updates use a polite
 live region. Duration is a labeled keyboard-operable range control. The concise
 seven-chapter tour advances manually with native buttons and chapter links; it
@@ -61,3 +61,12 @@ production alias promotion, merge, release publication or v1.1 tag is authorized
 by this implementation. Follow [deployment and rollback](DEPLOYMENT.md).
 Rollback means redeploying the previously verified production deployment after
 owner approval; a preview can simply be discarded without changing production.
+
+## Presentation style and public language
+
+The model atlas follows the Observatory's existing field-journal design: warm
+paper, ink, cobalt, vermilion, serif headings and square controls. SVG exports use
+the same shared `plotTheme` as the benchmark figures. Public navigation and copy
+use descriptive research and architecture names. Internal project/milestone labels
+are excluded; original model identifiers remain in the expandable technical
+reference, with the existing source filenames and shared links preserved.

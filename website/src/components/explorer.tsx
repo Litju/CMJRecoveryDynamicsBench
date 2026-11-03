@@ -215,7 +215,7 @@ export default function Explorer() {
               <span className="panel-label">ACTIVE CANDIDATE</span>
               <h3>Fixed-mode discrepancy recovery</h3>
             </div>
-            <span className="small-tag">RES-526</span>
+            <span className="small-tag">PUBLIC SYNTHETIC STUDY</span>
           </div>
           <div className="metric-strip" aria-live="polite" aria-atomic="true">
             <div className="primary-metric">

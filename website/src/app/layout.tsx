@@ -3,19 +3,19 @@ import { brand } from "@/lib/brand";
 import "./globals.css";
 import "./editorial.css";
 export const metadata: Metadata = {
-  title: `${brand.name} — Gate7 research atlas`,
+  title: `${brand.name} — Recovery research atlas`,
   description: brand.description,
   robots: { index: false, follow: false },
   openGraph: {
     type: "website",
     locale: "en_US",
     siteName: brand.name,
-    title: `${brand.name} — Gate7 research atlas`,
+    title: `${brand.name} — Recovery research atlas`,
     description: brand.description,
   },
   twitter: {
     card: "summary",
-    title: `${brand.name} — Gate7 research atlas`,
+    title: `${brand.name} — Recovery research atlas`,
     description: brand.description,
   },
 };

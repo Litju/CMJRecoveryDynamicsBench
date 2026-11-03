@@ -90,8 +90,8 @@ See [current validation evidence](docs/VALIDATION.md), [deployment readiness](do
 
 The separate Gate7 lane presents 18 original inference routes, architecture contracts,
 CPU/source versus historical CUDA qualification, native force-time mechanics and
-H72/D7 windows. Start the seven-chapter guided tour, or open `#gate7`. Route
-selections are shareable with `?gate7=M8&repeat=r1#gate7`.
+H72/D7 windows. Start the seven-chapter guided tour, or open `#model-atlas`. Route
+selections are shareable with `?architecture=additive-basis-model&run=2#model-atlas`.
 
 See the [documentation index](../docs/INDEX.md) and [figure regeneration guide](docs/GATE7_ATLAS.md).
 The atlas is a release-candidate presentation, not an inference service or accuracy claim.
