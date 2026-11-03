@@ -187,3 +187,12 @@ browser tests are in ``website/`` in this monorepo; its deployment is managed
 separately from the Python package. A package version change does not itself
 require a site deployment. The site is a synthetic research exhibit, not empirical
 athlete validation.
+
+Research documentation and presentation
+---------------------------------------
+
+The navigable public documentation index is ``docs/INDEX.md``. The Recovery
+Observatory now includes a separate Gate7 model/repeat atlas, native mechanics,
+assessment windows and an explicit evidence-boundary journey. Its public Gate7
+contracts are pinned independently of the historical M8 synthetic receipts.
+See ``website/docs/GATE7_ATLAS.md`` for figure sources and regeneration.

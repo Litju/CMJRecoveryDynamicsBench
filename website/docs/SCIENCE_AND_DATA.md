@@ -14,7 +14,7 @@ The preserved scientific source is [`Litju/CMJRecoveryDynamicsBench`](https://gi
 
 `source/manifest.json`, `source/lineage/manifest.json` and `source/exhibition/manifest.json` pin the individual upstream files. Run `npm run build` or `node scripts/prepare-data.mjs --check` to verify those hashes and that `src/data/` and `public/data/` match the expected fixture serialization. These checks are offline. `npm test` independently checks fixture identity, exact displayed values, all 17 diagnostic variants and selection minima, scientific definitions, lineage contracts and the mathematical identities used in the lab.
 
-`source/CITATION.cff` is preserved exactly from the scientific repository and identifies Julio Rodriguez, version 0.1.0. Cite the upstream scientific software using that file; the website has no separate citation record or versioned scientific result.
+`source/CITATION.cff` is preserved exactly from the scientific repository and identifies Julio Rodriguez, version 0.1.0. That frozen citation is historical evidence for the receipt. For current software citation use the repository-root `CITATION.cff` (v1.1 candidate metadata); the current published release remains v1.0.0. The website has no separate scientific result.
 
 ## What the active numbers mean
 
@@ -64,3 +64,9 @@ Five parent edges are registered. The rich-history branch has no exact direct pa
 ## Source and license boundary
 
 Upstream scientific code and its Apache-2.0 license are preserved in source/; the upstream citation remains in source/CITATION.cff. The original website source authored by Julio Rodriguez is separately licensed under Apache-2.0 in LICENSE. Neither license covers the Geist font, npm packages, or other third-party materials. The Geist font's separate OFL notice is included under public/fonts/. See the release checklist for scope and deployment status.
+
+## Gate7 v1.1 presentation lane
+
+Gate7 uses a separate hash-pinned contract dataset, not the historical M8 result fixture.
+See [the figure ledger](GATE7_ATLAS.md) for source identities, units, calculations,
+regeneration and the analytical mechanics signal.

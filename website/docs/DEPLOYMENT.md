@@ -1,6 +1,6 @@
 # Recovery Observatory — build, deployment and operations
 
-## Current website deployment (recorded 2026-10-21)
+## Historical website deployment receipt (recorded 2026-10-21)
 
 The public Recovery Observatory research exhibit is served at **https://recovery-observatory.vercel.app**. It is an independent static website inside the canonical scientific repository, not a release of the Python research package.
 
@@ -73,3 +73,10 @@ The production project is Git-linked to the **existing canonical repository**, r
 5. Keep preview access protection, `noindex,nofollow` and provisional display branding unless the owner separately approves changing them. A public website does **not** imply empirical human validity, historical score replay or Python package v1.0 publication.
 
 Browser checks currently cover Chromium and emulated mobile. Safari, Firefox, physical device GPUs and live screen readers have not been independently qualified.
+## RES-584 candidate preview
+
+The atlas uses the same project and static output. Build validation includes the
+separate Gate7 manifest. Inspect the PR deployment and its Git SHA before approval;
+do not promote its alias or publish a release. Current qualification is recorded
+in [ATLAS_VALIDATION.md](ATLAS_VALIDATION.md). The dated deployment receipt above
+is retained without asserting that its commit is current production.

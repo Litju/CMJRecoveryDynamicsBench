@@ -2799,3 +2799,21 @@ html { scroll-padding-top: 0; }
     line-height: 1.5;
   }
 }
+
+/* The Gate7 reconstruction lane intentionally uses dark scientific surfaces. */
+.atlas-wrap, .atlas-tour {
+  --text: #eef2ef;
+  --mint: #a9f5dc;
+  --muted: #bdccca;
+  --line: #405157;
+  --panel: #152126;
+  color: #eef2ef;
+  color-scheme: dark;
+}
+.atlas-wrap h2, .atlas-wrap h3, .atlas-tour h2 { color: #eef2ef; }
+.atlas-wrap .eyebrow, .atlas-tour .eyebrow { color: #a9f5dc; }
+.atlas-wrap .atlas-detail h3 { color: #a9f5dc; }
+.atlas-wrap button, .atlas-tour button { color: #eef2ef; background: #182b31; }
+.atlas-wrap button[aria-pressed="true"] { color: #10191d; background: #a9f5dc; }
+.atlas-wrap, .atlas-tour { --cobalt: #a9f5dc; }
+.atlas-wrap button[aria-pressed="true"]:hover { color: #10191d; }

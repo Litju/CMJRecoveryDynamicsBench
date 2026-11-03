@@ -15,6 +15,7 @@ import {
   QuickRoute,
   ResearchCover,
 } from "@/components/research-story";
+import Gate7Atlas, { ResearchTour } from "@/components/gate7-atlas";
 export default function Home() {
   return (
     <>
@@ -35,7 +36,8 @@ export default function Home() {
             <a href="#lineage">Research lineage</a>
             <a href="#explorer">Benchmark</a>
             <a href="#lab">Recovery lab</a>
-            <a href="#evidence">Evidence</a>
+            <a href="#gate7">Gate7 atlas</a>
+            <a href="#research-docs">Methods</a>
           </nav>
           <a
             className="source-nav"
@@ -133,6 +135,7 @@ export default function Home() {
           </div>
         </div>
         <StoryProgress />
+        <ResearchTour />
         <QuickRoute />
         <Question />
         <EpisodeTheater />
@@ -143,6 +146,7 @@ export default function Home() {
         <RecoveryLab />
         <Evidence />
         </ScrollJourney>
+        <Gate7Atlas />
       </main>
       <footer className="shell footer">
         <div>
