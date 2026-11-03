@@ -1,0 +1,33 @@
+{
+  "commit": "08c31e0876edea14e0eb6132d08c1b2705c1cfc9",
+  "sources": [
+    {
+      "path": "docs/RES-546_INFERENCE_VERIFICATION.md",
+      "sha256": "89dc6de93a8c583a7ead6ebddf77fef2b2da67d4517a11e3cdb628f00c1a8ff4"
+    },
+    {
+      "path": "docs/RES-546_CPU_SOURCE_INTEGRATION_POLICY.md",
+      "sha256": "b8d65ca30ac8eab62cd5b6cdabf1afc5bf6b1fa7a12071c4de36160e53c456d9"
+    },
+    {
+      "path": "docs/RES-546_GATE7_M8_RECOVERY.md",
+      "sha256": "3258c73ac8b911166eece258ec27bcac846457b04ad352c757a427b6ada062d4"
+    },
+    {
+      "path": "docs/GATE7_NATIVE_MEASUREMENT_V1.md",
+      "sha256": "0128429365c9f2133e6e7ab61ba62a1d83ba67f46592984f9e733b9b29bef725"
+    },
+    {
+      "path": "src/cmj_recovery_dynamics/model_reproduction/checkpoint_inference.py",
+      "sha256": "48e639a55749863922bae44740f10dbcb6c60deeb691e5880a45bb4f00f98603"
+    },
+    {
+      "path": "src/cmj_recovery_dynamics/model_reproduction/checkpoint_m7.py",
+      "sha256": "37d1b14110967e2e2a1725618da7376703528ce938fab3f52f410d14ab76b578"
+    },
+    {
+      "path": "src/cmj_recovery_dynamics/model_reproduction/checkpoint_m8_inference.py",
+      "sha256": "ec13f4cef4838a7fb13d9521d14252965dd184aad86258ab2c4736c0f661a9bc"
+    }
+  ]
+}

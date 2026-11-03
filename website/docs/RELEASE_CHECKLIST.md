@@ -1,8 +1,23 @@
 # Recovery Observatory — release checklist and current decision
 
-**Current assessment:** 2026-10-21, after the first public Vercel deployment. This supersedes the former **pre-publication** status in this document; it does not rewrite the historical qualification evidence.
+## Current Gate7 candidate boundary — 2026-11-03
 
-## Current release surfaces
+The published scientific release is v1.0.0. Gate7 v1.1.0 was integrated at
+`08c31e0` but is not tagged or published. The RES-584 atlas is a separate
+reviewable website/documentation candidate. See [the documentation index](../../docs/INDEX.md)
+and [atlas qualification](ATLAS_VALIDATION.md). Earlier PR/release statuses below
+are retained as dated evidence and do not describe current release state.
+
+- Require exact-head Website CI and inspect the linked Vercel preview.
+- Preserve frozen M8 receipts and all original CUDA failures.
+- Keep Windows/NVDA acceptance explicitly pending.
+- Owner approval is required before merge, production promotion, tagging or release.
+
+
+
+**Historical assessment:** 2026-10-21, after the first public Vercel deployment. This supersedes the former **pre-publication** status in this document; it does not rewrite the historical qualification evidence.
+
+## Historical release surfaces (2026-10-21)
 
 | Surface | Decision | Evidence and limits |
 | --- | --- | --- |
@@ -37,4 +52,4 @@
 
 For subsequent website changes, open a small PR into `main`, require exact-head hosted Website CI, inspect production deployment state after merge and follow [the current deployment/rollback guide](DEPLOYMENT.md). Keep source-data checksums stable unless a reviewed scientific source/receipt revision is explicitly approved.
 
-**Current verdict:** the static **portfolio/research exhibit** is shareable based on the recorded deployment and tests (**GO_WITH_LIMITATIONS**); the scientific Python library is not published as v1.0. The original 2026-10-20 local screenshots, test receipts and provenance remain accessible without being relabeled as new live production captures.
+**Historical verdict (2026-10-21):** the static **portfolio/research exhibit** is shareable based on the recorded deployment and tests (**GO_WITH_LIMITATIONS**); the scientific Python library is not published as v1.0. The original 2026-10-20 local screenshots, test receipts and provenance remain accessible without being relabeled as new live production captures.

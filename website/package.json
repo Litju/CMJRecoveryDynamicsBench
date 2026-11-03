@@ -7,8 +7,9 @@
     "data": "node scripts/prepare-data.mjs",
     "test": "node --test tests/*.test.mjs",
     "typecheck": "tsc --noEmit",
-    "build": "node scripts/prepare-data.mjs --check && next build",
-    "test:ui": "playwright test"
+    "build": "node scripts/prepare-gate7.mjs --check && node scripts/prepare-data.mjs --check && next build",
+    "test:ui": "playwright test",
+    "data:gate7": "node scripts/prepare-gate7.mjs"
   },
   "dependencies": {
     "next": "16.4.2",

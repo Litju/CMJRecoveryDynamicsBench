@@ -8,6 +8,11 @@ change scientific results, or alter the historical `v1.0.0` release.
 
 ### Included
 
+- Recovery Observatory Gate7 research atlas with 18 route contracts, analytical
+  force-time mechanics, native windows, guided chapters and pinned public source
+  hashes; navigable research documentation and figure regeneration guide.
+
+
 - Synthetic benchmark generation and reproducibility interfaces, public model and
   experiment lineage, native measurement mechanics, observation/projection
   contracts, and statistical evaluation with a synthetic-only rehearsal.

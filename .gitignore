@@ -106,3 +106,7 @@ website/**/.env*
 !docs/GATE7_NVDA_ACCEPTANCE_V1.md
 !docs/GATE7_INTERNAL_RESEARCH_V1.md
 !docs/GATE7_OFFLINE_STUDY_V1.md
+
+# Reviewed RES-584 research navigation and API guidance.
+!docs/INDEX.md
+!docs/RESEARCH_API.md
