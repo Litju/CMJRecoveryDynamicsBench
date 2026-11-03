@@ -364,7 +364,9 @@ def test_public_github_identity_is_allowed_but_private_markers_are_rejected() ->
 
 
 def test_v1_1_candidate_version_and_scientific_claim_boundary() -> None:
-    project = tomllib.loads((REPOSITORY_ROOT / "pyproject.toml").read_text())["project"]
+    metadata = tomllib.loads((REPOSITORY_ROOT / "pyproject.toml").read_text())
+    project = metadata["project"]
+    assert "setuptools>=84.1.0" in metadata["build-system"]["requires"]
     assert project["version"] == "1.1.0"
     readme = " ".join((REPOSITORY_ROOT / "README.rst").read_text().casefold().split())
     notes = " ".join((REPOSITORY_ROOT / "CHANGELOG.md").read_text().casefold().split())

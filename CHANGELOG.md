@@ -19,6 +19,8 @@ change scientific results, or alter the historical `v1.0.0` release.
   operator-provided grants for every model route.
 - Public scientific documentation and limitations, with a discoverable list of
   module entrypoints in `README.rst`.
+- The build backend minimum is raised to `setuptools>=84.1.0` following the
+  dependency audit.
 
 ### Release boundary and limitations
 
