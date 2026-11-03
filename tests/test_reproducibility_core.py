@@ -4,6 +4,7 @@ import json
 import socket
 from collections.abc import Sequence
 from dataclasses import FrozenInstanceError, replace
+from importlib.metadata import PackageNotFoundError
 from pathlib import Path
 
 import pytest
@@ -65,6 +66,7 @@ from cmj_recovery_dynamics.reproducibility import (
     verify_sha256_bytes,
     verify_sha256_file,
 )
+from cmj_recovery_dynamics.reproducibility import execution as reproducibility_execution
 from cmj_recovery_dynamics.reproduction.audit import (
     FormulationReproducibility,
     get_final_reproduction_status,
@@ -753,6 +755,16 @@ def test_runtime_provenance_has_no_private_machine_identity() -> None:
         ManifestKind.CONFIGURATION
     )
     assert fingerprint.os_family == fingerprint.os_family.strip()
+
+
+def test_uninstalled_source_runtime_reports_candidate_version(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    def missing_distribution(name: str) -> str:
+        raise PackageNotFoundError(name)
+
+    monkeypatch.setattr(reproducibility_execution, "version", missing_distribution)
+    assert reproducibility_execution.capture_runtime_fingerprint().package_version == "1.1.0"
 
 
 def test_source_data_config_and_output_digest_roles_cannot_be_confused() -> None:

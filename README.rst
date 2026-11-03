@@ -5,6 +5,27 @@ Scientific contracts, synthetic generators, evaluation definitions, and recovere
 research lineage for eight countermovement-jump recovery benchmarks.
 The canonical repository is https://github.com/Litju/CMJRecoveryDynamicsBench.
 
+Installation
+------------
+
+Use Python 3.12 or newer. From a source checkout, install the core package with
+its pinned NumPy runtime dependency::
+
+    python3.12 -m pip install .
+
+The core install includes the synthetic generators, public lineage and evaluation
+contracts, native mechanics and projection, and synthetic-only statistical
+rehearsal. CPU checkpoint inference, the local inference service, and offline
+native-study execution use the optional PyTorch dependency::
+
+    python3.12 -m pip install '.[inference]'
+
+The package contains no recovered model checkpoints or restricted data. Inference
+requires independently authenticated and legitimately available model artifacts;
+offline study execution additionally requires separately authenticated scientific
+and institutional authorization. See ``CHANGELOG.md`` for this release candidate
+and the public limitations.
+
 Development
 -----------
 
@@ -52,6 +73,9 @@ old GitHub-managed pull-request refs. This exception is not historical or
 third-party rights clearance. RES-529 records independent release-candidate
 qualification; an official GitHub release and matching tag establish publication.
 Package metadata alone does not establish whether a release was published.
+This branch prepares version ``1.1.0`` as a release candidate; the published
+``v1.0.0`` release remains the current public release until a separately approved
+tag and GitHub release exist. See ``CHANGELOG.md`` for the candidate scope.
 Current-tree redaction does not sanitize earlier Git history. See
 ``docs/M7_PUBLIC_TREE_REDACTION.md``, ``docs/M7_OCCURRENCE_CLASSIFICATION.md``, and
 ``docs/M7_QUALIFICATION.md`` for the boundaries and outstanding decisions.
@@ -82,14 +106,61 @@ It does not authorize empirical execution or reproduce historical scores.
 See ``docs/GATE7_INTERNAL_RESEARCH_V1.md`` for the schema, steward-side assessment,
 measurement specification, basis dependencies and qualification boundaries.
 
-The source distribution includes these protocols, receipts, and citation file.
-Wheel users should obtain the matching source distribution for documentation;
-all runtime modules are in the wheel. Candidate changes and release limits are
-in ``docs/M8_RELEASE_NOTES.md``; independent qualification is recorded in
-``docs/M8_V1_RELEASE_AUDIT.md``. Package and citation metadata are synchronized at
-``1.0.0``. The candidate qualification recorded in
-``docs/M8_V1_PUBLICATION_RECEIPT.json`` is a dated prepublication assessment.
-Check the corresponding GitHub release for published files and checksums.
+Gate7 inference and offline study execution
+--------------------------------------------
+
+The package provides recovered M0–M8 CPU inference interfaces, including two
+repeat routes per model, plus the public observation builder, feature projection,
+native force/impulse mechanics and native statistical evaluation. The inference
+loaders are in ``cmj_recovery_dynamics.model_reproduction.checkpoint_inference``
+(M0–M6), ``checkpoint_m7`` and ``checkpoint_m8_inference``. They require the
+``inference`` extra and verify caller-supplied config/checkpoint SHA-256 pins before
+weights-only CPU loading. No checkpoint bytes, private hash pins or authorization
+records ship in this package.
+
+``cmj_recovery_dynamics.native_study.execute_native_study`` is an offline API, not
+a command or network endpoint. It requires all 18 model grants and a separately
+authenticated authorization supplied by the responsible operator. Installation,
+synthetic fixtures and preflight checks do not grant empirical data access,
+checkpoint use, ethics approval or permission to disclose results. The optional
+local Research Lab starts with synthetic demonstrations; original-checkpoint use
+requires an operator-provisioned private startup script and independently verified
+grants. See ``docs/RESEARCH_LAB.md`` and ``docs/GATE7_OFFLINE_STUDY_V1.md``.
+
+The public module entrypoints are::
+
+    python -m cmj_recovery_dynamics.observations.public_builder
+    python -m cmj_recovery_dynamics.observations.native_preflight input.json
+    python -m cmj_recovery_dynamics.metrics.native_rehearsal --synthetic-rehearsal
+    python -m cmj_recovery_dynamics.reproducibility.qualification --matrix-only
+    python -m cmj_recovery_dynamics.reproducibility.qualification
+    python -m cmj_recovery_dynamics.studies.reference_model_study
+    python -m cmj_recovery_dynamics.studies.fixed_mode_reference_study --help
+
+The local Research Lab uses ``python -m cmj_recovery_dynamics.research_lab`` and
+requires the ``inference`` extra; its token, private startup procedure and
+original-checkpoint controls are documented in ``docs/RESEARCH_LAB.md``. The
+fixed-mode CLI requires a full source Git SHA and
+the ``pilot`` → ``select`` → ``evaluate`` protocol; selection locks must be created
+before evaluation. Its three public roots sample one synthetic world and do not
+establish OOD robustness, human-athlete predictive validity or clinical utility.
+The production fixed-mode scorer remains unimplemented.
+
+The public tests exercise synthetic checkpoint fixtures and refusal controls. They
+do not contain original weights or establish empirical validation. Source-side CPU
+inference qualification is distinct from historical CUDA replay: M4–M8 did not
+meet the preserved CUDA tolerances. See the per-model historical findings linked
+from ``docs/RES-546_CPU_SOURCE_INTEGRATION_POLICY.md``. The Windows/NVDA manual
+acceptance remains ``SCREEN_READER_ACCEPTANCE_PENDING`` in
+``docs/GATE7_NVDA_ACCEPTANCE_V1.md``.
+
+The source distribution includes the reviewed protocols, receipts, ``CHANGELOG.md``
+and citation file. Wheel users should obtain the matching source distribution for
+documentation; runtime modules are in the wheel. ``docs/M8_RELEASE_NOTES.md`` and
+``docs/M8_V1_RELEASE_AUDIT.md`` describe the historical v1.0.0 candidate and remain
+unchanged. The candidate package and citation metadata are synchronized at
+``1.1.0``; this does not create or publish a GitHub release. Check the official
+release page for published files and checksums.
 
 License and citation
 --------------------
@@ -99,9 +170,10 @@ are licensed under Apache-2.0; see ``LICENSE``. This license does not cover
 external datasets, restricted empirical derivatives, preserved private archives,
 or other third-party materials.
 
-Use ``CITATION.cff`` to cite version ``1.0.0``. This metadata does not assert
-a DOI, publication date, or empirical validation; the corresponding official
-release record, if any, identifies its publication date and artifacts.
+``CITATION.cff`` tracks candidate version ``1.1.0``. Until that version is
+published, cite the existing ``v1.0.0`` release. Citation metadata does not assert
+a DOI, publication date, or empirical validation; the official release record
+identifies the published version and artifacts.
 Original experiment receipts retain their audited version and provenance.
 Exact M8 digest replay uses the original frozen study snapshot. Version metadata
 changes the package-source hash, so pre-1.0 selection locks cannot be reused.
@@ -111,7 +183,7 @@ Research showcase
 
 The interactive research showcase is live at
 https://recovery-observatory.vercel.app and its Next.js source, fixtures, and
-browser tests are in the separate package at `website/README.md
-<website/README.md>`__. The scientific Python package and its tests remain
-independent; the site is a synthetic research exhibit, not empirical athlete
-validation.
+browser tests are in ``website/`` in this monorepo; its deployment is managed
+separately from the Python package. A package version change does not itself
+require a site deployment. The site is a synthetic research exhibit, not empirical
+athlete validation.

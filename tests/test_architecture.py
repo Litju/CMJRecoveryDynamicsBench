@@ -87,6 +87,7 @@ ROOT_FILE_ALLOWLIST = {
     ".python-version",
     "pyproject.toml",
     "README.rst",
+    "CHANGELOG.md",
     "LICENSE",
     "CITATION.cff",
     "NOTICE",
@@ -282,7 +283,9 @@ def _assert_public_path(tracked_path: str) -> None:
             assert tracked_path in PUBLIC_DOCUMENT_ALLOWLIST, tracked_path
     assert not path.name.startswith(".env"), tracked_path
     protected = any(tracked_path.endswith(suffix) for suffix in PROTECTED_SUFFIXES)
-    public_report = tracked_path in PUBLIC_DOCUMENT_ALLOWLIST and path.suffix == ".md"
+    public_report = (
+        tracked_path in PUBLIC_DOCUMENT_ALLOWLIST or tracked_path == "CHANGELOG.md"
+    ) and path.suffix == ".md"
     public_receipt = tracked_path in PUBLIC_MACHINE_RECEIPT_ALLOWLIST and path.suffix == ".json"
     public_website_source = path.parts[0] == "website" and path.suffix in {".md", ".json"}
     assert not protected or public_report or public_receipt or public_website_source, tracked_path
@@ -360,17 +363,24 @@ def test_public_github_identity_is_allowed_but_private_markers_are_rejected() ->
     assert "ali-999" not in PUBLIC_HISTORICAL_LABELS
 
 
-def test_v1_version_and_scientific_claim_boundary() -> None:
-    project = tomllib.loads((REPOSITORY_ROOT / "pyproject.toml").read_text())["project"]
-    assert project["version"] == "1.0.0"
-    readme = (REPOSITORY_ROOT / "README.rst").read_text().casefold()
-    notes = (REPOSITORY_ROOT / "docs/M8_RELEASE_NOTES.md").read_text().casefold()
+def test_v1_1_candidate_version_and_scientific_claim_boundary() -> None:
+    metadata = tomllib.loads((REPOSITORY_ROOT / "pyproject.toml").read_text())
+    project = metadata["project"]
+    assert "setuptools>=84.1.0" in metadata["build-system"]["requires"]
+    assert project["version"] == "1.1.0"
+    readme = " ".join((REPOSITORY_ROOT / "README.rst").read_text().casefold().split())
+    notes = " ".join((REPOSITORY_ROOT / "CHANGELOG.md").read_text().casefold().split())
+    historical_notes = " ".join(
+        (REPOSITORY_ROOT / "docs/M8_RELEASE_NOTES.md").read_text().casefold().split()
+    )
     assert "official github release" in readme
-    assert "matching official github release/tag" in notes
-    assert "its production scorer remains unimplemented" in readme
+    assert "release candidate" in readme
+    assert "matching official github release/tag" in historical_notes
+    assert "production fixed-mode scorer remains unimplemented" in readme
     assert "neither ood robustness nor human athlete performance" in readme
-    assert "the fixed-mode production scorer is unimplemented" in notes
-    assert "this is not exact historical replay" in notes
+    assert "fixed-mode production scorer is unimplemented" in historical_notes
+    assert "not empirical athlete validation" in notes
+    assert "m4–m8" in notes
 
 
 def test_license_and_citation_versions_match_package_metadata() -> None:
@@ -387,6 +397,7 @@ def test_license_and_citation_versions_match_package_metadata() -> None:
 def test_source_archive_manifest_includes_only_reviewed_public_documents() -> None:
     instructions = (REPOSITORY_ROOT / "MANIFEST.in").read_text().splitlines()
     assert set(instructions) == {
+        "include CHANGELOG.md",
         "include CITATION.cff",
         *(f"include {path}" for path in PUBLIC_DOCUMENT_ALLOWLIST),
     }

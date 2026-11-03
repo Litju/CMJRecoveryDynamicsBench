@@ -11,6 +11,7 @@
 *.tsv
 *.json
 *.md
+!CHANGELOG.md
 !docs/
 !docs/M7_PUBLIC_TREE_REDACTION.md
 !docs/M7_OCCURRENCE_CLASSIFICATION.md
