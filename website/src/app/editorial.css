@@ -2855,3 +2855,4 @@ html { scroll-padding-top: 0; }
 @media(max-width:800px) { .atlas-heading, .atlas-grid, .atlas-tour { grid-template-columns: 1fr; gap: 24px; } .atlas-section { padding-block: 60px; } .atlas-panel { padding: 18px; } .atlas-docs, .atlas-flow { grid-template-columns: repeat(2, 1fr); } .atlas-stats strong { font-size: 23px; } .atlas-stats span { font-size: 11px; } }
 @media(max-width:400px) { .route-matrix > div { grid-template-columns: 1fr 1fr; } .route-matrix strong { grid-column: 1 / -1; } .route-matrix > div > span { grid-column: 1 / -1; } }
 @media(prefers-reduced-motion:reduce) { .atlas-wrap *, .atlas-tour * { animation: none!important; transition: none!important; } }
+.formulation-methods .contract-name { color: var(--ink); overflow-wrap: anywhere; }
