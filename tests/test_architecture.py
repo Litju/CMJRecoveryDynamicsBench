@@ -95,12 +95,15 @@ ROOT_FILE_ALLOWLIST = {
 }
 PUBLIC_DIRECTORY_ALLOWLIST = {"src", "tests", "docs", "website", ".github"}
 PUBLIC_RECONCILIATION_COMMITS = {
+    "08c31e0876edea14e0eb6" + "132d08c1b2705c1cfc9",
     "3dc4c82f0c948add6e4a9ebdebfd2279" + "33c823d3",
     "618a56bbcc8de6fb1cd3a5d4d8f71bf" + "7fcb61529",
     "4e08777bc7c7f7ce4fa541ea3776b4cb" + "2e2dda3b",
     "582a8c3f86fad7e20ebb6a5d907a1965" + "7ee0d8c2",
 }
 PUBLIC_DOCUMENT_ALLOWLIST = {
+    "docs/INDEX.md",
+    "docs/RESEARCH_API.md",
     "docs/GATE7_NATIVE_MEASUREMENT_V1.md",
     "docs/GATE7_NATIVE_DEPENDENCIES_V1.json",
     "docs/GATE7_NATIVE_ANALYSIS_V1.md",

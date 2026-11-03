@@ -64,11 +64,17 @@ The M8 loader contract is:
 from pathlib import Path
 from cmj_recovery_dynamics.model_reproduction.checkpoint_m8_inference import load_gate7_m8
 
-def load_authorized_pair(config: Path, checkpoint: Path,
-                         trusted_config_sha256: str,
-                         trusted_checkpoint_sha256: str, repeat: int):
+
+def load_authorized_pair(
+    config: Path,
+    checkpoint: Path,
+    trusted_config_sha256: str,
+    trusted_checkpoint_sha256: str,
+    repeat: int,
+):
     return load_gate7_m8(
-        config, checkpoint,
+        config,
+        checkpoint,
         config_sha256=trusted_config_sha256,
         checkpoint_sha256=trusted_checkpoint_sha256,
         repeat=repeat,  # 0 or 1, independently bound to this exact pair
