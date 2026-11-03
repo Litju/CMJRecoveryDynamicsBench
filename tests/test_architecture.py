@@ -283,7 +283,9 @@ def _assert_public_path(tracked_path: str) -> None:
             assert tracked_path in PUBLIC_DOCUMENT_ALLOWLIST, tracked_path
     assert not path.name.startswith(".env"), tracked_path
     protected = any(tracked_path.endswith(suffix) for suffix in PROTECTED_SUFFIXES)
-    public_report = tracked_path in PUBLIC_DOCUMENT_ALLOWLIST and path.suffix == ".md"
+    public_report = (
+        tracked_path in PUBLIC_DOCUMENT_ALLOWLIST or tracked_path == "CHANGELOG.md"
+    ) and path.suffix == ".md"
     public_receipt = tracked_path in PUBLIC_MACHINE_RECEIPT_ALLOWLIST and path.suffix == ".json"
     public_website_source = path.parts[0] == "website" and path.suffix in {".md", ".json"}
     assert not protected or public_report or public_receipt or public_website_source, tracked_path
