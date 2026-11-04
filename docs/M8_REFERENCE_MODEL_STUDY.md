@@ -129,7 +129,8 @@ restricted measurements, or empirical athlete data. It describes one public
 train/validation seed pair for a retired formulation; it does not establish
 empirical recovery performance, exact M2 replay, or a production benchmark
 score. The confidence interval is conditional on the fixed training split.
-M8 remains in progress and no v1.0 release is authorized by this study.
+The M8 status recorded here is historical. This study did not authorize a v1.0
+software release or establish an accepted production evaluator.
 
 From the repository root, rerun the full rich-history study with:
 

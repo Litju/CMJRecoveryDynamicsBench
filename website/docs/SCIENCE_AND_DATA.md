@@ -14,7 +14,7 @@ The preserved scientific source is [`Litju/CMJRecoveryDynamicsBench`](https://gi
 
 `source/manifest.json`, `source/lineage/manifest.json` and `source/exhibition/manifest.json` pin the individual upstream files. Run `npm run build` or `node scripts/prepare-data.mjs --check` to verify those hashes and that `src/data/` and `public/data/` match the expected fixture serialization. These checks are offline. `npm test` independently checks fixture identity, exact displayed values, all 17 diagnostic variants and selection minima, scientific definitions, lineage contracts and the mathematical identities used in the lab.
 
-`source/CITATION.cff` is preserved exactly from the scientific repository and identifies Julio Rodriguez, version 0.1.0. That frozen citation is historical evidence for the receipt. For current software citation use the repository-root `CITATION.cff` (v1.1 candidate metadata); the current published release remains v1.0.0. The website has no separate scientific result.
+`source/CITATION.cff` is preserved exactly from the scientific repository and identifies Julio Rodriguez, version 0.1.0. That frozen citation is historical evidence for the receipt. For the current software citation, use the repository-root `CITATION.cff` and the [published v1.1.0 release](https://github.com/Litju/CMJRecoveryDynamicsBench/releases/tag/v1.1.0). The website has no separate scientific result.
 
 ## What the active numbers mean
 

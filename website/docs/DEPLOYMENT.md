@@ -11,27 +11,23 @@ The public Recovery Observatory research exhibit is served at **https://recovery
 | Production branch | `main` |
 | GitHub deployed commit | `582a8c3f86fad7e20ebb6a5d907a19657ee0d8c2` |
 | Vercel project | `recovery-observatory` |
-| Vercel team | `julitocrztuga-2084s-projects` |
-| Recorded project ID | `prj_aJ0zAG4b0YQHnq15YbnW5WlrVgH5` |
-| Recorded deployment ID | `dpl_EopioesVCbzn65MCd9fEufjy5ESB` |
 | Production alias | https://recovery-observatory.vercel.app |
-| Status | **READY and HTTP 200**, as recorded by the deployment executor in [RES-539](https://linear.app/alignerr-cmj/issue/RES-539) |
-| Deployment protection | Public production URL; preview deployments protected, per RES-539 |
+| Status | **READY and HTTP 200**, as recorded in the 2026-10-21 deployment handoff |
+| Deployment protection | Public production URL; preview deployments protected at that time |
 | Search indexing | `noindex,nofollow`; no custom domain or canonical meta URL |
 
 The executor recorded live Chromium validation, including the 96 benchmark configurations and the scientific fixture hashes. The deployed commit is also the canonical GitHub `main` commit after merged [PR #11](https://github.com/Litju/CMJRecoveryDynamicsBench/pull/11). The [PR #11 hosted Website CI run](https://github.com/Litju/CMJRecoveryDynamicsBench/actions/runs/39541281041) passed.
 
-**Verification boundary:** a separate reviewer on 2026-10-21 could verify the GitHub tree, committed scientific receipt and hosted CI, but the connected Vercel API returned `404 Project not found` for the reported team/project/deployment, and that reviewer could not fetch the public URL. This is a connector/access limitation, not a demonstrated deployment outage. If verifying operational state afresh, use the authenticated [Vercel project dashboard](https://vercel.com/julitocrztuga-2084s-projects/recovery-observatory) or an authorized CLI session.
+**Verification boundary:** a separate reviewer on 2026-10-21 could verify the GitHub tree, committed scientific receipt and hosted CI, but could not access deployment metadata through the connected Vercel API or fetch the public URL. This was an access limitation, not a demonstrated outage. The production alias and source were verified again during the 2026-11-04 release handoff below.
 
-**Historical deployment-hostname discrepancy (2026-10-21):** RES-539 and a separate handoff recorded different immutable `*.vercel.app` hostnames for an older deployment ID. That older ID remains unreconciled; it does not block the current production check below. The stable production alias is the verified public link.
+**Historical deployment-hostname discrepancy (2026-10-21):** separate handoff records listed different immutable `*.vercel.app` hostnames for an older deployment. That old hostname discrepancy is retained as historical context; the stable production alias below is the verified public link.
 
-## Release handoff production verification (2026-11-04)
+## Production verification snapshot (2026-11-04 06:20 UTC)
 
 The authorized Vercel CLI verified the production alias at
-https://recovery-observatory.vercel.app. At 04:51 UTC it returned HTTP 200. The
-latest production deployment was `dpl_8vvguu9UhpYFVEJ5XtzghTFwACJF`, status
-**READY**, created at 04:05:02 UTC from canonical `main` commit
-`16ae07f`. Its build log reports a successful
+https://recovery-observatory.vercel.app. It returned HTTP 200. The production
+deployment was **READY** and built from canonical `main` commit `401f87a`. Its
+build log reports a successful
 `npm ci` with zero known vulnerabilities, verified scientific fixture provenance,
 a completed static build and deployment. The merged PR #34 editorial styling is
 therefore present in production.
@@ -84,12 +80,12 @@ The production project is Git-linked to the **existing canonical repository**, r
 
 1. Make changes on a scoped branch and open a PR into canonical `main`. Require successful hosted Website CI: clean npm install, typecheck, 15+ scientific fixture/unit tests, static build and Chromium browser tests.
 2. Merge only after review. Vercel's Git integration should build from the new `main` SHA. Confirm the exact deployed SHA, project settings, build logs, READY state and production alias before declaring the release complete.
-3. Recheck the live story, Episode Theater, eight-formulation lineage, 96-view benchmark data, Recovery Lab, WebGL/2D fallback, mobile tables, fonts, console and network requests. Verify `/data/results.json` against the pinned source and its hashes. The latest [RES-539 report](https://linear.app/alignerr-cmj/issue/RES-539) records the first live campaign; it does not substitute for testing future deployments.
+3. Recheck the live story, Episode Theater, eight-formulation lineage, 96-view benchmark data, Recovery Lab, WebGL/2D fallback, mobile tables, fonts, console and network requests. Verify `/data/results.json` against the pinned source and its hashes. The 2026-10-21 deployment receipt records the first live campaign; it does not substitute for testing future deployments.
 4. If production regresses, use the authorized Vercel dashboard to roll back the production alias to the last known READY deployment, and record both source SHAs/deployment IDs. Do not rewrite the Git history or silently repoint the scientific citation.
 5. Keep preview access protection, `noindex,nofollow` and provisional display branding unless the owner separately approves changing them. A public website does **not** imply empirical human validity or historical score replay; the Python package release is a separate publication.
 
 Browser checks currently cover Chromium and emulated mobile. Safari, Firefox, physical device GPUs and live screen readers have not been independently qualified.
-## Historical RES-584 candidate preview
+## Historical atlas preview qualification
 
 The atlas used the same project and static output. Build validation included the
 separate Gate7 manifest. At that time, the preview was not promoted and no release

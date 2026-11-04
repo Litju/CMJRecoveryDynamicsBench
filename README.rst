@@ -68,16 +68,16 @@ rights-withheld authority separately. Historical evidence, private evaluators,
 checkpoints, and restricted empirical data remain external; do not copy them into
 this repository or use them to claim public reproducibility.
 
-M7 was administratively closed with a documented, owner-accepted exception for
-old GitHub-managed pull-request refs. This exception is not historical or
-third-party rights clearance. RES-529 records the earlier candidate qualification;
-the final v1.1.0 source, tag, artifacts and provenance are identified by the
+The earlier public-tree review closed with a documented, owner-accepted exception
+for old GitHub-managed pull-request refs. This exception is not historical or
+third-party rights clearance. Earlier candidate qualification is a historical
+record; the final v1.1.0 source, tag, artifacts and provenance are identified by the
 `official GitHub release <https://github.com/Litju/CMJRecoveryDynamicsBench/releases/tag/v1.1.0>`_.
 The existing ``v1.0.0`` tag and assets remain unchanged. See ``CHANGELOG.md`` for
 the released scope and limitations.
-Current-tree redaction does not sanitize earlier Git history. See
-``docs/M7_PUBLIC_TREE_REDACTION.md``, ``docs/M7_OCCURRENCE_CLASSIFICATION.md``, and
-``docs/M7_QUALIFICATION.md`` for the boundaries and outstanding decisions.
+Current-tree redaction does not sanitize earlier Git history. See the historical
+public-tree and occurrence-classification records in ``docs/INDEX.md`` for those
+boundaries.
 The owner confirms original-project code ownership and approves Apache-2.0
 for that code, with Julio Rodriguez as sole software author. These decisions
 apply to project code only; they do not clear external datasets, restricted
@@ -148,8 +148,8 @@ The production fixed-mode scorer remains unimplemented.
 The public tests exercise synthetic checkpoint fixtures and refusal controls. They
 do not contain original weights or establish empirical validation. Source-side CPU
 inference qualification is distinct from historical CUDA replay: M4–M8 did not
-meet the preserved CUDA tolerances. See the per-model historical findings linked
-from ``docs/RES-546_CPU_SOURCE_INTEGRATION_POLICY.md``. The Windows/NVDA manual
+meet the preserved CUDA tolerances. See the `model-family and safe-loading guide
+<docs/RESEARCH_API.md>`_. The Windows/NVDA manual
 acceptance remains ``SCREEN_READER_ACCEPTANCE_PENDING`` in
 ``docs/GATE7_NVDA_ACCEPTANCE_V1.md``.
 

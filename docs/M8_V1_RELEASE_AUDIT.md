@@ -1,4 +1,8 @@
-# RES-529 independent synthetic release audit
+# Historical v1.0.0 independent synthetic release audit
+
+This audit records the earlier v1.0.0 candidate review. Its disposition and
+publication-status statements below apply to that audit date, not to the current
+v1.1.0 release. The historical evidence and findings are retained.
 
 ## Disposition and reviewed identity
 
@@ -10,7 +14,8 @@ scope are required before a separately authorized version/publication step.
 This report concerns a public synthetic research-software candidate, not exact
 historical reproduction, human athlete validation, or a production scorer.
 No release, tag, version bump, or DOI publication is authorized by this audit.
-RES-291 remains in progress until publication actually occurs.
+At that time, the related publication-tracking issue remained open because
+publication had not occurred.
 
 The audit used a fresh isolated HTTPS clone of
 `https://github.com/Litju/CMJRecoveryDynamicsBench`, detached at `cd13f69f82f8`.
@@ -19,7 +24,7 @@ contained 116 tracked files, 80 package Python modules, 21 test modules, nine
 reviewed documents/receipts, and root metadata. The full immutable commit and
 tree IDs, complete per-file SHA-256 inventory, source archive, commands, logs,
 built distributions, independent outputs and assertion scripts are retained in
-the attached RES-529 evidence bundle. Full Git SHA-1 identifiers and host paths
+the associated private evidence bundle. Full Git SHA-1 identifiers and host paths
 stay outside this report under the existing public-tree boundary policy.
 
 The frozen Git source archive SHA-256 is

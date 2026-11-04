@@ -3419,7 +3419,7 @@ table {
   }
 }
 
-/* RES-536: linked scientific exhibits, using the existing exhibition palette. */
+/* Linked scientific exhibits use the existing exhibition palette. */
 @font-face {
   font-family: "Geist";
   src: url("/fonts/geist-latin.woff2") format("woff2");
