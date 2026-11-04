@@ -366,7 +366,7 @@ def test_public_github_identity_is_allowed_but_private_markers_are_rejected() ->
     assert "ali-999" not in PUBLIC_HISTORICAL_LABELS
 
 
-def test_v1_1_candidate_version_and_scientific_claim_boundary() -> None:
+def test_v1_1_release_version_and_scientific_claim_boundary() -> None:
     metadata = tomllib.loads((REPOSITORY_ROOT / "pyproject.toml").read_text())
     project = metadata["project"]
     assert "setuptools>=84.1.0" in metadata["build-system"]["requires"]
@@ -377,13 +377,16 @@ def test_v1_1_candidate_version_and_scientific_claim_boundary() -> None:
         (REPOSITORY_ROOT / "docs/M8_RELEASE_NOTES.md").read_text().casefold().split()
     )
     assert "official github release" in readme
-    assert "release candidate" in readme
+    assert "v1.1.0" in readme
+    assert "release candidate" not in readme
     assert "matching official github release/tag" in historical_notes
     assert "production fixed-mode scorer remains unimplemented" in readme
     assert "neither ood robustness nor human athlete performance" in readme
     assert "fixed-mode production scorer is unimplemented" in historical_notes
-    assert "not empirical athlete validation" in notes
+    assert "not proof of predictive accuracy" in notes
     assert "m4–m8" in notes
+    assert "not a gate7-native four-cell score" in notes
+    assert "clinical utility" in notes
 
 
 def test_license_and_citation_versions_match_package_metadata() -> None:

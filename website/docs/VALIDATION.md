@@ -1,4 +1,18 @@
-# Final validation · 2026-10-20
+# Historical local validation · 2026-10-20
+
+## Production check at v1.1.0 release handoff (2026-11-04)
+
+The authorized Vercel CLI verified the current production alias
+https://recovery-observatory.vercel.app at HTTP 200. Deployment
+`dpl_8vvguu9UhpYFVEJ5XtzghTFwACJF` was **READY**, built from canonical `main`
+commit `16ae07f`, and its logs show a successful
+static build with fixture provenance verification. This confirms that PR #34's
+editorial styling is present. GitHub Website CI also passed on that exact commit
+(run [41771009761](https://github.com/Litju/CMJRecoveryDynamicsBench/actions/runs/41771009761)).
+
+This is a dated check; later `main` updates may trigger another automatic
+deployment. The Python package release does not authorize a manual Vercel
+promotion. See [deployment operations](DEPLOYMENT.md) for the read-only check.
 
 **Validated source/test revision:** `3ab3bc4` (`fix(metadata): separate scientific source attribution`). Documentation and capture evidence follow in the RES-537 documentation commit.
 

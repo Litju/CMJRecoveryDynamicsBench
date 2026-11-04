@@ -1,6 +1,6 @@
 # Scientific plots and 3D upgrade · 2026-10-20
 
-This report records the plot implementation iteration. Its browser-test count and capture set are historical; use [the final validation report](../VALIDATION.md) for the current release candidate.
+This report records the plot implementation iteration. Its browser-test count and capture set are historical; use [the current validation report](../VALIDATION.md) for the release status.
 
 The existing editorial exhibition is preserved. Every figure now uses a light paper surface with dark ink, cobalt, terracotta and ochre across Recharts, SVG and WebGL, with consistent square tooltips, grid lines, model legends and selection states.
 

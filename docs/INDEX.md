@@ -1,8 +1,8 @@
 # Research documentation index
 
-Gate7 v1.1 is a release candidate. The historical v1.0.0 release and fixed-mode
-M8 receipts retain their original identities. Neither recovered inference nor
-synthetic qualification establishes athlete predictive accuracy.
+Gate7 v1.1.0 is the published software release. The historical v1.0.0 release and
+fixed-mode M8 receipts retain their original identities. Recovered CPU inference
+and synthetic qualification do not establish athlete predictive accuracy.
 
 | Start here | Reference |
 | --- | --- |

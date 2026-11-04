@@ -1,10 +1,11 @@
 # Changelog
 
-## 1.1.0 — release candidate (not yet published)
+## 1.1.0 — 2026-11-04
 
-This candidate packages the Gate7 engineering interfaces already integrated into
-`main`. It changes release metadata and documentation; it does not retrain models,
-change scientific results, or alter the historical `v1.0.0` release.
+This release packages the Gate7 engineering interfaces integrated into `main`.
+It does not retrain models, change scientific results, or alter the historical
+`v1.0.0` release. The matching annotated tag and public artifacts are published
+on the [GitHub release page](https://github.com/Litju/CMJRecoveryDynamicsBench/releases/tag/v1.1.0).
 
 ### Included
 
@@ -29,18 +30,26 @@ change scientific results, or alter the historical `v1.0.0` release.
 
 ### Release boundary and limitations
 
+- Recovered CPU inference verifies execution contracts; it is not proof of
+  predictive accuracy. This software has no established human-athlete predictive
+  validity, clinical utility, or production readiness.
+- Original historical results and newly generated synthetic results have different
+  evidence authority. The public M8 six-cell NRMSE comparison is a historical
+  synthetic result and is not a Gate7-native four-cell score.
+- The public synthetic rich-history reproduction retains the documented row-count
+  differences: training 15,134 vs 15,182 and validation 3,799 vs 3,795. These are
+  not silently reconciled or presented as historical score replay.
 - Model checkpoints, private hash pins, restricted observations, and private
   execution evidence are not included. A package installation does not authorize
   checkpoint use, empirical scoring, or disclosure.
-- Synthetic fixtures and engineering qualification are not empirical athlete
-  validation and do not establish human-athlete predictive validity, clinical
-  utility, or production readiness. Historical results retain their original
-  identities and limitations.
 - CPU-source reproducibility is distinct from historical CUDA replay. M4–M8 remain
-  outside their recorded historical CUDA tolerances; those criteria are unchanged.
+  outside their recorded historical CUDA tolerances; the discrepancies remain
+  unresolved and the criteria are unchanged.
 - The Windows/NVDA manual acceptance remains
   `SCREEN_READER_ACCEPTANCE_PENDING` until a qualified session is completed.
-- The official `v1.0.0` GitHub release remains the current published release. This
-  candidate is not a publication, DOI, tag, or production deployment.
+- The `v1.0.0` release remains a distinct historical publication. No PyPI,
+  Zenodo, DOI, or manual Vercel production promotion is part of this release.
+- The Recovery Observatory is a separately deployed static website. Python release
+  publication does not itself deploy or promote the site.
 
 See `README.rst` for installation and supported entrypoints.

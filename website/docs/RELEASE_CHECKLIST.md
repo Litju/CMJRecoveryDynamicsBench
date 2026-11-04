@@ -1,21 +1,23 @@
 # Recovery Observatory — release checklist and current decision
 
-## Current Gate7 candidate boundary — 2026-11-03
+## v1.1.0 release state — 2026-11-04
 
-The published scientific release is v1.0.0. Gate7 v1.1.0 was integrated at
-`08c31e0` but is not tagged or published. The RES-584 atlas is a separate
-reviewable website/documentation candidate. See [the documentation index](../../docs/INDEX.md)
-and [atlas qualification](ATLAS_VALIDATION.md). Earlier PR/release statuses below
-are retained as dated evidence and do not describe current release state.
+The Gate7 v1.1.0 Python software release is published with a matching annotated
+tag and verified wheel, source distribution, checksum manifest and provenance
+file. See the [GitHub release](https://github.com/Litju/CMJRecoveryDynamicsBench/releases/tag/v1.1.0).
+The `v1.0.0` release and assets remain a distinct historical publication. The
+Recovery Observatory is a separately deployed static website; its production
+verification is recorded in [deployment operations](DEPLOYMENT.md). See
+[the documentation index](../../docs/INDEX.md) and
+[atlas qualification](ATLAS_VALIDATION.md).
 
-- Require exact-head Website CI and inspect the linked Vercel preview.
 - Preserve frozen M8 receipts and all original CUDA failures.
 - Keep Windows/NVDA acceptance explicitly pending.
-- Owner approval is required before merge, production promotion, tagging or release.
+- This publication does not include PyPI, Zenodo, DOI, or manual Vercel production promotion.
 
 
 
-**Historical assessment:** 2026-10-21, after the first public Vercel deployment. This supersedes the former **pre-publication** status in this document; it does not rewrite the historical qualification evidence.
+**Historical assessment:** 2026-10-21, after the first public Vercel deployment. It does not rewrite the historical qualification evidence.
 
 ## Historical release surfaces (2026-10-21)
 

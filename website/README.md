@@ -82,9 +82,9 @@ The lockfile also contains Next.js's optional Sharp/libvips image packages; some
 
 ## Release state
 
-Recovery Observatory is integrated at website/ in the existing canonical repository, Litju/CMJRecoveryDynamicsBench. The owner approved Apache-2.0 for Julio Rodriguez-authored website source; the approval is recorded in RES-538. The public production site is https://recovery-observatory.vercel.app. Site metadata continues to block indexing, and no custom domain is configured. The published scientific release is v1.0.0; integrated Gate7 v1.1.0 remains a release candidate. This static showcase does not establish athlete validity or qualify a production scorer.
+Recovery Observatory is integrated at `website/` in the canonical repository, Litju/CMJRecoveryDynamicsBench. The owner approved Apache-2.0 for Julio Rodriguez-authored website source; the approval is recorded in RES-538. The public production site is https://recovery-observatory.vercel.app. Site metadata continues to block indexing, and no custom domain is configured. The published Python software release is v1.1.0; the site remains a separately deployed static exhibit. It does not establish athlete validity or qualify a production scorer.
 
-See [current validation evidence](docs/VALIDATION.md), [deployment readiness](docs/DEPLOYMENT.md) and the [release decision](docs/RELEASE_CHECKLIST.md). The site deploys from the canonical repository; no separate repository, custom domain, Python release or tag was created by this work.
+See [validation evidence](docs/VALIDATION.md), [deployment operations](docs/DEPLOYMENT.md) and the [release record](docs/RELEASE_CHECKLIST.md). The site deploys from the canonical repository; the Python v1.1.0 release is a separate publication and does not imply a manual site promotion.
 
 ## Gate7 research atlas
 
@@ -94,4 +94,4 @@ H72/D7 windows. Start the seven-chapter guided tour, or open `#model-atlas`. Rou
 selections are shareable with `?architecture=additive-basis-model&run=2#model-atlas`.
 
 See the [documentation index](../docs/INDEX.md) and [figure regeneration guide](docs/GATE7_ATLAS.md).
-The atlas is a release-candidate presentation, not an inference service or accuracy claim.
+The atlas is a research presentation, not an inference service or accuracy claim.
