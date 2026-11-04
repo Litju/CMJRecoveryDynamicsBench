@@ -1,0 +1,194 @@
+{
+  "artifact_file_checksums": "External final-artifact manifest; the sdist includes this receipt, so its checksum cannot be self-contained.",
+  "audited_package_source_sha256": "12e9e192accefb867707765098a4dd9eeabfd735097646fa4d4bcae5db60d0c3",
+  "base_main_abbreviated": "3dc4c82f0c94",
+  "checks": {
+    "approved_documents_in_sdist": 13,
+    "cff_1_2_schema": "PASS",
+    "current_tree_and_artifact_boundary": "PASS",
+    "external_imports": "80 of 80 modules from site-packages on Python 3.12 and 3.13",
+    "installed_rebuilt_wheel_representative_tests": 18,
+    "metadata_versions": "1.0.0 in pyproject, CFF, exported version, installed distribution and fallback runtime fingerprint",
+    "pytest_python_312": 321,
+    "pytest_python_313_installed_package": 321,
+    "registered_matrix_cli": "PASS",
+    "ruff_check": "PASS",
+    "ruff_format": "PASS",
+    "sdist_file_members": 126,
+    "strict_pyright": "0 errors, 0 warnings, 0 informations",
+    "strict_rst": "PASS",
+    "strict_twine_wheel_and_sdist": "PASS",
+    "wheel_and_extracted_sdist_build_install": "PASS",
+    "wheel_file_members": 85
+  },
+  "metadata_normalized_package_source_sha256": "12e9e192accefb867707765098a4dd9eeabfd735097646fa4d4bcae5db60d0c3",
+  "new_model_campaign": false,
+  "normalization": "Replace only the __version__ literal in __init__.py and package_version fallback literal in reproducibility/execution.py from 1.0.0 back to 0.1.0 before hashing; all other package bytes are identical.",
+  "original_experiment_receipt_sha256": {
+    "docs/M8_FIXED_MODE_PUBLIC_REFERENCE_RESULTS.json": "cd991366c30a29723318b034bcbacff357544eff8d529678fcdcd849b0f08ce9",
+    "docs/M8_PUBLIC_REPRODUCTION_RECEIPTS.json": "f1b0ca32ba0966330cf152a9457b4e9a47f208779b3b18776ee4914d7ace084a"
+  },
+  "original_experiment_receipts_unchanged": true,
+  "owner_approval_required_for": [
+    "merge publication PR",
+    "create release tag",
+    "publish or upload distributions",
+    "create DOI/archive publication"
+  ],
+  "package_source_sha256": "963bc8994ed31c9783f6d0d8ed8d11136e165d202f366d18d7d64de8f40717b7",
+  "pilot": {
+    "comparison_excludes": [
+      "study_code_sha",
+      "pilot_seconds"
+    ],
+    "development": {
+      "camp_unit_identity_sha256": "93db2257b89306d2f13d784aa49a78c23da63c46bca2d53d665c97a5fbd7a8e1",
+      "camps": 2,
+      "episodes": 500,
+      "grouping_keys": {
+        "episode_key": {
+          "sha256": "f047350e6483cb173e811623509f1e05e10dcf5d629dc7463d60020df710ff66",
+          "unique_values": 500
+        },
+        "participant_key": {
+          "sha256": "378d7d4e4dca9d62a7954d4140363d606e73b213f0eb79c0b93bc9d7bc45c8bd",
+          "unique_values": 500
+        },
+        "query_key": {
+          "sha256": "92c3a13887a175fbfe7a0158de007ad45eea771b7952559db22ed1fd963abcb8",
+          "unique_values": 1500
+        }
+      },
+      "labels": {
+        "label.relative_concentric_net_impulse_innovation": {
+          "missing": 0,
+          "observed": 1500
+        },
+        "label.relative_mean_concentric_force_innovation": {
+          "missing": 0,
+          "observed": 1500
+        }
+      },
+      "root_seed": "cmj-v2-oss-clean-room-root",
+      "row_stream_sha256": "e898eb92ab100ab8e877e3381e1d093692ea9ec9578b22d3a3c078846533014f",
+      "rows": 1500,
+      "seed_kind": "oss_clean_room",
+      "split": "public_validation"
+    },
+    "feature_contract": {
+      "encoded_feature_names_sha256": "4a5e26c6e1776ab3395bce979fe2a2da7a52b15d044fecac59908642e852097a",
+      "encoded_fields": 84,
+      "grouping_keys_as_predictors": false,
+      "horizon_encoding": "one-hot over the registered H24/H48/H72 forecast horizon",
+      "missing_predictors": "rejected; the public 82-field projection is complete",
+      "numeric_preprocessing": "training-only mean and population SD; zero SD set to one",
+      "schema": "single_exposure_public_predictor_fields",
+      "source_field_names_sha256": "3ff19dcc79ef24338bfb807467c558fbec63e44c9c338846b1770fff12573e54",
+      "source_fields": 82,
+      "target_labels_as_predictors": false,
+      "target_time_or_post_query_fields": "absent from the registered 82-field schema"
+    },
+    "purpose": "Existing deterministic 4-training/2-development-camp artifact smoke test; no model fitting, alpha selection or new evaluation campaign",
+    "training": {
+      "camp_unit_identity_sha256": "15d08bcee708952c7d73d615259bea38867d7c2856d66126f03710b44743eb43",
+      "camps": 4,
+      "episodes": 1000,
+      "grouping_keys": {
+        "episode_key": {
+          "sha256": "4c08d7ed41dd315d6629310bcae435c1cee49843aeaf418e12f93f5d26c818b1",
+          "unique_values": 1000
+        },
+        "participant_key": {
+          "sha256": "95eba86377059a1493e98a59293f707c13b27e447e072b59e556b67b651dd3fc",
+          "unique_values": 1000
+        },
+        "query_key": {
+          "sha256": "767d690c77408bbc3a02544db8785424b386ec400f33015f486e9ca40960fd0e",
+          "unique_values": 3000
+        }
+      },
+      "labels": {
+        "label.relative_concentric_net_impulse_innovation": {
+          "missing": 0,
+          "observed": 3000
+        },
+        "label.relative_mean_concentric_force_innovation": {
+          "missing": 0,
+          "observed": 3000
+        }
+      },
+      "root_seed": "cmj-v2-oss-clean-room-root",
+      "row_stream_sha256": "48a985dd24d396deb3e820db394bc43b5d1837028b9dd6a45c907e246226b867",
+      "rows": 3000,
+      "seed_kind": "oss_clean_room",
+      "split": "training"
+    },
+    "wheel_rebuilt_sdist_and_original_audit_scientific_fields_match": true,
+    "zero_baseline_development_result": {
+      "cells": [
+        {
+          "cell": "H24/relative_peak_mean_force_innovation",
+          "nrmse": 3.1195028386468957,
+          "rmse": 1.2058684428506632,
+          "rows": 500,
+          "truth_population_sd": 0.3865578924665176
+        },
+        {
+          "cell": "H24/net_impulse_innovation",
+          "nrmse": 2.737774831787072,
+          "rmse": 0.14681058267877253,
+          "rows": 500,
+          "truth_population_sd": 0.05362405299888833
+        },
+        {
+          "cell": "H48/relative_peak_mean_force_innovation",
+          "nrmse": 2.553563729900039,
+          "rmse": 0.7715031155100598,
+          "rows": 500,
+          "truth_population_sd": 0.3021280050607003
+        },
+        {
+          "cell": "H48/net_impulse_innovation",
+          "nrmse": 2.2242665703213365,
+          "rmse": 0.09170496113640023,
+          "rows": 500,
+          "truth_population_sd": 0.04122930333982035
+        },
+        {
+          "cell": "H72/relative_peak_mean_force_innovation",
+          "nrmse": 2.109282976494856,
+          "rmse": 0.5489020137024149,
+          "rows": 500,
+          "truth_population_sd": 0.26023156675476705
+        },
+        {
+          "cell": "H72/net_impulse_innovation",
+          "nrmse": 1.9069555069773954,
+          "rmse": 0.06736948678884114,
+          "rows": 500,
+          "truth_population_sd": 0.035328295045344085
+        }
+      ],
+      "mean_six_cell_nrmse": 2.4418910756879324,
+      "unclipped_research_progress": -1.4418910756879324
+    }
+  },
+  "publication_status": "UNPUBLISHED_AWAITING_OWNER_APPROVAL",
+  "published": false,
+  "qualification_status": "PASS",
+  "qualification_study_code_abbreviated": "d522451b261c",
+  "qualified_utc": "2026-10-19T00:35:27.802358+00:00",
+  "release_tag_created": false,
+  "schema_version": 1,
+  "scientific_change_scope": "78 Python modules byte-identical; only exported version and fallback provenance version constants changed in the other two; no generator/scorer/study logic changed",
+  "scientific_limits": [
+    "synthetic research only",
+    "historical replay remains partial",
+    "active production scorer unimplemented",
+    "three same-world roots and 16 camp clusters per active root",
+    "alpha selected at lower grid boundary",
+    "no empirical athlete or OOD validation"
+  ],
+  "selection_lock_compatibility": "Pre-1.0 package-bound locks remain invalid on 1.0.0; use the original frozen snapshot for exact historical receipt replay.",
+  "version": "1.0.0"
+}

@@ -1,6 +1,7 @@
 """Protect the clean scientific namespace and repository artifact boundary."""
 
 import ast
+import hashlib
 import re
 import subprocess
 import tomllib
@@ -93,6 +94,14 @@ ROOT_FILE_ALLOWLIST = {
     "NOTICE",
     "MANIFEST.in",
 }
+MANUSCRIPT_ROOT = REPOSITORY_ROOT / "docs" / "manuscript"
+PUBLIC_MANUSCRIPT_FILES = {
+    "docs/manuscript/" + path: digest
+    for digest, path in (
+        line.split("  ", 1) for line in (MANUSCRIPT_ROOT / "SHA256SUMS").read_text().splitlines()
+    )
+}
+PUBLIC_MANUSCRIPT_MANIFEST = "docs/manuscript/SHA256SUMS"
 PUBLIC_DIRECTORY_ALLOWLIST = {"src", "tests", "docs", "website", ".github"}
 PUBLIC_RECONCILIATION_COMMITS = {
     "08c31e0876edea14e0eb6" + "132d08c1b2705c1cfc9",
@@ -264,6 +273,27 @@ def test_scientific_source_and_test_paths_use_no_historical_identifiers() -> Non
                 assert relative in HISTORICAL_PATH_ALLOWLIST
 
 
+def test_manuscript_export_matches_reviewed_manifest() -> None:
+    for relative, expected in PUBLIC_MANUSCRIPT_FILES.items():
+        path = Path(relative)
+        assert ".." not in path.parts
+        assert not {"private", "external"}.intersection(path.parts)
+        assert path.suffix in {
+            "",
+            ".md",
+            ".json",
+            ".csv",
+            ".pdf",
+            ".svg",
+            ".png",
+            ".py",
+            ".txt",
+            ".bib",
+            ".cff",
+        }
+        assert hashlib.sha256((REPOSITORY_ROOT / path).read_bytes()).hexdigest() == expected
+
+
 def test_git_tracks_no_protected_artifact_class() -> None:
     completed = subprocess.run(
         ["git", "ls-files", "-z"],
@@ -278,12 +308,15 @@ def test_git_tracks_no_protected_artifact_class() -> None:
 
 def _assert_public_path(tracked_path: str) -> None:
     path = Path(tracked_path)
+    public_manuscript = (
+        tracked_path in PUBLIC_MANUSCRIPT_FILES or tracked_path == PUBLIC_MANUSCRIPT_MANIFEST
+    )
     if len(path.parts) == 1:
         assert path.name in ROOT_FILE_ALLOWLIST, tracked_path
     else:
         assert path.parts[0] in PUBLIC_DIRECTORY_ALLOWLIST, tracked_path
         if path.parts[0] == "docs":
-            assert tracked_path in PUBLIC_DOCUMENT_ALLOWLIST, tracked_path
+            assert tracked_path in PUBLIC_DOCUMENT_ALLOWLIST or public_manuscript, tracked_path
     assert not path.name.startswith(".env"), tracked_path
     protected = any(tracked_path.endswith(suffix) for suffix in PROTECTED_SUFFIXES)
     public_report = (
@@ -291,7 +324,13 @@ def _assert_public_path(tracked_path: str) -> None:
     ) and path.suffix == ".md"
     public_receipt = tracked_path in PUBLIC_MACHINE_RECEIPT_ALLOWLIST and path.suffix == ".json"
     public_website_source = path.parts[0] == "website" and path.suffix in {".md", ".json"}
-    assert not protected or public_report or public_receipt or public_website_source, tracked_path
+    assert (
+        not protected
+        or public_report
+        or public_receipt
+        or public_website_source
+        or public_manuscript
+    ), tracked_path
     protected_directories = PROTECTED_DIRECTORY_NAMES.intersection(
         part.lower() for part in path.parts
     )
@@ -320,6 +359,8 @@ def _assert_public_path(tracked_path: str) -> None:
         "tests/private-evaluation/scorer.py",
         "docs/unreviewed.md",
         "docs/unreviewed.json",
+        "docs/manuscript/evidence/private/checkpoint.pt",
+        "docs/manuscript/unreviewed.md",
     ),
 )
 def test_public_boundary_rejects_protected_artifact_paths(tracked_path: str) -> None:
@@ -343,6 +384,10 @@ def test_tracked_text_has_no_machine_paths_or_secret_markers() -> None:
             continue
         source = content.decode("utf-8")
         relative = path.relative_to(REPOSITORY_ROOT)
+        if relative.as_posix() in PUBLIC_MANUSCRIPT_FILES:
+            assert (
+                hashlib.sha256(content).hexdigest() == PUBLIC_MANUSCRIPT_FILES[relative.as_posix()]
+            )
         assert PRIVATE_MACHINE_PATH.search(source) is None, relative
         assert PRIVATE_KEY.search(source) is None, relative
         assert all(pattern.search(source) is None for pattern in SECRET_PATTERNS), relative
@@ -350,7 +395,8 @@ def test_tracked_text_has_no_machine_paths_or_secret_markers() -> None:
             PUBLIC_RECONCILIATION_COMMITS if relative.parts[0] == "website" else ()
         ):
             source = source.replace(public_reference, "")
-        assert SHA1_OBJECT_REFERENCE.search(source) is None, relative
+        if relative.as_posix() not in PUBLIC_MANUSCRIPT_FILES:
+            assert SHA1_OBJECT_REFERENCE.search(source) is None, relative
 
 
 def test_public_github_identity_is_allowed_but_private_markers_are_rejected() -> None:

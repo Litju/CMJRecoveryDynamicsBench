@@ -1,0 +1,19 @@
+model,repeat,parameters,inputs,architecture,cpu_source,saved_cuda,output
+M0,r0,1346,39 raw features,39 → 32 → 2; exact GELU,Exact source parity,Within recorded tolerance,force N/kg; net impulse m/s; additive innovations
+M0,r1,1346,39 raw features,39 → 32 → 2; exact GELU,Exact source parity,Within recorded tolerance,force N/kg; net impulse m/s; additive innovations
+M1,r0,2690,39 raw features,39 → 64 → 2; exact GELU,Exact source parity,Within recorded tolerance,force N/kg; net impulse m/s; additive innovations
+M1,r1,2690,39 raw features,39 → 64 → 2; exact GELU,Exact source parity,Within recorded tolerance,force N/kg; net impulse m/s; additive innovations
+M2,r0,6850,39 raw features,39 → 64 → 64 → 2; exact GELU,Exact source parity,Within recorded tolerance,force N/kg; net impulse m/s; additive innovations
+M2,r1,6850,39 raw features,39 → 64 → 64 → 2; exact GELU,Exact source parity,Within recorded tolerance,force N/kg; net impulse m/s; additive innovations
+M3,r0,7138,39 raw + 4 × 4 history,Raw backbone + pointwise history encoder; mean/latest pooling → 128 → 2,Exact source parity,Within recorded tolerance,force N/kg; net impulse m/s; additive innovations
+M3,r1,7138,39 raw + 4 × 4 history,Raw backbone + pointwise history encoder; mean/latest pooling → 128 → 2,Exact source parity,Within recorded tolerance,force N/kg; net impulse m/s; additive innovations
+M4,r0,10626,39 raw + 4 × 4 history,Raw backbone + 4 → 32 GRU; mean/latest pooling → 128 → 2,Exact source parity,Outside recorded tolerance,force N/kg; net impulse m/s; additive innovations
+M4,r1,10626,39 raw + 4 × 4 history,Raw backbone + 4 → 32 GRU; mean/latest pooling → 128 → 2,Exact source parity,Outside recorded tolerance,force N/kg; net impulse m/s; additive innovations
+M5,r0,10658,39 raw + 4 × 4 history + horizon,M4 + 2 × 8 horizon embedding → 136 → 2,Exact source parity,Outside recorded tolerance,force N/kg; net impulse m/s; additive innovations
+M5,r1,10658,39 raw + 4 × 4 history + horizon,M4 + 2 × 8 horizon embedding → 136 → 2,Exact source parity,Outside recorded tolerance,force N/kg; net impulse m/s; additive innovations
+M6,r0,10738,39 raw + 4 × 4 history + horizon + 5 basis values,M5 + first two basis values → 16 → 152 → 2,Exact source parity,Outside recorded tolerance,force N/kg; net impulse m/s; additive innovations
+M6,r1,10738,39 raw + 4 × 4 history + horizon + 5 basis values,M5 + first two basis values → 16 → 152 → 2,Exact source parity,Outside recorded tolerance,force N/kg; net impulse m/s; additive innovations
+M7,r0,10786,39 raw + 4 × 4 history + horizon + 5 basis values,M5 + all five basis values → 16 → 152 → 2,Exact source parity,Outside recorded tolerance,force N/kg; net impulse m/s; additive innovations
+M7,r1,10786,39 raw + 4 × 4 history + horizon + 5 basis values,M5 + all five basis values → 16 → 152 → 2,Exact source parity,Outside recorded tolerance,force N/kg; net impulse m/s; additive innovations
+M8,r0,10796,39 raw + 4 × 4 history + horizon + 5 basis values,M7 + bias-free 5 → 2 linear basis head,Exact source parity,Outside recorded tolerance,force N/kg; net impulse m/s; additive innovations
+M8,r1,10796,39 raw + 4 × 4 history + horizon + 5 basis values,M7 + bias-free 5 → 2 linear basis head,Exact source parity,Outside recorded tolerance,force N/kg; net impulse m/s; additive innovations

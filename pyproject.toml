@@ -26,6 +26,8 @@ pythonpath = ["src"]
 addopts = "-q"
 
 [tool.ruff]
+# Preserve the archived scientific source and standalone manuscript-generation code.
+extend-exclude = ["docs/manuscript"]
 line-length = 100
 target-version = "py312"
 
