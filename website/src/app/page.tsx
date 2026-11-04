@@ -36,7 +36,7 @@ export default function Home() {
             <a href="#lineage">Research lineage</a>
             <a href="#explorer">Benchmark</a>
             <a href="#lab">Recovery lab</a>
-            <a href="#gate7">Gate7 atlas</a>
+            <a href="#model-atlas">Model atlas</a>
             <a href="#research-docs">Methods</a>
           </nav>
           <a
@@ -154,7 +154,7 @@ export default function Home() {
             <Activity size={20} />
             {brand.name}
           </a>
-          <p>A provisional identity. A reproducible foundation.</p>
+          <p>Open methods. Traceable evidence.</p>
         </div>
         <div className="footer-links">
           <a href={sourceLink("CITATION.cff")}>

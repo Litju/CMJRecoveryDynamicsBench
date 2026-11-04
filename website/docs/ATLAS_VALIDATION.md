@@ -31,3 +31,22 @@ claim is made. Local static export size was approximately 2.8 MiB (`du -sh out`)
 which is disk size, not transferred size or a latency benchmark.
 
 Section screenshots omit fixed header/skip-link chrome to keep the captured figure unobscured.
+
+## Editorial revision — 2026-11-03
+
+Restored the existing warm-paper, ink, cobalt and vermilion design throughout the
+model, mechanics and tour sections. Scientific SVGs now use the shared plot theme.
+Public copy, navigation and newly generated share links use descriptive research
+and architecture names; original model identifiers remain in technical references.
+Legacy shared links still restore their model and run.
+
+The revised browser test checks inherited surface/accent colors, square controls,
+absence of internal project/issue labels in visible copy, all 18 selections,
+legacy restoration and descriptive-URL reload, keyboard controls, SVG download,
+axe, and 320/390/768/1440 layouts. The revised desktop/mobile captures replace the
+initial dark-atlas captures. Unit tests (18), strict TypeScript, production export
+and the focused browser test passed locally.
+
+The lineage explorer also uses readable status labels and keeps canonical source
+identifiers inside its methods disclosure. Its three desktop/mobile/keyboard
+story tests passed after updating the expected public labels.

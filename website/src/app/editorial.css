@@ -2800,20 +2800,59 @@ html { scroll-padding-top: 0; }
   }
 }
 
-/* The Gate7 reconstruction lane intentionally uses dark scientific surfaces. */
-.atlas-wrap, .atlas-tour {
-  --text: #eef2ef;
-  --mint: #a9f5dc;
-  --muted: #bdccca;
-  --line: #405157;
-  --panel: #152126;
-  color: #eef2ef;
-  color-scheme: dark;
-}
-.atlas-wrap h2, .atlas-wrap h3, .atlas-tour h2 { color: #eef2ef; }
-.atlas-wrap .eyebrow, .atlas-tour .eyebrow { color: #a9f5dc; }
-.atlas-wrap .atlas-detail h3 { color: #a9f5dc; }
-.atlas-wrap button, .atlas-tour button { color: #eef2ef; background: #182b31; }
-.atlas-wrap button[aria-pressed="true"] { color: #10191d; background: #a9f5dc; }
-.atlas-wrap, .atlas-tour { --cobalt: #a9f5dc; }
-.atlas-wrap button[aria-pressed="true"]:hover { color: #10191d; }
+/* Model and measurement chapters continue the existing scientific field journal. */
+.atlas-wrap { border-top: 1px solid var(--line); }
+.atlas-section { padding-block: 90px; scroll-margin-top: 80px; }
+.atlas-heading { display: grid; grid-template-columns: 1.25fr 1fr; gap: 64px; align-items: end; margin-bottom: 36px; }
+.atlas-section h2 { font: 400 clamp(32px, 3.6vw, 52px)/1.1 var(--editorial); letter-spacing: -1px; margin: 18px 0 28px; }
+.atlas-section h2 em { color: var(--vermilion); font-weight: 400; }
+.atlas-heading > p { font-size: 16px; color: var(--muted); line-height: 1.8; }
+.atlas-stats { display: grid; grid-template-columns: repeat(3, 1fr); border-block: 1px solid var(--line); margin-bottom: 36px; padding: 24px 0; gap: 20px; }
+.atlas-stats strong, .atlas-stats span { display: block; }
+.atlas-stats strong { font: 30px var(--editorial); color: var(--ink); }
+.atlas-stats span { font-size: 12px; color: var(--muted); margin-top: 8px; }
+.atlas-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; align-items: start; }
+.atlas-panel { margin: 0; padding: 28px; background: var(--panel); border: 1px solid var(--line); min-width: 0; }
+.atlas-panel h3 { font: 400 30px/1.15 var(--editorial); margin: 14px 0 24px; letter-spacing: -.5px; }
+.atlas-panel p { color: var(--muted); }
+.atlas-panel svg { width: 100%; height: auto; }
+.atlas-panel a { text-decoration: underline; text-underline-offset: 4px; color: var(--cobalt); }
+.route-matrix > div { display: grid; grid-template-columns: 1.2fr 1fr 1fr; gap: 8px; padding: 12px 0; border-bottom: 1px solid var(--line); align-items: center; }
+.route-matrix strong { font-size: 13px; font-weight: 400; line-height: 1.4; }
+.route-matrix > div > span { grid-column: 2 / 4; font: 10px/1.5 var(--mono); color: var(--muted); }
+.atlas-wrap button, .atlas-tour button, .atlas-tour a { min-height: 44px; border: 1px solid #aab8b5; padding: 10px 12px; background: #eceee7; color: var(--ink); cursor: pointer; border-radius: 0; }
+.atlas-wrap button:hover, .atlas-tour button:hover, .atlas-tour a:hover { border-color: var(--cobalt); color: var(--cobalt); }
+.atlas-wrap button[aria-pressed=true] { background: #e4eaf3; color: var(--cobalt); border-color: var(--cobalt); }
+.route-matrix button { font-size: 12px; }
+.route-matrix button span { font-size: 9px; display: block; margin-top: 4px; }
+.atlas-detail h3 { font-size: 36px; color: var(--ink); }
+.atlas-wrap dt { color: var(--muted); font: 10px var(--mono); text-transform: uppercase; margin-top: 22px; letter-spacing: .6px; }
+.atlas-wrap dd { margin: 8px 0; font-size: 14px; line-height: 1.8; }
+.atlas-wrap .atlas-warning { color: var(--vermilion); }
+.atlas-wrap input[type=range] { width: 100%; accent-color: var(--cobalt); margin: 18px 0; min-height: 44px; }
+.atlas-wrap table { width: 100%; border-collapse: collapse; font: 12px var(--mono); }
+.atlas-wrap th, .atlas-wrap td { padding: 10px 5px; border-bottom: 1px solid var(--line); text-align: left; }
+.atlas-wrap details { margin-top: 20px; }
+.atlas-wrap details[open] { max-height: 460px; overflow: auto; }
+.atlas-wrap summary { cursor: pointer; color: var(--cobalt); }
+.atlas-wrap figcaption { font-size: 12px; color: var(--muted); margin-bottom: 12px; }
+.atlas-flow { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; padding: 0; list-style: none; }
+.atlas-flow li { padding: 18px; border-left: 2px solid var(--cobalt); background: #eceee7; }
+.atlas-flow span { display: block; font: 10px var(--mono); color: var(--muted); margin-bottom: 12px; }
+.atlas-limits { border-left: 2px solid var(--vermilion); padding: 10px 24px; margin-top: 30px; max-width: 900px; }
+.atlas-limits h3 { font: 28px var(--editorial); }
+.atlas-limits p { color: var(--muted); line-height: 1.8; }
+.atlas-docs { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 30px; }
+.atlas-docs a { padding: 20px; background: var(--panel); border: 1px solid var(--line); color: var(--cobalt); }
+.atlas-hash { overflow-wrap: anywhere; font-size: 11px; }
+.atlas-tour { display: grid; grid-template-columns: 1.3fr 1fr; gap: 32px; padding: 28px; border-block: 1px solid var(--line); margin-block: 40px; background: var(--panel); }
+.atlas-tour h2 { font: 30px var(--editorial); margin: 10px 0; }
+.atlas-tour p { color: var(--muted); }
+.tour-controls { display: grid; align-content: center; gap: 15px; font-size: 12px; }
+.tour-controls progress { width: 100%; accent-color: var(--cobalt); }
+.tour-controls > div { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+.atlas-tour button:disabled { opacity: .45; cursor: default; }
+@media(max-width:800px) { .atlas-heading, .atlas-grid, .atlas-tour { grid-template-columns: 1fr; gap: 24px; } .atlas-section { padding-block: 60px; } .atlas-panel { padding: 18px; } .atlas-docs, .atlas-flow { grid-template-columns: repeat(2, 1fr); } .atlas-stats strong { font-size: 23px; } .atlas-stats span { font-size: 11px; } }
+@media(max-width:400px) { .route-matrix > div { grid-template-columns: 1fr 1fr; } .route-matrix strong { grid-column: 1 / -1; } .route-matrix > div > span { grid-column: 1 / -1; } }
+@media(prefers-reduced-motion:reduce) { .atlas-wrap *, .atlas-tour * { animation: none!important; transition: none!important; } }
+.formulation-methods .contract-name { color: var(--ink); overflow-wrap: anywhere; }

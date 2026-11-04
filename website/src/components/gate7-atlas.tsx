@@ -1,7 +1,31 @@
 "use client";
 import { useEffect, useState } from "react";
 import { atlas } from "@/lib/gate7";
+import { plotTheme as theme } from "@/lib/plot-theme.mjs";
 import { mechanics } from "@/lib/native-mechanics.mjs";
+const familyNames: Record<string, string> = {
+  M0: "Compact feedforward",
+  M1: "Wide feedforward",
+  M2: "Deep feedforward",
+  M3: "History encoder",
+  M4: "Recurrent history",
+  M5: "Horizon-aware recurrent",
+  M6: "Two-basis recurrent",
+  M7: "Five-basis recurrent",
+  M8: "Additive basis model",
+};
+const sourceTitles = [
+  "Inference verification",
+  "CPU reproduction policy",
+  "Additive model recovery",
+  "Measurement methods",
+  "Feedforward and recurrent implementations",
+  "Five-basis implementation",
+  "Additive-basis implementation",
+];
+const familySlug = (id: string) =>
+  familyNames[id].toLowerCase().replace(/[^a-z0-9]+/g, "-");
+const repeatLabel = (repeat: string) => `Repeat ${Number(repeat.slice(1)) + 1}`;
 const repository = "https://github.com/Litju/CMJRecoveryDynamicsBench";
 const source = (path: string) => `${repository}/blob/${atlas.commit}/${path}`;
 const chapters = [
@@ -21,7 +45,7 @@ const chapters = [
     "Four public reference models, three independent roots, six normalized error cells. No athlete observations.",
   ],
   [
-    "gate7",
+    "model-atlas",
     "Original model recovery",
     "Nine model families, two repeats each. Source-faithful execution is engineering evidence, not predictive accuracy.",
   ],
@@ -31,14 +55,14 @@ const chapters = [
     "Integrate gross force between supplied concentric onset and takeoff; retain force and impulse as separate targets.",
   ],
   [
-    "gate7-evidence",
+    "research-evidence",
     "Evidence and limits",
-    "A safe loader and a successful smoke do not authenticate an empirical cohort or authorize scoring.",
+    "Loading a model and checking its execution do not authenticate an empirical cohort or authorize scoring.",
   ],
   [
     "research-docs",
     "Reproduce and inspect",
-    "Follow the public methods, API and provenance records. v1.1 remains a release candidate.",
+    "Follow the public methods, API and source records to reproduce the work.",
   ],
 ];
 function Export({ id }: { id: string }) {
@@ -54,7 +78,7 @@ function Export({ id }: { id: string }) {
         const url = URL.createObjectURL(blob);
         const a = document.createElement("a");
         a.href = url;
-        a.download = `${id}.svg`;
+        a.download = `${id.replace("gate7", "model")}.svg`;
         a.click();
         setTimeout(() => URL.revokeObjectURL(url), 1000);
       }}
@@ -94,77 +118,90 @@ export default function Gate7Atlas() {
   const [duration, setDuration] = useState(0.4);
   useEffect(() => {
     const q = new URLSearchParams(location.search);
-    const m = q.get("gate7");
-    const r = q.get("repeat");
+    const m =
+      atlas.models.find(
+        (entry) => familySlug(entry.id) === q.get("architecture"),
+      )?.id ?? q.get("gate7");
+    const r =
+      q.get("run") === "1"
+        ? "r0"
+        : q.get("run") === "2"
+          ? "r1"
+          : q.get("repeat");
     if (atlas.models.some((x) => x.id === m)) setModel(m!);
     if (r === "r0" || r === "r1") setRepeat(r);
   }, []);
   const selected = atlas.models.find((m) => m.id === model)!;
+  const architecture = selected.architecture.replace(
+    /M[0-8]/g,
+    (id) => familyNames[id],
+  );
   const signal = mechanics(duration);
   const update = (m: string, r: string) => {
     setModel(m);
     setRepeat(r);
     const url = new URL(location.href);
-    url.searchParams.set("gate7", m);
-    url.searchParams.set("repeat", r);
-    url.hash = "gate7";
+    url.searchParams.delete("gate7");
+    url.searchParams.delete("repeat");
+    url.searchParams.set("architecture", familySlug(m));
+    url.searchParams.set("run", String(Number(r.slice(1)) + 1));
+    url.hash = "model-atlas";
     history.replaceState(null, "", url);
   };
   return (
     <div className="atlas-wrap">
+      <span id="gate7" aria-hidden="true" />
       <section
-        id="gate7"
+        id="model-atlas"
         className="shell atlas-section"
-        aria-labelledby="gate7-title"
+        aria-labelledby="model-atlas-title"
       >
         <div className="atlas-heading">
           <div>
-            <span className="eyebrow">
-              04 / ENGINEERING RECONSTRUCTION · GATE7
-            </span>
-            <h2 id="gate7-title">
+            <span className="eyebrow">04 / MODEL RECONSTRUCTION</span>
+            <h2 id="model-atlas-title">
               Recover the model.
               <br />
-              <em>Keep the evidence honest.</em>
+              <em>Follow its architecture.</em>
             </h2>
           </div>
           <p>
-            18 original inference routes. Two repeats per family. This atlas
-            describes recovered execution contracts; it is not a
+            Nine architectures, each recovered from two original runs. This
+            atlas describes recovered execution contracts; it is not a
             model-performance leaderboard.
           </p>
         </div>
         <div className="atlas-stats">
           <div>
             <strong>09 × 02</strong>
-            <span>families × original repeats</span>
+            <span>architectures × original runs</span>
           </div>
           <div>
-            <strong>H72 / D7</strong>
-            <span>native forecast queries</span>
+            <strong>72 h / 7 d</strong>
+            <span>forecast horizons</span>
           </div>
           <div>
-            <strong>CPU ≠ CUDA</strong>
-            <span>distinct parity questions</span>
+            <strong>Source parity</strong>
+            <span>reconstruction, not accuracy</span>
           </div>
         </div>
         <div className="atlas-grid">
           <figure id="gate7-routes" className="atlas-panel">
             <figcaption>
-              <span className="eyebrow">FIG. G1 / ROUTE MATRIX</span>
-              <h3>Select a recovered route</h3>
+              <span className="eyebrow">ORIGINAL MODELS / REPEATED RUNS</span>
+              <h3>Explore an architecture</h3>
             </figcaption>
             <div className="route-matrix">
               {atlas.models.map((m) => (
                 <div key={m.id}>
-                  <strong>{m.id}</strong>
+                  <strong>{familyNames[m.id]}</strong>
                   {m.repeats.map((r) => (
                     <button
                       key={r}
                       aria-pressed={model === m.id && repeat === r}
                       onClick={() => update(m.id, r)}
                     >
-                      {r} <span>CPU exact</span>
+                      {repeatLabel(r)} <span>Source matched</span>
                     </button>
                   ))}
                   <span className={m.id >= "M4" ? "atlas-warning" : ""}>
@@ -182,40 +219,97 @@ export default function Gate7Atlas() {
           </figure>
           <article className="atlas-panel atlas-detail" aria-live="polite">
             <span className="eyebrow">
-              {model} / {repeat} · SOURCE-VERIFIED CONTRACT
+              {repeatLabel(repeat)} · RECOVERED ARCHITECTURE
             </span>
-            <h3>
-              {model}
-              <span className="atlas-repeat">{repeat}</span>
-            </h3>
+            <h3>{familyNames[model]}</h3>
             <figure id="gate7-architecture">
               <svg
                 viewBox="0 0 560 180"
                 role="img"
-                aria-label={`${model}: ${selected.architecture}`}
+                aria-label={`${familyNames[model]}: ${architecture}`}
               >
-                <title>{selected.architecture}</title>
+                <title>{architecture}</title>
                 {[
                   "39 → raw backbone",
-                  ...(Number(model.slice(1)) >= 3 ? [model === "M3" ? "4×4 → pointwise 4→32" : "4×4 → GRU 4→32"] : []),
-                  ...(Number(model.slice(1)) >= 5 ? ["H72/D7 → embedding 2×8"] : []),
-                  ...(Number(model.slice(1)) >= 6 ? [model === "M6" ? "Basis first 2 → 16" : "Basis all 5 → 16"] : []),
+                  ...(Number(model.slice(1)) >= 3
+                    ? [
+                        model === "M3"
+                          ? "4×4 → pointwise 4→32"
+                          : "4×4 → GRU 4→32",
+                      ]
+                    : []),
+                  ...(Number(model.slice(1)) >= 5
+                    ? ["H72/D7 → embedding 2×8"]
+                    : []),
+                  ...(Number(model.slice(1)) >= 6
+                    ? [
+                        model === "M6"
+                          ? "Basis first 2 → 16"
+                          : "Basis all 5 → 16",
+                      ]
+                    : []),
                 ].map((label, i) => (
                   <g key={label}>
-                    <rect x="4" y={i*42+4} width="245" height="34" rx="3" fill="#19272c" stroke="#a9f5dc" />
-                    <text x="14" y={i*42+26} fill="#eef2ef" fontSize="13">{label}</text>
-                    <path d={`M249 ${i*42+21} H280 V87 H306`} fill="none" stroke="#a9f5dc" />
+                    <rect
+                      x="4"
+                      y={i * 42 + 4}
+                      width="245"
+                      height="34"
+                      rx="0"
+                      fill={theme.surface}
+                      stroke={theme.cobalt}
+                    />
+                    <text x="14" y={i * 42 + 26} fill={theme.ink} fontSize="13">
+                      {label}
+                    </text>
+                    <path
+                      d={`M249 ${i * 42 + 21} H280 V87 H306`}
+                      fill="none"
+                      stroke={theme.cobalt}
+                    />
                   </g>
                 ))}
-                <rect x="306" y="60" width="245" height="56" fill="#19272c" stroke="#a9f5dc" />
-                <text x="428" y="84" textAnchor="middle" fill="#eef2ef" fontSize="13">{model === "M8" ? "Residual + linear basis heads" : "Concatenation → output head"}</text>
-                <text x="428" y="104" textAnchor="middle" fill="#a9f5dc" fontSize="12">2 additive innovations</text>
+                <rect
+                  x="306"
+                  y="60"
+                  width="245"
+                  height="56"
+                  fill={theme.surface}
+                  stroke={theme.cobalt}
+                />
+                <text
+                  x="428"
+                  y="84"
+                  textAnchor="middle"
+                  fill={theme.ink}
+                  fontSize="13"
+                >
+                  {model === "M8"
+                    ? "Residual + linear basis heads"
+                    : "Concatenation → output head"}
+                </text>
+                <text
+                  x="428"
+                  y="104"
+                  textAnchor="middle"
+                  fill={theme.cobalt}
+                  fontSize="12"
+                >
+                  2 additive innovations
+                </text>
               </svg>
-              <figcaption>{selected.architecture}</figcaption>
+              <figcaption>{architecture}</figcaption>
               <Export id="gate7-architecture" />
             </figure>
+            <details className="atlas-reference">
+              <summary>Technical reference and model identifier</summary>
+              <p>
+                Original model {model}, {repeatLabel(repeat).toLowerCase()} (
+                {repeat}).
+              </p>
+            </details>
             <dl>
-              <dt>Feature surface</dt>
+              <dt>Model inputs</dt>
               <dd>{selected.inputs}</dd>
               <dt>Preprocessing</dt>
               <dd>
@@ -223,12 +317,12 @@ export default function Gate7Atlas() {
                 zero scales become one. Standardize then cast to float32. No
                 refit.
               </dd>
-              <dt>Output contract</dt>
+              <dt>Predicted quantities</dt>
               <dd>
                 Force innovation (N/kg), then impulse innovation (m/s). Identity
                 output transform; baseline addition is separate.
               </dd>
-              <dt>Execution evidence</dt>
+              <dt>Reproduction evidence</dt>
               <dd>
                 {selected.cpu}. {selected.cuda} against saved CUDA predictions.
               </dd>
@@ -258,7 +352,7 @@ export default function Gate7Atlas() {
       >
         <div className="atlas-heading">
           <div>
-            <span className="eyebrow">05 / NATIVE SCIENTIFIC MECHANICS</span>
+            <span className="eyebrow">05 / MEASUREMENT METHODS</span>
             <h2 id="native-title">
               From contact
               <br />
@@ -274,7 +368,7 @@ export default function Gate7Atlas() {
         <div className="atlas-grid">
           <figure id="native-force" className="atlas-panel">
             <figcaption>
-              <span className="eyebrow">FIG. G2 / FORCE-TIME INTEGRATION</span>
+              <span className="eyebrow">FORCE-TIME INTEGRATION</span>
               <h3>Same mean force. Different impulse.</h3>
             </figcaption>
             <label htmlFor="concentric-duration">
@@ -297,15 +391,15 @@ export default function Gate7Atlas() {
               <title>
                 Analytical force-time signal: F(t) = 75 × (9.80665 + 8 − 4t/T) N
               </title>
-              <path d="M60 25 V210 H530" fill="none" stroke="#829491" />
+              <path d="M60 25 V210 H530" fill="none" stroke={theme.muted} />
               {[0, 500, 1000, 1500].map((f) => (
                 <g key={f}>
-                  <path d={`M60 ${210 - f * 0.1} H530`} stroke="#304147" />
+                  <path d={`M60 ${210 - f * 0.1} H530`} stroke={theme.grid} />
                   <text
                     x="50"
                     y={215 - f * 0.1}
                     textAnchor="end"
-                    fill="#b8c8c4"
+                    fill={theme.muted}
                     fontSize="12"
                   >
                     {f}
@@ -314,35 +408,35 @@ export default function Gate7Atlas() {
               ))}
               <path
                 d={`M60 ${210 - 75 * 9.80665 * 0.1} H${60 + duration * 750}`}
-                stroke="#aaa5ef"
+                stroke={theme.terracotta}
                 strokeDasharray="5 4"
               />
               <path
                 d={`M60 ${210 - 75 * 9.80665 * 0.1} V${210 - signal.samples[0].force * 0.1} L${60 + duration * 750} ${210 - signal.samples[40].force * 0.1} V${210 - 75 * 9.80665 * 0.1} Z`}
-                fill="#a9f5dc"
+                fill={theme.cobalt}
                 fillOpacity=".18"
               />
               <path
                 d={`M60 ${210 - signal.samples[0].force * 0.1} L${60 + duration * 750} ${210 - signal.samples[40].force * 0.1}`}
-                stroke="#a9f5dc"
+                stroke={theme.cobalt}
                 strokeWidth="3"
               />
-              <text x="60" y="233" fill="#eef2ef" fontSize="12">
+              <text x="60" y="233" fill={theme.ink} fontSize="12">
                 0 / supplied onset
               </text>
               <text
                 x={60 + duration * 750}
                 y="253"
                 textAnchor="end"
-                fill="#eef2ef"
+                fill={theme.ink}
                 fontSize="12"
               >
                 {duration.toFixed(2)} s / takeoff
               </text>
-              <text x="65" y="20" fill="#eef2ef" fontSize="12">
+              <text x="65" y="20" fill={theme.ink} fontSize="12">
                 Gross force (N)
               </text>
-              <text x="360" y="125" fill="#c9c5ff" fontSize="12">
+              <text x="360" y="125" fill={theme.terracotta} fontSize="12">
                 Weight = 735.49875 N
               </text>
             </svg>
@@ -383,7 +477,7 @@ export default function Gate7Atlas() {
             </a>
           </figure>
           <div className="atlas-panel">
-            <span className="eyebrow">FIG. G3 / ASSESSMENT CONTRACT</span>
+            <span className="eyebrow">ASSESSMENT WINDOWS</span>
             <h3>What is known at origin?</h3>
             <figure id="native-time">
               <svg
@@ -394,7 +488,7 @@ export default function Gate7Atlas() {
                 <title>
                   Native assessment windows, hours relative to origin
                 </title>
-                <path d="M25 110 H535" stroke="#829491" />
+                <path d="M25 110 H535" stroke={theme.muted} />
                 {atlas.windows.map((w) => (
                   <g key={w.id}>
                     <rect
@@ -402,36 +496,42 @@ export default function Gate7Atlas() {
                       y="65"
                       width={(w.end - w.start) * 1.2}
                       height="45"
-                      fill={w.id === "baseline" ? "#aaa5ef" : "#a9f5dc"}
+                      fill={
+                        w.id === "baseline" ? theme.terracotta : theme.cobalt
+                      }
                     />
                     <text
                       x={25 + (w.start + 240) * 1.2}
                       y="50"
-                      fill="#eef2ef"
+                      fill={theme.ink}
                       fontSize="14"
                     >
                       {w.id}
                     </text>
                   </g>
                 ))}
-                <path d="M313 20 V145" stroke="#eef2ef" strokeDasharray="4 4" />
+                <path
+                  d="M313 20 V145"
+                  stroke={theme.ink}
+                  strokeDasharray="4 4"
+                />
                 <text
                   x="313"
                   y="170"
                   textAnchor="middle"
-                  fill="#eef2ef"
+                  fill={theme.ink}
                   fontSize="12"
                 >
                   origin / 0 h
                 </text>
-                <text x="25" y="140" fill="#eef2ef" fontSize="12">
+                <text x="25" y="140" fill={theme.ink} fontSize="12">
                   −240 h
                 </text>
                 <text
                   x="535"
                   y="140"
                   textAnchor="end"
-                  fill="#eef2ef"
+                  fill={theme.ink}
                   fontSize="12"
                 >
                   +180 h
@@ -470,28 +570,28 @@ export default function Gate7Atlas() {
             </p>
             <p className="atlas-warning">
               Native H72/D7 four-cell errors in N/kg and m/s cannot be pooled or
-              ranked against public M8 H24/H48/H72 six-cell NRMSE.
+              ranked against the public synthetic benchmark’s H24/H48/H72
+              six-cell NRMSE.
             </p>
           </div>
         </div>
       </section>
-      <section id="gate7-evidence" className="shell atlas-section">
+      <span id="gate7-evidence" aria-hidden="true" />
+      <section id="research-evidence" className="shell atlas-section">
         <span className="eyebrow">
           06 / EVIDENCE DOES NOT TRANSFER AUTOMATICALLY
         </span>
         <h2>Every arrow has a condition.</h2>
         <figure id="gate7-flow" className="atlas-panel">
-          <figcaption>
-            FIG. G4 / PUBLIC INFERENCE AND EVALUATION FLOW
-          </figcaption>
+          <figcaption>FROM SOURCE CODE TO SCIENTIFIC EVALUATION</figcaption>
           <ol className="atlas-flow">
             {[
-              "Public source contracts",
-              "Authenticated config + checkpoint pins",
-              "Safe weights-only CPU loader",
-              "Synthetic inference smoke",
-              "Native preflight + rights + target authority",
-              "Separately authorized offline study",
+              "Documented source definitions",
+              "Verified configuration and model weights",
+              "Safe model loading on CPU",
+              "Synthetic execution check",
+              "Measurement, permissions and target checks",
+              "Separately authorized research study",
             ].map((label, i) => (
               <li key={label}>
                 <span>0{i + 1}</span>
@@ -515,7 +615,8 @@ export default function Gate7Atlas() {
         <div className="atlas-limits">
           <h3>Unresolved limits are part of the result.</h3>
           <p>
-            M4–M8 saved-CUDA tolerance failures remain recorded. Rich-history
+            The recurrent and basis-augmented families remain outside the
+            recorded tolerances for saved CUDA predictions. Rich-history
             row-count differences remain qualified. There is no empirical
             athlete validation, clinical utility claim or production-readiness
             finding. Windows/NVDA manual acceptance is pending; automated
@@ -524,7 +625,7 @@ export default function Gate7Atlas() {
         </div>
       </section>
       <section id="research-docs" className="shell atlas-section">
-        <span className="eyebrow">07 / OPEN METHODS · RELEASE CANDIDATE</span>
+        <span className="eyebrow">07 / OPEN METHODS</span>
         <h2>Read it. Reproduce it. Inspect it.</h2>
         <div className="atlas-docs">
           {[
@@ -549,19 +650,19 @@ export default function Gate7Atlas() {
           ))}
         </div>
         <details className="atlas-panel">
-          <summary>Gate7 source manifest · {atlas.commit.slice(0, 7)}</summary>
-          {atlas.sources.map((s) => (
+          <summary>Source files and verification hashes</summary>
+          {atlas.sources.map((s, index) => (
             <p key={s.path}>
-              <a href={source(s.path)}>{s.path}</a>
+              <a href={source(s.path)}>{sourceTitles[index]}</a>
               <br />
               <code className="atlas-hash">SHA-256 {s.sha256}</code>
             </p>
           ))}
         </details>
         <p>
-          Historical M8 receipts remain pinned independently at 3dc4c82. Gate7
-          presentation contracts are pinned at {atlas.commit.slice(0, 7)}.
-          Upcoming v1.1 is not published by this presentation.
+          Synthetic benchmark results and recovered-model contracts have
+          separate source snapshots. This presentation does not publish a
+          software release.
         </p>
       </section>
     </div>

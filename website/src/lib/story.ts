@@ -24,17 +24,17 @@ export const reconstruction = {
       : "HISTORICAL_EVIDENCE_ONLY",
   milestones: [
     {
-      stage: "M1–M2",
+      stage: "01 / QUESTION",
       title: "Identify the question",
       text: "Lineage and reproduction contracts separate data, models, evaluation and historical results.",
     },
     {
-      stage: "M3–M6",
+      stage: "02 / RECONSTRUCTION",
       title: "Reconstruct the evidence",
       text: "Executable adapters are distinguished from result-only evidence. Different worlds and targets cannot form one leaderboard.",
     },
     {
-      stage: "M8",
+      stage: "03 / REPRODUCTION",
       title: "Run fresh public paths",
       text: "Eight synthetic generator paths and sixteen train/validation streams verified. No exact historical numeric model replay.",
     },
