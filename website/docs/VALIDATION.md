@@ -1,11 +1,10 @@
 # Historical local validation · 2026-10-20
 
-## Production check at v1.1.0 release handoff (2026-11-04)
+## Production check at v1.1.0 release handoff (2026-11-04 06:20 UTC)
 
-The authorized Vercel CLI verified the current production alias
-https://recovery-observatory.vercel.app at HTTP 200. Deployment
-`dpl_8vvguu9UhpYFVEJ5XtzghTFwACJF` was **READY**, built from canonical `main`
-commit `16ae07f`, and its logs show a successful
+The authorized Vercel CLI verified the production alias
+https://recovery-observatory.vercel.app at HTTP 200. The deployment was
+**READY**, built from canonical `main` commit `401f87a`, and its logs show a successful
 static build with fixture provenance verification. This confirms that PR #34's
 editorial styling is present. GitHub Website CI also passed on that exact commit
 (run [41771009761](https://github.com/Litju/CMJRecoveryDynamicsBench/actions/runs/41771009761)).
@@ -14,11 +13,26 @@ This is a dated check; later `main` updates may trigger another automatic
 deployment. The Python package release does not authorize a manual Vercel
 promotion. See [deployment operations](DEPLOYMENT.md) for the read-only check.
 
-**Validated source/test revision:** `3ab3bc4` (`fix(metadata): separate scientific source attribution`). Documentation and capture evidence follow in the RES-537 documentation commit.
+## v1.1.0 release-source website qualification
+
+The released source (`main` commit `401f87a`) passed clean `npm ci`, 18 scientific
+and provenance unit tests, strict TypeScript, a production static build, and 33
+Playwright desktop/mobile-emulation tests. The suite covered the model atlas and
+chapter navigation, the existing explorer, keyboard use, axe checks,
+reduced-motion behavior and WebGL fallbacks. Exact-main Website CI also passed,
+including 26 local Research Lab browser tests. Fixture and figure source hashes
+were verified by the build.
+
+Manual Windows/NVDA acceptance remains pending. These browser checks do not cover
+Safari, Firefox, physical mobile devices or hardware-GPU performance.
+
+The remaining validation results below are a historical local snapshot from 2026-10-20; their pending publication and hosting statuses were superseded by the production check above.
+
+**Validated source/test revision:** `3ab3bc4` (`fix(metadata): separate scientific source attribution`). Documentation and capture evidence were added in a later website documentation commit.
 
 **Scientific authority:** [`Litju/CMJRecoveryDynamicsBench@3dc4c82f0c948add6e4a9ebdebfd227933c823d3`](https://github.com/Litju/CMJRecoveryDynamicsBench/tree/3dc4c82f0c948add6e4a9ebdebfd227933c823d3).
 
-**Decision:** GO_WITH_LIMITATIONS for the validated local candidate. Owner-approved source publication is in review; Vercel deployment remains NO-GO. See the [release checklist](RELEASE_CHECKLIST.md).
+**Historical decision at the time:** GO_WITH_LIMITATIONS for the local showcase. Source publication was in review and Vercel deployment was not yet approved. These statuses do not describe the current published software or production site; see the [release checklist](RELEASE_CHECKLIST.md).
 
 ## Build and test results
 

@@ -34,7 +34,7 @@ implementations, not automated architectural inference. Tests verify determinism
 | Existing six-cell heatmap | Public M8 synthetic | RMSE / truth population SD; force and impulse normalized separately | Existing exact matrix |
 | Existing independent roots | Public M8 synthetic | Root means are separate experimental roots, not participant CIs | Existing explorer values |
 | Existing method/sample-efficiency comparisons | Public M8 synthetic | Pinned study variants only | Existing methods exhibit |
-| G1 route matrix | Gate7 engineering qualification; r0/r1 | `RES-546_INFERENCE_VERIFICATION.md`, CPU policy and family findings | Native buttons and status text; source links |
+| G1 route matrix | Gate7 engineering qualification; r0/r1 | [Inference verification and CPU-source findings](../../docs/INDEX.md) | Native buttons and status text; source links |
 | Architecture | Gate7 engineering contract | Hashed checkpoint implementations; selected family summary | SVG title, full text contract, SVG export |
 | G2 force-time | Analytical illustration, no measured population | `native-mechanics.mjs`: F(t)=75(g+8−4t/T); 41 linear samples, trapezoid sum. g=9.80665 m/s². Mean=15.80665 N/kg; impulse=6T m/s | Exact sample table, scalar values, SVG export |
 | G3 timeline | Native source assessment contract | Baseline −240…−24 h; H72 66…78 h; D7 156…180 h | Text windows and exact table, SVG export |

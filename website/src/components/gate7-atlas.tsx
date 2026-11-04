@@ -643,7 +643,7 @@ export default function Gate7Atlas() {
           ].map(([label, path]) => (
             <a
               key={path}
-              href={`${repository}/blob/codex/res-584-research-atlas/${path}`}
+              href={`${repository}/blob/main/${path}`}
             >
               {label} ↗
             </a>

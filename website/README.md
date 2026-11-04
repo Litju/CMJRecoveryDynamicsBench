@@ -82,7 +82,7 @@ The lockfile also contains Next.js's optional Sharp/libvips image packages; some
 
 ## Release state
 
-Recovery Observatory is integrated at `website/` in the canonical repository, Litju/CMJRecoveryDynamicsBench. The owner approved Apache-2.0 for Julio Rodriguez-authored website source; the approval is recorded in RES-538. The public production site is https://recovery-observatory.vercel.app. Site metadata continues to block indexing, and no custom domain is configured. The published Python software release is v1.1.0; the site remains a separately deployed static exhibit. It does not establish athlete validity or qualify a production scorer.
+Recovery Observatory is integrated at `website/` in the canonical repository, Litju/CMJRecoveryDynamicsBench. Julio Rodriguez-authored website source is licensed under Apache-2.0; see [LICENSE](LICENSE). The public production site is https://recovery-observatory.vercel.app. Site metadata continues to block indexing, and no custom domain is configured. The published Python software release is v1.1.0; the site remains a separately deployed static exhibit. It does not establish athlete validity or qualify a production scorer.
 
 See [validation evidence](docs/VALIDATION.md), [deployment operations](docs/DEPLOYMENT.md) and the [release record](docs/RELEASE_CHECKLIST.md). The site deploys from the canonical repository; the Python v1.1.0 release is a separate publication and does not imply a manual site promotion.
 
