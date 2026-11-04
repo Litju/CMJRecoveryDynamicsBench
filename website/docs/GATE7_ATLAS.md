@@ -56,9 +56,11 @@ Manual Windows/NVDA acceptance remains pending.
 
 ## Deployment boundary
 
-Use the existing Git-linked Vercel preview and inspect its exact Git SHA. No
-production alias promotion, merge, release publication or v1.1 tag is authorized
-by this implementation. Follow [deployment and rollback](DEPLOYMENT.md).
+The Python v1.1.0 release is separate from Vercel hosting and does not authorize a
+manual production alias promotion. The production deployment was verified from the
+Git-linked `main` branch; check the current deployment and exact source SHA with
+the authorized CLI before making further site changes. Follow
+[deployment and rollback](DEPLOYMENT.md).
 Rollback means redeploying the previously verified production deployment after
 owner approval; a preview can simply be discarded without changing production.
 

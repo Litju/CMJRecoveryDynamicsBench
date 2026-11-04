@@ -23,7 +23,23 @@ The executor recorded live Chromium validation, including the 96 benchmark confi
 
 **Verification boundary:** a separate reviewer on 2026-10-21 could verify the GitHub tree, committed scientific receipt and hosted CI, but the connected Vercel API returned `404 Project not found` for the reported team/project/deployment, and that reviewer could not fetch the public URL. This is a connector/access limitation, not a demonstrated deployment outage. If verifying operational state afresh, use the authenticated [Vercel project dashboard](https://vercel.com/julitocrztuga-2084s-projects/recovery-observatory) or an authorized CLI session.
 
-**Immutable URL reconciliation pending:** RES-539 and a separate user handoff reported different immutable `*.vercel.app` deployment hostnames for the same deployment ID. Neither hostname is endorsed here without a direct Vercel deployment lookup. Confirm deployment `url`, `id`, aliases and Git SHA in the authenticated dashboard/CLI, then correct RES-539. The stable production alias above is the intended public link.
+**Historical deployment-hostname discrepancy (2026-10-21):** RES-539 and a separate handoff recorded different immutable `*.vercel.app` hostnames for an older deployment ID. That older ID remains unreconciled; it does not block the current production check below. The stable production alias is the verified public link.
+
+## Release handoff production verification (2026-11-04)
+
+The authorized Vercel CLI verified the production alias at
+https://recovery-observatory.vercel.app. At 04:51 UTC it returned HTTP 200. The
+latest production deployment was `dpl_8vvguu9UhpYFVEJ5XtzghTFwACJF`, status
+**READY**, created at 04:05:02 UTC from canonical `main` commit
+`16ae07f`. Its build log reports a successful
+`npm ci` with zero known vulnerabilities, verified scientific fixture provenance,
+a completed static build and deployment. The merged PR #34 editorial styling is
+therefore present in production.
+
+This is a timestamped production check, not authorization for a manual promotion.
+The Python package release and website deployment are separate. A later merge to
+`main` may trigger the existing Git-linked deployment; inspect its exact source
+SHA and status before making a new current-state claim.
 
 ## Build and test from the canonical repository
 
@@ -70,13 +86,13 @@ The production project is Git-linked to the **existing canonical repository**, r
 2. Merge only after review. Vercel's Git integration should build from the new `main` SHA. Confirm the exact deployed SHA, project settings, build logs, READY state and production alias before declaring the release complete.
 3. Recheck the live story, Episode Theater, eight-formulation lineage, 96-view benchmark data, Recovery Lab, WebGL/2D fallback, mobile tables, fonts, console and network requests. Verify `/data/results.json` against the pinned source and its hashes. The latest [RES-539 report](https://linear.app/alignerr-cmj/issue/RES-539) records the first live campaign; it does not substitute for testing future deployments.
 4. If production regresses, use the authorized Vercel dashboard to roll back the production alias to the last known READY deployment, and record both source SHAs/deployment IDs. Do not rewrite the Git history or silently repoint the scientific citation.
-5. Keep preview access protection, `noindex,nofollow` and provisional display branding unless the owner separately approves changing them. A public website does **not** imply empirical human validity, historical score replay or Python package v1.0 publication.
+5. Keep preview access protection, `noindex,nofollow` and provisional display branding unless the owner separately approves changing them. A public website does **not** imply empirical human validity or historical score replay; the Python package release is a separate publication.
 
 Browser checks currently cover Chromium and emulated mobile. Safari, Firefox, physical device GPUs and live screen readers have not been independently qualified.
-## RES-584 candidate preview
+## Historical RES-584 candidate preview
 
-The atlas uses the same project and static output. Build validation includes the
-separate Gate7 manifest. Inspect the PR deployment and its Git SHA before approval;
-do not promote its alias or publish a release. Current qualification is recorded
-in [ATLAS_VALIDATION.md](ATLAS_VALIDATION.md). The dated deployment receipt above
-is retained without asserting that its commit is current production.
+The atlas used the same project and static output. Build validation included the
+separate Gate7 manifest. At that time, the preview was not promoted and no release
+was published from the preview. The qualification is recorded in
+[ATLAS_VALIDATION.md](ATLAS_VALIDATION.md); the dated deployment receipts remain
+historical evidence.

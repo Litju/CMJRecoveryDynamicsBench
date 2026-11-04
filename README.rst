@@ -23,8 +23,8 @@ native-study execution use the optional PyTorch dependency::
 The package contains no recovered model checkpoints or restricted data. Inference
 requires independently authenticated and legitimately available model artifacts;
 offline study execution additionally requires separately authenticated scientific
-and institutional authorization. See ``CHANGELOG.md`` for this release candidate
-and the public limitations.
+and institutional authorization. See ``CHANGELOG.md`` for this release's scope
+and public limitations.
 
 Development
 -----------
@@ -70,12 +70,11 @@ this repository or use them to claim public reproducibility.
 
 M7 was administratively closed with a documented, owner-accepted exception for
 old GitHub-managed pull-request refs. This exception is not historical or
-third-party rights clearance. RES-529 records independent release-candidate
-qualification; an official GitHub release and matching tag establish publication.
-Package metadata alone does not establish whether a release was published.
-This branch prepares version ``1.1.0`` as a release candidate; the published
-``v1.0.0`` release remains the current public release until a separately approved
-tag and GitHub release exist. See ``CHANGELOG.md`` for the candidate scope.
+third-party rights clearance. RES-529 records the earlier candidate qualification;
+the final v1.1.0 source, tag, artifacts and provenance are identified by the
+`official GitHub release <https://github.com/Litju/CMJRecoveryDynamicsBench/releases/tag/v1.1.0>`_.
+The existing ``v1.0.0`` tag and assets remain unchanged. See ``CHANGELOG.md`` for
+the released scope and limitations.
 Current-tree redaction does not sanitize earlier Git history. See
 ``docs/M7_PUBLIC_TREE_REDACTION.md``, ``docs/M7_OCCURRENCE_CLASSIFICATION.md``, and
 ``docs/M7_QUALIFICATION.md`` for the boundaries and outstanding decisions.
@@ -157,10 +156,9 @@ acceptance remains ``SCREEN_READER_ACCEPTANCE_PENDING`` in
 The source distribution includes the reviewed protocols, receipts, ``CHANGELOG.md``
 and citation file. Wheel users should obtain the matching source distribution for
 documentation; runtime modules are in the wheel. ``docs/M8_RELEASE_NOTES.md`` and
-``docs/M8_V1_RELEASE_AUDIT.md`` describe the historical v1.0.0 candidate and remain
-unchanged. The candidate package and citation metadata are synchronized at
-``1.1.0``; this does not create or publish a GitHub release. Check the official
-release page for published files and checksums.
+``docs/M8_V1_RELEASE_AUDIT.md`` describe the historical v1.0.0 release and remain
+unchanged. The package and citation metadata are synchronized at ``1.1.0``. The
+official release page lists the published files and checksums.
 
 License and citation
 --------------------
@@ -170,10 +168,9 @@ are licensed under Apache-2.0; see ``LICENSE``. This license does not cover
 external datasets, restricted empirical derivatives, preserved private archives,
 or other third-party materials.
 
-``CITATION.cff`` tracks candidate version ``1.1.0``. Until that version is
-published, cite the existing ``v1.0.0`` release. Citation metadata does not assert
-a DOI, publication date, or empirical validation; the official release record
-identifies the published version and artifacts.
+``CITATION.cff`` identifies version ``1.1.0``; cite the `v1.1.0 GitHub
+release <https://github.com/Litju/CMJRecoveryDynamicsBench/releases/tag/v1.1.0>`_.
+No DOI is assigned, and this citation does not assert empirical validation.
 Original experiment receipts retain their audited version and provenance.
 Exact M8 digest replay uses the original frozen study snapshot. Version metadata
 changes the package-source hash, so pre-1.0 selection locks cannot be reused.
