@@ -1,0 +1,282 @@
+[
+  {
+    "source_id": "S01",
+    "path": "docs/M8_FIXED_MODE_PUBLIC_REFERENCE_RESULTS.json",
+    "commit": "401f87aad1e4ef4108011fa0c1d769a24f1ad329",
+    "sha256": "cd991366c30a29723318b034bcbacff357544eff8d529678fcdcd849b0f08ce9",
+    "staged_path": "evidence/S01_M8_FIXED_MODE_PUBLIC_REFERENCE_RESULTS.json",
+    "eligibility": "Already public at pinned release; underlying private artifacts excluded"
+  },
+  {
+    "source_id": "S02",
+    "path": "docs/M8_FIXED_MODE_PUBLIC_REFERENCE_STUDY.md",
+    "commit": "401f87aad1e4ef4108011fa0c1d769a24f1ad329",
+    "sha256": "91ef163735e627ad91c1be37f6080865ac818b2c16f2dfce0fe0b99b9ec7b34a",
+    "staged_path": "evidence/S02_M8_FIXED_MODE_PUBLIC_REFERENCE_STUDY.md",
+    "eligibility": "Already public at pinned release; underlying private artifacts excluded"
+  },
+  {
+    "source_id": "S03",
+    "path": "docs/M8_REPRODUCTION_RESULTS.md",
+    "commit": "401f87aad1e4ef4108011fa0c1d769a24f1ad329",
+    "sha256": "44fd81ee0f322d00214ca27926bdb9709b397c1213e0a7cb6680fa06468eb119",
+    "staged_path": "evidence/S03_M8_REPRODUCTION_RESULTS.md",
+    "eligibility": "Already public at pinned release; underlying private artifacts excluded"
+  },
+  {
+    "source_id": "S04",
+    "path": "docs/M8_PUBLIC_REPRODUCTION_RECEIPTS.json",
+    "commit": "401f87aad1e4ef4108011fa0c1d769a24f1ad329",
+    "sha256": "f1b0ca32ba0966330cf152a9457b4e9a47f208779b3b18776ee4914d7ace084a",
+    "staged_path": "evidence/S04_M8_PUBLIC_REPRODUCTION_RECEIPTS.json",
+    "eligibility": "Already public at pinned release; underlying private artifacts excluded"
+  },
+  {
+    "source_id": "S05",
+    "path": "docs/M8_V1_PUBLICATION_RECEIPT.json",
+    "commit": "401f87aad1e4ef4108011fa0c1d769a24f1ad329",
+    "sha256": "574682f0ade55d078e1d89b6554e032cbc594eedbb24ba6defabd75699287228",
+    "staged_path": "evidence/S05_M8_V1_PUBLICATION_RECEIPT.json",
+    "eligibility": "Already public at pinned release; underlying private artifacts excluded"
+  },
+  {
+    "source_id": "S06",
+    "path": "docs/RES-546_INFERENCE_VERIFICATION.md",
+    "commit": "401f87aad1e4ef4108011fa0c1d769a24f1ad329",
+    "sha256": "89dc6de93a8c583a7ead6ebddf77fef2b2da67d4517a11e3cdb628f00c1a8ff4",
+    "staged_path": "evidence/S06_RES-546_INFERENCE_VERIFICATION.md",
+    "eligibility": "Already public at pinned release; underlying private artifacts excluded"
+  },
+  {
+    "source_id": "S07",
+    "path": "docs/RES-546_CPU_SOURCE_INTEGRATION_POLICY.md",
+    "commit": "401f87aad1e4ef4108011fa0c1d769a24f1ad329",
+    "sha256": "b8d65ca30ac8eab62cd5b6cdabf1afc5bf6b1fa7a12071c4de36160e53c456d9",
+    "staged_path": "evidence/S07_RES-546_CPU_SOURCE_INTEGRATION_POLICY.md",
+    "eligibility": "Already public at pinned release; underlying private artifacts excluded"
+  },
+  {
+    "source_id": "S08",
+    "path": "docs/RES-546_GATE7_M8_RECOVERY.md",
+    "commit": "401f87aad1e4ef4108011fa0c1d769a24f1ad329",
+    "sha256": "3258c73ac8b911166eece258ec27bcac846457b04ad352c757a427b6ada062d4",
+    "staged_path": "evidence/S08_RES-546_GATE7_M8_RECOVERY.md",
+    "eligibility": "Already public at pinned release; underlying private artifacts excluded"
+  },
+  {
+    "source_id": "S09",
+    "path": "docs/GATE7_NATIVE_MEASUREMENT_V1.md",
+    "commit": "401f87aad1e4ef4108011fa0c1d769a24f1ad329",
+    "sha256": "0128429365c9f2133e6e7ab61ba62a1d83ba67f46592984f9e733b9b29bef725",
+    "staged_path": "evidence/S09_GATE7_NATIVE_MEASUREMENT_V1.md",
+    "eligibility": "Already public at pinned release; underlying private artifacts excluded"
+  },
+  {
+    "source_id": "S10",
+    "path": "docs/GATE7_NATIVE_ANALYSIS_V1.md",
+    "commit": "401f87aad1e4ef4108011fa0c1d769a24f1ad329",
+    "sha256": "fa30228ac9f6b3c229542281fca6727dc21ee44188f352ac06b3eafd5b0fb38c",
+    "staged_path": "evidence/S10_GATE7_NATIVE_ANALYSIS_V1.md",
+    "eligibility": "Already public at pinned release; underlying private artifacts excluded"
+  },
+  {
+    "source_id": "S11",
+    "path": "docs/RES-545_MODEL_RECOVERY_REVIEW.md",
+    "commit": "401f87aad1e4ef4108011fa0c1d769a24f1ad329",
+    "sha256": "cb40123b7a0418bcd5d61a4713a603d7a60ec0bda7427d93636a8fd45a9c9b30",
+    "staged_path": "evidence/S11_RES-545_MODEL_RECOVERY_REVIEW.md",
+    "eligibility": "Already public at pinned release; underlying private artifacts excluded"
+  },
+  {
+    "source_id": "S12",
+    "path": "docs/RES-546_M4_HISTORICAL_FINDINGS.md",
+    "commit": "401f87aad1e4ef4108011fa0c1d769a24f1ad329",
+    "sha256": "f7d86637726119110677736fefce00290069c1a84ee58c324484fa25eb24042d",
+    "staged_path": "evidence/S12_RES-546_M4_HISTORICAL_FINDINGS.md",
+    "eligibility": "Already public at pinned release; underlying private artifacts excluded"
+  },
+  {
+    "source_id": "S13",
+    "path": "docs/RES-546_M5_HISTORICAL_FINDINGS.md",
+    "commit": "401f87aad1e4ef4108011fa0c1d769a24f1ad329",
+    "sha256": "1a1c6e5c6420ed873f3ace3ee6eda4e8bf4909e59b2413d31caf237ba81a7c7d",
+    "staged_path": "evidence/S13_RES-546_M5_HISTORICAL_FINDINGS.md",
+    "eligibility": "Already public at pinned release; underlying private artifacts excluded"
+  },
+  {
+    "source_id": "S14",
+    "path": "docs/RES-546_M6_HISTORICAL_FINDINGS.md",
+    "commit": "401f87aad1e4ef4108011fa0c1d769a24f1ad329",
+    "sha256": "9bf70700eb71d6866bb78fcc3a7c77aa75403d74b59ffd9d2138ccaed4bb7ba7",
+    "staged_path": "evidence/S14_RES-546_M6_HISTORICAL_FINDINGS.md",
+    "eligibility": "Already public at pinned release; underlying private artifacts excluded"
+  },
+  {
+    "source_id": "S15",
+    "path": "docs/RES-546_M7_HISTORICAL_FINDINGS.md",
+    "commit": "401f87aad1e4ef4108011fa0c1d769a24f1ad329",
+    "sha256": "167b5343359e44bc2e3cb7f6401d49e36454ca62ae4948b9b29d29c14d1178ae",
+    "staged_path": "evidence/S15_RES-546_M7_HISTORICAL_FINDINGS.md",
+    "eligibility": "Already public at pinned release; underlying private artifacts excluded"
+  },
+  {
+    "source_id": "S16",
+    "path": "website/src/data/gate7.json",
+    "commit": "401f87aad1e4ef4108011fa0c1d769a24f1ad329",
+    "sha256": "3b15daa7cb7690e60428bfa994b9d87ae32964296b19cd4e37f6d0d868078139",
+    "staged_path": "evidence/S16_gate7.json",
+    "eligibility": "Already public at pinned release; underlying private artifacts excluded"
+  },
+  {
+    "source_id": "S17",
+    "path": "website/src/data/lineage.json",
+    "commit": "401f87aad1e4ef4108011fa0c1d769a24f1ad329",
+    "sha256": "0424e4c60dfd284062dbaac4e962426444116f9bcf3dee435cb2f686ec9da287",
+    "staged_path": "evidence/S17_lineage.json",
+    "eligibility": "Already public at pinned release; underlying private artifacts excluded"
+  },
+  {
+    "source_id": "S18",
+    "path": "website/src/data/formulation-methods.json",
+    "commit": "401f87aad1e4ef4108011fa0c1d769a24f1ad329",
+    "sha256": "b56705cd176fdeff2fb04b842dced49e0f2304a5c0426f0d10a047c61c4f7b9d",
+    "staged_path": "evidence/S18_formulation-methods.json",
+    "eligibility": "Already public at pinned release; underlying private artifacts excluded"
+  },
+  {
+    "source_id": "S19",
+    "path": "website/source/manifest.json",
+    "commit": "401f87aad1e4ef4108011fa0c1d769a24f1ad329",
+    "sha256": "f124379521a2415699ed3e40e8af254286ae3295e51ded4a465d466620f9783d",
+    "staged_path": "evidence/S19_manifest.json",
+    "eligibility": "Already public at pinned release; underlying private artifacts excluded"
+  },
+  {
+    "source_id": "S20",
+    "path": "LICENSE",
+    "commit": "401f87aad1e4ef4108011fa0c1d769a24f1ad329",
+    "sha256": "46400b6fbb306204d34ba6146101a868477da387073f0a5677f3e2b27cc1c895",
+    "staged_path": "evidence/S20_LICENSE",
+    "eligibility": "Already public at pinned release; underlying private artifacts excluded"
+  },
+  {
+    "source_id": "S21",
+    "path": "src/cmj_recovery_dynamics/observations/native_mechanics.py",
+    "commit": "401f87aad1e4ef4108011fa0c1d769a24f1ad329",
+    "sha256": "3a95f0a075115b52fb6c7a9d76840273b87804bd2c757b0981e659e3bcc8c40a",
+    "staged_path": "evidence/S21_native_mechanics.py",
+    "eligibility": "Released public source; private artifact content excluded"
+  },
+  {
+    "source_id": "S22",
+    "path": "src/cmj_recovery_dynamics/metrics/native_analysis.py",
+    "commit": "401f87aad1e4ef4108011fa0c1d769a24f1ad329",
+    "sha256": "36d8505556ea13511f9ad1d95100f1034a23dd450a591b0e534f84ca8ed08526",
+    "staged_path": "evidence/S22_native_analysis.py",
+    "eligibility": "Released public source; private artifact content excluded"
+  },
+  {
+    "source_id": "S23",
+    "path": "src/cmj_recovery_dynamics/studies/fixed_mode_reference_study.py",
+    "commit": "401f87aad1e4ef4108011fa0c1d769a24f1ad329",
+    "sha256": "ab6d349747b54ee606066d56b5da91f33dc9b2d6b6ad18538e14513ab08accd7",
+    "staged_path": "evidence/S23_fixed_mode_reference_study.py",
+    "eligibility": "Released public source; private artifact content excluded"
+  },
+  {
+    "source_id": "S24",
+    "path": "src/cmj_recovery_dynamics/model_reproduction/checkpoint_inference.py",
+    "commit": "401f87aad1e4ef4108011fa0c1d769a24f1ad329",
+    "sha256": "48e639a55749863922bae44740f10dbcb6c60deeb691e5880a45bb4f00f98603",
+    "staged_path": "evidence/S24_checkpoint_inference.py",
+    "eligibility": "Released public source; private artifact content excluded"
+  },
+  {
+    "source_id": "S25",
+    "path": "src/cmj_recovery_dynamics/model_reproduction/checkpoint_m7.py",
+    "commit": "401f87aad1e4ef4108011fa0c1d769a24f1ad329",
+    "sha256": "37d1b14110967e2e2a1725618da7376703528ce938fab3f52f410d14ab76b578",
+    "staged_path": "evidence/S25_checkpoint_m7.py",
+    "eligibility": "Released public source; private artifact content excluded"
+  },
+  {
+    "source_id": "S26",
+    "path": "src/cmj_recovery_dynamics/model_reproduction/checkpoint_m8_inference.py",
+    "commit": "401f87aad1e4ef4108011fa0c1d769a24f1ad329",
+    "sha256": "ec13f4cef4838a7fb13d9521d14252965dd184aad86258ab2c4736c0f661a9bc",
+    "staged_path": "evidence/S26_checkpoint_m8_inference.py",
+    "eligibility": "Released public source; private artifact content excluded"
+  },
+  {
+    "source_id": "S27",
+    "path": "CITATION.cff",
+    "commit": "401f87aad1e4ef4108011fa0c1d769a24f1ad329",
+    "sha256": "712cfa27c990c7c94b0f5510ae40293904c56df1358c76cf9b27fcee4f0c5027",
+    "staged_path": "evidence/S27_CITATION.cff",
+    "eligibility": "Released public source; private artifact content excluded"
+  },
+  {
+    "source_id": "S28",
+    "path": "src/cmj_recovery_dynamics/benchmarks/preseason_camp_recovery.py",
+    "commit": "401f87aad1e4ef4108011fa0c1d769a24f1ad329",
+    "sha256": "87204630eff2b03121524fa5605cfade616737ea8f7acc274472b03601e6fe9b",
+    "staged_path": "evidence/S28_preseason_camp_recovery.py",
+    "eligibility": "Released underlying registry code; no private payload"
+  },
+  {
+    "source_id": "S29",
+    "path": "src/cmj_recovery_dynamics/benchmarks/rich_history_recovery.py",
+    "commit": "401f87aad1e4ef4108011fa0c1d769a24f1ad329",
+    "sha256": "ce0954435828303619547d0ebd9f5f0b596946bbfc3b0a738eb55d0570882665",
+    "staged_path": "evidence/S29_rich_history_recovery.py",
+    "eligibility": "Released underlying registry code; no private payload"
+  },
+  {
+    "source_id": "S30",
+    "path": "src/cmj_recovery_dynamics/benchmarks/preliminary_post_exposure_recovery.py",
+    "commit": "401f87aad1e4ef4108011fa0c1d769a24f1ad329",
+    "sha256": "e8fc0881a5aee35d240ce5ef4bf47f831b9f2fac91799379b7c17cd3a36f2618",
+    "staged_path": "evidence/S30_preliminary_post_exposure_recovery.py",
+    "eligibility": "Released underlying registry code; no private payload"
+  },
+  {
+    "source_id": "S31",
+    "path": "src/cmj_recovery_dynamics/benchmarks/phase_consistent_post_exposure_recovery.py",
+    "commit": "401f87aad1e4ef4108011fa0c1d769a24f1ad329",
+    "sha256": "415e164910ca0f796207485e1013f0a470f8547b528185020f10ecc4afb433cd",
+    "staged_path": "evidence/S31_phase_consistent_post_exposure_recovery.py",
+    "eligibility": "Released underlying registry code; no private payload"
+  },
+  {
+    "source_id": "S32",
+    "path": "src/cmj_recovery_dynamics/benchmarks/correlated_exposure_recovery.py",
+    "commit": "401f87aad1e4ef4108011fa0c1d769a24f1ad329",
+    "sha256": "de4861f2c80e4cf3e6970d7ee5ec6ec598dc38455877830a996545c7f1ce59fc",
+    "staged_path": "evidence/S32_correlated_exposure_recovery.py",
+    "eligibility": "Released underlying registry code; no private payload"
+  },
+  {
+    "source_id": "S33",
+    "path": "src/cmj_recovery_dynamics/benchmarks/threshold_response_recovery.py",
+    "commit": "401f87aad1e4ef4108011fa0c1d769a24f1ad329",
+    "sha256": "0877fb9db8d2c307ab2888e7278a78e100e236fe1097f75435c9b31fb6a50c77",
+    "staged_path": "evidence/S33_threshold_response_recovery.py",
+    "eligibility": "Released underlying registry code; no private payload"
+  },
+  {
+    "source_id": "S34",
+    "path": "src/cmj_recovery_dynamics/benchmarks/fixed_mode_discrepancy_recovery.py",
+    "commit": "401f87aad1e4ef4108011fa0c1d769a24f1ad329",
+    "sha256": "647b5be6f93d717ff91999a1f81b88c00657ce8a41bf7bd02bb82ce818aba390",
+    "staged_path": "evidence/S34_fixed_mode_discrepancy_recovery.py",
+    "eligibility": "Released underlying registry code; no private payload"
+  },
+  {
+    "source_id": "S35",
+    "path": "src/cmj_recovery_dynamics/metrics/catalog.py",
+    "commit": "401f87aad1e4ef4108011fa0c1d769a24f1ad329",
+    "sha256": "eb6c21d3190f4893d4918f98c1220f92b9f06f06d26ab9e08ce63a29f5bb3ea2",
+    "staged_path": "evidence/S35_catalog.py",
+    "eligibility": "Released underlying registry code; no private payload"
+  }
+]

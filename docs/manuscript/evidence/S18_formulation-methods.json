@@ -1,0 +1,74 @@
+{
+  "initial_preseason_camp_recovery": {
+    "world": "event_time_adaptation_recovery",
+    "observation": "camp_history",
+    "task": "Force and impulse innovations at H72 / D7",
+    "metric": "Four-cell public selection; production calibration unavailable.",
+    "relevance": "Separate forecasting from recovery interpretation in a camp setting.",
+    "limitation": "Superseded sample/surface; direct parent is unresolved; task and world law match the canonical state.",
+    "modelEvidence": "Linear baseline and M0 inference adapters exist. The historical 39-column projection is absent; a preserved private M0 checkpoint is not auto-loaded."
+  },
+  "canonical_preseason_camp_recovery": {
+    "world": "event_time_adaptation_recovery",
+    "observation": "camp_history",
+    "task": "Force and impulse innovations at H72 / D7",
+    "metric": "Native scorer exists; calibration and historical model binding unresolved.",
+    "relevance": "Make each requested horizon explicit without inventing a new world law.",
+    "limitation": "Canonical query surface and sample; not a new task or world law.",
+    "modelEvidence": "Historical five-run campaign is numeric result evidence only; no runnable historical M3 model use is registered."
+  },
+  "rich_history_camp_recovery": {
+    "world": "fitness_fatigue_impulse_response",
+    "observation": "rich_monitoring",
+    "task": "Force and impulse innovations at H72 / D7",
+    "metric": "24-cell raw-progress diagnostic; historical calibration locked.",
+    "relevance": "Ask whether richer monitoring changes the camp-state forecasting problem.",
+    "limitation": "Retired formulation; its direct scientific parent is unresolved.",
+    "modelEvidence": "Registered zero-innovation baseline is executable. Historical empirical-Bayes, boosted-residual and headroom results are evidence only. The new public ridge study is a separate experiment."
+  },
+  "preliminary_post_exposure_recovery": {
+    "world": "biexponential_episode_response",
+    "observation": "episode_summary",
+    "task": "Force and net-impulse innovations at H24 / H48 / H72",
+    "metric": "Production evaluation not implemented.",
+    "relevance": "Isolate a current exposure and learn from previous episodes.",
+    "limitation": "Direct parent is unresolved; preliminary measurement contract without a frozen force\u2013impulse identity.",
+    "modelEvidence": "No M3 model implementation and no public M1 numeric historical result are registered."
+  },
+  "phase_consistent_post_exposure_recovery": {
+    "world": "biexponential_episode_response",
+    "observation": "phase_consistent_force_impulse",
+    "task": "Force and net-impulse innovations at H24 / H48 / H72",
+    "metric": "Six-cell research diagnostic; production scorer not implemented.",
+    "relevance": "Enforce a shared measurement identity before comparing prediction quality.",
+    "limitation": "Observation-law repair; the episode response law is retained.",
+    "modelEvidence": "Historical ridge research result is evidence only; no executable M3 model adapter is registered."
+  },
+  "correlated_exposure_recovery": {
+    "world": "correlated_exposure_response",
+    "observation": "phase_consistent_force_impulse",
+    "task": "Force and net-impulse innovations at H24 / H48 / H72",
+    "metric": "Six-cell, progress-ratio and progress-loss diagnostics; production scorer not implemented.",
+    "relevance": "Ask whether correlated loads change the forecasting challenge.",
+    "limitation": "Material correlated exposure-distribution change; later redesigned.",
+    "modelEvidence": "Historical local, frontier and other predictor families are result evidence only; no exact historical numerical replay is qualified."
+  },
+  "threshold_response_recovery": {
+    "world": "threshold_response",
+    "observation": "phase_consistent_force_impulse",
+    "task": "Force and net-impulse innovations at H24 / H48 / H72",
+    "metric": "Proposed twelve-cell evaluation; calibration reference unavailable.",
+    "relevance": "Test a different response hypothesis; its scientific disposition remains proposed.",
+    "limitation": "Proposed alternate, not an accepted successor formulation.",
+    "modelEvidence": "Reference predictor configuration is unresolved; its checkpoint is not public. No M1 numeric historical result is registered."
+  },
+  "fixed_mode_discrepancy_recovery": {
+    "world": "fixed_mode_discrepancy_response",
+    "observation": "phase_consistent_force_impulse",
+    "task": "Force and net-impulse innovations at H24 / H48 / H72",
+    "metric": "Six-cell research NRMSE and relative-progress diagnostics; production scorer not implemented.",
+    "relevance": "Ask whether fixed mathematical structure helps when the world contains discrepancy.",
+    "limitation": "Active candidate; fixed modes are mathematical anchors, not biological compartments.",
+    "modelEvidence": "Historical local, generic and structured predictors are result evidence only. The new public study fits zero, constant, ridge and structured models independently of historical replay."
+  }
+}

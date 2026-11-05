@@ -26,3 +26,7 @@ Original checkpoint bytes and fitted parameters are not public package data.
 No external dataset is needed to build the public presentation.
 Historical research filenames and pinned source paths retain their original
 identifiers for provenance; the reader-facing navigation labels are descriptive.
+
+## Research manuscript
+
+The [M10 owner-review manuscript](manuscript/README.md) includes the full paper, technical supplement, reproducible figures, bibliography and public claims/evidence register. It remains a draft; original fitted checkpoints and private verification records are excluded.

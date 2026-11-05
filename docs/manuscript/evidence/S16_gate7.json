@@ -1,0 +1,186 @@
+{
+  "commit": "08c31e0876edea14e0eb6132d08c1b2705c1cfc9",
+  "experiment": "engineering reconstruction",
+  "sources": [
+    {
+      "path": "docs/RES-546_INFERENCE_VERIFICATION.md",
+      "sha256": "89dc6de93a8c583a7ead6ebddf77fef2b2da67d4517a11e3cdb628f00c1a8ff4"
+    },
+    {
+      "path": "docs/RES-546_CPU_SOURCE_INTEGRATION_POLICY.md",
+      "sha256": "b8d65ca30ac8eab62cd5b6cdabf1afc5bf6b1fa7a12071c4de36160e53c456d9"
+    },
+    {
+      "path": "docs/RES-546_GATE7_M8_RECOVERY.md",
+      "sha256": "3258c73ac8b911166eece258ec27bcac846457b04ad352c757a427b6ada062d4"
+    },
+    {
+      "path": "docs/GATE7_NATIVE_MEASUREMENT_V1.md",
+      "sha256": "0128429365c9f2133e6e7ab61ba62a1d83ba67f46592984f9e733b9b29bef725"
+    },
+    {
+      "path": "src/cmj_recovery_dynamics/model_reproduction/checkpoint_inference.py",
+      "sha256": "48e639a55749863922bae44740f10dbcb6c60deeb691e5880a45bb4f00f98603"
+    },
+    {
+      "path": "src/cmj_recovery_dynamics/model_reproduction/checkpoint_m7.py",
+      "sha256": "37d1b14110967e2e2a1725618da7376703528ce938fab3f52f410d14ab76b578"
+    },
+    {
+      "path": "src/cmj_recovery_dynamics/model_reproduction/checkpoint_m8_inference.py",
+      "sha256": "ec13f4cef4838a7fb13d9521d14252965dd184aad86258ab2c4736c0f661a9bc"
+    }
+  ],
+  "models": [
+    {
+      "id": "M0",
+      "architecture": "39 → 32 → 2; exact GELU",
+      "repeats": [
+        "r0",
+        "r1"
+      ],
+      "cpu": "Exact source parity",
+      "cuda": "Within recorded tolerance",
+      "inputs": "39 raw features"
+    },
+    {
+      "id": "M1",
+      "architecture": "39 → 64 → 2; exact GELU",
+      "repeats": [
+        "r0",
+        "r1"
+      ],
+      "cpu": "Exact source parity",
+      "cuda": "Within recorded tolerance",
+      "inputs": "39 raw features"
+    },
+    {
+      "id": "M2",
+      "architecture": "39 → 64 → 64 → 2; exact GELU",
+      "repeats": [
+        "r0",
+        "r1"
+      ],
+      "cpu": "Exact source parity",
+      "cuda": "Within recorded tolerance",
+      "inputs": "39 raw features"
+    },
+    {
+      "id": "M3",
+      "architecture": "Raw backbone + pointwise history encoder; mean/latest pooling → 128 → 2",
+      "repeats": [
+        "r0",
+        "r1"
+      ],
+      "cpu": "Exact source parity",
+      "cuda": "Within recorded tolerance",
+      "inputs": "39 raw + 4 × 4 history"
+    },
+    {
+      "id": "M4",
+      "architecture": "Raw backbone + 4 → 32 GRU; mean/latest pooling → 128 → 2",
+      "repeats": [
+        "r0",
+        "r1"
+      ],
+      "cpu": "Exact source parity",
+      "cuda": "Outside recorded tolerance",
+      "inputs": "39 raw + 4 × 4 history"
+    },
+    {
+      "id": "M5",
+      "architecture": "M4 + 2 × 8 horizon embedding → 136 → 2",
+      "repeats": [
+        "r0",
+        "r1"
+      ],
+      "cpu": "Exact source parity",
+      "cuda": "Outside recorded tolerance",
+      "inputs": "39 raw + 4 × 4 history + horizon"
+    },
+    {
+      "id": "M6",
+      "architecture": "M5 + first two basis values → 16 → 152 → 2",
+      "repeats": [
+        "r0",
+        "r1"
+      ],
+      "cpu": "Exact source parity",
+      "cuda": "Outside recorded tolerance",
+      "inputs": "39 raw + 4 × 4 history + horizon + 5 basis values"
+    },
+    {
+      "id": "M7",
+      "architecture": "M5 + all five basis values → 16 → 152 → 2",
+      "repeats": [
+        "r0",
+        "r1"
+      ],
+      "cpu": "Exact source parity",
+      "cuda": "Outside recorded tolerance",
+      "inputs": "39 raw + 4 × 4 history + horizon + 5 basis values"
+    },
+    {
+      "id": "M8",
+      "architecture": "M7 + bias-free 5 → 2 linear basis head",
+      "repeats": [
+        "r0",
+        "r1"
+      ],
+      "cpu": "Exact source parity",
+      "cuda": "Outside recorded tolerance",
+      "inputs": "39 raw + 4 × 4 history + horizon + 5 basis values"
+    }
+  ],
+  "windows": [
+    {
+      "id": "baseline",
+      "start": -240,
+      "end": -24,
+      "nominal": null
+    },
+    {
+      "id": "H72",
+      "start": 66,
+      "end": 78,
+      "nominal": 72
+    },
+    {
+      "id": "D7",
+      "start": 156,
+      "end": 180,
+      "nominal": 168
+    }
+  ],
+  "units": [
+    "N/kg",
+    "m/s"
+  ],
+  "figures": [
+    {
+      "id": "gate7-routes",
+      "source": "docs/RES-546_INFERENCE_VERIFICATION.md",
+      "kind": "engineering"
+    },
+    {
+      "id": "gate7-architecture",
+      "source": "src/cmj_recovery_dynamics/model_reproduction/checkpoint_inference.py",
+      "kind": "engineering"
+    },
+    {
+      "id": "native-force",
+      "source": "docs/GATE7_NATIVE_MEASUREMENT_V1.md",
+      "kind": "analytical schematic"
+    },
+    {
+      "id": "native-time",
+      "source": "docs/GATE7_NATIVE_MEASUREMENT_V1.md",
+      "kind": "contract"
+    },
+    {
+      "id": "gate7-flow",
+      "source": "docs/RES-546_CPU_SOURCE_INTEGRATION_POLICY.md",
+      "kind": "engineering"
+    }
+  ]
+}
