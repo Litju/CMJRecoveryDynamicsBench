@@ -1,0 +1,428 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns:xlink="http://www.w3.org/1999/xlink" width="448.632pt" height="407.038141pt" viewBox="0 0 448.632 407.038141" xmlns="http://www.w3.org/2000/svg" version="1.1">
+ <metadata>
+  <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+   <cc:Work>
+    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+    <dc:format>image/svg+xml</dc:format>
+    <dc:creator>
+     <cc:Agent>
+      <dc:title>CMJRecoveryDynamicsBench V3 figure script</dc:title>
+     </cc:Agent>
+    </dc:creator>
+   </cc:Work>
+  </rdf:RDF>
+ </metadata>
+ <defs>
+  <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style>
+ </defs>
+ <g id="figure_1">
+  <g id="patch_1">
+   <path d="M 0 407.038141 
+L 448.632 407.038141 
+L 448.632 0 
+L 0 0 
+z
+" style="fill: #ffffff"/>
+  </g>
+  <g id="axes_1">
+   <g id="line2d_1">
+    <path d="M 44.319273 25.990173 
+L 436.312145 25.990173 
+" clip-path="url(#p426016d74a)" style="fill: none; stroke: #d6dbe0; stroke-width: 0.45; stroke-linecap: square"/>
+   </g>
+   <g id="line2d_2">
+    <path d="M 44.319273 66.120122 
+L 436.312145 66.120122 
+" clip-path="url(#p426016d74a)" style="fill: none; stroke: #d6dbe0; stroke-width: 0.45; stroke-linecap: square"/>
+   </g>
+   <g id="line2d_3">
+    <path d="M 44.319273 106.250071 
+L 436.312145 106.250071 
+" clip-path="url(#p426016d74a)" style="fill: none; stroke: #d6dbe0; stroke-width: 0.45; stroke-linecap: square"/>
+   </g>
+   <g id="line2d_4">
+    <path d="M 44.319273 146.38002 
+L 436.312145 146.38002 
+" clip-path="url(#p426016d74a)" style="fill: none; stroke: #d6dbe0; stroke-width: 0.45; stroke-linecap: square"/>
+   </g>
+   <g id="line2d_5">
+    <path d="M 44.319273 186.50997 
+L 436.312145 186.50997 
+" clip-path="url(#p426016d74a)" style="fill: none; stroke: #d6dbe0; stroke-width: 0.45; stroke-linecap: square"/>
+   </g>
+   <g id="line2d_6">
+    <path d="M 44.319273 226.639919 
+L 436.312145 226.639919 
+" clip-path="url(#p426016d74a)" style="fill: none; stroke: #d6dbe0; stroke-width: 0.45; stroke-linecap: square"/>
+   </g>
+   <g id="line2d_7">
+    <path d="M 44.319273 266.769868 
+L 436.312145 266.769868 
+" clip-path="url(#p426016d74a)" style="fill: none; stroke: #d6dbe0; stroke-width: 0.45; stroke-linecap: square"/>
+   </g>
+   <g id="line2d_8">
+    <path d="M 44.319273 306.899817 
+L 436.312145 306.899817 
+" clip-path="url(#p426016d74a)" style="fill: none; stroke: #d6dbe0; stroke-width: 0.45; stroke-linecap: square"/>
+   </g>
+   <g id="line2d_9">
+    <path d="M 44.319273 347.029766 
+L 436.312145 347.029766 
+" clip-path="url(#p426016d74a)" style="fill: none; stroke: #d6dbe0; stroke-width: 0.45; stroke-linecap: square"/>
+   </g>
+   <g id="text_1">
+    <text style="font-weight: 700; font-size: 7.3px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #18232d" x="100.318255" y="14.352487" transform="rotate(-0 100.318255 14.352487)">Exact original-source CPU</text>
+   </g>
+   <g id="text_2">
+    <text style="font-weight: 700; font-size: 7.3px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #18232d" x="208.316291" y="14.352487" transform="rotate(-0 208.316291 14.352487)">Saved historical CUDA</text>
+   </g>
+   <g id="text_3">
+    <text style="font-weight: 700; font-size: 7.1px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #18232d" x="308.314473" y="14.352487" transform="rotate(-0 308.314473 14.352487)">Max |difference|</text>
+   </g>
+   <g id="text_4">
+    <text style="font-weight: 700; font-size: 7.1px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #18232d" x="408.312655" y="14.352487" transform="rotate(-0 408.312655 14.352487)">Failing / 1,024</text>
+   </g>
+   <g id="text_5">
+    <text style="font-size: 6.4px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #626c75" x="308.314473" y="21.977178" transform="rotate(-0 308.314473 21.977178)">(mixed output units)</text>
+   </g>
+   <g id="text_6">
+    <text style="font-size: 6.4px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #626c75" x="408.312655" y="21.977178" transform="rotate(-0 408.312655 21.977178)">(recorded)</text>
+   </g>
+   <g id="text_7">
+    <text style="font-weight: 700; font-size: 7.1px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #18232d" x="50.319164" y="36.261798" transform="rotate(-0 50.319164 36.261798)">M0-r0</text>
+   </g>
+   <g id="text_8">
+    <text style="font-weight: 700; font-size: 7.1px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #18232d" x="100.318255" y="36.261798" transform="rotate(-0 100.318255 36.261798)">PASS</text>
+   </g>
+   <g id="text_9">
+    <text style="font-weight: 700; font-size: 12px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #18232d" x="186.316691" y="37.534649" transform="rotate(-0 186.316691 37.534649)">✓</text>
+   </g>
+   <g id="text_10">
+    <text style="font-weight: 700; font-size: 7.1px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #18232d" x="218.316109" y="36.261798" transform="rotate(-0 218.316109 36.261798)">PASS</text>
+   </g>
+   <g id="text_11">
+    <text style="font-size: 6.8px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #18232d" x="308.314473" y="36.183868" transform="rotate(-0 308.314473 36.183868)">1.431e-06</text>
+   </g>
+   <g id="text_12">
+    <text style="font-size: 6.8px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #18232d" x="408.312655" y="36.183868" transform="rotate(-0 408.312655 36.183868)">0</text>
+   </g>
+   <g id="text_13">
+    <text style="font-size: 7.1px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #18232d" x="50.319164" y="56.326772" transform="rotate(-0 50.319164 56.326772)">M0-r1</text>
+   </g>
+   <g id="text_14">
+    <text style="font-weight: 700; font-size: 7.1px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #18232d" x="100.318255" y="56.326772" transform="rotate(-0 100.318255 56.326772)">PASS</text>
+   </g>
+   <g id="text_15">
+    <text style="font-weight: 700; font-size: 12px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #18232d" x="186.316691" y="57.599624" transform="rotate(-0 186.316691 57.599624)">✓</text>
+   </g>
+   <g id="text_16">
+    <text style="font-weight: 700; font-size: 7.1px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #18232d" x="218.316109" y="56.326772" transform="rotate(-0 218.316109 56.326772)">PASS</text>
+   </g>
+   <g id="text_17">
+    <text style="font-size: 6.8px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #18232d" x="308.314473" y="56.248843" transform="rotate(-0 308.314473 56.248843)">1.431e-06</text>
+   </g>
+   <g id="text_18">
+    <text style="font-size: 6.8px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #18232d" x="408.312655" y="56.248843" transform="rotate(-0 408.312655 56.248843)">0</text>
+   </g>
+   <g id="text_19">
+    <text style="font-weight: 700; font-size: 7.1px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #18232d" x="50.319164" y="76.391747" transform="rotate(-0 50.319164 76.391747)">M1-r0</text>
+   </g>
+   <g id="text_20">
+    <text style="font-weight: 700; font-size: 7.1px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #18232d" x="100.318255" y="76.391747" transform="rotate(-0 100.318255 76.391747)">PASS</text>
+   </g>
+   <g id="text_21">
+    <text style="font-weight: 700; font-size: 12px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #18232d" x="186.316691" y="77.664599" transform="rotate(-0 186.316691 77.664599)">✓</text>
+   </g>
+   <g id="text_22">
+    <text style="font-weight: 700; font-size: 7.1px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #18232d" x="218.316109" y="76.391747" transform="rotate(-0 218.316109 76.391747)">PASS</text>
+   </g>
+   <g id="text_23">
+    <text style="font-size: 6.8px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #18232d" x="308.314473" y="76.313817" transform="rotate(-0 308.314473 76.313817)">1.431e-06</text>
+   </g>
+   <g id="text_24">
+    <text style="font-size: 6.8px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #18232d" x="408.312655" y="76.313817" transform="rotate(-0 408.312655 76.313817)">—</text>
+   </g>
+   <g id="text_25">
+    <text style="font-size: 7.1px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #18232d" x="50.319164" y="96.456722" transform="rotate(-0 50.319164 96.456722)">M1-r1</text>
+   </g>
+   <g id="text_26">
+    <text style="font-weight: 700; font-size: 7.1px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #18232d" x="100.318255" y="96.456722" transform="rotate(-0 100.318255 96.456722)">PASS</text>
+   </g>
+   <g id="text_27">
+    <text style="font-weight: 700; font-size: 12px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #18232d" x="186.316691" y="97.729573" transform="rotate(-0 186.316691 97.729573)">✓</text>
+   </g>
+   <g id="text_28">
+    <text style="font-weight: 700; font-size: 7.1px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #18232d" x="218.316109" y="96.456722" transform="rotate(-0 218.316109 96.456722)">PASS</text>
+   </g>
+   <g id="text_29">
+    <text style="font-size: 6.8px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #18232d" x="308.314473" y="96.378792" transform="rotate(-0 308.314473 96.378792)">1.431e-06</text>
+   </g>
+   <g id="text_30">
+    <text style="font-size: 6.8px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #18232d" x="408.312655" y="96.378792" transform="rotate(-0 408.312655 96.378792)">—</text>
+   </g>
+   <g id="text_31">
+    <text style="font-weight: 700; font-size: 7.1px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #18232d" x="50.319164" y="116.521696" transform="rotate(-0 50.319164 116.521696)">M2-r0</text>
+   </g>
+   <g id="text_32">
+    <text style="font-weight: 700; font-size: 7.1px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #18232d" x="100.318255" y="116.521696" transform="rotate(-0 100.318255 116.521696)">PASS</text>
+   </g>
+   <g id="text_33">
+    <text style="font-weight: 700; font-size: 12px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #18232d" x="186.316691" y="117.794548" transform="rotate(-0 186.316691 117.794548)">✓</text>
+   </g>
+   <g id="text_34">
+    <text style="font-weight: 700; font-size: 7.1px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #18232d" x="218.316109" y="116.521696" transform="rotate(-0 218.316109 116.521696)">PASS</text>
+   </g>
+   <g id="text_35">
+    <text style="font-size: 6.8px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #18232d" x="308.314473" y="116.443767" transform="rotate(-0 308.314473 116.443767)">1.907e-06</text>
+   </g>
+   <g id="text_36">
+    <text style="font-size: 6.8px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #18232d" x="408.312655" y="116.443767" transform="rotate(-0 408.312655 116.443767)">—</text>
+   </g>
+   <g id="text_37">
+    <text style="font-size: 7.1px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #18232d" x="50.319164" y="136.586671" transform="rotate(-0 50.319164 136.586671)">M2-r1</text>
+   </g>
+   <g id="text_38">
+    <text style="font-weight: 700; font-size: 7.1px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #18232d" x="100.318255" y="136.586671" transform="rotate(-0 100.318255 136.586671)">PASS</text>
+   </g>
+   <g id="text_39">
+    <text style="font-weight: 700; font-size: 12px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #18232d" x="186.316691" y="137.859523" transform="rotate(-0 186.316691 137.859523)">✓</text>
+   </g>
+   <g id="text_40">
+    <text style="font-weight: 700; font-size: 7.1px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #18232d" x="218.316109" y="136.586671" transform="rotate(-0 218.316109 136.586671)">PASS</text>
+   </g>
+   <g id="text_41">
+    <text style="font-size: 6.8px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #18232d" x="308.314473" y="136.508741" transform="rotate(-0 308.314473 136.508741)">1.907e-06</text>
+   </g>
+   <g id="text_42">
+    <text style="font-size: 6.8px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #18232d" x="408.312655" y="136.508741" transform="rotate(-0 408.312655 136.508741)">—</text>
+   </g>
+   <g id="text_43">
+    <text style="font-weight: 700; font-size: 7.1px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #18232d" x="50.319164" y="156.651646" transform="rotate(-0 50.319164 156.651646)">M3-r0</text>
+   </g>
+   <g id="text_44">
+    <text style="font-weight: 700; font-size: 7.1px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #18232d" x="100.318255" y="156.651646" transform="rotate(-0 100.318255 156.651646)">PASS</text>
+   </g>
+   <g id="text_45">
+    <text style="font-weight: 700; font-size: 12px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #18232d" x="186.316691" y="157.924497" transform="rotate(-0 186.316691 157.924497)">✓</text>
+   </g>
+   <g id="text_46">
+    <text style="font-weight: 700; font-size: 7.1px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #18232d" x="218.316109" y="156.651646" transform="rotate(-0 218.316109 156.651646)">PASS</text>
+   </g>
+   <g id="text_47">
+    <text style="font-size: 6.8px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #18232d" x="308.314473" y="156.573716" transform="rotate(-0 308.314473 156.573716)">2.384e-06</text>
+   </g>
+   <g id="text_48">
+    <text style="font-size: 6.8px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #18232d" x="408.312655" y="156.573716" transform="rotate(-0 408.312655 156.573716)">—</text>
+   </g>
+   <g id="text_49">
+    <text style="font-size: 7.1px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #18232d" x="50.319164" y="176.71662" transform="rotate(-0 50.319164 176.71662)">M3-r1</text>
+   </g>
+   <g id="text_50">
+    <text style="font-weight: 700; font-size: 7.1px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #18232d" x="100.318255" y="176.71662" transform="rotate(-0 100.318255 176.71662)">PASS</text>
+   </g>
+   <g id="text_51">
+    <text style="font-weight: 700; font-size: 12px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #18232d" x="186.316691" y="177.989472" transform="rotate(-0 186.316691 177.989472)">✓</text>
+   </g>
+   <g id="text_52">
+    <text style="font-weight: 700; font-size: 7.1px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #18232d" x="218.316109" y="176.71662" transform="rotate(-0 218.316109 176.71662)">PASS</text>
+   </g>
+   <g id="text_53">
+    <text style="font-size: 6.8px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #18232d" x="308.314473" y="176.638691" transform="rotate(-0 308.314473 176.638691)">1.192e-06</text>
+   </g>
+   <g id="text_54">
+    <text style="font-size: 6.8px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #18232d" x="408.312655" y="176.638691" transform="rotate(-0 408.312655 176.638691)">—</text>
+   </g>
+   <g id="text_55">
+    <text style="font-weight: 700; font-size: 7.1px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #18232d" x="50.319164" y="196.781595" transform="rotate(-0 50.319164 196.781595)">M4-r0</text>
+   </g>
+   <g id="text_56">
+    <text style="font-weight: 700; font-size: 7.1px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #18232d" x="100.318255" y="196.781595" transform="rotate(-0 100.318255 196.781595)">PASS</text>
+   </g>
+   <g id="text_57">
+    <text style="font-weight: 700; font-size: 12px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #b54234" x="186.316691" y="198.054446" transform="rotate(-0 186.316691 198.054446)">×</text>
+   </g>
+   <g id="text_58">
+    <text style="font-weight: 700; font-size: 7.1px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #b54234" x="218.316109" y="196.781595" transform="rotate(-0 218.316109 196.781595)">FAIL</text>
+   </g>
+   <g id="text_59">
+    <text style="font-size: 6.8px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #18232d" x="308.314473" y="196.703665" transform="rotate(-0 308.314473 196.703665)">4.759e-04</text>
+   </g>
+   <g id="text_60">
+    <text style="font-size: 6.8px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #18232d" x="408.312655" y="196.703665" transform="rotate(-0 408.312655 196.703665)">254</text>
+   </g>
+   <g id="text_61">
+    <text style="font-size: 7.1px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #18232d" x="50.319164" y="216.846569" transform="rotate(-0 50.319164 216.846569)">M4-r1</text>
+   </g>
+   <g id="text_62">
+    <text style="font-weight: 700; font-size: 7.1px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #18232d" x="100.318255" y="216.846569" transform="rotate(-0 100.318255 216.846569)">PASS</text>
+   </g>
+   <g id="text_63">
+    <text style="font-weight: 700; font-size: 12px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #b54234" x="186.316691" y="218.119421" transform="rotate(-0 186.316691 218.119421)">×</text>
+   </g>
+   <g id="text_64">
+    <text style="font-weight: 700; font-size: 7.1px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #b54234" x="218.316109" y="216.846569" transform="rotate(-0 218.316109 216.846569)">FAIL</text>
+   </g>
+   <g id="text_65">
+    <text style="font-size: 6.8px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #18232d" x="308.314473" y="216.76864" transform="rotate(-0 308.314473 216.76864)">3.264e-04</text>
+   </g>
+   <g id="text_66">
+    <text style="font-size: 6.8px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #18232d" x="408.312655" y="216.76864" transform="rotate(-0 408.312655 216.76864)">146</text>
+   </g>
+   <g id="text_67">
+    <text style="font-weight: 700; font-size: 7.1px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #18232d" x="50.319164" y="236.911544" transform="rotate(-0 50.319164 236.911544)">M5-r0</text>
+   </g>
+   <g id="text_68">
+    <text style="font-weight: 700; font-size: 7.1px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #18232d" x="100.318255" y="236.911544" transform="rotate(-0 100.318255 236.911544)">PASS</text>
+   </g>
+   <g id="text_69">
+    <text style="font-weight: 700; font-size: 12px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #b54234" x="186.316691" y="238.184396" transform="rotate(-0 186.316691 238.184396)">×</text>
+   </g>
+   <g id="text_70">
+    <text style="font-weight: 700; font-size: 7.1px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #b54234" x="218.316109" y="236.911544" transform="rotate(-0 218.316109 236.911544)">FAIL</text>
+   </g>
+   <g id="text_71">
+    <text style="font-size: 6.8px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #18232d" x="308.314473" y="236.833614" transform="rotate(-0 308.314473 236.833614)">3.715e-04</text>
+   </g>
+   <g id="text_72">
+    <text style="font-size: 6.8px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #18232d" x="408.312655" y="236.833614" transform="rotate(-0 408.312655 236.833614)">443</text>
+   </g>
+   <g id="text_73">
+    <text style="font-size: 7.1px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #18232d" x="50.319164" y="256.976519" transform="rotate(-0 50.319164 256.976519)">M5-r1</text>
+   </g>
+   <g id="text_74">
+    <text style="font-weight: 700; font-size: 7.1px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #18232d" x="100.318255" y="256.976519" transform="rotate(-0 100.318255 256.976519)">PASS</text>
+   </g>
+   <g id="text_75">
+    <text style="font-weight: 700; font-size: 12px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #b54234" x="186.316691" y="258.24937" transform="rotate(-0 186.316691 258.24937)">×</text>
+   </g>
+   <g id="text_76">
+    <text style="font-weight: 700; font-size: 7.1px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #b54234" x="218.316109" y="256.976519" transform="rotate(-0 218.316109 256.976519)">FAIL</text>
+   </g>
+   <g id="text_77">
+    <text style="font-size: 6.8px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #18232d" x="308.314473" y="256.898589" transform="rotate(-0 308.314473 256.898589)">2.704e-04</text>
+   </g>
+   <g id="text_78">
+    <text style="font-size: 6.8px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #18232d" x="408.312655" y="256.898589" transform="rotate(-0 408.312655 256.898589)">206</text>
+   </g>
+   <g id="text_79">
+    <text style="font-weight: 700; font-size: 7.1px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #18232d" x="50.319164" y="277.041493" transform="rotate(-0 50.319164 277.041493)">M6-r0</text>
+   </g>
+   <g id="text_80">
+    <text style="font-weight: 700; font-size: 7.1px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #18232d" x="100.318255" y="277.041493" transform="rotate(-0 100.318255 277.041493)">PASS</text>
+   </g>
+   <g id="text_81">
+    <text style="font-weight: 700; font-size: 12px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #b54234" x="186.316691" y="278.314345" transform="rotate(-0 186.316691 278.314345)">×</text>
+   </g>
+   <g id="text_82">
+    <text style="font-weight: 700; font-size: 7.1px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #b54234" x="218.316109" y="277.041493" transform="rotate(-0 218.316109 277.041493)">FAIL</text>
+   </g>
+   <g id="text_83">
+    <text style="font-size: 6.8px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #18232d" x="308.314473" y="276.963564" transform="rotate(-0 308.314473 276.963564)">1.993e-04</text>
+   </g>
+   <g id="text_84">
+    <text style="font-size: 6.8px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #18232d" x="408.312655" y="276.963564" transform="rotate(-0 408.312655 276.963564)">88</text>
+   </g>
+   <g id="text_85">
+    <text style="font-size: 7.1px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #18232d" x="50.319164" y="297.106468" transform="rotate(-0 50.319164 297.106468)">M6-r1</text>
+   </g>
+   <g id="text_86">
+    <text style="font-weight: 700; font-size: 7.1px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #18232d" x="100.318255" y="297.106468" transform="rotate(-0 100.318255 297.106468)">PASS</text>
+   </g>
+   <g id="text_87">
+    <text style="font-weight: 700; font-size: 12px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #b54234" x="186.316691" y="298.379319" transform="rotate(-0 186.316691 298.379319)">×</text>
+   </g>
+   <g id="text_88">
+    <text style="font-weight: 700; font-size: 7.1px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #b54234" x="218.316109" y="297.106468" transform="rotate(-0 218.316109 297.106468)">FAIL</text>
+   </g>
+   <g id="text_89">
+    <text style="font-size: 6.8px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #18232d" x="308.314473" y="297.028538" transform="rotate(-0 308.314473 297.028538)">2.793e-04</text>
+   </g>
+   <g id="text_90">
+    <text style="font-size: 6.8px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #18232d" x="408.312655" y="297.028538" transform="rotate(-0 408.312655 297.028538)">140</text>
+   </g>
+   <g id="text_91">
+    <text style="font-weight: 700; font-size: 7.1px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #18232d" x="50.319164" y="317.171443" transform="rotate(-0 50.319164 317.171443)">M7-r0</text>
+   </g>
+   <g id="text_92">
+    <text style="font-weight: 700; font-size: 7.1px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #18232d" x="100.318255" y="317.171443" transform="rotate(-0 100.318255 317.171443)">PASS</text>
+   </g>
+   <g id="text_93">
+    <text style="font-weight: 700; font-size: 12px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #b54234" x="186.316691" y="318.444294" transform="rotate(-0 186.316691 318.444294)">×</text>
+   </g>
+   <g id="text_94">
+    <text style="font-weight: 700; font-size: 7.1px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #b54234" x="218.316109" y="317.171443" transform="rotate(-0 218.316109 317.171443)">FAIL</text>
+   </g>
+   <g id="text_95">
+    <text style="font-size: 6.8px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #18232d" x="308.314473" y="317.093513" transform="rotate(-0 308.314473 317.093513)">3.176e-04</text>
+   </g>
+   <g id="text_96">
+    <text style="font-size: 6.8px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #18232d" x="408.312655" y="317.093513" transform="rotate(-0 408.312655 317.093513)">163</text>
+   </g>
+   <g id="text_97">
+    <text style="font-size: 7.1px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #18232d" x="50.319164" y="337.236417" transform="rotate(-0 50.319164 337.236417)">M7-r1</text>
+   </g>
+   <g id="text_98">
+    <text style="font-weight: 700; font-size: 7.1px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #18232d" x="100.318255" y="337.236417" transform="rotate(-0 100.318255 337.236417)">PASS</text>
+   </g>
+   <g id="text_99">
+    <text style="font-weight: 700; font-size: 12px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #b54234" x="186.316691" y="338.509269" transform="rotate(-0 186.316691 338.509269)">×</text>
+   </g>
+   <g id="text_100">
+    <text style="font-weight: 700; font-size: 7.1px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #b54234" x="218.316109" y="337.236417" transform="rotate(-0 218.316109 337.236417)">FAIL</text>
+   </g>
+   <g id="text_101">
+    <text style="font-size: 6.8px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #18232d" x="308.314473" y="337.158487" transform="rotate(-0 308.314473 337.158487)">3.049e-04</text>
+   </g>
+   <g id="text_102">
+    <text style="font-size: 6.8px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #18232d" x="408.312655" y="337.158487" transform="rotate(-0 408.312655 337.158487)">198</text>
+   </g>
+   <g id="text_103">
+    <text style="font-weight: 700; font-size: 7.1px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #18232d" x="50.319164" y="357.301392" transform="rotate(-0 50.319164 357.301392)">M8-r0</text>
+   </g>
+   <g id="text_104">
+    <text style="font-weight: 700; font-size: 7.1px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #18232d" x="100.318255" y="357.301392" transform="rotate(-0 100.318255 357.301392)">PASS</text>
+   </g>
+   <g id="text_105">
+    <text style="font-weight: 700; font-size: 12px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #b54234" x="186.316691" y="358.574243" transform="rotate(-0 186.316691 358.574243)">×</text>
+   </g>
+   <g id="text_106">
+    <text style="font-weight: 700; font-size: 7.1px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #b54234" x="218.316109" y="357.301392" transform="rotate(-0 218.316109 357.301392)">FAIL</text>
+   </g>
+   <g id="text_107">
+    <text style="font-size: 6.8px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #18232d" x="308.314473" y="357.223462" transform="rotate(-0 308.314473 357.223462)">2.213e-04</text>
+   </g>
+   <g id="text_108">
+    <text style="font-size: 6.8px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #18232d" x="408.312655" y="357.223462" transform="rotate(-0 408.312655 357.223462)">98</text>
+   </g>
+   <g id="text_109">
+    <text style="font-size: 7.1px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #18232d" x="50.319164" y="377.366366" transform="rotate(-0 50.319164 377.366366)">M8-r1</text>
+   </g>
+   <g id="text_110">
+    <text style="font-weight: 700; font-size: 7.1px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #18232d" x="100.318255" y="377.366366" transform="rotate(-0 100.318255 377.366366)">PASS</text>
+   </g>
+   <g id="text_111">
+    <text style="font-weight: 700; font-size: 12px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #b54234" x="186.316691" y="378.639218" transform="rotate(-0 186.316691 378.639218)">×</text>
+   </g>
+   <g id="text_112">
+    <text style="font-weight: 700; font-size: 7.1px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #b54234" x="218.316109" y="377.366366" transform="rotate(-0 218.316109 377.366366)">FAIL</text>
+   </g>
+   <g id="text_113">
+    <text style="font-size: 6.8px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #18232d" x="308.314473" y="377.288437" transform="rotate(-0 308.314473 377.288437)">3.042e-04</text>
+   </g>
+   <g id="text_114">
+    <text style="font-size: 6.8px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #18232d" x="408.312655" y="377.288437" transform="rotate(-0 408.312655 377.288437)">145</text>
+   </g>
+   <g id="text_115">
+    <text style="font-size: 6.7px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #626c75" x="50.319164" y="401.10857" transform="rotate(-0 50.319164 401.10857)">Saved-array rule: |a − b| ≤ 10⁻⁵ + 10⁻⁴ |b|. PASS/FAIL records are receipt-backed; no GPU replay is implied.</text>
+   </g>
+  </g>
+ </g>
+ <defs>
+  <clipPath id="p426016d74a">
+   <rect x="4.32" y="4.32" width="439.992" height="395.28"/>
+  </clipPath>
+ </defs>
+</svg>

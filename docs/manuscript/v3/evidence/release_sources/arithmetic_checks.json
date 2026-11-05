@@ -1,0 +1,24 @@
+{
+  "models_checked": [
+    "ridge_full",
+    "ridge_n24",
+    "ridge_n48",
+    "ridge_n96",
+    "ridge_no_current_exposure",
+    "ridge_no_participant_context",
+    "ridge_no_prior_history",
+    "structured_full",
+    "structured_n24",
+    "structured_n48",
+    "structured_n96",
+    "structured_no_prior_history",
+    "training_constant",
+    "training_constant_n24",
+    "training_constant_n48",
+    "training_constant_n96",
+    "zero_innovation"
+  ],
+  "scientific_digest": "25032133d6f3293f722d06d3a618ec1aecec7cef35d2d35524c7431620e4bc71",
+  "digest_verified": true,
+  "method": "stdlib mean, sample stdev, six-cell mean; no model execution"
+}

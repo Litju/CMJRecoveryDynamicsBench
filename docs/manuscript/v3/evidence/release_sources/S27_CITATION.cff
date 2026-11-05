@@ -1,0 +1,12 @@
+cff-version: 1.2.0
+message: "If you use this research software, please cite it using these metadata."
+title: "CMJ Recovery Dynamics Bench"
+type: software
+authors:
+  - family-names: Rodriguez
+    given-names: Julio
+version: "1.1.0"
+date-released: 2026-11-04
+repository-code: "https://github.com/Litju/CMJRecoveryDynamicsBench"
+license: "Apache-2.0"
+abstract: "Research software for synthetic countermovement-jump recovery benchmarks, recovered CPU inference interfaces, native measurement mechanics, statistical evaluation, and evidence-bounded study execution. It does not establish human-athlete predictive validity."

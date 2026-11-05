@@ -1,0 +1,388 @@
+\ifdefined\ReviewEdition
+  \documentclass[12pt,a4paper]{article}
+\else
+  \documentclass[11pt,a4paper]{article}
+\fi
+
+\usepackage[T1]{fontenc}
+\usepackage{newtxtext,newtxmath}
+\usepackage{microtype}
+\usepackage{amsmath,mathtools}
+\usepackage{siunitx}
+\usepackage{graphicx}
+\usepackage{booktabs,tabularx,array}
+\usepackage{float}
+\usepackage{placeins}
+\usepackage{cite}
+\usepackage{setspace}
+\usepackage{lineno}
+\usepackage{caption}
+\usepackage{xurl}
+\usepackage{hyperref}
+\usepackage{geometry}
+
+\ifdefined\ReviewEdition\else
+  \makeatletter
+  \setlength{\@fptop}{0pt}
+  \makeatother
+\fi
+
+\ifdefined\ReviewEdition
+  \geometry{a4paper,margin=25.4mm}
+\else
+  \geometry{a4paper,margin=20mm}
+\fi
+
+\sisetup{per-mode=symbol,detect-all}
+\setlength{\emergencystretch}{1em}
+\DeclareSIUnit{\Nkg}{\newton\per\kilogram}
+\DeclareSIUnit{\mps}{\meter\per\second}
+\DeclareSIUnit{\Ns}{\newton\second}
+\hypersetup{hidelinks,pdftitle={Recovering reproducibility in scientific machine learning: Reconstruction and numerical qualification of countermovement-jump recovery models},pdfauthor={Author names pending owner confirmation}}
+\urlstyle{same}
+\captionsetup{font=small,labelfont=bf,labelsep=period,justification=raggedright,singlelinecheck=false}
+\renewcommand{\figurename}{Fig}
+\newcommand{\NRMSE}{\operatorname{NRMSE}}
+\newcommand{\RMSE}{\operatorname{RMSE}}
+\newcommand{\MAE}{\operatorname{MAE}}
+\newcommand{\Fig}[1]{Fig.~\ref{#1}}
+\newcommand{\Eq}[1]{Eq.~\eqref{#1}}
+\newcommand{\EvidenceFigure}[3]{%
+  \ifdefined\ReviewEdition
+    \begin{figure}[H]
+  \else
+    \begin{figure}[!htbp]
+  \fi
+  \centering
+  \ifdefined\ReviewEdition\else
+    \includegraphics[width=\linewidth]{#1}
+  \fi
+  \caption{#2 Plotting code was AI-assisted; no AI-generated image content was used.}
+  \label{#3}
+  \end{figure}
+}
+
+\begin{document}
+\ifdefined\ReviewEdition
+  \doublespacing
+  \modulolinenumbers[1]
+  \linenumbers
+\else
+  \setstretch{1.08}
+\fi
+
+\title{Recovering reproducibility in scientific machine learning: Reconstruction and numerical qualification of countermovement-jump recovery models}
+\author{Author names and affiliations pending owner confirmation}
+\date{Owner-review draft}
+\maketitle
+
+\noindent\textbf{Short title:} Reconstructing jump recovery models
+
+\begin{abstract}
+Scientific machine-learning results depend on a chain linking implementation, fitted state, preprocessing, measurement, and evaluation. We reconstruct this chain for a historical program forecasting countermovement-jump recovery, using source snapshots, configuration and checkpoint inventories, measurement contracts, saved outputs, and release receipts. Eight scientific formulations and nine neural model families (18 repeat routes) were recovered. The preserved qualification records show exact agreement with original-source inference on a central processor for all 18 routes, but comparison with saved graphics-processor arrays passes for the first four families and fails for both repeats of M4--M8 under the recorded elementwise tolerance. These results establish source-level numerical agreement in the recorded computing environment, not historical graphics-processor replay or predictive validity. Separately, we summarize an existing public synthetic benchmark comparing zero and training-mean baselines, ridge regression, and a structured comparator at three forecast horizons for force and impulse outcomes. Across three roots from one generator, mean six-cell normalized root-mean-square error was 0.736 for ridge, 0.773 for the structured model, 1.036 for the training-mean baseline, and 2.431 for zero innovation. Root variability and previously recorded paired camp-bootstrap intervals are reported as distinct quantities; no model-to-model confidence interval is inferred. The public synthetic task and native 72-hour/day-7 biomechanical contract remain separate. No new training, model inference, athlete-data acquisition, or empirical score was performed. These records support a reproducible case study but do not establish athlete-level prediction, transportability, or clinical utility.
+\end{abstract}
+
+\noindent\textbf{Keywords:} scientific machine learning; reproducible research; model reconstruction; countermovement jump; synthetic benchmark; numerical reproducibility
+
+\section{Introduction}
+
+Reproducing a scientific machine-learning result requires more than recovering executable source code. The result also depends on the selected fitted state, feature ordering, preprocessing, target definition, split membership, runtime behavior, and aggregation rule. When these pieces are stored separately, a successful program run can still answer a different scientific question from the historical experiment. Reproducible computational research therefore depends on preserving the inputs and procedures behind a result, not only the source that could have generated it \cite{R1,R9}.
+
+This problem connects to research-software and provenance practice. The findable, accessible, interoperable, and reusable (FAIR) principles and their extension to research software emphasize reusable, interpretable records \cite{R6,R7}; model-lifecycle systems and provenance representations show how fitted artifacts and execution history can be connected to code \cite{R10,R11}. These frameworks motivate explicit identity and rights records, but they do not restore missing measurements or fitted parameters. In a particular archive, the practical scientific question is which parts of the claimed computation can still be bound to authenticated evidence, and which remain unavailable or contradictory.
+
+Countermovement-jump (CMJ) assessments make the measurement layer consequential. Force-time metrics depend on the event boundaries and signal from which they are calculated, and metric reliability does not make distinct force and impulse outcomes interchangeable \cite{R3,R4}. Forecast evaluation also depends on the data structure: records from the same participant, episode, or camp are not independent observations. Reporting guidance for clustered prediction studies and methodological guidance for simulation studies emphasize the need to make the sampling unit and data-generating setting explicit \cite{R5,R12}.
+
+We examine CMJRecoveryDynamicsBench as a retrospective reconstruction case. The recovered archive distinguishes eight scientific formulations from nine original neural model families, each with two candidate repeats. A separate, already recorded synthetic reference-model experiment compares four models across three horizons and two outcomes. The original neural routes and synthetic reference models are not aliases for the same experiment. Their target horizons, outcome contracts, result authority, and reproducibility evidence differ.
+
+The case-specific gap is the lack of one publication-safe, auditable account linking historical formulations, fitted-model contracts, measurement definitions, numerical comparisons, and result authority while preserving unresolved ancestry and rights limits. This paper addresses that gap in this archive; it does not claim that general provenance or reproducibility methods are absent.
+
+The study addresses three questions. First, what formulation, architecture, and measurement relationships can be reconstructed from the preserved records without inventing missing ancestry? Second, what does the numerical evidence establish about original-source CPU agreement and comparison with saved historical CUDA arrays? Third, how do four reference models compare in the existing public synthetic benchmark, and what is the scope of that comparison? We contribute an artifact-bound reconstruction of the historical model routes, a separation of computational reproducibility from scientific validity, and a reproducible presentation of the public synthetic results and their uncertainty limits. We do not propose a new learning algorithm or claim a validated recovery score.
+
+\section{Related work}
+
+\subsection{Reproducibility, provenance, and fitted artifacts}
+
+Community reproducibility initiatives in machine learning call for methods, code, data, and experimental settings to be reported in sufficient detail to support independent checks \cite{R9}. Research-software FAIR guidance complements this by treating software identity and metadata as part of the research record \cite{R6,R7}. ModelHub frames fitted models as lifecycle artifacts, while the Open Provenance Model represents activities and entities through provenance links \cite{R10,R11}. We use these ideas as methodological context, but do not claim that the historical execution graph is complete: private checkpoint bytes and restricted run records are not redistributed, and some formulation ancestry remains unresolved.
+
+\subsection{Numerical reproducibility}
+
+Floating-point operations can vary with hardware, operation order, and implementation \cite{R2}. Reproducible summation methods demonstrate that exact numerical agreement can be engineered under defined conditions, rather than assumed across runtimes \cite{R13}. These results justify treating a numerical comparison as an explicit relation among arrays and a fixed tolerance. They do not identify the cause of any individual discrepancy in the archived CMJ models. A passed CPU comparison and a failed saved-CUDA comparison are separate observations; neither alone establishes predictive validity.
+
+\subsection{CMJ measurement and synthetic evaluation}
+
+CMJ reporting literature emphasizes that selected force-time metrics and their measurement procedures should be explicit \cite{R3,R4}. TRIPOD-Cluster motivates transparent descriptions of clustered development and validation data \cite{R5}; its existence does not make a synthetic evaluation equivalent to athlete validation. Simulation-study guidance likewise recommends specifying the data-generating mechanism and performance measure, because conclusions from simulated data remain conditional on those choices \cite{R12}. The ML test-score rubric discusses software testing and production readiness \cite{R14}; we use it only to distinguish engineering evidence from scientific validation and do not assign the system a production-readiness score.
+
+\section{Materials and methods}
+
+\subsection{Study design and evidence scope}
+
+This work is a retrospective reconstruction and evidence synthesis. The scientific software identity is the published v1.1.0 release at commit \url{401f87aad1e4ef4108011fa0c1d769a24f1ad329}. The original public synthetic-study receipts retain their own source and package identities; they are not rewritten as if they had been generated by the release commit. The public source manifest, receipt digests, claims register, and numerical summary are preserved with the manuscript package.
+
+Model inventories, configuration links, checkpoint selection, fitted-transform digests, and numerical receipts were reconciled during private qualification. The release package contains only the public-safe summaries needed to describe those checks. Original checkpoints, fitted parameters, and restricted scientific records are not included. The route-level matrix therefore presents privately qualified evidence as a recorded result; it does not let a reader rerun inference against the private arrays.
+
+The manuscript preparation performed no new training, model fitting, checkpoint inference, or empirical scoring. Figures use the frozen public results, receipt summaries, sanitized route records, and recorded methods. The prior qualification independently checked 306 RMSE-to-standard-deviation ratios and 51 root/cell aggregate identities. The six stored bootstrap summaries were retained rather than recomputed. Any additional arithmetic in this manuscript is limited to presentation of those recorded aggregates.
+
+\subsection{Historical scientific formulations}
+
+The archive records eight formulation identities with different response worlds, observation settings, horizons, and dispositions. A direct parent is shown only when it is explicitly present in the lineage record. The native camp formulation forecasts 72-hour (H72) and day-7 (D7) targets. The initial and canonical preseason formulations share an event-time adaptation world; canonicalization changes the sample and query surface. Rich-history camp recovery is a separate retired formulation with unresolved ancestry. The episode formulations start with a preliminary paired-trial observation contract, then a phase-consistent force-impulse measurement, followed by a correlated-exposure world. These episode tasks query 24-hour (H24), 48-hour (H48), and 72-hour (H72) horizons. Threshold response is a proposed alternate. Fixed-mode discrepancy is an active candidate with mathematical 24-hour and 84-hour response modes; those time constants are not identified biological compartments.
+
+Fig.~\ref{fig:genealogy} shows the recorded links and leaves unresolved parents open. The native camp task uses H72 and D7 targets. The episode formulations and the public synthetic benchmark use H24, H48, and H72 horizons. Shared outcome labels do not make their measurement laws, generators, or score definitions interchangeable.
+
+\EvidenceFigure{figures/Fig1.pdf}{Scientific formulation genealogy. Each node is an authenticated formulation identity with its recorded disposition, response setting, observation contract, and horizon family. Arrows show only parent relations listed in the release-linked lineage register: initial preseason to canonical preseason, preliminary episode to phase-consistent episode to correlated exposure, and correlated exposure to two alternatives. No arrow is drawn for unresolved ancestry, including rich-history camp recovery and preliminary episode recovery. The diagram describes the archive, not a single linear history or an accepted physiological theory. Sources: S17 and S18.}{fig:genealogy}
+
+The evidence-recovery sequence binds source and rights, fitted-state identity, preprocessing, row alignment, source inference, and saved-runtime comparison before assigning a qualification label. Fig.~\ref{fig:workflow} separates these computational checks from scientific validity, which depends on the measurement contract, population, and evaluation authority.
+
+\EvidenceFigure{figures/Fig2.pdf}{Model-reconstruction and verification workflow. The computational lane follows preserved artifacts through identity and rights checks, restoration of fitted preprocessing and input alignment, original-source central-processor comparison, and a distinct comparison with saved historical graphics-processor outputs. The separate scientific-validity lane identifies what those checks do not establish: athlete predictive validity, transportability, or clinical utility. A computational pass is not a scientific-validity score. Sources: S06--S16 and the V2 research-integrity record.}{fig:workflow}
+
+\subsection{Original neural model reconstruction}
+
+The original Gate7 inventory contains nine architecture families, M0--M8, with repeats r0 and r1. The recovered input contract contains 39 standardized raw predictors. M3 and later families also use four history records with four values each. M5 adds a two-entry horizon embedding with eight dimensions per entry. M6--M8 receive five schedule-derived basis values. The basis uses exposure durations normalized by 100 minutes, exponential time weights of 36 and 120 hours, and a saturating cumulative-dose transform \(h(C)=10C/(1+C)\). It is a schedule feature, not a measured physiological state.
+
+Original fitted preprocessing values were restored from authenticated configuration records in the private qualification process; they were not refit. Standardization preceded conversion to the neural network input type. The model output is an additive innovation for force followed by net impulse, with an identity output transform. Adding the baseline is outside the inference adapter. The fitted parameter values and private checkpoint hashes are not published.
+
+The five-value original schedule basis requires complete history and future-plan snapshots that were genuinely known at the forecast origin. The index exposure is included once in the known plan, not added a second time. The basis function reconstructs schedule features but cannot authenticate when an empirical future plan became available. A predetermined synthetic plan is not evidence of prospective availability in an athlete archive.
+
+Table~\ref{tab:architecture} summarizes the released architecture record and parameter counts for M0--M8. Both repeats share each family's listed architecture.
+
+\begin{table}[H]
+\centering
+\caption{Architecture contracts and parameter counts for the nine original Gate7 neural model families. Each family has two recorded repeats. Input counts and architecture descriptions are from the sanitized qualification record; original checkpoint weights are not distributed.}
+\label{tab:architecture}
+\small
+\begin{tabularx}{\textwidth}{l>{\raggedright\arraybackslash}p{1.45in}Xr}
+\toprule
+Family & Additional inputs & Recorded architecture & Parameters \\
+\midrule
+M0 & None & \(39\to32\to2\), exact GELU & 1,346 \\
+M1 & None & \(39\to64\to2\), exact GELU & 2,690 \\
+M2 & None & \(39\to64\to64\to2\), exact GELU & 6,850 \\
+M3 & Four-by-four history & Raw backbone and pointwise history encoder; mean/latest pooling; \(128\to2\) head & 7,138 \\
+M4 & Four-by-four history & Raw backbone and \(4\to32\) gated recurrent unit; mean/latest pooling; \(128\to2\) head & 10,626 \\
+M5 & History and horizon & M4 with two-entry, eight-dimensional horizon embedding; \(136\to2\) head & 10,658 \\
+M6 & History, horizon, five basis values & M5 with first two basis values projected to 16 dimensions; \(152\to2\) head & 10,738 \\
+M7 & History, horizon, five basis values & M5 with all five basis values projected to 16 dimensions; \(152\to2\) head & 10,786 \\
+M8 & History, horizon, five basis values & M7 plus bias-free \(5\to2\) linear basis head & 10,796 \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+Fig.~\ref{fig:architecture} shows the corresponding branches: M0--M2 are raw-feature feedforward networks of increasing width and depth; M3 encodes pointwise history and pools its mean and latest values; M4 substitutes a 32-unit gated recurrent unit (GRU); and M5 adds a horizon embedding. M6 projects the first two basis components, M7 projects all five, and M8 adds a bias-free five-to-two linear basis head to its residual prediction.
+
+\EvidenceFigure{figures/Fig3.pdf}{Original neural architecture comparison. Panels show the raw-feature backbone, history branches, horizon embedding, basis projection, additive output head, and a parameter-count comparison for M0--M8. Each family has two recorded repeats with the same listed topology and parameter count. M6 receives five basis inputs but its additional projection consumes the first two; M7 consumes all five; M8 adds a separate bias-free linear basis head. Counts come from the sanitized architecture qualification table. No panel represents an accuracy comparison, and no original fitted weight is shown.}{fig:architecture}
+
+\subsection{Numerical qualification}
+
+Qualification distinguishes recovered-source inference on a central processing unit (CPU) from comparison with saved historical outputs from a graphics processing unit (GPU) running the CUDA software stack. For each element, let \(a_i\) be the replayed value and \(b_i\) the preserved value. The unchanged historical acceptance rule is
+\begin{equation}
+\left|a_i-b_i\right|\leq 10^{-5}+10^{-4}\left|b_i\right|.
+\label{eq:cuda_tolerance}
+\end{equation}
+The original-source CPU comparison has a separate exact-array-equality requirement. The historical arrays contain 512 validation rows and two output columns (1,024 elements per route). The stored qualification used a 24-row synthetic fixture and the preserved 512-row validation fixture. A tolerance pass means every compared array element satisfied Eq.~\ref{eq:cuda_tolerance}; it does not establish that the original GPU execution was replayed.
+
+Fig.~\ref{fig:numerical} shows the 18 model-repeat routes. Receipt records show exact output equality with the original CPU source for all 18. Comparisons to saved CUDA arrays pass for M0--M3 and fail for both repeats of M4--M8. The maximum absolute discrepancy is retained by route in the supplement. Because the outputs have different physical units, a maximum across the two columns is descriptive of array discrepancy only and must not be compared as a physical effect size. The records do not identify the cause of the CUDA failures.
+
+\EvidenceFigure{figures/Fig4.pdf}{Numerical qualification for all 18 original model-repeat routes. The first column records exact equality with the original CPU-source outputs. The second column records the unchanged elementwise comparison with saved historical CUDA arrays. M0--M3 pass that comparison; M4--M8 fail for both repeats. The right-hand annotations retain recorded maximum absolute discrepancy and failing-element counts where available. Each route compares 512 rows by two outputs. The two outputs have different units, so route-level maximum discrepancies are not directly comparable. These are receipt-backed comparisons, not a fresh GPU replay or an accuracy evaluation. Source: sanitized \texttt{model\_identity\_sanitized.csv}.}{fig:numerical}
+
+\subsection{Native CMJ measurement and assessment construction}
+
+The native measurement contract defines force and impulse on one supplied vertical force trace \(F_z(t)\), body-plus-system mass \(m\), gravity \(g\), concentric onset \(t_{\mathrm{co}}\), and takeoff \(t_{\mathrm{to}}\). Let \(T=t_{\mathrm{to}}-t_{\mathrm{co}}\). Gross mean concentric force per unit mass and gravity-adjusted net impulse per unit mass are
+\begin{align}
+Y_F &= \frac{1}{mT}\int_{t_{\mathrm{co}}}^{t_{\mathrm{to}}}F_z(t)\,\mathrm{d}t,
+\qquad [Y_F]=\mathrm{N\,kg^{-1}}=\mathrm{m\,s^{-2}}, \label{eq:gross_force}\\
+Y_J &= \frac{1}{m}\int_{t_{\mathrm{co}}}^{t_{\mathrm{to}}}\left(F_z(t)-mg\right)\,\mathrm{d}t,
+\qquad [Y_J]=\mathrm{N\,s\,kg^{-1}}=\mathrm{m\,s^{-1}}. \label{eq:net_impulse}
+\end{align}
+The recorded implementation interpolates force linearly at event boundaries and applies the composite trapezoid rule over the closed concentric interval. Event detection, force calibration, mass authority, and trial validity are separate measurement requirements; the integrator does not infer those inputs.
+
+Each native assessment is the arithmetic mean of exactly three distinct valid trials, not the best trial or median. For outcome \(o\), define the baseline set \(\mathcal{B}_i\) as the two latest distinct valid assessments in the inclusive interval from 24 to 240 hours before origin \(i\). The baseline and target-relative innovation are
+\begin{align}
+\bar{Y}_{i,0,o} &= \frac{1}{2}\sum_{q\in\mathcal{B}_i}A_{q,o},
+\qquad |\mathcal{B}_i|=2, \label{eq:baseline}\\
+\Delta Y_{i,h,o} &= Y_{i,h,o}-\bar{Y}_{i,0,o}, \label{eq:innovation}
+\end{align}
+where \(A_{q,o}\) is the three-trial assessment mean and \(h\) is the forecast horizon. The native target windows are 66--78 hours for H72 and 156--180 hours for D7. These are native measurement and evaluation contracts, not an empirical evaluation performed for this article.
+
+Fig.~\ref{fig:chronology} separates the native baseline, H72 and D7 windows from the public synthetic H24, H48 and H72 queries. The native evaluation has four physical-unit cells; the synthetic experiment has six normalized-error cells. They are not combined.
+
+\EvidenceFigure{figures/Fig5.pdf}{Assessment and recovery-horizon chronology. The upper track shows the native contract: a baseline search interval from 240 to 24 hours before origin, selection of the two latest qualifying assessments in that interval, an index exposure at origin, an H72 window at 66--78 hours, and a D7 window at 156--180 hours. Each assessment is constructed from exactly three valid trials. The lower track shows the separate public synthetic task's H24, H48, and H72 query horizons. The lower markers are nominal synthetic horizons, not native measurement windows. No athlete measurements are plotted. Sources: S02, S09, and S16.}{fig:chronology}
+
+Fig.~\ref{fig:mechanics} is an analytical measurement illustration rather than athlete data. It makes the gross force area and the signed area relative to body weight visually distinct. This distinction matters because Eq.~\ref{eq:gross_force} and Eq.~\ref{eq:net_impulse} have different units and answer different measurement questions.
+
+\EvidenceFigure{figures/Fig6.pdf}{Analytical vertical force-time illustration, not observed athlete data. The displayed signal is generated with \(m=\SI{70}{\kilogram}\), \(g=\SI{9.80665}{\meter\per\second\squared}\), \(A=\SI{1000}{\newton}\), peak time \(t_p=\SI{0.22}{\second}\), and \(T=\SI{0.55}{\second}\). For \(0\leq t\leq t_p\), \(F_z(t)=mg+A\sin(\pi t/(2t_p))\); for \(t_p<t\leq T\), \(F_z(t)=(mg+A)[1-(t-t_p)/(T-t_p)]\). Concentric onset is \(t=0\), and takeoff is \(t=T\). The area under \(F_z\) defines gross mean force after division by \(mT\); the signed area between \(F_z\) and \(mg\) defines net impulse after division by \(m\). Units are N, kg, s, N/kg, and m/s as labeled.}{fig:mechanics}
+
+\subsection{Native evaluation and inferential rules}
+
+The native analysis contract reports four separate cells: force in \(\mathrm{N\,kg^{-1}}\) and net impulse in \(\mathrm{m\,s^{-1}}\), each at H72 and D7. Within a cell, query-weighted root-mean-square error (RMSE), mean absolute error (MAE), and signed bias are computed from prediction-minus-observation errors. Outcomes are not averaged across units. Repeats r0 and r1 are reported separately; the family summary is the arithmetic mean of the two repeat-level metrics, not an ensemble of their predictions.
+
+For native uncertainty, the locked procedure resamples participant groups with replacement at least 10,000 times. A sampled participant contributes all of that participant's queries, origins, horizons, targets, candidates, repeats, and baselines. Paired comparisons share the same sampled participants. The resulting 95\% percentile intervals are marginal, not simultaneous or predictive. The one-sided sign-flip test uses each independent participant's sum of zero-baseline squared error minus the mean squared error of the two model repeats. Its null requires independent clusters and a symmetric distribution of cluster loss differences. For at most 16 participants all \(2^n\) sign allocations are enumerated; larger samples use a recorded sampled allocation scheme and plus-one Monte Carlo correction. Holm adjustment covers the four locked primary native cells.
+
+No native athlete outcome analysis was performed here. The stored engineering rehearsal uses invented values only. With six strictly positive simulated participant improvements, the smallest exact one-sided probability is \(1/64=0.015625\); across four primary cells its Holm-adjusted value is \(4/64=0.0625\). This rehearsal correctly cannot meet a 0.05 family-wise threshold and is not evidence about athletes or any recovered checkpoint.
+
+\subsection{Public synthetic benchmark design}
+
+The public fixed-mode reference study is a separate synthetic experiment with frozen training and development selection and three caller-supplied evaluation roots from the same generator. Training contains 96 camps, 24,000 episodes, and 72,000 horizon rows. Development and each evaluation root contain 16 camps, 4,000 episodes, and 12,000 rows. Each episode contributes H24, H48, and H72 queries that remain together. Group identities include participant, episode, query, and camp; grouping keys, target labels, future target-time fields, and oracle states are excluded from the predictor schema.
+
+The public predictor schema has 82 source fields: horizon, baseline features, participant context, current-exposure fields, and four prior episodes. One-hot horizon encoding yields 84 numeric columns. Numeric preprocessing uses training-only means and population standard deviations; zero scales are set to one. The four registered references are zero innovation, a training-only outcome-by-horizon mean, cellwise ridge regression, and a structured comparator. The structured model uses public exposure primitives, observed context, observed prior innovations, and fixed 24-hour and 84-hour mathematical modes; it does not use hidden effects or oracle states.
+
+The force outcome's registered cell key is \url{relative_peak_mean_force_innovation}; the study source maps it to \url{label.relative_mean_concentric_force_innovation}. We use “force-innovation cell” for readability and preserve this key/field mapping. It does not merge the synthetic experiment with the native H72/D7 measurement contract.
+
+Ridge and structured regularization were selected from the frozen grid \(\{0.01,0.1,1,10,100\}\) using development six-cell mean NRMSE, with lower alpha breaking ties. All full-data selections chose the lower grid boundary, \(\alpha=0.01\). This is reported as a property of the frozen study, not a reason to adjust the test results. The nested sample-size comparison uses 24, 48, and 96 training camps drawn from one recorded seeded permutation; the full-data-selected hyperparameter is held fixed. This paper presents existing receipt values and does not repeat training or inference.
+
+For model \(m\), outcome-horizon cell \(c\), and \(n_c\) rows, the registered normalized root-mean-square error (NRMSE) is calculated as follows:
+\begin{align}
+\RMSE_{m,c} &= \sqrt{\frac{1}{n_c}\sum_{j=1}^{n_c}(\hat{y}_{m,c,j}-y_{c,j})^2}, \label{eq:rmse}\\
+\NRMSE_{m,c} &= \frac{\RMSE_{m,c}}{\operatorname{SD}_{\mathrm{pop}}(y_c)}, \qquad
+\operatorname{SD}_{\mathrm{pop}}(y_c)=\sqrt{\frac{1}{n_c}\sum_{j=1}^{n_c}(y_{c,j}-\bar{y}_c)^2}, \label{eq:nrmse}\\
+S_m &= \frac{1}{6}\sum_{c=1}^{6}\NRMSE_{m,c}. \label{eq:six_cell_score}
+\end{align}
+The six cells are formed by three horizons and two outcomes. Each cell is normalized separately before equal-weight averaging, so the score is dimensionless and does not pool force and impulse in their raw units. Every registered cell has at least two rows and nonzero population standard deviation. \(1-S_m\) is a descriptive research-progress transformation in the receipt; it is not a recovery score or a clinical threshold.
+
+\subsection{Statistical summaries}
+
+The reported root-level variation is the sample standard deviation across three evaluation roots. It describes those three generated roots; it is not a confidence interval for a real athlete population. The existing receipt also stores 5,000 paired whole-camp bootstrap replicates per root, using NumPy PCG64 with seed 49,505,000. Each draw resamples 16 camps, retaining all 250 episodes and three horizon queries for each selected camp. The bootstrap is paired between each model and zero innovation. Percentile endpoints are copied from the stored summary; no new bootstrap is computed.
+
+The stored bootstrap intervals support within-root model-versus-zero comparisons for ridge and the structured comparator. They do not provide a ridge-versus-structured interval. Separate marginal intervals cannot be combined to manufacture that comparison.
+
+\section{Results}
+
+\subsection{Formulation and architecture reconstruction}
+
+The recovered lineage contains five recorded parent links and three identities with unresolved direct ancestry. Figure~\ref{fig:genealogy} preserves that branching structure. The rich-history formulation remains separate from the preseason and episode chains. The threshold formulation is proposed, while fixed-mode discrepancy is an active candidate; neither status is inferred from the synthetic reference-model ranking.
+
+Nine neural model families and 18 repeats were represented in the architecture qualification record. Parameter counts range from 1,346 in M0 to 10,796 in M8 (Table~\ref{tab:architecture}). The sequence of model changes includes feedforward depth and width, explicit history encoding, horizon conditioning, basis projection, and an additive linear basis head. These recovered topology differences do not by themselves establish which architecture predicts native H72/D7 outcomes better.
+
+\subsection{Original-source and saved-CUDA numerical qualification}
+
+The preserved receipts report exact original-source CPU output equality for all 18 model-repeat routes. Under the unchanged tolerance in Eq.~\ref{eq:cuda_tolerance}, all eight M0--M3 saved-CUDA comparisons pass, and all ten M4--M8 comparisons fail (Fig.~\ref{fig:numerical}). The two M8 routes have recorded maximum absolute discrepancies of 0.00022125244140625 and 0.00030422210693359375, with 98 and 145 failing elements out of 1,024, respectively. Across the failed families, recorded failure counts range from 88 to 443 elements per route.
+
+These findings qualify source-level CPU inference and identify a negative historical-runtime comparison. They do not establish a successful original GPU replay or determine whether precision mode, kernel behavior, or another runtime factor caused the discrepancies. The saved arrays' two output columns have different physical units; their pooled maximum absolute error is not a meaningful physical comparison across routes. No saved-array failure is hidden by changing the threshold.
+
+\subsection{Public synthetic benchmark performance}
+
+The existing public benchmark compares all four reference models for force and impulse outcomes at H24, H48, and H72. Fig.~\ref{fig:performance} shows the three root values and the stored root mean in each of six cells. The roots share one generator and each has 4,000 rows per outcome-horizon cell.
+
+\EvidenceFigure{figures/Fig7.pdf}{Existing public fixed-mode synthetic benchmark across all six outcome-horizon cells. Each panel shows the three caller-supplied roots as distinct points and the stored root mean as a horizontal mark for zero innovation, training mean, ridge, and the structured comparator. Rows are H24, H48, and H72; columns are the registered force-innovation cell and net-impulse innovation. The registered force key is \texttt{relative\_peak\_mean\_force\_innovation}; the source target field is \texttt{label.relative\_mean\_concentric\_force\_innovation}. Force targets are in \(\mathrm{N\,kg^{-1}}\) and impulse targets in \(\mathrm{m\,s^{-1}}\); the vertical axis is cellwise NRMSE (dimensionless). Each evaluation root contains 16 camps and 4,000 rows per cell. Roots share one generator and are not human cohorts. Sources: S01, S23, and \texttt{six\_cell\_results.csv}.}{fig:performance}
+
+Table~\ref{tab:sixcell} reports the stored mean and root sample standard deviation for each outcome-horizon cell. These values preserve the recorded cell aggregates; no prediction or model score was recomputed for this article.
+
+\begin{table}[H]
+\centering
+\caption{Six-cell public synthetic benchmark NRMSE. Each entry is the stored mean across three same-generator evaluation roots \(\pm\) the sample standard deviation across those roots. NRMSE is dimensionless because each outcome-horizon RMSE is divided by that cell's population standard deviation before averaging. Force targets are in \(\mathrm{N\,kg^{-1}}\) and impulse targets in \(\mathrm{m\,s^{-1}}\); they are reported in separate rows and never pooled in physical units. The registered force-cell key and source target-field mapping are specified in Methods.}
+\label{tab:sixcell}
+\small
+\begin{tabularx}{\textwidth}{l*{4}{>{\centering\arraybackslash}X}}
+\toprule
+Cell & Zero innovation & Training mean & Ridge & Structured \\
+\midrule
+H24 force (N/kg) & 3.033549 \(\pm\) 0.022028 & 1.047654 \(\pm\) 0.007012 & 0.624408 \(\pm\) 0.010083 & 0.657535 \(\pm\) 0.011367 \\
+H24 impulse (m/s) & 2.761756 \(\pm\) 0.005423 & 1.045106 \(\pm\) 0.008512 & 0.652157 \(\pm\) 0.001653 & 0.695989 \(\pm\) 0.002060 \\
+H48 force (N/kg) & 2.542034 \(\pm\) 0.013923 & 1.039457 \(\pm\) 0.009538 & 0.731926 \(\pm\) 0.009639 & 0.761028 \(\pm\) 0.012792 \\
+H48 impulse (m/s) & 2.264354 \(\pm\) 0.036904 & 1.031754 \(\pm\) 0.008024 & 0.759827 \(\pm\) 0.006955 & 0.804603 \(\pm\) 0.007666 \\
+H72 force (N/kg) & 2.109029 \(\pm\) 0.007187 & 1.027428 \(\pm\) 0.006876 & 0.815702 \(\pm\) 0.005686 & 0.842869 \(\pm\) 0.007459 \\
+H72 impulse (m/s) & 1.873230 \(\pm\) 0.025535 & 1.024831 \(\pm\) 0.005159 & 0.833602 \(\pm\) 0.003686 & 0.877870 \(\pm\) 0.001856 \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+The stored six-cell mean scores were 0.736270 for ridge, 0.773316 for the structured comparator, 1.036038 for the training-mean baseline, and 2.430659 for zero innovation. Root sample standard deviations were 0.003349, 0.005490, 0.007308, and 0.008127, respectively (Table~\ref{tab:overall}). Ridge had the lowest descriptive mean error in this generator. No inferential contrast between ridge and structured was recorded; this ranking is descriptive.
+
+\begin{table}[H]
+\centering
+\caption{Overall public synthetic benchmark score. Values are the stored mean six-cell NRMSE across three evaluation roots and the sample standard deviation (SD) of those three root scores. This is descriptive root variation, not a confidence interval.}
+\label{tab:overall}
+\small
+\begin{tabularx}{\textwidth}{lrr>{\raggedright\arraybackslash}X}
+\toprule
+Reference model & Mean six-cell NRMSE & Root sample SD & Scope \\
+\midrule
+Zero innovation & 2.430659 & 0.008127 & Predicts zero innovation \\
+Training mean & 1.036038 & 0.007308 & Training-only outcome-by-horizon mean \\
+Ridge & 0.736270 & 0.003349 & Full public feature schema \\
+Structured & 0.773316 & 0.005490 & Fixed 24 h/84 h modes with observed covariates \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\subsection{Recorded uncertainty, ablations, and sample efficiency}
+
+All six stored within-root model-versus-zero percentile intervals for ridge and structured have negative paired model-minus-zero endpoints. They support a reduction in NRMSE relative to the zero baseline within the corresponding synthetic root under the recorded camp-resampling scheme (Fig.~\ref{fig:uncertainty}). They do not support an uncertainty interval for ridge versus structured or for a new root drawn from a different generator.
+
+\EvidenceFigure{figures/Fig8.pdf}{Recorded camp-bootstrap uncertainty for ridge and structured models within each of three synthetic evaluation roots. Panel A shows stored 95\% percentile intervals for each model's mean six-cell normalized root-mean-square error (NRMSE). Panel B shows stored paired intervals for model-minus-zero-innovation NRMSE; values below zero favor the named model over zero innovation. Each root contributes 16 camps, with all 250 episodes and three horizon queries per selected camp retained together in 5,000 resamples. These intervals are conditional on a root and are not intervals across roots. No ridge-versus-structured confidence interval was recorded. Source: \texttt{recorded\_uncertainty.csv}.}{fig:uncertainty}
+
+\subsection{Ablations and sample efficiency}
+
+The recorded ridge ablation scores were 0.819681 without prior history, 0.867735 without current exposure, and 0.736346 without participant context, compared with 0.736270 for full ridge. Omitting context changes the mean by approximately 0.000076. The separately specified structured model without history scores 0.820342. With 24, 48, and 96 training camps, nested ridge scores were 0.736889, 0.736602, and 0.736270; the structured-model scores were 0.773624, 0.773621, and 0.773316 (Fig.~\ref{fig:ablation}). These generator-conditional diagnostics do not identify causal feature importance or human sample efficiency.
+
+\EvidenceFigure{figures/Fig9.pdf}{Recorded ablation and nested-camp comparisons. Panel A shows the three evaluation-root values and root mean for full ridge and the ridge variants without prior history, current exposure, or participant context. Structured-without-history is shown as a separate comparator diagnostic. Panel B shows root-specific scores for ridge and structured models trained on nested subsets of 24, 48, or 96 camps; the alpha selected on the full training/development data was held fixed. All values are dimensionless six-cell NRMSE within the same synthetic generator. These comparisons do not isolate causal feature effects or estimate athlete-level sample efficiency. Source: S01.}{fig:ablation}
+
+\subsection{Historical reproduction limits}
+
+The public reproduction record remains partial for the historical program. In the rich-history reconstruction, the clean-room training materialization has 15,134 horizon rows versus 15,182 in the historical record. The validation materialization has 3,799 versus 3,795. These are documented differences in horizon membership; they are not a newly discovered response effect. Matching counts in other formulations would not prove historical split identity.
+
+Fig.~\ref{fig:scope} distinguishes the results that can be regenerated from public receipts, the private route qualification that cannot be rerun from distributed weights, the failed saved-CUDA comparisons, and scientific claims that remain unestablished. The M0--M8 qualification is not an empirical athlete performance result.
+
+\EvidenceFigure{figures/Fig10.pdf}{Scope of the recovered evidence. Publicly reproducible items include release-linked software records, synthetic reference results, and figure regeneration from their public summaries. Original checkpoint and fitted-preprocessing qualification is represented by a sanitized, privately checked record; the underlying artifacts are not distributed. The saved-CUDA comparison fails for M4--M8, and historical reproduction is partial, including rich-history row-count differences. Athlete-level predictive validity, out-of-distribution transportability, clinical utility, and production readiness are unestablished. The diagram is categorical and is not a predictive or readiness score. Sources: S04, sanitized route records, and the research-integrity ledger.}{fig:scope}
+
+\section{Discussion}
+
+This reconstruction illustrates why reproducibility should be reported as a set of qualified operations rather than one binary label. The recorded source-CPU results agree exactly across all 18 neural model routes, yet ten comparisons with saved historical CUDA arrays fail the original tolerance. A single “reproduced” label would obscure that distinction. The evidence supports recovered-source inference under the recorded CPU comparison and a negative historical-runtime comparison; it does not show a successful replay of the original graphics-processor execution.
+
+The synthetic comparison is also bounded. Ridge has lower mean six-cell NRMSE than the structured reference in the three supplied roots, while the structured result remains substantially below the two simpler baselines. This is a useful observation about the registered generator, predictors, alpha selection, and aggregation rule. It is not a universal model ranking. Every root comes from the same simulation world, and all six outcomes are normalized separately before aggregation. The recorded bootstrap compares each model with zero innovation but does not test ridge against structured.
+
+The ablation results reinforce this scope. Removing current exposure or history increases error in this generator, whereas removing participant context changes the full-ridge score very little. Because variants were fitted and selected under the existing study protocol, these contrasts describe model configurations under that protocol; they do not identify causal athlete mechanisms. Likewise, the small difference across nested camp sizes cannot be generalized to a real monitoring program, particularly because each synthetic camp contains many generated episodes and the model's regularization value was selected on the full training/development data then held fixed.
+
+Measurement contracts place a separate boundary on interpretation. Correct trapezoidal integration requires correct force calibration, system mass, event boundaries, and trial validity. A stable arithmetic formula does not prove that an empirical event detector selected the intended phase or that a two-assessment baseline represents physiological recovery. The native H72/D7 metrics are in physical units and are not interchangeable with the public benchmark's H24/H48/H72 cellwise normalized errors.
+
+The practical contribution is therefore a transparent reconstruction record. The formulation genealogy, original model contracts, frozen tolerance, source-to-receipt links, and public synthetic study can be inspected without converting missing evidence into a positive result. This is consistent with software-testing and provenance practice, while retaining the distinction between software behavior and validity in a scientific population \cite{R10,R11,R14}. The technical supplement (S1 Text) contains the complete formulation, route, cell, and bootstrap tables.
+
+\section{Limitations and threats to validity}
+
+First, the original model weights, configurations, and restricted records are not part of the public package. The private artifact associations and CPU-source equality are preserved as qualification evidence, but a reader with only the released package cannot independently reproduce those original inference outputs. This access boundary is a limitation of independent auditability, not permission to disclose unlicensed artifacts.
+
+Second, saved-CUDA discrepancies are reported under a fixed tolerance, but the exact historical runtime cause is unresolved. Maximum absolute errors pool two output columns with different units, so they must not be interpreted as a common physical magnitude. No GPU replay or new checkpoint inference was performed for this article.
+
+Third, the public benchmark has only three evaluation roots from one synthetic generator and 16 camps per root. The root sample standard deviation is descriptive. The camp bootstrap is conditional on each root and its resampling design. Neither estimates transportability to athlete populations, and the stored bootstrap does not compare ridge directly with the structured comparator.
+
+Fourth, the alpha grid selection reached its lower boundary for all full-data model families. The recorded test results are retained without retuning, but performance may depend on regularization values outside the frozen grid. The nested sample-size analysis holds the full-data-selected alpha fixed and should not be read as a complete study of training-data efficiency. For any empirical prospective setting, the temporal authority of the future-plan snapshots used by the original schedule basis would also need to be established.
+
+Fifth, no independent athlete cohort, prospective assessment protocol, clinical-use evaluation, or production-monitoring study is included. No human predictive validity, causal response mechanism, out-of-distribution performance, clinical utility, or individual recovery classification is established. The eight historical formulations have partial reproduction status, and the rich-history row-count discrepancies remain unresolved.
+
+\section{Reproducibility and availability}
+
+The public research software is available under Apache-2.0 at \url{https://github.com/Litju/CMJRecoveryDynamicsBench/releases/tag/v1.1.0}. The scientific source identity is commit \texttt{401f87aa\allowbreak d1e4ef41\allowbreak 08011fa0\allowbreak c1d769a2\allowbreak 4f1ad329}. The public synthetic-study results, study protocol, reproduction receipt, formulation catalog, and sanitized route tables are included as source-linked evidence in the V3 review package. Figure scripts read those files and do not train models, load original checkpoints, generate athlete data, or compute new model predictions.
+
+The original model checkpoints, fitted preprocessing values, and restricted scientific records are not redistributed. Public figure regeneration from sanitized summaries does not confer access to or independent replay of those private artifacts. The data and software statement for a journal submission must preserve this distinction and provide the stable repository paths and release identifiers for all public material.
+
+\section{Conclusions}
+
+The archive supports a precise but limited account of historical CMJ recovery models. Eight scientific formulations and nine neural families can be distinguished; all 18 routes have recorded exact source-CPU agreement, while both repeats of M4--M8 fail the saved historical CUDA tolerance. Separately, the existing public synthetic benchmark favors ridge over the structured comparator by descriptive mean NRMSE across three roots from one generator. Neither finding establishes successful historical GPU replay or predictive validity for athletes. Making these boundaries explicit is the central result of the reconstruction.
+
+\section*{Acknowledgments and author declarations}
+
+\noindent\textbf{Author contributions.} Author identities, affiliations, corresponding-author contact details, and CRediT roles require owner completion. No authorship is inferred from software metadata or agent participation.
+
+\medskip
+\noindent\textbf{Funding.} Funding sources and funder roles require author confirmation. For a PLOS ONE submission, the funding disclosure belongs in the submission system and this placeholder must be removed.
+
+\medskip
+\noindent\textbf{Competing interests.} All potential financial and nonfinancial competing interests require author confirmation. For a PLOS ONE submission, the declaration belongs in the submission system and this placeholder must be removed.
+
+\medskip
+\noindent\textbf{Ethics and human participants.} This manuscript reports no newly collected athlete data and no human-participant experiment. The authors must confirm this statement before submission.
+
+\medskip
+\noindent\textbf{Data availability.} Public synthetic benchmark receipts and release-linked source records are identified in the reproducibility package and at v1.1.0. Original fitted checkpoints and restricted scientific records are not publicly available for redistribution. The final journal data statement and repository paths require owner confirmation.
+
+\medskip
+\noindent\textbf{Generative AI and AI-assisted technologies.} OpenAI Codex in the GPT-6 agent environment assisted with official-guideline research, manuscript restructuring and drafting, plotting and document-generation code, and first-pass artifact review. Exact finer model-build metadata was not exposed. All quantitative plots are generated by conventional Python plotting code from the cited, pre-existing receipts; no generative-image model or new data-generation model was used. The output was checked against release-linked evidence and rendered pages. Human authors have not yet reviewed or approved this draft and must verify its content, sources, and all declarations before submission. No AI system is an author.
+
+\bibliographystyle{plos2025}
+\bibliography{bibliography/references}
+
+\ifdefined\ReviewEdition
+\section*{Supporting information captions}
+
+\noindent S1 Text. Technical supplement. Complete formulation matrix, architecture records, 18-route numerical qualification, six-cell synthetic results, recorded bootstrap endpoints, ablation and nested-camp values, study protocol, and native measurement and analysis contracts. This file contains only public-safe summaries and methods; no original checkpoint, fitted parameter, or restricted athlete record is included.
+\fi
+
+\end{document}

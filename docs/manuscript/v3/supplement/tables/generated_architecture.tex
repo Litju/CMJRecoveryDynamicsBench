@@ -1,0 +1,28 @@
+\footnotesize
+\setlength{\tabcolsep}{2.3pt}
+\renewcommand{\arraystretch}{1.12}
+\begin{longtable}{>{\raggedright\arraybackslash}p{0.80in}>{\raggedright\arraybackslash}p{1.05in}>{\raggedright\arraybackslash}p{3.25in}r}
+\caption{Sanitized architecture and inference contract by family. Repeat-specific private weights and hashes are excluded.}\label{supp:architecture}\\
+\toprule
+Model / repeats & Inputs & Architecture & Parameters \\
+\midrule
+\endfirsthead
+\toprule
+Model / repeats & Inputs & Architecture & Parameters \\
+\midrule
+\endhead
+\midrule
+\multicolumn{4}{r}{Continued on next page}\\
+\endfoot
+\bottomrule
+\endlastfoot
+\texttt{M0 (r0/r1)} & 39 raw features & 39 → 32 → 2; exact GELU & 1,346 \\
+\texttt{M1 (r0/r1)} & 39 raw features & 39 → 64 → 2; exact GELU & 2,690 \\
+\texttt{M2 (r0/r1)} & 39 raw features & 39 → 64 → 64 → 2; exact GELU & 6,850 \\
+\texttt{M3 (r0/r1)} & 39 raw + 4 × 4 history & Raw backbone + pointwise history encoder; mean/latest pooling → 128 → 2 & 7,138 \\
+\texttt{M4 (r0/r1)} & 39 raw + 4 × 4 history & Raw backbone + 4 → 32 GRU; mean/latest pooling → 128 → 2 & 10,626 \\
+\texttt{M5 (r0/r1)} & 39 raw + 4 × 4 history + horizon & M4 + 2 × 8 horizon embedding → 136 → 2 & 10,658 \\
+\texttt{M6 (r0/r1)} & 39 raw + 4 × 4 history + horizon + 5 basis values & M5 + first two basis values → 16 → 152 → 2 & 10,738 \\
+\texttt{M7 (r0/r1)} & 39 raw + 4 × 4 history + horizon + 5 basis values & M5 + all five basis values → 16 → 152 → 2 & 10,786 \\
+\texttt{M8 (r0/r1)} & 39 raw + 4 × 4 history + horizon + 5 basis values & M7 + bias-free 5 → 2 linear basis head & 10,796 \\
+\end{longtable}

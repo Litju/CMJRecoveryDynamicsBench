@@ -1,0 +1,70 @@
+{
+  "retrieved_utc": "2026-11-05",
+  "sources": [
+    {
+      "publisher": "PLOS",
+      "document": "PLOS ONE LaTeX template",
+      "url": "https://journals.plos.org/plosone/s/latex",
+      "version": "3.8 (April 2026)",
+      "template_archive_sha256": "ea3a8a0fdbac77f95de47639541b09ef1583e059ace6783367490af9fa0b9a60",
+      "included_file": "plos2025.bst",
+      "note": "The current official template archive was downloaded to verify the bibliography style. Only its BibTeX style file is included in this owner-review source package."
+    },
+    {
+      "publisher": "Elsevier",
+      "document": "SoftwareX Original Software Publication template",
+      "url": "https://legacyfileshare.elsevier.com/promis_misc/softwarex-osp-template.docx",
+      "version": "6 (March 2026)",
+      "template_sha256": "9fcf40ede96a2f188ee4ef77134e0596d01e1b65fd9db63f2874d29f2ecb916d",
+      "note": "Current official template link on Elsevier Research Elements page was downloaded and its metadata/text inspected; the manuscript template itself is not redistributed here."
+    },
+    {
+      "publisher": "Elsevier",
+      "document": "SoftwareX Guide for Authors",
+      "url": "https://www.sciencedirect.com/journal/softwarex/publish/guide-for-authors",
+      "access": "HTTP 403 from web reader; no unverified guide details used beyond the official linked template."
+    },
+    {
+      "publisher": "Elsevier",
+      "document": "Generative AI policies for journal authors",
+      "url": "https://www.elsevier.com/about/policies-and-standards/generative-ai-policies-for-journals",
+      "access": "Official current publisher policy opened 2026-11-05; journal-specific variations may apply."
+    },
+    {
+      "publisher": "Elsevier",
+      "document": "Publishing ethics",
+      "url": "https://www.elsevier.com/about/policies-and-standards/publishing-ethics",
+      "access": "Official current publisher policy opened 2026-11-05."
+    },
+    {
+      "publisher": "JMLR",
+      "document": "Information for Authors",
+      "url": "https://jmlr.org/author-info.html",
+      "access": "Official current page opened 2026-11-05."
+    },
+    {
+      "publisher": "JMLR",
+      "document": "MLOSS format and review criteria",
+      "url": "https://jmlr.org/mloss/mloss-info.html",
+      "access": "Official current page opened 2026-11-05."
+    },
+    {
+      "publisher": "JSS",
+      "document": "Information for Authors",
+      "url": "https://www.jstatsoft.org/authors",
+      "access": "Official current page opened 2026-11-05."
+    },
+    {
+      "publisher": "TMLR",
+      "document": "Author Guide",
+      "url": "https://www.jmlr.org/tmlr/author-guide.html",
+      "access": "Official current page opened 2026-11-05."
+    },
+    {
+      "publisher": "JOSS",
+      "document": "Submission Guidelines",
+      "url": "https://joss.readthedocs.io/en/latest/submitting.html",
+      "access": "Official current page opened 2026-11-05."
+    }
+  ]
+}

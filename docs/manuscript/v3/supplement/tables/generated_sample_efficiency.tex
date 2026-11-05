@@ -1,0 +1,30 @@
+\footnotesize
+\setlength{\tabcolsep}{2.0pt}
+\renewcommand{\arraystretch}{1.12}
+\begin{longtable}{>{\raggedright\arraybackslash}p{1.30in}r>{\raggedright\arraybackslash}p{2.45in}>{\raggedright\arraybackslash}p{1.45in}}
+\caption{Recorded six-cell NRMSE root values for selected ablation and nested-camp comparisons. Values are rounded to 6 decimal places; source receipt retains full precision.}\label{supp:sample-efficiency}\\
+\toprule
+Variant & Training camps & Evaluation-root NRMSE & Root mean ± sample SD \\
+\midrule
+\endfirsthead
+\toprule
+Variant & Training camps & Evaluation-root NRMSE & Root mean ± sample SD \\
+\midrule
+\endhead
+\midrule
+\multicolumn{4}{r}{Continued on next page}\\
+\endfoot
+\bottomrule
+\endlastfoot
+Full ridge & 96 & A 0.736710; B 0.739378; C 0.732724 & $0.736270\pm0.003349$ \\
+Ridge without prior history & 96 & A 0.822457; B 0.823679; C 0.812906 & $0.819681\pm0.005899$ \\
+Ridge without current exposure & 96 & A 0.868359; B 0.861227; C 0.873620 & $0.867735\pm0.006220$ \\
+Ridge without participant context & 96 & A 0.736746; B 0.739455; C 0.732837 & $0.736346\pm0.003327$ \\
+Structured without prior history & 96 & A 0.823035; B 0.824241; C 0.813749 & $0.820342\pm0.005741$ \\
+Ridge, nested 24 camps & 24 & A 0.736637; B 0.740818; C 0.733212 & $0.736889\pm0.003809$ \\
+Ridge, nested 48 camps & 48 & A 0.736861; B 0.739726; C 0.733219 & $0.736602\pm0.003261$ \\
+Ridge, nested 96 camps & 96 & A 0.736710; B 0.739378; C 0.732724 & $0.736270\pm0.003349$ \\
+Structured, nested 24 camps & 24 & A 0.774179; B 0.778755; C 0.767939 & $0.773624\pm0.005429$ \\
+Structured, nested 48 camps & 48 & A 0.774324; B 0.778711; C 0.767828 & $0.773621\pm0.005475$ \\
+Structured, nested 96 camps & 96 & A 0.773838; B 0.778526; C 0.767583 & $0.773316\pm0.005490$ \\
+\end{longtable}

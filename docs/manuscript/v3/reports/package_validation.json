@@ -1,0 +1,45 @@
+{
+  "release_source_records_hash_verified": 35,
+  "receipt_arithmetic_checks": {
+    "six_cell_rows_checked": 24,
+    "root_aggregate_rows_checked": 24,
+    "stored_bootstrap_rows_checked": 6,
+    "model_routes": 18,
+    "cpu_source_exact_records": 18,
+    "saved_cuda_pass": 8,
+    "saved_cuda_fail": 10,
+    "new_model_execution": false,
+    "new_bootstrap": false
+  },
+  "bibliography_entries_verified": 13,
+  "manuscript_checks": {
+    "abstract_words": 235,
+    "citations": 13,
+    "figures_in_order": [
+      "fig:genealogy",
+      "fig:workflow",
+      "fig:architecture",
+      "fig:numerical",
+      "fig:chronology",
+      "fig:mechanics",
+      "fig:performance",
+      "fig:uncertainty",
+      "fig:ablation",
+      "fig:scope"
+    ]
+  },
+  "private_boundary": true,
+  "v2_preservation": {
+    "available": false,
+    "checked": false
+  },
+  "build_outputs": {
+    "pdfs": [
+      "academic_review_manuscript.pdf",
+      "integrated_scientific_reading_edition.pdf",
+      "technical_supplement.pdf"
+    ],
+    "figures": 10,
+    "page_render_sets": 3
+  }
+}

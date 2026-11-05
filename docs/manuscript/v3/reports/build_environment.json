@@ -1,0 +1,60 @@
+{
+  "verified_utc": "2026-11-05",
+  "platform": {
+    "os": "Ubuntu 24.04.3 LTS",
+    "architecture": "x86_64"
+  },
+  "python": {
+    "version": "3.12.13",
+    "implementation": "CPython"
+  },
+  "uv_version": "0.12.2",
+  "python_packages": [
+    "contourpy==1.4.0",
+    "cycler==0.12.1",
+    "fonttools==4.68.0",
+    "kiwisolver==1.5.1",
+    "matplotlib==3.11.2",
+    "numpy==2.5.4",
+    "packaging==26.3",
+    "pillow==13.0.0",
+    "pymupdf==1.26.7",
+    "pyparsing==3.3.3",
+    "python-dateutil==4.0.0",
+    "tzdata==2026.6"
+  ],
+  "latex": {
+    "engine": "Tectonic",
+    "version": "0.17.0",
+    "archive_url": "https://github.com/tectonic-typesetting/tectonic/releases/download/tectonic%400.17.0/tectonic-0.17.0-x86_64-unknown-linux-gnu.tar.gz",
+    "archive_sha256": "1a715688baf591e650c8aeb160ae934e181685eecbb38b317de30b269ac5d606",
+    "binary_sha256": "2b3a86250906c92ed0a3ae8aaa454ec55bd6cede8593b3e549640177f6aecaa3",
+    "tectonic_bundle_url": "https://relay.fullyjustified.net/default_bundle_v33.tar",
+    "bundle_version": "default_bundle_v33",
+    "resolved_bundle_content_sha256": "6ffe055852f8faf66c0acbe1a7fb27f87b869a90bad1204f3bf4d9683f597c7c",
+    "source_date_epoch": 1793836800,
+    "source_date_utc": "2026-11-05T00:00:00+00:00"
+  },
+  "bibliography_style": {
+    "source": "PLOS ONE official LaTeX template 3.8 (April 2026)",
+    "file": "plos2025.bst"
+  },
+  "scientific_source": {
+    "release": "v1.1.0",
+    "commit": "401f87aad1e4ef4108011fa0c1d769a24f1ad329"
+  },
+  "public_m8_study": {
+    "package_source_sha256": "12e9e192accefb867707765098a4dd9eeabfd735097646fa4d4bcae5db60d0c3",
+    "protocol_sha256": "972733eb2d85e49f61281955eaad327f06adadce8b66a1ec32e74fcba7838f48",
+    "selection_lock_sha256": "07ce6ed56c292e2f56d306eb38b2ff8ea574f4cf0cc3f0644b94fa2db872cb21",
+    "scientific_results_sha256": "25032133d6f3293f722d06d3a618ec1aecec7cef35d2d35524c7431620e4bc71",
+    "manifest_commit": "3dc4c82f0c948add6e4a9ebdebfd227933c823d3"
+  },
+  "rendering": {
+    "package": "PyMuPDF",
+    "version": "1.26.7",
+    "dpi": 144,
+    "page_images": "one PNG per PDF page; contact sheets plus per-page PNGs"
+  },
+  "scope": "Figures reproduce existing receipts and sanitized route summaries; no training, fitting, checkpoint inference, or athlete scoring."
+}

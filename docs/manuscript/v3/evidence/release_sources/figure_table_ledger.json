@@ -1,0 +1,134 @@
+[
+  {
+    "item": "Figure 1",
+    "inputs": "figure_source/plot_inputs.json",
+    "generator": "figure_source/generate_figures.py",
+    "source_ids": [
+      "S17",
+      "S28",
+      "S29",
+      "S30",
+      "S31",
+      "S32",
+      "S33",
+      "S34",
+      "S35"
+    ],
+    "interpretation": "Recorded evidence or contract schematic; no new experiment",
+    "eligibility": "public summary and released data only"
+  },
+  {
+    "item": "Figure 2",
+    "inputs": "figure_source/plot_inputs.json",
+    "generator": "figure_source/generate_figures.py",
+    "source_ids": [
+      "S06",
+      "S07",
+      "S08"
+    ],
+    "interpretation": "Recorded evidence or contract schematic; no new experiment",
+    "eligibility": "public summary and released data only"
+  },
+  {
+    "item": "Figure 3",
+    "inputs": "figure_source/plot_inputs.json",
+    "generator": "figure_source/generate_figures.py",
+    "source_ids": [
+      "S06",
+      "S08",
+      "S12",
+      "S13",
+      "S14",
+      "S15",
+      "S16"
+    ],
+    "interpretation": "Recorded evidence or contract schematic; no new experiment",
+    "eligibility": "public summary and released data only"
+  },
+  {
+    "item": "Figure 4",
+    "inputs": "figure_source/plot_inputs.json",
+    "generator": "figure_source/generate_figures.py",
+    "source_ids": [
+      "S06",
+      "S07",
+      "S08",
+      "S12",
+      "S13",
+      "S14",
+      "S15"
+    ],
+    "interpretation": "Recorded evidence or contract schematic; no new experiment",
+    "eligibility": "public summary and released data only"
+  },
+  {
+    "item": "Figure 5",
+    "inputs": "figure_source/plot_inputs.json",
+    "generator": "figure_source/generate_figures.py",
+    "source_ids": [
+      "S01",
+      "S02"
+    ],
+    "interpretation": "Recorded evidence or contract schematic; no new experiment",
+    "eligibility": "public summary and released data only"
+  },
+  {
+    "item": "Figure 6",
+    "inputs": "figure_source/plot_inputs.json",
+    "generator": "figure_source/generate_figures.py",
+    "source_ids": [
+      "S09",
+      "S21"
+    ],
+    "interpretation": "Recorded evidence or contract schematic; no new experiment",
+    "eligibility": "public summary and released data only"
+  },
+  {
+    "item": "Table 1",
+    "source_ids": [
+      "S01"
+    ],
+    "generator": "reproducibility/render_pdf.py",
+    "eligibility": "public summary only"
+  },
+  {
+    "item": "Table 2",
+    "source_ids": [
+      "S06",
+      "S08",
+      "S12",
+      "S13",
+      "S14",
+      "S15",
+      "S16"
+    ],
+    "generator": "reproducibility/render_pdf.py",
+    "eligibility": "public summary only"
+  },
+  {
+    "item": "Table A2",
+    "source_ids": [
+      "S16"
+    ],
+    "generator": "reproducibility/render_pdf.py",
+    "eligibility": "public summary only"
+  },
+  {
+    "item": "Table A3",
+    "source_ids": [
+      "S01"
+    ],
+    "generator": "reproducibility/render_pdf.py",
+    "eligibility": "public summary only"
+  },
+  {
+    "item": "Table A4",
+    "source_ids": [
+      "S01"
+    ],
+    "inputs": "supplement/recorded_uncertainty.csv",
+    "generator": "reproducibility/render_pdf.py",
+    "interpretation": "Recorded endpoints; not newly calculated intervals",
+    "eligibility": "Public receipt"
+  }
+]

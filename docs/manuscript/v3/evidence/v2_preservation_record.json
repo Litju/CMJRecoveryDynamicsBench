@@ -1,0 +1,8 @@
+{
+  "source_package": "M10_SCIENTIFIC_MANUSCRIPT_V2_20261104",
+  "file_count_at_v3_kickoff": 139,
+  "aggregate_inventory_sha256": "8a0f15bb0c4a5c99df26c35a9355b7b1e42f6dab8ab304b05c519c5e7122a211",
+  "source_SHA256SUMS_sha256": "075c2cccb58ddc32951ac1283c14132ec0ee22420dd5f73a2a9cb3e59e80c173",
+  "private_file_bytes_copied": false,
+  "note": "The full original file list and per-file hashes are not retained here. The aggregate digest permits a local preservation check without exposing private filenames or artifact hashes."
+}
