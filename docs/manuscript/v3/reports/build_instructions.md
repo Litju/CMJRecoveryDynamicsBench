@@ -20,18 +20,17 @@ The build consumes the public release-linked evidence snapshots in this package 
 The V3 folder contains all public scientific inputs needed to regenerate its figures. The only network downloads are the pinned Python/LaTeX tools and Tectonic support bundle. The commands below use paths relative to the V3 package root; set `BUILD_TMP` to choose a different local tools directory.
 
 ```sh
-BUILD_TMP="${BUILD_TMP:-.build-tools}"
+BUILD_TMP="${BUILD_TMP:-toolchain}"
 uv python install 3.12.13
-uv venv .venv-v3 --python 3.12.13
-uv pip sync --python .venv-v3/bin/python reproducibility/requirements.lock
-source .venv-v3/bin/activate
+uv venv .venv --python 3.12.13
+uv pip sync --python .venv/bin/python reproducibility/requirements.lock
+source .venv/bin/activate
 
 mkdir -p "$BUILD_TMP"
 curl -fLsS -o "$BUILD_TMP/tectonic-0.17.0.tar.gz" https://github.com/tectonic-typesetting/tectonic/releases/download/tectonic%400.17.0/tectonic-0.17.0-x86_64-unknown-linux-gnu.tar.gz
 echo "1a715688baf591e650c8aeb160ae934e181685eecbb38b317de30b269ac5d606  $BUILD_TMP/tectonic-0.17.0.tar.gz" | sha256sum -c -
-mkdir -p "$BUILD_TMP/tectonic"
-tar -xzf "$BUILD_TMP/tectonic-0.17.0.tar.gz" -C "$BUILD_TMP/tectonic"
-export PATH="$PWD/$BUILD_TMP/tectonic:$PATH"
+tar -xzf "$BUILD_TMP/tectonic-0.17.0.tar.gz" -C "$BUILD_TMP"
+export PATH="$PWD/$BUILD_TMP:$PATH"
 
 bash reproducibility/build.sh
 ```

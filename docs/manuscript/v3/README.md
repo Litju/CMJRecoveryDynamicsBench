@@ -22,15 +22,15 @@ Use Python 3.12.13 with the exact packages in reproducibility/requirements.lock,
 
 ```sh
 uv python install 3.12.13
-uv venv .venv-v3 --python 3.12.13
-uv pip sync --python .venv-v3/bin/python reproducibility/requirements.lock
-source .venv-v3/bin/activate
-BUILD_TMP="${BUILD_TMP:-.build-tools}"
-export PATH="$PWD/$BUILD_TMP/tectonic:$PATH"
+uv venv .venv --python 3.12.13
+uv pip sync --python .venv/bin/python reproducibility/requirements.lock
+source .venv/bin/activate
+BUILD_TMP="${BUILD_TMP:-toolchain}"
+export PATH="$PWD/$BUILD_TMP:$PATH"
 bash reproducibility/build.sh
 ```
 
-The local virtual environment and tool directory are ignored build outputs. Set `BUILD_TMP` to choose another relative tool directory if needed.
+The local virtual environment and `toolchain/` directory are ignored build outputs. Set `BUILD_TMP` to choose another relative tool directory if needed.
 
 The Tectonic binary was built from the official 0.17.0 x86_64 Linux release. Its archive URL and SHA-256, the Python build versions, and figure input hashes are recorded in reports/build_instructions.md and the final checksum manifest. The first LaTeX build downloads Tectonic's TeX support bundle; its resolved identity is recorded in the build report.
 
