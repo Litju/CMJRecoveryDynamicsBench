@@ -1,7 +1,7 @@
 {
   "academic_review": {
     "pdf": "academic_review_manuscript.pdf",
-    "pages": 23,
+    "pages": 24,
     "render_dpi": 144,
     "inspection": "Every page exported at 144 dpi; page image contact sheets are provided for navigation.",
     "page_records": [
@@ -16,8 +16,8 @@
           595.28,
           841.89
         ],
-        "text_characters": 1779,
-        "text_blocks": 24,
+        "text_characters": 1669,
+        "text_blocks": 23,
         "embedded_images": 0,
         "vector_drawings": 0,
         "text_blocks_outside_page": []
@@ -33,7 +33,7 @@
           595.28,
           841.89
         ],
-        "text_characters": 2280,
+        "text_characters": 2371,
         "text_blocks": 28,
         "embedded_images": 0,
         "vector_drawings": 0,
@@ -50,8 +50,8 @@
           595.28,
           841.89
         ],
-        "text_characters": 2306,
-        "text_blocks": 28,
+        "text_characters": 2174,
+        "text_blocks": 26,
         "embedded_images": 0,
         "vector_drawings": 0,
         "text_blocks_outside_page": []
@@ -67,8 +67,8 @@
           595.28,
           841.89
         ],
-        "text_characters": 1986,
-        "text_blocks": 24,
+        "text_characters": 2303,
+        "text_blocks": 27,
         "embedded_images": 0,
         "vector_drawings": 0,
         "text_blocks_outside_page": []
@@ -84,8 +84,8 @@
           595.28,
           841.89
         ],
-        "text_characters": 2291,
-        "text_blocks": 28,
+        "text_characters": 2142,
+        "text_blocks": 27,
         "embedded_images": 0,
         "vector_drawings": 0,
         "text_blocks_outside_page": []
@@ -101,8 +101,8 @@
           595.28,
           841.89
         ],
-        "text_characters": 2861,
-        "text_blocks": 20,
+        "text_characters": 2195,
+        "text_blocks": 26,
         "embedded_images": 0,
         "vector_drawings": 0,
         "text_blocks_outside_page": []
@@ -118,10 +118,10 @@
           595.28,
           841.89
         ],
-        "text_characters": 2512,
-        "text_blocks": 25,
+        "text_characters": 2856,
+        "text_blocks": 21,
         "embedded_images": 0,
-        "vector_drawings": 3,
+        "vector_drawings": 0,
         "text_blocks_outside_page": []
       },
       {
@@ -135,10 +135,10 @@
           595.28,
           841.89
         ],
-        "text_characters": 2433,
-        "text_blocks": 23,
+        "text_characters": 2637,
+        "text_blocks": 21,
         "embedded_images": 0,
-        "vector_drawings": 0,
+        "vector_drawings": 3,
         "text_blocks_outside_page": []
       },
       {
@@ -152,10 +152,10 @@
           595.28,
           841.89
         ],
-        "text_characters": 2115,
-        "text_blocks": 28,
+        "text_characters": 2356,
+        "text_blocks": 22,
         "embedded_images": 0,
-        "vector_drawings": 3,
+        "vector_drawings": 0,
         "text_blocks_outside_page": []
       },
       {
@@ -169,10 +169,10 @@
           595.28,
           841.89
         ],
-        "text_characters": 2849,
-        "text_blocks": 21,
+        "text_characters": 2170,
+        "text_blocks": 30,
         "embedded_images": 0,
-        "vector_drawings": 0,
+        "vector_drawings": 3,
         "text_blocks_outside_page": []
       },
       {
@@ -186,8 +186,8 @@
           595.28,
           841.89
         ],
-        "text_characters": 2435,
-        "text_blocks": 29,
+        "text_characters": 2624,
+        "text_blocks": 26,
         "embedded_images": 0,
         "vector_drawings": 0,
         "text_blocks_outside_page": []
@@ -203,10 +203,10 @@
           595.28,
           841.89
         ],
-        "text_characters": 1929,
-        "text_blocks": 37,
+        "text_characters": 2154,
+        "text_blocks": 27,
         "embedded_images": 0,
-        "vector_drawings": 6,
+        "vector_drawings": 0,
         "text_blocks_outside_page": []
       },
       {
@@ -220,10 +220,10 @@
           595.28,
           841.89
         ],
-        "text_characters": 2107,
-        "text_blocks": 27,
+        "text_characters": 1861,
+        "text_blocks": 36,
         "embedded_images": 0,
-        "vector_drawings": 0,
+        "vector_drawings": 6,
         "text_blocks_outside_page": []
       },
       {
@@ -238,7 +238,7 @@
           841.89
         ],
         "text_characters": 2101,
-        "text_blocks": 18,
+        "text_blocks": 27,
         "embedded_images": 0,
         "vector_drawings": 0,
         "text_blocks_outside_page": []
@@ -254,10 +254,10 @@
           595.28,
           841.89
         ],
-        "text_characters": 2451,
-        "text_blocks": 15,
+        "text_characters": 2491,
+        "text_blocks": 23,
         "embedded_images": 0,
-        "vector_drawings": 6,
+        "vector_drawings": 0,
         "text_blocks_outside_page": []
       },
       {
@@ -271,10 +271,10 @@
           595.28,
           841.89
         ],
-        "text_characters": 2771,
-        "text_blocks": 18,
+        "text_characters": 2451,
+        "text_blocks": 15,
         "embedded_images": 0,
-        "vector_drawings": 0,
+        "vector_drawings": 6,
         "text_blocks_outside_page": []
       },
       {
@@ -288,8 +288,8 @@
           595.28,
           841.89
         ],
-        "text_characters": 2594,
-        "text_blocks": 23,
+        "text_characters": 2725,
+        "text_blocks": 19,
         "embedded_images": 0,
         "vector_drawings": 0,
         "text_blocks_outside_page": []
@@ -305,8 +305,8 @@
           595.28,
           841.89
         ],
-        "text_characters": 2416,
-        "text_blocks": 28,
+        "text_characters": 2621,
+        "text_blocks": 24,
         "embedded_images": 0,
         "vector_drawings": 0,
         "text_blocks_outside_page": []
@@ -322,7 +322,7 @@
           595.28,
           841.89
         ],
-        "text_characters": 2394,
+        "text_characters": 2427,
         "text_blocks": 28,
         "embedded_images": 0,
         "vector_drawings": 0,
@@ -339,8 +339,8 @@
           595.28,
           841.89
         ],
-        "text_characters": 2017,
-        "text_blocks": 26,
+        "text_characters": 2405,
+        "text_blocks": 28,
         "embedded_images": 0,
         "vector_drawings": 0,
         "text_blocks_outside_page": []
@@ -356,7 +356,7 @@
           595.28,
           841.89
         ],
-        "text_characters": 2091,
+        "text_characters": 2077,
         "text_blocks": 26,
         "embedded_images": 0,
         "vector_drawings": 0,
@@ -373,8 +373,8 @@
           595.28,
           841.89
         ],
-        "text_characters": 2024,
-        "text_blocks": 27,
+        "text_characters": 2341,
+        "text_blocks": 28,
         "embedded_images": 0,
         "vector_drawings": 0,
         "text_blocks_outside_page": []
@@ -390,8 +390,25 @@
           595.28,
           841.89
         ],
-        "text_characters": 1045,
-        "text_blocks": 14,
+        "text_characters": 1761,
+        "text_blocks": 25,
+        "embedded_images": 0,
+        "vector_drawings": 0,
+        "text_blocks_outside_page": []
+      },
+      {
+        "page": 24,
+        "image": "renders/academic_review/page-024.png",
+        "image_size_px": [
+          1191,
+          1684
+        ],
+        "page_size_points": [
+          595.28,
+          841.89
+        ],
+        "text_characters": 1585,
+        "text_blocks": 21,
         "embedded_images": 0,
         "vector_drawings": 0,
         "text_blocks_outside_page": []
@@ -400,7 +417,7 @@
   },
   "reading_edition": {
     "pdf": "integrated_scientific_reading_edition.pdf",
-    "pages": 20,
+    "pages": 21,
     "render_dpi": 144,
     "inspection": "Every page exported at 144 dpi; page image contact sheets are provided for navigation.",
     "page_records": [
@@ -415,7 +432,7 @@
           595.28,
           841.89
         ],
-        "text_characters": 3540,
+        "text_characters": 3608,
         "text_blocks": 10,
         "embedded_images": 0,
         "vector_drawings": 0,
@@ -432,8 +449,8 @@
           595.28,
           841.89
         ],
-        "text_characters": 4193,
-        "text_blocks": 9,
+        "text_characters": 4080,
+        "text_blocks": 7,
         "embedded_images": 0,
         "vector_drawings": 0,
         "text_blocks_outside_page": []
@@ -449,8 +466,8 @@
           595.28,
           841.89
         ],
-        "text_characters": 4190,
-        "text_blocks": 9,
+        "text_characters": 4118,
+        "text_blocks": 10,
         "embedded_images": 0,
         "vector_drawings": 0,
         "text_blocks_outside_page": []
@@ -466,8 +483,8 @@
           595.28,
           841.89
         ],
-        "text_characters": 1446,
-        "text_blocks": 42,
+        "text_characters": 2257,
+        "text_blocks": 44,
         "embedded_images": 0,
         "vector_drawings": 19,
         "text_blocks_outside_page": []
@@ -483,8 +500,8 @@
           595.28,
           841.89
         ],
-        "text_characters": 1228,
-        "text_blocks": 20,
+        "text_characters": 2703,
+        "text_blocks": 22,
         "embedded_images": 0,
         "vector_drawings": 20,
         "text_blocks_outside_page": []
@@ -500,8 +517,8 @@
           595.28,
           841.89
         ],
-        "text_characters": 3680,
-        "text_blocks": 15,
+        "text_characters": 1644,
+        "text_blocks": 11,
         "embedded_images": 0,
         "vector_drawings": 3,
         "text_blocks_outside_page": []
@@ -517,8 +534,8 @@
           595.28,
           841.89
         ],
-        "text_characters": 1617,
-        "text_blocks": 75,
+        "text_characters": 1785,
+        "text_blocks": 77,
         "embedded_images": 0,
         "vector_drawings": 102,
         "text_blocks_outside_page": []
@@ -534,7 +551,7 @@
           595.28,
           841.89
         ],
-        "text_characters": 2033,
+        "text_characters": 2577,
         "text_blocks": 25,
         "embedded_images": 0,
         "vector_drawings": 10,
@@ -551,10 +568,10 @@
           595.28,
           841.89
         ],
-        "text_characters": 2602,
-        "text_blocks": 27,
+        "text_characters": 1656,
+        "text_blocks": 17,
         "embedded_images": 0,
-        "vector_drawings": 43,
+        "vector_drawings": 3,
         "text_blocks_outside_page": []
       },
       {
@@ -568,10 +585,10 @@
           595.28,
           841.89
         ],
-        "text_characters": 2791,
-        "text_blocks": 23,
+        "text_characters": 1210,
+        "text_blocks": 12,
         "embedded_images": 0,
-        "vector_drawings": 60,
+        "vector_drawings": 40,
         "text_blocks_outside_page": []
       },
       {
@@ -585,10 +602,10 @@
           595.28,
           841.89
         ],
-        "text_characters": 3653,
-        "text_blocks": 21,
+        "text_characters": 2660,
+        "text_blocks": 22,
         "embedded_images": 0,
-        "vector_drawings": 6,
+        "vector_drawings": 60,
         "text_blocks_outside_page": []
       },
       {
@@ -602,10 +619,10 @@
           595.28,
           841.89
         ],
-        "text_characters": 3836,
-        "text_blocks": 12,
+        "text_characters": 3114,
+        "text_blocks": 26,
         "embedded_images": 0,
-        "vector_drawings": 3,
+        "vector_drawings": 6,
         "text_blocks_outside_page": []
       },
       {
@@ -619,10 +636,10 @@
           595.28,
           841.89
         ],
-        "text_characters": 1269,
-        "text_blocks": 40,
+        "text_characters": 3727,
+        "text_blocks": 9,
         "embedded_images": 0,
-        "vector_drawings": 230,
+        "vector_drawings": 0,
         "text_blocks_outside_page": []
       },
       {
@@ -636,10 +653,10 @@
           595.28,
           841.89
         ],
-        "text_characters": 3513,
-        "text_blocks": 13,
+        "text_characters": 1381,
+        "text_blocks": 43,
         "embedded_images": 0,
-        "vector_drawings": 3,
+        "vector_drawings": 230,
         "text_blocks_outside_page": []
       },
       {
@@ -653,10 +670,10 @@
           595.28,
           841.89
         ],
-        "text_characters": 1068,
-        "text_blocks": 14,
+        "text_characters": 3075,
+        "text_blocks": 11,
         "embedded_images": 0,
-        "vector_drawings": 56,
+        "vector_drawings": 6,
         "text_blocks_outside_page": []
       },
       {
@@ -670,10 +687,10 @@
           595.28,
           841.89
         ],
-        "text_characters": 1326,
-        "text_blocks": 27,
+        "text_characters": 1638,
+        "text_blocks": 16,
         "embedded_images": 0,
-        "vector_drawings": 101,
+        "vector_drawings": 56,
         "text_blocks_outside_page": []
       },
       {
@@ -687,10 +704,10 @@
           595.28,
           841.89
         ],
-        "text_characters": 1467,
-        "text_blocks": 12,
+        "text_characters": 1967,
+        "text_blocks": 29,
         "embedded_images": 0,
-        "vector_drawings": 5,
+        "vector_drawings": 101,
         "text_blocks_outside_page": []
       },
       {
@@ -704,10 +721,10 @@
           595.28,
           841.89
         ],
-        "text_characters": 4499,
-        "text_blocks": 4,
+        "text_characters": 3343,
+        "text_blocks": 15,
         "embedded_images": 0,
-        "vector_drawings": 0,
+        "vector_drawings": 5,
         "text_blocks_outside_page": []
       },
       {
@@ -721,8 +738,8 @@
           595.28,
           841.89
         ],
-        "text_characters": 3552,
-        "text_blocks": 12,
+        "text_characters": 4357,
+        "text_blocks": 6,
         "embedded_images": 0,
         "vector_drawings": 0,
         "text_blocks_outside_page": []
@@ -738,8 +755,25 @@
           595.28,
           841.89
         ],
-        "text_characters": 3481,
-        "text_blocks": 15,
+        "text_characters": 3950,
+        "text_blocks": 14,
+        "embedded_images": 0,
+        "vector_drawings": 0,
+        "text_blocks_outside_page": []
+      },
+      {
+        "page": 21,
+        "image": "renders/reading_edition/page-021.png",
+        "image_size_px": [
+          1191,
+          1684
+        ],
+        "page_size_points": [
+          595.28,
+          841.89
+        ],
+        "text_characters": 2899,
+        "text_blocks": 17,
         "embedded_images": 0,
         "vector_drawings": 0,
         "text_blocks_outside_page": []
@@ -763,7 +797,7 @@
           595.28,
           841.89
         ],
-        "text_characters": 3295,
+        "text_characters": 3330,
         "text_blocks": 20,
         "embedded_images": 0,
         "vector_drawings": 3,

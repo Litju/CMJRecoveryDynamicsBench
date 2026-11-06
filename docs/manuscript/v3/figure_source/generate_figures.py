@@ -12,6 +12,7 @@ import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 import numpy as np
+from PIL import Image
 from matplotlib.lines import Line2D
 from matplotlib.patches import FancyArrowPatch, FancyBboxPatch, Rectangle
 
@@ -173,6 +174,17 @@ def save_figure(fig, stem: str):
         pad_inches=0.06,
         pil_kwargs={"compression": "tiff_lzw"},
     )
+    with Image.open(tif) as exported:
+        rgb = exported.convert("RGB")
+    rgb.save(tif, format="TIFF", dpi=(600, 600), compression="tiff_lzw")
+    rgb.close()
+    with Image.open(tif) as checked:
+        if (
+            checked.mode != "RGB"
+            or checked.info.get("dpi") != (600.0, 600.0)
+            or checked.info.get("compression") != "tiff_lzw"
+        ):
+            raise RuntimeError(f"{tif.name} must be flattened RGB at 600 dpi with LZW compression")
     plt.close(fig)
 
 

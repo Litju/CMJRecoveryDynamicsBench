@@ -49,5 +49,13 @@
     "checked": true,
     "files_unchanged": 139
   },
-  "build_outputs": {}
+  "build_outputs": {
+    "pdfs": [
+      "academic_review_manuscript.pdf",
+      "integrated_scientific_reading_edition.pdf",
+      "technical_supplement.pdf"
+    ],
+    "figures": 10,
+    "page_render_sets": 3
+  }
 }
