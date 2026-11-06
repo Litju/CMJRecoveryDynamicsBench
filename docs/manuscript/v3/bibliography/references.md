@@ -12,14 +12,22 @@
 
 [R7] Barker M., Chue Hong N.P., Katz D.S., Lamprecht A., Martinez-Ortiz C., Psomopoulos F., et al. (2022). Introducing the FAIR Principles for research software. Scientific Data 9: 622. 10.1038/s41597-022-01710-x
 
-[R9] Pineau J., Vincent-Lamarre P., Sinha K., Lariviere V., Beygelzimer A., d’Alche-Buc F., et al. (2021). Improving Reproducibility in Machine Learning Research (A Report from the NeurIPS 2019 Reproducibility Program). Journal of Machine Learning Research 22: 1–20. https://www.jmlr.org/papers/v22/20-303.html
-
-[R10] Miao H., Li A., Davis L.S., Deshpande A. (2017). ModelHub: Deep Learning Lifecycle Management. 2017 IEEE 33rd International Conference on Data Engineering (ICDE) : 1393-1394. 10.1109/ICDE.2017.192
-
-[R11] Moreau L., Clifford B., Freire J., Futrelle J., Gil Y., Groth P., et al. (2011). The Open Provenance Model core specification (v1.1). Future Generation Computer Systems 27: 743-756. 10.1016/j.future.2010.07.005
+[R9] Pineau J., Vincent-Lamarre P., Sinha K., Lariviere V., Beygelzimer A., d’Alche-Buc F., et al. (2021). Improving Reproducibility in Machine Learning Research (A Report from the NeurIPS 2019 Reproducibility Program). Journal of Machine Learning Research 22(164): 1–20. https://www.jmlr.org/papers/v22/20-303.html
 
 [R12] Morris T.P., White I.R., Crowther M.J. (2019). Using simulation studies to evaluate statistical methods. Statistics in Medicine 38: 2074-2102. 10.1002/sim.8086
 
 [R13] Ahrens W., Demmel J., Nguyen H.D. (2020). Algorithms for Efficient Reproducible Floating Point Summation. ACM Transactions on Mathematical Software 46: 1-49. 10.1145/3389360
 
 [R14] Breck E., Cai S., Nielsen E., Salib M., Sculley D. (2017). The ML test score: A rubric for ML production readiness and technical debt reduction. 2017 IEEE International Conference on Big Data (Big Data) : 1123-1132. 10.1109/bigdata.2017.8258038
+
+[R15] Goodman S.N., Fanelli D., Ioannidis J.P.A. (2016). What does research reproducibility mean? Science Translational Medicine 8(341): 341ps12. 10.1126/scitranslmed.aaf5027
+
+[R16] Association for Computing Machinery. (2020). Artifact Review and Badging. Version 1.1, 24 August 2020; accessed 6 November 2026. https://www.acm.org/publications/policies/artifact-review-and-badging-current
+
+[R17] Lebo T., Sahoo S., McGuinness D. (2013). PROV-O: The PROV Ontology. W3C Recommendation, 30 April 2013. https://www.w3.org/TR/2013/REC-prov-o-20130430/
+
+[R18] RO-Crate Community. (2026). RO-Crate Metadata Specification 1.3. Published 22 June 2026. 10.5281/zenodo.20720080
+
+[R19] MLflow Project. MLflow Tracking. Latest documentation; accessed 6 November 2026. https://mlflow.org/docs/latest/tracking/
+
+[R20] Data Version Control Project. Experiment Management. User guide; accessed 6 November 2026. https://doc.dvc.org/user-guide/experiment-management

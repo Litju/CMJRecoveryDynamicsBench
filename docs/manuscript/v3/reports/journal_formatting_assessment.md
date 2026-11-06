@@ -1,10 +1,10 @@
 # Journal formatting assessment
 
-Checked 5 November 2026. The documents below were read from the current official journal or publisher sites. Requirements are separated from format recommendations. No journal has endorsed, accepted, or been contacted about this manuscript.
+Checked 6 November 2026. PLOS ONE's current official pages were rechecked on this date. The other venue notes below are preliminary comparisons from the previous review and are not venue approvals. No journal has endorsed, accepted, or been contacted about this manuscript.
 
 ## Primary article architecture: PLOS ONE Research Article
 
-PLOS ONE is the strongest structural model for this full-length methods and research article. The paper analyzes a bounded computational reconstruction and an existing synthetic experiment. It is not a protocol, a short software note, a new prediction algorithm, or a clinical validation study. PLOS ONE's official criteria require sound methods, supported conclusions, and a suitable data-availability statement; they do not require a positive result. The venue's broad scope makes this a plausible structure, not a prediction of editorial fit or acceptance.
+PLOS ONE is used only as a possible structural model for the full-length owner-review draft. The paper analyzes a bounded computational reconstruction and an existing synthetic experiment. It is not a protocol, a short software note, a new prediction algorithm, or a clinical validation study. The official criteria allow methods and software research and negative results, while requiring sound methods, supported conclusions, and a suitable data-availability statement. This does not establish editorial fit or eligibility.
 
 **Verified requirements and instructions**
 
@@ -12,12 +12,18 @@ PLOS ONE is the strongest structural model for this full-length methods and rese
 - PLOS allows any manuscript length and has no limit on figure count or supporting-information quantity. It encourages concise reporting. The abstract is at most 300 words and should have no citations; abbreviations should be avoided where possible.
 - Manuscript text must be single column, double spaced, and include page numbers and continuous line numbers. Footnotes are not permitted. PLOS accepts LaTeX as a PDF at submission and requires the current PLOS LaTeX template for submission.
 - The full title must be no more than 250 characters; the short title must be no more than 100 characters. Titles use sentence case. The corresponding author must supply an ORCID in the submission system.
-- PLOS figures are separate files, cited in ascending order, and omitted from the manuscript PDF. Each caption appears immediately after the paragraph that first cites the figure; the caption uses “Fig” plus an Arabic numeral and a descriptive title. Tables are inserted after the paragraph that first cites them. The LaTeX instructions additionally state that the PLOS template's bundled BibTeX style should be used and that the journal uses Vancouver references.
+- PLOS figures are separate files, cited in ascending order, and omitted from the manuscript PDF. Each caption appears immediately after the paragraph that first cites the figure, uses “Fig” plus an Arabic numeral, and has a concise descriptive title of 15 words or fewer; any legend follows the title. Tables are inserted after the paragraph that first cites them. The LaTeX instructions additionally state that the PLOS template's bundled BibTeX style should be used and that the journal uses Vancouver references.
 - PLOS specifies Vancouver citation-sequence references, with the first six authors listed followed by et al. when there are more than six. Equations must be composed as equations rather than simulated with text.
-- The figure guide calls for at least 300 ppi and advises a 300–600 ppi range, separate files, and files no larger than 10 MB. Supporting-information files must be smaller than 20 MB; the journal publishes them as submitted without copyediting.
+- The current figure guide specifies separate files, RGB 8-bit or grayscale, 300–600 dpi, no alpha channel, LZW-compressed TIFF, and a 10 MB limit. It recommends cropping excess white space. Supporting-information files must be smaller than 20 MB; the journal publishes them as submitted without copyediting.
 - A Data Availability Statement is required. Funding information and competing interests are entered in the submission system, not in the manuscript file. Author contributions are entered for each author using CRediT. Author use of AI affecting submission content or research must be disclosed in the article body; AI cannot be an author. Human studies require applicable ethics reporting.
 
 For this owner-review version, the review PDF follows the required single-column, double-spaced, line-numbered form, uses the current PLOS Vancouver BibTeX style, and places figure captions after first citation while supplying figure files separately. It uses an unbranded article class and conventional 12-point type with one-inch margins to retain a journal-neutral review appearance. The integrated reading PDF contains the same manuscript and figures inline; it is an editorial reading edition, not the PLOS submission PDF. Any submission would still need to be rebuilt from the official PLOS template and entered with the separate data, funding, competing-interest, and CRediT fields.
+
+## Data-access feasibility
+
+PLOS's current data policy calls for public access to the data underlying findings, with limited exceptions for legal or ethical restrictions and specified requirements for restricted third-party or sensitive data. It does not allow an author to be the sole access contact. It also states that results relying solely on inaccessible proprietary data are not considered unless public data validate the conclusions. The public synthetic benchmark in this paper supports RQ3; it does not independently validate the privately recorded original-route qualifications in RQ1/RQ2. The public package does not establish rights-cleared checkpoint distribution, a controlled-access route, or a nonauthor institutional contact. Accordingly, PLOS ONE is **not currently qualified as a submission destination** and eligibility remains unresolved. The article must not promise that restricted artifacts are available on request.
+
+No alternative venue is currently qualified. The realistic next venue step depends on an internal rights/access decision: establish an approved controlled-access mechanism for the restricted claims, or obtain an owner decision to narrow the article to claims reproducible from public materials and reassess a research-software or reproducibility-case-study journal against its current scope and artifact policy. No journal outreach or separate manuscript rewrite was performed.
 
 ## Alternatives and separate software formats
 
@@ -44,7 +50,7 @@ For this owner-review version, the review PDF follows the required single-column
 
 - No author names, affiliations, corresponding-author email, ORCID, CRediT roles, funding, or competing interests have been inferred. All remain marked for owner completion.
 - The study uses public synthetic benchmark results and research-software records. It does not acquire athlete data or establish a human-subjects study. The authors must confirm the final ethics statement.
-- The draft's data/software statement identifies the public v1.1.0 release and receipt sources, and separately states that original fitted checkpoints and restricted records are not redistributed. This is a truthful access boundary, not proof that PLOS would accept the restriction.
+- The data/software statement identifies the public v1.1.0 release and receipt sources, and separately states that original fitted checkpoints and restricted records are not redistributed. The public synthetic evidence does not validate the private original-route claims, so the data-access question remains unresolved.
 - The AI-use disclosure names OpenAI Codex in the GPT-6 agent environment and describes manuscript, code, and figure-script assistance. It states that no generative-image model was used, and that human author review and approval remain pending.
 
 ## Primary sources

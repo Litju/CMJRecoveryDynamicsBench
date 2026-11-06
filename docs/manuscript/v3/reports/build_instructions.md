@@ -35,7 +35,7 @@ export PATH="$PWD/$BUILD_TMP:$PATH"
 bash reproducibility/build.sh
 ```
 
-The script regenerates Fig1–Fig10 in PDF, SVG, PNG, and TIFF (the TIFF exports are 600 dpi), compiles both manuscript editions from one authoritative source, compiles supplement/technical_supplement.tex, renders every page at 144 dpi, validates source and receipt links, and writes ARTIFACT_SHA256SUMS. The academic review PDF contains figure captions but no figure images, following PLOS figure-file placement. The integrated reading PDF embeds the corresponding PDF figures at first discussion.
+The script regenerates Fig1–Fig10 in vector PDF/SVG and raster PNG/TIFF. TIFFs are flattened RGB, 600 dpi, and LZW-compressed. It compiles both manuscript editions from one authoritative source, compiles supplement/technical_supplement.tex, renders every page at 144 dpi, validates source and receipt links, checks PLOS TIFF dimensions/size/channel requirements, and writes ARTIFACT_SHA256SUMS. The academic review PDF contains figure captions but no figure images, following PLOS figure-file placement. The integrated reading PDF embeds the corresponding PDF figures at first discussion.
 
 ## Evidence identities
 

@@ -11,6 +11,7 @@ import os
 import re
 from pathlib import Path
 
+from PIL import Image
 
 ROOT = Path(__file__).resolve().parents[1]
 RELEASE = ROOT / "evidence" / "release_sources"
@@ -22,7 +23,7 @@ PRIVATE_MACHINE_PATH = re.compile(
     re.IGNORECASE,
 )
 PROTECTED_SUFFIXES = {".bin", ".ckpt", ".joblib", ".pkl", ".pt", ".pth", ".safetensors"}
-BUILD_DIRECTORIES = {"build", ".build-tools", ".venv-v3", "__pycache__", "toolchain"}
+BUILD_DIRECTORIES = {"build", "__pycache__", ".venv", "toolchain"}
 
 
 def sha256(path: Path) -> str:
@@ -45,7 +46,7 @@ def csv_load(path: Path):
 def write_csv(path: Path, header: list[str], rows: list[list[str]]):
     path.parent.mkdir(parents=True, exist_ok=True)
     with path.open("w", newline="", encoding="utf-8") as handle:
-        writer = csv.writer(handle)
+        writer = csv.writer(handle, lineterminator="\n")
         writer.writerow(header)
         writer.writerows(rows)
 
@@ -103,7 +104,7 @@ def bib_entries():
 def verify_bibliography():
     entries = bib_entries()
     metadata = json_load(ROOT / "bibliography" / "verified_metadata.json")
-    assert len(entries) == 13, f"Expected 13 BibTeX entries, found {len(entries)}"
+    assert len(entries) == 17, f"Expected 17 BibTeX entries, found {len(entries)}"
     assert {r["id"] for r in metadata} == set(entries)
     main = MANUSCRIPT.read_text(encoding="utf-8")
     cited = set()
@@ -130,8 +131,10 @@ def verify_bibliography():
         authors_ok = all(re.sub(r"[^a-z0-9]+", "", n.lower()) in author_blob for n in names)
         if item.get("doi_status", "").startswith("No DOI"):
             doi_ok = not bib["doi"] and bool(bib["url"])
-        if key in {"R10", "R14"}:
+        if key == "R14":
             type_ok = bib["type"] == "inproceedings" and bool(bib["booktitle"]) and not bib["journal"]
+        elif key in {"R16", "R17", "R18", "R19", "R20"}:
+            type_ok = bib["type"] == "misc"
         else:
             type_ok = bib["type"] == "article"
         assert all([title_ok, year_ok, venue_ok, doi_ok, authors_ok, type_ok]), f"Bibliography mismatch for {key}"
@@ -146,7 +149,7 @@ def verify_bibliography():
                 str(meta.get("issue", "")),
                 str(meta.get("page", "")),
                 doi or "No DOI asserted; publisher URL retained",
-                "verified metadata retained from V2; entry fields cross-checked",
+                "publisher/registry metadata cross-checked; source version and identifier recorded",
             ]
         )
     write_csv(
@@ -457,11 +460,59 @@ def verify_manuscript():
 
 
 def verify_private_boundary():
-    assert not any((ROOT / "evidence").rglob("weights.pt"))
-    assert not any((ROOT / "evidence").rglob("checkpoint*.bin"))
-    assert not (ROOT / "evidence" / "release_sources" / "private").exists()
-    assert not (ROOT / "evidence" / "v2_audit" / "private").exists()
-    return True
+    return verify_privacy_boundary()
+
+
+def verify_differential_claims_audit():
+    claim_path = REPORTS / "claims_differential_audit.csv"
+    summary_path = REPORTS / "claims_differential_audit_summary.json"
+    claims = csv_load(claim_path)
+    summary = json_load(summary_path)
+    required = {
+        "claim_id",
+        "unit_type",
+        "manuscript_location",
+        "exact_statement",
+        "supporting_source_id_path",
+        "source_commit_or_version",
+        "source_sha256",
+        "manuscript_source_sha256",
+        "evidence_level",
+        "public_reproducibility_status",
+        "qualification_or_limitation",
+        "verification_decision",
+        "differential_status",
+    }
+    assert claims and required <= set(claims[0]), f"Incomplete claims audit columns: {sorted(required - set(claims[0]))}"
+    assert len({r["claim_id"] for r in claims}) == len(claims), "Duplicate stable claim IDs"
+    assert len(claims) > 25, "Differential audit must exceed the high-level summary register"
+    assert all(all(r[k].strip() for k in required) for r in claims), "Blank claim-audit field"
+    assert all(re.fullmatch(r"[0-9a-f]{64}", r["manuscript_source_sha256"]) for r in claims)
+    assert all(r["manuscript_source_sha256"] == sha256(MANUSCRIPT) for r in claims)
+    assert all(re.search(r"(?:=|#sha256=)[0-9a-f]{64}", r["source_sha256"]) for r in claims)
+    current = [r for r in claims if r["unit_type"] != "removed_historical_claim"]
+    legacy = csv_load(RELEASE / "claims.csv")
+    assert len(legacy) == summary["v2_historical_audit_rows_preserved"] == 553
+    assert sha256(RELEASE / "claims.csv") == summary["v2_historical_audit_sha256"]
+    expected_status = summary["differential_status_counts"]
+    actual_status = {}
+    for row in claims:
+        actual_status[row["differential_status"]] = actual_status.get(row["differential_status"], 0) + 1
+    assert actual_status == expected_status
+    assert len(current) == summary["current_v3_claim_units"]
+    substantive = [r for r in current if r["unit_type"] != "author_or_ai_disclosure"]
+    disclosures = [r for r in current if r["unit_type"] == "author_or_ai_disclosure"]
+    assert len(substantive) == summary["substantive_current_claim_units"]
+    assert len(disclosures) == summary["administrative_disclosures"]
+    return {
+        "current_claim_units": len(current),
+        "substantive_claim_units": len(substantive),
+        "administrative_disclosures": len(disclosures),
+        "differential_status_counts": actual_status,
+        "historical_v2_rows_preserved": len(legacy),
+        "historical_v2_sha256_verified": True,
+        "independent_human_review": False,
+    }
 
 
 def post_build_check():
@@ -488,6 +539,16 @@ def post_build_check():
         for ext in [".pdf", ".svg", ".png", ".tif"]:
             path = ROOT / "figures" / f"{stem}{ext}"
             assert path.is_file() and path.stat().st_size > 1000, f"Missing/invalid export {path}"
+        tif = ROOT / "figures" / f"{stem}.tif"
+        with Image.open(tif) as image:
+            assert image.mode == "RGB", f"{tif.name} must be flattened RGB"
+            assert image.info.get("dpi") == (600.0, 600.0), f"{tif.name} must be 600 dpi"
+            assert image.info.get("compression") == "tiff_lzw", f"{tif.name} must use LZW compression"
+            width_at_300dpi = image.width / 2
+            height_at_300dpi = image.height / 2
+            assert 789 <= width_at_300dpi <= 2250, f"{tif.name} has an unsupported width"
+            assert height_at_300dpi <= 2625, f"{tif.name} is taller than one page"
+            assert tif.stat().st_size < 10 * 1024 * 1024, f"{tif.name} exceeds the PLOS 10 MB limit"
     for render in ["academic_review", "reading_edition", "technical_supplement"]:
         pages = list((ROOT / "renders" / render).glob("page-*.png"))
         assert pages, f"No rendered pages found for {render}"
@@ -508,6 +569,7 @@ def main():
     bibliography_count = verify_bibliography()
     manuscript = verify_manuscript()
     privacy = verify_private_boundary()
+    claims_audit = verify_differential_claims_audit()
     v2 = verify_v2_preserved()
     build = post_build_check() if args.post_build else {}
     result = {
@@ -516,6 +578,7 @@ def main():
         "bibliography_entries_verified": bibliography_count,
         "manuscript_checks": manuscript,
         "private_boundary": privacy,
+        "claims_differential_audit": claims_audit,
         "v2_preservation": v2,
         "build_outputs": build,
     }

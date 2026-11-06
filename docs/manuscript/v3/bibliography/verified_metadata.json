@@ -213,7 +213,7 @@
               "name": "Department of Physical Education and Sport, Faculty of Sport Sciences, University of Granada, 18011 Granada, Spain"
             },
             {
-              "name": "Department of Sports Sciences and Physical Conditioning, Faculty of Education, Universidad Cat\u00f3lica de la Sant\u00edsima Concepci\u00f3n, Concepci\u00f3n 4030000, Chile"
+              "name": "Department of Sports Sciences and Physical Conditioning, Faculty of Education, Universidad Católica de la Santísima Concepción, Concepción 4030000, Chile"
             }
           ],
           "role": [
@@ -249,7 +249,7 @@
           "sequence": "additional",
           "affiliation": [
             {
-              "name": "Jayhawk Athletic Performance Laboratory\u2014Wu Tsai Human Performance Alliance, University of Kansas, Lawrence, KS 66045, USA"
+              "name": "Jayhawk Athletic Performance Laboratory—Wu Tsai Human Performance Alliance, University of Kansas, Lawrence, KS 66045, USA"
             }
           ],
           "role": [
@@ -312,7 +312,7 @@
       "type": "journal-article",
       "page": "4",
       "title": [
-        "Identifying Reliable and Relatable Force\u2013Time Metrics in Athletes\u2014Considerations for the Isometric Mid-Thigh Pull and Countermovement Jump"
+        "Identifying Reliable and Relatable Force–Time Metrics in Athletes—Considerations for the Isometric Mid-Thigh Pull and Countermovement Jump"
       ],
       "volume": "9",
       "author": [
@@ -774,7 +774,7 @@
         {
           "ORCID": "https://orcid.org/0000-0003-1304-1939",
           "authenticated-orcid": false,
-          "given": "Merc\u00e8",
+          "given": "Mercè",
           "family": "Crosas",
           "sequence": "additional",
           "affiliation": [],
@@ -943,7 +943,7 @@
           "ORCID": "https://orcid.org/0000-0003-4450-3112",
           "authenticated-orcid": false,
           "given": "Peter A.C",
-          "family": "\u2019t Hoen",
+          "family": "’t Hoen",
           "sequence": "additional",
           "affiliation": [],
           "role": [
@@ -1564,7 +1564,7 @@
           "given": "Alina"
         },
         {
-          "family": "d\u2019Alche-Buc",
+          "family": "d’Alche-Buc",
           "given": "Florence"
         },
         {
@@ -1581,7 +1581,7 @@
       ],
       "volume": "22",
       "issue": "164",
-      "page": "1\u201320",
+      "page": "1–20",
       "published": {
         "date-parts": [
           [
@@ -1592,298 +1592,6 @@
     },
     "url": "https://www.jmlr.org/papers/v22/20-303.html",
     "doi_status": "No DOI asserted; publisher citation verified"
-  },
-  {
-    "id": "R10",
-    "doi": "10.1109/ICDE.2017.192",
-    "metadata": {
-      "DOI": "10.1109/icde.2017.192",
-      "type": "proceedings-article",
-      "page": "1393-1394",
-      "title": [
-        "ModelHub: Deep Learning Lifecycle Management"
-      ],
-      "author": [
-        {
-          "given": "Hui",
-          "family": "Miao",
-          "sequence": "first",
-          "affiliation": [],
-          "role": [
-            {
-              "role": "author",
-              "vocabulary": "crossref"
-            }
-          ]
-        },
-        {
-          "given": "Ang",
-          "family": "Li",
-          "sequence": "additional",
-          "affiliation": [],
-          "role": [
-            {
-              "role": "author",
-              "vocabulary": "crossref"
-            }
-          ]
-        },
-        {
-          "given": "Larry S.",
-          "family": "Davis",
-          "sequence": "additional",
-          "affiliation": [],
-          "role": [
-            {
-              "role": "author",
-              "vocabulary": "crossref"
-            }
-          ]
-        },
-        {
-          "given": "Amol",
-          "family": "Deshpande",
-          "sequence": "additional",
-          "affiliation": [],
-          "role": [
-            {
-              "role": "author",
-              "vocabulary": "crossref"
-            }
-          ]
-        }
-      ],
-      "container-title": [
-        "2017 IEEE 33rd International Conference on Data Engineering (ICDE)"
-      ],
-      "issued": {
-        "date-parts": [
-          [
-            2017,
-            4
-          ]
-        ]
-      },
-      "URL": "https://doi.org/10.1109/icde.2017.192",
-      "published": {
-        "date-parts": [
-          [
-            2017,
-            4
-          ]
-        ]
-      }
-    },
-    "verified": true,
-    "verification": "Crossref exact DOI metadata; primary abstract/text inspected separately",
-    "retrieved": "2026-11-04"
-  },
-  {
-    "id": "R11",
-    "doi": "10.1016/j.future.2010.07.005",
-    "metadata": {
-      "issue": "6",
-      "DOI": "10.1016/j.future.2010.07.005",
-      "type": "journal-article",
-      "page": "743-756",
-      "title": [
-        "The Open Provenance Model core specification (v1.1)"
-      ],
-      "volume": "27",
-      "author": [
-        {
-          "given": "Luc",
-          "family": "Moreau",
-          "sequence": "first",
-          "affiliation": [],
-          "role": [
-            {
-              "vocabulary": "crossref",
-              "role": "author"
-            }
-          ]
-        },
-        {
-          "given": "Ben",
-          "family": "Clifford",
-          "sequence": "additional",
-          "affiliation": [],
-          "role": [
-            {
-              "vocabulary": "crossref",
-              "role": "author"
-            }
-          ]
-        },
-        {
-          "given": "Juliana",
-          "family": "Freire",
-          "sequence": "additional",
-          "affiliation": [],
-          "role": [
-            {
-              "vocabulary": "crossref",
-              "role": "author"
-            }
-          ]
-        },
-        {
-          "given": "Joe",
-          "family": "Futrelle",
-          "sequence": "additional",
-          "affiliation": [],
-          "role": [
-            {
-              "vocabulary": "crossref",
-              "role": "author"
-            }
-          ]
-        },
-        {
-          "given": "Yolanda",
-          "family": "Gil",
-          "sequence": "additional",
-          "affiliation": [],
-          "role": [
-            {
-              "vocabulary": "crossref",
-              "role": "author"
-            }
-          ]
-        },
-        {
-          "given": "Paul",
-          "family": "Groth",
-          "sequence": "additional",
-          "affiliation": [],
-          "role": [
-            {
-              "vocabulary": "crossref",
-              "role": "author"
-            }
-          ]
-        },
-        {
-          "given": "Natalia",
-          "family": "Kwasnikowska",
-          "sequence": "additional",
-          "affiliation": [],
-          "role": [
-            {
-              "vocabulary": "crossref",
-              "role": "author"
-            }
-          ]
-        },
-        {
-          "given": "Simon",
-          "family": "Miles",
-          "sequence": "additional",
-          "affiliation": [],
-          "role": [
-            {
-              "vocabulary": "crossref",
-              "role": "author"
-            }
-          ]
-        },
-        {
-          "given": "Paolo",
-          "family": "Missier",
-          "sequence": "additional",
-          "affiliation": [],
-          "role": [
-            {
-              "vocabulary": "crossref",
-              "role": "author"
-            }
-          ]
-        },
-        {
-          "given": "Jim",
-          "family": "Myers",
-          "sequence": "additional",
-          "affiliation": [],
-          "role": [
-            {
-              "vocabulary": "crossref",
-              "role": "author"
-            }
-          ]
-        },
-        {
-          "given": "Beth",
-          "family": "Plale",
-          "sequence": "additional",
-          "affiliation": [],
-          "role": [
-            {
-              "vocabulary": "crossref",
-              "role": "author"
-            }
-          ]
-        },
-        {
-          "given": "Yogesh",
-          "family": "Simmhan",
-          "sequence": "additional",
-          "affiliation": [],
-          "role": [
-            {
-              "vocabulary": "crossref",
-              "role": "author"
-            }
-          ]
-        },
-        {
-          "given": "Eric",
-          "family": "Stephan",
-          "sequence": "additional",
-          "affiliation": [],
-          "role": [
-            {
-              "vocabulary": "crossref",
-              "role": "author"
-            }
-          ]
-        },
-        {
-          "given": "Jan Van",
-          "family": "den Bussche",
-          "sequence": "additional",
-          "affiliation": [],
-          "role": [
-            {
-              "vocabulary": "crossref",
-              "role": "author"
-            }
-          ]
-        }
-      ],
-      "container-title": [
-        "Future Generation Computer Systems"
-      ],
-      "issued": {
-        "date-parts": [
-          [
-            2011,
-            6
-          ]
-        ]
-      },
-      "URL": "https://doi.org/10.1016/j.future.2010.07.005",
-      "published": {
-        "date-parts": [
-          [
-            2011,
-            6
-          ]
-        ]
-      }
-    },
-    "verified": true,
-    "verification": "Crossref exact DOI metadata; primary abstract/text inspected separately",
-    "retrieved": "2026-11-04"
   },
   {
     "id": "R12",
@@ -2167,5 +1875,181 @@
     "verified": true,
     "verification": "Crossref exact DOI metadata; primary abstract/text inspected separately",
     "retrieved": "2026-11-04"
+  },
+  {
+    "id": "R15",
+    "doi": "10.1126/scitranslmed.aaf5027",
+    "doi_status": "Crossref/PubMed bibliographic identity checked",
+    "metadata": {
+      "DOI": "10.1126/scitranslmed.aaf5027",
+      "type": "journal-article",
+      "page": "341ps12",
+      "title": [
+        "What does research reproducibility mean?"
+      ],
+      "volume": "8",
+      "issue": "341",
+      "author": [
+        {
+          "given": "Steven N.",
+          "family": "Goodman"
+        },
+        {
+          "given": "Daniele",
+          "family": "Fanelli"
+        },
+        {
+          "given": "John P. A.",
+          "family": "Ioannidis"
+        }
+      ],
+      "container-title": [
+        "Science Translational Medicine"
+      ],
+      "issued": {
+        "date-parts": [
+          [
+            2016,
+            6,
+            1
+          ]
+        ]
+      },
+      "URL": "https://doi.org/10.1126/scitranslmed.aaf5027"
+    },
+    "verified": true,
+    "bib_type": "article"
+  },
+  {
+    "id": "R16",
+    "doi_status": "No DOI asserted; ACM policy v1.1 dated 2020-08-24, current page accessed 2026-11-06",
+    "metadata": {
+      "type": "policy",
+      "title": [
+        "Artifact Review and Badging"
+      ],
+      "author": [
+        {
+          "given": "",
+          "family": "Association for Computing Machinery"
+        }
+      ],
+      "issued": {
+        "date-parts": [
+          [
+            2020,
+            8,
+            24
+          ]
+        ]
+      },
+      "URL": "https://www.acm.org/publications/policies/artifact-review-and-badging-current"
+    },
+    "verified": true,
+    "bib_type": "misc"
+  },
+  {
+    "id": "R17",
+    "doi_status": "No DOI asserted; W3C Recommendation dated 2013-04-30",
+    "metadata": {
+      "type": "technical-report",
+      "title": [
+        "PROV-O: The PROV Ontology"
+      ],
+      "author": [
+        {
+          "given": "Timothy",
+          "family": "Lebo"
+        },
+        {
+          "given": "Satya",
+          "family": "Sahoo"
+        },
+        {
+          "given": "Deborah",
+          "family": "McGuinness"
+        }
+      ],
+      "issued": {
+        "date-parts": [
+          [
+            2013,
+            4,
+            30
+          ]
+        ]
+      },
+      "URL": "https://www.w3.org/TR/2013/REC-prov-o-20130430/"
+    },
+    "verified": true,
+    "bib_type": "misc"
+  },
+  {
+    "id": "R18",
+    "doi": "10.5281/zenodo.20720080",
+    "doi_status": "Version 1.3 DOI, release date, title, and community publisher checked against specification page",
+    "metadata": {
+      "DOI": "10.5281/zenodo.20720080",
+      "type": "specification",
+      "title": [
+        "RO-Crate Metadata Specification 1.3"
+      ],
+      "author": [
+        {
+          "given": "",
+          "family": "RO-Crate Community"
+        }
+      ],
+      "issued": {
+        "date-parts": [
+          [
+            2026,
+            6,
+            22
+          ]
+        ]
+      },
+      "URL": "https://www.researchobject.org/ro-crate/specification/1.3/index.html"
+    },
+    "verified": true,
+    "bib_type": "misc"
+  },
+  {
+    "id": "R19",
+    "doi_status": "No DOI asserted; current latest tracking documentation accessed 2026-11-06",
+    "metadata": {
+      "type": "documentation",
+      "title": [
+        "MLflow Tracking"
+      ],
+      "author": [
+        {
+          "given": "",
+          "family": "MLflow Project"
+        }
+      ],
+      "URL": "https://mlflow.org/docs/latest/tracking/"
+    },
+    "verified": true,
+    "bib_type": "misc"
+  },
+  {
+    "id": "R20",
+    "doi_status": "No DOI asserted; current experiment-management user guide accessed 2026-11-06",
+    "metadata": {
+      "type": "documentation",
+      "title": [
+        "Experiment Management"
+      ],
+      "author": [
+        {
+          "given": "",
+          "family": "Data Version Control Project"
+        }
+      ],
+      "URL": "https://doc.dvc.org/user-guide/experiment-management"
+    },
+    "verified": true,
+    "bib_type": "misc"
   }
 ]

@@ -4,7 +4,7 @@ This V3 owner-review package contains one LaTeX manuscript source, two editions 
 
 ## Article title
 
-Recovering reproducibility in scientific machine learning: Reconstruction and numerical qualification of countermovement-jump recovery models
+Retrospective reconstruction and numerical qualification of historical countermovement-jump recovery research: An artifact-bound case study
 
 ## Main outputs
 

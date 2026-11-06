@@ -11,10 +11,10 @@
     "new_model_execution": false,
     "new_bootstrap": false
   },
-  "bibliography_entries_verified": 13,
+  "bibliography_entries_verified": 17,
   "manuscript_checks": {
-    "abstract_words": 235,
-    "citations": 13,
+    "abstract_words": 200,
+    "citations": 17,
     "figures_in_order": [
       "fig:genealogy",
       "fig:workflow",
@@ -29,6 +29,21 @@
     ]
   },
   "private_boundary": true,
+  "claims_differential_audit": {
+    "current_claim_units": 500,
+    "substantive_claim_units": 488,
+    "administrative_disclosures": 12,
+    "differential_status_counts": {
+      "modified": 305,
+      "new": 17,
+      "retained": 166,
+      "administrative_disclosure": 12,
+      "removed": 3
+    },
+    "historical_v2_rows_preserved": 553,
+    "historical_v2_sha256_verified": true,
+    "independent_human_review": false
+  },
   "v2_preservation": {
     "available": true,
     "checked": true,

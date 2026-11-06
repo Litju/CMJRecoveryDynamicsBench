@@ -1,5 +1,5 @@
 {
-  "retrieved_utc": "2026-11-05",
+  "retrieved_utc": "2026-11-06",
   "sources": [
     {
       "publisher": "PLOS",
@@ -65,6 +65,41 @@
       "document": "Submission Guidelines",
       "url": "https://joss.readthedocs.io/en/latest/submitting.html",
       "access": "Official current page opened 2026-11-05."
+    },
+    {
+      "publisher": "PLOS",
+      "document": "PLOS ONE criteria for publication",
+      "url": "https://journals.plos.org/plosone/s/criteria-for-publication",
+      "access": "Official current page opened 2026-11-06",
+      "relevant_scope": "Accepts original research and methods/software submissions, including negative results; requires technically sound methods, supported conclusions, research integrity, and data-availability standards."
+    },
+    {
+      "publisher": "PLOS",
+      "document": "PLOS ONE submission guidelines",
+      "url": "https://journals.plos.org/plosone/s/submission-guidelines",
+      "access": "Official current page opened 2026-11-06",
+      "relevant_scope": "Any manuscript length; LaTeX submitted as PDF; single-column double-spaced text; continuous page and line numbers; Vancouver references."
+    },
+    {
+      "publisher": "PLOS",
+      "document": "PLOS data availability policy",
+      "url": "https://journals.plos.org/plosone/s/data-availability",
+      "access": "Official current page opened 2026-11-06",
+      "relevant_scope": "Public availability is the default. Legal/ethical and third-party restrictions have specific disclosure and access-contact requirements; author-only access contact is not acceptable. Policy identifies inaccessible proprietary-data conditions that PLOS will not consider."
+    },
+    {
+      "publisher": "PLOS",
+      "document": "PLOS ONE LaTeX instructions",
+      "url": "https://journals.plos.org/plosone/s/latex",
+      "access": "Official current page opened 2026-11-06",
+      "relevant_scope": "PLOS supplies a LaTeX template and BibTeX style; Vancouver reference style is used. Owner-review PDF is not a final submission template package."
+    },
+    {
+      "publisher": "PLOS",
+      "document": "PLOS ONE figure guidelines",
+      "url": "https://journals.plos.org/plosone/s/figures",
+      "access": "Official current page opened 2026-11-06",
+      "relevant_scope": "Official figure guidance checked 2026-11-06: separate files, RGB 8-bit or grayscale, 300–600 dpi, no alpha channel, LZW-compressed TIFF, file size under 10 MB, and excess whitespace cropped."
     }
   ]
 }
