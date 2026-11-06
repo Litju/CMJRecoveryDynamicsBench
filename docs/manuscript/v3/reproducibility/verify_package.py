@@ -7,6 +7,7 @@ import csv
 import hashlib
 import json
 import math
+import os
 import re
 from pathlib import Path
 
@@ -16,6 +17,12 @@ RELEASE = ROOT / "evidence" / "release_sources"
 AUDIT = ROOT / "evidence" / "v2_audit"
 REPORTS = ROOT / "reports"
 MANUSCRIPT = ROOT / "manuscript.tex"
+PRIVATE_MACHINE_PATH = re.compile(
+    r"/(?:home|users|root|mnt|tmp|var/tmp)/[^\s'\"<>]+|[A-Z]:\\Users\\[^\s'\"<>]+",
+    re.IGNORECASE,
+)
+PROTECTED_SUFFIXES = {".bin", ".ckpt", ".joblib", ".pkl", ".pt", ".pth", ".safetensors"}
+BUILD_DIRECTORIES = {"build", ".build-tools", ".venv-v3", "__pycache__", "toolchain"}
 
 
 def sha256(path: Path) -> str:
@@ -219,7 +226,10 @@ def verify_v2_preserved():
     if not record_path.exists():
         return {"available": False, "checked": False}
     record = json_load(record_path)
-    v2 = ROOT.parent / record["source_package"]
+    workspace = os.environ.get("M10_V2_WORKSPACE")
+    if not workspace:
+        return {"available": False, "checked": False}
+    v2 = Path(workspace)
     if not v2.is_dir():
         return {"available": False, "checked": False}
     inventory = []
@@ -242,19 +252,23 @@ def verify_v2_preserved():
 
 
 def verify_privacy_boundary():
-    assert not any((ROOT / "evidence").rglob("weights.pt"))
-    assert not any((ROOT / "evidence").rglob("checkpoint*.bin"))
-    for candidate in [ROOT / "figure_source" / "generate_figures.py", ROOT / "reproducibility"]:
-        if candidate.is_file():
-            text = candidate.read_text(encoding="utf-8", errors="replace")
-            assert "/home/litju/ALI4-" not in text
-        else:
-            for path in candidate.rglob("*"):
-                if path.is_file() and path.suffix in {".py", ".md", ".json", ".csv", ".tex", ".sh"}:
-                    text = path.read_text(encoding="utf-8", errors="replace")
-                    assert "/home/litju/ALI4-" not in text
-    assert not (ROOT / "evidence" / "release_sources" / "private").exists()
-    assert not (ROOT / "evidence" / "v2_audit" / "private").exists()
+    for path in ROOT.rglob("*"):
+        if not path.is_file() or path == ROOT / "ARTIFACT_SHA256SUMS":
+            continue
+        relative = path.relative_to(ROOT)
+        if BUILD_DIRECTORIES.intersection(relative.parts):
+            continue
+        assert path.suffix.lower() not in PROTECTED_SUFFIXES, relative
+        if "private" in (part.casefold() for part in relative.parts):
+            raise AssertionError(f"Restricted directory in public package: {relative}")
+        content = path.read_bytes()
+        if b"\0" in content:
+            continue
+        text = content.decode("utf-8", errors="replace")
+        assert PRIVATE_MACHINE_PATH.search(text) is None, relative
+        private_key_header = "-----BEGIN " + "PRIVATE KEY-----"
+        assert private_key_header not in text, relative
+        assert not re.search(r"\bgh[pousr]_[A-Za-z0-9_]{20,}\b", text), relative
     return True
 
 
