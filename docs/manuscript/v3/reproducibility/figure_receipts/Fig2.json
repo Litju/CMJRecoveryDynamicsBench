@@ -1,0 +1,59 @@
+{
+  "figure": "Fig2",
+  "title": "Public synthetic study sample structure",
+  "source_label": "fig:workflow",
+  "population": "Existing public fixed-mode synthetic study; no athlete observations.",
+  "source_ids": [
+    "S01",
+    "S02"
+  ],
+  "metric": "Counts of camps, episodes, and horizon rows by study split.",
+  "units": "Camps; episodes; horizon rows.",
+  "grouping": "Training, development, and each of three fixed evaluation roots; H24/H48/H72 queries stay within episode.",
+  "sample_sizes": "Training 96 camps/24,000 episodes/72,000 rows; development 16/4,000/12,000; each evaluation root 16/4,000/12,000.",
+  "uncertainty": "Not applicable; these are fixed generator sample counts.",
+  "caption_tex": "Sample structure of the existing public fixed-mode synthetic study. Counts are shown separately for camps, episodes, and horizon rows. Training contains 96 camps, 24,000 episodes, and 72,000 rows; development contains 16 camps, 4,000 episodes, and 12,000 rows; each of three fixed evaluation roots contains 16 camps, 4,000 episodes, and 12,000 rows. Each episode contributes grouped H24, H48, and H72 queries. The roots share one generator and are not human cohorts.",
+  "input_digests": {
+    "release_source_manifest_sha256": "aa2fc106da8f69b99b4aa9953e48f069d648ea56398d6a607114e5e45c97d3f1",
+    "release_sources": {
+      "S01": {
+        "path": "docs/M8_FIXED_MODE_PUBLIC_REFERENCE_RESULTS.json",
+        "commit": "401f87aad1e4ef4108011fa0c1d769a24f1ad329",
+        "sha256": "cd991366c30a29723318b034bcbacff357544eff8d529678fcdcd849b0f08ce9"
+      },
+      "S02": {
+        "path": "docs/M8_FIXED_MODE_PUBLIC_REFERENCE_STUDY.md",
+        "commit": "401f87aad1e4ef4108011fa0c1d769a24f1ad329",
+        "sha256": "91ef163735e627ad91c1be37f6080865ac818b2c16f2dfce0fe0b99b9ec7b34a"
+      }
+    },
+    "local_data": {},
+    "figure_generator_sha256": "2b2f1c987eb91f97f3e6517917ce26c236896e582133442f49375b0a40ca4d5a",
+    "manuscript_source_sha256": "9bbfe55dab4333c7edde2753e3dda7983cf5678754294007df660f0c028ba97e"
+  },
+  "figure_pdf_sha256": "49b11442915484fa42f12af1a634fa81ae80308329b6edd0743ba65b041a2d38",
+  "numerical_test": {
+    "id": "sample_split_counts_match_pinned_receipt",
+    "passed": true,
+    "checks": {
+      "training_and_development_split_counts": true,
+      "architecture_families_and_parameter_counts": true,
+      "18_route_cpu_and_cuda_counts": {
+        "cpu_exact": 18,
+        "cuda_pass": 8,
+        "cuda_fail": 10
+      },
+      "native_protocol_windows": true,
+      "analytical_curve_endpoints_and_integral": true,
+      "six_cell_root_aggregates_checked": 24,
+      "stored_bootstrap_rows_checked": 6,
+      "ablation_and_nested_diagnostics_checked": 11,
+      "rich_history_row_differences": {
+        "training": -48,
+        "public_validation": 4
+      },
+      "new_model_execution": false,
+      "new_bootstrap": false
+    }
+  }
+}

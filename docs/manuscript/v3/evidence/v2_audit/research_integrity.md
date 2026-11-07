@@ -1,0 +1,9 @@
+# Research integrity and AI-assisted development
+
+No new training, fitting, scoring, checkpoint inference or human-data acquisition occurred during M10 manuscript qualification. Original files were read and hashed; no checkpoint deserialization was required. Release v1.1.0 remains pinned to 401f87aad1e4ef4108011fa0c1d769a24f1ad329. Current-main editorial updates are distinct. Original private states, run IDs and hashes appear only in evidence/private and are excluded from publication-safe material.
+
+Public software is Apache-2.0. This does not license trained parameters, private observations or scientific records for redistribution. Private ownership statements do not establish a public checkpoint license. This package provides public-safe summaries, not private data access. No human approval, clinical validation, clinical utility or production readiness is asserted. Inference qualification does not become predictive validity.
+
+OpenAI Codex, in the GPT-6 agent environment, assisted research-source inspection, text revision, figure/rendering code, numerical checks, provenance reconciliation and document review. Exact finer model-build metadata was not exposed. AI-assisted outputs were checked using pinned source bytes, original private artifacts, primary-source literature, independent receipt arithmetic and rendered-page inspection. These checks remain agent-performed internal qualification, not external human review or peer review. Human authors must accept responsibility, approve the text and declare their own contributions and AI use before submission. No fictional author or institution has been supplied.
+
+No author funding, conflicts or institutional approval is inferred from absence of a record. The checklist separates those human declarations from the completed scientific audit. No external contact, publication, DOI minting or submission is authorized by this package.

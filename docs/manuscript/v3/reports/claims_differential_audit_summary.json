@@ -1,0 +1,39 @@
+{
+  "scope": "Current M10 V3 scientific manuscript and technical supplement; claim-bearing sentences, all scientific figure/table captions, table rows, and displayed equation blocks; plus removed historical V2 related-work claims.",
+  "current_v3_claim_units": 500,
+  "all_audit_rows": 503,
+  "differential_status_counts": {
+    "administrative_disclosure": 12,
+    "modified": 305,
+    "new": 17,
+    "removed": 3,
+    "retained": 166
+  },
+  "unit_type_counts": {
+    "author_or_ai_disclosure": 12,
+    "equation_block": 5,
+    "figure_caption": 10,
+    "prose_sentence": 356,
+    "removed_historical_claim": 3,
+    "table_caption": 9,
+    "table_row": 108
+  },
+  "verification_decision_counts": {
+    "owner_confirmation_pending": 13,
+    "qualified_source_checked": 197,
+    "removed_from_current_argument; replacement source claims verified separately": 3,
+    "source_checked": 290
+  },
+  "v2_historical_audit_rows_preserved": 553,
+  "v2_historical_audit_sha256": "a83f261ab4881794576c959526a56eb51ac4016101f36c5c85fc97e629351187",
+  "removed_historical_claim_ids": [
+    "M-P010-S02",
+    "M-P011-S02",
+    "M-P007-S04"
+  ],
+  "matching_note": "V2 trigram matches are candidate-navigation aids only. They did not determine differential status. Figure captions were source-checked against the evidence plan and provenance ledger. The V2 553-row record remains unchanged.",
+  "review_boundary": "Agent-only internal source review; independent human scientific validation and owner acceptance remain pending.",
+  "manuscript_source_sha256": "9bbfe55dab4333c7edde2753e3dda7983cf5678754294007df660f0c028ba97e",
+  "substantive_current_claim_units": 488,
+  "administrative_disclosures": 12
+}

@@ -200,3 +200,10 @@ website/**/.env*
 !docs/manuscript/supplement/technical_appendix.md
 !docs/manuscript/supplement/technical_appendix.pdf
 !docs/manuscript/venue_assessment.md
+
+# Owner-authorized RES-585 V3 review package; binary/data deny rules still apply.
+!docs/manuscript/v3/**/*.md
+!docs/manuscript/v3/**/*.json
+!docs/manuscript/v3/**/*.csv
+docs/manuscript/v3/toolchain/
+docs/manuscript/v3/build/

@@ -102,6 +102,15 @@ PUBLIC_MANUSCRIPT_FILES = {
     )
 }
 PUBLIC_MANUSCRIPT_MANIFEST = "docs/manuscript/SHA256SUMS"
+PUBLIC_V3_MANIFEST = "docs/manuscript/v3/ARTIFACT_SHA256SUMS"
+PUBLIC_V3_MANIFEST_SHA256 = "345db2aa4b120f82ac291d7199c04912ba65e03ea2984cd91203a2ab0430bea4"
+PUBLIC_V3_FILES = {
+    "docs/manuscript/v3/" + path: digest
+    for digest, path in (
+        line.split("  ", 1)
+        for line in (REPOSITORY_ROOT / PUBLIC_V3_MANIFEST).read_text().splitlines()
+    )
+}
 PUBLIC_DIRECTORY_ALLOWLIST = {"src", "tests", "docs", "website", ".github"}
 PUBLIC_RECONCILIATION_COMMITS = {
     "08c31e0876edea14e0eb6" + "132d08c1b2705c1cfc9",
@@ -294,6 +303,43 @@ def test_manuscript_export_matches_reviewed_manifest() -> None:
         assert hashlib.sha256((REPOSITORY_ROOT / path).read_bytes()).hexdigest() == expected
 
 
+def test_v3_export_matches_checksum_controlled_allowlist() -> None:
+    manifest = REPOSITORY_ROOT / PUBLIC_V3_MANIFEST
+    assert hashlib.sha256(manifest.read_bytes()).hexdigest() == PUBLIC_V3_MANIFEST_SHA256
+    listed = set(PUBLIC_V3_FILES)
+    tracked = subprocess.run(
+        ["git", "ls-files", "docs/manuscript/v3"],
+        cwd=REPOSITORY_ROOT,
+        check=True,
+        capture_output=True,
+        text=True,
+    ).stdout.splitlines()
+    assert set(tracked) == listed | {PUBLIC_V3_MANIFEST}
+    for relative, expected in PUBLIC_V3_FILES.items():
+        path = Path(relative)
+        _assert_public_path(relative)
+        assert path.parts[:3] == ("docs", "manuscript", "v3")
+        assert path.suffix.lower() in {
+            ".bib",
+            ".bst",
+            ".cff",
+            ".csv",
+            ".json",
+            ".lock",
+            ".md",
+            ".pdf",
+            ".png",
+            ".py",
+            ".sh",
+            ".svg",
+            ".tex",
+            ".tif",
+            ".txt",
+            "",
+        }
+        assert hashlib.sha256((REPOSITORY_ROOT / path).read_bytes()).hexdigest() == expected
+
+
 def test_git_tracks_no_protected_artifact_class() -> None:
     completed = subprocess.run(
         ["git", "ls-files", "-z"],
@@ -309,7 +355,13 @@ def test_git_tracks_no_protected_artifact_class() -> None:
 def _assert_public_path(tracked_path: str) -> None:
     path = Path(tracked_path)
     public_manuscript = (
-        tracked_path in PUBLIC_MANUSCRIPT_FILES or tracked_path == PUBLIC_MANUSCRIPT_MANIFEST
+        tracked_path in PUBLIC_MANUSCRIPT_FILES
+        or tracked_path in PUBLIC_V3_FILES
+        or tracked_path
+        in {
+            PUBLIC_MANUSCRIPT_MANIFEST,
+            PUBLIC_V3_MANIFEST,
+        }
     )
     if len(path.parts) == 1:
         assert path.name in ROOT_FILE_ALLOWLIST, tracked_path
@@ -361,6 +413,10 @@ def _assert_public_path(tracked_path: str) -> None:
         "docs/unreviewed.json",
         "docs/manuscript/evidence/private/checkpoint.pt",
         "docs/manuscript/unreviewed.md",
+        "docs/manuscript/v3/unreviewed.md",
+        "docs/manuscript/v3/evidence/private/checkpoint.pt",
+        "docs/manuscript/v3/checkpoint.safetensors",
+        "docs/manuscript/v3/figures/unreviewed.exe",
     ),
 )
 def test_public_boundary_rejects_protected_artifact_paths(tracked_path: str) -> None:
@@ -384,19 +440,37 @@ def test_tracked_text_has_no_machine_paths_or_secret_markers() -> None:
             continue
         source = content.decode("utf-8")
         relative = path.relative_to(REPOSITORY_ROOT)
-        if relative.as_posix() in PUBLIC_MANUSCRIPT_FILES:
-            assert (
-                hashlib.sha256(content).hexdigest() == PUBLIC_MANUSCRIPT_FILES[relative.as_posix()]
-            )
-        assert PRIVATE_MACHINE_PATH.search(source) is None, relative
-        assert PRIVATE_KEY.search(source) is None, relative
-        assert all(pattern.search(source) is None for pattern in SECRET_PATTERNS), relative
-        for public_reference in (
-            PUBLIC_RECONCILIATION_COMMITS if relative.parts[0] == "website" else ()
-        ):
-            source = source.replace(public_reference, "")
-        if relative.as_posix() not in PUBLIC_MANUSCRIPT_FILES:
-            assert SHA1_OBJECT_REFERENCE.search(source) is None, relative
+        relative_name = relative.as_posix()
+        if relative_name in PUBLIC_MANUSCRIPT_FILES:
+            assert hashlib.sha256(content).hexdigest() == PUBLIC_MANUSCRIPT_FILES[relative_name]
+        if relative_name in PUBLIC_V3_FILES:
+            assert hashlib.sha256(content).hexdigest() == PUBLIC_V3_FILES[relative_name]
+        _assert_public_text(relative_name, source)
+
+
+def _assert_public_text(relative: str, source: str) -> None:
+    assert PRIVATE_MACHINE_PATH.search(source) is None, relative
+    assert PRIVATE_KEY.search(source) is None, relative
+    assert all(pattern.search(source) is None for pattern in SECRET_PATTERNS), relative
+    for public_reference in (
+        PUBLIC_RECONCILIATION_COMMITS if relative.startswith("website/") else ()
+    ):
+        source = source.replace(public_reference, "")
+    if relative not in PUBLIC_MANUSCRIPT_FILES and relative not in PUBLIC_V3_FILES:
+        assert SHA1_OBJECT_REFERENCE.search(source) is None, relative
+
+
+@pytest.mark.parametrize(
+    "unsafe_text",
+    (
+        "/" + "tmp" + "/private-build-output",
+        "credential = 'ghp_" + "x" * 36 + "'",
+        "-----BEGIN " + "PRIVATE KEY-----",
+    ),
+)
+def test_public_v3_text_rejects_paths_and_secrets(unsafe_text: str) -> None:
+    with pytest.raises(AssertionError):
+        _assert_public_text("docs/manuscript/v3/README.md", unsafe_text)
 
 
 def test_public_github_identity_is_allowed_but_private_markers_are_rejected() -> None:

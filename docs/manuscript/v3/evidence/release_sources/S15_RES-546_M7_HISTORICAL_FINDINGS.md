@@ -1,0 +1,7 @@
+# Original Gate7 M7 recovery findings
+
+M7 is the original trained candidate, distinct from the earlier M7 remediation milestone. Both final repeats use a 39→64→64 raw backbone, a single-layer 4→32 GRU with mean/latest pooling, a 2×8 horizon embedding, a 5→16 basis projection and a 152→2 head, totaling 10,786 parameters. It consumes all five standardized basis values. Each repeat uses its own authenticated original configuration and fitted preprocessing.
+
+Both repeats reproduced the authenticated original CPU source exactly on the 24-row synthetic fixture and 512-row historical validation split. These are source-parity results, not predictive validation. The saved historical CUDA predictions did not pass the predeclared rule `abs(replayed-saved) <= 1e-5 + 1e-4*abs(saved)`: repeat 0 had 163 failing elements with maximum absolute difference 0.00031757354736328125; repeat 1 had 198 failing elements with maximum absolute difference 0.00030493736267089844, out of 1,024 elements each. Authentic historical GPU replay has not been established.
+
+The fixed CPU TF32 approximation passed this numerical rule for both repeats, but it is only an explanatory diagnostic and does not establish historical CUDA compatibility or the original runtime mechanism. No checkpoint is distributed. Predictive performance, generalization, clinical suitability and production readiness remain unestablished; existing artifact and dataset rights remain unchanged.

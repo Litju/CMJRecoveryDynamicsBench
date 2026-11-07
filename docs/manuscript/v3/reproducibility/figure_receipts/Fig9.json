@@ -1,0 +1,59 @@
+{
+  "figure": "Fig9",
+  "title": "Ablation and nested camp-size diagnostics",
+  "source_label": "fig:ablation",
+  "population": "Ablation and nested-training results from the same public synthetic generator, evaluated on the same three fixed roots.",
+  "source_ids": [
+    "S01",
+    "S23"
+  ],
+  "metric": "Mean six-cell NRMSE; panel A shows root values and means, panel B shows root-specific nested-camp scores.",
+  "units": "NRMSE dimensionless.",
+  "grouping": "Model variant × root; nested training sets contain 24, 48, or 96 camps and use the full-data-selected alpha.",
+  "sample_sizes": "Three evaluation roots; each has 16 camps. Training subset sizes are 24/48/96 camps.",
+  "uncertainty": "No interval; root-specific diagnostics are descriptive and do not identify causal feature effects or athlete sample efficiency.",
+  "caption_tex": "Recorded ablation and nested-camp comparisons. Panel A shows the three evaluation-root values and their mean for full ridge regression and variants without prior history, current exposure, or participant context. The structured comparator without prior history is shown as a separate diagnostic. Panel B shows root-specific scores for ridge regression and the structured comparator trained on nested subsets of 24, 48, or 96 camps; the regularization parameter selected on the full training and development data was held fixed. All values are dimensionless six-cell NRMSE within the same synthetic generator. No confidence intervals are shown; these comparisons do not isolate causal feature effects or estimate athlete-level sample efficiency.",
+  "input_digests": {
+    "release_source_manifest_sha256": "aa2fc106da8f69b99b4aa9953e48f069d648ea56398d6a607114e5e45c97d3f1",
+    "release_sources": {
+      "S01": {
+        "path": "docs/M8_FIXED_MODE_PUBLIC_REFERENCE_RESULTS.json",
+        "commit": "401f87aad1e4ef4108011fa0c1d769a24f1ad329",
+        "sha256": "cd991366c30a29723318b034bcbacff357544eff8d529678fcdcd849b0f08ce9"
+      },
+      "S23": {
+        "path": "src/cmj_recovery_dynamics/studies/fixed_mode_reference_study.py",
+        "commit": "401f87aad1e4ef4108011fa0c1d769a24f1ad329",
+        "sha256": "ab6d349747b54ee606066d56b5da91f33dc9b2d6b6ad18538e14513ab08accd7"
+      }
+    },
+    "local_data": {},
+    "figure_generator_sha256": "2b2f1c987eb91f97f3e6517917ce26c236896e582133442f49375b0a40ca4d5a",
+    "manuscript_source_sha256": "9bbfe55dab4333c7edde2753e3dda7983cf5678754294007df660f0c028ba97e"
+  },
+  "figure_pdf_sha256": "ce4d4b761cfa16149c89e16d36b893cbb2f176e429c9d1e6d23629bf50b7209a",
+  "numerical_test": {
+    "id": "ablations_and_nested_camp_values_match_receipt",
+    "passed": true,
+    "checks": {
+      "training_and_development_split_counts": true,
+      "architecture_families_and_parameter_counts": true,
+      "18_route_cpu_and_cuda_counts": {
+        "cpu_exact": 18,
+        "cuda_pass": 8,
+        "cuda_fail": 10
+      },
+      "native_protocol_windows": true,
+      "analytical_curve_endpoints_and_integral": true,
+      "six_cell_root_aggregates_checked": 24,
+      "stored_bootstrap_rows_checked": 6,
+      "ablation_and_nested_diagnostics_checked": 11,
+      "rich_history_row_differences": {
+        "training": -48,
+        "public_validation": 4
+      },
+      "new_model_execution": false,
+      "new_bootstrap": false
+    }
+  }
+}

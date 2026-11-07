@@ -1,0 +1,73 @@
+{
+  "figure": "Fig3",
+  "title": "Historical neural model architectures and parameter counts",
+  "source_label": "fig:architecture",
+  "population": "Nine historical neural model families identified as M0–M8, with repeats r0 and r1.",
+  "source_ids": [
+    "S16",
+    "S24",
+    "S25",
+    "S26"
+  ],
+  "metric": "Recorded trainable parameter count per family.",
+  "units": "Parameters; architecture widths are dimensionless node counts.",
+  "grouping": "Model family; both repeats share the listed family topology and count.",
+  "sample_sizes": "9 model families; 18 model-repeat records.",
+  "uncertainty": "Not applicable; architecture counts are deterministic records.",
+  "caption_tex": "Historical neural model architectures and parameter counts. Panels summarize raw-feature feedforward networks (M0--M2), history encoding and pooling (M3--M4), horizon and schedule-basis additions (M5--M8), and recorded trainable parameter counts. Each family has two repeats (r0 and r1) with the same listed topology and count. M6 receives five basis values but projects only the first two; M7 projects all five; M8 adds a separate bias-free linear basis head. Counts are from the public model-qualification summary. The figure describes model structure, not predictive accuracy; fitted weights are not shown.",
+  "input_digests": {
+    "release_source_manifest_sha256": "aa2fc106da8f69b99b4aa9953e48f069d648ea56398d6a607114e5e45c97d3f1",
+    "release_sources": {
+      "S16": {
+        "path": "website/src/data/gate7.json",
+        "commit": "401f87aad1e4ef4108011fa0c1d769a24f1ad329",
+        "sha256": "3b15daa7cb7690e60428bfa994b9d87ae32964296b19cd4e37f6d0d868078139"
+      },
+      "S24": {
+        "path": "src/cmj_recovery_dynamics/model_reproduction/checkpoint_inference.py",
+        "commit": "401f87aad1e4ef4108011fa0c1d769a24f1ad329",
+        "sha256": "48e639a55749863922bae44740f10dbcb6c60deeb691e5880a45bb4f00f98603"
+      },
+      "S25": {
+        "path": "src/cmj_recovery_dynamics/model_reproduction/checkpoint_m7.py",
+        "commit": "401f87aad1e4ef4108011fa0c1d769a24f1ad329",
+        "sha256": "37d1b14110967e2e2a1725618da7376703528ce938fab3f52f410d14ab76b578"
+      },
+      "S26": {
+        "path": "src/cmj_recovery_dynamics/model_reproduction/checkpoint_m8_inference.py",
+        "commit": "401f87aad1e4ef4108011fa0c1d769a24f1ad329",
+        "sha256": "ec13f4cef4838a7fb13d9521d14252965dd184aad86258ab2c4736c0f661a9bc"
+      }
+    },
+    "local_data": {
+      "evidence/v2_audit/architecture_qualification.csv": "ff1ae117ee6c29599a97f6aa1dc34913d89a7c00c8a9251a0a94ea2c1b378432"
+    },
+    "figure_generator_sha256": "2b2f1c987eb91f97f3e6517917ce26c236896e582133442f49375b0a40ca4d5a",
+    "manuscript_source_sha256": "9bbfe55dab4333c7edde2753e3dda7983cf5678754294007df660f0c028ba97e"
+  },
+  "figure_pdf_sha256": "2b3d87d0494a52fe9ccc9fc599b0cc27dc228bc245ed92977f987f01609e3566",
+  "numerical_test": {
+    "id": "architecture_families_and_parameter_counts_match_record",
+    "passed": true,
+    "checks": {
+      "training_and_development_split_counts": true,
+      "architecture_families_and_parameter_counts": true,
+      "18_route_cpu_and_cuda_counts": {
+        "cpu_exact": 18,
+        "cuda_pass": 8,
+        "cuda_fail": 10
+      },
+      "native_protocol_windows": true,
+      "analytical_curve_endpoints_and_integral": true,
+      "six_cell_root_aggregates_checked": 24,
+      "stored_bootstrap_rows_checked": 6,
+      "ablation_and_nested_diagnostics_checked": 11,
+      "rich_history_row_differences": {
+        "training": -48,
+        "public_validation": 4
+      },
+      "new_model_execution": false,
+      "new_bootstrap": false
+    }
+  }
+}

@@ -1,0 +1,825 @@
+{
+  "academic_review": {
+    "pdf": "academic_review_manuscript.pdf",
+    "pages": 24,
+    "render_dpi": 144,
+    "rendering": "Every page exported individually at 144 dpi; contact sheets are navigation aids only. Visual findings are recorded separately.",
+    "page_records": [
+      {
+        "page": 1,
+        "image": "renders/academic_review/page-001.png",
+        "image_size_px": [
+          1191,
+          1684
+        ],
+        "page_size_points": [
+          595.28,
+          841.89
+        ],
+        "text_characters": 1679,
+        "text_blocks": 23,
+        "embedded_images": 0,
+        "vector_drawings": 0,
+        "text_blocks_outside_page": []
+      },
+      {
+        "page": 2,
+        "image": "renders/academic_review/page-002.png",
+        "image_size_px": [
+          1191,
+          1684
+        ],
+        "page_size_points": [
+          595.28,
+          841.89
+        ],
+        "text_characters": 2403,
+        "text_blocks": 28,
+        "embedded_images": 0,
+        "vector_drawings": 0,
+        "text_blocks_outside_page": []
+      },
+      {
+        "page": 3,
+        "image": "renders/academic_review/page-003.png",
+        "image_size_px": [
+          1191,
+          1684
+        ],
+        "page_size_points": [
+          595.28,
+          841.89
+        ],
+        "text_characters": 2216,
+        "text_blocks": 26,
+        "embedded_images": 0,
+        "vector_drawings": 0,
+        "text_blocks_outside_page": []
+      },
+      {
+        "page": 4,
+        "image": "renders/academic_review/page-004.png",
+        "image_size_px": [
+          1191,
+          1684
+        ],
+        "page_size_points": [
+          595.28,
+          841.89
+        ],
+        "text_characters": 2336,
+        "text_blocks": 27,
+        "embedded_images": 0,
+        "vector_drawings": 0,
+        "text_blocks_outside_page": []
+      },
+      {
+        "page": 5,
+        "image": "renders/academic_review/page-005.png",
+        "image_size_px": [
+          1191,
+          1684
+        ],
+        "page_size_points": [
+          595.28,
+          841.89
+        ],
+        "text_characters": 2186,
+        "text_blocks": 27,
+        "embedded_images": 0,
+        "vector_drawings": 0,
+        "text_blocks_outside_page": []
+      },
+      {
+        "page": 6,
+        "image": "renders/academic_review/page-006.png",
+        "image_size_px": [
+          1191,
+          1684
+        ],
+        "page_size_points": [
+          595.28,
+          841.89
+        ],
+        "text_characters": 2256,
+        "text_blocks": 27,
+        "embedded_images": 0,
+        "vector_drawings": 0,
+        "text_blocks_outside_page": []
+      },
+      {
+        "page": 7,
+        "image": "renders/academic_review/page-007.png",
+        "image_size_px": [
+          1191,
+          1684
+        ],
+        "page_size_points": [
+          595.28,
+          841.89
+        ],
+        "text_characters": 2946,
+        "text_blocks": 23,
+        "embedded_images": 0,
+        "vector_drawings": 0,
+        "text_blocks_outside_page": []
+      },
+      {
+        "page": 8,
+        "image": "renders/academic_review/page-008.png",
+        "image_size_px": [
+          1191,
+          1684
+        ],
+        "page_size_points": [
+          595.28,
+          841.89
+        ],
+        "text_characters": 2539,
+        "text_blocks": 20,
+        "embedded_images": 0,
+        "vector_drawings": 3,
+        "text_blocks_outside_page": []
+      },
+      {
+        "page": 9,
+        "image": "renders/academic_review/page-009.png",
+        "image_size_px": [
+          1191,
+          1684
+        ],
+        "page_size_points": [
+          595.28,
+          841.89
+        ],
+        "text_characters": 2110,
+        "text_blocks": 19,
+        "embedded_images": 0,
+        "vector_drawings": 0,
+        "text_blocks_outside_page": []
+      },
+      {
+        "page": 10,
+        "image": "renders/academic_review/page-010.png",
+        "image_size_px": [
+          1191,
+          1684
+        ],
+        "page_size_points": [
+          595.28,
+          841.89
+        ],
+        "text_characters": 2204,
+        "text_blocks": 30,
+        "embedded_images": 0,
+        "vector_drawings": 3,
+        "text_blocks_outside_page": []
+      },
+      {
+        "page": 11,
+        "image": "renders/academic_review/page-011.png",
+        "image_size_px": [
+          1191,
+          1684
+        ],
+        "page_size_points": [
+          595.28,
+          841.89
+        ],
+        "text_characters": 2552,
+        "text_blocks": 25,
+        "embedded_images": 0,
+        "vector_drawings": 0,
+        "text_blocks_outside_page": []
+      },
+      {
+        "page": 12,
+        "image": "renders/academic_review/page-012.png",
+        "image_size_px": [
+          1191,
+          1684
+        ],
+        "page_size_points": [
+          595.28,
+          841.89
+        ],
+        "text_characters": 2031,
+        "text_blocks": 26,
+        "embedded_images": 0,
+        "vector_drawings": 0,
+        "text_blocks_outside_page": []
+      },
+      {
+        "page": 13,
+        "image": "renders/academic_review/page-013.png",
+        "image_size_px": [
+          1191,
+          1684
+        ],
+        "page_size_points": [
+          595.28,
+          841.89
+        ],
+        "text_characters": 1858,
+        "text_blocks": 36,
+        "embedded_images": 0,
+        "vector_drawings": 6,
+        "text_blocks_outside_page": []
+      },
+      {
+        "page": 14,
+        "image": "renders/academic_review/page-014.png",
+        "image_size_px": [
+          1191,
+          1684
+        ],
+        "page_size_points": [
+          595.28,
+          841.89
+        ],
+        "text_characters": 2101,
+        "text_blocks": 26,
+        "embedded_images": 0,
+        "vector_drawings": 0,
+        "text_blocks_outside_page": []
+      },
+      {
+        "page": 15,
+        "image": "renders/academic_review/page-015.png",
+        "image_size_px": [
+          1191,
+          1684
+        ],
+        "page_size_points": [
+          595.28,
+          841.89
+        ],
+        "text_characters": 2563,
+        "text_blocks": 23,
+        "embedded_images": 0,
+        "vector_drawings": 0,
+        "text_blocks_outside_page": []
+      },
+      {
+        "page": 16,
+        "image": "renders/academic_review/page-016.png",
+        "image_size_px": [
+          1191,
+          1684
+        ],
+        "page_size_points": [
+          595.28,
+          841.89
+        ],
+        "text_characters": 2743,
+        "text_blocks": 19,
+        "embedded_images": 0,
+        "vector_drawings": 6,
+        "text_blocks_outside_page": []
+      },
+      {
+        "page": 17,
+        "image": "renders/academic_review/page-017.png",
+        "image_size_px": [
+          1191,
+          1684
+        ],
+        "page_size_points": [
+          595.28,
+          841.89
+        ],
+        "text_characters": 2734,
+        "text_blocks": 18,
+        "embedded_images": 0,
+        "vector_drawings": 0,
+        "text_blocks_outside_page": []
+      },
+      {
+        "page": 18,
+        "image": "renders/academic_review/page-018.png",
+        "image_size_px": [
+          1191,
+          1684
+        ],
+        "page_size_points": [
+          595.28,
+          841.89
+        ],
+        "text_characters": 2604,
+        "text_blocks": 25,
+        "embedded_images": 0,
+        "vector_drawings": 0,
+        "text_blocks_outside_page": []
+      },
+      {
+        "page": 19,
+        "image": "renders/academic_review/page-019.png",
+        "image_size_px": [
+          1191,
+          1684
+        ],
+        "page_size_points": [
+          595.28,
+          841.89
+        ],
+        "text_characters": 2322,
+        "text_blocks": 28,
+        "embedded_images": 0,
+        "vector_drawings": 0,
+        "text_blocks_outside_page": []
+      },
+      {
+        "page": 20,
+        "image": "renders/academic_review/page-020.png",
+        "image_size_px": [
+          1191,
+          1684
+        ],
+        "page_size_points": [
+          595.28,
+          841.89
+        ],
+        "text_characters": 2454,
+        "text_blocks": 28,
+        "embedded_images": 0,
+        "vector_drawings": 0,
+        "text_blocks_outside_page": []
+      },
+      {
+        "page": 21,
+        "image": "renders/academic_review/page-021.png",
+        "image_size_px": [
+          1191,
+          1684
+        ],
+        "page_size_points": [
+          595.28,
+          841.89
+        ],
+        "text_characters": 2055,
+        "text_blocks": 26,
+        "embedded_images": 0,
+        "vector_drawings": 0,
+        "text_blocks_outside_page": []
+      },
+      {
+        "page": 22,
+        "image": "renders/academic_review/page-022.png",
+        "image_size_px": [
+          1191,
+          1684
+        ],
+        "page_size_points": [
+          595.28,
+          841.89
+        ],
+        "text_characters": 2287,
+        "text_blocks": 27,
+        "embedded_images": 0,
+        "vector_drawings": 0,
+        "text_blocks_outside_page": []
+      },
+      {
+        "page": 23,
+        "image": "renders/academic_review/page-023.png",
+        "image_size_px": [
+          1191,
+          1684
+        ],
+        "page_size_points": [
+          595.28,
+          841.89
+        ],
+        "text_characters": 1966,
+        "text_blocks": 27,
+        "embedded_images": 0,
+        "vector_drawings": 0,
+        "text_blocks_outside_page": []
+      },
+      {
+        "page": 24,
+        "image": "renders/academic_review/page-024.png",
+        "image_size_px": [
+          1191,
+          1684
+        ],
+        "page_size_points": [
+          595.28,
+          841.89
+        ],
+        "text_characters": 1176,
+        "text_blocks": 16,
+        "embedded_images": 0,
+        "vector_drawings": 0,
+        "text_blocks_outside_page": []
+      }
+    ]
+  },
+  "full_illustrated": {
+    "pdf": "full_illustrated_research_manuscript.pdf",
+    "pages": 19,
+    "render_dpi": 144,
+    "rendering": "Every page exported individually at 144 dpi; contact sheets are navigation aids only. Visual findings are recorded separately.",
+    "page_records": [
+      {
+        "page": 1,
+        "image": "renders/full_illustrated/page-001.png",
+        "image_size_px": [
+          1191,
+          1684
+        ],
+        "page_size_points": [
+          595.28,
+          841.89
+        ],
+        "text_characters": 3646,
+        "text_blocks": 10,
+        "embedded_images": 0,
+        "vector_drawings": 0,
+        "text_blocks_outside_page": []
+      },
+      {
+        "page": 2,
+        "image": "renders/full_illustrated/page-002.png",
+        "image_size_px": [
+          1191,
+          1684
+        ],
+        "page_size_points": [
+          595.28,
+          841.89
+        ],
+        "text_characters": 4150,
+        "text_blocks": 7,
+        "embedded_images": 0,
+        "vector_drawings": 0,
+        "text_blocks_outside_page": []
+      },
+      {
+        "page": 3,
+        "image": "renders/full_illustrated/page-003.png",
+        "image_size_px": [
+          1191,
+          1684
+        ],
+        "page_size_points": [
+          595.28,
+          841.89
+        ],
+        "text_characters": 4041,
+        "text_blocks": 10,
+        "embedded_images": 0,
+        "vector_drawings": 0,
+        "text_blocks_outside_page": []
+      },
+      {
+        "page": 4,
+        "image": "renders/full_illustrated/page-004.png",
+        "image_size_px": [
+          1191,
+          1684
+        ],
+        "page_size_points": [
+          595.28,
+          841.89
+        ],
+        "text_characters": 2829,
+        "text_blocks": 46,
+        "embedded_images": 0,
+        "vector_drawings": 19,
+        "text_blocks_outside_page": []
+      },
+      {
+        "page": 5,
+        "image": "renders/full_illustrated/page-005.png",
+        "image_size_px": [
+          1191,
+          1684
+        ],
+        "page_size_points": [
+          595.28,
+          841.89
+        ],
+        "text_characters": 2866,
+        "text_blocks": 16,
+        "embedded_images": 0,
+        "vector_drawings": 8,
+        "text_blocks_outside_page": []
+      },
+      {
+        "page": 6,
+        "image": "renders/full_illustrated/page-006.png",
+        "image_size_px": [
+          1191,
+          1684
+        ],
+        "page_size_points": [
+          595.28,
+          841.89
+        ],
+        "text_characters": 2386,
+        "text_blocks": 39,
+        "embedded_images": 0,
+        "vector_drawings": 36,
+        "text_blocks_outside_page": []
+      },
+      {
+        "page": 7,
+        "image": "renders/full_illustrated/page-007.png",
+        "image_size_px": [
+          1191,
+          1684
+        ],
+        "page_size_points": [
+          595.28,
+          841.89
+        ],
+        "text_characters": 2819,
+        "text_blocks": 33,
+        "embedded_images": 0,
+        "vector_drawings": 10,
+        "text_blocks_outside_page": []
+      },
+      {
+        "page": 8,
+        "image": "renders/full_illustrated/page-008.png",
+        "image_size_px": [
+          1191,
+          1684
+        ],
+        "page_size_points": [
+          595.28,
+          841.89
+        ],
+        "text_characters": 2565,
+        "text_blocks": 30,
+        "embedded_images": 0,
+        "vector_drawings": 43,
+        "text_blocks_outside_page": []
+      },
+      {
+        "page": 9,
+        "image": "renders/full_illustrated/page-009.png",
+        "image_size_px": [
+          1191,
+          1684
+        ],
+        "page_size_points": [
+          595.28,
+          841.89
+        ],
+        "text_characters": 2603,
+        "text_blocks": 21,
+        "embedded_images": 0,
+        "vector_drawings": 58,
+        "text_blocks_outside_page": []
+      },
+      {
+        "page": 10,
+        "image": "renders/full_illustrated/page-010.png",
+        "image_size_px": [
+          1191,
+          1684
+        ],
+        "page_size_points": [
+          595.28,
+          841.89
+        ],
+        "text_characters": 3095,
+        "text_blocks": 26,
+        "embedded_images": 0,
+        "vector_drawings": 6,
+        "text_blocks_outside_page": []
+      },
+      {
+        "page": 11,
+        "image": "renders/full_illustrated/page-011.png",
+        "image_size_px": [
+          1191,
+          1684
+        ],
+        "page_size_points": [
+          595.28,
+          841.89
+        ],
+        "text_characters": 3770,
+        "text_blocks": 9,
+        "embedded_images": 0,
+        "vector_drawings": 0,
+        "text_blocks_outside_page": []
+      },
+      {
+        "page": 12,
+        "image": "renders/full_illustrated/page-012.png",
+        "image_size_px": [
+          1191,
+          1684
+        ],
+        "page_size_points": [
+          595.28,
+          841.89
+        ],
+        "text_characters": 1971,
+        "text_blocks": 52,
+        "embedded_images": 0,
+        "vector_drawings": 230,
+        "text_blocks_outside_page": []
+      },
+      {
+        "page": 13,
+        "image": "renders/full_illustrated/page-013.png",
+        "image_size_px": [
+          1191,
+          1684
+        ],
+        "page_size_points": [
+          595.28,
+          841.89
+        ],
+        "text_characters": 3764,
+        "text_blocks": 14,
+        "embedded_images": 0,
+        "vector_drawings": 6,
+        "text_blocks_outside_page": []
+      },
+      {
+        "page": 14,
+        "image": "renders/full_illustrated/page-014.png",
+        "image_size_px": [
+          1191,
+          1684
+        ],
+        "page_size_points": [
+          595.28,
+          841.89
+        ],
+        "text_characters": 1242,
+        "text_blocks": 15,
+        "embedded_images": 0,
+        "vector_drawings": 56,
+        "text_blocks_outside_page": []
+      },
+      {
+        "page": 15,
+        "image": "renders/full_illustrated/page-015.png",
+        "image_size_px": [
+          1191,
+          1684
+        ],
+        "page_size_points": [
+          595.28,
+          841.89
+        ],
+        "text_characters": 1346,
+        "text_blocks": 27,
+        "embedded_images": 0,
+        "vector_drawings": 101,
+        "text_blocks_outside_page": []
+      },
+      {
+        "page": 16,
+        "image": "renders/full_illustrated/page-016.png",
+        "image_size_px": [
+          1191,
+          1684
+        ],
+        "page_size_points": [
+          595.28,
+          841.89
+        ],
+        "text_characters": 3522,
+        "text_blocks": 11,
+        "embedded_images": 0,
+        "vector_drawings": 25,
+        "text_blocks_outside_page": []
+      },
+      {
+        "page": 17,
+        "image": "renders/full_illustrated/page-017.png",
+        "image_size_px": [
+          1191,
+          1684
+        ],
+        "page_size_points": [
+          595.28,
+          841.89
+        ],
+        "text_characters": 4208,
+        "text_blocks": 8,
+        "embedded_images": 0,
+        "vector_drawings": 0,
+        "text_blocks_outside_page": []
+      },
+      {
+        "page": 18,
+        "image": "renders/full_illustrated/page-018.png",
+        "image_size_px": [
+          1191,
+          1684
+        ],
+        "page_size_points": [
+          595.28,
+          841.89
+        ],
+        "text_characters": 3914,
+        "text_blocks": 18,
+        "embedded_images": 0,
+        "vector_drawings": 0,
+        "text_blocks_outside_page": []
+      },
+      {
+        "page": 19,
+        "image": "renders/full_illustrated/page-019.png",
+        "image_size_px": [
+          1191,
+          1684
+        ],
+        "page_size_points": [
+          595.28,
+          841.89
+        ],
+        "text_characters": 2102,
+        "text_blocks": 11,
+        "embedded_images": 0,
+        "vector_drawings": 0,
+        "text_blocks_outside_page": []
+      }
+    ]
+  },
+  "technical_supplement": {
+    "pdf": "technical_supplement.pdf",
+    "pages": 4,
+    "render_dpi": 144,
+    "rendering": "Every page exported individually at 144 dpi; contact sheets are navigation aids only. Visual findings are recorded separately.",
+    "page_records": [
+      {
+        "page": 1,
+        "image": "renders/technical_supplement/page-001.png",
+        "image_size_px": [
+          1191,
+          1684
+        ],
+        "page_size_points": [
+          595.28,
+          841.89
+        ],
+        "text_characters": 3368,
+        "text_blocks": 20,
+        "embedded_images": 0,
+        "vector_drawings": 3,
+        "text_blocks_outside_page": []
+      },
+      {
+        "page": 2,
+        "image": "renders/technical_supplement/page-002.png",
+        "image_size_px": [
+          1191,
+          1684
+        ],
+        "page_size_points": [
+          595.28,
+          841.89
+        ],
+        "text_characters": 3450,
+        "text_blocks": 19,
+        "embedded_images": 0,
+        "vector_drawings": 6,
+        "text_blocks_outside_page": []
+      },
+      {
+        "page": 3,
+        "image": "renders/technical_supplement/page-003.png",
+        "image_size_px": [
+          1191,
+          1684
+        ],
+        "page_size_points": [
+          595.28,
+          841.89
+        ],
+        "text_characters": 4672,
+        "text_blocks": 18,
+        "embedded_images": 0,
+        "vector_drawings": 9,
+        "text_blocks_outside_page": []
+      },
+      {
+        "page": 4,
+        "image": "renders/technical_supplement/page-004.png",
+        "image_size_px": [
+          1191,
+          1684
+        ],
+        "page_size_points": [
+          595.28,
+          841.89
+        ],
+        "text_characters": 4976,
+        "text_blocks": 23,
+        "embedded_images": 0,
+        "vector_drawings": 8,
+        "text_blocks_outside_page": []
+      }
+    ]
+  }
+}

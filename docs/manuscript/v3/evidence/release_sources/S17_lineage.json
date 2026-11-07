@@ -1,0 +1,82 @@
+[
+  {
+    "id": "initial_preseason_camp_recovery",
+    "label": "Initial preseason",
+    "question": "Can pre-origin force and impulse assessments, camp exposure history, the index exposure, and known plans forecast the two observed innovations at H72 and D7 in the initial synthetic public sample?",
+    "status": "SUPERSEDED",
+    "parent": null,
+    "change": "The initial camp sample asks about H72 and D7 using pre-origin assessments, exposures and known plans.",
+    "disposition": "Superseded sample/surface; direct parent is unresolved; task and world law match the canonical state.",
+    "source": "src/cmj_recovery_dynamics/benchmarks/preseason_camp_recovery.py"
+  },
+  {
+    "id": "canonical_preseason_camp_recovery",
+    "label": "Canonical preseason",
+    "question": "Can pre-origin force and impulse assessments, camp exposure history, the index exposure, and known plans forecast the two observed innovations at H72 and D7 in the canonical horizon-row sample?",
+    "status": "SUPERSEDED",
+    "parent": "initial_preseason_camp_recovery",
+    "change": "A canonical horizon-row sample and query surface; the task and world law are retained.",
+    "disposition": "Canonical query surface and sample; not a new task or world law.",
+    "source": "src/cmj_recovery_dynamics/benchmarks/preseason_camp_recovery.py"
+  },
+  {
+    "id": "rich_history_camp_recovery",
+    "label": "Rich-history camp",
+    "question": "Can richer monitoring, participant context, variable assessment histories, and known plans forecast camp-state force and impulse innovations at H72 and D7?",
+    "status": "RETIRED",
+    "parent": null,
+    "change": "Richer monitoring and variable histories; a distinct retired 24-cell diagnostic with unresolved ancestry.",
+    "disposition": "Retired formulation; its direct scientific parent is unresolved.",
+    "source": "src/cmj_recovery_dynamics/benchmarks/rich_history_recovery.py"
+  },
+  {
+    "id": "preliminary_post_exposure_recovery",
+    "label": "Preliminary post-exposure",
+    "question": "Can participant baseline and context, one current exposure, and four prior episodes forecast measured force and impulse innovations at H24, H48, and H72 using scalar paired-trial measurements?",
+    "status": "SUPERSEDED",
+    "parent": null,
+    "change": "One current exposure and four prior episodes, using scalar paired-trial measurements.",
+    "disposition": "Direct parent is unresolved; preliminary measurement contract without a frozen force\u2013impulse identity.",
+    "source": "src/cmj_recovery_dynamics/benchmarks/preliminary_post_exposure_recovery.py"
+  },
+  {
+    "id": "phase_consistent_post_exposure_recovery",
+    "label": "Phase-consistent",
+    "question": "Can participant baseline and context, one current exposure, and four prior episodes forecast force and net-impulse innovations at H24, H48, and H72 when both outcomes are derived from the same concentric force trace?",
+    "status": "SUPERSEDED",
+    "parent": "preliminary_post_exposure_recovery",
+    "change": "Both outcomes now come from the same concentric force trace; the episode response law is retained.",
+    "disposition": "Observation-law repair; the episode response law is retained.",
+    "source": "src/cmj_recovery_dynamics/benchmarks/phase_consistent_post_exposure_recovery.py"
+  },
+  {
+    "id": "correlated_exposure_recovery",
+    "label": "Correlated exposure",
+    "question": "How does a correlated four-factor exposure distribution alter single-exposure force and net-impulse innovation forecasting at H24, H48, and H72?",
+    "status": "SUPERSEDED",
+    "parent": "phase_consistent_post_exposure_recovery",
+    "change": "A correlated four-factor exposure distribution changes the forecasting world.",
+    "disposition": "Material correlated exposure-distribution change; later redesigned.",
+    "source": "src/cmj_recovery_dynamics/benchmarks/correlated_exposure_recovery.py"
+  },
+  {
+    "id": "threshold_response_recovery",
+    "label": "Threshold response",
+    "question": "Does a participant-weighted high/low-load threshold response define a useful alternate for forecasting force and net-impulse innovations at H24, H48, and H72?",
+    "status": "PROPOSED",
+    "parent": "correlated_exposure_recovery",
+    "change": "Participant-weighted high/low-load thresholds; a proposed alternate, not an accepted successor.",
+    "disposition": "Proposed alternate, not an accepted successor formulation.",
+    "source": "src/cmj_recovery_dynamics/benchmarks/threshold_response_recovery.py"
+  },
+  {
+    "id": "fixed_mode_discrepancy_recovery",
+    "label": "Fixed-mode discrepancy",
+    "question": "Can fixed mathematical response modes with bounded smooth discrepancy forecast force and net-impulse innovations at H24, H48, and H72 under correlated exposures?",
+    "status": "ACTIVE_CANDIDATE",
+    "parent": "correlated_exposure_recovery",
+    "change": "Fixed 24 h / 84 h mathematical response modes plus bounded smooth discrepancy; not biological compartments.",
+    "disposition": "Active candidate; fixed modes are mathematical anchors, not biological compartments.",
+    "source": "src/cmj_recovery_dynamics/benchmarks/fixed_mode_discrepancy_recovery.py"
+  }
+]

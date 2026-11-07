@@ -1,0 +1,59 @@
+{
+  "figure": "Fig6",
+  "title": "Analytical vertical force-time measurement illustration",
+  "source_label": "fig:mechanics",
+  "population": "Equation-generated analytical signal; not athlete data.",
+  "source_ids": [
+    "S09",
+    "S21"
+  ],
+  "metric": "Vertical force over concentric time; shaded gross force and signed force-minus-bodyweight areas illustrate separate measurement definitions.",
+  "units": "Force N; mass kg; time s; gross mean force N/kg; net impulse m/s.",
+  "grouping": "One piecewise analytical curve with onset, peak, and takeoff boundaries.",
+  "sample_sizes": "361 evenly spaced time points for display; no empirical sample.",
+  "uncertainty": "Not applicable; deterministic mathematical illustration.",
+  "caption_tex": "Analytical vertical force-time illustration, not observed athlete data. The displayed signal is generated with \\(m=\\SI{70}{\\kilogram}\\), \\(g=\\SI{9.80665}{\\meter\\per\\second\\squared}\\), \\(A=\\SI{1000}{\\newton}\\), peak time \\(t_p=\\SI{0.22}{\\second}\\), and \\(T=\\SI{0.55}{\\second}\\). For \\(0\\leq t\\leq t_p\\), \\(F_z(t)=mg+A\\sin(\\pi t/(2t_p))\\); for \\(t_p<t\\leq T\\), \\(F_z(t)=(mg+A)[1-(t-t_p)/(T-t_p)]\\). Concentric onset is \\(t=0\\), and takeoff is \\(t=T\\). The area under \\(F_z\\) defines gross mean force after division by \\(mT\\); the signed area between \\(F_z\\) and \\(mg\\) defines net impulse after division by \\(m\\). Units are N, kg, s, N/kg, and m/s as labeled.",
+  "input_digests": {
+    "release_source_manifest_sha256": "aa2fc106da8f69b99b4aa9953e48f069d648ea56398d6a607114e5e45c97d3f1",
+    "release_sources": {
+      "S09": {
+        "path": "docs/GATE7_NATIVE_MEASUREMENT_V1.md",
+        "commit": "401f87aad1e4ef4108011fa0c1d769a24f1ad329",
+        "sha256": "0128429365c9f2133e6e7ab61ba62a1d83ba67f46592984f9e733b9b29bef725"
+      },
+      "S21": {
+        "path": "src/cmj_recovery_dynamics/observations/native_mechanics.py",
+        "commit": "401f87aad1e4ef4108011fa0c1d769a24f1ad329",
+        "sha256": "3a95f0a075115b52fb6c7a9d76840273b87804bd2c757b0981e659e3bcc8c40a"
+      }
+    },
+    "local_data": {},
+    "figure_generator_sha256": "2b2f1c987eb91f97f3e6517917ce26c236896e582133442f49375b0a40ca4d5a",
+    "manuscript_source_sha256": "9bbfe55dab4333c7edde2753e3dda7983cf5678754294007df660f0c028ba97e"
+  },
+  "figure_pdf_sha256": "544f4aa0cec92a8f8d8d2642302d953b37af702037ceef20ede67632b1918b69",
+  "numerical_test": {
+    "id": "analytical_curve_endpoints_and_signed_integral_are_valid",
+    "passed": true,
+    "checks": {
+      "training_and_development_split_counts": true,
+      "architecture_families_and_parameter_counts": true,
+      "18_route_cpu_and_cuda_counts": {
+        "cpu_exact": 18,
+        "cuda_pass": 8,
+        "cuda_fail": 10
+      },
+      "native_protocol_windows": true,
+      "analytical_curve_endpoints_and_integral": true,
+      "six_cell_root_aggregates_checked": 24,
+      "stored_bootstrap_rows_checked": 6,
+      "ablation_and_nested_diagnostics_checked": 11,
+      "rich_history_row_differences": {
+        "training": -48,
+        "public_validation": 4
+      },
+      "new_model_execution": false,
+      "new_bootstrap": false
+    }
+  }
+}

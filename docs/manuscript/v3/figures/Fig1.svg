@@ -1,0 +1,292 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns:xlink="http://www.w3.org/1999/xlink" width="453.168pt" height="340.38pt" viewBox="0 0 453.168 340.38" xmlns="http://www.w3.org/2000/svg" version="1.1">
+ <metadata>
+  <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+   <cc:Work>
+    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+    <dc:format>image/svg+xml</dc:format>
+    <dc:creator>
+     <cc:Agent>
+      <dc:title>Matplotlib</dc:title>
+     </cc:Agent>
+    </dc:creator>
+   </cc:Work>
+  </rdf:RDF>
+ </metadata>
+ <defs>
+  <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style>
+ </defs>
+ <g id="figure_1">
+  <g id="patch_1">
+   <path d="M 0 340.38
+L 453.168 340.38
+L 453.168 0
+L 0 0
+z
+" style="fill: #ffffff"/>
+  </g>
+  <g id="axes_1">
+   <g id="patch_2">
+    <path d="M 130.789627 73.15605
+Q 144.346735 73.15605 156.897612 73.15605
+" clip-path="url(#p9ccf4de668)" style="fill: none; stroke: #18232d; stroke-width: 0.9; stroke-linecap: round"/>
+    <path d="M 153.697612 71.55605
+L 156.897612 73.15605
+L 153.697612 74.75605
+z
+" clip-path="url(#p9ccf4de668)" style="fill: #18232d; stroke: #18232d; stroke-width: 0.9; stroke-linecap: round"/>
+   </g>
+   <g id="patch_3">
+    <path d="M 130.790169 229.07385
+Q 135.456665 229.07385 139.11693 229.07385
+" clip-path="url(#p9ccf4de668)" style="fill: none; stroke: #18232d; stroke-width: 0.9; stroke-linecap: round"/>
+    <path d="M 135.91693 227.47385
+L 139.11693 229.07385
+L 135.91693 230.67385
+z
+" clip-path="url(#p9ccf4de668)" style="fill: #18232d; stroke: #18232d; stroke-width: 0.9; stroke-linecap: round"/>
+   </g>
+   <g id="patch_4">
+    <path d="M 233.031609 229.07385
+Q 237.698105 229.07385 241.35837 229.07385
+" clip-path="url(#p9ccf4de668)" style="fill: none; stroke: #18232d; stroke-width: 0.9; stroke-linecap: round"/>
+    <path d="M 238.15837 227.47385
+L 241.35837 229.07385
+L 238.15837 230.67385
+z
+" clip-path="url(#p9ccf4de668)" style="fill: #18232d; stroke: #18232d; stroke-width: 0.9; stroke-linecap: round"/>
+   </g>
+   <g id="patch_5">
+    <path d="M 333.705915 227.125201
+Q 342.161312 189.264906 350.39739 152.386649
+" clip-path="url(#p9ccf4de668)" style="fill: none; stroke: #18232d; stroke-width: 0.9; stroke-linecap: round"/>
+    <path d="M 348.13838 155.160973
+L 350.39739 152.386649
+L 351.261443 155.858451
+z
+" clip-path="url(#p9ccf4de668)" style="fill: #18232d; stroke: #18232d; stroke-width: 0.9; stroke-linecap: round"/>
+   </g>
+   <g id="patch_6">
+    <path d="M 333.764519 231.008528
+Q 342.160751 263.904476 350.308134 295.825451
+" clip-path="url(#p9ccf4de668)" style="fill: none; stroke: #18232d; stroke-width: 0.9; stroke-linecap: round"/>
+    <path d="M 351.067048 292.32916
+L 350.308134 295.825451
+L 347.96645 293.120545
+z
+" clip-path="url(#p9ccf4de668)" style="fill: #18232d; stroke: #18232d; stroke-width: 0.9; stroke-linecap: round"/>
+   </g>
+   <g id="text_1">
+    <text style="font-weight: 700; font-size: 10px; font-family: 'STIXGeneral'; text-anchor: middle; fill: #18232d" x="226.584" y="21.7722" transform="rotate(-0 226.584 21.7722)">Recorded formulation ancestry; unresolved links remain open</text>
+   </g>
+   <g id="text_2">
+    <text style="font-weight: 700; font-size: 7.2px; font-family: 'STIXGeneral'; text-anchor: middle; fill: #626c75" x="226.584" y="34.1766" transform="rotate(-0 226.584 34.1766)">CAMP / HISTORY TASKS</text>
+   </g>
+   <g id="text_3">
+    <text style="font-weight: 700; font-size: 7.2px; font-family: 'STIXGeneral'; text-anchor: middle; fill: #626c75" x="226.584" y="183.4596" transform="rotate(-0 226.584 183.4596)">EPISODE RESPONSE TASKS</text>
+   </g>
+   <g id="text_4">
+    <text style="font-size: 7.1px; font-family: 'STIXGeneral'; text-anchor: start; fill: #626c75" x="13.21056" y="321.1317" transform="rotate(-0 13.21056 321.1317)">No parent record = unknown ancestry; arrows are not a timeline.</text>
+   </g>
+   <g id="patch_7">
+    <path d="M 43.438464 107.1594
+L 125.231616 107.1594
+Q 133.23312 107.1594 133.23312 101.18808
+L 133.23312 45.12402
+Q 133.23312 39.1527 125.231616 39.1527
+L 43.438464 39.1527
+Q 35.43696 39.1527 35.43696 45.12402
+L 35.43696 101.18808
+Q 35.43696 107.1594 43.438464 107.1594
+z
+" clip-path="url(#p9ccf4de668)" style="fill: #eef0f2; stroke: #626c75; stroke-width: 1.15; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_8">
+    <path d="M 163.461024 107.1594
+L 245.254176 107.1594
+Q 253.25568 107.1594 253.25568 101.18808
+L 253.25568 45.12402
+Q 253.25568 39.1527 245.254176 39.1527
+L 163.461024 39.1527
+Q 155.45952 39.1527 155.45952 45.12402
+L 155.45952 101.18808
+Q 155.45952 107.1594 163.461024 107.1594
+z
+" clip-path="url(#p9ccf4de668)" style="fill: #eef0f2; stroke: #626c75; stroke-width: 1.15; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_9">
+    <path d="M 310.155264 107.1594
+L 391.948416 107.1594
+Q 399.94992 107.1594 399.94992 101.18808
+L 399.94992 45.12402
+Q 399.94992 39.1527 391.948416 39.1527
+L 310.155264 39.1527
+Q 302.15376 39.1527 302.15376 45.12402
+L 302.15376 101.18808
+Q 302.15376 107.1594 310.155264 107.1594
+z
+" clip-path="url(#p9ccf4de668)" style="fill: #f5e7e4; stroke: #b54234; stroke-width: 1.15; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_10">
+    <path d="M 43.438464 263.0772
+L 125.231616 263.0772
+Q 133.23312 263.0772 133.23312 257.10588
+L 133.23312 201.04182
+Q 133.23312 195.0705 125.231616 195.0705
+L 43.438464 195.0705
+Q 35.43696 195.0705 35.43696 201.04182
+L 35.43696 257.10588
+Q 35.43696 263.0772 43.438464 263.0772
+z
+" clip-path="url(#p9ccf4de668)" style="fill: #eef0f2; stroke: #626c75; stroke-width: 1.15; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_11">
+    <path d="M 145.679904 263.0772
+L 227.473056 263.0772
+Q 235.47456 263.0772 235.47456 257.10588
+L 235.47456 201.04182
+Q 235.47456 195.0705 227.473056 195.0705
+L 145.679904 195.0705
+Q 137.6784 195.0705 137.6784 201.04182
+L 137.6784 257.10588
+Q 137.6784 263.0772 145.679904 263.0772
+z
+" clip-path="url(#p9ccf4de668)" style="fill: #eef0f2; stroke: #626c75; stroke-width: 1.15; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_12">
+    <path d="M 247.921344 263.0772
+L 329.714496 263.0772
+Q 337.716 263.0772 337.716 257.10588
+L 337.716 201.04182
+Q 337.716 195.0705 329.714496 195.0705
+L 247.921344 195.0705
+Q 239.91984 195.0705 239.91984 201.04182
+L 239.91984 257.10588
+Q 239.91984 263.0772 247.921344 263.0772
+z
+" clip-path="url(#p9ccf4de668)" style="fill: #eef0f2; stroke: #626c75; stroke-width: 1.15; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_13">
+    <path d="M 354.608064 183.4596
+L 436.401216 183.4596
+Q 444.40272 183.4596 444.40272 177.48828
+L 444.40272 121.42422
+Q 444.40272 115.4529 436.401216 115.4529
+L 354.608064 115.4529
+Q 346.60656 115.4529 346.60656 121.42422
+L 346.60656 177.48828
+Q 346.60656 183.4596 354.608064 183.4596
+z
+" clip-path="url(#p9ccf4de668)" style="fill: #f5efdf; stroke: #b57a18; stroke-width: 1.15; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_14">
+    <path d="M 354.608064 332.7426
+L 436.401216 332.7426
+Q 444.40272 332.7426 444.40272 326.77128
+L 444.40272 270.70722
+Q 444.40272 264.7359 436.401216 264.7359
+L 354.608064 264.7359
+Q 346.60656 264.7359 346.60656 270.70722
+L 346.60656 326.77128
+Q 346.60656 332.7426 354.608064 332.7426
+z
+" clip-path="url(#p9ccf4de668)" style="fill: #e4f0ed; stroke: #147d78; stroke-width: 1.15; stroke-linejoin: miter"/>
+   </g>
+   <g id="text_5">
+    <text style="font-weight: 700; font-size: 7.1px; font-family: 'STIXGeneral'; fill: #18232d" transform="translate(75.062884 55.874762)">Initial</text>
+    <text style="font-weight: 700; font-size: 7.1px; font-family: 'STIXGeneral'; fill: #18232d" transform="translate(69.381774 61.878145)">preseason</text>
+   </g>
+   <g id="text_6">
+    <text style="font-size: 6.8px; font-family: 'STIXGeneral'; text-anchor: middle; fill: #626c75" x="84.33504" y="81.606959" transform="rotate(-0 84.33504 81.606959)">superseded</text>
+   </g>
+   <g id="text_7">
+    <text style="font-size: 6.5px; font-family: 'STIXGeneral'; fill: #18232d" transform="translate(56.193087 94.741669)">event-time adaptation</text>
+    <text style="font-size: 6.5px; font-family: 'STIXGeneral'; fill: #18232d" transform="translate(72.238438 101.878466)">H72 / D7</text>
+   </g>
+   <g id="text_8">
+    <text style="font-weight: 700; font-size: 7.1px; font-family: 'STIXGeneral'; fill: #18232d" transform="translate(188.972233 55.857012)">Canonical</text>
+    <text style="font-weight: 700; font-size: 7.1px; font-family: 'STIXGeneral'; fill: #18232d" transform="translate(189.404334 61.878145)">preseason</text>
+   </g>
+   <g id="text_9">
+    <text style="font-size: 6.8px; font-family: 'STIXGeneral'; text-anchor: middle; fill: #626c75" x="204.3576" y="81.606959" transform="rotate(-0 204.3576 81.606959)">superseded</text>
+   </g>
+   <g id="text_10">
+    <text style="font-size: 6.5px; font-family: 'STIXGeneral'; fill: #18232d" transform="translate(176.215647 94.741669)">event-time adaptation</text>
+    <text style="font-size: 6.5px; font-family: 'STIXGeneral'; fill: #18232d" transform="translate(192.260998 101.878466)">H72 / D7</text>
+   </g>
+   <g id="text_11">
+    <text style="font-weight: 700; font-size: 7.1px; font-family: 'STIXGeneral'; fill: #18232d" transform="translate(332.163067 55.196934)">Rich-history</text>
+    <text style="font-weight: 700; font-size: 7.1px; font-family: 'STIXGeneral'; fill: #18232d" transform="translate(342.826379 61.878145)">camp</text>
+   </g>
+   <g id="text_12">
+    <text style="font-size: 6.8px; font-family: 'STIXGeneral'; text-anchor: middle; fill: #b54234" x="351.05184" y="81.606959" transform="rotate(-0 351.05184 81.606959)">retired</text>
+   </g>
+   <g id="text_13">
+    <text style="font-size: 6.5px; font-family: 'STIXGeneral'; fill: #18232d" transform="translate(320.536371 94.738622)">fitness-fatigue response</text>
+    <text style="font-size: 6.5px; font-family: 'STIXGeneral'; fill: #18232d" transform="translate(338.955238 101.878466)">H72 / D7</text>
+   </g>
+   <g id="text_14">
+    <text style="font-weight: 700; font-size: 7.1px; font-family: 'STIXGeneral'; fill: #18232d" transform="translate(66.003173 211.114734)">Preliminary</text>
+    <text style="font-weight: 700; font-size: 7.1px; font-family: 'STIXGeneral'; fill: #18232d" transform="translate(63.329579 218.353406)">post-exposure</text>
+   </g>
+   <g id="text_15">
+    <text style="font-size: 6.8px; font-family: 'STIXGeneral'; text-anchor: middle; fill: #626c75" x="84.33504" y="237.524759" transform="rotate(-0 84.33504 237.524759)">superseded</text>
+   </g>
+   <g id="text_16">
+    <text style="font-size: 6.5px; font-family: 'STIXGeneral'; fill: #18232d" transform="translate(55.968126 250.659469)">biexponential episode</text>
+    <text style="font-size: 6.5px; font-family: 'STIXGeneral'; fill: #18232d" transform="translate(62.488438 257.796266)">H24 / H48 / H72</text>
+   </g>
+   <g id="text_17">
+    <text style="font-weight: 700; font-size: 7.1px; font-family: 'STIXGeneral'; fill: #18232d" transform="translate(161.563402 211.792562)">Phase-consistent</text>
+    <text style="font-weight: 700; font-size: 7.1px; font-family: 'STIXGeneral'; fill: #18232d" transform="translate(165.571019 218.353406)">post-exposure</text>
+   </g>
+   <g id="text_18">
+    <text style="font-size: 6.8px; font-family: 'STIXGeneral'; text-anchor: middle; fill: #626c75" x="186.57648" y="237.524759" transform="rotate(-0 186.57648 237.524759)">superseded</text>
+   </g>
+   <g id="text_19">
+    <text style="font-size: 6.5px; font-family: 'STIXGeneral'; fill: #18232d" transform="translate(158.209566 250.659469)">biexponential episode</text>
+    <text style="font-size: 6.5px; font-family: 'STIXGeneral'; fill: #18232d" transform="translate(164.729878 257.796266)">H24 / H48 / H72</text>
+   </g>
+   <g id="text_20">
+    <text style="font-weight: 700; font-size: 7.1px; font-family: 'STIXGeneral'; fill: #18232d" transform="translate(272.299326 211.774812)">Correlated</text>
+    <text style="font-weight: 700; font-size: 7.1px; font-family: 'STIXGeneral'; fill: #18232d" transform="translate(275.281326 217.795945)">exposure</text>
+   </g>
+   <g id="text_21">
+    <text style="font-size: 6.8px; font-family: 'STIXGeneral'; text-anchor: middle; fill: #626c75" x="288.81792" y="237.524759" transform="rotate(-0 288.81792 237.524759)">superseded</text>
+   </g>
+   <g id="text_22">
+    <text style="font-size: 6.5px; font-family: 'STIXGeneral'; fill: #18232d" transform="translate(263.275459 250.659469)">correlated exposure</text>
+    <text style="font-size: 6.5px; font-family: 'STIXGeneral'; fill: #18232d" transform="translate(266.971318 257.796266)">H24 / H48 / H72</text>
+   </g>
+   <g id="text_23">
+    <text style="font-weight: 700; font-size: 7.1px; font-family: 'STIXGeneral'; fill: #18232d" transform="translate(379.95564 132.121712)">Threshold</text>
+    <text style="font-weight: 700; font-size: 7.1px; font-family: 'STIXGeneral'; fill: #18232d" transform="translate(382.326374 138.178345)">response</text>
+   </g>
+   <g id="text_24">
+    <text style="font-size: 6.8px; font-family: 'STIXGeneral'; text-anchor: middle; fill: #b57a18" x="395.50464" y="157.907159" transform="rotate(-0 395.50464 157.907159)">proposed</text>
+   </g>
+   <g id="text_25">
+    <text style="font-size: 6.5px; font-family: 'STIXGeneral'; fill: #18232d" transform="translate(371.210382 171.041869)">threshold response</text>
+    <text style="font-size: 6.5px; font-family: 'STIXGeneral'; fill: #18232d" transform="translate(373.658038 178.178666)">H24 / H48 / H72</text>
+   </g>
+   <g id="text_26">
+    <text style="font-weight: 700; font-size: 7.1px; font-family: 'STIXGeneral'; fill: #18232d" transform="translate(377.652023 281.457962)">Fixed-mode</text>
+    <text style="font-weight: 700; font-size: 7.1px; font-family: 'STIXGeneral'; fill: #18232d" transform="translate(377.395757 288.235134)">discrepancy</text>
+   </g>
+   <g id="text_27">
+    <text style="font-size: 6.8px; font-family: 'STIXGeneral'; text-anchor: middle; fill: #147d78" x="395.50464" y="307.190159" transform="rotate(-0 395.50464 307.190159)">active candidate</text>
+   </g>
+   <g id="text_28">
+    <text style="font-size: 6.5px; font-family: 'STIXGeneral'; fill: #18232d" transform="translate(364.443781 320.321822)">fixed-mode discrepancy</text>
+    <text style="font-size: 6.5px; font-family: 'STIXGeneral'; fill: #18232d" transform="translate(373.658038 327.461666)">H24 / H48 / H72</text>
+   </g>
+  </g>
+ </g>
+ <defs>
+  <clipPath id="p9ccf4de668">
+   <rect x="4.32" y="4.32" width="444.528" height="331.74"/>
+  </clipPath>
+ </defs>
+</svg>
