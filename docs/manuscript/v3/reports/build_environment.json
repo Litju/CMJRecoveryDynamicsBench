@@ -1,5 +1,5 @@
 {
-  "verified_utc": "2026-11-05",
+  "verified_utc": "2026-11-07",
   "platform": {
     "os": "Ubuntu 24.04.3 LTS",
     "architecture": "x86_64"
@@ -54,7 +54,29 @@
     "package": "PyMuPDF",
     "version": "1.26.7",
     "dpi": 144,
-    "page_images": "one PNG per PDF page; contact sheets plus per-page PNGs"
+    "page_images": "One PNG per PDF page at 144 dpi; all pages individually inspected; contact sheets are navigation aids only."
   },
-  "scope": "Figures reproduce existing receipts and sanitized route summaries; no training, fitting, checkpoint inference, or athlete scoring."
+  "scope": "Figures reproduce existing receipts and sanitized route summaries; no training, fitting, checkpoint inference, or athlete scoring.",
+  "outputs": {
+    "primary_illustrated_manuscript": {
+      "file": "full_illustrated_research_manuscript.pdf",
+      "pages": 19
+    },
+    "secondary_separate_figure_review": {
+      "file": "academic_review_manuscript.pdf",
+      "pages": 24
+    },
+    "technical_supplement": {
+      "file": "technical_supplement.pdf",
+      "pages": 4
+    },
+    "page_inventory": "reports/full_illustrated_page_figure_inventory.md",
+    "visual_review": "reports/rendered_page_inspection.md"
+  },
+  "quantitative_figure_validation": {
+    "per_figure_receipts": 9,
+    "new_training_or_inference": false,
+    "new_bootstrap": false,
+    "checks": "reproducibility/verify_quantitative_figures.py"
+  }
 }

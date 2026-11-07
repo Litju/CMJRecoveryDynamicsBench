@@ -2,7 +2,7 @@
 
 ## Build scope
 
-The build consumes the public release-linked evidence snapshots in this package and the sanitized route-level qualification CSVs. It generates vector and raster figures, formatted receipt tables, the academic review PDF, the integrated reading edition, the technical supplement, and rendered page images. It does not load the research package, train or fit a model, deserialize a checkpoint, run inference, bootstrap outcomes, generate benchmark rows, or access athlete data.
+The build consumes the public release-linked evidence snapshots in this package and the sanitized route-level qualification CSVs. It generates vector and raster figures, per-figure numerical receipts, formatted receipt tables, the fully illustrated primary manuscript, the separate-figure review edition, the technical supplement, and rendered page images. It does not load the research package, train or fit a model, deserialize a checkpoint, run inference, bootstrap outcomes, generate benchmark rows, or access athlete data.
 
 ## Exact environment recorded for this build
 
@@ -35,7 +35,7 @@ export PATH="$PWD/$BUILD_TMP:$PATH"
 bash reproducibility/build.sh
 ```
 
-The script regenerates Fig1–Fig10 in vector PDF/SVG and raster PNG/TIFF. TIFFs are flattened RGB, 600 dpi, and LZW-compressed. It compiles both manuscript editions from one authoritative source, compiles supplement/technical_supplement.tex, renders every page at 144 dpi, validates source and receipt links, checks PLOS TIFF dimensions/size/channel requirements, and writes ARTIFACT_SHA256SUMS. The academic review PDF contains figure captions but no figure images, following PLOS figure-file placement. The integrated reading PDF embeds the corresponding PDF figures at first discussion.
+The script regenerates Fig1–Fig10 in vector PDF/SVG and raster PNG/TIFF. TIFFs are flattened RGB, 600 dpi, and LZW-compressed. It writes one numerical receipt for each quantitative figure, including exact input and figure-PDF digests and calculation checks. It compiles `full_illustrated_research_manuscript.pdf` as the primary owner-review paper and `academic_review_manuscript.pdf` as a secondary double-spaced, line-numbered edition with separate figure files. The technical supplement compiles from `supplement/technical_supplement.tex`. The renderer writes one PNG per page at 144 dpi; contact sheets are navigation aids, and the page-by-page visual review findings are recorded separately. The build validates source and receipt links, checks PLOS TIFF dimensions/size/channel requirements, and writes `ARTIFACT_SHA256SUMS`.
 
 ## Evidence identities
 
@@ -45,4 +45,4 @@ Sanitized route summaries are not a public re-execution of the original restrict
 
 ## Output and checksum boundaries
 
-The three PDFs are written at the V3 root. Individual page images and contact sheets are in renders/academic_review, renders/reading_edition, and renders/technical_supplement. ARTIFACT_SHA256SUMS covers the V3 manuscript, bibliography, figures, evidence snapshots, scripts, reports, and page images. It excludes build scratch, the optional local Tectonic executable, and the checksum file itself.
+The three PDFs are written at the V3 root. Individual page images and contact sheets are in `renders/academic_review`, `renders/full_illustrated`, and `renders/technical_supplement`. `ARTIFACT_SHA256SUMS` covers the V3 manuscript, bibliography, figures, evidence snapshots, scripts, reports, and page images. It excludes build scratch, the optional local Tectonic executable, and the checksum file itself.

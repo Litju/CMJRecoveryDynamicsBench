@@ -41,9 +41,9 @@ def code(value) -> str:
     return r"\texttt{" + tex_escape(value) + "}"
 
 
-def write_longtable(filename, column_spec, headers, rows, caption, label, *, spacing="3pt"):
+def write_longtable(filename, column_spec, headers, rows, caption, label, *, spacing="3pt", font=r"\footnotesize"):
     out = [
-        r"\footnotesize",
+        font,
         rf"\setlength{{\tabcolsep}}{{{spacing}}}",
         r"\renewcommand{\arraystretch}{1.12}",
         rf"\begin{{longtable}}{{{column_spec}}}",
@@ -139,12 +139,13 @@ def generate_routes():
         )
     write_longtable(
         "generated_routes.tex",
-        ">{\\raggedright\\arraybackslash}p{0.52in}>{\\raggedright\\arraybackslash}p{0.62in}>{\\raggedright\\arraybackslash}p{0.62in}p{0.66in}p{0.96in}p{0.75in}",
+        ">{\\raggedright\\arraybackslash}p{0.70in}>{\\raggedright\\arraybackslash}p{0.85in}>{\\raggedright\\arraybackslash}p{0.85in}p{0.95in}p{1.40in}p{1.35in}",
         ["Route", "CPU-source", "Saved CUDA", "ATOL/RTOL", "Max abs. error", "Failing elements"],
         rows,
         "All 18 sanitized model-repeat records. The recorded inference-rerun flag is false for every route. The maximum absolute error pools force and impulse outputs with different units and is descriptive only.",
         "supp:routes",
-        spacing="2.6pt",
+        spacing="4pt",
+        font=r"\small",
     )
 
 

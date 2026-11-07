@@ -1,30 +1,36 @@
-# Final rendered-page and figure inspection
+# Final page-by-page visual review
 
-Inspection date: 6 November 2026. Both article editions and the technical supplement were built from the V3 source, rendered at 144 dpi, and inspected after the final pagination and caption changes.
+**Visual disposition: `M10_VISUAL_REVIEW_READY`.** This is an internal visual-review disposition; owner acceptance remains pending.
 
-## PDF coverage
+## Pages reviewed
 
-| PDF | Pages | Page image size | Text blocks outside page | Lowest extracted text count |
-|---|---:|---:|---:|---:|
-| Academic review manuscript | 24 | 1191 × 1684 px | 0 | 1,669 characters |
-| Integrated scientific reading edition | 21 | 1191 × 1684 px | 0 | 1,210 characters |
-| Technical supplement | 4 | 1191 × 1684 px | 0 | 3,330 characters |
+All three final PDFs were rendered to one 1191 × 1684 px PNG per page at 144 dpi. Every page image was opened and inspected individually at its full rendered size; contact sheets were used only to navigate.
 
-Every page has an individual PNG in `renders/`; the final contact sheets cover all 49 pages. Figure-bearing pages were also inspected at full page size, and all four supplement pages were checked individually. The academic review copy is single-column, double-spaced, continuously line-numbered, and paginated. It carries captions in first-citation order and supplies figure files separately. The integrated edition uses the same manuscript text with vector figures placed in the argument; the short supplementary-information caption remains with the review copy without creating an additional page.
+| PDF | Pages | Individually inspected |
+|---|---:|---|
+| `full_illustrated_research_manuscript.pdf` — primary | 19 | 19 |
+| `academic_review_manuscript.pdf` — secondary, separate figures | 24 | 24 |
+| `technical_supplement.pdf` | 4 | 4 |
+| **Total** | **47** | **47** |
 
-## Figure and table inspection
+The primary manuscript has no figure-only pages. Figures 1–6 appear in Methods on pages 4–9; the six-cell performance plot is on page 12, bootstrap intervals on page 14, ablations and nested-camp results on page 15, and the rich-history row-count comparison on page 16. The full page-by-page figure-to-claim mapping is in [`full_illustrated_page_figure_inventory.md`](full_illustrated_page_figure_inventory.md).
 
-- Fig. 1 genealogy shows only recorded links and marks unresolved ancestry. Fig. 2 separates computational checks from scientific validity. Both are legible in the reading edition.
-- Fig. 3 architecture atlas labels the input branches and parameter counts. Fig. 4 preserves all 18 CPU/CUDA route records, with status words, marks, discrepancy units, and failure counts readable.
-- Fig. 5 keeps the native H72/D7 windows separate from synthetic H24/H48/H72 queries. Fig. 6 labels force, time, body-weight baseline, boundaries, and the analytical-only status.
-- Fig. 7 reports the six synthetic cells with three roots, model labels, units, and dimensionless NRMSE. Fig. 8 describes conditional whole-camp bootstrap intervals. Fig. 9 separates feature ablations from nested-camp diagnostics. Fig. 10 is categorical and does not display a quantitative readiness score.
-- A grayscale preview of all figure-bearing reading pages preserved distinctions through text labels, marker shapes, line styles, and hatching; color alone does not carry status or model identity.
-- Tables remain within page bounds. The supplement's long tables repeat headers, and the full route, cell, bootstrap, ablation, protocol, and native-contract values remain legible at page size.
+## Defects found and corrections made
 
-## Figure-file checks
+- **Architecture figure:** the V3 M0–M2 node labels overlapped their boxes, and the feature panels were crowded. Replaced the box atlas with aligned architecture summaries and a parameter-count plot. The final panel fits on page 6 with readable row labels and counts.
+- **Evidence workflow graphic:** the former workflow cards contained no observations or sample counts. Replaced them with the recorded training, development, and evaluation-root counts, including the three grouped horizon queries per episode (Fig. 2, page 5).
+- **Evidence-scope graphic:** the former four-card summary repeated conclusions from the Discussion and displayed no measurement. Replaced it with the signed rich-history training and validation row-count differences from S03/S04 (Fig. 10, page 16).
+- **Route matrix:** the first regenerated draft had overlapping summary and column headings. Separated the summary line from the headers and increased route/status text. The final 18-route matrix is legible on page 7; its mixed-unit maximum differences remain explicitly identified as non-comparable.
+- **Timeline and mechanics:** the timeline annotations and force-plot legend were too small at manuscript scale, while formula callouts covered the force curve. Increased annotation type and removed the redundant in-plot formula boxes and banner; the equations and analytical-only limitation remain in the Methods text and caption (pages 8–9).
+- **Six-cell comparison:** diagonal model labels and close root symbols impeded comparison. Used horizontal model labels and small horizontal root offsets, with the caption stating that offsets only separate symbols and do not change group membership (page 12).
+- **Six-cell table:** six-decimal mean/SD pairs crowded the four result columns. Displayed four decimals with the rounding stated in the caption; full stored precision remains in the bundled CSV and supplement (page 13).
+- **Supplement route table:** its narrow column widths left excessive unused page width and made the route fields harder to scan. Expanded the columns and type size while retaining every route and value (page 2).
+- **Separate-figure review copy:** two full-precision M8 discrepancy values forced an overfull line at the RQ2 paragraph. The main text now uses compact scientific notation; the complete values remain in the sanitized route CSV, which has a per-figure input digest, and the supplement table retains additional precision. The final build logs contain no overfull boxes.
 
-The ten TIFF exports are flattened 8-bit RGB with no alpha channel, LZW compressed, and tagged at 600 dpi. Their physical widths/heights satisfy the current PLOS ONE figure dimensions, and every file is below 10 MB. PDF and SVG exports remain vector. The build validator checks TIFF mode, dimensions, compression, resolution, and file size for every figure.
+## Final-page checks
 
-## Rendering checks and notices
+The final visual pass found no clipped figure labels, overlapping captions, figure-only pages, or missing figures in the primary manuscript. The route qualification remains in the argument and the Results subsection prominently states the 18/18 CPU equality and 8/18 pass, 10/18 fail saved-CUDA comparison. The six-cell means, three-root variation, recorded bootstrap intervals, ablations, and nested-camp results are shown or tabulated in Results. The last reference page has ordinary end-of-document white space; text and references are within page bounds.
 
-The page-level measurements and image paths are in [`rendered_page_inspection.json`](rendered_page_inspection.json). The validator found no text blocks outside page bounds, missing pages, or unresolved cross-reference markers. The final build log reports an invalid UTF-8 byte in the bundled `lineno.sty`; Tectonic replaces it while compiling. The line-numbered review copy shows no visible substitution or clipping. Remaining font-resolution and underfull-box notices did not produce a visible defect. No overfull boxes or missing citations remain.
+The separate-figure edition remains double-spaced and line-numbered, with captions at first citation and the standalone figure files available. The technical supplement retains its repeated headers and full precision tables. Tectonic still reports the known invalid UTF-8 byte in bundled `lineno.sty` and font-resolution/underfull-box notices; the individually inspected pages showed no corresponding visual defect.
+
+No new model inference, training, bootstrap, empirical scoring, athlete-data collection, GPU replay, or external-data campaign was performed for this repair. The immutable v1.1.0 release was not changed.

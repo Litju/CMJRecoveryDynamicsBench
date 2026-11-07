@@ -1,4 +1,4 @@
-"""Render every V3 PDF page at reading resolution and build review contact sheets."""
+"""Render every V3 PDF page at reading resolution and build navigation sheets."""
 
 from __future__ import annotations
 
@@ -14,7 +14,7 @@ DPI = 144
 SCALE = DPI / 72
 PDFS = {
     "academic_review": ROOT / "academic_review_manuscript.pdf",
-    "reading_edition": ROOT / "integrated_scientific_reading_edition.pdf",
+    "full_illustrated": ROOT / "full_illustrated_research_manuscript.pdf",
     "technical_supplement": ROOT / "technical_supplement.pdf",
 }
 
@@ -78,7 +78,7 @@ def render_one(name: str, path: Path):
         "pdf": path.name,
         "pages": len(pages),
         "render_dpi": DPI,
-        "inspection": "Every page exported at 144 dpi; page image contact sheets are provided for navigation.",
+        "rendering": "Every page exported individually at 144 dpi; contact sheets are navigation aids only. Visual findings are recorded separately.",
         "page_records": pages,
     }
 

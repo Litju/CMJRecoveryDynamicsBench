@@ -1,6 +1,6 @@
 # CMJRecoveryDynamicsBench M10 V3 owner-review package
 
-This V3 owner-review package contains one LaTeX manuscript source, two editions of that article, a technical supplement, and ten source-bound scientific figures. It preserves the V2 package and the public repository manuscript.
+This V3 owner-review package contains one authoritative LaTeX manuscript, a secondary separate-figure review edition, a technical supplement, and ten source-bound scientific figures. It preserves the V2 package and the public repository manuscript.
 
 ## Article title
 
@@ -8,11 +8,11 @@ Retrospective reconstruction and numerical qualification of historical countermo
 
 ## Main outputs
 
-- academic_review_manuscript.pdf: single-column, double-spaced, continuously line-numbered review copy. Captions and tables follow first citation; figure files remain separate.
-- integrated_scientific_reading_edition.pdf: same manuscript source and tables with vector figures placed next to the relevant discussion.
+- full_illustrated_research_manuscript.pdf: primary owner-review artifact; single-column academic article layout with vector figures embedded near the corresponding Methods or Results discussion.
+- academic_review_manuscript.pdf: secondary separate-figure review edition; single-column, double-spaced, continuously line-numbered, with figure captions in first-citation order and figure files supplied separately.
 - technical_supplement.pdf: route-level qualification, formulation, full cell result, bootstrap, and protocol tables.
 
-The publication structure follows a PLOS ONE full-length Research Article, with a journal-neutral review appearance. The reading edition is an internal editorial version, not a journal submission PDF. Names, affiliations, author roles, funding, conflicts, and final publication declarations remain for human confirmation.
+The manuscript uses an established single-column research-article format with academic typography. The separate-figure edition is secondary to the illustrated manuscript. Names, affiliations, author roles, funding, conflicts, and final publication declarations remain for human confirmation.
 
 ## Regenerate
 
@@ -34,7 +34,9 @@ The local virtual environment and `toolchain/` directory are ignored build outpu
 
 The Tectonic binary was built from the official 0.17.0 x86_64 Linux release. Its archive URL and SHA-256, the Python build versions, and figure input hashes are recorded in reports/build_instructions.md and the final checksum manifest. The first LaTeX build downloads Tectonic's TeX support bundle; its resolved identity is recorded in the build report.
 
-reproducibility/build.sh regenerates figures, supplement tables, both PDFs, page images, validation records, and SHA-256 checksums. Rendered page images are under renders/.
+reproducibility/build.sh regenerates figures, per-figure quantitative receipts and numerical checks, supplement tables, both manuscript editions, page images, validation records, and SHA-256 checksums. Rendered page images are under renders/.
+
+Each quantitative figure has a separate JSON receipt in `reproducibility/figure_receipts/` with exact release-source and local-input SHA-256 digests, the full manuscript caption, population, metric, units, grouping, sample size, uncertainty interpretation, and a passing numerical check.
 
 ## Evidence boundary
 
@@ -42,4 +44,4 @@ The release evidence identity is v1.1.0 at 401f87aad1e4ef4108011fa0c1d769a24f1ad
 
 ## Review boundary
 
-The owner authorized committing and pushing this package on a separate Git review branch. The qualification reports preserve the earlier private-workspace status at the time of inspection. This package remains an unsubmitted owner-review draft. It has not been uploaded as a preprint, journal submission, DOI record, or software release. It does not replace the V1, V2, or merged public manuscript. Owner visual and editorial review is the next gate.
+This repair continues the existing Draft PR #38 branch. The qualification reports preserve the earlier private-workspace status at the time of inspection. This package remains an unsubmitted owner-review draft. It has not been uploaded as a preprint, journal submission, DOI record, or software release. It does not replace the V1, V2, or merged public manuscript. Owner visual and editorial review is the next gate; no owner acceptance is recorded here.

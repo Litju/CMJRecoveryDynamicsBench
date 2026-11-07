@@ -52,10 +52,23 @@
   "build_outputs": {
     "pdfs": [
       "academic_review_manuscript.pdf",
-      "integrated_scientific_reading_edition.pdf",
+      "full_illustrated_research_manuscript.pdf",
       "technical_supplement.pdf"
     ],
     "figures": 10,
+    "quantitative_figure_receipts": 9,
+    "primary_figure_pages": {
+      "1": 4,
+      "2": 5,
+      "3": 6,
+      "4": 7,
+      "5": 8,
+      "6": 9,
+      "7": 12,
+      "8": 14,
+      "9": 15,
+      "10": 16
+    },
     "page_render_sets": 3
   }
 }

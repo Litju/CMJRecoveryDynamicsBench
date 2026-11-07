@@ -2,6 +2,8 @@
 
 **Disposition: ready for owner review as an unsubmitted case study.** PLOS ONE is not currently qualified as a submission destination; no journal decision, submission, preprint, DOI, peer review, or acceptance is implied.
 
+**Internal visual disposition: `M10_VISUAL_REVIEW_READY`.** Owner visual acceptance remains pending.
+
 ## Article identity and scientific contribution
 
 **Title:** *Retrospective reconstruction and numerical qualification of historical countermovement-jump recovery research: An artifact-bound case study*
@@ -40,9 +42,9 @@ Publicly reproducible work includes release-linked software records, public synt
 
 ## Figures and academic editions
 
-The package preserves ten scientific figure families: formulation genealogy; verification workflow; architecture atlas; 18-route numerical qualification; native/synthetic horizon timeline; analytical force-time mechanics; six-cell synthetic performance; recorded bootstrap intervals; ablations and nested-camp diagnostics; and reproducibility scope. All use source-linked data or explicitly labeled analytical illustrations. The force-time curve is not athlete data.
+The package preserves ten audited scientific figure families: formulation genealogy; synthetic split sample sizes; architecture and parameter counts; 18-route numerical qualification; native/synthetic horizon chronology; analytical force-time mechanics; six-cell synthetic performance; recorded bootstrap intervals; ablations and nested-camp diagnostics; and rich-history row-count differences. They use the pinned release evidence, public receipts, or explicitly labeled analytical illustrations. The force-time curve is not athlete data. Each quantitative family has a separate SHA-256 input receipt and numerical checks.
 
-The academic review manuscript is 24 pages, single-column, double-spaced, continuously line-numbered, and supplies figure files separately. The integrated reading edition is 21 pages and uses the same manuscript source with figures placed beside the argument. The technical supplement is 4 pages. All 49 pages were rendered at 144 dpi; contact sheets cover every page, and full-page views were inspected for figure-bearing and supplement pages. PLOS-format TIFFs are flattened RGB, 600 dpi, LZW-compressed, within the specified dimensions and under 10 MB. The line-numbered review copy and figure files remain unbranded owner-review materials, not a submission package.
+The primary `full_illustrated_research_manuscript.pdf` is 19 pages and embeds all ten figures beside the relevant Methods or Results discussion. The secondary `academic_review_manuscript.pdf` is 24 pages, single-column, double-spaced, continuously line-numbered, and supplies figure files separately. The technical supplement is 4 pages. All 47 pages were rendered at 144 dpi and inspected individually at full page size; contact sheets were used only for navigation. Specific defects and corrections are recorded in [`rendered_page_inspection.md`](rendered_page_inspection.md), and the figure-to-claim page map is in [`full_illustrated_page_figure_inventory.md`](full_illustrated_page_figure_inventory.md). PLOS-format TIFFs are flattened RGB, 600 dpi, LZW-compressed, within the specified dimensions and under 10 MB. The separate-figure review copy and source files remain owner-review materials, not a submission package.
 
 Repeated generic AI-use sentences were removed from scientific captions. The consolidated AI-use statement remains in the integrity/declarations section and discloses manuscript and plotting-code assistance; authors must verify it before any submission.
 
