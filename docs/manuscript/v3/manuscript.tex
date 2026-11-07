@@ -11,7 +11,6 @@
 \usepackage{siunitx}
 \usepackage{graphicx}
 \usepackage{booktabs,tabularx,array}
-\usepackage{float}
 \usepackage{placeins}
 \usepackage{cite}
 \usepackage{setspace}
@@ -20,6 +19,13 @@
 \usepackage{xurl}
 \usepackage{hyperref}
 \usepackage{geometry}
+\setlength{\textfloatsep}{11pt plus 3pt minus 2pt}
+\setlength{\floatsep}{10pt plus 2pt minus 2pt}
+\setlength{\intextsep}{10pt plus 2pt minus 2pt}
+\renewcommand{\topfraction}{0.92}
+\renewcommand{\bottomfraction}{0.82}
+\renewcommand{\textfraction}{0.08}
+\renewcommand{\floatpagefraction}{0.72}
 
 \ifdefined\ReviewEdition\else
   \makeatletter
@@ -48,7 +54,7 @@
 \newcommand{\Fig}[1]{Fig.~\ref{#1}}
 \newcommand{\Eq}[1]{Eq.~\eqref{#1}}
 \newcommand{\EvidenceFigure}[4][\linewidth]{%
-  \begin{figure}[H]
+  \begin{figure}[!htbp]
   \centering
   \ifdefined\ReviewEdition\else
     \includegraphics[width=#1]{#2}
@@ -134,9 +140,9 @@ Fig.~\ref{fig:genealogy} shows the recorded links and leaves unresolved parents 
 
 \EvidenceFigure{figures/Fig1.pdf}{Scientific formulation genealogy. Each node is an authenticated formulation identity with its recorded disposition, response setting, observation contract, and horizon family. Arrows show only parent relations listed in the release-linked lineage register: initial preseason to canonical preseason, preliminary episode to phase-consistent episode to correlated exposure, and correlated exposure to two alternatives. No arrow is drawn for unresolved ancestry, including rich-history camp recovery and preliminary episode recovery. The diagram describes the archive, not a single linear history or an accepted physiological theory. Sources: S17 and S18.}{fig:genealogy}
 
-The evidence-recovery sequence binds source and rights, fitted-state identity, preprocessing, row alignment, source inference, and saved-runtime comparison before assigning a qualification label. Fig.~\ref{fig:workflow} separates these computational checks from scientific validity, which depends on the measurement contract, population, and evaluation authority.
+Fig.~\ref{fig:workflow} reports the synthetic-study split sizes; the three caller-supplied evaluation roots share one generator, and each episode's H24, H48, and H72 queries remain grouped.
 
-\EvidenceFigure{figures/Fig2.pdf}{Model-reconstruction and verification workflow. The computational lane follows preserved artifacts through identity and rights checks, restoration of fitted preprocessing and input alignment, original-source central-processor comparison, and a distinct comparison with saved historical graphics-processor outputs. The separate scientific-validity lane identifies what those checks do not establish: athlete predictive validity, transportability, or clinical utility. A computational pass is not a scientific-validity score. Sources: S06--S16 and the V2 research-integrity record.}{fig:workflow}
+\EvidenceFigure{figures/Fig2.pdf}{Sample structure of the existing public fixed-mode synthetic study. Counts are shown separately for camps, episodes, and horizon rows. Training contains 96 camps, 24,000 episodes, and 72,000 rows; development contains 16 camps, 4,000 episodes, and 12,000 rows; each of the three caller-supplied evaluation roots contains 16 camps, 4,000 episodes, and 12,000 rows. Each episode contributes H24, H48, and H72 queries that remain grouped. The roots share one generator and are not human cohorts. Sources: S01 and S02.}{fig:workflow}
 
 \subsection{Original neural model reconstruction}
 
@@ -148,7 +154,7 @@ The five-value original schedule basis requires complete history and future-plan
 
 Table~\ref{tab:architecture} summarizes the released architecture record and parameter counts for M0--M8. Both repeats share each family's listed architecture.
 
-\begin{table}[H]
+\begin{table}[!htbp]
 \centering
 \caption{Architecture contracts and parameter counts for the nine original Gate7 neural model families. Each family has two recorded repeats. Input counts and architecture descriptions are from the sanitized qualification record; original checkpoint weights are not distributed.}
 \label{tab:architecture}
@@ -172,7 +178,7 @@ M8 & History, horizon, five basis values & M7 plus bias-free \(5\to2\) linear ba
 
 Fig.~\ref{fig:architecture} shows the corresponding branches: M0--M2 are raw-feature feedforward networks of increasing width and depth; M3 encodes pointwise history and pools its mean and latest values; M4 substitutes a 32-unit gated recurrent unit (GRU); and M5 adds a horizon embedding. M6 projects the first two basis components, M7 projects all five, and M8 adds a bias-free five-to-two linear basis head to its residual prediction.
 
-\EvidenceFigure{figures/Fig3.pdf}{Original neural architecture comparison. Panels show the raw-feature backbone, history branches, horizon embedding, basis projection, additive output head, and a parameter-count comparison for M0--M8. Each family has two recorded repeats with the same listed topology and parameter count. M6 receives five basis inputs but its additional projection consumes the first two; M7 consumes all five; M8 adds a separate bias-free linear basis head. Counts come from the sanitized architecture qualification table. No panel represents an accuracy comparison, and no original fitted weight is shown.}{fig:architecture}
+\EvidenceFigure{figures/Fig3.pdf}{Original Gate7 architecture comparison. Panels summarize raw-feature feedforward widths (M0--M2), history encoding and pooling (M3--M4), horizon and schedule-basis additions (M5--M8), and recorded trainable parameter counts. Each family has two repeats with the same listed topology and count. M6 receives five basis values but projects only the first two; M7 projects all five; M8 adds a separate bias-free linear basis head. Counts are from the sanitized qualification record. The figure describes model structure, not predictive accuracy; fitted weights are not shown. Sources: S16 and the sanitized architecture table.}{fig:architecture}
 
 \subsection{Numerical qualification}
 
@@ -185,7 +191,7 @@ The original-source CPU comparison has a separate exact-array-equality requireme
 
 Fig.~\ref{fig:numerical} shows the 18 model-repeat routes. Receipt records show exact output equality with the original CPU source for all 18. Comparisons to saved CUDA arrays pass for M0--M3 and fail for both repeats of M4--M8. The maximum absolute discrepancy is retained by route in the supplement. Because the outputs have different physical units, a maximum across the two columns is descriptive of array discrepancy only and must not be compared as a physical effect size. The records do not identify the cause of the CUDA failures.
 
-\EvidenceFigure{figures/Fig4.pdf}{Numerical qualification for all 18 original model-repeat routes. The first column records exact equality with the original CPU-source outputs. The second column records the unchanged elementwise comparison with saved historical CUDA arrays. M0--M3 pass that comparison; M4--M8 fail for both repeats. The right-hand annotations retain recorded maximum absolute discrepancy and failing-element counts where available. Each route compares 512 rows by two outputs. The two outputs have different units, so route-level maximum discrepancies are not directly comparable. These are receipt-backed comparisons, not a fresh GPU replay or an accuracy evaluation. Source: sanitized \texttt{model\_identity\_sanitized.csv}.}{fig:numerical}
+\EvidenceFigure{figures/Fig4.pdf}{Numerical qualification for all 18 original model-repeat routes. Original-source CPU outputs are recorded as exactly equal for all routes. Saved historical CUDA-array comparisons pass for M0--M3 and fail for both repeats of M4--M8 under the unchanged elementwise tolerance. Maximum absolute differences and failing-element counts are shown where tabulated; a dash means a failure count was not tabulated. Each route compares 512 rows by two outputs. The outputs have different units, so maximum differences are not comparable across routes. These are receipt-backed comparisons, not a fresh GPU replay or an accuracy evaluation. Source: sanitized \texttt{model\_identity\_sanitized.csv}.}{fig:numerical}
 
 \subsection{Native CMJ measurement and assessment construction}
 
@@ -265,43 +271,44 @@ Nine neural model families and 18 repeats were represented in the architecture q
 
 \subsection{RQ2 — Numerical reproducibility}
 
-The privately recorded qualification reports exact original-source CPU output equality for all 18 model-repeat routes. Under the unchanged tolerance in Eq.~\ref{eq:cuda_tolerance}, all eight M0--M3 saved-CUDA comparisons pass, and all ten M4--M8 comparisons fail (Fig.~\ref{fig:numerical}). The two M8 routes have recorded maximum absolute discrepancies of 0.00022125244140625 and 0.00030422210693359375, with 98 and 145 failing elements out of 1,024, respectively. Across the failed families, recorded failure counts range from 88 to 443 elements per route. An external reader can inspect the public sanitized summary and arithmetic checks, but cannot independently rerun the original checkpoint inference from this package.
+\textbf{Exact original-source CPU equality is recorded for all 18/18 model-repeat routes. Under the unchanged tolerance, saved historical CUDA-array comparisons pass for 8/18 routes (M0--M3) and fail for 10/18 (both repeats of M4--M8; Fig.~\ref{fig:numerical}).} The two M8 routes have recorded maximum absolute discrepancies of \(2.21\times10^{-4}\) and \(3.04\times10^{-4}\), with 98 and 145 failing elements out of 1,024, respectively. Across the failed families, recorded failure counts range from 88 to 443 elements per route. An external reader can inspect the public sanitized summary and arithmetic checks, but cannot independently rerun the original checkpoint inference from this package.
 
 These findings qualify source-level CPU inference and identify a negative historical-runtime comparison. They do not establish a successful original GPU replay or determine whether precision mode, kernel behavior, or another runtime factor caused the discrepancies. The saved arrays' two output columns have different physical units; their pooled maximum absolute error is not a meaningful physical comparison across routes. No saved-array failure is hidden by changing the threshold.
 
-\ifdefined\ReviewEdition\else\clearpage\fi
+\FloatBarrier
 \subsection{RQ3 — Scientific comparability}
 
 The recorded six-cell results appear in Fig.~\ref{fig:performance}.
 
-\EvidenceFigure{figures/Fig7.pdf}{Existing public fixed-mode synthetic benchmark across all six outcome-horizon cells. Each panel shows the three caller-supplied roots as distinct points and the stored root mean as a horizontal mark for zero innovation, training mean, ridge, and the structured comparator. Rows are H24, H48, and H72; columns are the registered force-innovation cell and net-impulse innovation. The registered force key is \texttt{relative\_peak\_mean\_force\_innovation}; the source target field is \texttt{label.relative\_mean\_concentric\_force\_innovation}. Force targets are in \(\mathrm{N\,kg^{-1}}\) and impulse targets in \(\mathrm{m\,s^{-1}}\); the vertical axis is cellwise NRMSE (dimensionless). Each evaluation root contains 16 camps and 4,000 rows per cell. Roots share one generator and are not human cohorts. Sources: S01, S23, and \texttt{six\_cell\_results.csv}.}{fig:performance}
+\EvidenceFigure{figures/Fig7.pdf}{Existing public fixed-mode synthetic benchmark across six outcome-horizon cells. Each panel shows the three caller-supplied roots and stored root mean for zero innovation, training mean, ridge, and the structured comparator. Root symbols are jittered horizontally only to separate marks; they remain within their model group. Rows are H24, H48, and H72; columns are the registered force-innovation cell and net-impulse innovation. The force-cell key is \texttt{relative\_peak\_mean\_force\_innovation}, mapped to source field \texttt{label.relative\_mean\_concentric\_force\_innovation}. Force targets are in \(\mathrm{N\,kg^{-1}}\) and impulse targets in \(\mathrm{m\,s^{-1}}\); the vertical axis is cellwise NRMSE (dimensionless). Each evaluation root contains 16 camps and 4,000 rows per cell. The points and stored mean describe three fixed roots, not a confidence interval; all roots share one generator and are not human cohorts. Sources: S01, S23, and \texttt{six\_cell\_results.csv}.}{fig:performance}
 
 The four reference models compare force and impulse at H24, H48, and H72. The three roots share one generator; they are not human cohorts. This is evidence about the registered synthetic task, not an accuracy evaluation of the original Gate7 neural families or validation of their native H72/D7 athlete predictions.
 
 Table~\ref{tab:sixcell} reports the stored mean and root sample standard deviation for each outcome-horizon cell. These values preserve the recorded cell aggregates; no prediction or model score was recomputed for this article.
 
-\begin{table}[H]
+\begin{table}[!htbp]
 \centering
-\caption{Six-cell public synthetic benchmark NRMSE. Each entry is the stored mean across three same-generator evaluation roots \(\pm\) the sample standard deviation across those roots. NRMSE is dimensionless because each outcome-horizon RMSE is divided by that cell's population standard deviation before averaging. Force targets are in \(\mathrm{N\,kg^{-1}}\) and impulse targets in \(\mathrm{m\,s^{-1}}\); they are reported in separate rows and never pooled in physical units. The registered force-cell key and source target-field mapping are specified in Methods.}
+\caption{Six-cell public synthetic benchmark NRMSE. Each entry is the stored mean across three same-generator evaluation roots \(\pm\) the sample standard deviation across those roots, rounded to four decimal places. Full stored values are retained in \texttt{six\_cell\_results.csv}. NRMSE is dimensionless because each outcome-horizon RMSE is divided by that cell's population standard deviation before averaging. Force targets are in \(\mathrm{N\,kg^{-1}}\) and impulse targets in \(\mathrm{m\,s^{-1}}\); they are reported in separate rows and never pooled in physical units. The registered force-cell key and source target-field mapping are specified in Methods.}
 \label{tab:sixcell}
 \small
+\setlength{\tabcolsep}{7pt}
 \begin{tabularx}{\textwidth}{l*{4}{>{\centering\arraybackslash}X}}
 \toprule
 Cell & Zero innovation & Training mean & Ridge & Structured \\
 \midrule
-H24 force (N/kg) & 3.033549 \(\pm\) 0.022028 & 1.047654 \(\pm\) 0.007012 & 0.624408 \(\pm\) 0.010083 & 0.657535 \(\pm\) 0.011367 \\
-H24 impulse (m/s) & 2.761756 \(\pm\) 0.005423 & 1.045106 \(\pm\) 0.008512 & 0.652157 \(\pm\) 0.001653 & 0.695989 \(\pm\) 0.002060 \\
-H48 force (N/kg) & 2.542034 \(\pm\) 0.013923 & 1.039457 \(\pm\) 0.009538 & 0.731926 \(\pm\) 0.009639 & 0.761028 \(\pm\) 0.012792 \\
-H48 impulse (m/s) & 2.264354 \(\pm\) 0.036904 & 1.031754 \(\pm\) 0.008024 & 0.759827 \(\pm\) 0.006955 & 0.804603 \(\pm\) 0.007666 \\
-H72 force (N/kg) & 2.109029 \(\pm\) 0.007187 & 1.027428 \(\pm\) 0.006876 & 0.815702 \(\pm\) 0.005686 & 0.842869 \(\pm\) 0.007459 \\
-H72 impulse (m/s) & 1.873230 \(\pm\) 0.025535 & 1.024831 \(\pm\) 0.005159 & 0.833602 \(\pm\) 0.003686 & 0.877870 \(\pm\) 0.001856 \\
+H24 force (N/kg) & 3.0335 \(\pm\) 0.0220 & 1.0477 \(\pm\) 0.0070 & 0.6244 \(\pm\) 0.0101 & 0.6575 \(\pm\) 0.0114 \\
+H24 impulse (m/s) & 2.7618 \(\pm\) 0.0054 & 1.0451 \(\pm\) 0.0085 & 0.6522 \(\pm\) 0.0017 & 0.6960 \(\pm\) 0.0021 \\
+H48 force (N/kg) & 2.5420 \(\pm\) 0.0139 & 1.0395 \(\pm\) 0.0095 & 0.7319 \(\pm\) 0.0096 & 0.7610 \(\pm\) 0.0128 \\
+H48 impulse (m/s) & 2.2644 \(\pm\) 0.0369 & 1.0318 \(\pm\) 0.0080 & 0.7598 \(\pm\) 0.0070 & 0.8046 \(\pm\) 0.0077 \\
+H72 force (N/kg) & 2.1090 \(\pm\) 0.0072 & 1.0274 \(\pm\) 0.0069 & 0.8157 \(\pm\) 0.0057 & 0.8429 \(\pm\) 0.0075 \\
+H72 impulse (m/s) & 1.8732 \(\pm\) 0.0255 & 1.0248 \(\pm\) 0.0052 & 0.8336 \(\pm\) 0.0037 & 0.8779 \(\pm\) 0.0019 \\
 \bottomrule
 \end{tabularx}
 \end{table}
 
 The stored six-cell mean scores were 0.736270 for ridge, 0.773316 for the structured comparator, 1.036038 for the training-mean baseline, and 2.430659 for zero innovation. Root sample standard deviations were 0.003349, 0.005490, 0.007308, and 0.008127, respectively (Table~\ref{tab:overall}). Ridge had the lowest descriptive mean error in this generator. No inferential contrast between ridge and structured was recorded; this ranking is descriptive.
 
-\begin{table}[H]
+\begin{table}[!htbp]
 \centering
 \caption{Overall public synthetic benchmark score. Values are the stored mean six-cell NRMSE across three evaluation roots and the sample standard deviation (SD) of those three root scores. This is descriptive root variation, not a confidence interval.}
 \label{tab:overall}
@@ -322,22 +329,23 @@ Structured & 0.773316 & 0.005490 & Fixed 24 h/84 h modes with observed covariate
 
 All six stored within-root model-versus-zero percentile intervals for ridge and structured have negative paired model-minus-zero endpoints. They support a reduction in NRMSE relative to the zero baseline within the corresponding synthetic root under the recorded camp-resampling scheme (Fig.~\ref{fig:uncertainty}). They do not support an uncertainty interval for ridge versus structured or for a new root drawn from a different generator.
 
-\EvidenceFigure{figures/Fig8.pdf}{Recorded camp-bootstrap uncertainty for ridge and structured models within each of three synthetic evaluation roots. Panel A shows stored 95\% percentile intervals for each model's mean six-cell normalized root-mean-square error (NRMSE). Panel B shows stored paired intervals for model-minus-zero-innovation NRMSE; values below zero favor the named model over zero innovation. Each root contributes 16 camps, with all 250 episodes and three horizon queries per selected camp retained together in 5,000 resamples. These intervals are conditional on a root and are not intervals across roots. No ridge-versus-structured confidence interval was recorded. Source: \texttt{recorded\_uncertainty.csv}.}{fig:uncertainty}
+\EvidenceFigure{figures/Fig8.pdf}{Recorded camp-bootstrap uncertainty for ridge and structured models within each of three synthetic evaluation roots. Panel A shows stored 95\% percentile intervals for each model's mean six-cell normalized root-mean-square error (NRMSE). Panel B shows stored paired intervals for model-minus-zero-innovation NRMSE; values below zero favor the named model over zero innovation. Each root contributes 16 camps, with all 250 episodes and three horizon queries per selected camp retained together in 5,000 paired resamples using PCG64 seed 49,505,000. These intervals are conditional on a root and are not intervals across roots. No ridge-versus-structured confidence interval was recorded. Source: \texttt{recorded\_uncertainty.csv}.}{fig:uncertainty}
 
 \subsection{Ablations and sample efficiency}
 
 The recorded ridge ablation scores were 0.819681 without prior history, 0.867735 without current exposure, and 0.736346 without participant context, compared with 0.736270 for full ridge. Omitting context changes the mean by approximately 0.000076. The separately specified structured model without history scores 0.820342. With 24, 48, and 96 training camps, nested ridge scores were 0.736889, 0.736602, and 0.736270; the structured-model scores were 0.773624, 0.773621, and 0.773316 (Fig.~\ref{fig:ablation}). These generator-conditional diagnostics do not identify causal feature importance or human sample efficiency.
 
-\EvidenceFigure{figures/Fig9.pdf}{Recorded ablation and nested-camp comparisons. Panel A shows the three evaluation-root values and root mean for full ridge and the ridge variants without prior history, current exposure, or participant context. Structured-without-history is shown as a separate comparator diagnostic. Panel B shows root-specific scores for ridge and structured models trained on nested subsets of 24, 48, or 96 camps; the alpha selected on the full training/development data was held fixed. All values are dimensionless six-cell NRMSE within the same synthetic generator. These comparisons do not isolate causal feature effects or estimate athlete-level sample efficiency. Source: S01.}{fig:ablation}
+\EvidenceFigure{figures/Fig9.pdf}{Recorded ablation and nested-camp comparisons. Panel A shows the three evaluation-root values and root mean for full ridge and the ridge variants without prior history, current exposure, or participant context. Structured-without-history is shown as a separate comparator diagnostic. Panel B shows root-specific scores for ridge and structured models trained on nested subsets of 24, 48, or 96 camps; the alpha selected on the full training/development data was held fixed. All values are dimensionless six-cell NRMSE within the same synthetic generator. No confidence intervals are shown; these comparisons do not isolate causal feature effects or estimate athlete-level sample efficiency. Source: S01.}{fig:ablation}
 
 \subsection{Historical reproduction limits}
 
 The public reproduction record remains partial for the historical program. In the rich-history reconstruction, the clean-room training materialization has 15,134 horizon rows versus 15,182 in the historical record. The validation materialization has 3,799 versus 3,795. These are documented differences in horizon membership; they are not a newly discovered response effect. Matching counts in other formulations would not prove historical split identity.
 
-Fig.~\ref{fig:scope} distinguishes the results that can be regenerated from public receipts, the private route qualification that cannot be rerun from distributed weights, the failed saved-CUDA comparisons, and scientific claims that remain unestablished. The M0--M8 qualification is not an empirical athlete performance result.
+Fig.~\ref{fig:scope} quantifies these sample-membership differences as clean-room minus historical row counts. The M0--M8 qualification is not an empirical athlete performance result.
 
-\EvidenceFigure[0.82\linewidth]{figures/Fig10.pdf}{Scope of the recovered evidence. Publicly reproducible items include release-linked software records, synthetic reference results, and figure regeneration from their public summaries. Original checkpoint and fitted-preprocessing qualification is represented by a sanitized, privately checked record; the underlying artifacts are not distributed. The saved-CUDA comparison fails for M4--M8, and historical reproduction is partial, including rich-history row-count differences. Athlete-level predictive validity, out-of-distribution transportability, clinical utility, and production readiness are unestablished. The diagram is categorical and is not a predictive or readiness score. Sources: S04, sanitized route records, and the research-integrity ledger.}{fig:scope}
+\EvidenceFigure{figures/Fig10.pdf}{The figure compares public clean-room and historical rich-history materializations by training and validation split. The horizontal axis gives the clean-room minus historical horizon-row count. Training contains 15,134 clean-room rows and 15,182 historical rows, a difference of −48. Validation contains 3,799 clean-room rows and 3,795 historical rows, a difference of +4. These counts describe membership differences in the preserved splits. They are not response effects or uncertainty intervals. Sources: S03 and S04.}{fig:scope}
 
+\FloatBarrier
 \section{Discussion}
 
 This reconstruction illustrates why reproducibility should be reported as a set of qualified operations rather than one binary label. The recorded source-CPU results agree exactly across all 18 neural model routes, yet ten comparisons with saved historical CUDA arrays fail the original tolerance. A single “reproduced” label would obscure that distinction. The evidence supports recovered-source inference under the recorded CPU comparison and a negative historical-runtime comparison; it does not show a successful replay of the original graphics-processor execution.

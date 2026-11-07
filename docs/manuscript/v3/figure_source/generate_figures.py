@@ -14,7 +14,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 from PIL import Image
 from matplotlib.lines import Line2D
-from matplotlib.patches import FancyArrowPatch, FancyBboxPatch, Rectangle
+from matplotlib.patches import FancyArrowPatch, FancyBboxPatch
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -53,7 +53,8 @@ ROOT_ORDER = ["A", "B", "C"]
 
 plt.rcParams.update(
     {
-        "font.family": "DejaVu Sans",
+        "font.family": "STIXGeneral",
+        "mathtext.fontset": "stix",
         "font.size": 8.5,
         "axes.labelsize": 8.5,
         "axes.titlesize": 9,
@@ -86,33 +87,6 @@ def read_json(path: Path):
 def read_csv(path: Path):
     with path.open(newline="", encoding="utf-8") as handle:
         return list(csv.DictReader(handle))
-
-
-def box(ax, x, y, width, height, text, *, face="white", edge=BLUE, fontsize=8, lw=0.9):
-    patch = FancyBboxPatch(
-        (x, y),
-        width,
-        height,
-        boxstyle="round,pad=0.012,rounding_size=0.018",
-        facecolor=face,
-        edgecolor=edge,
-        linewidth=lw,
-        transform=ax.transAxes,
-        zorder=3,
-    )
-    ax.add_patch(patch)
-    ax.text(
-        x + width / 2,
-        y + height / 2,
-        text,
-        ha="center",
-        va="center",
-        fontsize=fontsize,
-        color=INK,
-        transform=ax.transAxes,
-        zorder=4,
-        linespacing=1.15,
-    )
 
 
 def arrow(ax, start, end, *, color=INK, lw=0.9, connection="arc3"):
@@ -158,6 +132,8 @@ def save_figure(fig, stem: str):
         pad_inches=0.06,
         metadata={"Creator": "CMJRecoveryDynamicsBench V3 figure script", "Date": None},
     )
+    # Matplotlib uses trailing spaces for SVG path line continuation; they are unnecessary in XML.
+    svg.write_text("\n".join(line.rstrip() for line in svg.read_text(encoding="utf-8").splitlines()) + "\n", encoding="utf-8")
     fig.savefig(
         png,
         format="png",
@@ -316,7 +292,7 @@ def plot_genealogy(lineage, formulation_methods):
             status.replace("_", " ").lower(),
             ha="center",
             va="center",
-            fontsize=6.3,
+            fontsize=6.8,
             color=color,
             transform=ax.transAxes,
             zorder=5,
@@ -327,7 +303,7 @@ def plot_genealogy(lineage, formulation_methods):
             f"{short_world}\n{horizon}",
             ha="center",
             va="center",
-            fontsize=5.7,
+            fontsize=6.5,
             color=INK,
             transform=ax.transAxes,
             zorder=5,
@@ -346,174 +322,88 @@ def plot_genealogy(lineage, formulation_methods):
     save_figure(fig, "figure01_formulation_genealogy")
 
 
-def plot_workflow():
-    fig, ax = plt.subplots(figsize=(6.3, 5.2))
+def plot_sample_design(study_results):
+    data = study_results["data"]
+    training, development = data["training"], data["development"]
+    root_data = study_results["independent_test_roots"][0]["data"]
+    fig, ax = plt.subplots(figsize=(6.3, 2.8))
     ax.set_axis_off()
     ax.set_xlim(0, 1)
     ax.set_ylim(0, 1)
-    ax.text(
-        0.5,
-        0.98,
-        "Computational reproducibility and scientific validity are separate",
-        ha="center",
-        va="top",
-        fontsize=9.2,
-        fontweight="bold",
-        transform=ax.transAxes,
-    )
-    top_steps = [
-        ("1  Preserve", "source, configs,\noutputs"),
-        ("2  Authenticate", "identities, rights,\nrepeat selection"),
-        ("3  Restore", "fitted transforms,\ninput row contract"),
-        ("4  Compare", "original-source\nCPU arrays"),
-        ("5  Compare", "saved historical\nCUDA arrays"),
-        ("6  Qualify", "record result and\nits limits"),
+    columns = [0.04, 0.46, 0.64, 0.82]
+    ax.text(columns[0], 0.87, "Split", fontweight="bold", fontsize=8.6, va="center")
+    for x, label in zip(columns[1:], ["Camps", "Episodes", "Horizon rows"], strict=True):
+        ax.text(x, 0.87, label, fontweight="bold", fontsize=8.6, ha="center", va="center")
+    rows = [
+        ("Training", training),
+        ("Development", development),
+        ("Evaluation root*", root_data),
     ]
-    coords = [
-        (0.04, 0.71),
-        (0.355, 0.71),
-        (0.67, 0.71),
-        (0.67, 0.47),
-        (0.355, 0.47),
-        (0.04, 0.47),
-    ]
-    w, h = 0.27, 0.16
-    for idx, ((title, body), (x, y)) in enumerate(zip(top_steps, coords, strict=True)):
-        edge = VERMILION if idx == 4 else BLUE
-        face = PALE_RED if idx == 4 else PALE_BLUE
-        box(
-            ax,
-            x,
-            y,
-            w,
-            h,
-            f"{title}\n{body}",
-            face=face,
-            edge=edge,
-            fontsize=7.0,
-        )
-    # Snake the numbered process from the first row into the second.
-    arrow(ax, (0.325, 0.79), (0.355, 0.79))
-    arrow(ax, (0.64, 0.79), (0.67, 0.79))
-    arrow(ax, (0.81, 0.70), (0.81, 0.64), connection="arc3,rad=0")
-    arrow(ax, (0.67, 0.55), (0.64, 0.55))
-    arrow(ax, (0.355, 0.55), (0.325, 0.55))
+    for idx, (label, split) in enumerate(rows):
+        y = 0.65 - idx * 0.19
+        ax.plot([0.03, 0.97], [y + 0.075, y + 0.075], color="#c9cdd1", lw=0.55)
+        ax.text(columns[0], y, label, fontsize=8.4, va="center")
+        values = [split["camps"], split["episodes"], split["rows"]]
+        for x, value in zip(columns[1:], values, strict=True):
+            ax.text(x, y, f"{value:,}", fontsize=8.4, ha="center", va="center")
+    ax.plot([0.03, 0.97], [0.075, 0.075], color=INK, lw=0.8)
     ax.text(
-        0.5,
-        0.38,
-        "Scientific validity requires evidence beyond a successful computation",
-        ha="center",
-        va="center",
-        fontsize=7.8,
-        fontweight="bold",
-        color=INK,
-        transform=ax.transAxes,
-    )
-    validity = [
-        ("Native mechanics", "contract defined", PALE_BLUE, BLUE),
-        ("Synthetic study", "public; one generator", PALE_GOLD, GOLD),
-        ("Athlete validity", "not established", PALE_RED, VERMILION),
-    ]
-    xs = [0.055, 0.365, 0.675]
-    for (title, body, face, edge), x in zip(validity, xs, strict=True):
-        box(ax, x, 0.13, 0.27, 0.18, f"{title}\n{body}", face=face, edge=edge, fontsize=7.0)
-    ax.text(
-        0.5,
-        0.045,
-        "The diagram reports evidence boundaries, not a model-readiness score.",
-        ha="center",
-        va="center",
-        fontsize=7.1,
+        0.04,
+        0.005,
+        "*Three caller-supplied roots (A–C), each from the same generator. Each episode contributes H24, H48, and H72 queries kept together.",
+        fontsize=7.4,
         color=MID,
-        transform=ax.transAxes,
+        va="bottom",
     )
-    fig.subplots_adjust(left=0.02, right=0.98, top=0.98, bottom=0.025)
-    save_figure(fig, "figure02_reconstruction_workflow")
-
-
-def add_mlp(ax, x, y, label, layers, count):
-    ax.text(0.015, y + 0.045, label, ha="left", va="center", fontweight="bold", fontsize=7.1, transform=ax.transAxes)
-    start = 0.18
-    box_w, box_h, gap = 0.115, 0.078, 0.030
-    nodes = [("raw\n39", PALE_BLUE, BLUE)]
-    nodes += [(f"{layer}\nGELU", "white", BLUE) for layer in layers[:-1]]
-    nodes += [(f"{layers[-1]}\noutputs", PALE_TEAL, TEAL)]
-    for i, (text, face, edge) in enumerate(nodes):
-        x = start + i * (box_w + gap)
-        box(ax, x, y, box_w, box_h, text, face=face, edge=edge, fontsize=6.5)
-        if i:
-            arrow(ax, (x - gap, y + box_h / 2), (x - 0.005, y + box_h / 2), lw=0.7)
-    ax.text(0.92, y + 0.04, f"{count:,}", ha="right", va="center", fontsize=7.0, fontweight="bold", transform=ax.transAxes)
+    fig.subplots_adjust(left=0.01, right=0.99, top=0.99, bottom=0.02)
+    save_figure(fig, "figure02_synthetic_sample_structure")
 
 
 def plot_architecture(architectures):
-    fig = plt.figure(figsize=(6.3, 8.0))
-    gs = fig.add_gridspec(4, 1, height_ratios=[1.1, 1.5, 1.55, 2.05], hspace=0.30)
+    fig = plt.figure(figsize=(6.3, 5.8))
+    gs = fig.add_gridspec(4, 1, height_ratios=[0.75, 1.0, 1.05, 2.15], hspace=0.20)
+    model_params = {r["model"]: int(r["parameters"]) for r in architectures}
 
     ax1 = fig.add_subplot(gs[0])
     ax1.set_axis_off()
     ax1.set_xlim(0, 1)
     ax1.set_ylim(0, 1)
-    ax1.text(0.01, 0.98, "A  Raw-feature feedforward backbones", fontsize=8.2, fontweight="bold", va="top")
-    ax1.text(0.90, 0.98, "parameters", fontsize=6.5, ha="right", va="top", color=MID)
-    model_params = {r["model"]: int(r["parameters"]) for r in architectures}
-    add_mlp(ax1, 0.0, 0.65, "M0", ["32", "2"], model_params["M0"])
-    add_mlp(ax1, 0.0, 0.39, "M1", ["64", "2"], model_params["M1"])
-    add_mlp(ax1, 0.0, 0.13, "M2", ["64", "64", "2"], model_params["M2"])
+    ax1.text(0.01, 0.95, "A  Raw-feature feedforward backbones", fontsize=8.2, fontweight="bold", va="top")
+    for y, model, layers in [(0.63, "M0", "39 → 32 → 2"), (0.40, "M1", "39 → 64 → 2"), (0.17, "M2", "39 → 64 → 64 → 2")]:
+        ax1.text(0.04, y, model, fontweight="bold", fontsize=7.8, va="center")
+        ax1.text(0.20, y, layers + "  (exact GELU hidden layers)", fontsize=7.8, va="center")
+        ax1.text(0.96, y, f"{model_params[model]:,} parameters", fontsize=7.5, ha="right", va="center")
 
     ax2 = fig.add_subplot(gs[1])
     ax2.set_axis_off()
     ax2.set_xlim(0, 1)
     ax2.set_ylim(0, 1)
-    ax2.text(0.01, 0.98, "B  History encoding changes", fontsize=8.2, fontweight="bold", va="top")
-    for row_y, model, encoder in [(0.64, "M3", "pointwise\nencoder"), (0.22, "M4", "4 → 32\nGRU")]:
-        ax2.text(0.012, row_y + 0.02, model, fontsize=7.1, fontweight="bold", va="center")
-        box(ax2, 0.10, row_y + 0.11, 0.13, 0.15, "raw\n39", face=PALE_BLUE, fontsize=6.4)
-        box(ax2, 0.28, row_y + 0.11, 0.16, 0.15, "raw\nbackbone", face=PALE_BLUE, edge=BLUE, fontsize=6.1)
-        box(ax2, 0.10, row_y - 0.16, 0.13, 0.15, "history\n4 × 4", face=PALE_TEAL, edge=TEAL, fontsize=6.4)
-        box(ax2, 0.28, row_y - 0.16, 0.16, 0.15, encoder, face=PALE_TEAL, edge=TEAL, fontsize=6.1)
-        box(ax2, 0.47, row_y - 0.16, 0.17, 0.15, "mean + latest\npooling", face=PALE_GOLD, edge=GOLD, fontsize=5.9)
-        box(ax2, 0.68, row_y - 0.035, 0.12, 0.15, "concat", face=PALE_GRAY, edge=MID, fontsize=6.1)
-        box(ax2, 0.84, row_y - 0.035, 0.13, 0.15, "head\n128 → 2", face="white", edge=BLUE, fontsize=6.0)
-        arrow(ax2, (0.23, row_y + 0.185), (0.28, row_y + 0.185), lw=0.65)
-        arrow(ax2, (0.44, row_y + 0.185), (0.68, row_y + 0.07), lw=0.65)
-        arrow(ax2, (0.23, row_y - 0.085), (0.28, row_y - 0.085), lw=0.65)
-        arrow(ax2, (0.44, row_y - 0.085), (0.47, row_y - 0.085), lw=0.65)
-        arrow(ax2, (0.64, row_y - 0.085), (0.68, row_y + 0.015), lw=0.65)
-        arrow(ax2, (0.80, row_y + 0.04), (0.84, row_y + 0.04), lw=0.65)
+    ax2.text(0.01, 0.98, "B  History encoding", fontsize=8.2, fontweight="bold", va="top")
+    ax2.text(0.04, 0.67, "Family", fontsize=7.3, fontweight="bold")
+    ax2.text(0.22, 0.67, "History branch (four records × four values)", fontsize=7.3, fontweight="bold")
+    ax2.text(0.63, 0.67, "Pooling and output", fontsize=7.3, fontweight="bold")
+    for y, model, encoder in [(0.43, "M3", "pointwise encoder"), (0.18, "M4", "gated recurrent unit, 4 → 32")]:
+        ax2.text(0.04, y, model, fontweight="bold", fontsize=7.8, va="center")
+        ax2.text(0.22, y, encoder, fontsize=7.6, va="center")
+        ax2.text(0.63, y, "mean/latest pool + raw branch → 128 → 2 head", fontsize=7.1, va="center")
+    ax2.plot([0.03, 0.97], [0.57, 0.57], color="#c9cdd1", lw=0.55)
+    ax2.plot([0.03, 0.97], [0.055, 0.055], color="#c9cdd1", lw=0.55)
 
     ax3 = fig.add_subplot(gs[2])
     ax3.set_axis_off()
     ax3.set_xlim(0, 1)
     ax3.set_ylim(0, 1)
-    ax3.text(0.01, 0.98, "C  Horizon and schedule-basis conditioning", fontsize=8.2, fontweight="bold", va="top")
-    cards = [
-        ("M5", "M4 representation", "horizon identity: 2 × 8", "joint head 136 → 2"),
-        ("M6", "M5 representation", "first 2 of 5 basis → 16", "joint head 152 → 2"),
-        ("M7", "M5 representation", "all 5 basis values → 16", "joint head 152 → 2"),
-        ("M8", "M7 residual output", "bias-free basis head 5 → 2", "additive output: 2"),
+    ax3.text(0.01, 0.98, "C  Horizon and schedule-basis additions", fontsize=8.2, fontweight="bold", va="top")
+    additions = [
+        ("M5", "M4 + two-entry, eight-dimensional horizon embedding"),
+        ("M6", "M5 + first two of five basis values projected to 16"),
+        ("M7", "M5 + all five basis values projected to 16"),
+        ("M8", "M7 + bias-free linear basis head (5 → 2), added to output"),
     ]
-    card_xy = [(0.02, 0.52), (0.51, 0.52), (0.02, 0.08), (0.51, 0.08)]
-    for (model, base, branch, head), (x, y) in zip(cards, card_xy, strict=True):
-        width, height = 0.46, 0.34
-        face = PALE_RED if model == "M8" else "white"
-        edge = VERMILION if model == "M8" else BLUE
-        ax3.add_patch(
-            FancyBboxPatch(
-                (x, y),
-                width,
-                height,
-                boxstyle="round,pad=0.012,rounding_size=0.018",
-                facecolor=face,
-                edgecolor=edge,
-                linewidth=0.8,
-                transform=ax3.transAxes,
-            )
-        )
-        ax3.text(x + 0.03, y + height * 0.75, model, fontweight="bold", fontsize=7.4, transform=ax3.transAxes)
-        ax3.text(x + 0.11, y + height * 0.75, base, fontsize=6.3, transform=ax3.transAxes)
-        ax3.text(x + 0.07, y + height * 0.45, branch, fontsize=6.3, color=TEAL, transform=ax3.transAxes)
-        ax3.text(x + 0.07, y + height * 0.18, head, fontsize=6.3, transform=ax3.transAxes)
+    for idx, (model, description) in enumerate(additions):
+        y = 0.73 - idx * 0.19
+        ax3.text(0.04, y, model, fontweight="bold", fontsize=7.7, va="center")
+        ax3.text(0.20, y, description, fontsize=7.5, va="center")
 
     ax4 = fig.add_subplot(gs[3])
     ax4.set_title("D  Recorded trainable parameter counts", loc="left", fontsize=8.2, fontweight="bold", pad=3)
@@ -524,54 +414,52 @@ def plot_architecture(architectures):
     ax4.barh(y, values, color=colors, edgecolor="white", linewidth=0.5, height=0.62)
     ax4.set_yticks(y, [f"{m}  (r0, r1)" for m in family_order])
     ax4.invert_yaxis()
-    ax4.set_xlim(0, 12000)
+    ax4.set_xlim(0, 11800)
     ax4.set_xlabel("Trainable parameters")
     ax4.grid(axis="x", zorder=0)
     ax4.set_axisbelow(True)
     for yi, value in zip(y, values, strict=True):
-        ax4.text(value + 150, yi, f"{value:,}", va="center", fontsize=6.4)
+        ax4.text(value + 110, yi, f"{value:,}", va="center", fontsize=7.0)
     fig.subplots_adjust(left=0.08, right=0.98, top=0.985, bottom=0.06)
     save_figure(fig, "figure03_architecture_comparison")
 
 
 def plot_numerical(routes):
-    fig, ax = plt.subplots(figsize=(6.3, 6.1))
+    fig, ax = plt.subplots(figsize=(6.3, 5.35))
     ax.set_xlim(-0.10, 1.0)
-    ax.set_ylim(-1.5, len(routes) + 0.2)
+    ax.set_ylim(-2.65, len(routes) + 1.0)
     ax.invert_yaxis()
     ax.axis("off")
-    ax.text(0.14, -1.0, "Exact original-source CPU", ha="center", fontsize=7.3, fontweight="bold")
-    ax.text(0.41, -1.0, "Saved historical CUDA", ha="center", fontsize=7.3, fontweight="bold")
-    ax.text(0.66, -1.0, "Max |difference|", ha="center", fontsize=7.1, fontweight="bold")
-    ax.text(0.91, -1.0, "Failing / 1,024", ha="center", fontsize=7.1, fontweight="bold")
-    ax.text(0.66, -0.62, "(mixed output units)", ha="center", fontsize=6.4, color=MID)
-    ax.text(0.91, -0.62, "(recorded)", ha="center", fontsize=6.4, color=MID)
+    cuda_pass = sum(route["saved_cuda"].lower() == "pass" for route in routes)
+    ax.text(0.015, -2.34, f"CPU source: {len(routes)}/{len(routes)} exact   |   Saved CUDA arrays: {cuda_pass}/{len(routes)} pass, {len(routes) - cuda_pass} fail", fontsize=8.1, fontweight="bold", va="center")
+    ax.text(0.18, -1.37, "Original-source\nCPU", ha="center", va="center", fontsize=7.4, fontweight="bold")
+    ax.text(0.40, -1.37, "Saved historical\nCUDA", ha="center", va="center", fontsize=7.4, fontweight="bold")
+    ax.text(0.68, -1.37, "Max |difference|\n(mixed output units)", ha="center", va="center", fontsize=7.2, fontweight="bold")
+    ax.text(0.93, -1.37, "Failing elements\n(of 1,024)", ha="center", va="center", fontsize=7.2, fontweight="bold")
 
     for i, route in enumerate(routes):
         y = i
         model, repeat = route["route"].split("-")
         if repeat == "r0":
             ax.plot([0.0, 0.98], [y - 0.42, y - 0.42], color="#d6dbe0", lw=0.45, zorder=0)
-        ax.text(0.015, y, f"{model}-{repeat}", ha="left", va="center", fontsize=7.1, fontweight="bold" if repeat == "r0" else "normal")
-        ax.text(0.14, y, "PASS", ha="center", va="center", fontsize=7.1, fontweight="bold", color=INK)
+        ax.text(0.015, y, f"{model}-{repeat}", ha="left", va="center", fontsize=7.5, fontweight="bold" if repeat == "r0" else "normal")
+        ax.text(0.18, y, "Exact", ha="center", va="center", fontsize=7.4, fontweight="bold", color=INK)
         cuda = route["saved_cuda"].upper()
         pass_cuda = cuda == "PASS"
         color = INK if pass_cuda else VERMILION
-        marker = "✓" if pass_cuda else "×"
-        ax.text(0.355, y, marker, ha="center", va="center", fontsize=12, fontweight="bold", color=color)
-        ax.text(0.435, y, "PASS" if pass_cuda else "FAIL", ha="left", va="center", fontsize=7.1, fontweight="bold", color=color)
+        ax.text(0.40, y, "Pass" if pass_cuda else "Fail", ha="center", va="center", fontsize=7.4, fontweight="bold", color=color)
         error = float(route["max_absolute_error"])
-        ax.text(0.66, y, f"{error:.3e}", ha="center", va="center", fontsize=6.8)
+        ax.text(0.68, y, f"{error:.3e}", ha="center", va="center", fontsize=7.2)
         fail = route["failing_elements"]
-        ax.text(0.91, y, fail if fail != "not tabulated" else "—", ha="center", va="center", fontsize=6.8)
+        ax.text(0.93, y, fail if fail != "not tabulated" else "—", ha="center", va="center", fontsize=7.2)
 
     ax.text(
         0.015,
-        len(routes) + 0.02,
-        "Saved-array rule: |a − b| ≤ 10⁻⁵ + 10⁻⁴ |b|. PASS/FAIL records are receipt-backed; no GPU replay is implied.",
+        len(routes) + 0.42,
+        r"Saved-array rule: $|a-b|\leq10^{-5}+10^{-4}|b|$. A dash marks a failure count not tabulated in the receipt.",
         ha="left",
         va="top",
-        fontsize=6.7,
+        fontsize=7.0,
         color=MID,
     )
     fig.subplots_adjust(left=0.015, right=0.985, top=0.96, bottom=0.06)
@@ -592,10 +480,10 @@ def plot_chronology():
     # Native baseline search window; no event times are fabricated.
     ax.barh(2.0, 216, left=-240, height=0.32, color=PALE_BLUE, edgecolor=BLUE, linewidth=0.9, hatch="///")
     ax.text(-132, 2.0, "Pre-origin baseline search: −240 to −24 h\nselect the two latest qualifying assessments",
-            ha="center", va="center", fontsize=7.0, color=INK)
+            ha="center", va="center", fontsize=7.4, color=INK)
     ax.axvline(0, color=VERMILION, lw=1.2, ls="--", zorder=3)
     ax.scatter([0], [2.0], marker="D", s=40, color=VERMILION, edgecolor="white", zorder=4)
-    ax.text(0, 2.32, "Index exposure", ha="center", va="bottom", fontsize=7.0, color=VERMILION)
+    ax.text(0, 2.32, "Index exposure", ha="center", va="bottom", fontsize=7.4, color=VERMILION)
     ax.barh(1.58, 12, left=66, height=0.24, color=PALE_TEAL, edgecolor=TEAL, linewidth=0.9)
     ax.annotate(
         "H72 window\n66–78 h",
@@ -604,7 +492,7 @@ def plot_chronology():
         textcoords="data",
         ha="left",
         va="center",
-        fontsize=6.4,
+        fontsize=7.0,
         color=TEAL,
         arrowprops={"arrowstyle": "-", "color": TEAL, "lw": 0.65},
     )
@@ -616,17 +504,17 @@ def plot_chronology():
         textcoords="data",
         ha="left",
         va="center",
-        fontsize=6.4,
+        fontsize=7.0,
         color=GOLD,
         arrowprops={"arrowstyle": "-", "color": GOLD, "lw": 0.65},
     )
-    ax.text(-250, 2.40, "3 valid trials per assessment", ha="left", va="center", fontsize=6.8,
+    ax.text(-250, 2.40, "3 valid trials per assessment", ha="left", va="center", fontsize=7.2,
             bbox={"boxstyle": "round,pad=0.25", "fc": "white", "ec": "#b4bdc4", "lw": 0.6})
 
     ax.axhline(1.12, color="#b5bcc2", lw=0.6)
     ax.scatter([24, 48, 72], [0.68, 0.68, 0.68], marker="o", s=37, color=BLUE, edgecolor="white", zorder=4)
     for x, label in [(24, "H24"), (48, "H48"), (72, "H72")]:
-        ax.text(x, 0.38, label, ha="center", va="top", fontsize=7.0, color=BLUE, fontweight="bold")
+        ax.text(x, 0.38, label, ha="center", va="top", fontsize=7.4, color=BLUE, fontweight="bold")
     ax.set_yticklabels(["Native measurement", "Public synthetic queries"])
     fig.subplots_adjust(left=0.19, right=0.98, top=0.91, bottom=0.16)
     save_figure(fig, "figure05_horizon_chronology")
@@ -657,18 +545,12 @@ def plot_mechanics():
                 arrowprops={"arrowstyle": "->", "color": TEAL, "lw": 0.8}, fontsize=7.1, color=TEAL)
     ax.annotate("Takeoff", (duration, forces[-1]), xytext=(0.43, 330), textcoords="data",
                 arrowprops={"arrowstyle": "->", "color": VERMILION, "lw": 0.8}, fontsize=7.1, color=VERMILION)
-    ax.text(0.32, 1250, r"Gross mean force: $\int F_z\,dt/(mT)$  [N/kg]", fontsize=7.3, color=INK,
-            bbox={"boxstyle": "round,pad=0.25", "fc": "white", "ec": "#b4bdc4", "lw": 0.6})
-    ax.text(0.32, 1030, r"Net impulse: $\int(F_z-mg)\,dt/m$  [m/s]", fontsize=7.3, color=INK,
-            bbox={"boxstyle": "round,pad=0.25", "fc": "white", "ec": "#b4bdc4", "lw": 0.6})
     ax.set_xlim(-0.02, 0.59)
     ax.set_ylim(0, 1850)
     ax.set_xlabel("Time, t (s)")
     ax.set_ylabel(r"Vertical force, $F_z$ (N)")
     ax.grid(alpha=0.20)
-    ax.legend(loc="upper right", frameon=False, ncol=2, fontsize=6.4)
-    ax.text(0.01, 0.02, "ANALYTICAL ILLUSTRATION — NOT ATHLETE DATA", transform=ax.transAxes,
-            fontsize=6.8, fontweight="bold", color=MID)
+    ax.legend(loc="upper right", frameon=False, ncol=2, fontsize=6.8)
     fig.subplots_adjust(left=0.13, right=0.98, top=0.97, bottom=0.15)
     save_figure(fig, "figure06_force_time_mechanics")
 
@@ -688,9 +570,9 @@ def plot_public_performance(six_cells):
     ]
     fig, axes = plt.subplots(3, 2, figsize=(6.3, 7.2), sharey=True)
     x = np.arange(len(MODEL_ORDER))
-    jitter = {"A": -0.12, "B": 0.0, "C": 0.12}
+    jitter = {"A": -0.18, "B": 0.0, "C": 0.18}
     for col, label in enumerate(outcome_labels):
-        axes[0, col].set_title(label, fontsize=8.1, fontweight="bold", pad=5)
+                axes[0, col].set_title(label, fontsize=8.1, fontweight="bold", pad=5)
     for row_idx, horizon in enumerate(horizons):
         for col_idx, outcome in enumerate(outcome_names):
             ax = axes[row_idx, col_idx]
@@ -723,7 +605,7 @@ def plot_public_performance(six_cells):
             ax.grid(axis="y")
             ax.set_axisbelow(True)
             if row_idx == 2:
-                ax.set_xticks(x, [MODEL_LABELS[m] for m in MODEL_ORDER], rotation=22, ha="right")
+                ax.set_xticks(x, ["Zero", "Training\nmean", "Ridge", "Structured"])
             else:
                 ax.set_xticks(x, [""] * 4)
             if col_idx == 0:
@@ -797,7 +679,7 @@ def plot_bootstrap(uncertainty, study_results):
         "95% percentile intervals: 5,000 paired camp resamples; 16 camps/root; 250 episodes/camp × 3 horizons",
         ha="left",
         va="top",
-        fontsize=6.9,
+        fontsize=7.4,
         color=MID,
     )
     fig.subplots_adjust(left=0.11, right=0.99, top=0.89, bottom=0.15, wspace=0.30)
@@ -822,7 +704,7 @@ def plot_ablation_sample_size(study_results):
         ax0.plot([mean, mean], [yi - 0.25, yi + 0.25], color=INK, lw=1.2, zorder=2)
         for idx, (root, _, marker) in enumerate(ROOT_KEYS):
             ax0.scatter(values[idx], yi, marker=marker, s=27, color=color, edgecolor="white", linewidth=0.5, zorder=3)
-        ax0.text(mean + 0.004, yi - 0.17, f"{mean:.4f}", fontsize=6.7, color=INK)
+        ax0.text(mean + 0.004, yi - 0.17, f"{mean:.4f}", fontsize=7.1, color=INK)
     ax0.set_yticks(y_positions, [label for _, label, _ in ablations])
     ax0.invert_yaxis()
     ax0.set_xlim(0.70, 0.91)
@@ -865,55 +747,41 @@ def plot_ablation_sample_size(study_results):
         for root in ROOT_ORDER
     ]
     fig.legend(handles=handles, loc="lower center", ncol=5, frameon=False, bbox_to_anchor=(0.5, -0.005))
-    fig.text(0.02, 0.985, "Dots are recorded root values; ticks above indicate stored root means. No causal effect is inferred.", fontsize=6.9, color=MID, va="top")
+    fig.text(0.02, 0.985, "Dots are recorded root values; ticks above indicate stored root means. No causal effect is inferred.", fontsize=7.4, color=MID, va="top")
     fig.subplots_adjust(left=0.31, right=0.98, top=0.93, bottom=0.13, hspace=0.55)
     save_figure(fig, "figure09_ablation_sample_efficiency")
 
 
-def plot_scope():
-    fig, ax = plt.subplots(figsize=(6.3, 4.7))
-    ax.set_axis_off()
-    ax.set_xlim(0, 1)
-    ax.set_ylim(0, 1)
-    ax.text(0.5, 0.98, "What the recovered evidence does—and does not—support",
-            ha="center", va="top", fontsize=9.2, fontweight="bold", transform=ax.transAxes)
-    cards = [
-        (0.035, 0.54, "PUBLIC AND REGENERABLE", PALE_BLUE, BLUE,
-         "v1.1.0 source records\npublic synthetic receipts\nfigure regeneration from receipt summaries"),
-        (0.515, 0.54, "PRIVATE QUALIFICATION", PALE_GOLD, GOLD,
-         "checkpoint/config/preprocessor links\nrecorded exact CPU-source agreement\noriginal fitted artifacts not redistributed"),
-        (0.035, 0.12, "FAILED / PARTIAL", PALE_RED, VERMILION,
-         "10/18 saved-CUDA routes fail for M4–M8\nroot cause unresolved\nrich-history row-count differences persist"),
-        (0.515, 0.12, "NOT ESTABLISHED", PALE_GRAY, MID,
-         "athlete predictive validity\nout-of-distribution transportability\nclinical utility or production readiness"),
+def plot_reconstruction_rows(reproduction_receipts):
+    runs = [
+        run for run in reproduction_receipts["runs"]
+        if run["kind"] == "public_split_generation"
+        and run["run_spec"]["benchmark"] == "rich_history_camp_recovery"
     ]
-    for x, y, title, face, edge, body in cards:
-        width, height = 0.45, 0.34
-        patch = FancyBboxPatch(
-            (x, y),
-            width,
-            height,
-            boxstyle="round,pad=0.015,rounding_size=0.02",
-            facecolor=face,
-            edgecolor=edge,
-            linewidth=1.0,
-            transform=ax.transAxes,
-        )
-        ax.add_patch(patch)
-        ax.text(x + 0.025, y + height - 0.06, title, fontsize=7.3, fontweight="bold", color=edge, transform=ax.transAxes)
-        ax.text(x + 0.025, y + height - 0.12, body, fontsize=7.1, va="top", linespacing=1.4, color=INK, transform=ax.transAxes)
-    ax.text(
-        0.5,
-        0.035,
-        "Categorical evidence scope only; no quantitative prediction or readiness score.",
-        ha="center",
-        va="bottom",
-        fontsize=7.0,
-        color=MID,
-        transform=ax.transAxes,
-    )
-    fig.subplots_adjust(left=0.02, right=0.98, top=0.97, bottom=0.035)
-    save_figure(fig, "figure10_reproducibility_scope")
+    by_split = {run["run_spec"]["split"]: run["dataset_output"] for run in runs}
+    splits = [("training", "Training"), ("public_validation", "Validation")]
+    differences = [
+        by_split[split]["row_count"] - by_split[split]["m2_historical_row_count"]
+        for split, _ in splits
+    ]
+    fig, ax = plt.subplots(figsize=(6.3, 2.7))
+    y = np.arange(len(splits))
+    ax.axvline(0, color=INK, lw=0.8, zorder=1)
+    for yi, ((split, _), difference) in enumerate(zip(splits, differences, strict=True)):
+        color = BLUE if split == "training" else VERMILION
+        ax.hlines(yi, 0, difference, color=color, lw=2.0, zorder=2)
+        ax.scatter([difference], [yi], color=color, edgecolor="white", linewidth=0.5, s=32, zorder=3)
+        offset = (-7, 0) if difference < 0 else (7, 0)
+        alignment = "right" if difference < 0 else "left"
+        ax.annotate(f"{difference:+,} rows", (difference, yi), xytext=offset, textcoords="offset points", ha=alignment, va="center", fontsize=7.5)
+    ax.set_yticks(y, [label for _, label in splits])
+    ax.set_ylim(-0.55, 1.55)
+    ax.set_xlim(-60, 60)
+    ax.set_xlabel("Clean-room minus historical horizon rows")
+    ax.grid(axis="x")
+    ax.set_axisbelow(True)
+    fig.subplots_adjust(left=0.20, right=0.98, top=0.95, bottom=0.23)
+    save_figure(fig, "figure10_rich_history_row_counts")
 
 
 def validate_inputs(lineage, architecture, routes, six_cells, uncertainty, study_results):
@@ -934,6 +802,9 @@ def validate_inputs(lineage, architecture, routes, six_cells, uncertainty, study
     assert all(row["inference_rerun"] == "False" for row in routes)
     assert all(int(row["valid_replicates"]) == 5000 for row in uncertainty)
     assert all(len(study_results["across_root_variability"][m]["root_values"]) == 3 for m in MODEL_ORDER)
+    assert (study_results["data"]["training"]["camps"], study_results["data"]["training"]["episodes"], study_results["data"]["training"]["rows"]) == (96, 24000, 72000)
+    assert (study_results["data"]["development"]["camps"], study_results["data"]["development"]["episodes"], study_results["data"]["development"]["rows"]) == (16, 4000, 12000)
+    assert all((root["data"]["camps"], root["data"]["episodes"], root["data"]["rows"]) == (16, 4000, 12000) for root in study_results["independent_test_roots"])
 
 
 def main():
@@ -944,10 +815,11 @@ def main():
     six_cells = read_csv(AUDIT / "six_cell_results.csv")
     uncertainty = read_csv(AUDIT / "recorded_uncertainty.csv")
     study_results = read_json(RELEASE / "S01_M8_FIXED_MODE_PUBLIC_REFERENCE_RESULTS.json")
+    reproduction_receipts = read_json(RELEASE / "S04_M8_PUBLIC_REPRODUCTION_RECEIPTS.json")
 
     validate_inputs(lineage, architecture, routes, six_cells, uncertainty, study_results)
     plot_genealogy(lineage, formulation_methods)
-    plot_workflow()
+    plot_sample_design(study_results)
     plot_architecture(architecture)
     plot_numerical(routes)
     plot_chronology()
@@ -955,7 +827,7 @@ def main():
     plot_public_performance(six_cells)
     plot_bootstrap(uncertainty, study_results)
     plot_ablation_sample_size(study_results)
-    plot_scope()
+    plot_reconstruction_rows(reproduction_receipts)
     files = sorted(OUT.glob("Fig*.pdf"))
     assert len(files) == 10, f"Expected 10 PDF figures, found {len(files)}"
     for stem in files:

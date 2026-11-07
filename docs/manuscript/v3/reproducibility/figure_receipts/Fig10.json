@@ -1,0 +1,59 @@
+{
+  "figure": "Fig10",
+  "title": "Rich-history clean-room and historical row-count differences",
+  "source_label": "fig:scope",
+  "population": "Recorded clean-room and historical rich-history training and validation materializations.",
+  "source_ids": [
+    "S03",
+    "S04"
+  ],
+  "metric": "Clean-room minus historical horizon-row count.",
+  "units": "Horizon rows.",
+  "grouping": "Training and public-validation splits.",
+  "sample_sizes": "Training 15,134 clean-room vs 15,182 historical rows; validation 3,799 vs 3,795.",
+  "uncertainty": "Not applicable; these are recorded membership counts, not response estimates.",
+  "caption_tex": "The figure compares public clean-room and historical rich-history materializations by training and validation split. The horizontal axis gives the clean-room minus historical horizon-row count. Training contains 15,134 clean-room rows and 15,182 historical rows, a difference of −48. Validation contains 3,799 clean-room rows and 3,795 historical rows, a difference of +4. These counts describe membership differences in the preserved splits. They are not response effects or uncertainty intervals. Sources: S03 and S04.",
+  "input_digests": {
+    "release_source_manifest_sha256": "aa2fc106da8f69b99b4aa9953e48f069d648ea56398d6a607114e5e45c97d3f1",
+    "release_sources": {
+      "S03": {
+        "path": "docs/M8_REPRODUCTION_RESULTS.md",
+        "commit": "401f87aad1e4ef4108011fa0c1d769a24f1ad329",
+        "sha256": "44fd81ee0f322d00214ca27926bdb9709b397c1213e0a7cb6680fa06468eb119"
+      },
+      "S04": {
+        "path": "docs/M8_PUBLIC_REPRODUCTION_RECEIPTS.json",
+        "commit": "401f87aad1e4ef4108011fa0c1d769a24f1ad329",
+        "sha256": "f1b0ca32ba0966330cf152a9457b4e9a47f208779b3b18776ee4914d7ace084a"
+      }
+    },
+    "local_data": {},
+    "figure_generator_sha256": "7e6a1adc631616cc63dbd3652d9ba542daf7a599bbf5886257ae42f324c45483",
+    "manuscript_source_sha256": "0d0cf74e6e136a1b5e7a12a01b9c9a71add2f20deab40306ad294ff2db9fae1d"
+  },
+  "figure_pdf_sha256": "1b9380a1b4a6f8618543df565be0e1da76310d5170e4ffe3dc25e97f650e8984",
+  "numerical_test": {
+    "id": "rich_history_row_counts_and_differences_match_pinned_receipt",
+    "passed": true,
+    "checks": {
+      "training_and_development_split_counts": true,
+      "architecture_families_and_parameter_counts": true,
+      "18_route_cpu_and_cuda_counts": {
+        "cpu_exact": 18,
+        "cuda_pass": 8,
+        "cuda_fail": 10
+      },
+      "native_protocol_windows": true,
+      "analytical_curve_endpoints_and_integral": true,
+      "six_cell_root_aggregates_checked": 24,
+      "stored_bootstrap_rows_checked": 6,
+      "ablation_and_nested_diagnostics_checked": 11,
+      "rich_history_row_differences": {
+        "training": -48,
+        "public_validation": 4
+      },
+      "new_model_execution": false,
+      "new_bootstrap": false
+    }
+  }
+}

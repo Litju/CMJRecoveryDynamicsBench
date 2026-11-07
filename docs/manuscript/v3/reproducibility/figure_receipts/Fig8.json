@@ -1,0 +1,61 @@
+{
+  "figure": "Fig8",
+  "title": "Recorded paired camp-bootstrap intervals",
+  "source_label": "fig:uncertainty",
+  "population": "Ridge and structured reference models within each of three fixed synthetic roots.",
+  "source_ids": [
+    "S01",
+    "S23"
+  ],
+  "metric": "Stored 95% percentile interval for mean six-cell NRMSE and paired model-minus-zero NRMSE.",
+  "units": "NRMSE dimensionless.",
+  "grouping": "Model × root; paired model-versus-zero camp resampling within root.",
+  "sample_sizes": "5,000 stored replicates; 16 camps resampled per root, preserving 250 episodes and three horizons per camp.",
+  "uncertainty": "Conditional within-root bootstrap intervals; no interval is recorded for ridge versus structured or across roots.",
+  "caption_tex": "Recorded camp-bootstrap uncertainty for ridge and structured models within each of three synthetic evaluation roots. Panel A shows stored 95\\% percentile intervals for each model's mean six-cell normalized root-mean-square error (NRMSE). Panel B shows stored paired intervals for model-minus-zero-innovation NRMSE; values below zero favor the named model over zero innovation. Each root contributes 16 camps, with all 250 episodes and three horizon queries per selected camp retained together in 5,000 paired resamples using PCG64 seed 49,505,000. These intervals are conditional on a root and are not intervals across roots. No ridge-versus-structured confidence interval was recorded. Source: \\texttt{recorded\\_uncertainty.csv}.",
+  "input_digests": {
+    "release_source_manifest_sha256": "aa2fc106da8f69b99b4aa9953e48f069d648ea56398d6a607114e5e45c97d3f1",
+    "release_sources": {
+      "S01": {
+        "path": "docs/M8_FIXED_MODE_PUBLIC_REFERENCE_RESULTS.json",
+        "commit": "401f87aad1e4ef4108011fa0c1d769a24f1ad329",
+        "sha256": "cd991366c30a29723318b034bcbacff357544eff8d529678fcdcd849b0f08ce9"
+      },
+      "S23": {
+        "path": "src/cmj_recovery_dynamics/studies/fixed_mode_reference_study.py",
+        "commit": "401f87aad1e4ef4108011fa0c1d769a24f1ad329",
+        "sha256": "ab6d349747b54ee606066d56b5da91f33dc9b2d6b6ad18538e14513ab08accd7"
+      }
+    },
+    "local_data": {
+      "evidence/v2_audit/recorded_uncertainty.csv": "1c45dcf69783aad484f86900c79f577e3e253dac06878653a8af9ddada67b2bc"
+    },
+    "figure_generator_sha256": "7e6a1adc631616cc63dbd3652d9ba542daf7a599bbf5886257ae42f324c45483",
+    "manuscript_source_sha256": "0d0cf74e6e136a1b5e7a12a01b9c9a71add2f20deab40306ad294ff2db9fae1d"
+  },
+  "figure_pdf_sha256": "2b5ac4c171b8fdd63db5283304db38ae83bcf78bbd0b7ff7e356ebe9882493f7",
+  "numerical_test": {
+    "id": "all_six_stored_bootstrap_intervals_match_receipt",
+    "passed": true,
+    "checks": {
+      "training_and_development_split_counts": true,
+      "architecture_families_and_parameter_counts": true,
+      "18_route_cpu_and_cuda_counts": {
+        "cpu_exact": 18,
+        "cuda_pass": 8,
+        "cuda_fail": 10
+      },
+      "native_protocol_windows": true,
+      "analytical_curve_endpoints_and_integral": true,
+      "six_cell_root_aggregates_checked": 24,
+      "stored_bootstrap_rows_checked": 6,
+      "ablation_and_nested_diagnostics_checked": 11,
+      "rich_history_row_differences": {
+        "training": -48,
+        "public_validation": 4
+      },
+      "new_model_execution": false,
+      "new_bootstrap": false
+    }
+  }
+}

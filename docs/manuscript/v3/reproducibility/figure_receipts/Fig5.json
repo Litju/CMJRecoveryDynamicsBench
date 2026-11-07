@@ -1,0 +1,65 @@
+{
+  "figure": "Fig5",
+  "title": "Native and public synthetic forecast windows",
+  "source_label": "fig:chronology",
+  "population": "Native measurement/evaluation contract and a separate public synthetic forecast contract; no observed assessment events.",
+  "source_ids": [
+    "S02",
+    "S09",
+    "S16"
+  ],
+  "metric": "Time windows and nominal horizons relative to index exposure.",
+  "units": "Hours.",
+  "grouping": "Native baseline search, native H72 and D7 target windows, and synthetic H24/H48/H72 query horizons.",
+  "sample_sizes": "Three valid trials per native assessment; baseline uses the two latest qualifying assessments. No event sample is plotted.",
+  "uncertainty": "Not applicable; windows are protocol definitions.",
+  "caption_tex": "Assessment and recovery-horizon chronology. The upper track shows the native contract: a baseline search interval from 240 to 24 hours before origin, selection of the two latest qualifying assessments in that interval, an index exposure at origin, an H72 window at 66--78 hours, and a D7 window at 156--180 hours. Each assessment is constructed from exactly three valid trials. The lower track shows the separate public synthetic task's H24, H48, and H72 query horizons. The lower markers are nominal synthetic horizons, not native measurement windows. No athlete measurements are plotted. Sources: S02, S09, and S16.",
+  "input_digests": {
+    "release_source_manifest_sha256": "aa2fc106da8f69b99b4aa9953e48f069d648ea56398d6a607114e5e45c97d3f1",
+    "release_sources": {
+      "S02": {
+        "path": "docs/M8_FIXED_MODE_PUBLIC_REFERENCE_STUDY.md",
+        "commit": "401f87aad1e4ef4108011fa0c1d769a24f1ad329",
+        "sha256": "91ef163735e627ad91c1be37f6080865ac818b2c16f2dfce0fe0b99b9ec7b34a"
+      },
+      "S09": {
+        "path": "docs/GATE7_NATIVE_MEASUREMENT_V1.md",
+        "commit": "401f87aad1e4ef4108011fa0c1d769a24f1ad329",
+        "sha256": "0128429365c9f2133e6e7ab61ba62a1d83ba67f46592984f9e733b9b29bef725"
+      },
+      "S16": {
+        "path": "website/src/data/gate7.json",
+        "commit": "401f87aad1e4ef4108011fa0c1d769a24f1ad329",
+        "sha256": "3b15daa7cb7690e60428bfa994b9d87ae32964296b19cd4e37f6d0d868078139"
+      }
+    },
+    "local_data": {},
+    "figure_generator_sha256": "7e6a1adc631616cc63dbd3652d9ba542daf7a599bbf5886257ae42f324c45483",
+    "manuscript_source_sha256": "0d0cf74e6e136a1b5e7a12a01b9c9a71add2f20deab40306ad294ff2db9fae1d"
+  },
+  "figure_pdf_sha256": "d103cfc816ae9369d4fbfc4edcdbbe9792a731e4f2262e22fcb5a3b14f0b268a",
+  "numerical_test": {
+    "id": "native_windows_and_synthetic_horizons_match_pinned_protocol",
+    "passed": true,
+    "checks": {
+      "training_and_development_split_counts": true,
+      "architecture_families_and_parameter_counts": true,
+      "18_route_cpu_and_cuda_counts": {
+        "cpu_exact": 18,
+        "cuda_pass": 8,
+        "cuda_fail": 10
+      },
+      "native_protocol_windows": true,
+      "analytical_curve_endpoints_and_integral": true,
+      "six_cell_root_aggregates_checked": 24,
+      "stored_bootstrap_rows_checked": 6,
+      "ablation_and_nested_diagnostics_checked": 11,
+      "rich_history_row_differences": {
+        "training": -48,
+        "public_validation": 4
+      },
+      "new_model_execution": false,
+      "new_bootstrap": false
+    }
+  }
+}

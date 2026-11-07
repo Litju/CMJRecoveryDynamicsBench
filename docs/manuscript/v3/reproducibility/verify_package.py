@@ -11,6 +11,7 @@ import os
 import re
 from pathlib import Path
 
+import fitz
 from PIL import Image
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -327,15 +328,15 @@ def generate_ledgers():
 
     figure_rows = [
         ("Figure", "1", "Formulation genealogy", ["S17", "S18"], [], "Recorded lineage graph; no quantitative recomputation", "Unknown ancestry remains open."),
-        ("Figure", "2", "Reconstruction workflow", ["S06", "S07", "S08", "S09", "S10", "S11", "S12", "S13", "S14", "S15", "S16"], ["evidence/v2_audit/research_integrity.md"], "Evidence-process schematic", "Private artifact association is summarized, not independently rerunnable from the public package."),
-        ("Figure", "3", "Original architectures and parameter counts", ["S16", "S24", "S25", "S26"], ["evidence/v2_audit/architecture_qualification.csv"], "Diagram from recorded topology; counts copied from sanitized table", "Parameter count is not an accuracy score; checkpoints excluded."),
+        ("Figure", "2", "Public synthetic study sample structure", ["S01", "S02"], [], "Recorded camp, episode, and horizon-row counts by split", "Three evaluation roots share one generator and are not human cohorts."),
+        ("Figure", "3", "Original architectures and parameter counts", ["S16", "S24", "S25", "S26"], ["evidence/v2_audit/architecture_qualification.csv"], "Architecture progression and counts copied from the sanitized record", "Parameter count is not an accuracy score; checkpoints excluded."),
         ("Figure", "4", "18-route numerical qualification", ["S06", "S12", "S13", "S14", "S15", "S16"], ["evidence/v2_audit/model_identity_sanitized.csv"], "Matrix of recorded route status and discrepancies", "Not a fresh inference or GPU replay; two outputs have different units."),
         ("Figure", "5", "Native and synthetic horizon chronology", ["S02", "S09", "S16"], [], "Time windows drawn from recorded contracts", "No athlete measurement events are plotted; synthetic horizons are separate."),
-        ("Figure", "6", "Analytical force-time mechanics", ["S21"], [], "Piecewise analytical signal generated in the figure script", "Illustration only; not empirical athlete data."),
+        ("Figure", "6", "Analytical force-time mechanics", ["S09", "S21"], [], "Piecewise analytical signal generated in the figure script", "Illustration only; not empirical athlete data."),
         ("Figure", "7", "Public six-cell synthetic benchmark", ["S01", "S23"], ["evidence/v2_audit/six_cell_results.csv"], "Root points and stored means copied from receipts", "Three roots share one generator; force and impulse are separate cells."),
         ("Figure", "8", "Recorded bootstrap intervals", ["S01"], ["evidence/v2_audit/recorded_uncertainty.csv"], "Stored point values and percentile endpoints copied from receipts", "Conditional within-root intervals only; no ridge-versus-structured interval."),
         ("Figure", "9", "Ablations and nested camp counts", ["S01"], [], "Stored root-level scores and means copied from receipt", "Diagnostic comparisons, not causal attribution or human sample efficiency."),
-        ("Figure", "10", "Reproducibility scope", ["S04", "S06", "S12", "S13", "S14", "S15", "S16"], ["evidence/v2_audit/research_integrity.md", "evidence/v2_audit/model_identity_sanitized.csv"], "Categorical evidence-boundary diagram", "No predictive validity or readiness score is inferred."),
+        ("Figure", "10", "Rich-history materialization row-count differences", ["S03", "S04"], [], "Clean-room minus historical row counts by split", "Recorded membership differences, not response effects or uncertainty intervals."),
         ("Table", "1", "Architecture and parameter counts", ["S16", "S24", "S25", "S26"], ["evidence/v2_audit/architecture_qualification.csv"], "Sanitized architecture record copied and condensed", "Original weights and config identities remain private."),
         ("Table", "2", "Six-cell NRMSE by reference model", ["S01", "S23"], ["evidence/v2_audit/six_cell_results.csv"], "Stored cell means and root sample SDs copied from receipt", "Three-root descriptive variation; no formal cross-model test."),
         ("Table", "3", "Overall six-cell summary", ["S01"], [], "Stored overall root means and sample SDs copied from receipt", "Root SD is not a confidence interval."),
@@ -518,11 +519,18 @@ def verify_differential_claims_audit():
 def post_build_check():
     pdfs = [
         ROOT / "academic_review_manuscript.pdf",
-        ROOT / "integrated_scientific_reading_edition.pdf",
+        ROOT / "full_illustrated_research_manuscript.pdf",
         ROOT / "technical_supplement.pdf",
     ]
     for path in pdfs:
         assert path.is_file() and path.stat().st_size > 10000, f"Missing or unexpectedly small PDF: {path.name}"
+    logs = [
+        ROOT / "build" / "academic_review" / "manuscript-review.log",
+        ROOT / "build" / "full_illustrated" / "manuscript.log",
+        ROOT / "build" / "technical_supplement" / "technical_supplement.log",
+    ]
+    overfull = {path.name: [line for line in path.read_text(encoding="utf-8", errors="replace").splitlines() if "Overfull \\hbox" in line] for path in logs}
+    assert not any(overfull.values()), f"Overfull boxes remain: {overfull}"
     fig_stems = [
         "Fig1",
         "Fig2",
@@ -549,10 +557,26 @@ def post_build_check():
             assert 789 <= width_at_300dpi <= 2250, f"{tif.name} has an unsupported width"
             assert height_at_300dpi <= 2625, f"{tif.name} is taller than one page"
             assert tif.stat().st_size < 10 * 1024 * 1024, f"{tif.name} exceeds the PLOS 10 MB limit"
-    for render in ["academic_review", "reading_edition", "technical_supplement"]:
+    full_pdf = fitz.open(ROOT / "full_illustrated_research_manuscript.pdf")
+    figure_pages = {}
+    for page_number, page in enumerate(full_pdf, start=1):
+        text = page.get_text("text")
+        for figure_number in range(1, 11):
+            if re.search(rf"Fig\.?\s*{figure_number}\.", text):
+                assert page.get_drawings() or page.get_images(full=True), f"Fig. {figure_number} has a caption but no embedded graphic on page {page_number}"
+                figure_pages[figure_number] = page_number
+    full_pdf.close()
+    assert set(figure_pages) == set(range(1, 11)), f"Missing embedded figures in primary manuscript: {sorted(set(range(1, 11)) - set(figure_pages))}"
+    receipts = sorted((ROOT / "reproducibility" / "figure_receipts").glob("Fig*.json"))
+    assert len(receipts) == 9, f"Expected 9 quantitative figure receipts, found {len(receipts)}"
+    for receipt_path in receipts:
+        receipt = json_load(receipt_path)
+        assert receipt["numerical_test"]["passed"]
+        assert receipt["figure_pdf_sha256"] == sha256(ROOT / "figures" / f"{receipt['figure']}.pdf")
+    for render in ["academic_review", "full_illustrated", "technical_supplement"]:
         pages = list((ROOT / "renders" / render).glob("page-*.png"))
         assert pages, f"No rendered pages found for {render}"
-    return {"pdfs": [p.name for p in pdfs], "figures": 10, "page_render_sets": 3}
+    return {"pdfs": [p.name for p in pdfs], "figures": 10, "quantitative_figure_receipts": len(receipts), "primary_figure_pages": figure_pages, "page_render_sets": 3}
 
 
 def main():
