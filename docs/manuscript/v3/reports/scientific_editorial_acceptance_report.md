@@ -6,15 +6,15 @@
 
 ## Article identity and scientific contribution
 
-**Title:** *Retrospective reconstruction and numerical qualification of historical countermovement-jump recovery research: An artifact-bound case study*
+**Title:** *Retrospective reconstruction and numerical qualification of historical countermovement-jump recovery research: An evidence-bounded case study*
 
 The article is positioned as a retrospective reconstruction and numerical qualification case study of one partially preserved scientific-ML program. It is not a new universal provenance framework, neural-network algorithm, athlete predictor, clinical validation study, or state-of-the-art comparison.
 
 It answers three questions:
 
-1. **Historical reconstructability:** Eight formulation identities and nine original Gate7 neural families are represented in the authenticated release-linked record. Five parent links are explicit; three direct ancestry links remain unresolved. The public archive describes model topology and measurement contracts, but the fitted checkpoints, preprocessing values, and original route execution remain restricted. Rich-history training and validation row counts still differ by 48 and four, respectively.
-2. **Numerical reproducibility:** The privately recorded qualification reports exact original-source CPU output equality for all 18 model-repeat routes. Saved historical CUDA-array comparisons pass for eight M0–M3 routes and fail for ten M4–M8 routes under the unchanged elementwise tolerance. This is not a fresh public inference, an original-GPU replay, or an explanation of the failures.
-3. **Scientific comparability:** The existing public synthetic study compares four reference models at H24/H48/H72 across six separately normalized force/impulse cells and three fixed roots from one generator. Mean six-cell NRMSE is 2.430659 for zero innovation, 1.036038 for training mean, 0.736270 for ridge, and 0.773316 for the structured comparator. The ranking is descriptive, is conditional on that generator, and says nothing about original Gate7 accuracy or athlete validity.
+1. **Historical reconstructability:** Eight formulation identities and nine historical neural model families are represented in the authenticated release-linked record. Five parent links are explicit; three direct ancestry links remain unresolved. The public archive describes model topology and measurement contracts, but the fitted checkpoints, preprocessing values, and original route execution remain restricted. Rich-history training and validation row counts still differ by 48 and four, respectively.
+2. **Numerical reproducibility:** The privately recorded qualification reports exact original-source CPU output equality for all 18 model-repeat routes. Comparisons with archived GPU outputs pass for eight M0–M3 routes and fail for ten M4–M8 routes under the unchanged elementwise tolerance. This is not a fresh public inference, an original-GPU replay, or an explanation of the failures.
+3. **Scientific comparability:** The existing public synthetic study compares four reference models at H24/H48/H72 across six separately normalized force/impulse cells and three fixed roots from one generator. Mean six-cell NRMSE is 2.430659 for zero innovation, 1.036038 for training mean, 0.736270 for ridge, and 0.773316 for the structured comparator. The ranking is descriptive, is conditional on that generator, and says nothing about historical model accuracy or athlete validity.
 
 The contribution is the evidence-bounded reconstruction of this archive and the lesson that software identity, source-level computation, historical runtime compatibility, measurement authority, public reproducibility, and predictive validity require separate evidence. Transferability of this approach has not been experimentally tested.
 
@@ -38,7 +38,7 @@ The audit is agent-only internal source review, not human scientific validation 
 
 All 35 release-linked source snapshots verify against their v1.1.0 identities. Receipt arithmetic checks cover 24 six-cell/root values, six stored bootstrap records, and 18 route summaries. The V2 preservation check confirms the unchanged 139-file inventory. The original v1.1.0 software identity remains commit `401f87aad1e4ef4108011fa0c1d769a24f1ad329`.
 
-Publicly reproducible work includes release-linked software records, public synthetic-study protocols and receipts, source-hash verification, receipt arithmetic, and figure regeneration from public inputs. Original Gate7 route qualification is privately recorded and summarized with sanitized results; a reader cannot rerun it from the public package. The original checkpoints, fitted preprocessing values, saved inference arrays, and restricted observation/reconciliation records are not redistributed.
+Publicly reproducible work includes release-linked software records, public synthetic-study protocols and receipts, source-hash verification, receipt arithmetic, and figure regeneration from public inputs. Historical model-route qualification is privately recorded and summarized with public summaries; a reader cannot rerun it from the public package. The original checkpoints, fitted preprocessing values, saved inference arrays, and restricted observation/reconciliation records are not redistributed.
 
 ## Figures and academic editions
 

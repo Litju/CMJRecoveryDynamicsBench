@@ -33,7 +33,7 @@
   ],
   "matching_note": "V2 trigram matches are candidate-navigation aids only. They did not determine differential status. Figure captions were source-checked against the evidence plan and provenance ledger. The V2 553-row record remains unchanged.",
   "review_boundary": "Agent-only internal source review; independent human scientific validation and owner acceptance remain pending.",
-  "manuscript_source_sha256": "ebc4bb98f02bb5978e68cf02236bf992eab502bc6dd0b97d42fc876e0dbade1b",
+  "manuscript_source_sha256": "9bbfe55dab4333c7edde2753e3dda7983cf5678754294007df660f0c028ba97e",
   "substantive_current_claim_units": 488,
   "administrative_disclosures": 12
 }

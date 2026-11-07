@@ -1,37 +1,37 @@
 \small
 \setlength{\tabcolsep}{4pt}
 \renewcommand{\arraystretch}{1.12}
-\begin{longtable}{>{\raggedright\arraybackslash}p{0.70in}>{\raggedright\arraybackslash}p{0.85in}>{\raggedright\arraybackslash}p{0.85in}p{0.95in}p{1.40in}p{1.35in}}
-\caption{All 18 sanitized model-repeat records. The recorded inference-rerun flag is false for every route. The maximum absolute error pools force and impulse outputs with different units and is descriptive only.}\label{supp:routes}\\
+\begin{longtable}{>{\raggedright\arraybackslash}p{0.58in}>{\raggedright\arraybackslash}p{0.74in}>{\raggedright\arraybackslash}p{0.74in}rr>{\raggedright\arraybackslash}p{1.34in}r}
+\caption{All 18 historical model-repeat comparisons. Every record shows exact CPU-output equality; no inference was rerun for this study. The maximum absolute difference pools force and impulse outputs with different units and is descriptive only.}\label{supp:routes}\\
 \toprule
-Route & CPU-source & Saved CUDA & ATOL/RTOL & Max abs. error & Failing elements \\
+Route & Reference CPU output & Archived GPU comparison & Absolute tolerance & Relative tolerance & Maximum absolute difference & Failing elements \\
 \midrule
 \endfirsthead
 \toprule
-Route & CPU-source & Saved CUDA & ATOL/RTOL & Max abs. error & Failing elements \\
+Route & Reference CPU output & Archived GPU comparison & Absolute tolerance & Relative tolerance & Maximum absolute difference & Failing elements \\
 \midrule
 \endhead
 \midrule
-\multicolumn{6}{r}{Continued on next page}\\
+\multicolumn{7}{r}{Continued on next page}\\
 \endfoot
 \bottomrule
 \endlastfoot
-\texttt{M0-r0} & Exact & Pass & 1e-05 / 1e-04 & 1.43051147e-06 & 0 \\
-\texttt{M0-r1} & Exact & Pass & 1e-05 / 1e-04 & 1.43051147e-06 & 0 \\
-\texttt{M1-r0} & Exact & Pass & 1e-05 / 1e-04 & 1.43051147e-06 & not tabulated \\
-\texttt{M1-r1} & Exact & Pass & 1e-05 / 1e-04 & 1.43051147e-06 & not tabulated \\
-\texttt{M2-r0} & Exact & Pass & 1e-05 / 1e-04 & 1.90734863e-06 & not tabulated \\
-\texttt{M2-r1} & Exact & Pass & 1e-05 / 1e-04 & 1.90734863e-06 & not tabulated \\
-\texttt{M3-r0} & Exact & Pass & 1e-05 / 1e-04 & 2.38418579e-06 & not tabulated \\
-\texttt{M3-r1} & Exact & Pass & 1e-05 / 1e-04 & 1.19209290e-06 & not tabulated \\
-\texttt{M4-r0} & Exact & FAIL & 1e-05 / 1e-04 & 4.75883484e-04 & 254 \\
-\texttt{M4-r1} & Exact & FAIL & 1e-05 / 1e-04 & 3.26395035e-04 & 146 \\
-\texttt{M5-r0} & Exact & FAIL & 1e-05 / 1e-04 & 3.71456146e-04 & 443 \\
-\texttt{M5-r1} & Exact & FAIL & 1e-05 / 1e-04 & 2.70366669e-04 & 206 \\
-\texttt{M6-r0} & Exact & FAIL & 1e-05 / 1e-04 & 1.99317932e-04 & 88 \\
-\texttt{M6-r1} & Exact & FAIL & 1e-05 / 1e-04 & 2.79307365e-04 & 140 \\
-\texttt{M7-r0} & Exact & FAIL & 1e-05 / 1e-04 & 3.17573547e-04 & 163 \\
-\texttt{M7-r1} & Exact & FAIL & 1e-05 / 1e-04 & 3.04937363e-04 & 198 \\
-\texttt{M8-r0} & Exact & FAIL & 1e-05 / 1e-04 & 2.21252441e-04 & 98 \\
-\texttt{M8-r1} & Exact & FAIL & 1e-05 / 1e-04 & 3.04222107e-04 & 145 \\
+\texttt{M0-r0} & Exact & Pass & 1e-05 & 1e-04 & 1.43051147e-06 & 0 \\
+\texttt{M0-r1} & Exact & Pass & 1e-05 & 1e-04 & 1.43051147e-06 & 0 \\
+\texttt{M1-r0} & Exact & Pass & 1e-05 & 1e-04 & 1.43051147e-06 & Not reported \\
+\texttt{M1-r1} & Exact & Pass & 1e-05 & 1e-04 & 1.43051147e-06 & Not reported \\
+\texttt{M2-r0} & Exact & Pass & 1e-05 & 1e-04 & 1.90734863e-06 & Not reported \\
+\texttt{M2-r1} & Exact & Pass & 1e-05 & 1e-04 & 1.90734863e-06 & Not reported \\
+\texttt{M3-r0} & Exact & Pass & 1e-05 & 1e-04 & 2.38418579e-06 & Not reported \\
+\texttt{M3-r1} & Exact & Pass & 1e-05 & 1e-04 & 1.19209290e-06 & Not reported \\
+\texttt{M4-r0} & Exact & Fail & 1e-05 & 1e-04 & 4.75883484e-04 & 254 \\
+\texttt{M4-r1} & Exact & Fail & 1e-05 & 1e-04 & 3.26395035e-04 & 146 \\
+\texttt{M5-r0} & Exact & Fail & 1e-05 & 1e-04 & 3.71456146e-04 & 443 \\
+\texttt{M5-r1} & Exact & Fail & 1e-05 & 1e-04 & 2.70366669e-04 & 206 \\
+\texttt{M6-r0} & Exact & Fail & 1e-05 & 1e-04 & 1.99317932e-04 & 88 \\
+\texttt{M6-r1} & Exact & Fail & 1e-05 & 1e-04 & 2.79307365e-04 & 140 \\
+\texttt{M7-r0} & Exact & Fail & 1e-05 & 1e-04 & 3.17573547e-04 & 163 \\
+\texttt{M7-r1} & Exact & Fail & 1e-05 & 1e-04 & 3.04937363e-04 & 198 \\
+\texttt{M8-r0} & Exact & Fail & 1e-05 & 1e-04 & 2.21252441e-04 & 98 \\
+\texttt{M8-r1} & Exact & Fail & 1e-05 & 1e-04 & 3.04222107e-04 & 145 \\
 \end{longtable}

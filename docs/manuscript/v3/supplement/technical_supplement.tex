@@ -10,18 +10,18 @@
 \usepackage{caption}
 \sisetup{per-mode=symbol,detect-all}
 \setlength{\emergencystretch}{1em}
-\hypersetup{hidelinks,pdftitle={Technical supplement: CMJRecoveryDynamicsBench V3},pdfauthor={Author names pending owner confirmation}}
+\hypersetup{hidelinks,pdftitle={Technical supplement: retrospective reconstruction and numerical qualification of countermovement-jump recovery research},pdfauthor={Author names pending owner confirmation}}
 \urlstyle{same}
 \captionsetup{font=small,labelfont=bf,labelsep=period,justification=raggedright,singlelinecheck=false}
 
-\title{Technical supplement\\[0.5em]\large Retrospective reconstruction and numerical qualification of historical CMJ recovery research}
-\author{Owner-review supplement}
-\date{6 November 2026}
+\title{Technical supplement\\[0.5em]\large Retrospective reconstruction and numerical qualification of historical countermovement-jump recovery research}
+\author{Author names and affiliations to be confirmed}
+\date{November 2026}
 
 \begin{document}
 \maketitle
 
-This supplement records the detailed formulation, architecture, route-level qualification, synthetic result, uncertainty, and analysis-contract evidence summarized in the main article. Public evidence files are copied from the v1.1.0 release-linked record with their original source hashes in the source manifest. The original neural checkpoints, fitted values, and restricted records are not distributed here. Table values below are rounded for display; the accompanying CSV files retain the full stored precision.
+This supplement reports the formulation, architecture, route-level qualification, synthetic results, uncertainty, and analysis-contract evidence summarized in the main article. Public source files are copied from the published v1.1.0 software release, with source hashes listed in the accompanying data manifest. The original neural checkpoints, fitted values, and restricted records are not distributed here. Table values are rounded for display; full stored precision is retained in the accompanying numerical data.
 
 \section{Historical formulation identities and ancestry}
 
@@ -31,33 +31,33 @@ The eight formulations are distinct identities. A parent is included only when t
 
 \section{Original neural architecture and input contracts}
 
-The architecture inventory is separate from the eight scientific formulations. Each family has two repeats, r0 and r1. Parameter totals are copied from the sanitized architecture qualification table; no private weights are included.
+The model-architecture inventory is separate from the eight scientific formulations. Each family has two repeats, r0 and r1. Parameter totals are copied from the public model-qualification summary; fitted weights are not included.
 
 \input{tables/generated_architecture.tex}
 
 \section{Route-by-route numerical qualification}
 
-The stored saved-CUDA rule is \(|a_i-b_i|\leq 10^{-5}+10^{-4}|b_i|\) for every compared element. The CPU-source comparison separately requires exact array equality. The reported maximum absolute discrepancy combines two outputs with different physical units and is not a comparable physical effect size. “Not tabulated” is retained when the source record did not report a failing-element count for a passing route.
+The elementwise acceptance rule for archived GPU outputs is \(|a_i-b_i|\leq 10^{-5}+10^{-4}|b_i|\). The comparison against the original CPU implementation separately requires exact array equality. The reported maximum absolute difference combines two outputs with different physical units and is not a comparable physical effect size. “Not reported” is retained when the original record did not provide a failing-element count for a passing route.
 
 \input{tables/generated_routes.tex}
 
-All 18 routes have recorded exact CPU-source equality. The eight M0--M3 saved-CUDA comparisons pass and the ten M4--M8 comparisons fail. These are preserved qualification results, not a fresh model inference or GPU replay.
+All 18 routes have recorded exact CPU-output equality between the recovered reference implementation and original outputs. The eight M0--M3 comparisons against archived GPU outputs pass and the ten M4--M8 comparisons fail. These are preserved qualification results, not a fresh model inference or GPU replay.
 
 \section{Full public synthetic six-cell results}
 
-Each row shows a stored cellwise NRMSE, which divides RMSE by that cell's population standard deviation (denominator convention \(n_c\), not \(n_c-1\)). Root A, B, and C are three caller-supplied public evaluation roots from the same generator. The mean and sample standard deviation summarize those three roots; they are not a confidence interval or human-population estimate.
+Each row shows a stored cellwise NRMSE, which divides RMSE by that cell's population standard deviation (denominator convention \(n_c\), not \(n_c-1\)). Evaluation roots A, B, and C are three fixed public roots from the same generator. The mean and sample standard deviation summarize those three roots; they are not a confidence interval or human-population estimate.
 
 \input{tables/generated_sixcell.tex}
 
 \section{Recorded camp-bootstrap intervals}
 
-The stored percentile intervals use 5,000 paired bootstrap replicates per root. The resampling unit is camp: 16 camps are sampled with replacement and the 250 episodes and three horizons for each selected camp remain together. The paired contrast is model minus zero innovation; negative values favor the named model over that baseline. The receipt did not record a ridge-versus-structured interval.
+The stored percentile intervals use 5,000 paired bootstrap replicates per root. The resampling unit is camp: 16 camps are sampled with replacement and the 250 episodes and three horizons for each selected camp remain together. The paired contrast is model minus the zero-innovation baseline; negative values favor the named model over that baseline. The study record did not include a ridge-versus-structured interval.
 
 \input{tables/generated_uncertainty.tex}
 
 \section{Ablation and nested-camp result detail}
 
-The ablation variants are distinct receipt-locked model configurations. The structured-without-history variant is a separate comparator diagnostic. The nested-camp analysis uses 24, 48, and 96 training camps from a single recorded seeded ordering; the alpha selected on full training/development data is held fixed. Root values are descriptive and do not identify causal feature effects.
+The ablation variants are separately specified model configurations in the published study. The structured comparator without prior history is a distinct diagnostic. The nested-camp analysis uses 24, 48, and 96 training camps from one recorded seeded ordering; the regularization parameter selected on all training and development data is held fixed. Root values are descriptive and do not identify causal feature effects.
 
 \input{tables/generated_sample_efficiency.tex}
 
@@ -75,12 +75,12 @@ Protocol item & Recorded value \\
 Training split & 96 camps; 24,000 episodes; 72,000 horizon rows. \\
 Development split & 16 camps; 4,000 episodes; 12,000 horizon rows. \\
 Each evaluation root & 16 camps; 4,000 episodes; 12,000 horizon rows; 4,000 rows per outcome-horizon cell. \\
-Generator relation & Three caller-supplied public roots from one fixed-mode synthetic generator; no human data or private historical test root. \\
+Generator relation & Three fixed public evaluation roots from one fixed-mode synthetic generator; no human data or private historical test root. \\
 Predictor schema & 82 public source fields; one-hot horizon expansion to 84 numeric features; grouping keys, target labels, target-time realizations, hidden effects, and oracle states excluded. \\
 Preprocessing & Training-only means and population standard deviations; zero scales replaced by one. \\
 Models & Zero innovation; training-only outcome-by-horizon mean; cellwise ridge; structured comparator using observed predictors and fixed 24 h/84 h mathematical modes. \\
 Alpha selection & Grid \(\{0.01,0.1,1,10,100\}\); minimum development six-cell mean NRMSE; lower alpha breaks ties; all full-data selections choose 0.01. \\
-Registered cells & H24/H48/H72 crossed with the registered force-innovation cell and net-impulse innovation. \\
+Outcome-horizon cells & H24/H48/H72 crossed with peak mean-force innovation, mapped to relative mean concentric-force innovation, and net-impulse innovation. \\
 Primary aggregate & Equal-weight mean of six cellwise NRMSE values; each cell is normalized separately. \\
 Bootstrap & PCG64; 5,000 paired whole-camp resamples; 16 camps per root; seed 49,505,000; all episode and horizon records stay with the camp. \\
 Sample-size analysis & 24, 48, 96 camps from one seeded nested permutation; alpha chosen on the full dataset held fixed; seed 52,610,526. \\
@@ -98,16 +98,16 @@ The implementation interpolates force at event boundaries and uses composite tra
 
 The four native analysis cells are force and impulse at H72 and D7. Within each cell, query-weighted RMSE, mean absolute error (MAE), and signed bias are computed separately. Repeats are reported separately; a family metric is the arithmetic mean of repeat metrics, never an ensemble of predictions. Uncertainty resamples participant groups, preserving all participant queries, origins, horizons, candidates, repeats, and baselines. The 95\% percentile intervals are marginal.
 
-The native primary sign-flip test uses participant sums of zero-baseline squared error minus mean two-repeat squared error. The one-sided null requires independent participant groups and symmetry of cluster loss differences. At \(n\leq16\), all \(2^n\) sign assignments are enumerated; above that threshold, sampled assignments use a plus-one Monte Carlo correction. Holm adjustment applies to four locked primary tests. No athlete-level result from this analysis was generated for this manuscript. The stored six-participant engineering rehearsal uses invented values only; its smallest exact \(p\) value is \(1/64\), and the four-cell Holm-adjusted value is \(4/64=0.0625\), so it cannot pass a 0.05 family-wise threshold.
+The native primary sign-flip test uses participant sums of zero-baseline squared error minus mean two-repeat squared error. The one-sided null requires independent participant groups and symmetry of cluster loss differences. At \(n\leq16\), all \(2^n\) sign assignments are enumerated; above that threshold, sampled assignments use a plus-one Monte Carlo correction. Holm adjustment applies to four locked primary tests. No athlete-level result from this analysis was generated for this manuscript. An illustrative six-participant calculation uses invented values only; its smallest exact \(p\) value is \(1/64\), and the four-cell Holm-adjusted value is \(4/64=0.0625\), so it cannot pass a 0.05 family-wise threshold.
 
 \section{Evidence and interpretation boundaries}
 
 \begin{itemize}
 \item The public scientific software identity is release v1.1.0 at commit \texttt{401f87aad1e4ef4108011fa0c1d769a24f1ad329}.
-\item The M8 synthetic-study result and reproduction receipts keep their own package-source, protocol, selection-lock, and result digests. They are not relabeled as a new run of the original neural model campaign.
-\item Private checkpoint bytes, fitted preprocessing values, and restricted records are excluded. The public-safe route summary supports figure regeneration but not independent replay of those artifacts.
+\item The public synthetic-study results retain their own source, protocol, selection, and result identities. They are not presented as a new run of the historical neural-model experiment.
+\item Private checkpoint bytes, fitted preprocessing values, and restricted records are excluded. The public route summary supports figure regeneration but not independent replay of those artifacts.
 \item No new training, fit, checkpoint inference, empirical scoring, athlete-data acquisition, or GPU replay was performed for this manuscript.
-\item Historical saved-CUDA failures for M4--M8 and rich-history row-count discrepancies remain negative findings. No cause for the CUDA discrepancy is asserted.
+\item Historical archived-GPU-output failures for M4--M8 and rich-history row-count discrepancies remain negative findings. No cause for the output discrepancies is asserted.
 \item No independent athlete predictive validity, clinical utility, out-of-distribution transportability, or production readiness is established.
 \end{itemize}
 

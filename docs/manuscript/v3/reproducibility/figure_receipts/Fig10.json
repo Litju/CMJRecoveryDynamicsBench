@@ -1,18 +1,18 @@
 {
   "figure": "Fig10",
-  "title": "Rich-history clean-room and historical row-count differences",
+  "title": "Rich-history reconstruction and historical row-count differences",
   "source_label": "fig:scope",
-  "population": "Recorded clean-room and historical rich-history training and validation materializations.",
+  "population": "Publicly reconstructed and historical rich-history training and validation materializations.",
   "source_ids": [
     "S03",
     "S04"
   ],
-  "metric": "Clean-room minus historical horizon-row count.",
+  "metric": "Public reconstruction minus historical horizon-row count.",
   "units": "Horizon rows.",
   "grouping": "Training and public-validation splits.",
-  "sample_sizes": "Training 15,134 clean-room vs 15,182 historical rows; validation 3,799 vs 3,795.",
+  "sample_sizes": "Training 15,134 publicly reconstructed vs 15,182 historical rows; validation 3,799 vs 3,795.",
   "uncertainty": "Not applicable; these are recorded membership counts, not response estimates.",
-  "caption_tex": "The figure compares public clean-room and historical rich-history materializations by training and validation split. The horizontal axis gives the clean-room minus historical horizon-row count. Training contains 15,134 clean-room rows and 15,182 historical rows, a difference of −48. Validation contains 3,799 clean-room rows and 3,795 historical rows, a difference of +4. These counts describe membership differences in the preserved splits. They are not response effects or uncertainty intervals. Sources: S03 and S04.",
+  "caption_tex": "The figure compares publicly reconstructed and historical rich-history materializations by training and validation split. The horizontal axis gives the difference in horizon-row count (public reconstruction minus historical record). Training contains 15,134 publicly reconstructed rows and 15,182 historical rows, a difference of −48. Validation contains 3,799 publicly reconstructed rows and 3,795 historical rows, a difference of +4. These counts describe membership differences in the preserved splits. They are not response effects or uncertainty intervals.",
   "input_digests": {
     "release_source_manifest_sha256": "aa2fc106da8f69b99b4aa9953e48f069d648ea56398d6a607114e5e45c97d3f1",
     "release_sources": {
@@ -28,10 +28,10 @@
       }
     },
     "local_data": {},
-    "figure_generator_sha256": "7e6a1adc631616cc63dbd3652d9ba542daf7a599bbf5886257ae42f324c45483",
-    "manuscript_source_sha256": "0d0cf74e6e136a1b5e7a12a01b9c9a71add2f20deab40306ad294ff2db9fae1d"
+    "figure_generator_sha256": "2b2f1c987eb91f97f3e6517917ce26c236896e582133442f49375b0a40ca4d5a",
+    "manuscript_source_sha256": "9bbfe55dab4333c7edde2753e3dda7983cf5678754294007df660f0c028ba97e"
   },
-  "figure_pdf_sha256": "1b9380a1b4a6f8618543df565be0e1da76310d5170e4ffe3dc25e97f650e8984",
+  "figure_pdf_sha256": "c7f2023805c4ff2630b3dd59e4d2793e4a29510a08bfe6ed73612d9b16721a40",
   "numerical_test": {
     "id": "rich_history_row_counts_and_differences_match_pinned_receipt",
     "passed": true,

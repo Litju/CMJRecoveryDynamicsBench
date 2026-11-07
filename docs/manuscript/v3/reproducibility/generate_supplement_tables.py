@@ -117,7 +117,7 @@ def generate_architecture():
         ">{\\raggedright\\arraybackslash}p{0.80in}>{\\raggedright\\arraybackslash}p{1.05in}>{\\raggedright\\arraybackslash}p{3.25in}r",
         ["Model / repeats", "Inputs", "Architecture", "Parameters"],
         rows,
-        "Sanitized architecture and inference contract by family. Repeat-specific private weights and hashes are excluded.",
+        "Publicly summarized architecture and inference contract by family. Fitted weights and hashes are restricted and are not distributed.",
         "supp:architecture",
         spacing="2.3pt",
     )
@@ -131,18 +131,19 @@ def generate_routes():
             [
                 code(row["route"]),
                 "Exact",
-                tex_escape(row["saved_cuda"]),
-                f"{float(row['atol']):.0e} / {float(row['rtol']):.0e}",
+                {"PASS": "Pass", "FAIL": "Fail"}[row["saved_cuda"].upper()],
+                f"{float(row['atol']):.0e}",
+                f"{float(row['rtol']):.0e}",
                 f"{float(row['max_absolute_error']):.8e}",
-                tex_escape(row["failing_elements"]),
+                "Not reported" if row["failing_elements"] == "not tabulated" else tex_escape(row["failing_elements"]),
             ]
         )
     write_longtable(
         "generated_routes.tex",
-        ">{\\raggedright\\arraybackslash}p{0.70in}>{\\raggedright\\arraybackslash}p{0.85in}>{\\raggedright\\arraybackslash}p{0.85in}p{0.95in}p{1.40in}p{1.35in}",
-        ["Route", "CPU-source", "Saved CUDA", "ATOL/RTOL", "Max abs. error", "Failing elements"],
+        ">{\\raggedright\\arraybackslash}p{0.58in}>{\\raggedright\\arraybackslash}p{0.74in}>{\\raggedright\\arraybackslash}p{0.74in}rr>{\\raggedright\\arraybackslash}p{1.34in}r",
+        ["Route", "Reference CPU output", "Archived GPU comparison", "Absolute tolerance", "Relative tolerance", "Maximum absolute difference", "Failing elements"],
         rows,
-        "All 18 sanitized model-repeat records. The recorded inference-rerun flag is false for every route. The maximum absolute error pools force and impulse outputs with different units and is descriptive only.",
+        "All 18 historical model-repeat comparisons. Every record shows exact CPU-output equality; no inference was rerun for this study. The maximum absolute difference pools force and impulse outputs with different units and is descriptive only.",
         "supp:routes",
         spacing="4pt",
         font=r"\small",
@@ -158,8 +159,8 @@ def generate_sixcells():
         model_labels = {
             "zero_innovation": "Zero innovation",
             "training_constant": "Training mean",
-            "ridge_full": "Ridge",
-            "structured_full": "Structured",
+            "ridge_full": "Ridge regression",
+            "structured_full": "Structured model",
         }
         horizon = row["cell"].split("/")[0]
         force_cell = "relative_peak_mean_force" in row["cell"]
@@ -176,7 +177,7 @@ def generate_sixcells():
         ">{\\raggedright\\arraybackslash}p{0.80in}>{\\raggedright\\arraybackslash}p{1.62in}rrrrr",
         ["Model", "Outcome-horizon cell", "Root A", "Root B", "Root C", "Mean", "Sample SD"],
         rows,
-        r"Stored cellwise NRMSE by public evaluation root. Values are rounded to 6 decimal places for display; \texttt{six\_cell\_results.csv} retains the full stored values.",
+        r"Cellwise NRMSE by public evaluation root. Values are rounded to 6 decimal places for display; full stored precision is available in the accompanying numerical data.",
         "supp:sixcell",
         spacing="2.0pt",
     )
@@ -189,7 +190,7 @@ def generate_uncertainty():
         rows.append(
             [
                 row["root"],
-                code(row["model"]),
+                {"ridge_full": "Ridge regression", "structured_full": "Structured comparator"}[row["model"]],
                 f"{float(row['nrmse_lower']):.6f}",
                 f"{float(row['nrmse_upper']):.6f}",
                 f"{float(row['paired_delta_vs_zero_lower']):.6f}",
@@ -240,7 +241,7 @@ def generate_sample_efficiency():
         ">{\\raggedright\\arraybackslash}p{1.30in}r>{\\raggedright\\arraybackslash}p{2.45in}>{\\raggedright\\arraybackslash}p{1.45in}",
         ["Variant", "Training camps", "Evaluation-root NRMSE", "Root mean ± sample SD"],
         rows,
-        "Recorded six-cell NRMSE root values for selected ablation and nested-camp comparisons. Values are rounded to 6 decimal places; source receipt retains full precision.",
+        "Recorded six-cell NRMSE root values for selected ablation and nested-camp comparisons. Values are rounded to 6 decimal places; full precision is retained in the accompanying numerical data.",
         "supp:sample-efficiency",
         spacing="2.0pt",
     )

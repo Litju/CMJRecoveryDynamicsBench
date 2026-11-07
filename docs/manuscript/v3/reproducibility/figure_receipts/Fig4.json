@@ -1,8 +1,8 @@
 {
   "figure": "Fig4",
-  "title": "18-route numerical qualification",
+  "title": "18-route CPU and archived GPU-output qualification",
   "source_label": "fig:numerical",
-  "population": "Privately qualified original Gate7 model-repeat routes; sanitized results only.",
+  "population": "Privately qualified historical model-repeat routes; public summary only.",
   "source_ids": [
     "S06",
     "S12",
@@ -11,12 +11,12 @@
     "S15",
     "S16"
   ],
-  "metric": "Exact original-source CPU equality; saved-array elementwise tolerance status; recorded maximum absolute difference and failing-element counts.",
+  "metric": "Exact CPU-output equality for the recovered reference implementation; archived GPU-array elementwise tolerance status; recorded maximum absolute difference and failing-element counts.",
   "units": "512 validation rows × 2 output elements/route; raw maximum difference mixes N/kg and m/s outputs.",
-  "grouping": "Nine model families M0–M8, two repeats per family.",
+  "grouping": "Nine model families M0–M8, with repeats r0 and r1 per family.",
   "sample_sizes": "18 routes; 1,024 saved-array elements per route.",
   "uncertainty": "No interval; qualification is a recorded deterministic comparison, not an empirical accuracy estimate.",
-  "caption_tex": "Numerical qualification for all 18 original model-repeat routes. Original-source CPU outputs are recorded as exactly equal for all routes. Saved historical CUDA-array comparisons pass for M0--M3 and fail for both repeats of M4--M8 under the unchanged elementwise tolerance. Maximum absolute differences and failing-element counts are shown where tabulated; a dash means a failure count was not tabulated. Each route compares 512 rows by two outputs. The outputs have different units, so maximum differences are not comparable across routes. These are receipt-backed comparisons, not a fresh GPU replay or an accuracy evaluation. Source: sanitized \\texttt{model\\_identity\\_sanitized.csv}.",
+  "caption_tex": "Numerical qualification for all 18 model-repeat routes (M0--M8, each with repeats r0 and r1). CPU outputs from the recovered reference implementation are recorded as exactly equal to the original CPU outputs for all routes. Comparisons with archived GPU arrays pass for M0--M3 and fail for both repeats of M4--M8 under the unchanged elementwise tolerance. Maximum absolute differences and failing-element counts are shown where recorded; a dash means the failure count was not reported. Each route compares 512 rows by two outputs. The outputs have different units, so maximum differences are not comparable across routes. These are recorded comparisons, not a fresh GPU replay or an accuracy evaluation.",
   "input_digests": {
     "release_source_manifest_sha256": "aa2fc106da8f69b99b4aa9953e48f069d648ea56398d6a607114e5e45c97d3f1",
     "release_sources": {
@@ -54,10 +54,10 @@
     "local_data": {
       "evidence/v2_audit/model_identity_sanitized.csv": "b597608f59a0f29e6f007e83e4e5478c1a5c4baa56e0d240ced1ecc21b5a33e7"
     },
-    "figure_generator_sha256": "7e6a1adc631616cc63dbd3652d9ba542daf7a599bbf5886257ae42f324c45483",
-    "manuscript_source_sha256": "0d0cf74e6e136a1b5e7a12a01b9c9a71add2f20deab40306ad294ff2db9fae1d"
+    "figure_generator_sha256": "2b2f1c987eb91f97f3e6517917ce26c236896e582133442f49375b0a40ca4d5a",
+    "manuscript_source_sha256": "9bbfe55dab4333c7edde2753e3dda7983cf5678754294007df660f0c028ba97e"
   },
-  "figure_pdf_sha256": "19009bb6e9fb1cea8e71f49c251a9eaa8662ecea573181b3214eca6790df7da6",
+  "figure_pdf_sha256": "00009ea5cda6b38a785d5c8574a760c67d99121cc87a00287505959c64b40657",
   "numerical_test": {
     "id": "route_population_and_recorded_pass_fail_counts_match_receipt",
     "passed": true,

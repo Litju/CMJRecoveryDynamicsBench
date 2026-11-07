@@ -28,10 +28,10 @@
       }
     },
     "local_data": {},
-    "figure_generator_sha256": "7e6a1adc631616cc63dbd3652d9ba542daf7a599bbf5886257ae42f324c45483",
-    "manuscript_source_sha256": "0d0cf74e6e136a1b5e7a12a01b9c9a71add2f20deab40306ad294ff2db9fae1d"
+    "figure_generator_sha256": "2b2f1c987eb91f97f3e6517917ce26c236896e582133442f49375b0a40ca4d5a",
+    "manuscript_source_sha256": "9bbfe55dab4333c7edde2753e3dda7983cf5678754294007df660f0c028ba97e"
   },
-  "figure_pdf_sha256": "496d6291388f1f87c23eb216ae813c8d73c6b1f8a73fe83699716f6fcd19f19e",
+  "figure_pdf_sha256": "544f4aa0cec92a8f8d8d2642302d953b37af702037ceef20ede67632b1918b69",
   "numerical_test": {
     "id": "analytical_curve_endpoints_and_signed_integral_are_valid",
     "passed": true,

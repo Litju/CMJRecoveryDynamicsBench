@@ -1,10 +1,10 @@
-# CMJRecoveryDynamicsBench M10 V3 owner-review package
+# CMJ recovery research manuscript package
 
-This V3 owner-review package contains one authoritative LaTeX manuscript, a secondary separate-figure review edition, a technical supplement, and ten source-bound scientific figures. It preserves the V2 package and the public repository manuscript.
+This owner-review package contains one authoritative LaTeX manuscript, a secondary separate-figure review edition, a technical supplement, and ten source-bound scientific figures. It preserves the original V2 evidence and the public repository manuscript.
 
 ## Article title
 
-Retrospective reconstruction and numerical qualification of historical countermovement-jump recovery research: An artifact-bound case study
+Retrospective reconstruction and numerical qualification of historical countermovement-jump recovery research: An evidence-bounded case study
 
 ## Main outputs
 
@@ -16,7 +16,7 @@ The manuscript uses an established single-column research-article format with ac
 
 ## Regenerate
 
-The figure program reads only the bundled release-linked public source snapshots, the published synthetic receipts, and the sanitized route tables. It performs no training, model fitting, checkpoint inference, athlete-data acquisition, or empirical scoring.
+The figure program reads only the bundled public source files, the published synthetic-study results, and the public route summaries. It performs no training, model fitting, checkpoint inference, athlete-data acquisition, or empirical scoring.
 
 Use Python 3.12.13 with the exact packages in reproducibility/requirements.lock, and Tectonic 0.17.0. Run these commands from this directory:
 
@@ -40,7 +40,7 @@ Each quantitative figure has a separate JSON receipt in `reproducibility/figure_
 
 ## Evidence boundary
 
-The release evidence identity is v1.1.0 at 401f87aad1e4ef4108011fa0c1d769a24f1ad329. The M8 public synthetic receipts retain their own experiment and package identities. The route table is a sanitized summary of private qualification; its figure is reproducible from the summary, while the original weights and inference arrays are not public. No clinical, athlete-validity, transportability, or production-readiness claim is made.
+The release evidence identity is v1.1.0 at 401f87aad1e4ef4108011fa0c1d769a24f1ad329. The public synthetic-study results retain their own experiment and package identities. The route table is a public summary of private qualification; its figure is reproducible from the summary, while the original weights and inference arrays are not public. No clinical, athlete-validity, transportability, or production-readiness claim is made.
 
 ## Review boundary
 

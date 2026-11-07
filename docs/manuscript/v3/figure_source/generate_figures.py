@@ -37,10 +37,10 @@ PALE_GRAY = "#eef0f2"
 
 MODEL_ORDER = ["zero_innovation", "training_constant", "ridge_full", "structured_full"]
 MODEL_LABELS = {
-    "zero_innovation": "Zero",
-    "training_constant": "Train mean",
-    "ridge_full": "Ridge",
-    "structured_full": "Structured",
+    "zero_innovation": "Zero innovation",
+    "training_constant": "Training mean",
+    "ridge_full": "Ridge regression",
+    "structured_full": "Structured comparator",
 }
 MODEL_COLORS = {
     "zero_innovation": MID,
@@ -72,7 +72,7 @@ plt.rcParams.update(
         "grid.color": "#aab2b9",
         "grid.alpha": 0.24,
         "grid.linewidth": 0.55,
-        "svg.hashsalt": "cmj-recovery-m10-v3",
+        "svg.hashsalt": "cmj-recovery-scientific-figures",
         "svg.fonttype": "none",
         "pdf.fonttype": 42,
         "ps.fonttype": 42,
@@ -119,8 +119,8 @@ def save_figure(fig, stem: str):
         bbox_inches="tight",
         pad_inches=0.06,
         metadata={
-            "Creator": "CMJRecoveryDynamicsBench V3 figure script",
-            "Title": stem.replace("_", " "),
+            "Creator": "Matplotlib",
+            "Title": f"Figure {figure_number}: {stem.split('_', 1)[1].replace('_', ' ')}",
             "CreationDate": None,
             "ModDate": None,
         },
@@ -130,7 +130,7 @@ def save_figure(fig, stem: str):
         format="svg",
         bbox_inches="tight",
         pad_inches=0.06,
-        metadata={"Creator": "CMJRecoveryDynamicsBench V3 figure script", "Date": None},
+        metadata={"Creator": "Matplotlib", "Date": None},
     )
     # Matplotlib uses trailing spaces for SVG path line continuation; they are unnecessary in XML.
     svg.write_text("\n".join(line.rstrip() for line in svg.read_text(encoding="utf-8").splitlines()) + "\n", encoding="utf-8")
@@ -350,7 +350,7 @@ def plot_sample_design(study_results):
     ax.text(
         0.04,
         0.005,
-        "*Three caller-supplied roots (A–C), each from the same generator. Each episode contributes H24, H48, and H72 queries kept together.",
+        "*Three fixed evaluation roots (A–C) from one generator. Each episode contributes grouped H24, H48, and H72 queries.",
         fontsize=7.4,
         color=MID,
         va="bottom",
@@ -431,10 +431,10 @@ def plot_numerical(routes):
     ax.invert_yaxis()
     ax.axis("off")
     cuda_pass = sum(route["saved_cuda"].lower() == "pass" for route in routes)
-    ax.text(0.015, -2.34, f"CPU source: {len(routes)}/{len(routes)} exact   |   Saved CUDA arrays: {cuda_pass}/{len(routes)} pass, {len(routes) - cuda_pass} fail", fontsize=8.1, fontweight="bold", va="center")
-    ax.text(0.18, -1.37, "Original-source\nCPU", ha="center", va="center", fontsize=7.4, fontweight="bold")
-    ax.text(0.40, -1.37, "Saved historical\nCUDA", ha="center", va="center", fontsize=7.4, fontweight="bold")
-    ax.text(0.68, -1.37, "Max |difference|\n(mixed output units)", ha="center", va="center", fontsize=7.2, fontweight="bold")
+    ax.text(0.015, -2.34, f"Recovered CPU: {len(routes)}/{len(routes)} exact   |   Archived GPU outputs: {cuda_pass}/{len(routes)} pass, {len(routes) - cuda_pass}/{len(routes)} fail", fontsize=8.1, fontweight="bold", va="center")
+    ax.text(0.18, -1.37, "Reference\nCPU output", ha="center", va="center", fontsize=7.4, fontweight="bold")
+    ax.text(0.40, -1.37, "Archived\nGPU output", ha="center", va="center", fontsize=7.4, fontweight="bold")
+    ax.text(0.68, -1.37, "Maximum absolute\ndifference (mixed units)", ha="center", va="center", fontsize=7.0, fontweight="bold")
     ax.text(0.93, -1.37, "Failing elements\n(of 1,024)", ha="center", va="center", fontsize=7.2, fontweight="bold")
 
     for i, route in enumerate(routes):
@@ -456,7 +456,7 @@ def plot_numerical(routes):
     ax.text(
         0.015,
         len(routes) + 0.42,
-        r"Saved-array rule: $|a-b|\leq10^{-5}+10^{-4}|b|$. A dash marks a failure count not tabulated in the receipt.",
+        r"Archived-output criterion: $|a-b|\leq10^{-5}+10^{-4}|b|$. A dash marks an unreported failure count.",
         ha="left",
         va="top",
         fontsize=7.0,
@@ -565,7 +565,7 @@ def plot_public_performance(six_cells):
         "net_impulse_innovation",
     ]
     outcome_labels = [
-        "Force-innovation cell\nregistered as peak mean force (N/kg target)",
+        "Peak mean-force innovation\n(N/kg target)",
         "Net-impulse innovation (m/s target)",
     ]
     fig, axes = plt.subplots(3, 2, figsize=(6.3, 7.2), sharey=True)
@@ -605,7 +605,7 @@ def plot_public_performance(six_cells):
             ax.grid(axis="y")
             ax.set_axisbelow(True)
             if row_idx == 2:
-                ax.set_xticks(x, ["Zero", "Training\nmean", "Ridge", "Structured"])
+                ax.set_xticks(x, ["Zero\ninnovation", "Training\nmean", "Ridge\nregression", "Structured\ncomparator"])
             else:
                 ax.set_xticks(x, [""] * 4)
             if col_idx == 0:
@@ -621,7 +621,7 @@ def plot_public_performance(six_cells):
         for root, _, marker in ROOT_KEYS
     ]
     fig.legend(handles=model_handles + root_handles, loc="lower center", ncol=7, frameon=False, bbox_to_anchor=(0.5, -0.005))
-    fig.text(0.02, 0.985, "Points: three roots   |   horizontal mark: stored root mean", ha="left", va="top", fontsize=7.1, color=MID)
+    fig.text(0.02, 0.985, "Points: fixed evaluation roots   |   horizontal mark: mean across roots", ha="left", va="top", fontsize=7.1, color=MID)
     fig.subplots_adjust(left=0.11, right=0.99, top=0.93, bottom=0.13, hspace=0.18, wspace=0.18)
     save_figure(fig, "figure07_public_benchmark")
 
@@ -666,11 +666,11 @@ def plot_bootstrap(uncertainty, study_results):
     ax0.set_title("Stored 95% bootstrap interval", fontsize=8.0, fontweight="bold")
     ax1.axvline(0, color=INK, lw=0.8, ls="--")
     ax1.set_xlim(-1.88, 0.12)
-    ax1.set_xlabel("Model − zero NRMSE")
+    ax1.set_xlabel("Δ NRMSE (model − zero innovation)")
     ax1.set_title("Paired interval vs zero", fontsize=8.0, fontweight="bold")
     handles = [
-        Line2D([0], [0], color=MODEL_COLORS["ridge_full"], marker="o", lw=2, ls="-", label="Ridge"),
-        Line2D([0], [0], color=MODEL_COLORS["structured_full"], marker="s", lw=2, ls="--", label="Structured"),
+        Line2D([0], [0], color=MODEL_COLORS["ridge_full"], marker="o", lw=2, ls="-", label="Ridge regression"),
+        Line2D([0], [0], color=MODEL_COLORS["structured_full"], marker="s", lw=2, ls="--", label="Structured comparator"),
     ]
     fig.legend(handles=handles, loc="lower center", ncol=2, frameon=False, bbox_to_anchor=(0.5, -0.015))
     fig.text(
@@ -691,11 +691,11 @@ def plot_ablation_sample_size(study_results):
     fig, axes = plt.subplots(2, 1, figsize=(6.3, 6.5), gridspec_kw={"height_ratios": [1.1, 1.0]})
     ax0, ax1 = axes
     ablations = [
-        ("ridge_full", "Full ridge", BLUE),
+        ("ridge_full", "Full ridge regression", BLUE),
         ("ridge_no_prior_history", "Ridge without prior history", TEAL),
         ("ridge_no_current_exposure", "Ridge without current exposure", VERMILION),
         ("ridge_no_participant_context", "Ridge without participant context", GOLD),
-        ("structured_no_prior_history", "Structured without prior history", PURPLE),
+        ("structured_no_prior_history", "Structured comparator without prior history", PURPLE),
     ]
     y_positions = list(range(len(ablations)))
     for yi, (key, label, color) in zip(y_positions, ablations, strict=True):
@@ -736,7 +736,7 @@ def plot_ablation_sample_size(study_results):
     ax1.set_ylim(0.72, 0.79)
     ax1.set_xlabel("Training camps")
     ax1.set_ylabel("Six-cell NRMSE")
-    ax1.set_title("B  Nested training-camp diagnostic (full-data alpha held fixed)", loc="left", fontsize=8.3, fontweight="bold")
+    ax1.set_title("B  Nested camp-size diagnostic (regularization fixed)", loc="left", fontsize=8.3, fontweight="bold")
     ax1.grid(alpha=0.22)
     ax1.set_axisbelow(True)
     handles = [
@@ -747,7 +747,7 @@ def plot_ablation_sample_size(study_results):
         for root in ROOT_ORDER
     ]
     fig.legend(handles=handles, loc="lower center", ncol=5, frameon=False, bbox_to_anchor=(0.5, -0.005))
-    fig.text(0.02, 0.985, "Dots are recorded root values; ticks above indicate stored root means. No causal effect is inferred.", fontsize=7.4, color=MID, va="top")
+    fig.text(0.02, 0.985, "Points show evaluation-root values; vertical marks show three-root means. No causal effect is inferred.", fontsize=7.4, color=MID, va="top")
     fig.subplots_adjust(left=0.31, right=0.98, top=0.93, bottom=0.13, hspace=0.55)
     save_figure(fig, "figure09_ablation_sample_efficiency")
 
@@ -777,7 +777,7 @@ def plot_reconstruction_rows(reproduction_receipts):
     ax.set_yticks(y, [label for _, label in splits])
     ax.set_ylim(-0.55, 1.55)
     ax.set_xlim(-60, 60)
-    ax.set_xlabel("Clean-room minus historical horizon rows")
+    ax.set_xlabel("Difference in horizon rows\n(public reconstruction − historical record)")
     ax.grid(axis="x")
     ax.set_axisbelow(True)
     fig.subplots_adjust(left=0.20, right=0.98, top=0.95, bottom=0.23)

@@ -13,7 +13,7 @@
   "grouping": "Native baseline search, native H72 and D7 target windows, and synthetic H24/H48/H72 query horizons.",
   "sample_sizes": "Three valid trials per native assessment; baseline uses the two latest qualifying assessments. No event sample is plotted.",
   "uncertainty": "Not applicable; windows are protocol definitions.",
-  "caption_tex": "Assessment and recovery-horizon chronology. The upper track shows the native contract: a baseline search interval from 240 to 24 hours before origin, selection of the two latest qualifying assessments in that interval, an index exposure at origin, an H72 window at 66--78 hours, and a D7 window at 156--180 hours. Each assessment is constructed from exactly three valid trials. The lower track shows the separate public synthetic task's H24, H48, and H72 query horizons. The lower markers are nominal synthetic horizons, not native measurement windows. No athlete measurements are plotted. Sources: S02, S09, and S16.",
+  "caption_tex": "Assessment and recovery-horizon chronology. The upper track shows the native contract: a baseline search interval from 240 to 24 hours before origin, selection of the two latest qualifying assessments in that interval, an index exposure at origin, an H72 window at 66--78 hours, and a D7 window at 156--180 hours. Each assessment is constructed from exactly three valid trials. The lower track shows the separate public synthetic task's H24, H48, and H72 query horizons. These markers are nominal synthetic horizons, not native measurement windows. No athlete measurements are plotted. The windows follow the published measurement and study protocols.",
   "input_digests": {
     "release_source_manifest_sha256": "aa2fc106da8f69b99b4aa9953e48f069d648ea56398d6a607114e5e45c97d3f1",
     "release_sources": {
@@ -34,10 +34,10 @@
       }
     },
     "local_data": {},
-    "figure_generator_sha256": "7e6a1adc631616cc63dbd3652d9ba542daf7a599bbf5886257ae42f324c45483",
-    "manuscript_source_sha256": "0d0cf74e6e136a1b5e7a12a01b9c9a71add2f20deab40306ad294ff2db9fae1d"
+    "figure_generator_sha256": "2b2f1c987eb91f97f3e6517917ce26c236896e582133442f49375b0a40ca4d5a",
+    "manuscript_source_sha256": "9bbfe55dab4333c7edde2753e3dda7983cf5678754294007df660f0c028ba97e"
   },
-  "figure_pdf_sha256": "d103cfc816ae9369d4fbfc4edcdbbe9792a731e4f2262e22fcb5a3b14f0b268a",
+  "figure_pdf_sha256": "be126e9d4421cfe57ecc5aae4325869ddcd28bd748916185f93e7a7159de6bf5",
   "numerical_test": {
     "id": "native_windows_and_synthetic_horizons_match_pinned_protocol",
     "passed": true,
