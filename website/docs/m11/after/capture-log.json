@@ -1,0 +1,224 @@
+{
+  "label": "after",
+  "routes": [
+    "/",
+    "/paper/",
+    "/results/",
+    "/models/",
+    "/methods/",
+    "/evidence/"
+  ],
+  "viewports": [
+    {
+      "id": "desktop",
+      "width": 1440,
+      "height": 1000
+    },
+    {
+      "id": "tablet-portrait",
+      "width": 834,
+      "height": 1112,
+      "touch": true
+    },
+    {
+      "id": "tablet-landscape",
+      "width": 1112,
+      "height": 834,
+      "touch": true
+    },
+    {
+      "id": "mobile-portrait",
+      "width": 390,
+      "height": 844,
+      "touch": true
+    },
+    {
+      "id": "mobile-landscape",
+      "width": 844,
+      "height": 390,
+      "touch": true
+    }
+  ],
+  "results": [
+    {
+      "viewport": "desktop",
+      "route": "/",
+      "status": 200,
+      "horizontalOverflowPx": 0
+    },
+    {
+      "viewport": "desktop",
+      "route": "/paper/",
+      "status": 200,
+      "horizontalOverflowPx": 0
+    },
+    {
+      "viewport": "desktop",
+      "route": "/results/",
+      "status": 200,
+      "horizontalOverflowPx": 0
+    },
+    {
+      "viewport": "desktop",
+      "route": "/models/",
+      "status": 200,
+      "horizontalOverflowPx": 0
+    },
+    {
+      "viewport": "desktop",
+      "route": "/methods/",
+      "status": 200,
+      "horizontalOverflowPx": 0
+    },
+    {
+      "viewport": "desktop",
+      "route": "/evidence/",
+      "status": 200,
+      "horizontalOverflowPx": 0
+    },
+    {
+      "viewport": "tablet-portrait",
+      "route": "/",
+      "status": 200,
+      "horizontalOverflowPx": 0
+    },
+    {
+      "viewport": "tablet-portrait",
+      "route": "/paper/",
+      "status": 200,
+      "horizontalOverflowPx": 0
+    },
+    {
+      "viewport": "tablet-portrait",
+      "route": "/results/",
+      "status": 200,
+      "horizontalOverflowPx": 0
+    },
+    {
+      "viewport": "tablet-portrait",
+      "route": "/models/",
+      "status": 200,
+      "horizontalOverflowPx": 0
+    },
+    {
+      "viewport": "tablet-portrait",
+      "route": "/methods/",
+      "status": 200,
+      "horizontalOverflowPx": 0
+    },
+    {
+      "viewport": "tablet-portrait",
+      "route": "/evidence/",
+      "status": 200,
+      "horizontalOverflowPx": 0
+    },
+    {
+      "viewport": "tablet-landscape",
+      "route": "/",
+      "status": 200,
+      "horizontalOverflowPx": 0
+    },
+    {
+      "viewport": "tablet-landscape",
+      "route": "/paper/",
+      "status": 200,
+      "horizontalOverflowPx": 0
+    },
+    {
+      "viewport": "tablet-landscape",
+      "route": "/results/",
+      "status": 200,
+      "horizontalOverflowPx": 0
+    },
+    {
+      "viewport": "tablet-landscape",
+      "route": "/models/",
+      "status": 200,
+      "horizontalOverflowPx": 0
+    },
+    {
+      "viewport": "tablet-landscape",
+      "route": "/methods/",
+      "status": 200,
+      "horizontalOverflowPx": 0
+    },
+    {
+      "viewport": "tablet-landscape",
+      "route": "/evidence/",
+      "status": 200,
+      "horizontalOverflowPx": 0
+    },
+    {
+      "viewport": "mobile-portrait",
+      "route": "/",
+      "status": 200,
+      "horizontalOverflowPx": 0
+    },
+    {
+      "viewport": "mobile-portrait",
+      "route": "/paper/",
+      "status": 200,
+      "horizontalOverflowPx": 0
+    },
+    {
+      "viewport": "mobile-portrait",
+      "route": "/results/",
+      "status": 200,
+      "horizontalOverflowPx": 0
+    },
+    {
+      "viewport": "mobile-portrait",
+      "route": "/models/",
+      "status": 200,
+      "horizontalOverflowPx": 0
+    },
+    {
+      "viewport": "mobile-portrait",
+      "route": "/methods/",
+      "status": 200,
+      "horizontalOverflowPx": 0
+    },
+    {
+      "viewport": "mobile-portrait",
+      "route": "/evidence/",
+      "status": 200,
+      "horizontalOverflowPx": 0
+    },
+    {
+      "viewport": "mobile-landscape",
+      "route": "/",
+      "status": 200,
+      "horizontalOverflowPx": 0
+    },
+    {
+      "viewport": "mobile-landscape",
+      "route": "/paper/",
+      "status": 200,
+      "horizontalOverflowPx": 0
+    },
+    {
+      "viewport": "mobile-landscape",
+      "route": "/results/",
+      "status": 200,
+      "horizontalOverflowPx": 0
+    },
+    {
+      "viewport": "mobile-landscape",
+      "route": "/models/",
+      "status": 200,
+      "horizontalOverflowPx": 0
+    },
+    {
+      "viewport": "mobile-landscape",
+      "route": "/methods/",
+      "status": 200,
+      "horizontalOverflowPx": 0
+    },
+    {
+      "viewport": "mobile-landscape",
+      "route": "/evidence/",
+      "status": 200,
+      "horizontalOverflowPx": 0
+    }
+  ]
+}

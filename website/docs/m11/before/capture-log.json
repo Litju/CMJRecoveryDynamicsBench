@@ -1,0 +1,69 @@
+{
+  "label": "before",
+  "routes": [
+    "/"
+  ],
+  "viewports": [
+    {
+      "id": "desktop",
+      "width": 1440,
+      "height": 1000
+    },
+    {
+      "id": "tablet-portrait",
+      "width": 834,
+      "height": 1112,
+      "touch": true
+    },
+    {
+      "id": "tablet-landscape",
+      "width": 1112,
+      "height": 834,
+      "touch": true
+    },
+    {
+      "id": "mobile-portrait",
+      "width": 390,
+      "height": 844,
+      "touch": true
+    },
+    {
+      "id": "mobile-landscape",
+      "width": 844,
+      "height": 390,
+      "touch": true
+    }
+  ],
+  "results": [
+    {
+      "viewport": "desktop",
+      "route": "/",
+      "status": 200,
+      "horizontalOverflowPx": 0
+    },
+    {
+      "viewport": "tablet-portrait",
+      "route": "/",
+      "status": 200,
+      "horizontalOverflowPx": 0
+    },
+    {
+      "viewport": "tablet-landscape",
+      "route": "/",
+      "status": 200,
+      "horizontalOverflowPx": 0
+    },
+    {
+      "viewport": "mobile-portrait",
+      "route": "/",
+      "status": 200,
+      "horizontalOverflowPx": 0
+    },
+    {
+      "viewport": "mobile-landscape",
+      "route": "/",
+      "status": 200,
+      "horizontalOverflowPx": 0
+    }
+  ]
+}
