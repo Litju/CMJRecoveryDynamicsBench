@@ -1,0 +1,38 @@
+{
+  "package": "docs/manuscript/v3",
+  "packageCommit": "96b4314d90a5a5b7b9f94d469f54d8196b3a14d7",
+  "artifactManifest": {
+    "path": "docs/manuscript/v3/ARTIFACT_SHA256SUMS",
+    "sha256": "a83b70698bac25033a04051e7884713d079e6601615b3c7191bf68a1a6fdfa89"
+  },
+  "release": {
+    "version": "1.1.0",
+    "commit": "401f87aad1e4ef4108011fa0c1d769a24f1ad329"
+  },
+  "files": [
+    "manuscript.tex",
+    "full_illustrated_research_manuscript.pdf",
+    "academic_review_manuscript.pdf",
+    "technical_supplement.pdf",
+    "reports/full_illustrated_page_figure_inventory.md",
+    "figure_source/generate_figures.py",
+    "evidence/release_sources/S01_M8_FIXED_MODE_PUBLIC_REFERENCE_RESULTS.json",
+    "evidence/release_sources/S04_M8_PUBLIC_REPRODUCTION_RECEIPTS.json",
+    "evidence/release_sources/S16_gate7.json",
+    "evidence/release_sources/S17_lineage.json",
+    "evidence/release_sources/S18_formulation-methods.json",
+    "evidence/v2_audit/architecture_qualification.csv",
+    "evidence/v2_audit/model_identity_sanitized.csv",
+    "evidence/v2_audit/six_cell_results.csv",
+    "evidence/v2_audit/recorded_uncertainty.csv",
+    "reproducibility/figure_receipts/Fig2.json",
+    "reproducibility/figure_receipts/Fig3.json",
+    "reproducibility/figure_receipts/Fig4.json",
+    "reproducibility/figure_receipts/Fig5.json",
+    "reproducibility/figure_receipts/Fig6.json",
+    "reproducibility/figure_receipts/Fig7.json",
+    "reproducibility/figure_receipts/Fig8.json",
+    "reproducibility/figure_receipts/Fig9.json",
+    "reproducibility/figure_receipts/Fig10.json"
+  ]
+}

@@ -12,3 +12,4 @@ coverage/
 *.log
 /docs/videos/
 /scripts/record-walkthrough.mjs
+/public/paper/

@@ -1,0 +1,2734 @@
+{
+  "schema": "recovery-observatory/manuscript-figures/1",
+  "paper": {
+    "title": "Retrospective reconstruction and numerical qualification of historical countermovement-jump recovery research: An evidence-bounded case study",
+    "status": "Unsubmitted research draft: not peer reviewed, not submitted to a journal or preprint server, no DOI.",
+    "abstract": "This retrospective case study asks how partially preserved historical machine-learning research can be reconstructed while distinguishing source-equivalent computation, compatibility with archived outputs, measurement authority, public reproducibility, and predictive validity. The archive supports eight historical scientific formulations and nine neural model families. Public records identify their structures; original route qualification remains a privately recorded result. Those records report exact equality between the recovered reference implementation and original central processing unit (CPU) outputs for all 18 routes. Comparisons with archived graphics processing unit (GPU) arrays pass for M0–M3 and fail for both repeats of M4–M8 under the unchanged tolerance. This is not a public rerun of the original checkpoints or a successful replay of the historical GPU environment. Separately, we report an existing public synthetic benchmark with four reference models and three fixed evaluation roots from one generator. Mean six-cell normalized root-mean-square error (NRMSE) was 2.430659 for zero innovation, 1.036038 for the training-mean baseline, 0.736270 for ridge regression, and 0.773316 for the structured comparator. These descriptive synthetic results do not estimate predictive performance of the historical model families. Neither the synthetic benchmark nor numerical parity establishes athlete predictive validity, transportability, or clinical utility. No new training, inference, resampling, athlete-data acquisition, or empirical scoring was performed for this article.",
+    "researchQuestions": [
+      {
+        "id": "RQ1",
+        "title": "Historical reconstructability",
+        "question": "Which parts of the original research program can be authenticated and reconstructed, and which remain partial, rights-restricted, or unresolved?"
+      },
+      {
+        "id": "RQ2",
+        "title": "Numerical reproducibility",
+        "question": "Does recovering the original computation and obtaining source-equivalent CPU inference establish compatibility with saved historical GPU outputs?"
+      },
+      {
+        "id": "RQ3",
+        "title": "Scientific comparability",
+        "question": "What conclusions are supported by the public fixed-mode synthetic benchmark, and why do they not establish validity of the original native recovery models in athletes?"
+      }
+    ],
+    "dataAvailability": "The v1.1.0 source release, public synthetic-study protocol, results, source files, and figure data are available at the release URL and in the accompanying data package. Original fitted checkpoints, fitted preprocessing values, private inference arrays, and restricted observation and source-reconciliation records are not included. This package does not establish a controlled-access mechanism for those materials; they are not offered upon request. Public materials permit figure regeneration and verification of the published result arithmetic, but not independent reproduction of the original checkpoint qualification. See the accompanying claim-level data and software availability assessment. Journal-specific eligibility remains unresolved.",
+    "package": "docs/manuscript/v3",
+    "packageCommit": "96b4314d90a5a5b7b9f94d469f54d8196b3a14d7",
+    "artifactManifestSha256": "a83b70698bac25033a04051e7884713d079e6601615b3c7191bf68a1a6fdfa89",
+    "releaseVersion": "1.1.0",
+    "releaseCommit": "401f87aad1e4ef4108011fa0c1d769a24f1ad329",
+    "files": [
+      {
+        "id": "illustrated",
+        "label": "Full illustrated research manuscript",
+        "file": "full_illustrated_research_manuscript.pdf",
+        "pages": 12,
+        "path": "docs/manuscript/v3/full_illustrated_research_manuscript.pdf",
+        "href": "/paper/full_illustrated_research_manuscript.pdf",
+        "sha256": "95aaf37c781244c79e28593aa3ae324ffe6003fae3ea4e3874191787d1ca6058",
+        "bytes": 519767
+      },
+      {
+        "id": "review",
+        "label": "Academic review edition",
+        "file": "academic_review_manuscript.pdf",
+        "pages": null,
+        "path": "docs/manuscript/v3/academic_review_manuscript.pdf",
+        "href": "/paper/academic_review_manuscript.pdf",
+        "sha256": "60bf6d962ca44b87a21aed32806c544f9d1a43254e51e6256ab10678394ba7b0",
+        "bytes": 131550
+      },
+      {
+        "id": "supplement",
+        "label": "Technical supplement",
+        "file": "technical_supplement.pdf",
+        "pages": null,
+        "path": "docs/manuscript/v3/technical_supplement.pdf",
+        "href": "/paper/technical_supplement.pdf",
+        "sha256": "a534d21c4c06efb64648d459bb1796c9c204d4097718522d6bd758f14206fdf8",
+        "bytes": 51819
+      }
+    ],
+    "sections": [
+      {
+        "id": "abstract",
+        "title": "Abstract",
+        "page": 1
+      },
+      {
+        "id": "introduction",
+        "title": "Introduction and research questions",
+        "page": 1
+      },
+      {
+        "id": "related-work",
+        "title": "Related work",
+        "page": 2
+      },
+      {
+        "id": "methods",
+        "title": "Materials and methods",
+        "page": 2
+      },
+      {
+        "id": "formulations",
+        "title": "Historical scientific formulations",
+        "page": 2
+      },
+      {
+        "id": "neural-reconstruction",
+        "title": "Original neural model reconstruction",
+        "page": 2
+      },
+      {
+        "id": "numerical-qualification",
+        "title": "Numerical qualification",
+        "page": 4
+      },
+      {
+        "id": "native-measurement",
+        "title": "Native CMJ measurement and assessment construction",
+        "page": 4
+      },
+      {
+        "id": "synthetic-design",
+        "title": "Public synthetic benchmark design (ADEMP)",
+        "page": 4
+      },
+      {
+        "id": "statistics",
+        "title": "Statistical summaries",
+        "page": 6
+      },
+      {
+        "id": "results",
+        "title": "Results: RQ1–RQ3",
+        "page": 7
+      },
+      {
+        "id": "uncertainty",
+        "title": "Recorded uncertainty, ablations and sample efficiency",
+        "page": 8
+      },
+      {
+        "id": "reproduction-limits",
+        "title": "Historical reproduction limits",
+        "page": 9
+      },
+      {
+        "id": "discussion",
+        "title": "Discussion",
+        "page": 9
+      },
+      {
+        "id": "limitations",
+        "title": "Limitations and threats to validity",
+        "page": 10
+      },
+      {
+        "id": "availability",
+        "title": "Reproducibility and availability",
+        "page": 11
+      },
+      {
+        "id": "conclusions",
+        "title": "Conclusions",
+        "page": 11
+      },
+      {
+        "id": "data-availability",
+        "title": "Data availability statement",
+        "page": 12
+      }
+    ]
+  },
+  "figures": [
+    {
+      "number": 1,
+      "id": "fig-1",
+      "label": "fig:genealogy",
+      "question": "Which scientific formulations share a confirmed parent and which relationships remain unresolved?",
+      "page": 3,
+      "section": "formulations",
+      "route": "/methods/",
+      "caption": "Scientific formulation genealogy. Cards show the eight recorded formulations with their disposition, response world, observation contract and forecast horizons (dots). Arrows are direct parent relationships recorded in the published lineage and methods records: initial preseason to canonical preseason; preliminary episode to phase-consistent episode to correlated exposure; and correlated exposure to the threshold and fixed-mode alternatives. Dashed stubs marked ? show the three identities whose direct scientific parent is not recorded (initial preseason, rich-history camp and preliminary episode). The diagram describes the archive, not a single linear history, a calendar timeline or an accepted physiological theory.",
+      "files": [
+        {
+          "ext": "pdf",
+          "path": "docs/manuscript/v3/figures/Fig1.pdf",
+          "sha256": "f0bb9cf87b52d2edf869dd0ca2485c9a227cb85aceb5c947bd6c0d108bce58a3"
+        },
+        {
+          "ext": "svg",
+          "path": "docs/manuscript/v3/figures/Fig1.svg",
+          "sha256": "75c5898b81bd5a7f48c377c2deb6ac8a2458dd998f9a2185cc14b73aaffc7f16"
+        },
+        {
+          "ext": "png",
+          "path": "docs/manuscript/v3/figures/Fig1.png",
+          "sha256": "e6a19ebaed63281d89d0e9c6ed7066946b357d6cbb6dcde3f8a143629b372f14"
+        }
+      ],
+      "receipt": null
+    },
+    {
+      "number": 2,
+      "id": "fig-2",
+      "label": "fig:workflow",
+      "question": "How are training development and evaluation samples grouped in the existing public synthetic study?",
+      "page": 3,
+      "section": "synthetic-design",
+      "route": "/methods/",
+      "caption": "Structure of the existing public fixed-mode synthetic study. (a) Each square is one camp (250 episodes, 750 horizon rows): 96 training camps, 16 development camps, and three fixed evaluation roots of 16 camps each. (b) Horizon-row counts per split, with episode counts (training 24,000; development and each root 4,000; three rows per episode). (c) Each episode contributes H24, H48 and H72 queries that remain in one split. Participant, episode, query and camp identities are checked for split separation; group keys, labels, future target-time fields and hidden or oracle states are excluded from predictors. The roots share one generator and are not human cohorts.",
+      "files": [
+        {
+          "ext": "pdf",
+          "path": "docs/manuscript/v3/figures/Fig2.pdf",
+          "sha256": "796e27d041572a9e31652344be7ec81cfdc510f16ee62749d1f660aab91fc716"
+        },
+        {
+          "ext": "svg",
+          "path": "docs/manuscript/v3/figures/Fig2.svg",
+          "sha256": "a0e03b88dd2ff966a02c9e5bed76cb7ee761f4cb56ffb9aa4f0853df26546604"
+        },
+        {
+          "ext": "png",
+          "path": "docs/manuscript/v3/figures/Fig2.png",
+          "sha256": "b9465924d30bf6d3f729055e5f4bb36ad129a0212667517b690842111db79f60"
+        }
+      ],
+      "receipt": {
+        "path": "docs/manuscript/v3/reproducibility/figure_receipts/Fig2.json",
+        "sha256": "07e7a9a1a2a4855d8545eee1f6517ce5d3036be2f6ee0409cb5f973dbd109257",
+        "population": "Existing public fixed-mode synthetic study; no athlete observations.",
+        "metric": "Counts of camps, episodes, and horizon rows by study split.",
+        "units": "Camps; episodes; horizon rows.",
+        "grouping": "Training, development, and each of three fixed evaluation roots; H24/H48/H72 queries stay within episode.",
+        "sampleSizes": "Training 96 camps/24,000 episodes/72,000 rows; development 16/4,000/12,000; each evaluation root 16/4,000/12,000.",
+        "uncertainty": "Not applicable; these are fixed generator sample counts.",
+        "sourceIds": [
+          "S01",
+          "S02"
+        ],
+        "numericalTest": "sample_split_counts_match_pinned_receipt",
+        "figurePdfSha256": "796e27d041572a9e31652344be7ec81cfdc510f16ee62749d1f660aab91fc716",
+        "releaseSources": [
+          {
+            "id": "S01",
+            "path": "docs/M8_FIXED_MODE_PUBLIC_REFERENCE_RESULTS.json",
+            "sha256": "cd991366c30a29723318b034bcbacff357544eff8d529678fcdcd849b0f08ce9",
+            "packaged": "docs/manuscript/v3/evidence/release_sources/S01_M8_FIXED_MODE_PUBLIC_REFERENCE_RESULTS.json"
+          },
+          {
+            "id": "S02",
+            "path": "docs/M8_FIXED_MODE_PUBLIC_REFERENCE_STUDY.md",
+            "sha256": "91ef163735e627ad91c1be37f6080865ac818b2c16f2dfce0fe0b99b9ec7b34a",
+            "packaged": "docs/manuscript/v3/evidence/release_sources/S02_M8_FIXED_MODE_PUBLIC_REFERENCE_STUDY.md"
+          }
+        ],
+        "localData": []
+      }
+    },
+    {
+      "number": 3,
+      "id": "fig-3",
+      "label": "fig:architecture",
+      "question": "How do the nine historical neural model families differ in input branches, architecture, and parameter count?",
+      "page": 5,
+      "section": "neural-reconstruction",
+      "route": "/models/",
+      "caption": "Historical neural architectures and complexity. (a) Computational graph of the largest family, M8, with each module labelled by the first family that contains it. M0–M2 use only the raw feedforward backbone; M3 adds a pointwise history encoder and M4 replaces it with a 32-unit GRU, both followed by mean and latest-value pooling; M5 adds a two-entry, eight-dimensional horizon embedding; M6 projects the first two of five schedule-basis values and M7 all five; M8 adds a bias-free 5-to-2 linear basis head. The concatenated width is 128 (M3, M4), 136 (M5) or 152 (M6–M8). (b) Component inclusion and recorded trainable parameter counts (1,346 to 10,796). Repeats r0 and r1 share each family's topology and count. Counts are from the public model-qualification summary. The figure describes structure, not predictive accuracy; fitted weights are not shown.",
+      "files": [
+        {
+          "ext": "pdf",
+          "path": "docs/manuscript/v3/figures/Fig3.pdf",
+          "sha256": "ebbdbaec2d729fe7b19c23716e099524ddc1e54b6c0a89ab3d5b838fccf7dd1c"
+        },
+        {
+          "ext": "svg",
+          "path": "docs/manuscript/v3/figures/Fig3.svg",
+          "sha256": "d8d685ada287eb09b058ede99b5b994091b4cba67c8ab8612d3783ad836b864e"
+        },
+        {
+          "ext": "png",
+          "path": "docs/manuscript/v3/figures/Fig3.png",
+          "sha256": "5789dbb74c024c56370ab40019d5ae408e8fc65d3379a4fdab45f02f2a35ede9"
+        }
+      ],
+      "receipt": {
+        "path": "docs/manuscript/v3/reproducibility/figure_receipts/Fig3.json",
+        "sha256": "fe7b0c1bac1043c35b415d76bc19a0d7f6a17b27bb0212bbef300490f5b720ba",
+        "population": "Nine historical neural model families identified as M0–M8, with repeats r0 and r1.",
+        "metric": "Recorded trainable parameter count per family.",
+        "units": "Parameters; architecture widths are dimensionless node counts.",
+        "grouping": "Model family; both repeats share the listed family topology and count.",
+        "sampleSizes": "9 model families; 18 model-repeat records.",
+        "uncertainty": "Not applicable; architecture counts are deterministic records.",
+        "sourceIds": [
+          "S16",
+          "S24",
+          "S25",
+          "S26"
+        ],
+        "numericalTest": "architecture_families_and_parameter_counts_match_record",
+        "figurePdfSha256": "ebbdbaec2d729fe7b19c23716e099524ddc1e54b6c0a89ab3d5b838fccf7dd1c",
+        "releaseSources": [
+          {
+            "id": "S16",
+            "path": "website/src/data/gate7.json",
+            "sha256": "3b15daa7cb7690e60428bfa994b9d87ae32964296b19cd4e37f6d0d868078139",
+            "packaged": "docs/manuscript/v3/evidence/release_sources/S16_gate7.json"
+          },
+          {
+            "id": "S24",
+            "path": "src/cmj_recovery_dynamics/model_reproduction/checkpoint_inference.py",
+            "sha256": "48e639a55749863922bae44740f10dbcb6c60deeb691e5880a45bb4f00f98603",
+            "packaged": "docs/manuscript/v3/evidence/release_sources/S24_checkpoint_inference.py"
+          },
+          {
+            "id": "S25",
+            "path": "src/cmj_recovery_dynamics/model_reproduction/checkpoint_m7.py",
+            "sha256": "37d1b14110967e2e2a1725618da7376703528ce938fab3f52f410d14ab76b578",
+            "packaged": "docs/manuscript/v3/evidence/release_sources/S25_checkpoint_m7.py"
+          },
+          {
+            "id": "S26",
+            "path": "src/cmj_recovery_dynamics/model_reproduction/checkpoint_m8_inference.py",
+            "sha256": "ec13f4cef4838a7fb13d9521d14252965dd184aad86258ab2c4736c0f661a9bc",
+            "packaged": "docs/manuscript/v3/evidence/release_sources/S26_checkpoint_m8_inference.py"
+          }
+        ],
+        "localData": [
+          {
+            "path": "docs/manuscript/v3/evidence/v2_audit/architecture_qualification.csv",
+            "sha256": "ff1ae117ee6c29599a97f6aa1dc34913d89a7c00c8a9251a0a94ea2c1b378432"
+          }
+        ]
+      }
+    },
+    {
+      "number": 4,
+      "id": "fig-4",
+      "label": "fig:numerical",
+      "question": "How do the 18 model-repeat routes compare against the original CPU implementation and archived GPU outputs?",
+      "page": 6,
+      "section": "numerical-qualification",
+      "route": "/models/",
+      "caption": "Numerical qualification of 18 model-repeat routes (M0–M8, repeats r0 and r1). (a) Recovered CPU outputs are recorded as exactly equal to the original CPU outputs on every route; comparison with archived GPU arrays is within the unchanged elementwise tolerance for M0–M3 and outside it for both repeats of M4–M8. (b) Recorded maximum absolute difference per route on a logarithmic axis. The two outputs have different units (N/kg and m/s), so the values are not comparable as physical magnitudes. A difference below the absolute tolerance 10⁻⁵ (dashed line) always passes; the criterion also has a relative term, so the maximum alone does not determine status. (c) Number of failing elements out of 1,024 (512 rows by two outputs) where tabulated (n/t: not tabulated). These are recorded comparisons, not a new GPU replay or an accuracy evaluation.",
+      "files": [
+        {
+          "ext": "pdf",
+          "path": "docs/manuscript/v3/figures/Fig4.pdf",
+          "sha256": "c362193dc8232f4b6ab937940a3c00660065b3a00336dc9703d1324a184b0eb5"
+        },
+        {
+          "ext": "svg",
+          "path": "docs/manuscript/v3/figures/Fig4.svg",
+          "sha256": "72b5d26bcfe8dc8560b6aba49dbaf569ccdd6e3f42e2360947bc5fd11ef856ec"
+        },
+        {
+          "ext": "png",
+          "path": "docs/manuscript/v3/figures/Fig4.png",
+          "sha256": "2aa3433576e8d3a4f6d386d289e883ad413d40ed1b35009a095f595cb1a0b49a"
+        }
+      ],
+      "receipt": {
+        "path": "docs/manuscript/v3/reproducibility/figure_receipts/Fig4.json",
+        "sha256": "651ee3304dd5e53daf2e327d1ac9e41dafa91361332e0f575ff2907f1a0e9eeb",
+        "population": "Privately qualified historical model-repeat routes; public summary only.",
+        "metric": "Exact CPU-output equality for the recovered reference implementation; archived GPU-array elementwise tolerance status; recorded maximum absolute difference and failing-element counts.",
+        "units": "512 validation rows × 2 output elements/route; raw maximum difference mixes N/kg and m/s outputs.",
+        "grouping": "Nine model families M0–M8, with repeats r0 and r1 per family.",
+        "sampleSizes": "18 routes; 1,024 saved-array elements per route.",
+        "uncertainty": "No interval; qualification is a recorded deterministic comparison, not an empirical accuracy estimate.",
+        "sourceIds": [
+          "S06",
+          "S12",
+          "S13",
+          "S14",
+          "S15",
+          "S16"
+        ],
+        "numericalTest": "route_population_and_recorded_pass_fail_counts_match_receipt",
+        "figurePdfSha256": "c362193dc8232f4b6ab937940a3c00660065b3a00336dc9703d1324a184b0eb5",
+        "releaseSources": [
+          {
+            "id": "S06",
+            "path": "docs/RES-546_INFERENCE_VERIFICATION.md",
+            "sha256": "89dc6de93a8c583a7ead6ebddf77fef2b2da67d4517a11e3cdb628f00c1a8ff4",
+            "packaged": "docs/manuscript/v3/evidence/release_sources/S06_RES-546_INFERENCE_VERIFICATION.md"
+          },
+          {
+            "id": "S12",
+            "path": "docs/RES-546_M4_HISTORICAL_FINDINGS.md",
+            "sha256": "f7d86637726119110677736fefce00290069c1a84ee58c324484fa25eb24042d",
+            "packaged": "docs/manuscript/v3/evidence/release_sources/S12_RES-546_M4_HISTORICAL_FINDINGS.md"
+          },
+          {
+            "id": "S13",
+            "path": "docs/RES-546_M5_HISTORICAL_FINDINGS.md",
+            "sha256": "1a1c6e5c6420ed873f3ace3ee6eda4e8bf4909e59b2413d31caf237ba81a7c7d",
+            "packaged": "docs/manuscript/v3/evidence/release_sources/S13_RES-546_M5_HISTORICAL_FINDINGS.md"
+          },
+          {
+            "id": "S14",
+            "path": "docs/RES-546_M6_HISTORICAL_FINDINGS.md",
+            "sha256": "9bf70700eb71d6866bb78fcc3a7c77aa75403d74b59ffd9d2138ccaed4bb7ba7",
+            "packaged": "docs/manuscript/v3/evidence/release_sources/S14_RES-546_M6_HISTORICAL_FINDINGS.md"
+          },
+          {
+            "id": "S15",
+            "path": "docs/RES-546_M7_HISTORICAL_FINDINGS.md",
+            "sha256": "167b5343359e44bc2e3cb7f6401d49e36454ca62ae4948b9b29d29c14d1178ae",
+            "packaged": "docs/manuscript/v3/evidence/release_sources/S15_RES-546_M7_HISTORICAL_FINDINGS.md"
+          },
+          {
+            "id": "S16",
+            "path": "website/src/data/gate7.json",
+            "sha256": "3b15daa7cb7690e60428bfa994b9d87ae32964296b19cd4e37f6d0d868078139",
+            "packaged": "docs/manuscript/v3/evidence/release_sources/S16_gate7.json"
+          }
+        ],
+        "localData": [
+          {
+            "path": "docs/manuscript/v3/evidence/v2_audit/model_identity_sanitized.csv",
+            "sha256": "b597608f59a0f29e6f007e83e4e5478c1a5c4baa56e0d240ced1ecc21b5a33e7"
+          }
+        ]
+      }
+    },
+    {
+      "number": 5,
+      "id": "fig-5",
+      "label": "fig:biomech",
+      "question": "How do gross mean concentric force, peak force and gravity-adjusted net impulse differ, and how do native baseline and H72/D7 windows differ from public H24/H48/H72 queries?",
+      "page": 7,
+      "section": "native-measurement",
+      "route": "/methods/",
+      "caption": "Native measurement definitions and assessment chronology. (a) Analytical vertical force–time curve, not athlete data, generated with m=70 kg, g=9.80665 m/s², A=1000 N, t_p=0.22 s and T=0.55 s: F_z=mg+A sin(πt/2t_p) for 0 ≤ t ≤ t_p and F_z=(mg+A)[1-(t-t_p)/(T-t_p)] for t_p<t ≤ T. Dividing the area under F_z by mT gives gross mean concentric force (14.79 N/kg, black line); dividing the signed area relative to body weight by m gives gravity-adjusted net impulse (2.74 m/s). Peak force (24.09 N/kg) is shown only to distinguish it from the scored mean-force target. (b) The three quantities with their equations, values and units. (c) Native contract (upper track): baseline search interval 24–240 h before the index exposure, from which the two latest valid assessments are selected, an H72 window at 66–78 h and a D7 window at 156–180 h; each assessment is the mean of three valid trials. Lower track: the separate public synthetic H24, H48 and H72 query horizons (nominal). No athlete measurements are plotted.",
+      "files": [
+        {
+          "ext": "pdf",
+          "path": "docs/manuscript/v3/figures/Fig5.pdf",
+          "sha256": "4d6c5cb3f29a8b75faba7c06fe2ceaeb5c0d13c8543b5765f120758877f491cf"
+        },
+        {
+          "ext": "svg",
+          "path": "docs/manuscript/v3/figures/Fig5.svg",
+          "sha256": "94b18edcb3e524b444c0acf5bd5386f900dbea49572089469aa1120fd9d5867e"
+        },
+        {
+          "ext": "png",
+          "path": "docs/manuscript/v3/figures/Fig5.png",
+          "sha256": "6c8e9d3e82dd58358886a65449da7f964cc0a137f7b35ec1f84756291e4a825b"
+        }
+      ],
+      "receipt": {
+        "path": "docs/manuscript/v3/reproducibility/figure_receipts/Fig5.json",
+        "sha256": "a455341d96b97bfe2d4efc6835bbe1c90dc1ee8d57e10fd4b834df63920324fc",
+        "population": "Equation-generated analytical signal (not athlete data) and the native measurement/evaluation contract with a separate public synthetic forecast contract; no observed assessment events.",
+        "metric": "Gross mean concentric force, peak force and gravity-adjusted net impulse of one analytical force trace; time windows and nominal horizons relative to index exposure.",
+        "units": "Force N; mass kg; time s; mean and peak force N/kg; net impulse m/s; chronology in hours.",
+        "grouping": "One piecewise analytical curve with onset, peak and takeoff; native baseline, H72 and D7 windows; synthetic H24/H48/H72 query horizons.",
+        "sampleSizes": "5,501 evenly spaced integration points; three valid trials per native assessment; baseline uses the two latest qualifying assessments. No empirical sample.",
+        "uncertainty": "Not applicable; deterministic mathematical illustration and protocol definitions.",
+        "sourceIds": [
+          "S02",
+          "S09",
+          "S16",
+          "S21"
+        ],
+        "numericalTest": "analytical_curve_endpoints_integrals_and_native_windows_are_valid",
+        "figurePdfSha256": "4d6c5cb3f29a8b75faba7c06fe2ceaeb5c0d13c8543b5765f120758877f491cf",
+        "releaseSources": [
+          {
+            "id": "S02",
+            "path": "docs/M8_FIXED_MODE_PUBLIC_REFERENCE_STUDY.md",
+            "sha256": "91ef163735e627ad91c1be37f6080865ac818b2c16f2dfce0fe0b99b9ec7b34a",
+            "packaged": "docs/manuscript/v3/evidence/release_sources/S02_M8_FIXED_MODE_PUBLIC_REFERENCE_STUDY.md"
+          },
+          {
+            "id": "S09",
+            "path": "docs/GATE7_NATIVE_MEASUREMENT_V1.md",
+            "sha256": "0128429365c9f2133e6e7ab61ba62a1d83ba67f46592984f9e733b9b29bef725",
+            "packaged": "docs/manuscript/v3/evidence/release_sources/S09_GATE7_NATIVE_MEASUREMENT_V1.md"
+          },
+          {
+            "id": "S16",
+            "path": "website/src/data/gate7.json",
+            "sha256": "3b15daa7cb7690e60428bfa994b9d87ae32964296b19cd4e37f6d0d868078139",
+            "packaged": "docs/manuscript/v3/evidence/release_sources/S16_gate7.json"
+          },
+          {
+            "id": "S21",
+            "path": "src/cmj_recovery_dynamics/observations/native_mechanics.py",
+            "sha256": "3a95f0a075115b52fb6c7a9d76840273b87804bd2c757b0981e659e3bcc8c40a",
+            "packaged": "docs/manuscript/v3/evidence/release_sources/S21_native_mechanics.py"
+          }
+        ],
+        "localData": []
+      }
+    },
+    {
+      "number": 6,
+      "id": "fig-6",
+      "label": "fig:performance",
+      "question": "How do four reference models compare across six outcome-horizon cells and three fixed synthetic evaluation roots?",
+      "page": 8,
+      "section": "results",
+      "route": "/results/",
+      "caption": "Existing public fixed-mode synthetic benchmark across six outcome-horizon cells. Each panel shows, for the zero-innovation baseline, training-mean baseline, ridge regression and structured comparator, the three fixed evaluation roots (A circle, B square, C triangle; offset horizontally only to separate marks) and the stored mean (black bar, value printed). Rows are H24, H48 and H72; columns are mean concentric-force innovation (N/kg target) and net-impulse innovation (m/s target). The force cells retain the legacy registered identifier relative_peak_mean_force_innovation, but the target is mean, not peak, concentric force. The vertical axis is cellwise NRMSE (dimensionless) on a common scale; the dashed line marks NRMSE = 1. Each root contains 16 camps and 4,000 rows per cell. Points and means describe three fixed same-generator roots, not confidence intervals or human cohorts.",
+      "files": [
+        {
+          "ext": "pdf",
+          "path": "docs/manuscript/v3/figures/Fig6.pdf",
+          "sha256": "66f71717a1060a3ba8d268af407d3b512273c4b899246b508f72d15d22e20384"
+        },
+        {
+          "ext": "svg",
+          "path": "docs/manuscript/v3/figures/Fig6.svg",
+          "sha256": "ebf437262db921c9178321e7551881bb4f728ff6f340b4207ce2c1421db48949"
+        },
+        {
+          "ext": "png",
+          "path": "docs/manuscript/v3/figures/Fig6.png",
+          "sha256": "f71b2625d5610e9ee1a7cbbda44e342035208436bc8fca0b8de0d780df13fd20"
+        }
+      ],
+      "receipt": {
+        "path": "docs/manuscript/v3/reproducibility/figure_receipts/Fig6.json",
+        "sha256": "71f97c02c458cd562a048289625678cb74c347b7a38bb03b17102cf52d5e202d",
+        "population": "Four reference models evaluated on three fixed roots from one public synthetic generator.",
+        "metric": "Cellwise NRMSE: RMSE divided by that cell's population SD; three root values and the stored root mean are shown.",
+        "units": "NRMSE dimensionless; mean concentric-force target N/kg and net-impulse target m/s remain separate cells.",
+        "grouping": "Four reference models x three horizons x two outcomes x three fixed evaluation roots.",
+        "sampleSizes": "Each root has 16 camps, 4,000 episodes, and 12,000 horizon rows; 4,000 rows per outcome-horizon cell.",
+        "uncertainty": "No confidence interval; root points and their stored mean show descriptive variation across these three fixed same-generator roots.",
+        "sourceIds": [
+          "S01",
+          "S23"
+        ],
+        "numericalTest": "all_24_cell_root_values_means_and_sample_sds_match_receipt",
+        "figurePdfSha256": "66f71717a1060a3ba8d268af407d3b512273c4b899246b508f72d15d22e20384",
+        "releaseSources": [
+          {
+            "id": "S01",
+            "path": "docs/M8_FIXED_MODE_PUBLIC_REFERENCE_RESULTS.json",
+            "sha256": "cd991366c30a29723318b034bcbacff357544eff8d529678fcdcd849b0f08ce9",
+            "packaged": "docs/manuscript/v3/evidence/release_sources/S01_M8_FIXED_MODE_PUBLIC_REFERENCE_RESULTS.json"
+          },
+          {
+            "id": "S23",
+            "path": "src/cmj_recovery_dynamics/studies/fixed_mode_reference_study.py",
+            "sha256": "ab6d349747b54ee606066d56b5da91f33dc9b2d6b6ad18538e14513ab08accd7",
+            "packaged": "docs/manuscript/v3/evidence/release_sources/S23_fixed_mode_reference_study.py"
+          }
+        ],
+        "localData": [
+          {
+            "path": "docs/manuscript/v3/evidence/v2_audit/six_cell_results.csv",
+            "sha256": "4fb48c36a008cfce188b7c53b5c8c3a012e91f2688d0a1f2e5b026c158ef4d2c"
+          }
+        ]
+      }
+    },
+    {
+      "number": 7,
+      "id": "fig-7",
+      "label": "fig:heatmap",
+      "question": "Which reference model has the lowest mean NRMSE in each outcome-horizon cell, and how do ridge and structured differ per root?",
+      "page": 9,
+      "section": "results",
+      "route": "/results/",
+      "caption": "Model-by-cell error heatmap. (a) Stored mean NRMSE across the three evaluation roots for six outcome-horizon cells (rows) and four reference models (columns); the bottom row is the equal-weight six-cell mean. Lower is better. Colour is centred at NRMSE = 1, the value of a cell-mean predictor: blue is below 1 and red above 1. Outlined cells are lowest in their row. (b) Descriptive structured-minus-ridge NRMSE for each root (A circle, B square, C triangle); positive values mean ridge was lower. Ridge was lower in all 18 root-cell comparisons (0.025 to 0.047). No interval or test is implied, and no ridge-versus-structured confidence interval was recorded.",
+      "files": [
+        {
+          "ext": "pdf",
+          "path": "docs/manuscript/v3/figures/Fig7.pdf",
+          "sha256": "6c6fe8d4e7ec6c6729403085375d41f71a2dad5c885e17c705085d243a74056f"
+        },
+        {
+          "ext": "svg",
+          "path": "docs/manuscript/v3/figures/Fig7.svg",
+          "sha256": "62b3801ee128d38f3260bc0956d619063dcf7c86b1649bb6ee9a48441c1f4bbd"
+        },
+        {
+          "ext": "png",
+          "path": "docs/manuscript/v3/figures/Fig7.png",
+          "sha256": "01e0586225506709e9695a872ac3691f36a48d3b44e61ab7c83c91413344a266"
+        }
+      ],
+      "receipt": {
+        "path": "docs/manuscript/v3/reproducibility/figure_receipts/Fig7.json",
+        "sha256": "3fcef4c7c2f63aac3e7946aa84c17366ed74daef11206f1b675d353641e7b92f",
+        "population": "Four reference models evaluated on three fixed roots from one public synthetic generator.",
+        "metric": "Stored mean cellwise NRMSE (six cells x four models), stored six-cell mean, and structured minus ridge NRMSE per root and cell.",
+        "units": "NRMSE dimensionless.",
+        "grouping": "Six outcome-horizon cells x four models; panel b differences of recorded root values.",
+        "sampleSizes": "Each root has 16 camps and 4,000 rows per outcome-horizon cell; 18 root-cell differences.",
+        "uncertainty": "No interval or test; descriptive differences of recorded values. No ridge-versus-structured interval was recorded.",
+        "sourceIds": [
+          "S01",
+          "S23"
+        ],
+        "numericalTest": "heatmap_cell_means_six_cell_means_and_ridge_structured_differences_match_receipt",
+        "figurePdfSha256": "6c6fe8d4e7ec6c6729403085375d41f71a2dad5c885e17c705085d243a74056f",
+        "releaseSources": [
+          {
+            "id": "S01",
+            "path": "docs/M8_FIXED_MODE_PUBLIC_REFERENCE_RESULTS.json",
+            "sha256": "cd991366c30a29723318b034bcbacff357544eff8d529678fcdcd849b0f08ce9",
+            "packaged": "docs/manuscript/v3/evidence/release_sources/S01_M8_FIXED_MODE_PUBLIC_REFERENCE_RESULTS.json"
+          },
+          {
+            "id": "S23",
+            "path": "src/cmj_recovery_dynamics/studies/fixed_mode_reference_study.py",
+            "sha256": "ab6d349747b54ee606066d56b5da91f33dc9b2d6b6ad18538e14513ab08accd7",
+            "packaged": "docs/manuscript/v3/evidence/release_sources/S23_fixed_mode_reference_study.py"
+          }
+        ],
+        "localData": [
+          {
+            "path": "docs/manuscript/v3/evidence/v2_audit/six_cell_results.csv",
+            "sha256": "4fb48c36a008cfce188b7c53b5c8c3a012e91f2688d0a1f2e5b026c158ef4d2c"
+          }
+        ]
+      }
+    },
+    {
+      "number": 8,
+      "id": "fig-8",
+      "label": "fig:uncertainty",
+      "question": "What uncertainty was recorded for model-versus-zero-innovation comparisons within each evaluation root?",
+      "page": 10,
+      "section": "uncertainty",
+      "route": "/results/",
+      "caption": "Recorded camp-bootstrap uncertainty for ridge regression and the structured comparator within each of three synthetic evaluation roots. (a) Stored 95% percentile intervals for each model's mean six-cell NRMSE; markers show the root estimate. (b) Paired intervals for model-minus-zero-innovation NRMSE; values below zero favour the named model over the zero-innovation baseline. Each root contributes 16 camps, with all 250 episodes and three horizon queries per selected camp retained together, in 5,000 paired resamples (PCG64 seed 49,505,000). Intervals are conditional on a root and are not intervals across roots. No ridge-versus-structured interval was recorded.",
+      "files": [
+        {
+          "ext": "pdf",
+          "path": "docs/manuscript/v3/figures/Fig8.pdf",
+          "sha256": "bf684e7ea2b6fa5df2320dc89dad69bacd4dcc2036c95780e0afae9a1b64670e"
+        },
+        {
+          "ext": "svg",
+          "path": "docs/manuscript/v3/figures/Fig8.svg",
+          "sha256": "41c4a3bbb8ad3a22391a92d8ef0d17f9a61212a044a1e04fb04384f47227d914"
+        },
+        {
+          "ext": "png",
+          "path": "docs/manuscript/v3/figures/Fig8.png",
+          "sha256": "2e251597a47dc3de86b9fbc167593b3a40f2e407a15a5f9610634893c387db5c"
+        }
+      ],
+      "receipt": {
+        "path": "docs/manuscript/v3/reproducibility/figure_receipts/Fig8.json",
+        "sha256": "788acb6c3c6eefb135985ee94c6c1f625e4b5a8efc82f673c541f85eda77f33e",
+        "population": "Ridge and structured reference models within each of three fixed synthetic roots.",
+        "metric": "Stored 95% percentile interval for mean six-cell NRMSE and paired model-minus-zero NRMSE.",
+        "units": "NRMSE dimensionless.",
+        "grouping": "Model × root; paired model-versus-zero camp resampling within root.",
+        "sampleSizes": "5,000 stored replicates; 16 camps resampled per root, preserving 250 episodes and three horizons per camp.",
+        "uncertainty": "Conditional within-root bootstrap intervals; no interval is recorded for ridge versus structured or across roots.",
+        "sourceIds": [
+          "S01",
+          "S23"
+        ],
+        "numericalTest": "all_six_stored_bootstrap_intervals_match_receipt",
+        "figurePdfSha256": "bf684e7ea2b6fa5df2320dc89dad69bacd4dcc2036c95780e0afae9a1b64670e",
+        "releaseSources": [
+          {
+            "id": "S01",
+            "path": "docs/M8_FIXED_MODE_PUBLIC_REFERENCE_RESULTS.json",
+            "sha256": "cd991366c30a29723318b034bcbacff357544eff8d529678fcdcd849b0f08ce9",
+            "packaged": "docs/manuscript/v3/evidence/release_sources/S01_M8_FIXED_MODE_PUBLIC_REFERENCE_RESULTS.json"
+          },
+          {
+            "id": "S23",
+            "path": "src/cmj_recovery_dynamics/studies/fixed_mode_reference_study.py",
+            "sha256": "ab6d349747b54ee606066d56b5da91f33dc9b2d6b6ad18538e14513ab08accd7",
+            "packaged": "docs/manuscript/v3/evidence/release_sources/S23_fixed_mode_reference_study.py"
+          }
+        ],
+        "localData": [
+          {
+            "path": "docs/manuscript/v3/evidence/v2_audit/recorded_uncertainty.csv",
+            "sha256": "1c45dcf69783aad484f86900c79f577e3e253dac06878653a8af9ddada67b2bc"
+          }
+        ]
+      }
+    },
+    {
+      "number": 9,
+      "id": "fig-9",
+      "label": "fig:ablation",
+      "question": "How do recorded ablations and nested training-camp counts relate to six-cell NRMSE?",
+      "page": 10,
+      "section": "uncertainty",
+      "route": "/results/",
+      "caption": "Recorded ablation and nested-camp comparisons. (a) Evaluation-root values (A circle, B square, C triangle) and means for full ridge regression and variants without prior history, current exposure or participant context, plus the structured comparator without prior history; parentheses give the change in the mean from full ridge. (b) Root-specific and mean scores for ridge regression (solid) and the structured comparator (dashed) trained on nested subsets of 24, 48 or 96 camps, with the regularization parameter selected on the full training and development data held fixed. All values are dimensionless six-cell NRMSE within the same synthetic generator. No intervals are shown; these comparisons do not isolate causal feature effects or estimate athlete-level sample efficiency.",
+      "files": [
+        {
+          "ext": "pdf",
+          "path": "docs/manuscript/v3/figures/Fig9.pdf",
+          "sha256": "8cf80523f33c6a5fb6d30ac73fe408e59caf06c1c74d2c3f47a7bf1fd2c69149"
+        },
+        {
+          "ext": "svg",
+          "path": "docs/manuscript/v3/figures/Fig9.svg",
+          "sha256": "71c7f918d15d9a3cc7acf9ac4b8d8063972c7c13c04a84825f343bded2a67088"
+        },
+        {
+          "ext": "png",
+          "path": "docs/manuscript/v3/figures/Fig9.png",
+          "sha256": "7fcb1bc21c47788b8894c17460b6568f1af0751b2a68414a87b2da17520d8e90"
+        }
+      ],
+      "receipt": {
+        "path": "docs/manuscript/v3/reproducibility/figure_receipts/Fig9.json",
+        "sha256": "a5dd9f1223af73f694c16a6269eecd7a06abcf1f6d7305385fbf0091aff6ea23",
+        "population": "Ablation and nested-training results from the same public synthetic generator, evaluated on the same three fixed roots.",
+        "metric": "Mean six-cell NRMSE; panel A shows root values and means, panel B shows root-specific nested-camp scores.",
+        "units": "NRMSE dimensionless.",
+        "grouping": "Model variant × root; nested training sets contain 24, 48, or 96 camps and use the full-data-selected alpha.",
+        "sampleSizes": "Three evaluation roots; each has 16 camps. Training subset sizes are 24/48/96 camps.",
+        "uncertainty": "No interval; root-specific diagnostics are descriptive and do not identify causal feature effects or athlete sample efficiency.",
+        "sourceIds": [
+          "S01",
+          "S23"
+        ],
+        "numericalTest": "ablations_and_nested_camp_values_match_receipt",
+        "figurePdfSha256": "8cf80523f33c6a5fb6d30ac73fe408e59caf06c1c74d2c3f47a7bf1fd2c69149",
+        "releaseSources": [
+          {
+            "id": "S01",
+            "path": "docs/M8_FIXED_MODE_PUBLIC_REFERENCE_RESULTS.json",
+            "sha256": "cd991366c30a29723318b034bcbacff357544eff8d529678fcdcd849b0f08ce9",
+            "packaged": "docs/manuscript/v3/evidence/release_sources/S01_M8_FIXED_MODE_PUBLIC_REFERENCE_RESULTS.json"
+          },
+          {
+            "id": "S23",
+            "path": "src/cmj_recovery_dynamics/studies/fixed_mode_reference_study.py",
+            "sha256": "ab6d349747b54ee606066d56b5da91f33dc9b2d6b6ad18538e14513ab08accd7",
+            "packaged": "docs/manuscript/v3/evidence/release_sources/S23_fixed_mode_reference_study.py"
+          }
+        ],
+        "localData": []
+      }
+    },
+    {
+      "number": 10,
+      "id": "fig-10",
+      "label": "fig:scope",
+      "question": "How many rich-history horizon rows differ between the publicly reconstructed materialization and historical record?",
+      "page": 11,
+      "section": "reproduction-limits",
+      "route": "/evidence/",
+      "caption": "Historical reproducibility gaps. (a) Difference in horizon-row count (public reconstruction minus historical record) for the rich-history camp materialization: training 15,134 versus 15,182 rows (-48); validation 3,799 versus 3,795 rows (+4). These are membership differences in the preserved splits, not response effects or uncertainty intervals. (b) Evidence boundary: the class of evidence that supports each result as described in this article, from public source and contracts, through results regenerable from public receipts and privately qualified results available only as public summaries, to what is not established (historical split identity, the cause of the GPU-array differences, public reruns of the private checkpoints, and any athlete predictive validity, transportability or clinical use).",
+      "files": [
+        {
+          "ext": "pdf",
+          "path": "docs/manuscript/v3/figures/Fig10.pdf",
+          "sha256": "7b71fe502895521b14d241b650b023d5d374002caf9400d21c7dd167b15b669c"
+        },
+        {
+          "ext": "svg",
+          "path": "docs/manuscript/v3/figures/Fig10.svg",
+          "sha256": "80b848b9c6796f18e498ea8d77e5b4a1817ce2d530faf970806ff975e2df43a6"
+        },
+        {
+          "ext": "png",
+          "path": "docs/manuscript/v3/figures/Fig10.png",
+          "sha256": "9c574b5befc700449b346ef851c5c5b674388fca658d8ab785745dd1fd73d201"
+        }
+      ],
+      "receipt": {
+        "path": "docs/manuscript/v3/reproducibility/figure_receipts/Fig10.json",
+        "sha256": "50849b9abf4e556398253c0f617e80b74944047ed2920254b6e97f26ac61e2a3",
+        "population": "Publicly reconstructed and historical rich-history training and validation materializations.",
+        "metric": "Public reconstruction minus historical horizon-row count.",
+        "units": "Horizon rows.",
+        "grouping": "Training and public-validation splits.",
+        "sampleSizes": "Training 15,134 publicly reconstructed vs 15,182 historical rows; validation 3,799 vs 3,795.",
+        "uncertainty": "Not applicable; these are recorded membership counts, not response estimates.",
+        "sourceIds": [
+          "S03",
+          "S04"
+        ],
+        "numericalTest": "rich_history_row_counts_and_differences_match_pinned_receipt",
+        "figurePdfSha256": "7b71fe502895521b14d241b650b023d5d374002caf9400d21c7dd167b15b669c",
+        "releaseSources": [
+          {
+            "id": "S03",
+            "path": "docs/M8_REPRODUCTION_RESULTS.md",
+            "sha256": "44fd81ee0f322d00214ca27926bdb9709b397c1213e0a7cb6680fa06468eb119",
+            "packaged": "docs/manuscript/v3/evidence/release_sources/S03_M8_REPRODUCTION_RESULTS.md"
+          },
+          {
+            "id": "S04",
+            "path": "docs/M8_PUBLIC_REPRODUCTION_RECEIPTS.json",
+            "sha256": "f1b0ca32ba0966330cf152a9457b4e9a47f208779b3b18776ee4914d7ace084a",
+            "packaged": "docs/manuscript/v3/evidence/release_sources/S04_M8_PUBLIC_REPRODUCTION_RECEIPTS.json"
+          }
+        ],
+        "localData": []
+      }
+    }
+  ],
+  "data": {
+    "genealogy": [
+      {
+        "id": "initial_preseason_camp_recovery",
+        "label": "Initial preseason",
+        "status": "SUPERSEDED",
+        "parent": null,
+        "question": "Can pre-origin force and impulse assessments, camp exposure history, the index exposure, and known plans forecast the two observed innovations at H72 and D7 in the initial synthetic public sample?",
+        "change": "The initial camp sample asks about H72 and D7 using pre-origin assessments, exposures and known plans.",
+        "disposition": "Superseded sample/surface; direct parent is unresolved; task and world law match the canonical state.",
+        "source": "src/cmj_recovery_dynamics/benchmarks/preseason_camp_recovery.py",
+        "lane": "camp-state",
+        "horizons": [
+          "H72",
+          "D7"
+        ],
+        "world": "event-time adaptation",
+        "observation": "camp-history observations",
+        "task": "Force and impulse innovations at H72 / D7",
+        "limitation": "Superseded sample/surface; direct parent is unresolved; task and world law match the canonical state.",
+        "modelEvidence": "Linear baseline and M0 inference adapters exist. The historical 39-column projection is absent; a preserved private M0 checkpoint is not auto-loaded."
+      },
+      {
+        "id": "canonical_preseason_camp_recovery",
+        "label": "Canonical preseason",
+        "status": "SUPERSEDED",
+        "parent": "initial_preseason_camp_recovery",
+        "question": "Can pre-origin force and impulse assessments, camp exposure history, the index exposure, and known plans forecast the two observed innovations at H72 and D7 in the canonical horizon-row sample?",
+        "change": "A canonical horizon-row sample and query surface; the task and world law are retained.",
+        "disposition": "Canonical query surface and sample; not a new task or world law.",
+        "source": "src/cmj_recovery_dynamics/benchmarks/preseason_camp_recovery.py",
+        "lane": "camp-state",
+        "horizons": [
+          "H72",
+          "D7"
+        ],
+        "world": "event-time adaptation",
+        "observation": "camp-history observations",
+        "task": "Force and impulse innovations at H72 / D7",
+        "limitation": "Canonical query surface and sample; not a new task or world law.",
+        "modelEvidence": "Historical five-run campaign is numeric result evidence only; no runnable historical M3 model use is registered."
+      },
+      {
+        "id": "rich_history_camp_recovery",
+        "label": "Rich-history camp",
+        "status": "RETIRED",
+        "parent": null,
+        "question": "Can richer monitoring, participant context, variable assessment histories, and known plans forecast camp-state force and impulse innovations at H72 and D7?",
+        "change": "Richer monitoring and variable histories; a distinct retired 24-cell diagnostic with unresolved ancestry.",
+        "disposition": "Retired formulation; its direct scientific parent is unresolved.",
+        "source": "src/cmj_recovery_dynamics/benchmarks/rich_history_recovery.py",
+        "lane": "camp-state",
+        "horizons": [
+          "H72",
+          "D7"
+        ],
+        "world": "fitness–fatigue response",
+        "observation": "rich-monitoring observations",
+        "task": "Force and impulse innovations at H72 / D7",
+        "limitation": "Retired formulation; its direct scientific parent is unresolved.",
+        "modelEvidence": "Registered zero-innovation baseline is executable. Historical empirical-Bayes, boosted-residual and headroom results are evidence only. The new public ridge study is a separate experiment."
+      },
+      {
+        "id": "preliminary_post_exposure_recovery",
+        "label": "Preliminary post-exposure",
+        "status": "SUPERSEDED",
+        "parent": null,
+        "question": "Can participant baseline and context, one current exposure, and four prior episodes forecast measured force and impulse innovations at H24, H48, and H72 using scalar paired-trial measurements?",
+        "change": "One current exposure and four prior episodes, using scalar paired-trial measurements.",
+        "disposition": "Direct parent is unresolved; preliminary measurement contract without a frozen force–impulse identity.",
+        "source": "src/cmj_recovery_dynamics/benchmarks/preliminary_post_exposure_recovery.py",
+        "lane": "episode-response",
+        "horizons": [
+          "H24",
+          "H48",
+          "H72"
+        ],
+        "world": "biexponential episode response",
+        "observation": "paired-trial summaries",
+        "task": "Force and net-impulse innovations at H24 / H48 / H72",
+        "limitation": "Direct parent is unresolved; preliminary measurement contract without a frozen force–impulse identity.",
+        "modelEvidence": "No M3 model implementation and no public M1 numeric historical result are registered."
+      },
+      {
+        "id": "phase_consistent_post_exposure_recovery",
+        "label": "Phase-consistent",
+        "status": "SUPERSEDED",
+        "parent": "preliminary_post_exposure_recovery",
+        "question": "Can participant baseline and context, one current exposure, and four prior episodes forecast force and net-impulse innovations at H24, H48, and H72 when both outcomes are derived from the same concentric force trace?",
+        "change": "Both outcomes now come from the same concentric force trace; the episode response law is retained.",
+        "disposition": "Observation-law repair; the episode response law is retained.",
+        "source": "src/cmj_recovery_dynamics/benchmarks/phase_consistent_post_exposure_recovery.py",
+        "lane": "episode-response",
+        "horizons": [
+          "H24",
+          "H48",
+          "H72"
+        ],
+        "world": "biexponential episode response",
+        "observation": "phase-consistent force trace",
+        "task": "Force and net-impulse innovations at H24 / H48 / H72",
+        "limitation": "Observation-law repair; the episode response law is retained.",
+        "modelEvidence": "Historical ridge research result is evidence only; no executable M3 model adapter is registered."
+      },
+      {
+        "id": "correlated_exposure_recovery",
+        "label": "Correlated exposure",
+        "status": "SUPERSEDED",
+        "parent": "phase_consistent_post_exposure_recovery",
+        "question": "How does a correlated four-factor exposure distribution alter single-exposure force and net-impulse innovation forecasting at H24, H48, and H72?",
+        "change": "A correlated four-factor exposure distribution changes the forecasting world.",
+        "disposition": "Material correlated exposure-distribution change; later redesigned.",
+        "source": "src/cmj_recovery_dynamics/benchmarks/correlated_exposure_recovery.py",
+        "lane": "episode-response",
+        "horizons": [
+          "H24",
+          "H48",
+          "H72"
+        ],
+        "world": "correlated exposure response",
+        "observation": "phase-consistent force trace",
+        "task": "Force and net-impulse innovations at H24 / H48 / H72",
+        "limitation": "Material correlated exposure-distribution change; later redesigned.",
+        "modelEvidence": "Historical local, frontier and other predictor families are result evidence only; no exact historical numerical replay is qualified."
+      },
+      {
+        "id": "threshold_response_recovery",
+        "label": "Threshold response",
+        "status": "PROPOSED",
+        "parent": "correlated_exposure_recovery",
+        "question": "Does a participant-weighted high/low-load threshold response define a useful alternate for forecasting force and net-impulse innovations at H24, H48, and H72?",
+        "change": "Participant-weighted high/low-load thresholds; a proposed alternate, not an accepted successor.",
+        "disposition": "Proposed alternate, not an accepted successor formulation.",
+        "source": "src/cmj_recovery_dynamics/benchmarks/threshold_response_recovery.py",
+        "lane": "episode-response",
+        "horizons": [
+          "H24",
+          "H48",
+          "H72"
+        ],
+        "world": "threshold response",
+        "observation": "phase-consistent force trace",
+        "task": "Force and net-impulse innovations at H24 / H48 / H72",
+        "limitation": "Proposed alternate, not an accepted successor formulation.",
+        "modelEvidence": "Reference predictor configuration is unresolved; its checkpoint is not public. No M1 numeric historical result is registered."
+      },
+      {
+        "id": "fixed_mode_discrepancy_recovery",
+        "label": "Fixed-mode discrepancy",
+        "status": "ACTIVE_CANDIDATE",
+        "parent": "correlated_exposure_recovery",
+        "question": "Can fixed mathematical response modes with bounded smooth discrepancy forecast force and net-impulse innovations at H24, H48, and H72 under correlated exposures?",
+        "change": "Fixed 24 h / 84 h mathematical response modes plus bounded smooth discrepancy; not biological compartments.",
+        "disposition": "Active candidate; fixed modes are mathematical anchors, not biological compartments.",
+        "source": "src/cmj_recovery_dynamics/benchmarks/fixed_mode_discrepancy_recovery.py",
+        "lane": "episode-response",
+        "horizons": [
+          "H24",
+          "H48",
+          "H72"
+        ],
+        "world": "fixed-mode discrepancy",
+        "observation": "phase-consistent force trace",
+        "task": "Force and net-impulse innovations at H24 / H48 / H72",
+        "limitation": "Active candidate; fixed modes are mathematical anchors, not biological compartments.",
+        "modelEvidence": "Historical local, generic and structured predictors are result evidence only. The new public study fits zero, constant, ridge and structured models independently of historical replay."
+      }
+    ],
+    "design": {
+      "training": {
+        "camps": 96,
+        "episodes": 24000,
+        "rows": 72000,
+        "split": "training",
+        "seedKind": "oss_clean_room",
+        "participants": 24000,
+        "queries": 72000,
+        "labels": [
+          "label.relative_concentric_net_impulse_innovation",
+          "label.relative_mean_concentric_force_innovation"
+        ]
+      },
+      "development": {
+        "camps": 16,
+        "episodes": 4000,
+        "rows": 12000,
+        "split": "public_validation",
+        "seedKind": "oss_clean_room",
+        "participants": 4000,
+        "queries": 12000,
+        "labels": [
+          "label.relative_concentric_net_impulse_innovation",
+          "label.relative_mean_concentric_force_innovation"
+        ]
+      },
+      "roots": [
+        {
+          "id": "A",
+          "sourceId": "test_root_1",
+          "camps": 16,
+          "episodes": 4000,
+          "rows": 12000,
+          "split": "public_validation",
+          "seedKind": "caller_supplied_public",
+          "participants": 4000,
+          "queries": 12000,
+          "labels": [
+            "label.relative_concentric_net_impulse_innovation",
+            "label.relative_mean_concentric_force_innovation"
+          ]
+        },
+        {
+          "id": "B",
+          "sourceId": "test_root_2",
+          "camps": 16,
+          "episodes": 4000,
+          "rows": 12000,
+          "split": "public_validation",
+          "seedKind": "caller_supplied_public",
+          "participants": 4000,
+          "queries": 12000,
+          "labels": [
+            "label.relative_concentric_net_impulse_innovation",
+            "label.relative_mean_concentric_force_innovation"
+          ]
+        },
+        {
+          "id": "C",
+          "sourceId": "test_root_3",
+          "camps": 16,
+          "episodes": 4000,
+          "rows": 12000,
+          "split": "public_validation",
+          "seedKind": "caller_supplied_public",
+          "participants": 4000,
+          "queries": 12000,
+          "labels": [
+            "label.relative_concentric_net_impulse_innovation",
+            "label.relative_mean_concentric_force_innovation"
+          ]
+        }
+      ],
+      "horizons": [
+        "H24",
+        "H48",
+        "H72"
+      ],
+      "contract": {
+        "sourceFields": 82,
+        "encodedFields": 84,
+        "groupingKeysAsPredictors": false,
+        "targetLabelsAsPredictors": false,
+        "targetTimeFields": "absent from the registered 82-field schema",
+        "horizonEncoding": "one-hot over the registered H24/H48/H72 forecast horizon",
+        "preprocessing": "training-only mean and population SD; zero SD set to one"
+      },
+      "campUnit": "keyed RNG namespace + root seed + split + public camp index"
+    },
+    "architectures": {
+      "components": [
+        {
+          "id": "backbone",
+          "label": "Raw feedforward backbone (39 features)"
+        },
+        {
+          "id": "pointwise",
+          "label": "Pointwise history encoder (4 × 4)"
+        },
+        {
+          "id": "gru",
+          "label": "32-unit GRU history encoder"
+        },
+        {
+          "id": "pooling",
+          "label": "Mean and latest-value pooling"
+        },
+        {
+          "id": "horizon",
+          "label": "Two-entry, 8-dimensional horizon embedding"
+        },
+        {
+          "id": "basis2",
+          "label": "Schedule-basis projection (first two of five values)"
+        },
+        {
+          "id": "basis5",
+          "label": "Schedule-basis projection (all five values)"
+        },
+        {
+          "id": "basisHead",
+          "label": "Bias-free 5 → 2 linear basis head"
+        }
+      ],
+      "families": [
+        {
+          "id": "M0",
+          "parameters": 1346,
+          "repeats": [
+            "r0",
+            "r1"
+          ],
+          "inputs": "39 raw features",
+          "architecture": "39 → 32 → 2; exact GELU",
+          "output": "force N/kg; net impulse m/s; additive innovations",
+          "cpuSource": "Exact source parity",
+          "savedCuda": "Within recorded tolerance",
+          "hidden": "39 → 32",
+          "concatenatedWidth": null,
+          "components": [
+            "backbone"
+          ]
+        },
+        {
+          "id": "M1",
+          "parameters": 2690,
+          "repeats": [
+            "r0",
+            "r1"
+          ],
+          "inputs": "39 raw features",
+          "architecture": "39 → 64 → 2; exact GELU",
+          "output": "force N/kg; net impulse m/s; additive innovations",
+          "cpuSource": "Exact source parity",
+          "savedCuda": "Within recorded tolerance",
+          "hidden": "39 → 64",
+          "concatenatedWidth": null,
+          "components": [
+            "backbone"
+          ]
+        },
+        {
+          "id": "M2",
+          "parameters": 6850,
+          "repeats": [
+            "r0",
+            "r1"
+          ],
+          "inputs": "39 raw features",
+          "architecture": "39 → 64 → 64 → 2; exact GELU",
+          "output": "force N/kg; net impulse m/s; additive innovations",
+          "cpuSource": "Exact source parity",
+          "savedCuda": "Within recorded tolerance",
+          "hidden": "39 → 64 → 64",
+          "concatenatedWidth": null,
+          "components": [
+            "backbone"
+          ]
+        },
+        {
+          "id": "M3",
+          "parameters": 7138,
+          "repeats": [
+            "r0",
+            "r1"
+          ],
+          "inputs": "39 raw + 4 × 4 history",
+          "architecture": "Raw backbone + pointwise history encoder; mean/latest pooling → 128 → 2",
+          "output": "force N/kg; net impulse m/s; additive innovations",
+          "cpuSource": "Exact source parity",
+          "savedCuda": "Within recorded tolerance",
+          "hidden": null,
+          "concatenatedWidth": 128,
+          "components": [
+            "backbone",
+            "pointwise",
+            "pooling"
+          ]
+        },
+        {
+          "id": "M4",
+          "parameters": 10626,
+          "repeats": [
+            "r0",
+            "r1"
+          ],
+          "inputs": "39 raw + 4 × 4 history",
+          "architecture": "Raw backbone + 4 → 32 GRU; mean/latest pooling → 128 → 2",
+          "output": "force N/kg; net impulse m/s; additive innovations",
+          "cpuSource": "Exact source parity",
+          "savedCuda": "Outside recorded tolerance",
+          "hidden": null,
+          "concatenatedWidth": 128,
+          "components": [
+            "backbone",
+            "gru",
+            "pooling"
+          ]
+        },
+        {
+          "id": "M5",
+          "parameters": 10658,
+          "repeats": [
+            "r0",
+            "r1"
+          ],
+          "inputs": "39 raw + 4 × 4 history + horizon",
+          "architecture": "M4 + 2 × 8 horizon embedding → 136 → 2",
+          "output": "force N/kg; net impulse m/s; additive innovations",
+          "cpuSource": "Exact source parity",
+          "savedCuda": "Outside recorded tolerance",
+          "hidden": null,
+          "concatenatedWidth": 136,
+          "components": [
+            "backbone",
+            "gru",
+            "pooling",
+            "horizon"
+          ]
+        },
+        {
+          "id": "M6",
+          "parameters": 10738,
+          "repeats": [
+            "r0",
+            "r1"
+          ],
+          "inputs": "39 raw + 4 × 4 history + horizon + 5 basis values",
+          "architecture": "M5 + first two basis values → 16 → 152 → 2",
+          "output": "force N/kg; net impulse m/s; additive innovations",
+          "cpuSource": "Exact source parity",
+          "savedCuda": "Outside recorded tolerance",
+          "hidden": null,
+          "concatenatedWidth": 152,
+          "components": [
+            "backbone",
+            "gru",
+            "pooling",
+            "horizon",
+            "basis2"
+          ]
+        },
+        {
+          "id": "M7",
+          "parameters": 10786,
+          "repeats": [
+            "r0",
+            "r1"
+          ],
+          "inputs": "39 raw + 4 × 4 history + horizon + 5 basis values",
+          "architecture": "M5 + all five basis values → 16 → 152 → 2",
+          "output": "force N/kg; net impulse m/s; additive innovations",
+          "cpuSource": "Exact source parity",
+          "savedCuda": "Outside recorded tolerance",
+          "hidden": null,
+          "concatenatedWidth": 152,
+          "components": [
+            "backbone",
+            "gru",
+            "pooling",
+            "horizon",
+            "basis5"
+          ]
+        },
+        {
+          "id": "M8",
+          "parameters": 10796,
+          "repeats": [
+            "r0",
+            "r1"
+          ],
+          "inputs": "39 raw + 4 × 4 history + horizon + 5 basis values",
+          "architecture": "M7 + bias-free 5 → 2 linear basis head",
+          "output": "force N/kg; net impulse m/s; additive innovations",
+          "cpuSource": "Exact source parity",
+          "savedCuda": "Outside recorded tolerance",
+          "hidden": null,
+          "concatenatedWidth": 152,
+          "components": [
+            "backbone",
+            "gru",
+            "pooling",
+            "horizon",
+            "basis5",
+            "basisHead"
+          ]
+        }
+      ]
+    },
+    "routes": [
+      {
+        "route": "M0-r0",
+        "model": "M0",
+        "repeat": "r0",
+        "cpuSource": "Exact recorded synthetic and historical CPU equality",
+        "savedCuda": "pass",
+        "atol": 0.00001,
+        "rtol": 0.0001,
+        "maxAbsoluteError": 0.000001430511474609375,
+        "failingElements": 0,
+        "selectionIdentity": "Inventory/config/result/checkpoint association verified privately",
+        "rights": "Public source code; original weights/configuration not licensed for redistribution",
+        "inferenceRerun": false
+      },
+      {
+        "route": "M0-r1",
+        "model": "M0",
+        "repeat": "r1",
+        "cpuSource": "Exact recorded synthetic and historical CPU equality",
+        "savedCuda": "pass",
+        "atol": 0.00001,
+        "rtol": 0.0001,
+        "maxAbsoluteError": 0.000001430511474609375,
+        "failingElements": 0,
+        "selectionIdentity": "Inventory/config/result/checkpoint association verified privately",
+        "rights": "Public source code; original weights/configuration not licensed for redistribution",
+        "inferenceRerun": false
+      },
+      {
+        "route": "M1-r0",
+        "model": "M1",
+        "repeat": "r0",
+        "cpuSource": "Exact recorded synthetic and historical CPU equality",
+        "savedCuda": "pass",
+        "atol": 0.00001,
+        "rtol": 0.0001,
+        "maxAbsoluteError": 0.000001430511474609375,
+        "failingElements": null,
+        "selectionIdentity": "Inventory/config/result/checkpoint association verified privately",
+        "rights": "Public source code; original weights/configuration not licensed for redistribution",
+        "inferenceRerun": false
+      },
+      {
+        "route": "M1-r1",
+        "model": "M1",
+        "repeat": "r1",
+        "cpuSource": "Exact recorded synthetic and historical CPU equality",
+        "savedCuda": "pass",
+        "atol": 0.00001,
+        "rtol": 0.0001,
+        "maxAbsoluteError": 0.000001430511474609375,
+        "failingElements": null,
+        "selectionIdentity": "Inventory/config/result/checkpoint association verified privately",
+        "rights": "Public source code; original weights/configuration not licensed for redistribution",
+        "inferenceRerun": false
+      },
+      {
+        "route": "M2-r0",
+        "model": "M2",
+        "repeat": "r0",
+        "cpuSource": "Exact recorded synthetic and historical CPU equality",
+        "savedCuda": "pass",
+        "atol": 0.00001,
+        "rtol": 0.0001,
+        "maxAbsoluteError": 0.0000019073486328125,
+        "failingElements": null,
+        "selectionIdentity": "Inventory/config/result/checkpoint association verified privately",
+        "rights": "Public source code; original weights/configuration not licensed for redistribution",
+        "inferenceRerun": false
+      },
+      {
+        "route": "M2-r1",
+        "model": "M2",
+        "repeat": "r1",
+        "cpuSource": "Exact recorded synthetic and historical CPU equality",
+        "savedCuda": "pass",
+        "atol": 0.00001,
+        "rtol": 0.0001,
+        "maxAbsoluteError": 0.0000019073486328125,
+        "failingElements": null,
+        "selectionIdentity": "Inventory/config/result/checkpoint association verified privately",
+        "rights": "Public source code; original weights/configuration not licensed for redistribution",
+        "inferenceRerun": false
+      },
+      {
+        "route": "M3-r0",
+        "model": "M3",
+        "repeat": "r0",
+        "cpuSource": "Exact recorded synthetic and historical CPU equality",
+        "savedCuda": "pass",
+        "atol": 0.00001,
+        "rtol": 0.0001,
+        "maxAbsoluteError": 0.000002384185791015625,
+        "failingElements": null,
+        "selectionIdentity": "Inventory/config/result/checkpoint association verified privately",
+        "rights": "Public source code; original weights/configuration not licensed for redistribution",
+        "inferenceRerun": false
+      },
+      {
+        "route": "M3-r1",
+        "model": "M3",
+        "repeat": "r1",
+        "cpuSource": "Exact recorded synthetic and historical CPU equality",
+        "savedCuda": "pass",
+        "atol": 0.00001,
+        "rtol": 0.0001,
+        "maxAbsoluteError": 0.0000011920928955078125,
+        "failingElements": null,
+        "selectionIdentity": "Inventory/config/result/checkpoint association verified privately",
+        "rights": "Public source code; original weights/configuration not licensed for redistribution",
+        "inferenceRerun": false
+      },
+      {
+        "route": "M4-r0",
+        "model": "M4",
+        "repeat": "r0",
+        "cpuSource": "Exact recorded synthetic and historical CPU equality",
+        "savedCuda": "fail",
+        "atol": 0.00001,
+        "rtol": 0.0001,
+        "maxAbsoluteError": 0.00047588348388671875,
+        "failingElements": 254,
+        "selectionIdentity": "Inventory/config/result/checkpoint association verified privately",
+        "rights": "Public source code; original weights/configuration not licensed for redistribution",
+        "inferenceRerun": false
+      },
+      {
+        "route": "M4-r1",
+        "model": "M4",
+        "repeat": "r1",
+        "cpuSource": "Exact recorded synthetic and historical CPU equality",
+        "savedCuda": "fail",
+        "atol": 0.00001,
+        "rtol": 0.0001,
+        "maxAbsoluteError": 0.00032639503479003906,
+        "failingElements": 146,
+        "selectionIdentity": "Inventory/config/result/checkpoint association verified privately",
+        "rights": "Public source code; original weights/configuration not licensed for redistribution",
+        "inferenceRerun": false
+      },
+      {
+        "route": "M5-r0",
+        "model": "M5",
+        "repeat": "r0",
+        "cpuSource": "Exact recorded synthetic and historical CPU equality",
+        "savedCuda": "fail",
+        "atol": 0.00001,
+        "rtol": 0.0001,
+        "maxAbsoluteError": 0.0003714561462402344,
+        "failingElements": 443,
+        "selectionIdentity": "Inventory/config/result/checkpoint association verified privately",
+        "rights": "Public source code; original weights/configuration not licensed for redistribution",
+        "inferenceRerun": false
+      },
+      {
+        "route": "M5-r1",
+        "model": "M5",
+        "repeat": "r1",
+        "cpuSource": "Exact recorded synthetic and historical CPU equality",
+        "savedCuda": "fail",
+        "atol": 0.00001,
+        "rtol": 0.0001,
+        "maxAbsoluteError": 0.0002703666687011719,
+        "failingElements": 206,
+        "selectionIdentity": "Inventory/config/result/checkpoint association verified privately",
+        "rights": "Public source code; original weights/configuration not licensed for redistribution",
+        "inferenceRerun": false
+      },
+      {
+        "route": "M6-r0",
+        "model": "M6",
+        "repeat": "r0",
+        "cpuSource": "Exact recorded synthetic and historical CPU equality",
+        "savedCuda": "fail",
+        "atol": 0.00001,
+        "rtol": 0.0001,
+        "maxAbsoluteError": 0.00019931793212890625,
+        "failingElements": 88,
+        "selectionIdentity": "Inventory/config/result/checkpoint association verified privately",
+        "rights": "Public source code; original weights/configuration not licensed for redistribution",
+        "inferenceRerun": false
+      },
+      {
+        "route": "M6-r1",
+        "model": "M6",
+        "repeat": "r1",
+        "cpuSource": "Exact recorded synthetic and historical CPU equality",
+        "savedCuda": "fail",
+        "atol": 0.00001,
+        "rtol": 0.0001,
+        "maxAbsoluteError": 0.00027930736541748047,
+        "failingElements": 140,
+        "selectionIdentity": "Inventory/config/result/checkpoint association verified privately",
+        "rights": "Public source code; original weights/configuration not licensed for redistribution",
+        "inferenceRerun": false
+      },
+      {
+        "route": "M7-r0",
+        "model": "M7",
+        "repeat": "r0",
+        "cpuSource": "Exact recorded synthetic and historical CPU equality",
+        "savedCuda": "fail",
+        "atol": 0.00001,
+        "rtol": 0.0001,
+        "maxAbsoluteError": 0.00031757354736328125,
+        "failingElements": 163,
+        "selectionIdentity": "Inventory/config/result/checkpoint association verified privately",
+        "rights": "Public source code; original weights/configuration not licensed for redistribution",
+        "inferenceRerun": false
+      },
+      {
+        "route": "M7-r1",
+        "model": "M7",
+        "repeat": "r1",
+        "cpuSource": "Exact recorded synthetic and historical CPU equality",
+        "savedCuda": "fail",
+        "atol": 0.00001,
+        "rtol": 0.0001,
+        "maxAbsoluteError": 0.00030493736267089844,
+        "failingElements": 198,
+        "selectionIdentity": "Inventory/config/result/checkpoint association verified privately",
+        "rights": "Public source code; original weights/configuration not licensed for redistribution",
+        "inferenceRerun": false
+      },
+      {
+        "route": "M8-r0",
+        "model": "M8",
+        "repeat": "r0",
+        "cpuSource": "Exact recorded synthetic and historical CPU equality",
+        "savedCuda": "fail",
+        "atol": 0.00001,
+        "rtol": 0.0001,
+        "maxAbsoluteError": 0.00022125244140625,
+        "failingElements": 98,
+        "selectionIdentity": "Inventory/config/result/checkpoint association verified privately",
+        "rights": "Public source code; original weights/configuration not licensed for redistribution",
+        "inferenceRerun": false
+      },
+      {
+        "route": "M8-r1",
+        "model": "M8",
+        "repeat": "r1",
+        "cpuSource": "Exact recorded synthetic and historical CPU equality",
+        "savedCuda": "fail",
+        "atol": 0.00001,
+        "rtol": 0.0001,
+        "maxAbsoluteError": 0.00030422210693359375,
+        "failingElements": 145,
+        "selectionIdentity": "Inventory/config/result/checkpoint association verified privately",
+        "rights": "Public source code; original weights/configuration not licensed for redistribution",
+        "inferenceRerun": false
+      }
+    ],
+    "mechanics": {
+      "mass": 70,
+      "gravity": 9.80665,
+      "amplitude": 1000,
+      "peakTime": 0.22,
+      "duration": 0.55,
+      "samples": 5501,
+      "windows": [
+        {
+          "id": "baseline",
+          "label": "Baseline search",
+          "start": -240,
+          "end": -24,
+          "contract": "native"
+        },
+        {
+          "id": "H72",
+          "label": "H72 target",
+          "start": 66,
+          "end": 78,
+          "nominal": 72,
+          "contract": "native"
+        },
+        {
+          "id": "D7",
+          "label": "D7 target",
+          "start": 156,
+          "end": 180,
+          "nominal": 168,
+          "contract": "native"
+        }
+      ],
+      "syntheticQueries": [
+        24,
+        48,
+        72
+      ],
+      "assessment": "Assessment = mean of 3 valid trials; baseline = mean of the 2 latest valid assessments."
+    },
+    "sixCell": {
+      "models": [
+        "zero_innovation",
+        "training_constant",
+        "ridge_full",
+        "structured_full"
+      ],
+      "roots": [
+        "A",
+        "B",
+        "C"
+      ],
+      "cells": [
+        {
+          "cell": "H24/relative_peak_mean_force_innovation",
+          "horizon": "H24",
+          "outcome": "force",
+          "unit": "N/kg",
+          "models": {
+            "zero_innovation": {
+              "roots": [
+                {
+                  "root": "A",
+                  "nrmse": 3.0430879793193637,
+                  "rmse": 1.2265748696656724,
+                  "truthSd": 0.4030691448953822,
+                  "rows": 4000
+                },
+                {
+                  "root": "B",
+                  "nrmse": 3.0491997203749173,
+                  "rmse": 1.2036459223017555,
+                  "truthSd": 0.3947415822777788,
+                  "rows": 4000
+                },
+                {
+                  "root": "C",
+                  "nrmse": 3.0083595511819805,
+                  "rmse": 1.2187820993710483,
+                  "truthSd": 0.40513179313695746,
+                  "rows": 4000
+                }
+              ],
+              "mean": 3.03354908362542,
+              "sampleSd": 0.02202777231637079
+            },
+            "training_constant": {
+              "roots": [
+                {
+                  "root": "A",
+                  "nrmse": 1.0547762724718326,
+                  "rmse": 0.42514777020116024,
+                  "truthSd": 0.4030691448953822,
+                  "rows": 4000
+                },
+                {
+                  "root": "B",
+                  "nrmse": 1.040758002039761,
+                  "rmse": 0.41083046049343497,
+                  "truthSd": 0.3947415822777788,
+                  "rows": 4000
+                },
+                {
+                  "root": "C",
+                  "nrmse": 1.047428090076364,
+                  "rmse": 0.4243464203146559,
+                  "truthSd": 0.40513179313695746,
+                  "rows": 4000
+                }
+              ],
+              "mean": 1.0476541215293194,
+              "sampleSd": 0.007011868092025565
+            },
+            "ridge_full": {
+              "roots": [
+                {
+                  "root": "A",
+                  "nrmse": 0.6303186043050412,
+                  "rmse": 0.2540619808488837,
+                  "truthSd": 0.4030691448953822,
+                  "rows": 4000
+                },
+                {
+                  "root": "B",
+                  "nrmse": 0.6301386292903769,
+                  "rmse": 0.24874191958043407,
+                  "truthSd": 0.3947415822777788,
+                  "rows": 4000
+                },
+                {
+                  "root": "C",
+                  "nrmse": 0.6127652855899742,
+                  "rmse": 0.2482506989231461,
+                  "truthSd": 0.40513179313695746,
+                  "rows": 4000
+                }
+              ],
+              "mean": 0.6244075063951308,
+              "sampleSd": 0.010082860541953885
+            },
+            "structured_full": {
+              "roots": [
+                {
+                  "root": "A",
+                  "nrmse": 0.6632589044837678,
+                  "rmse": 0.2673391994745203,
+                  "truthSd": 0.4030691448953822,
+                  "rows": 4000
+                },
+                {
+                  "root": "B",
+                  "nrmse": 0.6649019484438603,
+                  "rmse": 0.2624644471883075,
+                  "truthSd": 0.3947415822777788,
+                  "rows": 4000
+                },
+                {
+                  "root": "C",
+                  "nrmse": 0.6444441066583024,
+                  "rmse": 0.2610847965070227,
+                  "truthSd": 0.40513179313695746,
+                  "rows": 4000
+                }
+              ],
+              "mean": 0.6575349865286435,
+              "sampleSd": 0.011366760761029283
+            }
+          }
+        },
+        {
+          "cell": "H48/relative_peak_mean_force_innovation",
+          "horizon": "H48",
+          "outcome": "force",
+          "unit": "N/kg",
+          "models": {
+            "zero_innovation": {
+              "roots": [
+                {
+                  "root": "A",
+                  "nrmse": 2.5259888586393826,
+                  "rmse": 0.7835969578726467,
+                  "truthSd": 0.31021394064846713,
+                  "rows": 4000
+                },
+                {
+                  "root": "B",
+                  "nrmse": 2.550929139448908,
+                  "rmse": 0.7577905892496958,
+                  "truthSd": 0.29706453916372044,
+                  "rows": 4000
+                },
+                {
+                  "root": "C",
+                  "nrmse": 2.549185162313563,
+                  "rmse": 0.7816712307103616,
+                  "truthSd": 0.30663572119686294,
+                  "rows": 4000
+                }
+              ],
+              "mean": 2.542034386800618,
+              "sampleSd": 0.013923167547002272
+            },
+            "training_constant": {
+              "roots": [
+                {
+                  "root": "A",
+                  "nrmse": 1.0447154118981898,
+                  "rmse": 0.324085284781124,
+                  "truthSd": 0.31021394064846713,
+                  "rows": 4000
+                },
+                {
+                  "root": "B",
+                  "nrmse": 1.0284474387898002,
+                  "rmse": 0.30551526445820054,
+                  "truthSd": 0.29706453916372044,
+                  "rows": 4000
+                },
+                {
+                  "root": "C",
+                  "nrmse": 1.045208407914641,
+                  "rmse": 0.3204982339619309,
+                  "truthSd": 0.30663572119686294,
+                  "rows": 4000
+                }
+              ],
+              "mean": 1.0394570862008772,
+              "sampleSd": 0.00953782015741715
+            },
+            "ridge_full": {
+              "roots": [
+                {
+                  "root": "A",
+                  "nrmse": 0.7371240039744801,
+                  "rmse": 0.2286661420194998,
+                  "truthSd": 0.31021394064846713,
+                  "rows": 4000
+                },
+                {
+                  "root": "B",
+                  "nrmse": 0.7378510197902565,
+                  "rmse": 0.2191893731654737,
+                  "truthSd": 0.29706453916372044,
+                  "rows": 4000
+                },
+                {
+                  "root": "C",
+                  "nrmse": 0.7208039397760723,
+                  "rmse": 0.22102423591477607,
+                  "truthSd": 0.30663572119686294,
+                  "rows": 4000
+                }
+              ],
+              "mean": 0.7319263211802696,
+              "sampleSd": 0.009639121540598154
+            },
+            "structured_full": {
+              "roots": [
+                {
+                  "root": "A",
+                  "nrmse": 0.7678422694000978,
+                  "rmse": 0.23819537618706624,
+                  "truthSd": 0.31021394064846713,
+                  "rows": 4000
+                },
+                {
+                  "root": "B",
+                  "nrmse": 0.7689711597452729,
+                  "rmse": 0.22843406319992113,
+                  "truthSd": 0.29706453916372044,
+                  "rows": 4000
+                },
+                {
+                  "root": "C",
+                  "nrmse": 0.7462712122263434,
+                  "rmse": 0.22883341136948196,
+                  "truthSd": 0.30663572119686294,
+                  "rows": 4000
+                }
+              ],
+              "mean": 0.7610282137905714,
+              "sampleSd": 0.012792396950056977
+            }
+          }
+        },
+        {
+          "cell": "H72/relative_peak_mean_force_innovation",
+          "horizon": "H72",
+          "outcome": "force",
+          "unit": "N/kg",
+          "models": {
+            "zero_innovation": {
+              "roots": [
+                {
+                  "root": "A",
+                  "nrmse": 2.1105912859662634,
+                  "rmse": 0.5505816059083156,
+                  "truthSd": 0.2608660471448172,
+                  "rows": 4000
+                },
+                {
+                  "root": "B",
+                  "nrmse": 2.101189850867754,
+                  "rmse": 0.5320697836644037,
+                  "truthSd": 0.2532230885489326,
+                  "rows": 4000
+                },
+                {
+                  "root": "C",
+                  "nrmse": 2.1153067125021185,
+                  "rmse": 0.5456368500390002,
+                  "truthSd": 0.25794691938247877,
+                  "rows": 4000
+                }
+              ],
+              "mean": 2.1090292831120454,
+              "sampleSd": 0.007186886341691322
+            },
+            "training_constant": {
+              "roots": [
+                {
+                  "root": "A",
+                  "nrmse": 1.032852531619419,
+                  "rmse": 0.26943615720707514,
+                  "truthSd": 0.2608660471448172,
+                  "rows": 4000
+                },
+                {
+                  "root": "B",
+                  "nrmse": 1.0196951605602016,
+                  "rmse": 0.258210357935454,
+                  "truthSd": 0.2532230885489326,
+                  "rows": 4000
+                },
+                {
+                  "root": "C",
+                  "nrmse": 1.0297348275958413,
+                  "rmse": 0.26561692655919517,
+                  "truthSd": 0.25794691938247877,
+                  "rows": 4000
+                }
+              ],
+              "mean": 1.0274275065918206,
+              "sampleSd": 0.006875456418244494
+            },
+            "ridge_full": {
+              "roots": [
+                {
+                  "root": "A",
+                  "nrmse": 0.8149401445867398,
+                  "rmse": 0.2125902141779686,
+                  "truthSd": 0.2608660471448172,
+                  "rows": 4000
+                },
+                {
+                  "root": "B",
+                  "nrmse": 0.8217298446944213,
+                  "rmse": 0.2080809692263561,
+                  "truthSd": 0.2532230885489326,
+                  "rows": 4000
+                },
+                {
+                  "root": "C",
+                  "nrmse": 0.8104349092384476,
+                  "rmse": 0.20904918819807636,
+                  "truthSd": 0.25794691938247877,
+                  "rows": 4000
+                }
+              ],
+              "mean": 0.8157016328398696,
+              "sampleSd": 0.005685841187405255
+            },
+            "structured_full": {
+              "roots": [
+                {
+                  "root": "A",
+                  "nrmse": 0.8432276301374872,
+                  "rmse": 0.21996945871725823,
+                  "truthSd": 0.2608660471448172,
+                  "rows": 4000
+                },
+                {
+                  "root": "B",
+                  "nrmse": 0.8501427497886951,
+                  "rmse": 0.21527577280897578,
+                  "truthSd": 0.2532230885489326,
+                  "rows": 4000
+                },
+                {
+                  "root": "C",
+                  "nrmse": 0.8352373221797841,
+                  "rmse": 0.2154468942095462,
+                  "truthSd": 0.25794691938247877,
+                  "rows": 4000
+                }
+              ],
+              "mean": 0.8428692340353221,
+              "sampleSd": 0.007459174141663201
+            }
+          }
+        },
+        {
+          "cell": "H24/net_impulse_innovation",
+          "horizon": "H24",
+          "outcome": "impulse",
+          "unit": "m/s",
+          "models": {
+            "zero_innovation": {
+              "roots": [
+                {
+                  "root": "A",
+                  "nrmse": 2.7578231523739523,
+                  "rmse": 0.15704655518411217,
+                  "truthSd": 0.05694583971018064,
+                  "rows": 4000
+                },
+                {
+                  "root": "B",
+                  "nrmse": 2.7595018754059115,
+                  "rmse": 0.15299391048354077,
+                  "truthSd": 0.0554425825353121,
+                  "rows": 4000
+                },
+                {
+                  "root": "C",
+                  "nrmse": 2.7679419472985565,
+                  "rmse": 0.15508100676966194,
+                  "truthSd": 0.05602755033248338,
+                  "rows": 4000
+                }
+              ],
+              "mean": 2.761755658359473,
+              "sampleSd": 0.005422836516332909
+            },
+            "training_constant": {
+              "roots": [
+                {
+                  "root": "A",
+                  "nrmse": 1.0533861474493627,
+                  "rmse": 0.05998595870557611,
+                  "truthSd": 0.05694583971018064,
+                  "rows": 4000
+                },
+                {
+                  "root": "B",
+                  "nrmse": 1.0363805886580193,
+                  "rmse": 0.057459616324667576,
+                  "truthSd": 0.0554425825353121,
+                  "rows": 4000
+                },
+                {
+                  "root": "C",
+                  "nrmse": 1.0455512140640655,
+                  "rmse": 0.05857967327116354,
+                  "truthSd": 0.05602755033248338,
+                  "rows": 4000
+                }
+              ],
+              "mean": 1.0451059833904826,
+              "sampleSd": 0.008511517503711262
+            },
+            "ridge_full": {
+              "roots": [
+                {
+                  "root": "A",
+                  "nrmse": 0.6513285093252568,
+                  "rmse": 0.03709044889070697,
+                  "truthSd": 0.05694583971018064,
+                  "rows": 4000
+                },
+                {
+                  "root": "B",
+                  "nrmse": 0.6510820792960005,
+                  "rmse": 0.03609767191863112,
+                  "truthSd": 0.0554425825353121,
+                  "rows": 4000
+                },
+                {
+                  "root": "C",
+                  "nrmse": 0.6540604444886107,
+                  "rmse": 0.03664540447407209,
+                  "truthSd": 0.05602755033248338,
+                  "rows": 4000
+                }
+              ],
+              "mean": 0.6521570110366226,
+              "sampleSd": 0.0016530203021863092
+            },
+            "structured_full": {
+              "roots": [
+                {
+                  "root": "A",
+                  "nrmse": 0.6942262224879009,
+                  "rmse": 0.03953329518840021,
+                  "truthSd": 0.05694583971018064,
+                  "rows": 4000
+                },
+                {
+                  "root": "B",
+                  "nrmse": 0.6982527678765569,
+                  "rmse": 0.038712936713506126,
+                  "truthSd": 0.0554425825353121,
+                  "rows": 4000
+                },
+                {
+                  "root": "C",
+                  "nrmse": 0.6954871926701606,
+                  "rmse": 0.03896644369292499,
+                  "truthSd": 0.05602755033248338,
+                  "rows": 4000
+                }
+              ],
+              "mean": 0.6959887276782061,
+              "sampleSd": 0.002059592184134552
+            }
+          }
+        },
+        {
+          "cell": "H48/net_impulse_innovation",
+          "horizon": "H48",
+          "outcome": "impulse",
+          "unit": "m/s",
+          "models": {
+            "zero_innovation": {
+              "roots": [
+                {
+                  "root": "A",
+                  "nrmse": 2.29245677157525,
+                  "rmse": 0.09977031100863391,
+                  "truthSd": 0.04352113079980882,
+                  "rows": 4000
+                },
+                {
+                  "root": "B",
+                  "nrmse": 2.222561749643219,
+                  "rmse": 0.0978718643694745,
+                  "truthSd": 0.04403561088243581,
+                  "rows": 4000
+                },
+                {
+                  "root": "C",
+                  "nrmse": 2.27804305039765,
+                  "rmse": 0.10024111517901843,
+                  "truthSd": 0.04400316980906949,
+                  "rows": 4000
+                }
+              ],
+              "mean": 2.2643538572053727,
+              "sampleSd": 0.03690357747443179
+            },
+            "training_constant": {
+              "roots": [
+                {
+                  "root": "A",
+                  "nrmse": 1.0359052157231554,
+                  "rmse": 0.045083766389691624,
+                  "truthSd": 0.04352113079980882,
+                  "rows": 4000
+                },
+                {
+                  "root": "B",
+                  "nrmse": 1.022505361821672,
+                  "rmse": 0.04502664823838338,
+                  "truthSd": 0.04403561088243581,
+                  "rows": 4000
+                },
+                {
+                  "root": "C",
+                  "nrmse": 1.0368522306217227,
+                  "rmse": 0.04562478477096014,
+                  "truthSd": 0.04400316980906949,
+                  "rows": 4000
+                }
+              ],
+              "mean": 1.03175426938885,
+              "sampleSd": 0.008023772659676992
+            },
+            "ridge_full": {
+              "roots": [
+                {
+                  "root": "A",
+                  "nrmse": 0.7522184023597948,
+                  "rmse": 0.03273739547912385,
+                  "truthSd": 0.04352113079980882,
+                  "rows": 4000
+                },
+                {
+                  "root": "B",
+                  "nrmse": 0.7658574937930263,
+                  "rmse": 0.0337250025880672,
+                  "truthSd": 0.04403561088243581,
+                  "rows": 4000
+                },
+                {
+                  "root": "C",
+                  "nrmse": 0.7614062217015085,
+                  "rmse": 0.03350428726721349,
+                  "truthSd": 0.04400316980906949,
+                  "rows": 4000
+                }
+              ],
+              "mean": 0.7598273726181098,
+              "sampleSd": 0.006955269736115475
+            },
+            "structured_full": {
+              "roots": [
+                {
+                  "root": "A",
+                  "nrmse": 0.7971964112197086,
+                  "rmse": 0.03469488928583112,
+                  "truthSd": 0.04352113079980882,
+                  "rows": 4000
+                },
+                {
+                  "root": "B",
+                  "nrmse": 0.8125034746760555,
+                  "rmse": 0.03577908685146182,
+                  "truthSd": 0.04403561088243581,
+                  "rows": 4000
+                },
+                {
+                  "root": "C",
+                  "nrmse": 0.8041076147566077,
+                  "rmse": 0.03538328391690084,
+                  "truthSd": 0.04400316980906949,
+                  "rows": 4000
+                }
+              ],
+              "mean": 0.8046025002174574,
+              "sampleSd": 0.007665522267182974
+            }
+          }
+        },
+        {
+          "cell": "H72/net_impulse_innovation",
+          "horizon": "H72",
+          "outcome": "impulse",
+          "unit": "m/s",
+          "models": {
+            "zero_innovation": {
+              "roots": [
+                {
+                  "root": "A",
+                  "nrmse": 1.8829182151627086,
+                  "rmse": 0.07223615206993529,
+                  "truthSd": 0.03836393502821,
+                  "rows": 4000
+                },
+                {
+                  "root": "B",
+                  "nrmse": 1.8442687467195054,
+                  "rmse": 0.0707845160918631,
+                  "truthSd": 0.03838080334971306,
+                  "rows": 4000
+                },
+                {
+                  "root": "C",
+                  "nrmse": 1.8925033701562943,
+                  "rmse": 0.07163565648627436,
+                  "truthSd": 0.03785232703726084,
+                  "rows": 4000
+                }
+              ],
+              "mean": 1.8732301106795026,
+              "sampleSd": 0.025535059249595312
+            },
+            "training_constant": {
+              "roots": [
+                {
+                  "root": "A",
+                  "nrmse": 1.028582135930364,
+                  "rmse": 0.03946045823400995,
+                  "truthSd": 0.03836393502821,
+                  "rows": 4000
+                },
+                {
+                  "root": "B",
+                  "nrmse": 1.0189472180622627,
+                  "rmse": 0.0391080128001849,
+                  "truthSd": 0.03838080334971306,
+                  "rows": 4000
+                },
+                {
+                  "root": "C",
+                  "nrmse": 1.0269641725516327,
+                  "rmse": 0.03887298371497437,
+                  "truthSd": 0.03785232703726084,
+                  "rows": 4000
+                }
+              ],
+              "mean": 1.024831175514753,
+              "sampleSd": 0.005159473602100016
+            },
+            "ridge_full": {
+              "roots": [
+                {
+                  "root": "A",
+                  "nrmse": 0.8343280793810849,
+                  "rmse": 0.032008108229587176,
+                  "truthSd": 0.03836393502821,
+                  "rows": 4000
+                },
+                {
+                  "root": "B",
+                  "nrmse": 0.8296065742876173,
+                  "rmse": 0.03184096678536216,
+                  "truthSd": 0.03838080334971306,
+                  "rows": 4000
+                },
+                {
+                  "root": "C",
+                  "nrmse": 0.8368704974884578,
+                  "rmse": 0.03167749575876828,
+                  "truthSd": 0.03785232703726084,
+                  "rows": 4000
+                }
+              ],
+              "mean": 0.8336017170523866,
+              "sampleSd": 0.0036860340125046353
+            },
+            "structured_full": {
+              "roots": [
+                {
+                  "root": "A",
+                  "nrmse": 0.8772755182416508,
+                  "rmse": 0.03365574098366195,
+                  "truthSd": 0.03836393502821,
+                  "rows": 4000
+                },
+                {
+                  "root": "B",
+                  "nrmse": 0.8763836352514919,
+                  "rmse": 0.03363630796349417,
+                  "truthSd": 0.03838080334971306,
+                  "rows": 4000
+                },
+                {
+                  "root": "C",
+                  "nrmse": 0.879950286856416,
+                  "rmse": 0.03330816603462054,
+                  "truthSd": 0.03785232703726084,
+                  "rows": 4000
+                }
+              ],
+              "mean": 0.8778698134498528,
+              "sampleSd": 0.0018561091060591863
+            }
+          }
+        }
+      ],
+      "aggregates": {
+        "zero_innovation": {
+          "roots": [
+            2.4354777105061536,
+            2.421275180410036,
+            2.435223298975027
+          ],
+          "mean": 2.4306587299637386,
+          "sampleSd": 0.008127387832316858
+        },
+        "training_constant": {
+          "roots": [
+            1.0417029525153871,
+            1.0277889616552862,
+            1.0386231571373779
+          ],
+          "mean": 1.0360383571026839,
+          "sampleSd": 0.007308260998914792
+        },
+        "ridge_full": {
+          "roots": [
+            0.736709623988733,
+            0.7393776068586164,
+            0.7327235497138451
+          ],
+          "mean": 0.7362702601870649,
+          "sampleSd": 0.003348716102349181
+        },
+        "structured_full": {
+          "roots": [
+            0.7738378259951023,
+            0.7785259559636555,
+            0.7675829558912691
+          ],
+          "mean": 0.7733155792833424,
+          "sampleSd": 0.005490161096636422
+        }
+      }
+    },
+    "bootstrap": {
+      "rows": [
+        {
+          "root": "A",
+          "model": "ridge_full",
+          "estimate": 0.736709623988733,
+          "interval": [
+            0.7280326097114198,
+            0.7461879444483456
+          ],
+          "deltaVsZero": -1.6987680865174206,
+          "deltaInterval": [
+            -1.7521668766243348,
+            -1.6449562161713758
+          ],
+          "replicates": 5000
+        },
+        {
+          "root": "A",
+          "model": "structured_full",
+          "estimate": 0.7738378259951023,
+          "interval": [
+            0.7637658671569134,
+            0.7843474497773787
+          ],
+          "deltaVsZero": -1.6616398845110512,
+          "deltaInterval": [
+            -1.7146529443388285,
+            -1.6081250752106349
+          ],
+          "replicates": 5000
+        },
+        {
+          "root": "B",
+          "model": "ridge_full",
+          "estimate": 0.7393776068586164,
+          "interval": [
+            0.733824557890302,
+            0.7453497973125921
+          ],
+          "deltaVsZero": -1.6818975735514194,
+          "deltaInterval": [
+            -1.7155742630766722,
+            -1.6484239604218673
+          ],
+          "replicates": 5000
+        },
+        {
+          "root": "B",
+          "model": "structured_full",
+          "estimate": 0.7785259559636555,
+          "interval": [
+            0.773493727612551,
+            0.7846231898153132
+          ],
+          "deltaVsZero": -1.6427492244463804,
+          "deltaInterval": [
+            -1.676622216045777,
+            -1.6092371596360475
+          ],
+          "replicates": 5000
+        },
+        {
+          "root": "C",
+          "model": "ridge_full",
+          "estimate": 0.7327235497138451,
+          "interval": [
+            0.7263815332081995,
+            0.7401266235493263
+          ],
+          "deltaVsZero": -1.702499749261182,
+          "deltaInterval": [
+            -1.7337921114022619,
+            -1.6691128951422916
+          ],
+          "replicates": 5000
+        },
+        {
+          "root": "C",
+          "model": "structured_full",
+          "estimate": 0.7675829558912691,
+          "interval": [
+            0.7611995474334449,
+            0.7750628731184978
+          ],
+          "deltaVsZero": -1.6676403430837579,
+          "deltaInterval": [
+            -1.7004738622637094,
+            -1.6325277797588602
+          ],
+          "replicates": 5000
+        }
+      ],
+      "replicates": 5000,
+      "seed": 49505000,
+      "generator": "NumPy default_rng / PCG64",
+      "interval": "paired 2.5th and 97.5th percentiles",
+      "unit": "camp; all 250 episodes and three horizons remain together",
+      "campsPerRoot": 16,
+      "episodesPerCamp": 250
+    },
+    "ablations": {
+      "variants": [
+        {
+          "key": "ridge_full",
+          "label": "Full ridge",
+          "family": "ridge",
+          "roots": [
+            0.736709623988733,
+            0.7393776068586164,
+            0.7327235497138451
+          ],
+          "mean": 0.7362702601870649
+        },
+        {
+          "key": "ridge_no_prior_history",
+          "label": "Ridge − prior history",
+          "family": "ridge",
+          "roots": [
+            0.8224572842677736,
+            0.8236788362618488,
+            0.8129062687026808
+          ],
+          "mean": 0.8196807964107679
+        },
+        {
+          "key": "ridge_no_current_exposure",
+          "label": "Ridge − current exposure",
+          "family": "ridge",
+          "roots": [
+            0.8683585461496178,
+            0.8612271220233815,
+            0.8736201992294772
+          ],
+          "mean": 0.8677352891341589
+        },
+        {
+          "key": "ridge_no_participant_context",
+          "label": "Ridge − participant context",
+          "family": "ridge",
+          "roots": [
+            0.7367457643618088,
+            0.7394552050585949,
+            0.7328370023049314
+          ],
+          "mean": 0.7363459905751117
+        },
+        {
+          "key": "structured_full",
+          "label": "Structured comparator (full)",
+          "family": "structured",
+          "roots": [
+            0.7738378259951023,
+            0.7785259559636555,
+            0.7675829558912691
+          ],
+          "mean": 0.7733155792833424
+        },
+        {
+          "key": "structured_no_prior_history",
+          "label": "Structured − prior history",
+          "family": "structured",
+          "roots": [
+            0.8230353749617305,
+            0.8242409111133452,
+            0.8137489828461627
+          ],
+          "mean": 0.8203417563070795
+        }
+      ],
+      "nested": {
+        "camps": [
+          24,
+          48,
+          96
+        ],
+        "hyperparameters": "selected once on full training/development, then held fixed",
+        "subsetOrder": "one seeded permutation of the 96 public training camps",
+        "seed": 52610526,
+        "series": [
+          {
+            "family": "ridge",
+            "points": [
+              {
+                "camps": 24,
+                "roots": [
+                  0.7366367099740115,
+                  0.7408182772061517,
+                  0.7332122898137189
+                ],
+                "mean": 0.736889092331294
+              },
+              {
+                "camps": 48,
+                "roots": [
+                  0.7368613713399578,
+                  0.7397256453462475,
+                  0.7332189706347533
+                ],
+                "mean": 0.7366019957736528
+              },
+              {
+                "camps": 96,
+                "roots": [
+                  0.736709623988733,
+                  0.7393776068586164,
+                  0.7327235497138451
+                ],
+                "mean": 0.7362702601870649
+              }
+            ]
+          },
+          {
+            "family": "structured",
+            "points": [
+              {
+                "camps": 24,
+                "roots": [
+                  0.7741787966997201,
+                  0.7787548636869069,
+                  0.7679393429182446
+                ],
+                "mean": 0.7736243344349573
+              },
+              {
+                "camps": 48,
+                "roots": [
+                  0.7743237304560909,
+                  0.7787113517064154,
+                  0.7678283274355744
+                ],
+                "mean": 0.7736211365326936
+              },
+              {
+                "camps": 96,
+                "roots": [
+                  0.7738378259951023,
+                  0.7785259559636555,
+                  0.7675829558912691
+                ],
+                "mean": 0.7733155792833424
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "richHistory": [
+      {
+        "split": "training",
+        "publicRows": 15134,
+        "historicalRows": 15182,
+        "difference": -48
+      },
+      {
+        "split": "public_validation",
+        "publicRows": 3799,
+        "historicalRows": 3795,
+        "difference": 4
+      }
+    ],
+    "evidence": {
+      "classes": [
+        {
+          "id": "public-source",
+          "label": "Public source",
+          "description": "Inspectable in public source code and contracts."
+        },
+        {
+          "id": "public-regenerable",
+          "label": "Public regenerable",
+          "description": "Recomputable from public receipts without private artifacts."
+        },
+        {
+          "id": "private-summary",
+          "label": "Private summary",
+          "description": "Privately qualified; only a public summary is available."
+        },
+        {
+          "id": "not-established",
+          "label": "Not established",
+          "description": "Not supported by the preserved evidence."
+        }
+      ],
+      "rows": [
+        {
+          "claim": "Eight formulations; 5 parent links",
+          "class": "public-source"
+        },
+        {
+          "claim": "Architecture topology, M0–M8",
+          "class": "public-source"
+        },
+        {
+          "claim": "Parameter counts, 18 routes",
+          "class": "private-summary"
+        },
+        {
+          "claim": "Source-CPU equality, 18/18 routes",
+          "class": "private-summary"
+        },
+        {
+          "claim": "Archived-GPU comparison, 8 pass / 10 fail",
+          "class": "private-summary"
+        },
+        {
+          "claim": "Six-cell benchmark, bootstrap, ablations",
+          "class": "public-regenerable"
+        },
+        {
+          "claim": "Rich-history row counts (−48, +4)",
+          "class": "public-regenerable"
+        },
+        {
+          "claim": "Historical split identity; GPU-difference cause",
+          "class": "not-established"
+        },
+        {
+          "claim": "Rerun of private checkpoints from public files",
+          "class": "not-established"
+        },
+        {
+          "claim": "Athlete validity, transport, clinical use",
+          "class": "not-established"
+        }
+      ]
+    }
+  },
+  "inputs": [
+    {
+      "path": "docs/manuscript/v3/manuscript.tex",
+      "sha256": "8f8180f29bb14c624c5cac16044dc83e079f153d20f37232fdfceebbfc5bb325"
+    },
+    {
+      "path": "docs/manuscript/v3/full_illustrated_research_manuscript.pdf",
+      "sha256": "95aaf37c781244c79e28593aa3ae324ffe6003fae3ea4e3874191787d1ca6058"
+    },
+    {
+      "path": "docs/manuscript/v3/academic_review_manuscript.pdf",
+      "sha256": "60bf6d962ca44b87a21aed32806c544f9d1a43254e51e6256ab10678394ba7b0"
+    },
+    {
+      "path": "docs/manuscript/v3/technical_supplement.pdf",
+      "sha256": "a534d21c4c06efb64648d459bb1796c9c204d4097718522d6bd758f14206fdf8"
+    },
+    {
+      "path": "docs/manuscript/v3/reports/full_illustrated_page_figure_inventory.md",
+      "sha256": "005de45a0100e7497f33580061473ebe7bd9815cd265218e180cc5a4ef739965"
+    },
+    {
+      "path": "docs/manuscript/v3/figure_source/generate_figures.py",
+      "sha256": "6b3f0d14d1e2f8f162055c30f60c7003ed6bdc2fb4090c5f5926f6aec878012d"
+    },
+    {
+      "path": "docs/manuscript/v3/evidence/release_sources/S01_M8_FIXED_MODE_PUBLIC_REFERENCE_RESULTS.json",
+      "sha256": "cd991366c30a29723318b034bcbacff357544eff8d529678fcdcd849b0f08ce9"
+    },
+    {
+      "path": "docs/manuscript/v3/evidence/release_sources/S04_M8_PUBLIC_REPRODUCTION_RECEIPTS.json",
+      "sha256": "f1b0ca32ba0966330cf152a9457b4e9a47f208779b3b18776ee4914d7ace084a"
+    },
+    {
+      "path": "docs/manuscript/v3/evidence/release_sources/S16_gate7.json",
+      "sha256": "3b15daa7cb7690e60428bfa994b9d87ae32964296b19cd4e37f6d0d868078139"
+    },
+    {
+      "path": "docs/manuscript/v3/evidence/release_sources/S17_lineage.json",
+      "sha256": "0424e4c60dfd284062dbaac4e962426444116f9bcf3dee435cb2f686ec9da287"
+    },
+    {
+      "path": "docs/manuscript/v3/evidence/release_sources/S18_formulation-methods.json",
+      "sha256": "b56705cd176fdeff2fb04b842dced49e0f2304a5c0426f0d10a047c61c4f7b9d"
+    },
+    {
+      "path": "docs/manuscript/v3/evidence/v2_audit/architecture_qualification.csv",
+      "sha256": "ff1ae117ee6c29599a97f6aa1dc34913d89a7c00c8a9251a0a94ea2c1b378432"
+    },
+    {
+      "path": "docs/manuscript/v3/evidence/v2_audit/model_identity_sanitized.csv",
+      "sha256": "b597608f59a0f29e6f007e83e4e5478c1a5c4baa56e0d240ced1ecc21b5a33e7"
+    },
+    {
+      "path": "docs/manuscript/v3/evidence/v2_audit/six_cell_results.csv",
+      "sha256": "4fb48c36a008cfce188b7c53b5c8c3a012e91f2688d0a1f2e5b026c158ef4d2c"
+    },
+    {
+      "path": "docs/manuscript/v3/evidence/v2_audit/recorded_uncertainty.csv",
+      "sha256": "1c45dcf69783aad484f86900c79f577e3e253dac06878653a8af9ddada67b2bc"
+    },
+    {
+      "path": "docs/manuscript/v3/reproducibility/figure_receipts/Fig2.json",
+      "sha256": "07e7a9a1a2a4855d8545eee1f6517ce5d3036be2f6ee0409cb5f973dbd109257"
+    },
+    {
+      "path": "docs/manuscript/v3/reproducibility/figure_receipts/Fig3.json",
+      "sha256": "fe7b0c1bac1043c35b415d76bc19a0d7f6a17b27bb0212bbef300490f5b720ba"
+    },
+    {
+      "path": "docs/manuscript/v3/reproducibility/figure_receipts/Fig4.json",
+      "sha256": "651ee3304dd5e53daf2e327d1ac9e41dafa91361332e0f575ff2907f1a0e9eeb"
+    },
+    {
+      "path": "docs/manuscript/v3/reproducibility/figure_receipts/Fig5.json",
+      "sha256": "a455341d96b97bfe2d4efc6835bbe1c90dc1ee8d57e10fd4b834df63920324fc"
+    },
+    {
+      "path": "docs/manuscript/v3/reproducibility/figure_receipts/Fig6.json",
+      "sha256": "71f97c02c458cd562a048289625678cb74c347b7a38bb03b17102cf52d5e202d"
+    },
+    {
+      "path": "docs/manuscript/v3/reproducibility/figure_receipts/Fig7.json",
+      "sha256": "3fcef4c7c2f63aac3e7946aa84c17366ed74daef11206f1b675d353641e7b92f"
+    },
+    {
+      "path": "docs/manuscript/v3/reproducibility/figure_receipts/Fig8.json",
+      "sha256": "788acb6c3c6eefb135985ee94c6c1f625e4b5a8efc82f673c541f85eda77f33e"
+    },
+    {
+      "path": "docs/manuscript/v3/reproducibility/figure_receipts/Fig9.json",
+      "sha256": "a5dd9f1223af73f694c16a6269eecd7a06abcf1f6d7305385fbf0091aff6ea23"
+    },
+    {
+      "path": "docs/manuscript/v3/reproducibility/figure_receipts/Fig10.json",
+      "sha256": "50849b9abf4e556398253c0f617e80b74944047ed2920254b6e97f26ac61e2a3"
+    }
+  ]
+}

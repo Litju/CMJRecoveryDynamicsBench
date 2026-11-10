@@ -118,6 +118,9 @@ PUBLIC_RECONCILIATION_COMMITS = {
     "618a56bbcc8de6fb1cd3a5d4d8f71bf" + "7fcb61529",
     "4e08777bc7c7f7ce4fa541ea3776b4cb" + "2e2dda3b",
     "582a8c3f86fad7e20ebb6a5d907a1965" + "7ee0d8c2",
+    # v1.1.0 release source and the main commit that integrated the V3 manuscript.
+    "401f87aad1e4ef4108011fa0c1d769a2" + "4f1ad329",
+    "96b4314d90a5a5b7b9f94d469f54d819" + "6b3a14d7",
 }
 PUBLIC_DOCUMENT_ALLOWLIST = {
     "docs/INDEX.md",
