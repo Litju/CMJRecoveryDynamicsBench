@@ -4,19 +4,15 @@ Audit date: 6 November 2026. The row-level record is `claims_differential_audit.
 
 ## Scope and result
 
-The original V2 claim ledger is preserved unchanged: 553 entries, comprising 487 prose/equation sentences and 66 table rows. Its SHA-256 remains `a83f261ab4881794576c959526a56eb51ac4016101f36c5c85fc97e629351187`. It remains a historical qualification record; its previous decisions are not automatically inherited by V3.
+The original V2 claim ledger is preserved unchanged: 553 entries (SHA-256 `a83f261ab4881794576c959526a56eb51ac4016101f36c5c85fc97e629351187`). It is a historical qualification record; its decisions are not inherited automatically by V3.
 
-The V3 audit records 500 current units: 488 substantive scientific, methodological, evidence-boundary, or availability claims and 12 author/AI disclosure records. It also records three removed V2 related-work statements, for 503 rows total. The current statuses are:
+The V3 audit now records **510 current units** (485 substantive scientific, methodological, evidence-boundary or availability claims and 25 author/AI declaration records) plus three removed V2 statements, 513 rows in all. Differential status against V2: retained 128, modified 312, new 45, removed 3, administrative 25. Unit types: 348 prose sentences, 10 figure captions, 9 table captions, 108 table rows, 10 displayed equations, 25 declaration records, 3 removed statements.
 
-| Differential status | Count | Meaning |
-|---|---:|---|
-| Retained | 166 | The substantive result or contract remains the same and was rechecked against its source. |
-| Modified | 305 | Wording, scope, interpretation, or qualification changed and was checked again. |
-| New | 17 | Introduced in V3, including the new related-work comparison and explicit research-question framing. |
-| Removed | 3 | Prior V2 statements no longer asserted in V3; listed below. |
-| Administrative disclosures | 12 | Authorship, funding, ethics, and AI statements; not counted as scientific claims. |
+## RES-585 reconciliation (illustrated edition)
 
-The row-level inventory contains 356 prose-sentence units, 10 scientific figure captions, 9 table captions, 108 table rows, 5 displayed equation blocks, 3 removed V2 statements, and 12 administrative disclosures. It spans both the main article and technical supplement, including all 18 route records, all 24 public six-cell/root rows, 6 bootstrap records, the architecture and formulation matrices, and the nested-camp/ablation values.
+The RES-585 redesign changed the manuscript source (two-column layout, merged biomechanics figure, new heatmap, force-target wording, split equations). `reproducibility/refresh_claims_audit.py` re-extracts every claim-bearing unit from `manuscript.tex`, carries the evidence mapping across from the best-matching earlier row, marks wording changes as modified and unmatched units as new, and checks every number in changed or new units against the pinned evidence corpus (rounded presentation values, and values re-derived by `verify_quantitative_figures.py` such as the analytical 14.79 N/kg, 24.09 N/kg and 2.74 m/s, are accepted only through those checks). Result: 145 changed or new units, 0 numeric-check failures. 47 earlier rows no longer correspond to a current unit; most are sentences that were split, merged or replaced (for example the retired Fig. 5/6 captions). Every dropped row and every changed or new unit is listed in `claims_differential_changes_RES-585.csv`.
+
+This remains agent-only internal source review; it is not human scientific validation. Inherited evidence mappings for revised or new units were assigned from the surrounding section, so the owner-confirmation items below still apply.
 
 ## Removed V2 statements
 

@@ -131,7 +131,7 @@ def extract_units(text: str) -> list[dict]:
             sections_text = [(sec, raw, a)]
         for sec_name, chunk, base in sections_text:
             for para in re.split(r"\n\s*\n", chunk):
-                para = para.strip()
+                para = re.sub(r"^(?:\\medskip|\\noindent|\s)+", "", para.strip())
                 if not para:
                     continue
                 if re.match(r"\\(?:begin|end|FloatBarrier|small|footnotesize|ifdefined|else|fi|par|medskip|bibliography|twocolumn|vspace|hrule|noindent\\begin\{minipage)", para):

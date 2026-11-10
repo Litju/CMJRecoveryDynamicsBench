@@ -535,7 +535,7 @@
           841.89
         ],
         "text_characters": 4298,
-        "text_blocks": 54,
+        "text_blocks": 52,
         "embedded_images": 0,
         "vector_drawings": 121,
         "text_blocks_outside_page": []
@@ -552,9 +552,9 @@
           841.89
         ],
         "text_characters": 5113,
-        "text_blocks": 64,
+        "text_blocks": 63,
         "embedded_images": 0,
-        "vector_drawings": 145,
+        "vector_drawings": 116,
         "text_blocks_outside_page": []
       },
       {
@@ -568,7 +568,7 @@
           595.28,
           841.89
         ],
-        "text_characters": 5492,
+        "text_characters": 5488,
         "text_blocks": 66,
         "embedded_images": 0,
         "vector_drawings": 84,
@@ -602,7 +602,7 @@
           595.28,
           841.89
         ],
-        "text_characters": 5342,
+        "text_characters": 5339,
         "text_blocks": 49,
         "embedded_images": 2,
         "vector_drawings": 72,

@@ -30,14 +30,14 @@
   },
   "private_boundary": true,
   "claims_differential_audit": {
-    "current_claim_units": 488,
+    "current_claim_units": 510,
     "substantive_claim_units": 485,
-    "administrative_disclosures": 3,
+    "administrative_disclosures": 25,
     "differential_status_counts": {
       "modified": 312,
       "new": 45,
       "retained": 128,
-      "administrative_disclosure": 3,
+      "administrative_disclosure": 25,
       "removed": 3
     },
     "historical_v2_rows_preserved": 553,

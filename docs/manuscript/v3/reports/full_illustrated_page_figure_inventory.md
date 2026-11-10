@@ -1,7 +1,7 @@
 # Primary manuscript page-by-page figure inventory
 
 PDF: `full_illustrated_research_manuscript.pdf`
-SHA-256: `015006e17e3a780f90f8679ed73ac77a028875797c1c8933740ae728dfd8280e`
+SHA-256: `95aaf37c781244c79e28593aa3ae324ffe6003fae3ea4e3874191787d1ca6058`
 Pages: 12
 
 Each figure entry names the research question its chart or scientific illustration supports. Pages without an embedded figure are marked explicitly.

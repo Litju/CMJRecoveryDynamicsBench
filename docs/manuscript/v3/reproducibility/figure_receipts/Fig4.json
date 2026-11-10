@@ -54,11 +54,11 @@
     "local_data": {
       "evidence/v2_audit/model_identity_sanitized.csv": "b597608f59a0f29e6f007e83e4e5478c1a5c4baa56e0d240ced1ecc21b5a33e7"
     },
-    "figure_generator_sha256": "676514c3640d9e008cab7470497272dbc6c0320922ab821a0d3d4042b5bc4c48",
+    "figure_generator_sha256": "6b3f0d14d1e2f8f162055c30f60c7003ed6bdc2fb4090c5f5926f6aec878012d",
     "figure_style_module_sha256": "81b59c7621ebc9854e9897e39ef22a263b35cb1218b8d8fdaed725264d814548",
     "manuscript_source_sha256": "8f8180f29bb14c624c5cac16044dc83e079f153d20f37232fdfceebbfc5bb325"
   },
-  "figure_pdf_sha256": "397fc8a63d5993393673e0625522f6f8b87cf93cedb550c40fa3e6e076d028aa",
+  "figure_pdf_sha256": "c362193dc8232f4b6ab937940a3c00660065b3a00336dc9703d1324a184b0eb5",
   "numerical_test": {
     "id": "route_population_and_recorded_pass_fail_counts_match_receipt",
     "passed": true,

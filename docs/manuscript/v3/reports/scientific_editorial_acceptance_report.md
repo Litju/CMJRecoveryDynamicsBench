@@ -1,8 +1,8 @@
-# M10 V3 scientific and editorial owner-review report
+# V3 scientific and editorial owner-review report (RES-585 redesign)
 
 **Disposition: ready for owner review as an unsubmitted case study.** PLOS ONE is not currently qualified as a submission destination; no journal decision, submission, preprint, DOI, peer review, or acceptance is implied.
 
-**Internal visual disposition: `M10_VISUAL_REVIEW_READY`.** Owner visual acceptance remains pending.
+**Internal visual disposition: `RES-585_FIGURE_RICH_MANUSCRIPT_READY_FOR_OWNER_REVIEW`.** This is an agent-side disposition; owner visual acceptance remains pending and PR #38 stays Draft. The page-level evidence and before/after comparison are in [`visual_qa/README.md`](visual_qa/README.md).
 
 ## Article identity and scientific contribution
 
@@ -32,9 +32,7 @@ The 17-entry bibliography is checked against stored bibliographic metadata and t
 
 ## Claim audit and evidence authority
 
-The V2 553-entry claim ledger is preserved unchanged at SHA-256 `a83f261ab4881794576c959526a56eb51ac4016101f36c5c85fc97e629351187`. The V3 differential audit contains 500 current units: 488 substantive scientific/methodological/evidence claims and 12 administrative disclosures, plus three removed V2 statements. Current V3 statuses are 166 retained, 305 modified, 17 new, and 3 removed; the 12 disclosures are counted separately. It records every claim-bearing sentence, figure/table caption, table row, equation block, and technical-supplement row with location, evidence source, source digest, evidence level, public-reproducibility status, qualification, and verification decision. Text-match suggestions are explicitly not treated as semantic proof.
-
-The audit is agent-only internal source review, not human scientific validation or peer review. Thirteen owner-confirmation items remain in the audit, including authorship, funding/conflicts, the no-human-study statement, AI-use details, and human review of the manuscript. No row is marked unsupported by the agent audit; independent human author review remains required.
+The V2 553-entry claim ledger is preserved unchanged at SHA-256 `a83f261ab4881794576c959526a56eb51ac4016101f36c5c85fc97e629351187`. The V3 differential audit now contains 510 current units (485 substantive claims and 25 declaration records) plus three removed V2 statements; statuses are 128 retained, 312 modified, 45 new, 3 removed and 25 administrative. The RES-585 reconciliation (145 changed or new units, 0 numeric-check failures against the pinned corpus) is in `claims_differential_audit.md` and `claims_differential_changes_RES-585.csv`. The audit is agent-only internal source review, not human scientific validation or peer review; owner-confirmation items (authorship, funding/conflicts, the no-human-study statement, AI-use details, human review) remain open.
 
 All 35 release-linked source snapshots verify against their v1.1.0 identities. Receipt arithmetic checks cover 24 six-cell/root values, six stored bootstrap records, and 18 route summaries. The V2 preservation check confirms the unchanged 139-file inventory. The original v1.1.0 software identity remains commit `401f87aad1e4ef4108011fa0c1d769a24f1ad329`.
 
@@ -42,9 +40,9 @@ Publicly reproducible work includes release-linked software records, public synt
 
 ## Figures and academic editions
 
-The package preserves ten audited scientific figure families: formulation genealogy; synthetic split sample sizes; architecture and parameter counts; 18-route numerical qualification; native/synthetic horizon chronology; analytical force-time mechanics; six-cell synthetic performance; recorded bootstrap intervals; ablations and nested-camp diagnostics; and rich-history row-count differences. They use the pinned release evidence, public receipts, or explicitly labeled analytical illustrations. The force-time curve is not athlete data. Each quantitative family has a separate SHA-256 input receipt and numerical checks.
+The ten figures were redesigned as multi-panel quantitative graphics (details in [`visual_qa/figure_program.md`](visual_qa/figure_program.md)): (1) formulation genealogy with eight cards, five parent links and three unresolved ancestries; (2) camp-level study design; (3) M8 computational graph with component matrix and parameter counts; (4) 18-route qualification matrix with discrepancy and failing-element panels; (5) analytical force-time curve contrasting gross mean force, peak force and net impulse, with the scaled assessment chronology; (6) six-cell small multiples; (7) model-by-cell heatmap with per-root structured-minus-ridge differences; (8) forest plot of the recorded bootstrap intervals; (9) ablations and nested-camp results; (10) rich-history row-count differences and the evidence-boundary matrix. The force-time curve is analytical, not athlete data. Each quantitative figure has an input-digest receipt and numerical checks.
 
-The primary `full_illustrated_research_manuscript.pdf` is 19 pages and embeds all ten figures beside the relevant Methods or Results discussion. The secondary `academic_review_manuscript.pdf` is 24 pages, single-column, double-spaced, continuously line-numbered, and supplies figure files separately. The technical supplement is 4 pages. All 47 pages were rendered at 144 dpi and inspected individually at full page size; contact sheets were used only for navigation. Specific defects and corrections are recorded in [`rendered_page_inspection.md`](rendered_page_inspection.md), and the figure-to-claim page map is in [`full_illustrated_page_figure_inventory.md`](full_illustrated_page_figure_inventory.md). PLOS-format TIFFs are flattened RGB, 600 dpi, LZW-compressed, within the specified dimensions and under 10 MB. The separate-figure review copy and source files remain owner-review materials, not a submission package.
+The primary `full_illustrated_research_manuscript.pdf` is a 12-page two-column article. The secondary `academic_review_manuscript.pdf` is single-column, double-spaced and line-numbered (26 pages). The technical supplement is 4 pages. Rendering, legibility measurements, the grayscale check and the page-by-page inspection record are under `reports/visual_qa/`. PLOS-format TIFFs remain flattened RGB, 600 dpi, LZW-compressed and under 10 MB; the review copy and sources are owner-review materials, not a submission package.
 
 Repeated generic AI-use sentences were removed from scientific captions. The consolidated AI-use statement remains in the integrity/declarations section and discloses manuscript and plotting-code assistance; authors must verify it before any submission.
 
@@ -59,5 +57,5 @@ PLOS ONE is used only as a structural reference. Its current data policy require
 - Confirm author names, affiliations, corresponding-author details, ORCID, CRediT roles, funding, competing interests, and final ethics/data statements.
 - Review the 488 substantive claim units (plus 12 author/AI disclosure records) and confirm the historical artifact-rights and access description.
 - Decide whether any legitimate controlled-access mechanism can be documented; do not add an “available upon request” promise without one.
-- Complete manual NVDA acceptance and visual owner acceptance. Do not merge PR #38 before explicit owner visual approval.
+- Perform the visual owner acceptance of the two-column layout (and manual NVDA acceptance if required). Do not merge PR #38 before explicit owner visual approval.
 - Choose a venue only after the access and scope questions are resolved. No submission, preprint, DOI, release, or researcher outreach is authorized by this owner-review package.

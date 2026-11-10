@@ -1,16 +1,16 @@
 {
   "scope": "Current M10 V3 scientific manuscript and technical supplement; claim-bearing sentences, all scientific figure/table captions, table rows, and displayed equation blocks; plus removed historical V2 related-work claims.",
-  "current_v3_claim_units": 488,
-  "all_audit_rows": 491,
+  "current_v3_claim_units": 510,
+  "all_audit_rows": 513,
   "differential_status_counts": {
-    "administrative_disclosure": 3,
+    "administrative_disclosure": 25,
     "modified": 312,
     "new": 45,
     "removed": 3,
     "retained": 128
   },
   "unit_type_counts": {
-    "author_or_ai_disclosure": 3,
+    "author_or_ai_disclosure": 25,
     "equation_block": 10,
     "figure_caption": 10,
     "prose_sentence": 348,
@@ -19,7 +19,7 @@
     "table_row": 108
   },
   "verification_decision_counts": {
-    "owner_confirmation_pending": 3,
+    "owner_confirmation_pending": 25,
     "qualified_source_checked": 196,
     "removed_from_current_argument; replacement source claims verified separately": 3,
     "source_checked": 289
@@ -35,10 +35,10 @@
   "review_boundary": "Agent-only internal source review; independent human scientific validation and owner acceptance remain pending.",
   "manuscript_source_sha256": "8f8180f29bb14c624c5cac16044dc83e079f153d20f37232fdfceebbfc5bb325",
   "substantive_current_claim_units": 485,
-  "administrative_disclosures": 3,
+  "administrative_disclosures": 25,
   "res585_reconciliation": {
-    "changed_or_new_units": 128,
-    "dropped_units": 55,
+    "changed_or_new_units": 145,
+    "dropped_units": 47,
     "numeric_check_failures": 0,
     "changes_file": "claims_differential_changes_RES-585.csv"
   }

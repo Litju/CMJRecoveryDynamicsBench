@@ -1,3 +1,5 @@
+> **Superseded for the illustrated edition by RES-585.** The page-level record for the redesigned two-column article is `visual_qa/README.md`. The text below is the earlier V3 record and is kept for provenance.
+
 # Final page-by-page visual review
 
 **Final nomenclature pass: 7 November 2026.** Reader-facing manuscript and figure labels were checked against the pinned model inventory, public synthetic-study protocol, route qualification summary, and measurement definitions. No new labels, observations, metrics, uncertainty estimates, or model results were introduced.

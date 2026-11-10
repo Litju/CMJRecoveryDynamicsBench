@@ -331,7 +331,7 @@ def plot_architecture(architectures):
             else:
                 mx.plot([c], [r], marker=".", color=RULE, markersize=2.5)
     for r, note in ((6, "2 of 5"), (7, "5 of 5"), (8, "5 of 5")):
-        mx.text(4.42, r, note, fontsize=5.0, color=MID, va="center", ha="left")
+        mx.text(4.42, r, note, fontsize=5.4, color=MID, va="center", ha="left")
 
     bx = axmm(fig, 128, 1.5, 48, 25)
     vals = [params[f] for f in families]
@@ -412,6 +412,8 @@ def plot_numerical(routes):
         lx.plot([v], [ypos[i]], marker="o" if passed else "X", markersize=3.8, markerfacecolor="white" if passed else VERMILION,
                 markeredgecolor=COBALT if passed else VERMILION, markeredgewidth=0.9, zorder=3, linestyle="none")
     lx.set_xlabel("Maximum |difference|\n(mixed N/kg and m/s outputs)", fontsize=S.FS_TEXT, labelpad=2)
+    lx.set_xticks([1e-6, 1e-5, 1e-4, 1e-3], ["10⁻⁶", "10⁻⁵", "10⁻⁴", "10⁻³"])
+    lx.minorticks_off()
     lx.tick_params(labelsize=5.8, length=2)
     lx.grid(axis="x")
     lx.set_axisbelow(True)
@@ -501,10 +503,10 @@ def plot_biomechanics():
     fx.set_ylabel(r"Vertical force, $F_z$ (N)")
     tidy_axis(fx, "y")
     sec = fx.secondary_yaxis("right", functions=(lambda v: v / MASS, lambda v: v * MASS))
-    sec.set_ylabel(r"$F_z/m$ (N kg$^{-1}$)", fontsize=S.FS_LABEL)
+    sec.set_ylabel(r"$F_z/m$ (N/kg)", fontsize=S.FS_LABEL)
     sec.tick_params(length=2.2, labelsize=S.FS_TEXT)
-    fx.text(0.006, 1880, r"onset $t_{co}$", color=TEAL, fontsize=S.FS_TEXT, va="top", ha="left")
-    fx.text(0.594, 1880, r"takeoff $t_{to}$", color=VERMILION, fontsize=S.FS_TEXT, va="top", ha="right")
+    fx.text(0.006, 1880, "onset (t = 0)", color=TEAL, fontsize=S.FS_TEXT, va="top", ha="left")
+    fx.text(0.594, 1880, "takeoff (t = T)", color=VERMILION, fontsize=S.FS_TEXT, va="top", ha="right")
     fx.annotate(f"peak force (not scored)\n{q['peak_force_n']:.0f} N = {q['peak_force_n_per_kg']:.2f} N/kg", xy=(T_PEAK, q["peak_force_n"]),
                 xytext=(0.40, 1700), fontsize=S.FS_TEXT, va="center", ha="center", arrowprops={"arrowstyle": "-", "lw": 0.6, "color": MID})
     fx.text(0.505, 870, f"gross mean force\n{q['mean_force_n_per_kg']:.2f} N/kg (black line)", fontsize=S.FS_TEXT, ha="center", va="center", fontweight="bold", linespacing=1.2)
@@ -516,16 +518,16 @@ def plot_biomechanics():
     panel_label(fig, "b", 118, 127)
     ax.text(124, 127, "Three distinct quantities", fontsize=S.FS_TITLE, fontweight="bold", va="top")
     ledger = [
-        (r"$Y_F=\dfrac{1}{mT}\int_{t_{co}}^{t_{to}}F_z\,dt$", f"{q['mean_force_n_per_kg']:.2f}", "N/kg", "Gross mean concentric force", "Basis of the scored force target", COBALT),
-        (r"$\max_t F_z\,/\,m$", f"{q['peak_force_n_per_kg']:.2f}", "N/kg", "Peak force", "Not the scored target", SLATE),
-        (r"$Y_J=\dfrac{1}{m}\int_{t_{co}}^{t_{to}}(F_z-mg)\,dt$", f"{q['net_impulse_m_per_s']:.2f}", "m/s", "Gravity-adjusted net impulse", "Separate scored outcome", VERMILION),
+        (r"$Y_F=\dfrac{1}{mT}\int_{0}^{T}F_z\,dt$", f"{q['mean_force_n_per_kg']:.2f}", "N/kg", "Gross mean concentric force", "Basis of the scored force target", COBALT),
+        (r"$\max F_z\,/\,m$", f"{q['peak_force_n_per_kg']:.2f}", "N/kg", "Peak force", "Not the scored target", SLATE),
+        (r"$Y_J=\dfrac{1}{m}\int_{0}^{T}(F_z-mg)\,dt$", f"{q['net_impulse_m_per_s']:.2f}", "m/s", "Gravity-adjusted net impulse", "Separate scored outcome", VERMILION),
     ]
     y = 118
     for eq, val, unit, name, note, color in ledger:
         ax.add_patch(Rectangle((118, y - 16.0), 1.4, 15.5, facecolor=color, edgecolor="none"))
         ax.text(122, y - 0.8, name, fontsize=S.FS_TEXT, fontweight="bold", va="top")
         ax.text(122, y - 14.6, note, fontsize=5.7, color=MID, va="bottom")
-        ax.text(122, y - 8.2, eq, fontsize=7.0, va="center")
+        ax.text(122, y - 8.2, eq, fontsize=8.6, va="center")
         ax.text(177, y - 7.0, val, fontsize=11, fontweight="bold", color=color, ha="right", va="center")
         ax.text(177, y - 12.0, unit, fontsize=S.FS_TEXT, color=MID, ha="right", va="center")
         y -= 20.0
@@ -654,7 +656,7 @@ def plot_heatmap(six, study):
     top_y = ax_y + ax_h
     cx.text(15, top_y - row_h * 1.5, "Mean concentric-\nforce innovation\n(N/kg)", fontsize=S.FS_TEXT, fontweight="bold", ha="center", va="center", linespacing=1.2)
     cx.text(15, top_y - row_h * 4.5, "Net-impulse\ninnovation\n(m/s)", fontsize=S.FS_TEXT, fontweight="bold", ha="center", va="center", linespacing=1.2)
-    cx.text(15, top_y - row_h * 6.5, "Six-cell mean $S_m$", fontsize=S.FS_TEXT, fontweight="bold", ha="center", va="center")
+    cx.text(15, top_y - row_h * 6.5, "Six-cell mean", fontsize=S.FS_TEXT, fontweight="bold", ha="center", va="center")
     for r0, r1 in ((0, 3), (3, 6)):
         cx.plot([36.5, 36.5], [top_y - row_h * r1 + 1, top_y - row_h * r0 - 1], color=INK, lw=0.8)
     panel_label(fig, "a", 1, 99)
@@ -789,7 +791,7 @@ def plot_ablation_sample_size(study):
     ax.set_xlabel("Mean six-cell NRMSE")
     tidy_axis(ax, "x")
     ax.tick_params(axis="y", length=0)
-    ax.text(0.7275, len(ablations) - 0.45, "dashed: full ridge; parentheses: change from full ridge", fontsize=5.2, color=MID, va="bottom")
+    ax.text(0.7275, len(ablations) - 0.45, "dashed: full ridge; parentheses: change from full ridge", fontsize=5.4, color=MID, va="bottom")
 
     bx = axmm(fig, 112, 14, 64, 61)
     camps = [24, 48, 96]

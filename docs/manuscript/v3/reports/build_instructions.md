@@ -35,7 +35,7 @@ export PATH="$PWD/$BUILD_TMP:$PATH"
 bash reproducibility/build.sh
 ```
 
-The script regenerates Fig1–Fig10 in vector PDF/SVG and raster PNG/TIFF. TIFFs are flattened RGB, 600 dpi, and LZW-compressed. It writes one numerical receipt for each quantitative figure, including exact input and figure-PDF digests and calculation checks. It compiles `full_illustrated_research_manuscript.pdf` as the primary owner-review paper and `academic_review_manuscript.pdf` as a secondary double-spaced, line-numbered edition with separate figure files. The technical supplement compiles from `supplement/technical_supplement.tex`. The renderer writes one PNG per page at 144 dpi; contact sheets are navigation aids, and the page-by-page visual review findings are recorded separately. The build validates source and receipt links, checks PLOS TIFF dimensions/size/channel requirements, and writes `ARTIFACT_SHA256SUMS`.
+The script first reconciles `reports/claims_differential_audit.csv` with `manuscript.tex` (`refresh_claims_audit.py`), then regenerates Fig1–Fig10 through `figure_source/generate_figures.py` and the shared `figure_source/figstyle.py` (set `FIG_PREVIEW=1` for a fast PNG-only preview during design work) in vector PDF/SVG and raster PNG/TIFF. TIFFs are flattened RGB, 600 dpi, and LZW-compressed. It writes one numerical receipt for each quantitative figure, including exact input and figure-PDF digests and calculation checks. It compiles `full_illustrated_research_manuscript.pdf` as the primary owner-review paper and `academic_review_manuscript.pdf` as a secondary double-spaced, line-numbered edition with separate figure files. The technical supplement compiles from `supplement/technical_supplement.tex`. The renderer writes one PNG per page at 144 dpi; contact sheets are navigation aids, and the page-by-page visual review findings are recorded separately. After the PDFs are rendered, `qa_visual_report.py` measures printed figure size, minimum type size, text outside margins and per-page fill, and writes the contact sheets and grayscale check to `reports/visual_qa/`. The build validates source and receipt links, checks PLOS TIFF dimensions/size/channel requirements, and writes `ARTIFACT_SHA256SUMS`.
 
 ## Evidence identities
 
@@ -46,3 +46,7 @@ Sanitized route summaries are not a public re-execution of the original restrict
 ## Output and checksum boundaries
 
 The three PDFs are written at the V3 root. Individual page images and contact sheets are in `renders/academic_review`, `renders/full_illustrated`, and `renders/technical_supplement`. `ARTIFACT_SHA256SUMS` covers the V3 manuscript, bibliography, figures, evidence snapshots, scripts, reports, and page images. It excludes build scratch, the optional local Tectonic executable, and the checksum file itself.
+
+## Typography
+
+The primary edition uses the TeX Gyre Pagella-based `newpxtext`/`newpxmath` families with TeX Gyre Heros headings (both from the pinned Tectonic bundle) and 9 pt body text on A4 with 87 mm columns and a 6 mm gutter. Figures use DejaVu Sans (bundled with Matplotlib) at 5.4–9 pt. The review edition (`manuscript-review.tex`) switches the same source to 12 pt, double spacing and line numbers.

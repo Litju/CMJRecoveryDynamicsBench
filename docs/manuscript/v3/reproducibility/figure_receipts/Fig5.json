@@ -40,11 +40,11 @@
       }
     },
     "local_data": {},
-    "figure_generator_sha256": "676514c3640d9e008cab7470497272dbc6c0320922ab821a0d3d4042b5bc4c48",
+    "figure_generator_sha256": "6b3f0d14d1e2f8f162055c30f60c7003ed6bdc2fb4090c5f5926f6aec878012d",
     "figure_style_module_sha256": "81b59c7621ebc9854e9897e39ef22a263b35cb1218b8d8fdaed725264d814548",
     "manuscript_source_sha256": "8f8180f29bb14c624c5cac16044dc83e079f153d20f37232fdfceebbfc5bb325"
   },
-  "figure_pdf_sha256": "f45813126166d9fa5dd4827e696b02254c4dc8bd28f25f1885eb25eaaee49789",
+  "figure_pdf_sha256": "4d6c5cb3f29a8b75faba7c06fe2ceaeb5c0d13c8543b5765f120758877f491cf",
   "numerical_test": {
     "id": "analytical_curve_endpoints_integrals_and_native_windows_are_valid",
     "passed": true,

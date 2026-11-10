@@ -329,27 +329,7 @@ L 103.464567 137.68279
     <text style="font-weight: 700; font-size: 6.6px; font-family: 'DejaVu Sans'; fill: #17212b" transform="translate(32.895029 182.497124)">(m/s)</text>
    </g>
    <g id="text_42">
-    <!-- Six-cell mean $S_m$ -->
-    <g style="fill: #17212b" transform="translate(12.060685 224.437386)">
-     <text>
-      <tspan x="0" y="-0.984375" style="font-weight: 700; font-size: 6.6px; font-family: 'DejaVu Sans'; fill: #17212b">S</tspan>
-      <tspan x="4.748917" y="-0.984375" style="font-weight: 700; font-size: 6.6px; font-family: 'DejaVu Sans'; fill: #17212b">i</tspan>
-      <tspan x="7.009079" y="-0.984375" style="font-weight: 700; font-size: 6.6px; font-family: 'DejaVu Sans'; fill: #17212b">x</tspan>
-      <tspan x="11.262177" y="-0.984375" style="font-weight: 700; font-size: 6.6px; font-family: 'DejaVu Sans'; fill: #17212b">-</tspan>
-      <tspan x="13.99884" y="-0.984375" style="font-weight: 700; font-size: 6.6px; font-family: 'DejaVu Sans'; fill: #17212b">c</tspan>
-      <tspan x="17.90744" y="-0.984375" style="font-weight: 700; font-size: 6.6px; font-family: 'DejaVu Sans'; fill: #17212b">e</tspan>
-      <tspan x="22.379471" y="-0.984375" style="font-weight: 700; font-size: 6.6px; font-family: 'DejaVu Sans'; fill: #17212b">l</tspan>
-      <tspan x="24.639633" y="-0.984375" style="font-weight: 700; font-size: 6.6px; font-family: 'DejaVu Sans'; fill: #17212b">l</tspan>
-      <tspan x="26.899796" y="-0.984375" style="font-weight: 700; font-size: 6.6px; font-family: 'DejaVu Sans'; fill: #17212b"> </tspan>
-      <tspan x="29.195374" y="-0.984375" style="font-weight: 700; font-size: 6.6px; font-family: 'DejaVu Sans'; fill: #17212b">m</tspan>
-      <tspan x="36.06601" y="-0.984375" style="font-weight: 700; font-size: 6.6px; font-family: 'DejaVu Sans'; fill: #17212b">e</tspan>
-      <tspan x="40.53804" y="-0.984375" style="font-weight: 700; font-size: 6.6px; font-family: 'DejaVu Sans'; fill: #17212b">a</tspan>
-      <tspan x="44.987534" y="-0.984375" style="font-weight: 700; font-size: 6.6px; font-family: 'DejaVu Sans'; fill: #17212b">n</tspan>
-      <tspan x="49.681717" y="-0.984375" style="font-weight: 700; font-size: 6.6px; font-family: 'DejaVu Sans'; fill: #17212b"> </tspan>
-      <tspan x="51.977295" y="-0.984375" style="font-style: oblique; font-size: 6.6px; font-family: 'DejaVu Sans'; fill: #17212b">S</tspan>
-      <tspan x="56.162781" y="0.005622" style="font-style: oblique; font-size: 4.62px; font-family: 'DejaVu Sans'; fill: #17212b">m</tspan>
-     </text>
-    </g>
+    <text style="font-weight: 700; font-size: 6.6px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #17212b" x="42.519685" y="224.436871" transform="rotate(-0 42.519685 224.436871)">Six-cell mean</text>
    </g>
    <g id="text_43">
     <text style="font-weight: 700; font-size: 7.4px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #17212b" x="130.393701" y="8.457489" transform="rotate(-0 130.393701 8.457489)">Mean NRMSE across three roots (lower is better)</text>

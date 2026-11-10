@@ -40,5 +40,6 @@ cp build/technical_supplement/technical_supplement.pdf technical_supplement.pdf
 
 "$PYTHON_BIN" reproducibility/render_pdfs.py
 "$PYTHON_BIN" reproducibility/write_page_inventory.py
+"$PYTHON_BIN" reproducibility/qa_visual_report.py
 "$PYTHON_BIN" reproducibility/verify_package.py --post-build
 "$PYTHON_BIN" reproducibility/write_checksums.py
