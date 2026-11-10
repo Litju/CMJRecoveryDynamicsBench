@@ -96,7 +96,7 @@ export default function GenealogyFigure() {
         />
       </div>
       <div className="pub-chart" tabIndex={0} role="region" aria-label="Chart area; scrolls horizontally on narrow screens">
-        <svg ref={svg} viewBox={`0 0 ${W} ${H}`} role="img" aria-labelledby="fig1-svg-title" className="pub-svg">
+        <svg ref={svg} viewBox={`0 0 ${W} ${H}`} role="group" aria-labelledby="fig1-svg-title" className="pub-svg">
           <title id="fig1-svg-title">
             Formulation genealogy: eight formulations, five recorded parent links and three unresolved direct parents.
           </title>
@@ -156,7 +156,6 @@ export default function GenealogyFigure() {
                 role="button"
                 tabIndex={0}
                 aria-pressed={isSel}
-                aria-label={`${n.label}: ${STATUS_LABEL[n.status]}; ${n.parent ? "recorded parent " + nodes.find((m) => m.id === n.parent)!.label : "direct parent not recorded"}`}
                 onClick={() => setSelected(n.id)}
                 onKeyDown={(e) => {
                   if (e.key === "Enter" || e.key === " ") {
@@ -167,6 +166,7 @@ export default function GenealogyFigure() {
                 className="pub-node"
                 opacity={faded ? 0.28 : 1}
               >
+                <title>{`${n.label}, ${STATUS_LABEL[n.status]}: ${n.parent ? `recorded parent ${nodes.find((m) => m.id === n.parent)!.label}` : "direct scientific parent not recorded"}`}</title>
                 <rect x={x} y={y} width={CW} height={CH} rx={4} fill="#fffdf7" stroke={col} strokeWidth={isSel ? 3 : 1.4} />
                 <rect x={x} y={y + 4} width={5} height={CH - 8} fill={col} />
                 <text x={x + 12} y={y + 18} fontFamily={SANS} fontSize={11.2} fontWeight={700} fill={INK}>

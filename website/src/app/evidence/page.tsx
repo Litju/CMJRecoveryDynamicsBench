@@ -163,7 +163,7 @@ export default function EvidencePage() {
 
         <Chapter id="reproduce" title="Reproduce the evidence">
           <p>From a checkout of the repository:</p>
-          <pre className="pub-code">
+          <pre className="pub-code" tabIndex={0} aria-label="Reproduction commands">
             <code>{`# Verify the manuscript package and regenerate its figures (no training or inference)
 cd docs/manuscript/v3 && sha256sum -c ARTIFACT_SHA256SUMS
 bash reproducibility/build.sh   # see the package README for the pinned toolchain

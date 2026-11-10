@@ -104,7 +104,7 @@ test("deep links restore figure state and controls update the URL", async ({ pag
 
 test("figures are keyboard-inspectable and show exact recorded values", async ({ page }) => {
   await page.goto("/results/#fig-7");
-  const cell = page.getByRole("button", { name: /^H72 Net impulse, Structured comparator: NRMSE/ });
+  const cell = page.getByRole("button", { name: /: H72 Net impulse, Structured comparator, NRMSE/ });
   await cell.focus();
   await page.keyboard.press("Enter");
   const v = fixture.data.sixCell.cells.find((c) => c.cell === "H72/net_impulse_innovation")!.models;
@@ -116,7 +116,7 @@ test("figures are keyboard-inspectable and show exact recorded values", async ({
   await page.locator("#f6-cell-select").selectOption("H48-impulse");
   await expect(page.locator("figure#fig-6 .pub-readout")).toContainText("H48 · Net-impulse innovation (m/s)");
   await page.goto("/models/#fig-4");
-  const route = page.getByRole("button", { name: /^Route M5-r0:/ });
+  const route = page.getByRole("button", { name: /^M5 · r0 FAIL: route M5-r0/ });
   await route.focus();
   await page.keyboard.press("Enter");
   await expect(page.locator("figure#fig-4 .pub-readout")).toContainText("443 of 1,024 elements failing");

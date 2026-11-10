@@ -1042,3 +1042,17 @@ code {
     justify-content: center;
   }
 }
+
+/* WCAG 2.5.8 target size: the story byline's citation arrow gets a 24 px target. */
+.hero-byline a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 24px;
+  min-height: 24px;
+}
+.atlas-source-link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 24px;
+}
