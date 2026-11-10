@@ -1,0 +1,61 @@
+{
+  "figure": "Fig2",
+  "title": "Public synthetic study sample structure",
+  "source_label": "fig:workflow",
+  "population": "Existing public fixed-mode synthetic study; no athlete observations.",
+  "source_ids": [
+    "S01",
+    "S02"
+  ],
+  "metric": "Counts of camps, episodes, and horizon rows by study split.",
+  "units": "Camps; episodes; horizon rows.",
+  "grouping": "Training, development, and each of three fixed evaluation roots; H24/H48/H72 queries stay within episode.",
+  "sample_sizes": "Training 96 camps/24,000 episodes/72,000 rows; development 16/4,000/12,000; each evaluation root 16/4,000/12,000.",
+  "uncertainty": "Not applicable; these are fixed generator sample counts.",
+  "caption_tex": "Structure of the existing public fixed-mode synthetic study. (a) Each square is one camp (250 episodes, 750 horizon rows): 96 training camps, 16 development camps, and three fixed evaluation roots of 16 camps each. (b) Horizon-row counts per split, with episode counts (training 24,000; development and each root 4,000; three rows per episode). (c) Each episode contributes H24, H48 and H72 queries that remain in one split. Participant, episode, query and camp identities are checked for split separation; group keys, labels, future target-time fields and hidden or oracle states are excluded from predictors. The roots share one generator and are not human cohorts.",
+  "input_digests": {
+    "release_source_manifest_sha256": "aa2fc106da8f69b99b4aa9953e48f069d648ea56398d6a607114e5e45c97d3f1",
+    "release_sources": {
+      "S01": {
+        "path": "docs/M8_FIXED_MODE_PUBLIC_REFERENCE_RESULTS.json",
+        "commit": "401f87aad1e4ef4108011fa0c1d769a24f1ad329",
+        "sha256": "cd991366c30a29723318b034bcbacff357544eff8d529678fcdcd849b0f08ce9"
+      },
+      "S02": {
+        "path": "docs/M8_FIXED_MODE_PUBLIC_REFERENCE_STUDY.md",
+        "commit": "401f87aad1e4ef4108011fa0c1d769a24f1ad329",
+        "sha256": "91ef163735e627ad91c1be37f6080865ac818b2c16f2dfce0fe0b99b9ec7b34a"
+      }
+    },
+    "local_data": {},
+    "figure_generator_sha256": "6b3f0d14d1e2f8f162055c30f60c7003ed6bdc2fb4090c5f5926f6aec878012d",
+    "figure_style_module_sha256": "81b59c7621ebc9854e9897e39ef22a263b35cb1218b8d8fdaed725264d814548",
+    "manuscript_source_sha256": "8f8180f29bb14c624c5cac16044dc83e079f153d20f37232fdfceebbfc5bb325"
+  },
+  "figure_pdf_sha256": "796e27d041572a9e31652344be7ec81cfdc510f16ee62749d1f660aab91fc716",
+  "numerical_test": {
+    "id": "sample_split_counts_match_pinned_receipt",
+    "passed": true,
+    "checks": {
+      "heatmap_and_biomechanics_checks": true,
+      "training_and_development_split_counts": true,
+      "architecture_families_and_parameter_counts": true,
+      "18_route_cpu_and_cuda_counts": {
+        "cpu_exact": 18,
+        "cuda_pass": 8,
+        "cuda_fail": 10
+      },
+      "native_protocol_windows": true,
+      "analytical_curve_endpoints_and_integral": true,
+      "six_cell_root_aggregates_checked": 24,
+      "stored_bootstrap_rows_checked": 6,
+      "ablation_and_nested_diagnostics_checked": 11,
+      "rich_history_row_differences": {
+        "training": -48,
+        "public_validation": 4
+      },
+      "new_model_execution": false,
+      "new_bootstrap": false
+    }
+  }
+}

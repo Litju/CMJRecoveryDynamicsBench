@@ -1,0 +1,61 @@
+{
+  "figure": "Fig10",
+  "title": "Rich-history reconstruction and historical row-count differences",
+  "source_label": "fig:scope",
+  "population": "Publicly reconstructed and historical rich-history training and validation materializations.",
+  "source_ids": [
+    "S03",
+    "S04"
+  ],
+  "metric": "Public reconstruction minus historical horizon-row count.",
+  "units": "Horizon rows.",
+  "grouping": "Training and public-validation splits.",
+  "sample_sizes": "Training 15,134 publicly reconstructed vs 15,182 historical rows; validation 3,799 vs 3,795.",
+  "uncertainty": "Not applicable; these are recorded membership counts, not response estimates.",
+  "caption_tex": "Historical reproducibility gaps. (a) Difference in horizon-row count (public reconstruction minus historical record) for the rich-history camp materialization: training 15,134 versus 15,182 rows (\\(-48\\)); validation 3,799 versus 3,795 rows (\\(+4\\)). These are membership differences in the preserved splits, not response effects or uncertainty intervals. (b) Evidence boundary: the class of evidence that supports each result as described in this article, from public source and contracts, through results regenerable from public receipts and privately qualified results available only as public summaries, to what is not established (historical split identity, the cause of the GPU-array differences, public reruns of the private checkpoints, and any athlete predictive validity, transportability or clinical use).",
+  "input_digests": {
+    "release_source_manifest_sha256": "aa2fc106da8f69b99b4aa9953e48f069d648ea56398d6a607114e5e45c97d3f1",
+    "release_sources": {
+      "S03": {
+        "path": "docs/M8_REPRODUCTION_RESULTS.md",
+        "commit": "401f87aad1e4ef4108011fa0c1d769a24f1ad329",
+        "sha256": "44fd81ee0f322d00214ca27926bdb9709b397c1213e0a7cb6680fa06468eb119"
+      },
+      "S04": {
+        "path": "docs/M8_PUBLIC_REPRODUCTION_RECEIPTS.json",
+        "commit": "401f87aad1e4ef4108011fa0c1d769a24f1ad329",
+        "sha256": "f1b0ca32ba0966330cf152a9457b4e9a47f208779b3b18776ee4914d7ace084a"
+      }
+    },
+    "local_data": {},
+    "figure_generator_sha256": "6b3f0d14d1e2f8f162055c30f60c7003ed6bdc2fb4090c5f5926f6aec878012d",
+    "figure_style_module_sha256": "81b59c7621ebc9854e9897e39ef22a263b35cb1218b8d8fdaed725264d814548",
+    "manuscript_source_sha256": "8f8180f29bb14c624c5cac16044dc83e079f153d20f37232fdfceebbfc5bb325"
+  },
+  "figure_pdf_sha256": "7b71fe502895521b14d241b650b023d5d374002caf9400d21c7dd167b15b669c",
+  "numerical_test": {
+    "id": "rich_history_row_counts_and_differences_match_pinned_receipt",
+    "passed": true,
+    "checks": {
+      "heatmap_and_biomechanics_checks": true,
+      "training_and_development_split_counts": true,
+      "architecture_families_and_parameter_counts": true,
+      "18_route_cpu_and_cuda_counts": {
+        "cpu_exact": 18,
+        "cuda_pass": 8,
+        "cuda_fail": 10
+      },
+      "native_protocol_windows": true,
+      "analytical_curve_endpoints_and_integral": true,
+      "six_cell_root_aggregates_checked": 24,
+      "stored_bootstrap_rows_checked": 6,
+      "ablation_and_nested_diagnostics_checked": 11,
+      "rich_history_row_differences": {
+        "training": -48,
+        "public_validation": 4
+      },
+      "new_model_execution": false,
+      "new_bootstrap": false
+    }
+  }
+}

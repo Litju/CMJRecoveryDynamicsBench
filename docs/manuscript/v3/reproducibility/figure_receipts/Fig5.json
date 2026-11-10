@@ -1,0 +1,73 @@
+{
+  "figure": "Fig5",
+  "title": "Native force-time definitions and assessment chronology",
+  "source_label": "fig:biomech",
+  "population": "Equation-generated analytical signal (not athlete data) and the native measurement/evaluation contract with a separate public synthetic forecast contract; no observed assessment events.",
+  "source_ids": [
+    "S02",
+    "S09",
+    "S16",
+    "S21"
+  ],
+  "metric": "Gross mean concentric force, peak force and gravity-adjusted net impulse of one analytical force trace; time windows and nominal horizons relative to index exposure.",
+  "units": "Force N; mass kg; time s; mean and peak force N/kg; net impulse m/s; chronology in hours.",
+  "grouping": "One piecewise analytical curve with onset, peak and takeoff; native baseline, H72 and D7 windows; synthetic H24/H48/H72 query horizons.",
+  "sample_sizes": "5,501 evenly spaced integration points; three valid trials per native assessment; baseline uses the two latest qualifying assessments. No empirical sample.",
+  "uncertainty": "Not applicable; deterministic mathematical illustration and protocol definitions.",
+  "caption_tex": "Native measurement definitions and assessment chronology. (a) Analytical vertical force--time curve, not athlete data, generated with \\(m=\\SI{70}{\\kilogram}\\), \\(g=\\SI{9.80665}{\\meter\\per\\second\\squared}\\), \\(A=\\SI{1000}{\\newton}\\), \\(t_p=\\SI{0.22}{\\second}\\) and \\(T=\\SI{0.55}{\\second}\\): \\(F_z=mg+A\\sin(\\pi t/2t_p)\\) for \\(0\\leq t\\leq t_p\\) and \\(F_z=(mg+A)[1-(t-t_p)/(T-t_p)]\\) for \\(t_p<t\\leq T\\). Dividing the area under \\(F_z\\) by \\(mT\\) gives gross mean concentric force (\\SI{14.79}{\\Nkg}, black line); dividing the signed area relative to body weight by \\(m\\) gives gravity-adjusted net impulse (\\SI{2.74}{\\mps}). Peak force (\\SI{24.09}{\\Nkg}) is shown only to distinguish it from the scored mean-force target. (b) The three quantities with their equations, values and units. (c) Native contract (upper track): baseline search interval 24--240 h before the index exposure, from which the two latest valid assessments are selected, an H72 window at 66--78 h and a D7 window at 156--180 h; each assessment is the mean of three valid trials. Lower track: the separate public synthetic H24, H48 and H72 query horizons (nominal). No athlete measurements are plotted.",
+  "input_digests": {
+    "release_source_manifest_sha256": "aa2fc106da8f69b99b4aa9953e48f069d648ea56398d6a607114e5e45c97d3f1",
+    "release_sources": {
+      "S02": {
+        "path": "docs/M8_FIXED_MODE_PUBLIC_REFERENCE_STUDY.md",
+        "commit": "401f87aad1e4ef4108011fa0c1d769a24f1ad329",
+        "sha256": "91ef163735e627ad91c1be37f6080865ac818b2c16f2dfce0fe0b99b9ec7b34a"
+      },
+      "S09": {
+        "path": "docs/GATE7_NATIVE_MEASUREMENT_V1.md",
+        "commit": "401f87aad1e4ef4108011fa0c1d769a24f1ad329",
+        "sha256": "0128429365c9f2133e6e7ab61ba62a1d83ba67f46592984f9e733b9b29bef725"
+      },
+      "S16": {
+        "path": "website/src/data/gate7.json",
+        "commit": "401f87aad1e4ef4108011fa0c1d769a24f1ad329",
+        "sha256": "3b15daa7cb7690e60428bfa994b9d87ae32964296b19cd4e37f6d0d868078139"
+      },
+      "S21": {
+        "path": "src/cmj_recovery_dynamics/observations/native_mechanics.py",
+        "commit": "401f87aad1e4ef4108011fa0c1d769a24f1ad329",
+        "sha256": "3a95f0a075115b52fb6c7a9d76840273b87804bd2c757b0981e659e3bcc8c40a"
+      }
+    },
+    "local_data": {},
+    "figure_generator_sha256": "6b3f0d14d1e2f8f162055c30f60c7003ed6bdc2fb4090c5f5926f6aec878012d",
+    "figure_style_module_sha256": "81b59c7621ebc9854e9897e39ef22a263b35cb1218b8d8fdaed725264d814548",
+    "manuscript_source_sha256": "8f8180f29bb14c624c5cac16044dc83e079f153d20f37232fdfceebbfc5bb325"
+  },
+  "figure_pdf_sha256": "4d6c5cb3f29a8b75faba7c06fe2ceaeb5c0d13c8543b5765f120758877f491cf",
+  "numerical_test": {
+    "id": "analytical_curve_endpoints_integrals_and_native_windows_are_valid",
+    "passed": true,
+    "checks": {
+      "heatmap_and_biomechanics_checks": true,
+      "training_and_development_split_counts": true,
+      "architecture_families_and_parameter_counts": true,
+      "18_route_cpu_and_cuda_counts": {
+        "cpu_exact": 18,
+        "cuda_pass": 8,
+        "cuda_fail": 10
+      },
+      "native_protocol_windows": true,
+      "analytical_curve_endpoints_and_integral": true,
+      "six_cell_root_aggregates_checked": 24,
+      "stored_bootstrap_rows_checked": 6,
+      "ablation_and_nested_diagnostics_checked": 11,
+      "rich_history_row_differences": {
+        "training": -48,
+        "public_validation": 4
+      },
+      "new_model_execution": false,
+      "new_bootstrap": false
+    }
+  }
+}

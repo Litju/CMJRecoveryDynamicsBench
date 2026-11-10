@@ -1,0 +1,63 @@
+{
+  "figure": "Fig7",
+  "title": "Model-by-cell NRMSE heatmap and per-root structured-minus-ridge differences",
+  "source_label": "fig:heatmap",
+  "population": "Four reference models evaluated on three fixed roots from one public synthetic generator.",
+  "source_ids": [
+    "S01",
+    "S23"
+  ],
+  "metric": "Stored mean cellwise NRMSE (six cells x four models), stored six-cell mean, and structured minus ridge NRMSE per root and cell.",
+  "units": "NRMSE dimensionless.",
+  "grouping": "Six outcome-horizon cells x four models; panel b differences of recorded root values.",
+  "sample_sizes": "Each root has 16 camps and 4,000 rows per outcome-horizon cell; 18 root-cell differences.",
+  "uncertainty": "No interval or test; descriptive differences of recorded values. No ridge-versus-structured interval was recorded.",
+  "caption_tex": "Model-by-cell error heatmap. (a) Stored mean NRMSE across the three evaluation roots for six outcome-horizon cells (rows) and four reference models (columns); the bottom row is the equal-weight six-cell mean. Lower is better. Colour is centred at NRMSE\\,=\\,1, the value of a cell-mean predictor: blue is below 1 and red above 1. Outlined cells are lowest in their row. (b) Descriptive structured-minus-ridge NRMSE for each root (A circle, B square, C triangle); positive values mean ridge was lower. Ridge was lower in all 18 root-cell comparisons (0.025 to 0.047). No interval or test is implied, and no ridge-versus-structured confidence interval was recorded.",
+  "input_digests": {
+    "release_source_manifest_sha256": "aa2fc106da8f69b99b4aa9953e48f069d648ea56398d6a607114e5e45c97d3f1",
+    "release_sources": {
+      "S01": {
+        "path": "docs/M8_FIXED_MODE_PUBLIC_REFERENCE_RESULTS.json",
+        "commit": "401f87aad1e4ef4108011fa0c1d769a24f1ad329",
+        "sha256": "cd991366c30a29723318b034bcbacff357544eff8d529678fcdcd849b0f08ce9"
+      },
+      "S23": {
+        "path": "src/cmj_recovery_dynamics/studies/fixed_mode_reference_study.py",
+        "commit": "401f87aad1e4ef4108011fa0c1d769a24f1ad329",
+        "sha256": "ab6d349747b54ee606066d56b5da91f33dc9b2d6b6ad18538e14513ab08accd7"
+      }
+    },
+    "local_data": {
+      "evidence/v2_audit/six_cell_results.csv": "4fb48c36a008cfce188b7c53b5c8c3a012e91f2688d0a1f2e5b026c158ef4d2c"
+    },
+    "figure_generator_sha256": "6b3f0d14d1e2f8f162055c30f60c7003ed6bdc2fb4090c5f5926f6aec878012d",
+    "figure_style_module_sha256": "81b59c7621ebc9854e9897e39ef22a263b35cb1218b8d8fdaed725264d814548",
+    "manuscript_source_sha256": "8f8180f29bb14c624c5cac16044dc83e079f153d20f37232fdfceebbfc5bb325"
+  },
+  "figure_pdf_sha256": "6c6fe8d4e7ec6c6729403085375d41f71a2dad5c885e17c705085d243a74056f",
+  "numerical_test": {
+    "id": "heatmap_cell_means_six_cell_means_and_ridge_structured_differences_match_receipt",
+    "passed": true,
+    "checks": {
+      "heatmap_and_biomechanics_checks": true,
+      "training_and_development_split_counts": true,
+      "architecture_families_and_parameter_counts": true,
+      "18_route_cpu_and_cuda_counts": {
+        "cpu_exact": 18,
+        "cuda_pass": 8,
+        "cuda_fail": 10
+      },
+      "native_protocol_windows": true,
+      "analytical_curve_endpoints_and_integral": true,
+      "six_cell_root_aggregates_checked": 24,
+      "stored_bootstrap_rows_checked": 6,
+      "ablation_and_nested_diagnostics_checked": 11,
+      "rich_history_row_differences": {
+        "training": -48,
+        "public_validation": 4
+      },
+      "new_model_execution": false,
+      "new_bootstrap": false
+    }
+  }
+}

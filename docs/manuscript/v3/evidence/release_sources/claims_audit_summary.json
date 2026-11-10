@@ -1,0 +1,18 @@
+{
+  "total": 553,
+  "prose_and_equation_sentences": 487,
+  "table_rows": 66,
+  "verified": 476,
+  "qualified": 77,
+  "unsupported": 0,
+  "removed_or_corrected": [
+    "Removed draft bibliography DOI unrelated to topic in V1; not reintroduced",
+    "Replaced stale SoftwareX word-limit assumption with official March 2026 template",
+    "Distinguished native 36/120-hour basis from synthetic 24/84-hour comparator",
+    "Made private artifact reconciliation distinct from inference rerun",
+    "Corrected table references and added rendered appendix tables",
+    "Replaced raster figure embeddings with vector PDF content"
+  ],
+  "audit_scope": "all manuscript/supplement prose paragraphs, equations, six captions, architecture/six-cell/route CSV rows",
+  "method": "Source-bound internal agent review; not external peer review"
+}

@@ -1,0 +1,73 @@
+{
+  "release_source_records_hash_verified": 35,
+  "receipt_arithmetic_checks": {
+    "six_cell_rows_checked": 24,
+    "root_aggregate_rows_checked": 24,
+    "stored_bootstrap_rows_checked": 6,
+    "model_routes": 18,
+    "cpu_source_exact_records": 18,
+    "saved_cuda_pass": 8,
+    "saved_cuda_fail": 10,
+    "new_model_execution": false,
+    "new_bootstrap": false
+  },
+  "bibliography_entries_verified": 17,
+  "manuscript_checks": {
+    "abstract_words": 210,
+    "citations": 17,
+    "figures_in_order": [
+      "fig:genealogy",
+      "fig:workflow",
+      "fig:architecture",
+      "fig:numerical",
+      "fig:biomech",
+      "fig:performance",
+      "fig:heatmap",
+      "fig:uncertainty",
+      "fig:ablation",
+      "fig:scope"
+    ]
+  },
+  "private_boundary": true,
+  "claims_differential_audit": {
+    "current_claim_units": 510,
+    "substantive_claim_units": 485,
+    "administrative_disclosures": 25,
+    "differential_status_counts": {
+      "modified": 312,
+      "new": 45,
+      "retained": 128,
+      "administrative_disclosure": 25,
+      "removed": 3
+    },
+    "historical_v2_rows_preserved": 553,
+    "historical_v2_sha256_verified": true,
+    "independent_human_review": false
+  },
+  "v2_preservation": {
+    "available": false,
+    "checked": false
+  },
+  "build_outputs": {
+    "pdfs": [
+      "academic_review_manuscript.pdf",
+      "full_illustrated_research_manuscript.pdf",
+      "technical_supplement.pdf"
+    ],
+    "figures": 10,
+    "quantitative_figure_receipts": 9,
+    "primary_figure_pages": {
+      "1": 3,
+      "2": 3,
+      "3": 5,
+      "4": 6,
+      "5": 7,
+      "6": 8,
+      "7": 9,
+      "8": 10,
+      "9": 10,
+      "10": 11
+    },
+    "page_render_sets": 3
+  }
+}

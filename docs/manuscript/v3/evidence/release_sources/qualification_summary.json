@@ -1,0 +1,28 @@
+{
+  "status": "M10_MANUSCRIPT_READY_FOR_OWNER_REVIEW",
+  "manuscript_pages": 16,
+  "supplement_pages": 7,
+  "figures": 6,
+  "academic_references": 13,
+  "source_records": 35,
+  "claims_total": 553,
+  "prose_and_equation_sentences": 487,
+  "table_rows": 66,
+  "verified": 476,
+  "qualified": 77,
+  "unsupported": 0,
+  "model_routes_reconciled": 18,
+  "original_source_payload_digest_checks": 54,
+  "selected_epoch_export_tensor_payload_checks": 166,
+  "recorded_rmse_sd_ratios_verified": 306,
+  "root_aggregate_checks": 51,
+  "original_draft_checksums_passed": true,
+  "genuine_remaining_scientific_blockers": [],
+  "submission_decisions": [
+    "authorship and affiliations",
+    "funding and competing interests",
+    "human responsibility and publication approval",
+    "venue choice and template adaptation"
+  ],
+  "linear_target_status": "Done"
+}

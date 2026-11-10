@@ -1,0 +1,15 @@
+{
+  "per_cell_rmse_sd_ratios_checked": 306,
+  "root_aggregate_cells_checked": 51,
+  "original_receipt_vs_summary_equality": true,
+  "uncertainty_records_checked": 6,
+  "uncertainty_recomputed": false,
+  "reason": "Stored bootstrap endpoints checked and preserved; no new bootstrap or scoring",
+  "units": {
+    "native_force": "N/kg = m/s^2",
+    "native_net_impulse": "N s/kg = m/s",
+    "native_identity": "g + J_rel/T has m/s^2",
+    "synthetic_nrmse": "dimensionless, cellwise truth-population SD"
+  },
+  "no_new_model_execution": true
+}

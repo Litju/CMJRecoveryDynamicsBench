@@ -1,0 +1,4315 @@
+{
+  "schema_version": 1,
+  "study": "public_synthetic_benchmark_reproduction_qualification",
+  "created_utc": "2026-10-15T23:29:07+00:00",
+  "command": "python -m cmj_recovery_dynamics.reproducibility.qualification",
+  "environment": {
+    "isolated_virtual_environment": true,
+    "python_version": "3.12.13",
+    "python_implementation": "CPython",
+    "numpy_version": "2.5.3",
+    "package_version": "0.1.0",
+    "os_family": "Linux",
+    "architecture": "x86_64"
+  },
+  "elapsed_seconds": 2447.527308134013,
+  "reproducibility_status_counts": {
+    "EXACTLY_REPRODUCIBLE": 0,
+    "PARTIALLY_REPRODUCIBLE": 8,
+    "NOT_REPRODUCIBLE": 0,
+    "HISTORICAL_EVIDENCE_ONLY": 0
+  },
+  "historical_result_status_counts": {
+    "EXACTLY_REPRODUCIBLE": 0,
+    "PARTIALLY_REPRODUCIBLE": 0,
+    "NOT_REPRODUCIBLE": 2,
+    "HISTORICAL_EVIDENCE_ONLY": 6
+  },
+  "matrix": {
+    "schema_version": 1,
+    "status_scope": {
+      "reproducibility_status": "The public dataset generation and registered result chain, together.",
+      "historical_result_status": "Whether M1 numeric performance results have been numerically replayed.",
+      "exactness_rule": "EXACTLY_REPRODUCIBLE requires exact historical data, model, evaluation, and result authority; a fresh deterministic clean-room sample is not an exact historical replay."
+    },
+    "m6_public_claim_count": 34,
+    "m6_program_claims": [
+      "program_benchmark_quality_reproducibility",
+      "program_compute_efficiency_unresolved",
+      "program_cross_specimen_leaderboard_invalid",
+      "program_exact_historical_replay_unresolved",
+      "program_negative_results_preserved",
+      "program_robustness_is_study_specific",
+      "program_sample_efficiency_unresolved",
+      "program_structured_and_analytic_methods_no_universal_winner",
+      "program_task_design_sensitivity",
+      "recovery_empirical_grounding_unresolved"
+    ],
+    "benchmarks": [
+      {
+        "benchmark": "initial_preseason_camp_recovery",
+        "reproducibility_status": "PARTIALLY_REPRODUCIBLE",
+        "historical_result_status": "HISTORICAL_EVIDENCE_ONLY",
+        "m2_formulation_status": "PARTIALLY_REPRODUCIBLE",
+        "dataset": {
+          "identity": "initial_preseason_camp_public_sample",
+          "kind": "SYNTHETIC",
+          "generator_identity": "event_time_adaptation_recovery_world",
+          "public_splits": [
+            "training",
+            "public_validation"
+          ],
+          "split_authorities": [
+            {
+              "identity": "training",
+              "role": "training",
+              "rows": 4096,
+              "planned_rows": null,
+              "assignment_status": "PARTIAL",
+              "materialization_state": "materialized",
+              "materialization_status": "PARTIAL",
+              "historical_reference_sha256": "6b26a9e74828fd9cf2b74a65edc39b77e25d71bfa525ce72049d39c49ba13fa9"
+            },
+            {
+              "identity": "public_validation",
+              "role": "public_validation",
+              "rows": 512,
+              "planned_rows": null,
+              "assignment_status": "PARTIAL",
+              "materialization_state": "materialized",
+              "materialization_status": "PARTIAL",
+              "historical_reference_sha256": "410bb30a7116d50c35cc723e3eedbb0f7ebe1b026b80627cd8e0e6cf07470545"
+            },
+            {
+              "identity": "hidden_test",
+              "role": "hidden_test",
+              "rows": null,
+              "planned_rows": null,
+              "assignment_status": "UNKNOWN",
+              "materialization_state": "unknown",
+              "materialization_status": "UNKNOWN",
+              "historical_reference_sha256": null
+            }
+          ]
+        },
+        "seeds": {
+          "clean_room_defaults": {
+            "training": {
+              "kind": "oss_clean_room",
+              "value": 20261007
+            },
+            "public_validation": {
+              "kind": "oss_clean_room",
+              "value": 20261007
+            }
+          },
+          "randomness_authority": {
+            "algorithm": "Python random.Random version 2",
+            "state": "Semantic-keyed streams; exact sample state depends on a root seed not bound by the public manifests.",
+            "seed": "Symbolic fixture namespaces are preserved, but exact public sample roots are unknown.",
+            "stream_construction": "SHA-256 semantic keys with separate athlete, event, measurement, assessment, and missingness namespaces.",
+            "draw_order": "The preserved source fixes per-stream draw order; exact public root seeds are a separate unresolved authority.",
+            "substream_strategy": "Separate stable semantic-key namespaces; not one shared sequential stream."
+          }
+        },
+        "model_implementations": [
+          {
+            "identity": "initial_public_reference_model",
+            "experiment": "initial_public_reference_selection",
+            "implementation_status": "SEMANTIC_IMPLEMENTATION",
+            "configuration_status": "EXACT",
+            "checkpoint_state": "PRESERVED_PRIVATELY",
+            "seed_identities": [
+              "repeat=0; model=279072964; loader=2115274314; dropout=365358155; selection=1056043477; augmentation disabled (seed=185199805)",
+              "repeat=1; model=1255891457; loader=1191659341; dropout=627264576; selection=1595417134; augmentation disabled (seed=256100766)"
+            ],
+            "adapter_executable": true,
+            "checkpoint_auto_loaded": false,
+            "execution_reason": "public implementation and M3 configuration are available"
+          },
+          {
+            "identity": "initial_submission_family_unresolved",
+            "experiment": "initial_camp_failure_certificate",
+            "implementation_status": "RESULT_EVIDENCE_ONLY",
+            "configuration_status": "UNKNOWN",
+            "checkpoint_state": "UNKNOWN",
+            "seed_identities": [],
+            "adapter_executable": false,
+            "checkpoint_auto_loaded": false,
+            "execution_reason": "M3 has no public implementation adapter for this model"
+          },
+          {
+            "identity": "linear_public_baseline",
+            "experiment": "initial_linear_public_baseline_evaluation",
+            "implementation_status": "SEMANTIC_IMPLEMENTATION",
+            "configuration_status": "EXACT",
+            "checkpoint_state": "PRESERVED_PRIVATELY",
+            "seed_identities": [
+              "seed=0"
+            ],
+            "adapter_executable": true,
+            "checkpoint_auto_loaded": false,
+            "execution_reason": "public implementation and M3 configuration are available"
+          }
+        ],
+        "evaluations": [
+          {
+            "identity": "finite_ensemble_empirical_energy_score",
+            "execution_status": "implemented",
+            "implementation_id": "empirical_energy_score",
+            "production_acceptance": "none",
+            "calibration_reference_status": "UNKNOWN"
+          },
+          {
+            "identity": "four_cell_training_scale_normalized_rmse_selection_metric",
+            "execution_status": "implemented",
+            "implementation_id": "mean_training_scale_normalized_rmse_and_two_seed_mean",
+            "production_acceptance": "none",
+            "calibration_reference_status": "UNKNOWN"
+          },
+          {
+            "identity": "initial_camp_population_normalized_rmse_score",
+            "execution_status": "implemented",
+            "implementation_id": "calibrated_benchmark_score",
+            "production_acceptance": "accepted_historical",
+            "calibration_reference_status": "locked_value_not_public"
+          },
+          {
+            "identity": "mean_standardized_euclidean_prediction_error",
+            "execution_status": "implemented",
+            "implementation_id": "mean_standardized_euclidean_error",
+            "production_acceptance": "none",
+            "calibration_reference_status": "UNKNOWN"
+          },
+          {
+            "identity": "predictive_covariance_and_mahalanobis_residual",
+            "execution_status": "implemented",
+            "implementation_id": "validate_two_target_covariance_and_mahalanobis_squared",
+            "production_acceptance": "none",
+            "calibration_reference_status": "UNKNOWN"
+          },
+          {
+            "identity": "public_synthetic_dataset_qualification",
+            "execution_status": "no_common_execution_binding",
+            "implementation_id": null,
+            "production_acceptance": null,
+            "calibration_reference_status": null
+          },
+          {
+            "identity": "unresolved_initial_camp_platform_metric",
+            "execution_status": "no_common_execution_binding",
+            "implementation_id": null,
+            "production_acceptance": null,
+            "calibration_reference_status": null
+          }
+        ],
+        "expected_historical_results": [
+          {
+            "identity": "initial_camp_negative_result_family",
+            "evaluation": "unresolved_initial_camp_platform_metric",
+            "comparability": "UNKNOWN",
+            "status": "RESULT_EVIDENCE_ONLY",
+            "numerically_replayed": false,
+            "expected_values": [
+              {
+                "measure": "historical score range",
+                "units": "unresolved platform score",
+                "value_range": [
+                  0.59,
+                  0.6
+                ],
+                "sample_count": 5
+              }
+            ]
+          },
+          {
+            "identity": "initial_linear_public_baseline_result",
+            "evaluation": "four_cell_training_scale_normalized_rmse_selection_metric",
+            "comparability": "DIRECTLY_COMPARABLE",
+            "status": "SOURCE_REPRODUCIBLE",
+            "numerically_replayed": false,
+            "expected_values": [
+              {
+                "measure": "aggregate normalized RMSE",
+                "units": "dimensionless",
+                "value": 0.40366749638706456
+              }
+            ]
+          },
+          {
+            "identity": "initial_public_reference_selection_result",
+            "evaluation": "four_cell_training_scale_normalized_rmse_selection_metric",
+            "comparability": "DIRECTLY_COMPARABLE",
+            "status": "SOURCE_REPRODUCIBLE",
+            "numerically_replayed": false,
+            "expected_values": [
+              {
+                "measure": "aggregate normalized RMSE",
+                "units": "dimensionless",
+                "value": 0.35930952854248116,
+                "sample_count": 2
+              }
+            ]
+          }
+        ],
+        "m6_synthesis_claims": [
+          "initial_confirmatory_qualification_not_failure_verdict",
+          "initial_historical_attempts_negative",
+          "initial_historical_replay_and_calibration_incomplete",
+          "initial_public_model_selection",
+          "program_benchmark_quality_reproducibility",
+          "program_compute_efficiency_unresolved",
+          "program_cross_specimen_leaderboard_invalid",
+          "program_exact_historical_replay_unresolved",
+          "program_negative_results_preserved",
+          "program_sample_efficiency_unresolved",
+          "recovery_empirical_grounding_unresolved"
+        ],
+        "missing_evidence": {
+          "m2_unresolved_dimensions": [
+            "complete_generator",
+            "rng_state",
+            "seed_authority",
+            "observation",
+            "schema",
+            "split_assignment",
+            "row_ordering",
+            "serialization",
+            "dataset_hash",
+            "evaluation"
+          ],
+          "non_executable_model_uses": [
+            "initial_submission_family_unresolved"
+          ],
+          "unavailable_evaluations": [
+            "public_synthetic_dataset_qualification",
+            "unresolved_initial_camp_platform_metric"
+          ],
+          "historical_score_replay": "HISTORICAL_EVIDENCE_ONLY"
+        }
+      },
+      {
+        "benchmark": "canonical_preseason_camp_recovery",
+        "reproducibility_status": "PARTIALLY_REPRODUCIBLE",
+        "historical_result_status": "HISTORICAL_EVIDENCE_ONLY",
+        "m2_formulation_status": "PARTIALLY_REPRODUCIBLE",
+        "dataset": {
+          "identity": "canonical_preseason_camp_horizon_sample",
+          "kind": "SYNTHETIC",
+          "generator_identity": "event_time_adaptation_recovery_world",
+          "public_splits": [
+            "training",
+            "public_validation"
+          ],
+          "split_authorities": [
+            {
+              "identity": "training",
+              "role": "training",
+              "rows": 4096,
+              "planned_rows": null,
+              "assignment_status": "PARTIAL",
+              "materialization_state": "materialized",
+              "materialization_status": "PARTIAL",
+              "historical_reference_sha256": "bcddc1bf217033a54e8b88a1e18bd8677d030893e6cd39b7ad37dbe27185df2a"
+            },
+            {
+              "identity": "public_validation",
+              "role": "public_validation",
+              "rows": 512,
+              "planned_rows": null,
+              "assignment_status": "PARTIAL",
+              "materialization_state": "materialized",
+              "materialization_status": "PARTIAL",
+              "historical_reference_sha256": "16c132b2f398bad658f3dc9d29e609856d211e9c6d50b8934425288194f9968f"
+            },
+            {
+              "identity": "hidden_test",
+              "role": "hidden_test",
+              "rows": null,
+              "planned_rows": null,
+              "assignment_status": "UNKNOWN",
+              "materialization_state": "unknown",
+              "materialization_status": "UNKNOWN",
+              "historical_reference_sha256": null
+            }
+          ]
+        },
+        "seeds": {
+          "clean_room_defaults": {
+            "training": {
+              "kind": "oss_clean_room",
+              "value": 20261007
+            },
+            "public_validation": {
+              "kind": "oss_clean_room",
+              "value": 20261007
+            }
+          },
+          "randomness_authority": {
+            "algorithm": "Python random.Random version 2",
+            "state": "Semantic-keyed streams; exact sample state depends on a root seed not bound by the public manifests.",
+            "seed": "Symbolic fixture namespaces are preserved, but exact public sample roots are unknown.",
+            "stream_construction": "SHA-256 semantic keys with separate athlete, event, measurement, assessment, and missingness namespaces.",
+            "draw_order": "The preserved source fixes per-stream draw order; exact public root seeds are a separate unresolved authority.",
+            "substream_strategy": "Separate stable semantic-key namespaces; not one shared sequential stream."
+          }
+        },
+        "model_implementations": [
+          {
+            "identity": "canonical_campaign_predictor_unresolved",
+            "experiment": "canonical_camp_public_campaign",
+            "implementation_status": "RESULT_EVIDENCE_ONLY",
+            "configuration_status": "UNKNOWN",
+            "checkpoint_state": "UNKNOWN",
+            "seed_identities": [],
+            "adapter_executable": false,
+            "checkpoint_auto_loaded": false,
+            "execution_reason": "M3 has no public implementation adapter for this model"
+          }
+        ],
+        "evaluations": [
+          {
+            "identity": "canonical_camp_population_normalized_rmse_score",
+            "execution_status": "implemented",
+            "implementation_id": "calibrated_benchmark_score",
+            "production_acceptance": "accepted_historical",
+            "calibration_reference_status": "locked_value_not_public"
+          }
+        ],
+        "expected_historical_results": [
+          {
+            "identity": "canonical_camp_public_campaign_result_family",
+            "evaluation": "canonical_camp_population_normalized_rmse_score",
+            "comparability": "COMPARABLE_WITH_CAVEAT",
+            "status": "RESULT_EVIDENCE_ONLY",
+            "numerically_replayed": false,
+            "expected_values": [
+              {
+                "measure": "calibrated benchmark score",
+                "units": "dimensionless",
+                "value_range": [
+                  0.5176,
+                  0.5266
+                ],
+                "sample_count": 5
+              }
+            ]
+          }
+        ],
+        "m6_synthesis_claims": [
+          "canonical_campaign_range_identity_unresolved",
+          "canonical_run_robustness_not_established",
+          "program_benchmark_quality_reproducibility",
+          "program_compute_efficiency_unresolved",
+          "program_cross_specimen_leaderboard_invalid",
+          "program_exact_historical_replay_unresolved",
+          "program_robustness_is_study_specific",
+          "program_sample_efficiency_unresolved"
+        ],
+        "missing_evidence": {
+          "m2_unresolved_dimensions": [
+            "complete_generator",
+            "rng_state",
+            "seed_authority",
+            "split_assignment",
+            "row_ordering",
+            "dataset_hash",
+            "evaluation"
+          ],
+          "non_executable_model_uses": [
+            "canonical_campaign_predictor_unresolved"
+          ],
+          "unavailable_evaluations": [],
+          "historical_score_replay": "HISTORICAL_EVIDENCE_ONLY"
+        }
+      },
+      {
+        "benchmark": "rich_history_camp_recovery",
+        "reproducibility_status": "PARTIALLY_REPRODUCIBLE",
+        "historical_result_status": "HISTORICAL_EVIDENCE_ONLY",
+        "m2_formulation_status": "SEMANTICALLY_REPRODUCIBLE",
+        "dataset": {
+          "identity": "rich_history_camp_sample",
+          "kind": "SYNTHETIC",
+          "generator_identity": "rich_history_fitness_fatigue_world",
+          "public_splits": [
+            "training",
+            "public_validation"
+          ],
+          "split_authorities": [
+            {
+              "identity": "training",
+              "role": "training",
+              "rows": 15182,
+              "planned_rows": null,
+              "assignment_status": "EXACT",
+              "materialization_state": "materialized",
+              "materialization_status": "PARTIAL",
+              "historical_reference_sha256": "78a6b86512d879b2af1a9c311616ce69ef30f63c087dbcf7319decc4fc4b5e47"
+            },
+            {
+              "identity": "public_validation",
+              "role": "public_validation",
+              "rows": 3795,
+              "planned_rows": null,
+              "assignment_status": "EXACT",
+              "materialization_state": "materialized",
+              "materialization_status": "PARTIAL",
+              "historical_reference_sha256": "dc4da99b6b5c297e2dcbd5f051a0116027bb613a3311363bf72396cffa281b35"
+            },
+            {
+              "identity": "hidden_test",
+              "role": "hidden_test",
+              "rows": null,
+              "planned_rows": null,
+              "assignment_status": "UNKNOWN",
+              "materialization_state": "not_recovered",
+              "materialization_status": "UNKNOWN",
+              "historical_reference_sha256": null
+            }
+          ]
+        },
+        "seeds": {
+          "clean_room_defaults": {
+            "training": {
+              "kind": "oss_clean_room",
+              "value": "cmj-v3-oss-train-root"
+            },
+            "public_validation": {
+              "kind": "oss_clean_room",
+              "value": "cmj-v3-oss-validation-root"
+            }
+          },
+          "randomness_authority": {
+            "algorithm": "NumPy default_rng is used by the preserved source; its bit-generator/runtime binding is not fixed in M1.",
+            "state": "Public train/validation roots are named; serialized initial bit-generator states are not available.",
+            "seed": "Public train, validation, and hidden-design seed names are preserved.",
+            "stream_construction": "Each camp uses one root identity (simulate-camp namespace, public split root, split name, camp index), then a separate named generator per stochastic channel. Kinetic and preferred-depth channels add the local participant index; other origin surfaces use fixed arrays in participant/origin order.",
+            "draw_order": "The source fixes ordered channel calls and fixed array shapes; changing a channel's draws cannot advance another channel. The NumPy bit-generator/runtime binding remains separate.",
+            "substream_strategy": "Random streams are camp-rooted and channel-keyed, with local participant keys only for kinetic and preferred-depth draws. Stable participant/origin/horizon opaque public keys are a separate projection hierarchy, not RNG stream keys."
+          }
+        },
+        "model_implementations": [
+          {
+            "identity": "planned_expert_reference_model",
+            "experiment": "rich_history_final_expert_frontier_protocol",
+            "implementation_status": "NOT_APPLICABLE",
+            "configuration_status": "UNKNOWN",
+            "checkpoint_state": "NOT_APPLICABLE",
+            "seed_identities": [],
+            "adapter_executable": false,
+            "checkpoint_auto_loaded": false,
+            "execution_reason": "M3 has no public implementation adapter for this model"
+          },
+          {
+            "identity": "rich_history_boosted_residual_predictor",
+            "experiment": "rich_history_headroom_reconstruction",
+            "implementation_status": "RESULT_EVIDENCE_ONLY",
+            "configuration_status": "UNKNOWN",
+            "checkpoint_state": "UNKNOWN",
+            "seed_identities": [],
+            "adapter_executable": false,
+            "checkpoint_auto_loaded": false,
+            "execution_reason": "M3 has no public implementation adapter for this model"
+          },
+          {
+            "identity": "rich_history_empirical_bayes_predictor",
+            "experiment": "rich_history_headroom_reconstruction",
+            "implementation_status": "RESULT_EVIDENCE_ONLY",
+            "configuration_status": "UNKNOWN",
+            "checkpoint_state": "UNKNOWN",
+            "seed_identities": [],
+            "adapter_executable": false,
+            "checkpoint_auto_loaded": false,
+            "execution_reason": "M3 has no public implementation adapter for this model"
+          },
+          {
+            "identity": "rich_history_gpu_frontier_unresolved",
+            "experiment": "rich_history_gpu_frontier_reconstruction",
+            "implementation_status": "RESULT_EVIDENCE_ONLY",
+            "configuration_status": "UNKNOWN",
+            "checkpoint_state": "UNKNOWN",
+            "seed_identities": [],
+            "adapter_executable": false,
+            "checkpoint_auto_loaded": false,
+            "execution_reason": "M3 has no public implementation adapter for this model"
+          },
+          {
+            "identity": "rich_history_headroom_reference",
+            "experiment": "rich_history_headroom_reconstruction",
+            "implementation_status": "RESULT_EVIDENCE_ONLY",
+            "configuration_status": "UNKNOWN",
+            "checkpoint_state": "UNKNOWN",
+            "seed_identities": [],
+            "adapter_executable": false,
+            "checkpoint_auto_loaded": false,
+            "execution_reason": "M3 has no public implementation adapter for this model"
+          },
+          {
+            "identity": "rich_history_reference_predictor",
+            "experiment": "rich_history_headroom_reconstruction",
+            "implementation_status": "RESULT_EVIDENCE_ONLY",
+            "configuration_status": "UNKNOWN",
+            "checkpoint_state": "UNKNOWN",
+            "seed_identities": [],
+            "adapter_executable": false,
+            "checkpoint_auto_loaded": false,
+            "execution_reason": "M3 has no public implementation adapter for this model"
+          },
+          {
+            "identity": "rich_history_zero_baseline",
+            "experiment": "rich_history_headroom_reconstruction",
+            "implementation_status": "EXACT_IMPLEMENTATION",
+            "configuration_status": "NOT_APPLICABLE",
+            "checkpoint_state": "NOT_APPLICABLE",
+            "seed_identities": [],
+            "adapter_executable": true,
+            "checkpoint_auto_loaded": false,
+            "execution_reason": "public implementation and M3 configuration are available"
+          }
+        ],
+        "evaluations": [
+          {
+            "identity": "rich_history_24_cell_normalized_rmse_score",
+            "execution_status": "implemented",
+            "implementation_id": "rich_history_target_metrics_then_calibrated_benchmark_score",
+            "production_acceptance": "accepted_historical",
+            "calibration_reference_status": "locked_value_not_public"
+          },
+          {
+            "identity": "rich_history_raw_progress_diagnostic",
+            "execution_status": "implemented",
+            "implementation_id": "rich_history_raw_progress",
+            "production_acceptance": null,
+            "calibration_reference_status": null
+          }
+        ],
+        "expected_historical_results": [
+          {
+            "identity": "rich_history_zero_baseline_result",
+            "evaluation": "rich_history_raw_progress_diagnostic",
+            "comparability": "DIRECTLY_COMPARABLE",
+            "status": "RESULT_EVIDENCE_ONLY",
+            "numerically_replayed": false,
+            "expected_values": [
+              {
+                "measure": "raw progress",
+                "units": "dimensionless progress",
+                "value": 0.0
+              }
+            ]
+          },
+          {
+            "identity": "rich_history_empirical_bayes_public_result",
+            "evaluation": "rich_history_raw_progress_diagnostic",
+            "comparability": "DIRECTLY_COMPARABLE",
+            "status": "RESULT_EVIDENCE_ONLY",
+            "numerically_replayed": false,
+            "expected_values": [
+              {
+                "measure": "raw progress",
+                "units": "dimensionless progress",
+                "value": 0.7165342249074321
+              }
+            ]
+          },
+          {
+            "identity": "rich_history_boosted_residual_public_result",
+            "evaluation": "rich_history_raw_progress_diagnostic",
+            "comparability": "DIRECTLY_COMPARABLE",
+            "status": "RESULT_EVIDENCE_ONLY",
+            "numerically_replayed": false,
+            "expected_values": [
+              {
+                "measure": "raw progress",
+                "units": "dimensionless progress",
+                "value": 0.7184639474288889
+              }
+            ]
+          },
+          {
+            "identity": "rich_history_headroom_public_result",
+            "evaluation": "rich_history_raw_progress_diagnostic",
+            "comparability": "COMPARABLE_WITH_CAVEAT",
+            "status": "RESULT_EVIDENCE_ONLY",
+            "numerically_replayed": false,
+            "expected_values": [
+              {
+                "measure": "raw progress",
+                "units": "dimensionless progress",
+                "value": 0.7216319938969343
+              }
+            ]
+          },
+          {
+            "identity": "rich_history_gpu_reanchored_result_family",
+            "evaluation": "piecewise_linear_historical_score_reanchoring",
+            "comparability": "COMPARABLE_WITH_CAVEAT",
+            "status": "RESULT_EVIDENCE_ONLY",
+            "numerically_replayed": false,
+            "expected_values": [
+              {
+                "measure": "reanchored progress range",
+                "units": "dimensionless progress",
+                "value_range": [
+                  0.518449025523233,
+                  0.5744433248809966
+                ],
+                "sample_count": 4
+              }
+            ]
+          }
+        ],
+        "m6_synthesis_claims": [
+          "program_benchmark_quality_reproducibility",
+          "program_compute_efficiency_unresolved",
+          "program_cross_specimen_leaderboard_invalid",
+          "program_exact_historical_replay_unresolved",
+          "program_robustness_is_study_specific",
+          "program_sample_efficiency_unresolved",
+          "program_structured_and_analytic_methods_no_universal_winner",
+          "rich_history_expert_frontier_and_retirement_unresolved",
+          "rich_history_gpu_reanchoring_compatibility_only",
+          "rich_history_public_headroom",
+          "rich_history_public_hidden_bank_separation"
+        ],
+        "missing_evidence": {
+          "m2_unresolved_dimensions": [
+            "rng_algorithm",
+            "rng_state",
+            "dataset_hash",
+            "evaluation"
+          ],
+          "non_executable_model_uses": [
+            "planned_expert_reference_model",
+            "rich_history_boosted_residual_predictor",
+            "rich_history_empirical_bayes_predictor",
+            "rich_history_gpu_frontier_unresolved",
+            "rich_history_headroom_reference",
+            "rich_history_reference_predictor"
+          ],
+          "unavailable_evaluations": [],
+          "historical_score_replay": "HISTORICAL_EVIDENCE_ONLY"
+        }
+      },
+      {
+        "benchmark": "preliminary_post_exposure_recovery",
+        "reproducibility_status": "PARTIALLY_REPRODUCIBLE",
+        "historical_result_status": "NOT_REPRODUCIBLE",
+        "m2_formulation_status": "PARTIALLY_REPRODUCIBLE",
+        "dataset": {
+          "identity": "preliminary_episode_measurement_sample",
+          "kind": "SYNTHETIC",
+          "generator_identity": "participant_conditioned_episode_recovery_world",
+          "public_splits": [
+            "training",
+            "public_validation"
+          ],
+          "split_authorities": [
+            {
+              "identity": "training",
+              "role": "training",
+              "rows": 72000,
+              "planned_rows": null,
+              "assignment_status": "EXACT",
+              "materialization_state": "materialized",
+              "materialization_status": "PARTIAL",
+              "historical_reference_sha256": "3b15c95e0c3401f81b073ecd7133987c0220811a7c8876211dcc5f7a139d9471"
+            },
+            {
+              "identity": "public_validation",
+              "role": "public_validation",
+              "rows": 12000,
+              "planned_rows": null,
+              "assignment_status": "EXACT",
+              "materialization_state": "materialized",
+              "materialization_status": "PARTIAL",
+              "historical_reference_sha256": "293d20551375c893577789c937ad6b86b2cf613f0e32caa8f3e2eab50a2038b4"
+            },
+            {
+              "identity": "hidden_test",
+              "role": "hidden_test",
+              "rows": null,
+              "planned_rows": null,
+              "assignment_status": "UNKNOWN",
+              "materialization_state": "unknown",
+              "materialization_status": "UNKNOWN",
+              "historical_reference_sha256": null
+            }
+          ]
+        },
+        "seeds": {
+          "clean_room_defaults": {
+            "training": {
+              "kind": "oss_clean_room",
+              "value": "cmj-v2-oss-clean-room-root"
+            },
+            "public_validation": {
+              "kind": "oss_clean_room",
+              "value": "cmj-v2-oss-clean-room-root"
+            }
+          },
+          "randomness_authority": {
+            "algorithm": "Preserved RandomStreams source calls NumPy default_rng but does not pin its bit generator or runtime.",
+            "state": "Public root seed is known, but exact initialized stream states are not preserved.",
+            "seed": "The public generator root is preserved; no separate hidden file/hash is bound.",
+            "stream_construction": "Keyed camp, participant, episode/query, and measurement streams are identified.",
+            "draw_order": "Preserved source fixes draw order within each purpose-keyed stream; the PRNG runtime is a separate authority.",
+            "substream_strategy": "The source hashes a registered root/split/entity/purpose identity into an independent generator."
+          }
+        },
+        "model_implementations": [],
+        "evaluations": [
+          {
+            "identity": "preliminary_post_exposure_production_evaluation",
+            "execution_status": "not_implemented",
+            "implementation_id": null,
+            "production_acceptance": "none",
+            "calibration_reference_status": "UNKNOWN"
+          }
+        ],
+        "expected_historical_results": [],
+        "m6_synthesis_claims": [
+          "preliminary_model_performance_unresolved",
+          "program_benchmark_quality_reproducibility",
+          "program_compute_efficiency_unresolved",
+          "program_cross_specimen_leaderboard_invalid",
+          "program_exact_historical_replay_unresolved",
+          "program_sample_efficiency_unresolved",
+          "recovery_empirical_grounding_unresolved"
+        ],
+        "missing_evidence": {
+          "m2_unresolved_dimensions": [
+            "complete_generator",
+            "rng_algorithm",
+            "rng_state",
+            "observation",
+            "row_ordering",
+            "dataset_hash",
+            "evaluation"
+          ],
+          "non_executable_model_uses": [],
+          "unavailable_evaluations": [
+            "preliminary_post_exposure_production_evaluation"
+          ],
+          "historical_score_replay": "NOT_REPRODUCIBLE"
+        }
+      },
+      {
+        "benchmark": "phase_consistent_post_exposure_recovery",
+        "reproducibility_status": "PARTIALLY_REPRODUCIBLE",
+        "historical_result_status": "HISTORICAL_EVIDENCE_ONLY",
+        "m2_formulation_status": "SEMANTICALLY_REPRODUCIBLE",
+        "dataset": {
+          "identity": "phase_consistent_episode_sample",
+          "kind": "SYNTHETIC",
+          "generator_identity": "participant_conditioned_episode_recovery_world",
+          "public_splits": [
+            "training",
+            "public_validation"
+          ],
+          "split_authorities": [
+            {
+              "identity": "training",
+              "role": "training",
+              "rows": 72000,
+              "planned_rows": null,
+              "assignment_status": "EXACT",
+              "materialization_state": "materialized",
+              "materialization_status": "PARTIAL",
+              "historical_reference_sha256": "c3a42297338a84e0dc9300a3d64100528c3e6d153ad6af6bd0837d0ecae27a4d"
+            },
+            {
+              "identity": "public_validation",
+              "role": "public_validation",
+              "rows": 12000,
+              "planned_rows": null,
+              "assignment_status": "EXACT",
+              "materialization_state": "materialized",
+              "materialization_status": "PARTIAL",
+              "historical_reference_sha256": "b0db78f167cec78fe49992f71da187e2544c2c383adc2e9f1be37f1a577778f3"
+            },
+            {
+              "identity": "hidden_test",
+              "role": "hidden_test",
+              "rows": null,
+              "planned_rows": null,
+              "assignment_status": "UNKNOWN",
+              "materialization_state": "unknown",
+              "materialization_status": "UNKNOWN",
+              "historical_reference_sha256": null
+            }
+          ]
+        },
+        "seeds": {
+          "clean_room_defaults": {
+            "training": {
+              "kind": "oss_clean_room",
+              "value": "cmj-v2-oss-clean-room-root"
+            },
+            "public_validation": {
+              "kind": "oss_clean_room",
+              "value": "cmj-v2-oss-clean-room-root"
+            }
+          },
+          "randomness_authority": {
+            "algorithm": "Preserved RandomStreams source calls NumPy default_rng but does not pin its bit generator or runtime.",
+            "state": "Public root seed is known, but exact initialized stream states are not preserved.",
+            "seed": "The public generator root is preserved; no separate hidden file/hash is bound.",
+            "stream_construction": "Keyed camp, participant, episode/query, and measurement streams are identified.",
+            "draw_order": "Preserved source fixes draw order within each purpose-keyed stream; the PRNG runtime is a separate authority.",
+            "substream_strategy": "The source hashes a registered root/split/entity/purpose identity into an independent generator."
+          }
+        },
+        "model_implementations": [
+          {
+            "identity": "post_exposure_ridge_baseline",
+            "experiment": "phase_consistent_adversarial_survivability",
+            "implementation_status": "RESULT_EVIDENCE_ONLY",
+            "configuration_status": "UNKNOWN",
+            "checkpoint_state": "UNKNOWN",
+            "seed_identities": [],
+            "adapter_executable": false,
+            "checkpoint_auto_loaded": false,
+            "execution_reason": "M3 has no public implementation adapter for this model"
+          }
+        ],
+        "evaluations": [
+          {
+            "identity": "phase_consistent_post_exposure_production_evaluation",
+            "execution_status": "not_implemented",
+            "implementation_id": null,
+            "production_acceptance": "none",
+            "calibration_reference_status": "UNKNOWN"
+          },
+          {
+            "identity": "predictive_progress_over_cell_mean_baseline",
+            "execution_status": "implemented",
+            "implementation_id": "predictive_progress",
+            "production_acceptance": "none",
+            "calibration_reference_status": "UNKNOWN"
+          },
+          {
+            "identity": "six_cell_mean_cellwise_normalized_rmse",
+            "execution_status": "implemented",
+            "implementation_id": "mean_cellwise_normalized_rmse",
+            "production_acceptance": "none",
+            "calibration_reference_status": "UNKNOWN"
+          }
+        ],
+        "expected_historical_results": [
+          {
+            "identity": "phase_consistent_ridge_research_result",
+            "evaluation": "six_cell_mean_cellwise_normalized_rmse",
+            "comparability": "DIRECTLY_COMPARABLE",
+            "status": "RESULT_EVIDENCE_ONLY",
+            "numerically_replayed": false,
+            "expected_values": [
+              {
+                "measure": "six-cell normalized RMSE",
+                "units": "dimensionless",
+                "value": 0.727472
+              }
+            ]
+          }
+        ],
+        "m6_synthesis_claims": [
+          "phase_consistent_ridge_beats_restricted_frontier",
+          "program_benchmark_quality_reproducibility",
+          "program_compute_efficiency_unresolved",
+          "program_cross_specimen_leaderboard_invalid",
+          "program_exact_historical_replay_unresolved",
+          "program_negative_results_preserved",
+          "program_sample_efficiency_unresolved",
+          "program_task_design_sensitivity"
+        ],
+        "missing_evidence": {
+          "m2_unresolved_dimensions": [
+            "rng_algorithm",
+            "rng_state",
+            "row_ordering",
+            "dataset_hash",
+            "evaluation"
+          ],
+          "non_executable_model_uses": [
+            "post_exposure_ridge_baseline"
+          ],
+          "unavailable_evaluations": [
+            "phase_consistent_post_exposure_production_evaluation"
+          ],
+          "historical_score_replay": "HISTORICAL_EVIDENCE_ONLY"
+        }
+      },
+      {
+        "benchmark": "correlated_exposure_recovery",
+        "reproducibility_status": "PARTIALLY_REPRODUCIBLE",
+        "historical_result_status": "HISTORICAL_EVIDENCE_ONLY",
+        "m2_formulation_status": "SEMANTICALLY_REPRODUCIBLE",
+        "dataset": {
+          "identity": "correlated_exposure_recovery_sample",
+          "kind": "SYNTHETIC",
+          "generator_identity": "correlated_exposure_world",
+          "public_splits": [
+            "training",
+            "public_validation"
+          ],
+          "split_authorities": [
+            {
+              "identity": "training",
+              "role": "training",
+              "rows": 72000,
+              "planned_rows": null,
+              "assignment_status": "EXACT",
+              "materialization_state": "materialized",
+              "materialization_status": "PARTIAL",
+              "historical_reference_sha256": "30f6ba1371908fde231b2f81ba989ccb7a141e1b4e19fe8c1f205b2d2b1a26cb"
+            },
+            {
+              "identity": "public_validation",
+              "role": "public_validation",
+              "rows": 12000,
+              "planned_rows": null,
+              "assignment_status": "EXACT",
+              "materialization_state": "materialized",
+              "materialization_status": "PARTIAL",
+              "historical_reference_sha256": "018aa9885b7d9264170f0a413b815f4df6e5acbe3b9e8e10f3b99d9f0b979555"
+            },
+            {
+              "identity": "hidden_test",
+              "role": "hidden_test",
+              "rows": null,
+              "planned_rows": null,
+              "assignment_status": "UNKNOWN",
+              "materialization_state": "unknown",
+              "materialization_status": "UNKNOWN",
+              "historical_reference_sha256": null
+            }
+          ]
+        },
+        "seeds": {
+          "clean_room_defaults": {
+            "training": {
+              "kind": "oss_clean_room",
+              "value": "cmj-v2-oss-clean-room-root"
+            },
+            "public_validation": {
+              "kind": "oss_clean_room",
+              "value": "cmj-v2-oss-clean-room-root"
+            }
+          },
+          "randomness_authority": {
+            "algorithm": "Preserved keyed RNG source calls NumPy default_rng but does not pin its bit generator or runtime.",
+            "state": "The public root is known; initialized factor/archetype stream states are not serialized.",
+            "seed": "The public root and split-specific mixture probabilities are preserved.",
+            "stream_construction": "Correlated factor residuals, archetype assignment, feature residuals, participant/camp effects, and measurement have separate keyed inputs.",
+            "draw_order": "Preserved source fixes draw order within every keyed stream; initialized state is a separate claim.",
+            "substream_strategy": "Source derives independent generators from stable camp/participant/episode/query identities and registered channels."
+          }
+        },
+        "model_implementations": [
+          {
+            "identity": "correlated_exposure_empirical_frontier",
+            "experiment": "correlated_exposure_corrected_survivability",
+            "implementation_status": "RESULT_EVIDENCE_ONLY",
+            "configuration_status": "UNKNOWN",
+            "checkpoint_state": "UNKNOWN",
+            "seed_identities": [],
+            "adapter_executable": false,
+            "checkpoint_auto_loaded": false,
+            "execution_reason": "M3 has no public implementation adapter for this model"
+          },
+          {
+            "identity": "learned_one_dimensional_exposure_predictor",
+            "experiment": "correlated_exposure_corrected_survivability",
+            "implementation_status": "RESULT_EVIDENCE_ONLY",
+            "configuration_status": "UNKNOWN",
+            "checkpoint_state": "UNKNOWN",
+            "seed_identities": [],
+            "adapter_executable": false,
+            "checkpoint_auto_loaded": false,
+            "execution_reason": "M3 has no public implementation adapter for this model"
+          },
+          {
+            "identity": "local_history_structured_attacker",
+            "experiment": "correlated_exposure_corrected_survivability",
+            "implementation_status": "RESULT_EVIDENCE_ONLY",
+            "configuration_status": "UNKNOWN",
+            "checkpoint_state": "UNKNOWN",
+            "seed_identities": [],
+            "adapter_executable": false,
+            "checkpoint_auto_loaded": false,
+            "execution_reason": "M3 has no public implementation adapter for this model"
+          }
+        ],
+        "evaluations": [
+          {
+            "identity": "correlated_exposure_production_evaluation",
+            "execution_status": "not_implemented",
+            "implementation_id": null,
+            "production_acceptance": "none",
+            "calibration_reference_status": "UNKNOWN"
+          },
+          {
+            "identity": "predictive_progress_over_cell_mean_baseline",
+            "execution_status": "implemented",
+            "implementation_id": "predictive_progress",
+            "production_acceptance": "none",
+            "calibration_reference_status": "UNKNOWN"
+          },
+          {
+            "identity": "predictive_progress_ratio",
+            "execution_status": "implemented",
+            "implementation_id": "progress_ratio",
+            "production_acceptance": "none",
+            "calibration_reference_status": "UNKNOWN"
+          },
+          {
+            "identity": "public_synthetic_dataset_qualification",
+            "execution_status": "no_common_execution_binding",
+            "implementation_id": null,
+            "production_acceptance": null,
+            "calibration_reference_status": null
+          },
+          {
+            "identity": "relative_progress_loss_from_model_component",
+            "execution_status": "implemented",
+            "implementation_id": "relative_progress_loss",
+            "production_acceptance": "none",
+            "calibration_reference_status": "UNKNOWN"
+          },
+          {
+            "identity": "six_cell_mean_cellwise_normalized_rmse",
+            "execution_status": "implemented",
+            "implementation_id": "mean_cellwise_normalized_rmse",
+            "production_acceptance": "none",
+            "calibration_reference_status": "UNKNOWN"
+          }
+        ],
+        "expected_historical_results": [
+          {
+            "identity": "correlated_exposure_sre6_result_family",
+            "evaluation": "six_cell_mean_cellwise_normalized_rmse",
+            "comparability": "NON_COMPARABLE",
+            "status": "RESULT_EVIDENCE_ONLY",
+            "numerically_replayed": false,
+            "expected_values": []
+          },
+          {
+            "identity": "correlated_exposure_local_frontier_ratio",
+            "evaluation": "predictive_progress_ratio",
+            "comparability": "DIRECTLY_COMPARABLE",
+            "status": "RESULT_EVIDENCE_ONLY",
+            "numerically_replayed": false,
+            "expected_values": [
+              {
+                "measure": "local-to-frontier progress ratio",
+                "units": "dimensionless ratio",
+                "value": 0.9977002240012199
+              }
+            ]
+          },
+          {
+            "identity": "correlated_exposure_local_frontier_paired_sre_difference",
+            "evaluation": "six_cell_mean_cellwise_normalized_rmse",
+            "comparability": "DIRECTLY_COMPARABLE",
+            "status": "RESULT_EVIDENCE_ONLY",
+            "numerically_replayed": false,
+            "expected_values": [
+              {
+                "measure": "paired local-minus-empirical SRE difference (95% CI)",
+                "units": "dimensionless SRE difference",
+                "interval": [
+                  -0.0014055337702137793,
+                  0.002354712208178295
+                ]
+              }
+            ]
+          },
+          {
+            "identity": "correlated_exposure_scalar_progress_loss",
+            "evaluation": "relative_progress_loss_from_model_component",
+            "comparability": "DIRECTLY_COMPARABLE",
+            "status": "RESULT_EVIDENCE_ONLY",
+            "numerically_replayed": false,
+            "expected_values": [
+              {
+                "measure": "relative progress loss",
+                "units": "fraction",
+                "value": 0.031238600840498513
+              }
+            ]
+          }
+        ],
+        "m6_synthesis_claims": [
+          "correlated_exposure_local_reconstructability",
+          "correlated_scalar_loss_below_historical_rule",
+          "correlated_terminal_runtime_repair_required",
+          "program_benchmark_quality_reproducibility",
+          "program_compute_efficiency_unresolved",
+          "program_cross_specimen_leaderboard_invalid",
+          "program_exact_historical_replay_unresolved",
+          "program_negative_results_preserved",
+          "program_sample_efficiency_unresolved",
+          "program_task_design_sensitivity"
+        ],
+        "missing_evidence": {
+          "m2_unresolved_dimensions": [
+            "rng_algorithm",
+            "rng_state",
+            "row_ordering",
+            "dataset_hash",
+            "evaluation"
+          ],
+          "non_executable_model_uses": [
+            "correlated_exposure_empirical_frontier",
+            "learned_one_dimensional_exposure_predictor",
+            "local_history_structured_attacker"
+          ],
+          "unavailable_evaluations": [
+            "correlated_exposure_production_evaluation",
+            "public_synthetic_dataset_qualification"
+          ],
+          "historical_score_replay": "HISTORICAL_EVIDENCE_ONLY"
+        }
+      },
+      {
+        "benchmark": "threshold_response_recovery",
+        "reproducibility_status": "PARTIALLY_REPRODUCIBLE",
+        "historical_result_status": "NOT_REPRODUCIBLE",
+        "m2_formulation_status": "SEMANTICALLY_REPRODUCIBLE",
+        "dataset": {
+          "identity": "threshold_response_proposed_sample",
+          "kind": "SYNTHETIC",
+          "generator_identity": "threshold_response_world",
+          "public_splits": [
+            "training",
+            "public_validation"
+          ],
+          "split_authorities": [
+            {
+              "identity": "training",
+              "role": "training",
+              "rows": 72000,
+              "planned_rows": null,
+              "assignment_status": "EXACT",
+              "materialization_state": "materialized",
+              "materialization_status": "PARTIAL",
+              "historical_reference_sha256": "f5d691156b19854224db9cf9f05ca1be1c149631ca2b451ad38979640f94ab60"
+            },
+            {
+              "identity": "public_validation",
+              "role": "public_validation",
+              "rows": 12000,
+              "planned_rows": null,
+              "assignment_status": "EXACT",
+              "materialization_state": "materialized",
+              "materialization_status": "PARTIAL",
+              "historical_reference_sha256": "0fd0b288b306950187e39def57200f362758996107516899d6096ea1bdf552c6"
+            },
+            {
+              "identity": "hidden_test",
+              "role": "hidden_test",
+              "rows": null,
+              "planned_rows": 15750,
+              "assignment_status": "PARTIAL",
+              "materialization_state": "unknown",
+              "materialization_status": "UNKNOWN",
+              "historical_reference_sha256": null
+            }
+          ]
+        },
+        "seeds": {
+          "clean_room_defaults": {
+            "training": {
+              "kind": "oss_clean_room",
+              "value": "cmj-v2-oss-clean-room-root"
+            },
+            "public_validation": {
+              "kind": "oss_clean_room",
+              "value": "cmj-v2-oss-clean-room-root"
+            }
+          },
+          "randomness_authority": {
+            "algorithm": "Preserved keyed RNG source calls NumPy default_rng but does not pin its bit generator or runtime.",
+            "state": "Public stream state is not serialized; a separate private test seed source is named without a public materialization claim.",
+            "seed": "The public root is preserved; the separate hidden test root is not established in public authority.",
+            "stream_construction": "Participant weights/thresholds, camp effects, episode discrepancy, and trial/session noise are separated conceptually.",
+            "draw_order": "The preserved public generator fixes draw order; private test initialization remains unavailable.",
+            "substream_strategy": "Public keyed streams are defined; private test root and initialized streams are not publication-safe authority."
+          }
+        },
+        "model_implementations": [
+          {
+            "identity": "threshold_response_reference_predictor",
+            "experiment": "threshold_response_implementation_reference_attempt",
+            "implementation_status": "UNRESOLVED",
+            "configuration_status": "UNKNOWN",
+            "checkpoint_state": "PRESERVED_PRIVATELY",
+            "seed_identities": [],
+            "adapter_executable": false,
+            "checkpoint_auto_loaded": false,
+            "execution_reason": "M3 has no public implementation adapter for this model"
+          }
+        ],
+        "evaluations": [
+          {
+            "identity": "threshold_response_12_cell_normalized_rmse_score",
+            "execution_status": "implemented",
+            "implementation_id": "cellwise_normalized_rmse_then_calibrated_benchmark_score",
+            "production_acceptance": "proposed_unresolved",
+            "calibration_reference_status": "locked_value_not_public"
+          }
+        ],
+        "expected_historical_results": [],
+        "m6_synthesis_claims": [
+          "program_benchmark_quality_reproducibility",
+          "program_compute_efficiency_unresolved",
+          "program_cross_specimen_leaderboard_invalid",
+          "program_exact_historical_replay_unresolved",
+          "program_negative_results_preserved",
+          "program_sample_efficiency_unresolved",
+          "threshold_response_proposed_unadjudicated"
+        ],
+        "missing_evidence": {
+          "m2_unresolved_dimensions": [
+            "rng_algorithm",
+            "rng_state",
+            "rng_substream_strategy",
+            "row_ordering",
+            "dataset_hash",
+            "evaluation"
+          ],
+          "non_executable_model_uses": [
+            "threshold_response_reference_predictor"
+          ],
+          "unavailable_evaluations": [],
+          "historical_score_replay": "NOT_REPRODUCIBLE"
+        }
+      },
+      {
+        "benchmark": "fixed_mode_discrepancy_recovery",
+        "reproducibility_status": "PARTIALLY_REPRODUCIBLE",
+        "historical_result_status": "HISTORICAL_EVIDENCE_ONLY",
+        "m2_formulation_status": "SEMANTICALLY_REPRODUCIBLE",
+        "dataset": {
+          "identity": "fixed_mode_recovery_candidate_sample",
+          "kind": "SYNTHETIC",
+          "generator_identity": "fixed_mode_discrepancy_world",
+          "public_splits": [
+            "training",
+            "public_validation"
+          ],
+          "split_authorities": [
+            {
+              "identity": "training",
+              "role": "training",
+              "rows": 72000,
+              "planned_rows": null,
+              "assignment_status": "EXACT",
+              "materialization_state": "materialized",
+              "materialization_status": "PARTIAL",
+              "historical_reference_sha256": "7bcb327b3a391a1f6bcdf928b8f045edb8d4925e0b6d7d6e7261491766e0d5d3"
+            },
+            {
+              "identity": "public_validation",
+              "role": "public_validation",
+              "rows": 12000,
+              "planned_rows": null,
+              "assignment_status": "EXACT",
+              "materialization_state": "materialized",
+              "materialization_status": "PARTIAL",
+              "historical_reference_sha256": "e2dbfc83b76ce240c013128582f58a34bd1d5b6e3092381a7223cf62ad10f00a"
+            },
+            {
+              "identity": "hidden_test",
+              "role": "hidden_test",
+              "rows": null,
+              "planned_rows": null,
+              "assignment_status": "NOT_APPLICABLE",
+              "materialization_state": "not_materialized",
+              "materialization_status": "NOT_APPLICABLE",
+              "historical_reference_sha256": null
+            }
+          ]
+        },
+        "seeds": {
+          "clean_room_defaults": {
+            "training": {
+              "kind": "oss_clean_room",
+              "value": "cmj-v2-oss-clean-room-root"
+            },
+            "public_validation": {
+              "kind": "oss_clean_room",
+              "value": "cmj-v2-oss-clean-room-root"
+            }
+          },
+          "randomness_authority": {
+            "algorithm": "Preserved keyed RNG source calls NumPy default_rng but does not pin its bit generator or runtime.",
+            "state": "The public root and random-feature seed names are known; initialized stream states are not serialized.",
+            "seed": "The public generator root is preserved; M1 says no private/hidden challenge was materialized.",
+            "stream_construction": "World discrepancy, episode discrepancy, participant effects, and phase-consistent trial/session noise use keyed inputs.",
+            "draw_order": "The preserved generator source fixes draw order within named channels; the PRNG runtime remains separate.",
+            "substream_strategy": "The source fixes versioned key hashing, channel names, and child-stream construction."
+          }
+        },
+        "model_implementations": [
+          {
+            "identity": "fixed_mode_empirical_bayes_predictor",
+            "experiment": "fixed_mode_completed_headroom_and_reconstruction_study",
+            "implementation_status": "RESULT_EVIDENCE_ONLY",
+            "configuration_status": "UNKNOWN",
+            "checkpoint_state": "UNKNOWN",
+            "seed_identities": [],
+            "adapter_executable": false,
+            "checkpoint_auto_loaded": false,
+            "execution_reason": "M3 has no public implementation adapter for this model"
+          },
+          {
+            "identity": "fixed_mode_nonlinear_mixed_effects_predictor",
+            "experiment": "fixed_mode_completed_headroom_and_reconstruction_study",
+            "implementation_status": "RESULT_EVIDENCE_ONLY",
+            "configuration_status": "UNKNOWN",
+            "checkpoint_state": "UNKNOWN",
+            "seed_identities": [],
+            "adapter_executable": false,
+            "checkpoint_auto_loaded": false,
+            "execution_reason": "M3 has no public implementation adapter for this model"
+          },
+          {
+            "identity": "fixed_mode_nonlinear_mixed_effects_predictor",
+            "experiment": "fixed_mode_owner_pivot_adjudication",
+            "implementation_status": "UNRESOLVED",
+            "configuration_status": "UNKNOWN",
+            "checkpoint_state": "UNKNOWN",
+            "seed_identities": [],
+            "adapter_executable": false,
+            "checkpoint_auto_loaded": false,
+            "execution_reason": "M3 has no public implementation adapter for this model"
+          },
+          {
+            "identity": "fixed_mode_smooth_structured_predictor",
+            "experiment": "fixed_mode_completed_headroom_and_reconstruction_study",
+            "implementation_status": "RESULT_EVIDENCE_ONLY",
+            "configuration_status": "UNKNOWN",
+            "checkpoint_state": "UNKNOWN",
+            "seed_identities": [],
+            "adapter_executable": false,
+            "checkpoint_auto_loaded": false,
+            "execution_reason": "M3 has no public implementation adapter for this model"
+          },
+          {
+            "identity": "generic_gradient_boosted_tree_predictor",
+            "experiment": "fixed_mode_partial_headroom_attempt",
+            "implementation_status": "UNRESOLVED",
+            "configuration_status": "UNKNOWN",
+            "checkpoint_state": "UNKNOWN",
+            "seed_identities": [],
+            "adapter_executable": false,
+            "checkpoint_auto_loaded": false,
+            "execution_reason": "M3 has no public implementation adapter for this model"
+          },
+          {
+            "identity": "generic_gradient_boosted_tree_predictor",
+            "experiment": "fixed_mode_stopped_replay",
+            "implementation_status": "UNRESOLVED",
+            "configuration_status": "UNKNOWN",
+            "checkpoint_state": "UNKNOWN",
+            "seed_identities": [],
+            "adapter_executable": false,
+            "checkpoint_auto_loaded": false,
+            "execution_reason": "M3 has no public implementation adapter for this model"
+          },
+          {
+            "identity": "generic_gradient_boosted_tree_predictor",
+            "experiment": "fixed_mode_completed_headroom_and_reconstruction_study",
+            "implementation_status": "RESULT_EVIDENCE_ONLY",
+            "configuration_status": "UNKNOWN",
+            "checkpoint_state": "UNKNOWN",
+            "seed_identities": [],
+            "adapter_executable": false,
+            "checkpoint_auto_loaded": false,
+            "execution_reason": "M3 has no public implementation adapter for this model"
+          },
+          {
+            "identity": "generic_multilayer_perceptron_predictor",
+            "experiment": "fixed_mode_partial_headroom_attempt",
+            "implementation_status": "UNRESOLVED",
+            "configuration_status": "UNKNOWN",
+            "checkpoint_state": "UNKNOWN",
+            "seed_identities": [],
+            "adapter_executable": false,
+            "checkpoint_auto_loaded": false,
+            "execution_reason": "M3 has no public implementation adapter for this model"
+          },
+          {
+            "identity": "generic_multilayer_perceptron_predictor",
+            "experiment": "fixed_mode_stopped_replay",
+            "implementation_status": "UNRESOLVED",
+            "configuration_status": "UNKNOWN",
+            "checkpoint_state": "UNKNOWN",
+            "seed_identities": [],
+            "adapter_executable": false,
+            "checkpoint_auto_loaded": false,
+            "execution_reason": "M3 has no public implementation adapter for this model"
+          },
+          {
+            "identity": "generic_multilayer_perceptron_predictor",
+            "experiment": "fixed_mode_completed_headroom_and_reconstruction_study",
+            "implementation_status": "RESULT_EVIDENCE_ONLY",
+            "configuration_status": "UNKNOWN",
+            "checkpoint_state": "UNKNOWN",
+            "seed_identities": [],
+            "adapter_executable": false,
+            "checkpoint_auto_loaded": false,
+            "execution_reason": "M3 has no public implementation adapter for this model"
+          },
+          {
+            "identity": "generic_ridge_predictor",
+            "experiment": "fixed_mode_completed_headroom_and_reconstruction_study",
+            "implementation_status": "RESULT_EVIDENCE_ONLY",
+            "configuration_status": "UNKNOWN",
+            "checkpoint_state": "UNKNOWN",
+            "seed_identities": [],
+            "adapter_executable": false,
+            "checkpoint_auto_loaded": false,
+            "execution_reason": "M3 has no public implementation adapter for this model"
+          },
+          {
+            "identity": "learned_one_dimensional_exposure_predictor",
+            "experiment": "fixed_mode_completed_headroom_and_reconstruction_study",
+            "implementation_status": "RESULT_EVIDENCE_ONLY",
+            "configuration_status": "UNKNOWN",
+            "checkpoint_state": "UNKNOWN",
+            "seed_identities": [],
+            "adapter_executable": false,
+            "checkpoint_auto_loaded": false,
+            "execution_reason": "M3 has no public implementation adapter for this model"
+          },
+          {
+            "identity": "local_history_structured_attacker",
+            "experiment": "fixed_mode_partial_headroom_attempt",
+            "implementation_status": "UNRESOLVED",
+            "configuration_status": "UNKNOWN",
+            "checkpoint_state": "UNKNOWN",
+            "seed_identities": [],
+            "adapter_executable": false,
+            "checkpoint_auto_loaded": false,
+            "execution_reason": "M3 has no public implementation adapter for this model"
+          },
+          {
+            "identity": "local_history_structured_attacker",
+            "experiment": "fixed_mode_completed_headroom_and_reconstruction_study",
+            "implementation_status": "RESULT_EVIDENCE_ONLY",
+            "configuration_status": "UNKNOWN",
+            "checkpoint_state": "UNKNOWN",
+            "seed_identities": [],
+            "adapter_executable": false,
+            "checkpoint_auto_loaded": false,
+            "execution_reason": "M3 has no public implementation adapter for this model"
+          },
+          {
+            "identity": "local_history_structured_attacker",
+            "experiment": "fixed_mode_owner_pivot_adjudication",
+            "implementation_status": "UNRESOLVED",
+            "configuration_status": "UNKNOWN",
+            "checkpoint_state": "UNKNOWN",
+            "seed_identities": [],
+            "adapter_executable": false,
+            "checkpoint_auto_loaded": false,
+            "execution_reason": "M3 has no public implementation adapter for this model"
+          },
+          {
+            "identity": "planned_expert_reference_model",
+            "experiment": "fixed_mode_expert_reference_qualification",
+            "implementation_status": "NOT_APPLICABLE",
+            "configuration_status": "UNKNOWN",
+            "checkpoint_state": "NOT_APPLICABLE",
+            "seed_identities": [],
+            "adapter_executable": false,
+            "checkpoint_auto_loaded": false,
+            "execution_reason": "M3 has no public implementation adapter for this model"
+          },
+          {
+            "identity": "principal_component_exposure_diagnostic",
+            "experiment": "fixed_mode_completed_headroom_and_reconstruction_study",
+            "implementation_status": "RESULT_EVIDENCE_ONLY",
+            "configuration_status": "UNKNOWN",
+            "checkpoint_state": "UNKNOWN",
+            "seed_identities": [],
+            "adapter_executable": false,
+            "checkpoint_auto_loaded": false,
+            "execution_reason": "M3 has no public implementation adapter for this model"
+          }
+        ],
+        "evaluations": [
+          {
+            "identity": "fixed_mode_discrepancy_production_evaluation",
+            "execution_status": "not_implemented",
+            "implementation_id": null,
+            "production_acceptance": "none",
+            "calibration_reference_status": "UNKNOWN"
+          },
+          {
+            "identity": "owner_program_adjudication",
+            "execution_status": "no_common_execution_binding",
+            "implementation_id": null,
+            "production_acceptance": null,
+            "calibration_reference_status": null
+          },
+          {
+            "identity": "predictive_progress_over_cell_mean_baseline",
+            "execution_status": "implemented",
+            "implementation_id": "predictive_progress",
+            "production_acceptance": "none",
+            "calibration_reference_status": "UNKNOWN"
+          },
+          {
+            "identity": "predictive_progress_ratio",
+            "execution_status": "implemented",
+            "implementation_id": "progress_ratio",
+            "production_acceptance": "none",
+            "calibration_reference_status": "UNKNOWN"
+          },
+          {
+            "identity": "public_synthetic_dataset_qualification",
+            "execution_status": "no_common_execution_binding",
+            "implementation_id": null,
+            "production_acceptance": null,
+            "calibration_reference_status": null
+          },
+          {
+            "identity": "relative_progress_gain_over_reference",
+            "execution_status": "implemented",
+            "implementation_id": "relative_progress_gain",
+            "production_acceptance": "none",
+            "calibration_reference_status": "UNKNOWN"
+          },
+          {
+            "identity": "relative_progress_loss_from_model_component",
+            "execution_status": "implemented",
+            "implementation_id": "relative_progress_loss",
+            "production_acceptance": "none",
+            "calibration_reference_status": "UNKNOWN"
+          },
+          {
+            "identity": "six_cell_mean_cellwise_normalized_rmse",
+            "execution_status": "implemented",
+            "implementation_id": "mean_cellwise_normalized_rmse",
+            "production_acceptance": "none",
+            "calibration_reference_status": "UNKNOWN"
+          }
+        ],
+        "expected_historical_results": [
+          {
+            "identity": "fixed_mode_dataset_qualification_result",
+            "evaluation": "public_synthetic_dataset_qualification",
+            "comparability": "UNKNOWN",
+            "status": "UNRESOLVED",
+            "numerically_replayed": false,
+            "expected_values": []
+          },
+          {
+            "identity": "fixed_mode_local_predictor_sre6",
+            "evaluation": "six_cell_mean_cellwise_normalized_rmse",
+            "comparability": "DIRECTLY_COMPARABLE",
+            "status": "RESULT_EVIDENCE_ONLY",
+            "numerically_replayed": false,
+            "expected_values": [
+              {
+                "measure": "six-cell normalized RMSE",
+                "units": "dimensionless",
+                "value": 0.641366
+              }
+            ]
+          },
+          {
+            "identity": "fixed_mode_nonlinear_mixed_effects_sre6",
+            "evaluation": "six_cell_mean_cellwise_normalized_rmse",
+            "comparability": "DIRECTLY_COMPARABLE",
+            "status": "RESULT_EVIDENCE_ONLY",
+            "numerically_replayed": false,
+            "expected_values": [
+              {
+                "measure": "six-cell normalized RMSE",
+                "units": "dimensionless",
+                "value": 0.641307
+              }
+            ]
+          },
+          {
+            "identity": "fixed_mode_best_one_dimensional_sre6",
+            "evaluation": "six_cell_mean_cellwise_normalized_rmse",
+            "comparability": "DIRECTLY_COMPARABLE",
+            "status": "RESULT_EVIDENCE_ONLY",
+            "numerically_replayed": false,
+            "expected_values": [
+              {
+                "measure": "six-cell normalized RMSE",
+                "units": "dimensionless",
+                "value": 0.735083
+              }
+            ]
+          },
+          {
+            "identity": "fixed_mode_generic_mlp_sre6",
+            "evaluation": "six_cell_mean_cellwise_normalized_rmse",
+            "comparability": "DIRECTLY_COMPARABLE",
+            "status": "RESULT_EVIDENCE_ONLY",
+            "numerically_replayed": false,
+            "expected_values": [
+              {
+                "measure": "six-cell normalized RMSE",
+                "units": "dimensionless",
+                "value": 0.76232,
+                "sample_count": 3
+              }
+            ]
+          },
+          {
+            "identity": "fixed_mode_principal_component_diagnostic",
+            "evaluation": "six_cell_mean_cellwise_normalized_rmse",
+            "comparability": "DIRECTLY_COMPARABLE",
+            "status": "RESULT_EVIDENCE_ONLY",
+            "numerically_replayed": false,
+            "expected_values": [
+              {
+                "measure": "six-cell normalized RMSE",
+                "units": "dimensionless",
+                "value": 0.750521
+              }
+            ]
+          },
+          {
+            "identity": "fixed_mode_additional_model_family_results",
+            "evaluation": "six_cell_mean_cellwise_normalized_rmse",
+            "comparability": "DIRECTLY_COMPARABLE",
+            "status": "RESULT_EVIDENCE_ONLY",
+            "numerically_replayed": false,
+            "expected_values": []
+          },
+          {
+            "identity": "fixed_mode_local_to_frontier_ratio",
+            "evaluation": "predictive_progress_ratio",
+            "comparability": "DIRECTLY_COMPARABLE",
+            "status": "RESULT_EVIDENCE_ONLY",
+            "numerically_replayed": false,
+            "expected_values": [
+              {
+                "measure": "local-to-frontier progress ratio",
+                "units": "dimensionless ratio",
+                "value": 0.999835,
+                "interval": [
+                  0.998542,
+                  1.001165
+                ]
+              }
+            ]
+          },
+          {
+            "identity": "fixed_mode_owner_pivot_result",
+            "evaluation": "owner_program_adjudication",
+            "comparability": "UNKNOWN",
+            "status": "UNRESOLVED",
+            "numerically_replayed": false,
+            "expected_values": []
+          }
+        ],
+        "m6_synthesis_claims": [
+          "fixed_mode_frontier_and_historical_gate_pivot",
+          "fixed_mode_public_data_qualification",
+          "fixed_mode_scorer_and_expert_qualification_unresolved",
+          "fixed_mode_within_study_model_behavior",
+          "program_benchmark_quality_reproducibility",
+          "program_compute_efficiency_unresolved",
+          "program_cross_specimen_leaderboard_invalid",
+          "program_exact_historical_replay_unresolved",
+          "program_negative_results_preserved",
+          "program_robustness_is_study_specific",
+          "program_sample_efficiency_unresolved",
+          "program_structured_and_analytic_methods_no_universal_winner",
+          "program_task_design_sensitivity",
+          "recovery_empirical_grounding_unresolved"
+        ],
+        "missing_evidence": {
+          "m2_unresolved_dimensions": [
+            "rng_algorithm",
+            "rng_state",
+            "row_ordering",
+            "dataset_hash",
+            "evaluation"
+          ],
+          "non_executable_model_uses": [
+            "fixed_mode_empirical_bayes_predictor",
+            "fixed_mode_nonlinear_mixed_effects_predictor",
+            "fixed_mode_nonlinear_mixed_effects_predictor",
+            "fixed_mode_smooth_structured_predictor",
+            "generic_gradient_boosted_tree_predictor",
+            "generic_gradient_boosted_tree_predictor",
+            "generic_gradient_boosted_tree_predictor",
+            "generic_multilayer_perceptron_predictor",
+            "generic_multilayer_perceptron_predictor",
+            "generic_multilayer_perceptron_predictor",
+            "generic_ridge_predictor",
+            "learned_one_dimensional_exposure_predictor",
+            "local_history_structured_attacker",
+            "local_history_structured_attacker",
+            "local_history_structured_attacker",
+            "planned_expert_reference_model",
+            "principal_component_exposure_diagnostic"
+          ],
+          "unavailable_evaluations": [
+            "fixed_mode_discrepancy_production_evaluation",
+            "owner_program_adjudication",
+            "public_synthetic_dataset_qualification"
+          ],
+          "historical_score_replay": "HISTORICAL_EVIDENCE_ONLY"
+        }
+      }
+    ]
+  },
+  "runs": [
+    {
+      "kind": "public_split_generation",
+      "origin": "oss_reproduction",
+      "run_spec": {
+        "benchmark": "initial_preseason_camp_recovery",
+        "split": "training",
+        "seed": {
+          "kind": "oss_clean_room",
+          "value": 20261007
+        },
+        "model": null,
+        "evaluation": null,
+        "sha256": "e95a908ccdafbc98bfef8ac47b2f429fe40f2b5a14affc0c82ac8874a5067667"
+      },
+      "values": [
+        {
+          "identity": "generated_row_count",
+          "value": 4096.0,
+          "units": "rows",
+          "sample_count": null
+        },
+        {
+          "identity": "finite_target_value_count",
+          "value": 8192.0,
+          "units": "target values",
+          "sample_count": null
+        },
+        {
+          "identity": "missing_target_value_count",
+          "value": 0.0,
+          "units": "target values",
+          "sample_count": null
+        },
+        {
+          "identity": "non_finite_target_value_count",
+          "value": 0.0,
+          "units": "target values",
+          "sample_count": null
+        }
+      ],
+      "provenance": {
+        "source_manifest_sha256": "bd9848ca84996b38e8256309da58d2c41034fe2fc8d51deb533c1da5a71a3cc7",
+        "configuration_manifest_sha256": "69a3221bb2acf5e679dce0aae8b58db5b8e845e9319eb6f2c213320d9baecca7",
+        "output_sha256": "012f5c5352e2ea900a27ba7924edf4cd4b2b4a8966fe5360ce87b056788b1ad4",
+        "m2_formulation_status": "PARTIALLY_REPRODUCIBLE",
+        "m2_unresolved_dimensions": [
+          "complete_generator",
+          "rng_state",
+          "seed_authority",
+          "observation",
+          "schema",
+          "split_assignment",
+          "row_ordering",
+          "serialization",
+          "dataset_hash",
+          "evaluation"
+        ],
+        "m3_model_use_status": null,
+        "m3_configuration_status": null
+      },
+      "runtime": {
+        "elapsed_seconds": 2.833719699003268,
+        "python_version": "3.12.13",
+        "numpy_version": "2.5.3",
+        "package_version": "0.1.0"
+      },
+      "numerical_checks": {
+        "matches_m2_historical_row_count": true,
+        "all_present_targets_finite": true,
+        "target_value_count_is_two_per_row": true,
+        "stable_row_schema": true,
+        "deterministic_three_row_probe": true
+      },
+      "dataset_output": {
+        "row_count": 4096,
+        "m2_historical_row_count": 4096,
+        "matches_m2_historical_row_count": true,
+        "target_value_count": 8192,
+        "missing_target_values": 0,
+        "non_finite_target_values": 0,
+        "all_present_targets_finite": true,
+        "top_level_fields": [
+          "features",
+          "label",
+          "origin_id",
+          "participant_key",
+          "query_id",
+          "split"
+        ],
+        "row_schema_sha256": "eca73ef089cb78440cb1e55b3638f00450cc749aa48df4583015ea3058b85b80",
+        "row_output_sha256": "012f5c5352e2ea900a27ba7924edf4cd4b2b4a8966fe5360ce87b056788b1ad4",
+        "determinism_probe_rows": 3,
+        "determinism_probe_sha256": "a9442832c3424e40012c5cc362b3efe0a4d5ccb5ae703642ee5abe31f23d0b98",
+        "target_summaries": {
+          "net_impulse_innovation": {
+            "count": 4096,
+            "mean": 0.8365114826885818,
+            "minimum": -2.697400739695476,
+            "maximum": 3.715341357686992
+          },
+          "relative_peak_mean_force_innovation": {
+            "count": 4096,
+            "mean": 4.43360134650403,
+            "minimum": -12.992087046801288,
+            "maximum": 18.856573316259272
+          }
+        }
+      }
+    },
+    {
+      "kind": "public_split_generation",
+      "origin": "oss_reproduction",
+      "run_spec": {
+        "benchmark": "initial_preseason_camp_recovery",
+        "split": "public_validation",
+        "seed": {
+          "kind": "oss_clean_room",
+          "value": 20261007
+        },
+        "model": null,
+        "evaluation": null,
+        "sha256": "c9e7a66d5ce56b24875700403c197759adbed14ff1ef79e8c0a9d41a716a675e"
+      },
+      "values": [
+        {
+          "identity": "generated_row_count",
+          "value": 512.0,
+          "units": "rows",
+          "sample_count": null
+        },
+        {
+          "identity": "finite_target_value_count",
+          "value": 1024.0,
+          "units": "target values",
+          "sample_count": null
+        },
+        {
+          "identity": "missing_target_value_count",
+          "value": 0.0,
+          "units": "target values",
+          "sample_count": null
+        },
+        {
+          "identity": "non_finite_target_value_count",
+          "value": 0.0,
+          "units": "target values",
+          "sample_count": null
+        }
+      ],
+      "provenance": {
+        "source_manifest_sha256": "bd9848ca84996b38e8256309da58d2c41034fe2fc8d51deb533c1da5a71a3cc7",
+        "configuration_manifest_sha256": "69a3221bb2acf5e679dce0aae8b58db5b8e845e9319eb6f2c213320d9baecca7",
+        "output_sha256": "0f990cd6bfcab06f227933450dede8ac50671f0841c1dcab1367554ef100d521",
+        "m2_formulation_status": "PARTIALLY_REPRODUCIBLE",
+        "m2_unresolved_dimensions": [
+          "complete_generator",
+          "rng_state",
+          "seed_authority",
+          "observation",
+          "schema",
+          "split_assignment",
+          "row_ordering",
+          "serialization",
+          "dataset_hash",
+          "evaluation"
+        ],
+        "m3_model_use_status": null,
+        "m3_configuration_status": null
+      },
+      "runtime": {
+        "elapsed_seconds": 0.36416034800640773,
+        "python_version": "3.12.13",
+        "numpy_version": "2.5.3",
+        "package_version": "0.1.0"
+      },
+      "numerical_checks": {
+        "matches_m2_historical_row_count": true,
+        "all_present_targets_finite": true,
+        "target_value_count_is_two_per_row": true,
+        "stable_row_schema": true,
+        "deterministic_three_row_probe": true
+      },
+      "dataset_output": {
+        "row_count": 512,
+        "m2_historical_row_count": 512,
+        "matches_m2_historical_row_count": true,
+        "target_value_count": 1024,
+        "missing_target_values": 0,
+        "non_finite_target_values": 0,
+        "all_present_targets_finite": true,
+        "top_level_fields": [
+          "features",
+          "label",
+          "origin_id",
+          "participant_key",
+          "query_id",
+          "split"
+        ],
+        "row_schema_sha256": "eca73ef089cb78440cb1e55b3638f00450cc749aa48df4583015ea3058b85b80",
+        "row_output_sha256": "0f990cd6bfcab06f227933450dede8ac50671f0841c1dcab1367554ef100d521",
+        "determinism_probe_rows": 3,
+        "determinism_probe_sha256": "db11490dea200bc38cf65897ec6323b4f79b764e40b2443e45c9595ac76a40df",
+        "target_summaries": {
+          "net_impulse_innovation": {
+            "count": 512,
+            "mean": 0.7113475169184632,
+            "minimum": -2.03488620164758,
+            "maximum": 3.4713289735195456
+          },
+          "relative_peak_mean_force_innovation": {
+            "count": 512,
+            "mean": 4.188571376562253,
+            "minimum": -6.923680713391727,
+            "maximum": 18.25312220987596
+          }
+        }
+      }
+    },
+    {
+      "kind": "public_split_generation",
+      "origin": "oss_reproduction",
+      "run_spec": {
+        "benchmark": "canonical_preseason_camp_recovery",
+        "split": "training",
+        "seed": {
+          "kind": "oss_clean_room",
+          "value": 20261007
+        },
+        "model": null,
+        "evaluation": null,
+        "sha256": "3ec192a6688bd83563388c031d081a58bdf716dc6b9468cb4f356a30023b85bb"
+      },
+      "values": [
+        {
+          "identity": "generated_row_count",
+          "value": 4096.0,
+          "units": "rows",
+          "sample_count": null
+        },
+        {
+          "identity": "finite_target_value_count",
+          "value": 8192.0,
+          "units": "target values",
+          "sample_count": null
+        },
+        {
+          "identity": "missing_target_value_count",
+          "value": 0.0,
+          "units": "target values",
+          "sample_count": null
+        },
+        {
+          "identity": "non_finite_target_value_count",
+          "value": 0.0,
+          "units": "target values",
+          "sample_count": null
+        }
+      ],
+      "provenance": {
+        "source_manifest_sha256": "bd9848ca84996b38e8256309da58d2c41034fe2fc8d51deb533c1da5a71a3cc7",
+        "configuration_manifest_sha256": "41100bc13799425fac2c66527cee1b871618f6f2b0c88a96d6ede93e58d309d4",
+        "output_sha256": "d4106a42092a13221dd929ac9429ae28a736b42965c3c60c846c1eb58cfb4e4d",
+        "m2_formulation_status": "PARTIALLY_REPRODUCIBLE",
+        "m2_unresolved_dimensions": [
+          "complete_generator",
+          "rng_state",
+          "seed_authority",
+          "split_assignment",
+          "row_ordering",
+          "dataset_hash",
+          "evaluation"
+        ],
+        "m3_model_use_status": null,
+        "m3_configuration_status": null
+      },
+      "runtime": {
+        "elapsed_seconds": 3.0070353339979192,
+        "python_version": "3.12.13",
+        "numpy_version": "2.5.3",
+        "package_version": "0.1.0"
+      },
+      "numerical_checks": {
+        "matches_m2_historical_row_count": true,
+        "all_present_targets_finite": true,
+        "target_value_count_is_two_per_row": true,
+        "stable_row_schema": true,
+        "deterministic_three_row_probe": true
+      },
+      "dataset_output": {
+        "row_count": 4096,
+        "m2_historical_row_count": 4096,
+        "matches_m2_historical_row_count": true,
+        "target_value_count": 8192,
+        "missing_target_values": 0,
+        "non_finite_target_values": 0,
+        "all_present_targets_finite": true,
+        "top_level_fields": [
+          "features",
+          "label",
+          "origin_id",
+          "participant_key",
+          "query_id",
+          "split"
+        ],
+        "row_schema_sha256": "eca73ef089cb78440cb1e55b3638f00450cc749aa48df4583015ea3058b85b80",
+        "row_output_sha256": "d4106a42092a13221dd929ac9429ae28a736b42965c3c60c846c1eb58cfb4e4d",
+        "determinism_probe_rows": 3,
+        "determinism_probe_sha256": "3417d449c0360fd8ed3248783bb6965b69f462af943a10ad198c2e6424217ee4",
+        "target_summaries": {
+          "net_impulse_innovation": {
+            "count": 4096,
+            "mean": 0.8565244068052473,
+            "minimum": -2.2081012080217866,
+            "maximum": 4.002565795249158
+          },
+          "relative_peak_mean_force_innovation": {
+            "count": 4096,
+            "mean": 4.355174424104324,
+            "minimum": -10.75759191688611,
+            "maximum": 19.54627354597888
+          }
+        }
+      }
+    },
+    {
+      "kind": "public_split_generation",
+      "origin": "oss_reproduction",
+      "run_spec": {
+        "benchmark": "canonical_preseason_camp_recovery",
+        "split": "public_validation",
+        "seed": {
+          "kind": "oss_clean_room",
+          "value": 20261007
+        },
+        "model": null,
+        "evaluation": null,
+        "sha256": "1d8aac4bea3edc59f702eb13c71a97766e4aa1831bd52c6a13e43db87b3c05da"
+      },
+      "values": [
+        {
+          "identity": "generated_row_count",
+          "value": 512.0,
+          "units": "rows",
+          "sample_count": null
+        },
+        {
+          "identity": "finite_target_value_count",
+          "value": 1024.0,
+          "units": "target values",
+          "sample_count": null
+        },
+        {
+          "identity": "missing_target_value_count",
+          "value": 0.0,
+          "units": "target values",
+          "sample_count": null
+        },
+        {
+          "identity": "non_finite_target_value_count",
+          "value": 0.0,
+          "units": "target values",
+          "sample_count": null
+        }
+      ],
+      "provenance": {
+        "source_manifest_sha256": "bd9848ca84996b38e8256309da58d2c41034fe2fc8d51deb533c1da5a71a3cc7",
+        "configuration_manifest_sha256": "41100bc13799425fac2c66527cee1b871618f6f2b0c88a96d6ede93e58d309d4",
+        "output_sha256": "24ffa71ff19fe6a4b4e05eb661f25ee23d06dfa46523d5ff95b177d9218b3828",
+        "m2_formulation_status": "PARTIALLY_REPRODUCIBLE",
+        "m2_unresolved_dimensions": [
+          "complete_generator",
+          "rng_state",
+          "seed_authority",
+          "split_assignment",
+          "row_ordering",
+          "dataset_hash",
+          "evaluation"
+        ],
+        "m3_model_use_status": null,
+        "m3_configuration_status": null
+      },
+      "runtime": {
+        "elapsed_seconds": 0.49277446400083136,
+        "python_version": "3.12.13",
+        "numpy_version": "2.5.3",
+        "package_version": "0.1.0"
+      },
+      "numerical_checks": {
+        "matches_m2_historical_row_count": true,
+        "all_present_targets_finite": true,
+        "target_value_count_is_two_per_row": true,
+        "stable_row_schema": true,
+        "deterministic_three_row_probe": true
+      },
+      "dataset_output": {
+        "row_count": 512,
+        "m2_historical_row_count": 512,
+        "matches_m2_historical_row_count": true,
+        "target_value_count": 1024,
+        "missing_target_values": 0,
+        "non_finite_target_values": 0,
+        "all_present_targets_finite": true,
+        "top_level_fields": [
+          "features",
+          "label",
+          "origin_id",
+          "participant_key",
+          "query_id",
+          "split"
+        ],
+        "row_schema_sha256": "eca73ef089cb78440cb1e55b3638f00450cc749aa48df4583015ea3058b85b80",
+        "row_output_sha256": "24ffa71ff19fe6a4b4e05eb661f25ee23d06dfa46523d5ff95b177d9218b3828",
+        "determinism_probe_rows": 3,
+        "determinism_probe_sha256": "55bcd1b7adf5d2e1d56c2237f0c6e95429abf3d4fec1b98093f41ca0e92d5037",
+        "target_summaries": {
+          "net_impulse_innovation": {
+            "count": 512,
+            "mean": 0.9894422806766111,
+            "minimum": -1.7610125014358124,
+            "maximum": 4.013545603827044
+          },
+          "relative_peak_mean_force_innovation": {
+            "count": 512,
+            "mean": 5.096437066189675,
+            "minimum": -13.165080803243363,
+            "maximum": 16.683918340830687
+          }
+        }
+      }
+    },
+    {
+      "kind": "public_split_generation",
+      "origin": "oss_reproduction",
+      "run_spec": {
+        "benchmark": "rich_history_camp_recovery",
+        "split": "training",
+        "seed": {
+          "kind": "oss_clean_room",
+          "value": "cmj-v3-oss-train-root"
+        },
+        "model": null,
+        "evaluation": null,
+        "sha256": "43c14715c370d347489f98615e8794f6025d84d8699df6d0193e0d020d12bf48"
+      },
+      "values": [
+        {
+          "identity": "generated_row_count",
+          "value": 15134.0,
+          "units": "rows",
+          "sample_count": null
+        },
+        {
+          "identity": "finite_target_value_count",
+          "value": 28542.0,
+          "units": "target values",
+          "sample_count": null
+        },
+        {
+          "identity": "missing_target_value_count",
+          "value": 1726.0,
+          "units": "target values",
+          "sample_count": null
+        },
+        {
+          "identity": "non_finite_target_value_count",
+          "value": 0.0,
+          "units": "target values",
+          "sample_count": null
+        }
+      ],
+      "provenance": {
+        "source_manifest_sha256": "bd9848ca84996b38e8256309da58d2c41034fe2fc8d51deb533c1da5a71a3cc7",
+        "configuration_manifest_sha256": "9aca6563407df83fa43e786d960581f3ee0037dc45dbfc995a395ebf85e3790b",
+        "output_sha256": "a5766360d1def7158e7dccf4fd0c92b3cd2ad73df234dfdc0fb5055a7c13fd1f",
+        "m2_formulation_status": "SEMANTICALLY_REPRODUCIBLE",
+        "m2_unresolved_dimensions": [
+          "rng_algorithm",
+          "rng_state",
+          "dataset_hash",
+          "evaluation"
+        ],
+        "m3_model_use_status": null,
+        "m3_configuration_status": null
+      },
+      "runtime": {
+        "elapsed_seconds": 7.224148345005233,
+        "python_version": "3.12.13",
+        "numpy_version": "2.5.3",
+        "package_version": "0.1.0"
+      },
+      "numerical_checks": {
+        "matches_m2_historical_row_count": false,
+        "all_present_targets_finite": true,
+        "target_value_count_is_two_per_row": true,
+        "stable_row_schema": true,
+        "deterministic_three_row_probe": true
+      },
+      "dataset_output": {
+        "row_count": 15134,
+        "m2_historical_row_count": 15182,
+        "matches_m2_historical_row_count": false,
+        "target_value_count": 30268,
+        "missing_target_values": 1726,
+        "non_finite_target_values": 0,
+        "all_present_targets_finite": true,
+        "top_level_fields": [
+          "features",
+          "label",
+          "origin_key",
+          "participant_key",
+          "query_key",
+          "split"
+        ],
+        "row_schema_sha256": "907ffbbdb230febcb5090202508819174410b7772d125f9b6a8b1b84c9946a93",
+        "row_output_sha256": "a5766360d1def7158e7dccf4fd0c92b3cd2ad73df234dfdc0fb5055a7c13fd1f",
+        "determinism_probe_rows": 3,
+        "determinism_probe_sha256": "1b4c237ce81bfa9baee4b39d9c10d336a65fd247bf28bb7f4d1d204672e86e07",
+        "target_summaries": {
+          "label.relative_concentric_net_impulse_innovation": {
+            "count": 14271,
+            "mean": -0.06544633330565483,
+            "minimum": -1.168516255,
+            "maximum": 0.464197175
+          },
+          "label.relative_mean_concentric_force_innovation": {
+            "count": 14271,
+            "mean": -0.8422750212726509,
+            "minimum": -12.773011786,
+            "maximum": 6.152501245
+          }
+        }
+      }
+    },
+    {
+      "kind": "public_split_generation",
+      "origin": "oss_reproduction",
+      "run_spec": {
+        "benchmark": "rich_history_camp_recovery",
+        "split": "public_validation",
+        "seed": {
+          "kind": "oss_clean_room",
+          "value": "cmj-v3-oss-validation-root"
+        },
+        "model": null,
+        "evaluation": null,
+        "sha256": "d3a034fecd10d63064d52baf2206f5ee114b385062217d1a3e5e7afa4490513f"
+      },
+      "values": [
+        {
+          "identity": "generated_row_count",
+          "value": 3799.0,
+          "units": "rows",
+          "sample_count": null
+        },
+        {
+          "identity": "finite_target_value_count",
+          "value": 7194.0,
+          "units": "target values",
+          "sample_count": null
+        },
+        {
+          "identity": "missing_target_value_count",
+          "value": 404.0,
+          "units": "target values",
+          "sample_count": null
+        },
+        {
+          "identity": "non_finite_target_value_count",
+          "value": 0.0,
+          "units": "target values",
+          "sample_count": null
+        }
+      ],
+      "provenance": {
+        "source_manifest_sha256": "bd9848ca84996b38e8256309da58d2c41034fe2fc8d51deb533c1da5a71a3cc7",
+        "configuration_manifest_sha256": "9aca6563407df83fa43e786d960581f3ee0037dc45dbfc995a395ebf85e3790b",
+        "output_sha256": "866de852240833cd1e79ee8cc53cf38170a749af2f899614a8281b8a9daf7d4c",
+        "m2_formulation_status": "SEMANTICALLY_REPRODUCIBLE",
+        "m2_unresolved_dimensions": [
+          "rng_algorithm",
+          "rng_state",
+          "dataset_hash",
+          "evaluation"
+        ],
+        "m3_model_use_status": null,
+        "m3_configuration_status": null
+      },
+      "runtime": {
+        "elapsed_seconds": 1.589799937006319,
+        "python_version": "3.12.13",
+        "numpy_version": "2.5.3",
+        "package_version": "0.1.0"
+      },
+      "numerical_checks": {
+        "matches_m2_historical_row_count": false,
+        "all_present_targets_finite": true,
+        "target_value_count_is_two_per_row": true,
+        "stable_row_schema": true,
+        "deterministic_three_row_probe": true
+      },
+      "dataset_output": {
+        "row_count": 3799,
+        "m2_historical_row_count": 3795,
+        "matches_m2_historical_row_count": false,
+        "target_value_count": 7598,
+        "missing_target_values": 404,
+        "non_finite_target_values": 0,
+        "all_present_targets_finite": true,
+        "top_level_fields": [
+          "features",
+          "label",
+          "origin_key",
+          "participant_key",
+          "query_key",
+          "split"
+        ],
+        "row_schema_sha256": "907ffbbdb230febcb5090202508819174410b7772d125f9b6a8b1b84c9946a93",
+        "row_output_sha256": "866de852240833cd1e79ee8cc53cf38170a749af2f899614a8281b8a9daf7d4c",
+        "determinism_probe_rows": 3,
+        "determinism_probe_sha256": "f4fb86df285bf9ec1b2c7da6049589bb5ab89e25cdcd6302983b91fc2d8db48e",
+        "target_summaries": {
+          "label.relative_concentric_net_impulse_innovation": {
+            "count": 3597,
+            "mean": -0.06439045062524326,
+            "minimum": -1.117359917,
+            "maximum": 0.390793759
+          },
+          "label.relative_mean_concentric_force_innovation": {
+            "count": 3597,
+            "mean": -0.8391017192073951,
+            "minimum": -10.502732042,
+            "maximum": 5.385279156
+          }
+        }
+      }
+    },
+    {
+      "kind": "public_split_generation",
+      "origin": "oss_reproduction",
+      "run_spec": {
+        "benchmark": "preliminary_post_exposure_recovery",
+        "split": "training",
+        "seed": {
+          "kind": "oss_clean_room",
+          "value": "cmj-v2-oss-clean-room-root"
+        },
+        "model": null,
+        "evaluation": null,
+        "sha256": "d6e5fead546ee4bb7c8438c31c3bb713bef60854f1d1458964989a358c00b3f9"
+      },
+      "values": [
+        {
+          "identity": "generated_row_count",
+          "value": 72000.0,
+          "units": "rows",
+          "sample_count": null
+        },
+        {
+          "identity": "finite_target_value_count",
+          "value": 144000.0,
+          "units": "target values",
+          "sample_count": null
+        },
+        {
+          "identity": "missing_target_value_count",
+          "value": 0.0,
+          "units": "target values",
+          "sample_count": null
+        },
+        {
+          "identity": "non_finite_target_value_count",
+          "value": 0.0,
+          "units": "target values",
+          "sample_count": null
+        }
+      ],
+      "provenance": {
+        "source_manifest_sha256": "bd9848ca84996b38e8256309da58d2c41034fe2fc8d51deb533c1da5a71a3cc7",
+        "configuration_manifest_sha256": "c61e13af56d5ff53a0dcc9f40ae36d4f7b4c73b5ac42b36a260aecaf92cca86b",
+        "output_sha256": "1893b54d5881db2791388dab5500faa0382d0b341bf99864cb20d69c6bf24735",
+        "m2_formulation_status": "PARTIALLY_REPRODUCIBLE",
+        "m2_unresolved_dimensions": [
+          "complete_generator",
+          "rng_algorithm",
+          "rng_state",
+          "observation",
+          "row_ordering",
+          "dataset_hash",
+          "evaluation"
+        ],
+        "m3_model_use_status": null,
+        "m3_configuration_status": null
+      },
+      "runtime": {
+        "elapsed_seconds": 326.2970996929944,
+        "python_version": "3.12.13",
+        "numpy_version": "2.5.3",
+        "package_version": "0.1.0"
+      },
+      "numerical_checks": {
+        "matches_m2_historical_row_count": true,
+        "all_present_targets_finite": true,
+        "target_value_count_is_two_per_row": true,
+        "stable_row_schema": true,
+        "deterministic_three_row_probe": true
+      },
+      "dataset_output": {
+        "row_count": 72000,
+        "m2_historical_row_count": 72000,
+        "matches_m2_historical_row_count": true,
+        "target_value_count": 144000,
+        "missing_target_values": 0,
+        "non_finite_target_values": 0,
+        "all_present_targets_finite": true,
+        "top_level_fields": [
+          "baseline.depth_m",
+          "baseline.relative_concentric_net_impulse",
+          "baseline.relative_mean_concentric_force",
+          "episode_key",
+          "horizon",
+          "index_exposure.duration_min",
+          "index_exposure.high_intensity_accel_count",
+          "index_exposure.high_intensity_decel_count",
+          "index_exposure.high_speed_distance_m",
+          "index_exposure.session_rpe_cr10",
+          "index_exposure.session_rpe_load_au",
+          "index_exposure.sprint_distance_m",
+          "index_exposure.total_distance_m",
+          "label.relative_concentric_net_impulse_innovation",
+          "label.relative_mean_concentric_force_innovation",
+          "participant.strength_index",
+          "participant.training_age_years",
+          "participant_key",
+          "prior_episode[0].H24.relative_concentric_net_impulse_innovation",
+          "prior_episode[0].H24.relative_mean_concentric_force_innovation",
+          "prior_episode[0].H48.relative_concentric_net_impulse_innovation",
+          "prior_episode[0].H48.relative_mean_concentric_force_innovation",
+          "prior_episode[0].H72.relative_concentric_net_impulse_innovation",
+          "prior_episode[0].H72.relative_mean_concentric_force_innovation",
+          "prior_episode[0].baseline.depth_m",
+          "prior_episode[0].baseline.relative_concentric_net_impulse",
+          "prior_episode[0].baseline.relative_mean_concentric_force",
+          "prior_episode[0].exposure.duration_min",
+          "prior_episode[0].exposure.high_intensity_accel_count",
+          "prior_episode[0].exposure.high_intensity_decel_count",
+          "prior_episode[0].exposure.high_speed_distance_m",
+          "prior_episode[0].exposure.session_rpe_cr10",
+          "prior_episode[0].exposure.session_rpe_load_au",
+          "prior_episode[0].exposure.sprint_distance_m",
+          "prior_episode[0].exposure.total_distance_m",
+          "prior_episode[1].H24.relative_concentric_net_impulse_innovation",
+          "prior_episode[1].H24.relative_mean_concentric_force_innovation",
+          "prior_episode[1].H48.relative_concentric_net_impulse_innovation",
+          "prior_episode[1].H48.relative_mean_concentric_force_innovation",
+          "prior_episode[1].H72.relative_concentric_net_impulse_innovation",
+          "prior_episode[1].H72.relative_mean_concentric_force_innovation",
+          "prior_episode[1].baseline.depth_m",
+          "prior_episode[1].baseline.relative_concentric_net_impulse",
+          "prior_episode[1].baseline.relative_mean_concentric_force",
+          "prior_episode[1].exposure.duration_min",
+          "prior_episode[1].exposure.high_intensity_accel_count",
+          "prior_episode[1].exposure.high_intensity_decel_count",
+          "prior_episode[1].exposure.high_speed_distance_m",
+          "prior_episode[1].exposure.session_rpe_cr10",
+          "prior_episode[1].exposure.session_rpe_load_au",
+          "prior_episode[1].exposure.sprint_distance_m",
+          "prior_episode[1].exposure.total_distance_m",
+          "prior_episode[2].H24.relative_concentric_net_impulse_innovation",
+          "prior_episode[2].H24.relative_mean_concentric_force_innovation",
+          "prior_episode[2].H48.relative_concentric_net_impulse_innovation",
+          "prior_episode[2].H48.relative_mean_concentric_force_innovation",
+          "prior_episode[2].H72.relative_concentric_net_impulse_innovation",
+          "prior_episode[2].H72.relative_mean_concentric_force_innovation",
+          "prior_episode[2].baseline.depth_m",
+          "prior_episode[2].baseline.relative_concentric_net_impulse",
+          "prior_episode[2].baseline.relative_mean_concentric_force",
+          "prior_episode[2].exposure.duration_min",
+          "prior_episode[2].exposure.high_intensity_accel_count",
+          "prior_episode[2].exposure.high_intensity_decel_count",
+          "prior_episode[2].exposure.high_speed_distance_m",
+          "prior_episode[2].exposure.session_rpe_cr10",
+          "prior_episode[2].exposure.session_rpe_load_au",
+          "prior_episode[2].exposure.sprint_distance_m",
+          "prior_episode[2].exposure.total_distance_m",
+          "prior_episode[3].H24.relative_concentric_net_impulse_innovation",
+          "prior_episode[3].H24.relative_mean_concentric_force_innovation",
+          "prior_episode[3].H48.relative_concentric_net_impulse_innovation",
+          "prior_episode[3].H48.relative_mean_concentric_force_innovation",
+          "prior_episode[3].H72.relative_concentric_net_impulse_innovation",
+          "prior_episode[3].H72.relative_mean_concentric_force_innovation",
+          "prior_episode[3].baseline.depth_m",
+          "prior_episode[3].baseline.relative_concentric_net_impulse",
+          "prior_episode[3].baseline.relative_mean_concentric_force",
+          "prior_episode[3].exposure.duration_min",
+          "prior_episode[3].exposure.high_intensity_accel_count",
+          "prior_episode[3].exposure.high_intensity_decel_count",
+          "prior_episode[3].exposure.high_speed_distance_m",
+          "prior_episode[3].exposure.session_rpe_cr10",
+          "prior_episode[3].exposure.session_rpe_load_au",
+          "prior_episode[3].exposure.sprint_distance_m",
+          "prior_episode[3].exposure.total_distance_m",
+          "query_key"
+        ],
+        "row_schema_sha256": "307ebeca2dba3ec63be22b1d5753a37caac50355e716861d15be52f550dbbc1a",
+        "row_output_sha256": "1893b54d5881db2791388dab5500faa0382d0b341bf99864cb20d69c6bf24735",
+        "determinism_probe_rows": 3,
+        "determinism_probe_sha256": "ef3dad8548ff0a7385e6d2ae6cac0f93482ce67451e353207a142c2ee7ff7743",
+        "target_summaries": {
+          "label.relative_concentric_net_impulse_innovation": {
+            "count": 72000,
+            "mean": -0.08709861779481048,
+            "minimum": -0.3878053853002963,
+            "maximum": 0.1165480165304511
+          },
+          "label.relative_mean_concentric_force_innovation": {
+            "count": 72000,
+            "mean": -0.6982145216780901,
+            "minimum": -2.7562800160378202,
+            "maximum": 0.6129842155632232
+          }
+        }
+      }
+    },
+    {
+      "kind": "public_split_generation",
+      "origin": "oss_reproduction",
+      "run_spec": {
+        "benchmark": "preliminary_post_exposure_recovery",
+        "split": "public_validation",
+        "seed": {
+          "kind": "oss_clean_room",
+          "value": "cmj-v2-oss-clean-room-root"
+        },
+        "model": null,
+        "evaluation": null,
+        "sha256": "c35481538f846d9d897fbd3b50b21818d85c186154cac2e9ae6330c3ae6864c6"
+      },
+      "values": [
+        {
+          "identity": "generated_row_count",
+          "value": 12000.0,
+          "units": "rows",
+          "sample_count": null
+        },
+        {
+          "identity": "finite_target_value_count",
+          "value": 24000.0,
+          "units": "target values",
+          "sample_count": null
+        },
+        {
+          "identity": "missing_target_value_count",
+          "value": 0.0,
+          "units": "target values",
+          "sample_count": null
+        },
+        {
+          "identity": "non_finite_target_value_count",
+          "value": 0.0,
+          "units": "target values",
+          "sample_count": null
+        }
+      ],
+      "provenance": {
+        "source_manifest_sha256": "bd9848ca84996b38e8256309da58d2c41034fe2fc8d51deb533c1da5a71a3cc7",
+        "configuration_manifest_sha256": "c61e13af56d5ff53a0dcc9f40ae36d4f7b4c73b5ac42b36a260aecaf92cca86b",
+        "output_sha256": "3bcaf565b4c63d17ec7ee2cd2e5317b41986bea16cfa296ba8c24f36ec179cca",
+        "m2_formulation_status": "PARTIALLY_REPRODUCIBLE",
+        "m2_unresolved_dimensions": [
+          "complete_generator",
+          "rng_algorithm",
+          "rng_state",
+          "observation",
+          "row_ordering",
+          "dataset_hash",
+          "evaluation"
+        ],
+        "m3_model_use_status": null,
+        "m3_configuration_status": null
+      },
+      "runtime": {
+        "elapsed_seconds": 75.3041226399946,
+        "python_version": "3.12.13",
+        "numpy_version": "2.5.3",
+        "package_version": "0.1.0"
+      },
+      "numerical_checks": {
+        "matches_m2_historical_row_count": true,
+        "all_present_targets_finite": true,
+        "target_value_count_is_two_per_row": true,
+        "stable_row_schema": true,
+        "deterministic_three_row_probe": true
+      },
+      "dataset_output": {
+        "row_count": 12000,
+        "m2_historical_row_count": 12000,
+        "matches_m2_historical_row_count": true,
+        "target_value_count": 24000,
+        "missing_target_values": 0,
+        "non_finite_target_values": 0,
+        "all_present_targets_finite": true,
+        "top_level_fields": [
+          "baseline.depth_m",
+          "baseline.relative_concentric_net_impulse",
+          "baseline.relative_mean_concentric_force",
+          "episode_key",
+          "horizon",
+          "index_exposure.duration_min",
+          "index_exposure.high_intensity_accel_count",
+          "index_exposure.high_intensity_decel_count",
+          "index_exposure.high_speed_distance_m",
+          "index_exposure.session_rpe_cr10",
+          "index_exposure.session_rpe_load_au",
+          "index_exposure.sprint_distance_m",
+          "index_exposure.total_distance_m",
+          "label.relative_concentric_net_impulse_innovation",
+          "label.relative_mean_concentric_force_innovation",
+          "participant.strength_index",
+          "participant.training_age_years",
+          "participant_key",
+          "prior_episode[0].H24.relative_concentric_net_impulse_innovation",
+          "prior_episode[0].H24.relative_mean_concentric_force_innovation",
+          "prior_episode[0].H48.relative_concentric_net_impulse_innovation",
+          "prior_episode[0].H48.relative_mean_concentric_force_innovation",
+          "prior_episode[0].H72.relative_concentric_net_impulse_innovation",
+          "prior_episode[0].H72.relative_mean_concentric_force_innovation",
+          "prior_episode[0].baseline.depth_m",
+          "prior_episode[0].baseline.relative_concentric_net_impulse",
+          "prior_episode[0].baseline.relative_mean_concentric_force",
+          "prior_episode[0].exposure.duration_min",
+          "prior_episode[0].exposure.high_intensity_accel_count",
+          "prior_episode[0].exposure.high_intensity_decel_count",
+          "prior_episode[0].exposure.high_speed_distance_m",
+          "prior_episode[0].exposure.session_rpe_cr10",
+          "prior_episode[0].exposure.session_rpe_load_au",
+          "prior_episode[0].exposure.sprint_distance_m",
+          "prior_episode[0].exposure.total_distance_m",
+          "prior_episode[1].H24.relative_concentric_net_impulse_innovation",
+          "prior_episode[1].H24.relative_mean_concentric_force_innovation",
+          "prior_episode[1].H48.relative_concentric_net_impulse_innovation",
+          "prior_episode[1].H48.relative_mean_concentric_force_innovation",
+          "prior_episode[1].H72.relative_concentric_net_impulse_innovation",
+          "prior_episode[1].H72.relative_mean_concentric_force_innovation",
+          "prior_episode[1].baseline.depth_m",
+          "prior_episode[1].baseline.relative_concentric_net_impulse",
+          "prior_episode[1].baseline.relative_mean_concentric_force",
+          "prior_episode[1].exposure.duration_min",
+          "prior_episode[1].exposure.high_intensity_accel_count",
+          "prior_episode[1].exposure.high_intensity_decel_count",
+          "prior_episode[1].exposure.high_speed_distance_m",
+          "prior_episode[1].exposure.session_rpe_cr10",
+          "prior_episode[1].exposure.session_rpe_load_au",
+          "prior_episode[1].exposure.sprint_distance_m",
+          "prior_episode[1].exposure.total_distance_m",
+          "prior_episode[2].H24.relative_concentric_net_impulse_innovation",
+          "prior_episode[2].H24.relative_mean_concentric_force_innovation",
+          "prior_episode[2].H48.relative_concentric_net_impulse_innovation",
+          "prior_episode[2].H48.relative_mean_concentric_force_innovation",
+          "prior_episode[2].H72.relative_concentric_net_impulse_innovation",
+          "prior_episode[2].H72.relative_mean_concentric_force_innovation",
+          "prior_episode[2].baseline.depth_m",
+          "prior_episode[2].baseline.relative_concentric_net_impulse",
+          "prior_episode[2].baseline.relative_mean_concentric_force",
+          "prior_episode[2].exposure.duration_min",
+          "prior_episode[2].exposure.high_intensity_accel_count",
+          "prior_episode[2].exposure.high_intensity_decel_count",
+          "prior_episode[2].exposure.high_speed_distance_m",
+          "prior_episode[2].exposure.session_rpe_cr10",
+          "prior_episode[2].exposure.session_rpe_load_au",
+          "prior_episode[2].exposure.sprint_distance_m",
+          "prior_episode[2].exposure.total_distance_m",
+          "prior_episode[3].H24.relative_concentric_net_impulse_innovation",
+          "prior_episode[3].H24.relative_mean_concentric_force_innovation",
+          "prior_episode[3].H48.relative_concentric_net_impulse_innovation",
+          "prior_episode[3].H48.relative_mean_concentric_force_innovation",
+          "prior_episode[3].H72.relative_concentric_net_impulse_innovation",
+          "prior_episode[3].H72.relative_mean_concentric_force_innovation",
+          "prior_episode[3].baseline.depth_m",
+          "prior_episode[3].baseline.relative_concentric_net_impulse",
+          "prior_episode[3].baseline.relative_mean_concentric_force",
+          "prior_episode[3].exposure.duration_min",
+          "prior_episode[3].exposure.high_intensity_accel_count",
+          "prior_episode[3].exposure.high_intensity_decel_count",
+          "prior_episode[3].exposure.high_speed_distance_m",
+          "prior_episode[3].exposure.session_rpe_cr10",
+          "prior_episode[3].exposure.session_rpe_load_au",
+          "prior_episode[3].exposure.sprint_distance_m",
+          "prior_episode[3].exposure.total_distance_m",
+          "query_key"
+        ],
+        "row_schema_sha256": "307ebeca2dba3ec63be22b1d5753a37caac50355e716861d15be52f550dbbc1a",
+        "row_output_sha256": "3bcaf565b4c63d17ec7ee2cd2e5317b41986bea16cfa296ba8c24f36ec179cca",
+        "determinism_probe_rows": 3,
+        "determinism_probe_sha256": "198e81c4b033a704e5d13b6bcbccab886805adcd0cc0adc745d45011d17491ff",
+        "target_summaries": {
+          "label.relative_concentric_net_impulse_innovation": {
+            "count": 12000,
+            "mean": -0.10500567370322528,
+            "minimum": -0.3699899025945341,
+            "maximum": 0.08909584759394695
+          },
+          "label.relative_mean_concentric_force_innovation": {
+            "count": 12000,
+            "mean": -0.8591310049299354,
+            "minimum": -2.9139845091482854,
+            "maximum": 0.5367402775200993
+          }
+        }
+      }
+    },
+    {
+      "kind": "public_split_generation",
+      "origin": "oss_reproduction",
+      "run_spec": {
+        "benchmark": "phase_consistent_post_exposure_recovery",
+        "split": "training",
+        "seed": {
+          "kind": "oss_clean_room",
+          "value": "cmj-v2-oss-clean-room-root"
+        },
+        "model": null,
+        "evaluation": null,
+        "sha256": "5f9fc701f9673e98f4ff8c3618fe0222701d2bcd8846d8a67401c52e7750fb2d"
+      },
+      "values": [
+        {
+          "identity": "generated_row_count",
+          "value": 72000.0,
+          "units": "rows",
+          "sample_count": null
+        },
+        {
+          "identity": "finite_target_value_count",
+          "value": 144000.0,
+          "units": "target values",
+          "sample_count": null
+        },
+        {
+          "identity": "missing_target_value_count",
+          "value": 0.0,
+          "units": "target values",
+          "sample_count": null
+        },
+        {
+          "identity": "non_finite_target_value_count",
+          "value": 0.0,
+          "units": "target values",
+          "sample_count": null
+        }
+      ],
+      "provenance": {
+        "source_manifest_sha256": "bd9848ca84996b38e8256309da58d2c41034fe2fc8d51deb533c1da5a71a3cc7",
+        "configuration_manifest_sha256": "728bb51d26c8b232736ad27e50c6822442fbc4ea5fbd0b74877b6ad58bf9880c",
+        "output_sha256": "e017cff611370f6319b0c3a197fc6756465e2832099cc6b0add3e43f91f02303",
+        "m2_formulation_status": "SEMANTICALLY_REPRODUCIBLE",
+        "m2_unresolved_dimensions": [
+          "rng_algorithm",
+          "rng_state",
+          "row_ordering",
+          "dataset_hash",
+          "evaluation"
+        ],
+        "m3_model_use_status": null,
+        "m3_configuration_status": null
+      },
+      "runtime": {
+        "elapsed_seconds": 585.5955456410011,
+        "python_version": "3.12.13",
+        "numpy_version": "2.5.3",
+        "package_version": "0.1.0"
+      },
+      "numerical_checks": {
+        "matches_m2_historical_row_count": true,
+        "all_present_targets_finite": true,
+        "target_value_count_is_two_per_row": true,
+        "stable_row_schema": true,
+        "deterministic_three_row_probe": true
+      },
+      "dataset_output": {
+        "row_count": 72000,
+        "m2_historical_row_count": 72000,
+        "matches_m2_historical_row_count": true,
+        "target_value_count": 144000,
+        "missing_target_values": 0,
+        "non_finite_target_values": 0,
+        "all_present_targets_finite": true,
+        "top_level_fields": [
+          "baseline.depth_m",
+          "baseline.relative_concentric_net_impulse",
+          "baseline.relative_mean_concentric_force",
+          "episode_key",
+          "horizon",
+          "index_exposure.duration_min",
+          "index_exposure.high_intensity_accel_count",
+          "index_exposure.high_intensity_decel_count",
+          "index_exposure.high_speed_distance_m",
+          "index_exposure.session_rpe_cr10",
+          "index_exposure.session_rpe_load_au",
+          "index_exposure.sprint_distance_m",
+          "index_exposure.total_distance_m",
+          "label.relative_concentric_net_impulse_innovation",
+          "label.relative_mean_concentric_force_innovation",
+          "participant.strength_index",
+          "participant.training_age_years",
+          "participant_key",
+          "prior_episode[0].H24.relative_concentric_net_impulse_innovation",
+          "prior_episode[0].H24.relative_mean_concentric_force_innovation",
+          "prior_episode[0].H48.relative_concentric_net_impulse_innovation",
+          "prior_episode[0].H48.relative_mean_concentric_force_innovation",
+          "prior_episode[0].H72.relative_concentric_net_impulse_innovation",
+          "prior_episode[0].H72.relative_mean_concentric_force_innovation",
+          "prior_episode[0].baseline.depth_m",
+          "prior_episode[0].baseline.relative_concentric_net_impulse",
+          "prior_episode[0].baseline.relative_mean_concentric_force",
+          "prior_episode[0].exposure.duration_min",
+          "prior_episode[0].exposure.high_intensity_accel_count",
+          "prior_episode[0].exposure.high_intensity_decel_count",
+          "prior_episode[0].exposure.high_speed_distance_m",
+          "prior_episode[0].exposure.session_rpe_cr10",
+          "prior_episode[0].exposure.session_rpe_load_au",
+          "prior_episode[0].exposure.sprint_distance_m",
+          "prior_episode[0].exposure.total_distance_m",
+          "prior_episode[1].H24.relative_concentric_net_impulse_innovation",
+          "prior_episode[1].H24.relative_mean_concentric_force_innovation",
+          "prior_episode[1].H48.relative_concentric_net_impulse_innovation",
+          "prior_episode[1].H48.relative_mean_concentric_force_innovation",
+          "prior_episode[1].H72.relative_concentric_net_impulse_innovation",
+          "prior_episode[1].H72.relative_mean_concentric_force_innovation",
+          "prior_episode[1].baseline.depth_m",
+          "prior_episode[1].baseline.relative_concentric_net_impulse",
+          "prior_episode[1].baseline.relative_mean_concentric_force",
+          "prior_episode[1].exposure.duration_min",
+          "prior_episode[1].exposure.high_intensity_accel_count",
+          "prior_episode[1].exposure.high_intensity_decel_count",
+          "prior_episode[1].exposure.high_speed_distance_m",
+          "prior_episode[1].exposure.session_rpe_cr10",
+          "prior_episode[1].exposure.session_rpe_load_au",
+          "prior_episode[1].exposure.sprint_distance_m",
+          "prior_episode[1].exposure.total_distance_m",
+          "prior_episode[2].H24.relative_concentric_net_impulse_innovation",
+          "prior_episode[2].H24.relative_mean_concentric_force_innovation",
+          "prior_episode[2].H48.relative_concentric_net_impulse_innovation",
+          "prior_episode[2].H48.relative_mean_concentric_force_innovation",
+          "prior_episode[2].H72.relative_concentric_net_impulse_innovation",
+          "prior_episode[2].H72.relative_mean_concentric_force_innovation",
+          "prior_episode[2].baseline.depth_m",
+          "prior_episode[2].baseline.relative_concentric_net_impulse",
+          "prior_episode[2].baseline.relative_mean_concentric_force",
+          "prior_episode[2].exposure.duration_min",
+          "prior_episode[2].exposure.high_intensity_accel_count",
+          "prior_episode[2].exposure.high_intensity_decel_count",
+          "prior_episode[2].exposure.high_speed_distance_m",
+          "prior_episode[2].exposure.session_rpe_cr10",
+          "prior_episode[2].exposure.session_rpe_load_au",
+          "prior_episode[2].exposure.sprint_distance_m",
+          "prior_episode[2].exposure.total_distance_m",
+          "prior_episode[3].H24.relative_concentric_net_impulse_innovation",
+          "prior_episode[3].H24.relative_mean_concentric_force_innovation",
+          "prior_episode[3].H48.relative_concentric_net_impulse_innovation",
+          "prior_episode[3].H48.relative_mean_concentric_force_innovation",
+          "prior_episode[3].H72.relative_concentric_net_impulse_innovation",
+          "prior_episode[3].H72.relative_mean_concentric_force_innovation",
+          "prior_episode[3].baseline.depth_m",
+          "prior_episode[3].baseline.relative_concentric_net_impulse",
+          "prior_episode[3].baseline.relative_mean_concentric_force",
+          "prior_episode[3].exposure.duration_min",
+          "prior_episode[3].exposure.high_intensity_accel_count",
+          "prior_episode[3].exposure.high_intensity_decel_count",
+          "prior_episode[3].exposure.high_speed_distance_m",
+          "prior_episode[3].exposure.session_rpe_cr10",
+          "prior_episode[3].exposure.session_rpe_load_au",
+          "prior_episode[3].exposure.sprint_distance_m",
+          "prior_episode[3].exposure.total_distance_m",
+          "query_key"
+        ],
+        "row_schema_sha256": "307ebeca2dba3ec63be22b1d5753a37caac50355e716861d15be52f550dbbc1a",
+        "row_output_sha256": "e017cff611370f6319b0c3a197fc6756465e2832099cc6b0add3e43f91f02303",
+        "determinism_probe_rows": 3,
+        "determinism_probe_sha256": "fb85aa7c52a888ac0904828da89e0d8c3ececb0de9b88ee5800d6646237913fc",
+        "target_summaries": {
+          "label.relative_concentric_net_impulse_innovation": {
+            "count": 72000,
+            "mean": -0.0870986177948105,
+            "minimum": -0.3878053853002963,
+            "maximum": 0.1165480165304511
+          },
+          "label.relative_mean_concentric_force_innovation": {
+            "count": 72000,
+            "mean": -0.6982145216780901,
+            "minimum": -2.7562800160378202,
+            "maximum": 0.6129842155632232
+          }
+        }
+      }
+    },
+    {
+      "kind": "public_split_generation",
+      "origin": "oss_reproduction",
+      "run_spec": {
+        "benchmark": "phase_consistent_post_exposure_recovery",
+        "split": "public_validation",
+        "seed": {
+          "kind": "oss_clean_room",
+          "value": "cmj-v2-oss-clean-room-root"
+        },
+        "model": null,
+        "evaluation": null,
+        "sha256": "a8b4aaad8b61a2dd7e81dedc27677bd419f9de333089bcefa363f450d4f4d3ae"
+      },
+      "values": [
+        {
+          "identity": "generated_row_count",
+          "value": 12000.0,
+          "units": "rows",
+          "sample_count": null
+        },
+        {
+          "identity": "finite_target_value_count",
+          "value": 24000.0,
+          "units": "target values",
+          "sample_count": null
+        },
+        {
+          "identity": "missing_target_value_count",
+          "value": 0.0,
+          "units": "target values",
+          "sample_count": null
+        },
+        {
+          "identity": "non_finite_target_value_count",
+          "value": 0.0,
+          "units": "target values",
+          "sample_count": null
+        }
+      ],
+      "provenance": {
+        "source_manifest_sha256": "bd9848ca84996b38e8256309da58d2c41034fe2fc8d51deb533c1da5a71a3cc7",
+        "configuration_manifest_sha256": "728bb51d26c8b232736ad27e50c6822442fbc4ea5fbd0b74877b6ad58bf9880c",
+        "output_sha256": "adc38ae10df8a371a4e1d53e3ce77a76f4c89d9091c098c0edc9c054eae6d040",
+        "m2_formulation_status": "SEMANTICALLY_REPRODUCIBLE",
+        "m2_unresolved_dimensions": [
+          "rng_algorithm",
+          "rng_state",
+          "row_ordering",
+          "dataset_hash",
+          "evaluation"
+        ],
+        "m3_model_use_status": null,
+        "m3_configuration_status": null
+      },
+      "runtime": {
+        "elapsed_seconds": 107.0386459119909,
+        "python_version": "3.12.13",
+        "numpy_version": "2.5.3",
+        "package_version": "0.1.0"
+      },
+      "numerical_checks": {
+        "matches_m2_historical_row_count": true,
+        "all_present_targets_finite": true,
+        "target_value_count_is_two_per_row": true,
+        "stable_row_schema": true,
+        "deterministic_three_row_probe": true
+      },
+      "dataset_output": {
+        "row_count": 12000,
+        "m2_historical_row_count": 12000,
+        "matches_m2_historical_row_count": true,
+        "target_value_count": 24000,
+        "missing_target_values": 0,
+        "non_finite_target_values": 0,
+        "all_present_targets_finite": true,
+        "top_level_fields": [
+          "baseline.depth_m",
+          "baseline.relative_concentric_net_impulse",
+          "baseline.relative_mean_concentric_force",
+          "episode_key",
+          "horizon",
+          "index_exposure.duration_min",
+          "index_exposure.high_intensity_accel_count",
+          "index_exposure.high_intensity_decel_count",
+          "index_exposure.high_speed_distance_m",
+          "index_exposure.session_rpe_cr10",
+          "index_exposure.session_rpe_load_au",
+          "index_exposure.sprint_distance_m",
+          "index_exposure.total_distance_m",
+          "label.relative_concentric_net_impulse_innovation",
+          "label.relative_mean_concentric_force_innovation",
+          "participant.strength_index",
+          "participant.training_age_years",
+          "participant_key",
+          "prior_episode[0].H24.relative_concentric_net_impulse_innovation",
+          "prior_episode[0].H24.relative_mean_concentric_force_innovation",
+          "prior_episode[0].H48.relative_concentric_net_impulse_innovation",
+          "prior_episode[0].H48.relative_mean_concentric_force_innovation",
+          "prior_episode[0].H72.relative_concentric_net_impulse_innovation",
+          "prior_episode[0].H72.relative_mean_concentric_force_innovation",
+          "prior_episode[0].baseline.depth_m",
+          "prior_episode[0].baseline.relative_concentric_net_impulse",
+          "prior_episode[0].baseline.relative_mean_concentric_force",
+          "prior_episode[0].exposure.duration_min",
+          "prior_episode[0].exposure.high_intensity_accel_count",
+          "prior_episode[0].exposure.high_intensity_decel_count",
+          "prior_episode[0].exposure.high_speed_distance_m",
+          "prior_episode[0].exposure.session_rpe_cr10",
+          "prior_episode[0].exposure.session_rpe_load_au",
+          "prior_episode[0].exposure.sprint_distance_m",
+          "prior_episode[0].exposure.total_distance_m",
+          "prior_episode[1].H24.relative_concentric_net_impulse_innovation",
+          "prior_episode[1].H24.relative_mean_concentric_force_innovation",
+          "prior_episode[1].H48.relative_concentric_net_impulse_innovation",
+          "prior_episode[1].H48.relative_mean_concentric_force_innovation",
+          "prior_episode[1].H72.relative_concentric_net_impulse_innovation",
+          "prior_episode[1].H72.relative_mean_concentric_force_innovation",
+          "prior_episode[1].baseline.depth_m",
+          "prior_episode[1].baseline.relative_concentric_net_impulse",
+          "prior_episode[1].baseline.relative_mean_concentric_force",
+          "prior_episode[1].exposure.duration_min",
+          "prior_episode[1].exposure.high_intensity_accel_count",
+          "prior_episode[1].exposure.high_intensity_decel_count",
+          "prior_episode[1].exposure.high_speed_distance_m",
+          "prior_episode[1].exposure.session_rpe_cr10",
+          "prior_episode[1].exposure.session_rpe_load_au",
+          "prior_episode[1].exposure.sprint_distance_m",
+          "prior_episode[1].exposure.total_distance_m",
+          "prior_episode[2].H24.relative_concentric_net_impulse_innovation",
+          "prior_episode[2].H24.relative_mean_concentric_force_innovation",
+          "prior_episode[2].H48.relative_concentric_net_impulse_innovation",
+          "prior_episode[2].H48.relative_mean_concentric_force_innovation",
+          "prior_episode[2].H72.relative_concentric_net_impulse_innovation",
+          "prior_episode[2].H72.relative_mean_concentric_force_innovation",
+          "prior_episode[2].baseline.depth_m",
+          "prior_episode[2].baseline.relative_concentric_net_impulse",
+          "prior_episode[2].baseline.relative_mean_concentric_force",
+          "prior_episode[2].exposure.duration_min",
+          "prior_episode[2].exposure.high_intensity_accel_count",
+          "prior_episode[2].exposure.high_intensity_decel_count",
+          "prior_episode[2].exposure.high_speed_distance_m",
+          "prior_episode[2].exposure.session_rpe_cr10",
+          "prior_episode[2].exposure.session_rpe_load_au",
+          "prior_episode[2].exposure.sprint_distance_m",
+          "prior_episode[2].exposure.total_distance_m",
+          "prior_episode[3].H24.relative_concentric_net_impulse_innovation",
+          "prior_episode[3].H24.relative_mean_concentric_force_innovation",
+          "prior_episode[3].H48.relative_concentric_net_impulse_innovation",
+          "prior_episode[3].H48.relative_mean_concentric_force_innovation",
+          "prior_episode[3].H72.relative_concentric_net_impulse_innovation",
+          "prior_episode[3].H72.relative_mean_concentric_force_innovation",
+          "prior_episode[3].baseline.depth_m",
+          "prior_episode[3].baseline.relative_concentric_net_impulse",
+          "prior_episode[3].baseline.relative_mean_concentric_force",
+          "prior_episode[3].exposure.duration_min",
+          "prior_episode[3].exposure.high_intensity_accel_count",
+          "prior_episode[3].exposure.high_intensity_decel_count",
+          "prior_episode[3].exposure.high_speed_distance_m",
+          "prior_episode[3].exposure.session_rpe_cr10",
+          "prior_episode[3].exposure.session_rpe_load_au",
+          "prior_episode[3].exposure.sprint_distance_m",
+          "prior_episode[3].exposure.total_distance_m",
+          "query_key"
+        ],
+        "row_schema_sha256": "307ebeca2dba3ec63be22b1d5753a37caac50355e716861d15be52f550dbbc1a",
+        "row_output_sha256": "adc38ae10df8a371a4e1d53e3ce77a76f4c89d9091c098c0edc9c054eae6d040",
+        "determinism_probe_rows": 3,
+        "determinism_probe_sha256": "47e46af2fe49df5898aacfc1c2c853eda9cf13e49743e9970c771b9d794a17b2",
+        "target_summaries": {
+          "label.relative_concentric_net_impulse_innovation": {
+            "count": 12000,
+            "mean": -0.1050056737032253,
+            "minimum": -0.3699899025945341,
+            "maximum": 0.08909584759394606
+          },
+          "label.relative_mean_concentric_force_innovation": {
+            "count": 12000,
+            "mean": -0.8591310049299353,
+            "minimum": -2.913984509148282,
+            "maximum": 0.5367402775200958
+          }
+        }
+      }
+    },
+    {
+      "kind": "public_split_generation",
+      "origin": "oss_reproduction",
+      "run_spec": {
+        "benchmark": "correlated_exposure_recovery",
+        "split": "training",
+        "seed": {
+          "kind": "oss_clean_room",
+          "value": "cmj-v2-oss-clean-room-root"
+        },
+        "model": null,
+        "evaluation": null,
+        "sha256": "47aa989348845dbeedbfdd19c0a23a49e72317ec0937eddd3946da7f5115788c"
+      },
+      "values": [
+        {
+          "identity": "generated_row_count",
+          "value": 72000.0,
+          "units": "rows",
+          "sample_count": null
+        },
+        {
+          "identity": "finite_target_value_count",
+          "value": 144000.0,
+          "units": "target values",
+          "sample_count": null
+        },
+        {
+          "identity": "missing_target_value_count",
+          "value": 0.0,
+          "units": "target values",
+          "sample_count": null
+        },
+        {
+          "identity": "non_finite_target_value_count",
+          "value": 0.0,
+          "units": "target values",
+          "sample_count": null
+        }
+      ],
+      "provenance": {
+        "source_manifest_sha256": "bd9848ca84996b38e8256309da58d2c41034fe2fc8d51deb533c1da5a71a3cc7",
+        "configuration_manifest_sha256": "f4c0b2bbda073f2959e1dab6bf02ca075b3637f7a69c0aed5a1920230b5c4300",
+        "output_sha256": "d63af7d828613a997c1c5ac7d9f706f35471c86b96d367758800a18dfeb14ad4",
+        "m2_formulation_status": "SEMANTICALLY_REPRODUCIBLE",
+        "m2_unresolved_dimensions": [
+          "rng_algorithm",
+          "rng_state",
+          "row_ordering",
+          "dataset_hash",
+          "evaluation"
+        ],
+        "m3_model_use_status": null,
+        "m3_configuration_status": null
+      },
+      "runtime": {
+        "elapsed_seconds": 365.3773090790055,
+        "python_version": "3.12.13",
+        "numpy_version": "2.5.3",
+        "package_version": "0.1.0"
+      },
+      "numerical_checks": {
+        "matches_m2_historical_row_count": true,
+        "all_present_targets_finite": true,
+        "target_value_count_is_two_per_row": true,
+        "stable_row_schema": true,
+        "deterministic_three_row_probe": true
+      },
+      "dataset_output": {
+        "row_count": 72000,
+        "m2_historical_row_count": 72000,
+        "matches_m2_historical_row_count": true,
+        "target_value_count": 144000,
+        "missing_target_values": 0,
+        "non_finite_target_values": 0,
+        "all_present_targets_finite": true,
+        "top_level_fields": [
+          "baseline.depth_m",
+          "baseline.relative_concentric_net_impulse",
+          "baseline.relative_mean_concentric_force",
+          "episode_key",
+          "horizon",
+          "index_exposure.duration_min",
+          "index_exposure.high_intensity_accel_count",
+          "index_exposure.high_intensity_decel_count",
+          "index_exposure.high_speed_distance_m",
+          "index_exposure.session_rpe_cr10",
+          "index_exposure.session_rpe_load_au",
+          "index_exposure.sprint_distance_m",
+          "index_exposure.total_distance_m",
+          "label.relative_concentric_net_impulse_innovation",
+          "label.relative_mean_concentric_force_innovation",
+          "participant.strength_index",
+          "participant.training_age_years",
+          "participant_key",
+          "prior_episode[0].H24.relative_concentric_net_impulse_innovation",
+          "prior_episode[0].H24.relative_mean_concentric_force_innovation",
+          "prior_episode[0].H48.relative_concentric_net_impulse_innovation",
+          "prior_episode[0].H48.relative_mean_concentric_force_innovation",
+          "prior_episode[0].H72.relative_concentric_net_impulse_innovation",
+          "prior_episode[0].H72.relative_mean_concentric_force_innovation",
+          "prior_episode[0].baseline.depth_m",
+          "prior_episode[0].baseline.relative_concentric_net_impulse",
+          "prior_episode[0].baseline.relative_mean_concentric_force",
+          "prior_episode[0].exposure.duration_min",
+          "prior_episode[0].exposure.high_intensity_accel_count",
+          "prior_episode[0].exposure.high_intensity_decel_count",
+          "prior_episode[0].exposure.high_speed_distance_m",
+          "prior_episode[0].exposure.session_rpe_cr10",
+          "prior_episode[0].exposure.session_rpe_load_au",
+          "prior_episode[0].exposure.sprint_distance_m",
+          "prior_episode[0].exposure.total_distance_m",
+          "prior_episode[1].H24.relative_concentric_net_impulse_innovation",
+          "prior_episode[1].H24.relative_mean_concentric_force_innovation",
+          "prior_episode[1].H48.relative_concentric_net_impulse_innovation",
+          "prior_episode[1].H48.relative_mean_concentric_force_innovation",
+          "prior_episode[1].H72.relative_concentric_net_impulse_innovation",
+          "prior_episode[1].H72.relative_mean_concentric_force_innovation",
+          "prior_episode[1].baseline.depth_m",
+          "prior_episode[1].baseline.relative_concentric_net_impulse",
+          "prior_episode[1].baseline.relative_mean_concentric_force",
+          "prior_episode[1].exposure.duration_min",
+          "prior_episode[1].exposure.high_intensity_accel_count",
+          "prior_episode[1].exposure.high_intensity_decel_count",
+          "prior_episode[1].exposure.high_speed_distance_m",
+          "prior_episode[1].exposure.session_rpe_cr10",
+          "prior_episode[1].exposure.session_rpe_load_au",
+          "prior_episode[1].exposure.sprint_distance_m",
+          "prior_episode[1].exposure.total_distance_m",
+          "prior_episode[2].H24.relative_concentric_net_impulse_innovation",
+          "prior_episode[2].H24.relative_mean_concentric_force_innovation",
+          "prior_episode[2].H48.relative_concentric_net_impulse_innovation",
+          "prior_episode[2].H48.relative_mean_concentric_force_innovation",
+          "prior_episode[2].H72.relative_concentric_net_impulse_innovation",
+          "prior_episode[2].H72.relative_mean_concentric_force_innovation",
+          "prior_episode[2].baseline.depth_m",
+          "prior_episode[2].baseline.relative_concentric_net_impulse",
+          "prior_episode[2].baseline.relative_mean_concentric_force",
+          "prior_episode[2].exposure.duration_min",
+          "prior_episode[2].exposure.high_intensity_accel_count",
+          "prior_episode[2].exposure.high_intensity_decel_count",
+          "prior_episode[2].exposure.high_speed_distance_m",
+          "prior_episode[2].exposure.session_rpe_cr10",
+          "prior_episode[2].exposure.session_rpe_load_au",
+          "prior_episode[2].exposure.sprint_distance_m",
+          "prior_episode[2].exposure.total_distance_m",
+          "prior_episode[3].H24.relative_concentric_net_impulse_innovation",
+          "prior_episode[3].H24.relative_mean_concentric_force_innovation",
+          "prior_episode[3].H48.relative_concentric_net_impulse_innovation",
+          "prior_episode[3].H48.relative_mean_concentric_force_innovation",
+          "prior_episode[3].H72.relative_concentric_net_impulse_innovation",
+          "prior_episode[3].H72.relative_mean_concentric_force_innovation",
+          "prior_episode[3].baseline.depth_m",
+          "prior_episode[3].baseline.relative_concentric_net_impulse",
+          "prior_episode[3].baseline.relative_mean_concentric_force",
+          "prior_episode[3].exposure.duration_min",
+          "prior_episode[3].exposure.high_intensity_accel_count",
+          "prior_episode[3].exposure.high_intensity_decel_count",
+          "prior_episode[3].exposure.high_speed_distance_m",
+          "prior_episode[3].exposure.session_rpe_cr10",
+          "prior_episode[3].exposure.session_rpe_load_au",
+          "prior_episode[3].exposure.sprint_distance_m",
+          "prior_episode[3].exposure.total_distance_m",
+          "query_key"
+        ],
+        "row_schema_sha256": "307ebeca2dba3ec63be22b1d5753a37caac50355e716861d15be52f550dbbc1a",
+        "row_output_sha256": "d63af7d828613a997c1c5ac7d9f706f35471c86b96d367758800a18dfeb14ad4",
+        "determinism_probe_rows": 3,
+        "determinism_probe_sha256": "416003ba3642d67046b791c5322a00b040f81bedd409d8c6c4ea5d9d04a749b7",
+        "target_summaries": {
+          "label.relative_concentric_net_impulse_innovation": {
+            "count": 72000,
+            "mean": -0.09168141862779204,
+            "minimum": -0.3696022022142045,
+            "maximum": 0.09798230209298975
+          },
+          "label.relative_mean_concentric_force_innovation": {
+            "count": 72000,
+            "mean": -0.7253038044745121,
+            "minimum": -2.7031654931081732,
+            "maximum": 0.5474163712795956
+          }
+        }
+      }
+    },
+    {
+      "kind": "public_split_generation",
+      "origin": "oss_reproduction",
+      "run_spec": {
+        "benchmark": "correlated_exposure_recovery",
+        "split": "public_validation",
+        "seed": {
+          "kind": "oss_clean_room",
+          "value": "cmj-v2-oss-clean-room-root"
+        },
+        "model": null,
+        "evaluation": null,
+        "sha256": "9181ef2f8b365724064c26070760bbaaa7d2567caa5f39e86e3ae76bef782540"
+      },
+      "values": [
+        {
+          "identity": "generated_row_count",
+          "value": 12000.0,
+          "units": "rows",
+          "sample_count": null
+        },
+        {
+          "identity": "finite_target_value_count",
+          "value": 24000.0,
+          "units": "target values",
+          "sample_count": null
+        },
+        {
+          "identity": "missing_target_value_count",
+          "value": 0.0,
+          "units": "target values",
+          "sample_count": null
+        },
+        {
+          "identity": "non_finite_target_value_count",
+          "value": 0.0,
+          "units": "target values",
+          "sample_count": null
+        }
+      ],
+      "provenance": {
+        "source_manifest_sha256": "bd9848ca84996b38e8256309da58d2c41034fe2fc8d51deb533c1da5a71a3cc7",
+        "configuration_manifest_sha256": "f4c0b2bbda073f2959e1dab6bf02ca075b3637f7a69c0aed5a1920230b5c4300",
+        "output_sha256": "9018a50dcffd330d9abe4b225a6069e5ea6156b294be955469993886f14e764e",
+        "m2_formulation_status": "SEMANTICALLY_REPRODUCIBLE",
+        "m2_unresolved_dimensions": [
+          "rng_algorithm",
+          "rng_state",
+          "row_ordering",
+          "dataset_hash",
+          "evaluation"
+        ],
+        "m3_model_use_status": null,
+        "m3_configuration_status": null
+      },
+      "runtime": {
+        "elapsed_seconds": 57.735477674999856,
+        "python_version": "3.12.13",
+        "numpy_version": "2.5.3",
+        "package_version": "0.1.0"
+      },
+      "numerical_checks": {
+        "matches_m2_historical_row_count": true,
+        "all_present_targets_finite": true,
+        "target_value_count_is_two_per_row": true,
+        "stable_row_schema": true,
+        "deterministic_three_row_probe": true
+      },
+      "dataset_output": {
+        "row_count": 12000,
+        "m2_historical_row_count": 12000,
+        "matches_m2_historical_row_count": true,
+        "target_value_count": 24000,
+        "missing_target_values": 0,
+        "non_finite_target_values": 0,
+        "all_present_targets_finite": true,
+        "top_level_fields": [
+          "baseline.depth_m",
+          "baseline.relative_concentric_net_impulse",
+          "baseline.relative_mean_concentric_force",
+          "episode_key",
+          "horizon",
+          "index_exposure.duration_min",
+          "index_exposure.high_intensity_accel_count",
+          "index_exposure.high_intensity_decel_count",
+          "index_exposure.high_speed_distance_m",
+          "index_exposure.session_rpe_cr10",
+          "index_exposure.session_rpe_load_au",
+          "index_exposure.sprint_distance_m",
+          "index_exposure.total_distance_m",
+          "label.relative_concentric_net_impulse_innovation",
+          "label.relative_mean_concentric_force_innovation",
+          "participant.strength_index",
+          "participant.training_age_years",
+          "participant_key",
+          "prior_episode[0].H24.relative_concentric_net_impulse_innovation",
+          "prior_episode[0].H24.relative_mean_concentric_force_innovation",
+          "prior_episode[0].H48.relative_concentric_net_impulse_innovation",
+          "prior_episode[0].H48.relative_mean_concentric_force_innovation",
+          "prior_episode[0].H72.relative_concentric_net_impulse_innovation",
+          "prior_episode[0].H72.relative_mean_concentric_force_innovation",
+          "prior_episode[0].baseline.depth_m",
+          "prior_episode[0].baseline.relative_concentric_net_impulse",
+          "prior_episode[0].baseline.relative_mean_concentric_force",
+          "prior_episode[0].exposure.duration_min",
+          "prior_episode[0].exposure.high_intensity_accel_count",
+          "prior_episode[0].exposure.high_intensity_decel_count",
+          "prior_episode[0].exposure.high_speed_distance_m",
+          "prior_episode[0].exposure.session_rpe_cr10",
+          "prior_episode[0].exposure.session_rpe_load_au",
+          "prior_episode[0].exposure.sprint_distance_m",
+          "prior_episode[0].exposure.total_distance_m",
+          "prior_episode[1].H24.relative_concentric_net_impulse_innovation",
+          "prior_episode[1].H24.relative_mean_concentric_force_innovation",
+          "prior_episode[1].H48.relative_concentric_net_impulse_innovation",
+          "prior_episode[1].H48.relative_mean_concentric_force_innovation",
+          "prior_episode[1].H72.relative_concentric_net_impulse_innovation",
+          "prior_episode[1].H72.relative_mean_concentric_force_innovation",
+          "prior_episode[1].baseline.depth_m",
+          "prior_episode[1].baseline.relative_concentric_net_impulse",
+          "prior_episode[1].baseline.relative_mean_concentric_force",
+          "prior_episode[1].exposure.duration_min",
+          "prior_episode[1].exposure.high_intensity_accel_count",
+          "prior_episode[1].exposure.high_intensity_decel_count",
+          "prior_episode[1].exposure.high_speed_distance_m",
+          "prior_episode[1].exposure.session_rpe_cr10",
+          "prior_episode[1].exposure.session_rpe_load_au",
+          "prior_episode[1].exposure.sprint_distance_m",
+          "prior_episode[1].exposure.total_distance_m",
+          "prior_episode[2].H24.relative_concentric_net_impulse_innovation",
+          "prior_episode[2].H24.relative_mean_concentric_force_innovation",
+          "prior_episode[2].H48.relative_concentric_net_impulse_innovation",
+          "prior_episode[2].H48.relative_mean_concentric_force_innovation",
+          "prior_episode[2].H72.relative_concentric_net_impulse_innovation",
+          "prior_episode[2].H72.relative_mean_concentric_force_innovation",
+          "prior_episode[2].baseline.depth_m",
+          "prior_episode[2].baseline.relative_concentric_net_impulse",
+          "prior_episode[2].baseline.relative_mean_concentric_force",
+          "prior_episode[2].exposure.duration_min",
+          "prior_episode[2].exposure.high_intensity_accel_count",
+          "prior_episode[2].exposure.high_intensity_decel_count",
+          "prior_episode[2].exposure.high_speed_distance_m",
+          "prior_episode[2].exposure.session_rpe_cr10",
+          "prior_episode[2].exposure.session_rpe_load_au",
+          "prior_episode[2].exposure.sprint_distance_m",
+          "prior_episode[2].exposure.total_distance_m",
+          "prior_episode[3].H24.relative_concentric_net_impulse_innovation",
+          "prior_episode[3].H24.relative_mean_concentric_force_innovation",
+          "prior_episode[3].H48.relative_concentric_net_impulse_innovation",
+          "prior_episode[3].H48.relative_mean_concentric_force_innovation",
+          "prior_episode[3].H72.relative_concentric_net_impulse_innovation",
+          "prior_episode[3].H72.relative_mean_concentric_force_innovation",
+          "prior_episode[3].baseline.depth_m",
+          "prior_episode[3].baseline.relative_concentric_net_impulse",
+          "prior_episode[3].baseline.relative_mean_concentric_force",
+          "prior_episode[3].exposure.duration_min",
+          "prior_episode[3].exposure.high_intensity_accel_count",
+          "prior_episode[3].exposure.high_intensity_decel_count",
+          "prior_episode[3].exposure.high_speed_distance_m",
+          "prior_episode[3].exposure.session_rpe_cr10",
+          "prior_episode[3].exposure.session_rpe_load_au",
+          "prior_episode[3].exposure.sprint_distance_m",
+          "prior_episode[3].exposure.total_distance_m",
+          "query_key"
+        ],
+        "row_schema_sha256": "307ebeca2dba3ec63be22b1d5753a37caac50355e716861d15be52f550dbbc1a",
+        "row_output_sha256": "9018a50dcffd330d9abe4b225a6069e5ea6156b294be955469993886f14e764e",
+        "determinism_probe_rows": 3,
+        "determinism_probe_sha256": "316bf232aa6a12aa69227c8ee123efedee7ef0873928066a2d08faeddaada844",
+        "target_summaries": {
+          "label.relative_concentric_net_impulse_innovation": {
+            "count": 12000,
+            "mean": -0.09840052629228359,
+            "minimum": -0.3551235080726456,
+            "maximum": 0.10906466950153337
+          },
+          "label.relative_mean_concentric_force_innovation": {
+            "count": 12000,
+            "mean": -0.8046719948725222,
+            "minimum": -2.6301184542244833,
+            "maximum": 0.4493223704560947
+          }
+        }
+      }
+    },
+    {
+      "kind": "public_split_generation",
+      "origin": "oss_reproduction",
+      "run_spec": {
+        "benchmark": "threshold_response_recovery",
+        "split": "training",
+        "seed": {
+          "kind": "oss_clean_room",
+          "value": "cmj-v2-oss-clean-room-root"
+        },
+        "model": null,
+        "evaluation": null,
+        "sha256": "ce23a697c63e21f2edc42602a020e20162b099ccdd3388c1f9ffa28f16aa4728"
+      },
+      "values": [
+        {
+          "identity": "generated_row_count",
+          "value": 72000.0,
+          "units": "rows",
+          "sample_count": null
+        },
+        {
+          "identity": "finite_target_value_count",
+          "value": 144000.0,
+          "units": "target values",
+          "sample_count": null
+        },
+        {
+          "identity": "missing_target_value_count",
+          "value": 0.0,
+          "units": "target values",
+          "sample_count": null
+        },
+        {
+          "identity": "non_finite_target_value_count",
+          "value": 0.0,
+          "units": "target values",
+          "sample_count": null
+        }
+      ],
+      "provenance": {
+        "source_manifest_sha256": "bd9848ca84996b38e8256309da58d2c41034fe2fc8d51deb533c1da5a71a3cc7",
+        "configuration_manifest_sha256": "7a54e80f10923d41b53ec3d52165894f8d18807d6841af630c9e6f2b2417b677",
+        "output_sha256": "8a609a27fb1ef8fddc5d6968e2701774689e47b4d0374462b2813daa4364b14f",
+        "m2_formulation_status": "SEMANTICALLY_REPRODUCIBLE",
+        "m2_unresolved_dimensions": [
+          "rng_algorithm",
+          "rng_state",
+          "rng_substream_strategy",
+          "row_ordering",
+          "dataset_hash",
+          "evaluation"
+        ],
+        "m3_model_use_status": null,
+        "m3_configuration_status": null
+      },
+      "runtime": {
+        "elapsed_seconds": 336.8979909699992,
+        "python_version": "3.12.13",
+        "numpy_version": "2.5.3",
+        "package_version": "0.1.0"
+      },
+      "numerical_checks": {
+        "matches_m2_historical_row_count": true,
+        "all_present_targets_finite": true,
+        "target_value_count_is_two_per_row": true,
+        "stable_row_schema": true,
+        "deterministic_three_row_probe": true
+      },
+      "dataset_output": {
+        "row_count": 72000,
+        "m2_historical_row_count": 72000,
+        "matches_m2_historical_row_count": true,
+        "target_value_count": 144000,
+        "missing_target_values": 0,
+        "non_finite_target_values": 0,
+        "all_present_targets_finite": true,
+        "top_level_fields": [
+          "baseline.depth_m",
+          "baseline.relative_concentric_net_impulse",
+          "baseline.relative_mean_concentric_force",
+          "episode_key",
+          "horizon",
+          "index_exposure.duration_min",
+          "index_exposure.high_intensity_accel_count",
+          "index_exposure.high_intensity_decel_count",
+          "index_exposure.high_speed_distance_m",
+          "index_exposure.session_rpe_cr10",
+          "index_exposure.session_rpe_load_au",
+          "index_exposure.sprint_distance_m",
+          "index_exposure.total_distance_m",
+          "label.relative_concentric_net_impulse_innovation",
+          "label.relative_mean_concentric_force_innovation",
+          "participant.strength_index",
+          "participant.training_age_years",
+          "participant_key",
+          "prior_episode[0].H24.relative_concentric_net_impulse_innovation",
+          "prior_episode[0].H24.relative_mean_concentric_force_innovation",
+          "prior_episode[0].H48.relative_concentric_net_impulse_innovation",
+          "prior_episode[0].H48.relative_mean_concentric_force_innovation",
+          "prior_episode[0].H72.relative_concentric_net_impulse_innovation",
+          "prior_episode[0].H72.relative_mean_concentric_force_innovation",
+          "prior_episode[0].baseline.depth_m",
+          "prior_episode[0].baseline.relative_concentric_net_impulse",
+          "prior_episode[0].baseline.relative_mean_concentric_force",
+          "prior_episode[0].exposure.duration_min",
+          "prior_episode[0].exposure.high_intensity_accel_count",
+          "prior_episode[0].exposure.high_intensity_decel_count",
+          "prior_episode[0].exposure.high_speed_distance_m",
+          "prior_episode[0].exposure.session_rpe_cr10",
+          "prior_episode[0].exposure.session_rpe_load_au",
+          "prior_episode[0].exposure.sprint_distance_m",
+          "prior_episode[0].exposure.total_distance_m",
+          "prior_episode[1].H24.relative_concentric_net_impulse_innovation",
+          "prior_episode[1].H24.relative_mean_concentric_force_innovation",
+          "prior_episode[1].H48.relative_concentric_net_impulse_innovation",
+          "prior_episode[1].H48.relative_mean_concentric_force_innovation",
+          "prior_episode[1].H72.relative_concentric_net_impulse_innovation",
+          "prior_episode[1].H72.relative_mean_concentric_force_innovation",
+          "prior_episode[1].baseline.depth_m",
+          "prior_episode[1].baseline.relative_concentric_net_impulse",
+          "prior_episode[1].baseline.relative_mean_concentric_force",
+          "prior_episode[1].exposure.duration_min",
+          "prior_episode[1].exposure.high_intensity_accel_count",
+          "prior_episode[1].exposure.high_intensity_decel_count",
+          "prior_episode[1].exposure.high_speed_distance_m",
+          "prior_episode[1].exposure.session_rpe_cr10",
+          "prior_episode[1].exposure.session_rpe_load_au",
+          "prior_episode[1].exposure.sprint_distance_m",
+          "prior_episode[1].exposure.total_distance_m",
+          "prior_episode[2].H24.relative_concentric_net_impulse_innovation",
+          "prior_episode[2].H24.relative_mean_concentric_force_innovation",
+          "prior_episode[2].H48.relative_concentric_net_impulse_innovation",
+          "prior_episode[2].H48.relative_mean_concentric_force_innovation",
+          "prior_episode[2].H72.relative_concentric_net_impulse_innovation",
+          "prior_episode[2].H72.relative_mean_concentric_force_innovation",
+          "prior_episode[2].baseline.depth_m",
+          "prior_episode[2].baseline.relative_concentric_net_impulse",
+          "prior_episode[2].baseline.relative_mean_concentric_force",
+          "prior_episode[2].exposure.duration_min",
+          "prior_episode[2].exposure.high_intensity_accel_count",
+          "prior_episode[2].exposure.high_intensity_decel_count",
+          "prior_episode[2].exposure.high_speed_distance_m",
+          "prior_episode[2].exposure.session_rpe_cr10",
+          "prior_episode[2].exposure.session_rpe_load_au",
+          "prior_episode[2].exposure.sprint_distance_m",
+          "prior_episode[2].exposure.total_distance_m",
+          "prior_episode[3].H24.relative_concentric_net_impulse_innovation",
+          "prior_episode[3].H24.relative_mean_concentric_force_innovation",
+          "prior_episode[3].H48.relative_concentric_net_impulse_innovation",
+          "prior_episode[3].H48.relative_mean_concentric_force_innovation",
+          "prior_episode[3].H72.relative_concentric_net_impulse_innovation",
+          "prior_episode[3].H72.relative_mean_concentric_force_innovation",
+          "prior_episode[3].baseline.depth_m",
+          "prior_episode[3].baseline.relative_concentric_net_impulse",
+          "prior_episode[3].baseline.relative_mean_concentric_force",
+          "prior_episode[3].exposure.duration_min",
+          "prior_episode[3].exposure.high_intensity_accel_count",
+          "prior_episode[3].exposure.high_intensity_decel_count",
+          "prior_episode[3].exposure.high_speed_distance_m",
+          "prior_episode[3].exposure.session_rpe_cr10",
+          "prior_episode[3].exposure.session_rpe_load_au",
+          "prior_episode[3].exposure.sprint_distance_m",
+          "prior_episode[3].exposure.total_distance_m",
+          "query_key"
+        ],
+        "row_schema_sha256": "307ebeca2dba3ec63be22b1d5753a37caac50355e716861d15be52f550dbbc1a",
+        "row_output_sha256": "8a609a27fb1ef8fddc5d6968e2701774689e47b4d0374462b2813daa4364b14f",
+        "determinism_probe_rows": 3,
+        "determinism_probe_sha256": "d0884dee2e01f64b8db73f13c41b44efb9c415ce7b8a70462ef6a1c9dccff355",
+        "target_summaries": {
+          "label.relative_concentric_net_impulse_innovation": {
+            "count": 72000,
+            "mean": -0.08577506787016875,
+            "minimum": -0.4281047674602312,
+            "maximum": 0.12189614276902061
+          },
+          "label.relative_mean_concentric_force_innovation": {
+            "count": 72000,
+            "mean": -0.6876477678522783,
+            "minimum": -3.103111840480665,
+            "maximum": 0.660410209425141
+          }
+        }
+      }
+    },
+    {
+      "kind": "public_split_generation",
+      "origin": "oss_reproduction",
+      "run_spec": {
+        "benchmark": "threshold_response_recovery",
+        "split": "public_validation",
+        "seed": {
+          "kind": "oss_clean_room",
+          "value": "cmj-v2-oss-clean-room-root"
+        },
+        "model": null,
+        "evaluation": null,
+        "sha256": "71f6336abcb0fc732fd6c2b22db03d6862d8356b0e7293b5d8d86e6fc2f4123f"
+      },
+      "values": [
+        {
+          "identity": "generated_row_count",
+          "value": 12000.0,
+          "units": "rows",
+          "sample_count": null
+        },
+        {
+          "identity": "finite_target_value_count",
+          "value": 24000.0,
+          "units": "target values",
+          "sample_count": null
+        },
+        {
+          "identity": "missing_target_value_count",
+          "value": 0.0,
+          "units": "target values",
+          "sample_count": null
+        },
+        {
+          "identity": "non_finite_target_value_count",
+          "value": 0.0,
+          "units": "target values",
+          "sample_count": null
+        }
+      ],
+      "provenance": {
+        "source_manifest_sha256": "bd9848ca84996b38e8256309da58d2c41034fe2fc8d51deb533c1da5a71a3cc7",
+        "configuration_manifest_sha256": "7a54e80f10923d41b53ec3d52165894f8d18807d6841af630c9e6f2b2417b677",
+        "output_sha256": "c8c67abe14c31108c537b1f2b6401a157c4cf0b83595a467b8b35ef76b9ee00f",
+        "m2_formulation_status": "SEMANTICALLY_REPRODUCIBLE",
+        "m2_unresolved_dimensions": [
+          "rng_algorithm",
+          "rng_state",
+          "rng_substream_strategy",
+          "row_ordering",
+          "dataset_hash",
+          "evaluation"
+        ],
+        "m3_model_use_status": null,
+        "m3_configuration_status": null
+      },
+      "runtime": {
+        "elapsed_seconds": 60.36409183499927,
+        "python_version": "3.12.13",
+        "numpy_version": "2.5.3",
+        "package_version": "0.1.0"
+      },
+      "numerical_checks": {
+        "matches_m2_historical_row_count": true,
+        "all_present_targets_finite": true,
+        "target_value_count_is_two_per_row": true,
+        "stable_row_schema": true,
+        "deterministic_three_row_probe": true
+      },
+      "dataset_output": {
+        "row_count": 12000,
+        "m2_historical_row_count": 12000,
+        "matches_m2_historical_row_count": true,
+        "target_value_count": 24000,
+        "missing_target_values": 0,
+        "non_finite_target_values": 0,
+        "all_present_targets_finite": true,
+        "top_level_fields": [
+          "baseline.depth_m",
+          "baseline.relative_concentric_net_impulse",
+          "baseline.relative_mean_concentric_force",
+          "episode_key",
+          "horizon",
+          "index_exposure.duration_min",
+          "index_exposure.high_intensity_accel_count",
+          "index_exposure.high_intensity_decel_count",
+          "index_exposure.high_speed_distance_m",
+          "index_exposure.session_rpe_cr10",
+          "index_exposure.session_rpe_load_au",
+          "index_exposure.sprint_distance_m",
+          "index_exposure.total_distance_m",
+          "label.relative_concentric_net_impulse_innovation",
+          "label.relative_mean_concentric_force_innovation",
+          "participant.strength_index",
+          "participant.training_age_years",
+          "participant_key",
+          "prior_episode[0].H24.relative_concentric_net_impulse_innovation",
+          "prior_episode[0].H24.relative_mean_concentric_force_innovation",
+          "prior_episode[0].H48.relative_concentric_net_impulse_innovation",
+          "prior_episode[0].H48.relative_mean_concentric_force_innovation",
+          "prior_episode[0].H72.relative_concentric_net_impulse_innovation",
+          "prior_episode[0].H72.relative_mean_concentric_force_innovation",
+          "prior_episode[0].baseline.depth_m",
+          "prior_episode[0].baseline.relative_concentric_net_impulse",
+          "prior_episode[0].baseline.relative_mean_concentric_force",
+          "prior_episode[0].exposure.duration_min",
+          "prior_episode[0].exposure.high_intensity_accel_count",
+          "prior_episode[0].exposure.high_intensity_decel_count",
+          "prior_episode[0].exposure.high_speed_distance_m",
+          "prior_episode[0].exposure.session_rpe_cr10",
+          "prior_episode[0].exposure.session_rpe_load_au",
+          "prior_episode[0].exposure.sprint_distance_m",
+          "prior_episode[0].exposure.total_distance_m",
+          "prior_episode[1].H24.relative_concentric_net_impulse_innovation",
+          "prior_episode[1].H24.relative_mean_concentric_force_innovation",
+          "prior_episode[1].H48.relative_concentric_net_impulse_innovation",
+          "prior_episode[1].H48.relative_mean_concentric_force_innovation",
+          "prior_episode[1].H72.relative_concentric_net_impulse_innovation",
+          "prior_episode[1].H72.relative_mean_concentric_force_innovation",
+          "prior_episode[1].baseline.depth_m",
+          "prior_episode[1].baseline.relative_concentric_net_impulse",
+          "prior_episode[1].baseline.relative_mean_concentric_force",
+          "prior_episode[1].exposure.duration_min",
+          "prior_episode[1].exposure.high_intensity_accel_count",
+          "prior_episode[1].exposure.high_intensity_decel_count",
+          "prior_episode[1].exposure.high_speed_distance_m",
+          "prior_episode[1].exposure.session_rpe_cr10",
+          "prior_episode[1].exposure.session_rpe_load_au",
+          "prior_episode[1].exposure.sprint_distance_m",
+          "prior_episode[1].exposure.total_distance_m",
+          "prior_episode[2].H24.relative_concentric_net_impulse_innovation",
+          "prior_episode[2].H24.relative_mean_concentric_force_innovation",
+          "prior_episode[2].H48.relative_concentric_net_impulse_innovation",
+          "prior_episode[2].H48.relative_mean_concentric_force_innovation",
+          "prior_episode[2].H72.relative_concentric_net_impulse_innovation",
+          "prior_episode[2].H72.relative_mean_concentric_force_innovation",
+          "prior_episode[2].baseline.depth_m",
+          "prior_episode[2].baseline.relative_concentric_net_impulse",
+          "prior_episode[2].baseline.relative_mean_concentric_force",
+          "prior_episode[2].exposure.duration_min",
+          "prior_episode[2].exposure.high_intensity_accel_count",
+          "prior_episode[2].exposure.high_intensity_decel_count",
+          "prior_episode[2].exposure.high_speed_distance_m",
+          "prior_episode[2].exposure.session_rpe_cr10",
+          "prior_episode[2].exposure.session_rpe_load_au",
+          "prior_episode[2].exposure.sprint_distance_m",
+          "prior_episode[2].exposure.total_distance_m",
+          "prior_episode[3].H24.relative_concentric_net_impulse_innovation",
+          "prior_episode[3].H24.relative_mean_concentric_force_innovation",
+          "prior_episode[3].H48.relative_concentric_net_impulse_innovation",
+          "prior_episode[3].H48.relative_mean_concentric_force_innovation",
+          "prior_episode[3].H72.relative_concentric_net_impulse_innovation",
+          "prior_episode[3].H72.relative_mean_concentric_force_innovation",
+          "prior_episode[3].baseline.depth_m",
+          "prior_episode[3].baseline.relative_concentric_net_impulse",
+          "prior_episode[3].baseline.relative_mean_concentric_force",
+          "prior_episode[3].exposure.duration_min",
+          "prior_episode[3].exposure.high_intensity_accel_count",
+          "prior_episode[3].exposure.high_intensity_decel_count",
+          "prior_episode[3].exposure.high_speed_distance_m",
+          "prior_episode[3].exposure.session_rpe_cr10",
+          "prior_episode[3].exposure.session_rpe_load_au",
+          "prior_episode[3].exposure.sprint_distance_m",
+          "prior_episode[3].exposure.total_distance_m",
+          "query_key"
+        ],
+        "row_schema_sha256": "307ebeca2dba3ec63be22b1d5753a37caac50355e716861d15be52f550dbbc1a",
+        "row_output_sha256": "c8c67abe14c31108c537b1f2b6401a157c4cf0b83595a467b8b35ef76b9ee00f",
+        "determinism_probe_rows": 3,
+        "determinism_probe_sha256": "cf9310e8a94d02a0447d485712f278e55dedd970c2acd591a467ed6cb181810b",
+        "target_summaries": {
+          "label.relative_concentric_net_impulse_innovation": {
+            "count": 12000,
+            "mean": -0.11736849686102493,
+            "minimum": -0.4246796560346038,
+            "maximum": 0.07654409096373183
+          },
+          "label.relative_mean_concentric_force_innovation": {
+            "count": 12000,
+            "mean": -0.9550711422179801,
+            "minimum": -3.281960071951829,
+            "maximum": 0.5843276949096357
+          }
+        }
+      }
+    },
+    {
+      "kind": "public_split_generation",
+      "origin": "oss_reproduction",
+      "run_spec": {
+        "benchmark": "fixed_mode_discrepancy_recovery",
+        "split": "training",
+        "seed": {
+          "kind": "oss_clean_room",
+          "value": "cmj-v2-oss-clean-room-root"
+        },
+        "model": null,
+        "evaluation": null,
+        "sha256": "e60369ffcf6b38e4bf8ef75adb57411701208e131d0d547bb9848b0737fea447"
+      },
+      "values": [
+        {
+          "identity": "generated_row_count",
+          "value": 72000.0,
+          "units": "rows",
+          "sample_count": null
+        },
+        {
+          "identity": "finite_target_value_count",
+          "value": 144000.0,
+          "units": "target values",
+          "sample_count": null
+        },
+        {
+          "identity": "missing_target_value_count",
+          "value": 0.0,
+          "units": "target values",
+          "sample_count": null
+        },
+        {
+          "identity": "non_finite_target_value_count",
+          "value": 0.0,
+          "units": "target values",
+          "sample_count": null
+        }
+      ],
+      "provenance": {
+        "source_manifest_sha256": "bd9848ca84996b38e8256309da58d2c41034fe2fc8d51deb533c1da5a71a3cc7",
+        "configuration_manifest_sha256": "88e4f80d347c8df22c8b37b284cea7d95acacbc5e5ee04822a536c8e82a900ca",
+        "output_sha256": "b3b6a3d523b8c46813c28d3cb3cfac15965b0c5b42881e81915da8c1b81c33cb",
+        "m2_formulation_status": "SEMANTICALLY_REPRODUCIBLE",
+        "m2_unresolved_dimensions": [
+          "rng_algorithm",
+          "rng_state",
+          "row_ordering",
+          "dataset_hash",
+          "evaluation"
+        ],
+        "m3_model_use_status": null,
+        "m3_configuration_status": null
+      },
+      "runtime": {
+        "elapsed_seconds": 442.49947347000125,
+        "python_version": "3.12.13",
+        "numpy_version": "2.5.3",
+        "package_version": "0.1.0"
+      },
+      "numerical_checks": {
+        "matches_m2_historical_row_count": true,
+        "all_present_targets_finite": true,
+        "target_value_count_is_two_per_row": true,
+        "stable_row_schema": true,
+        "deterministic_three_row_probe": true
+      },
+      "dataset_output": {
+        "row_count": 72000,
+        "m2_historical_row_count": 72000,
+        "matches_m2_historical_row_count": true,
+        "target_value_count": 144000,
+        "missing_target_values": 0,
+        "non_finite_target_values": 0,
+        "all_present_targets_finite": true,
+        "top_level_fields": [
+          "baseline.depth_m",
+          "baseline.relative_concentric_net_impulse",
+          "baseline.relative_mean_concentric_force",
+          "episode_key",
+          "horizon",
+          "index_exposure.duration_min",
+          "index_exposure.high_intensity_accel_count",
+          "index_exposure.high_intensity_decel_count",
+          "index_exposure.high_speed_distance_m",
+          "index_exposure.session_rpe_cr10",
+          "index_exposure.session_rpe_load_au",
+          "index_exposure.sprint_distance_m",
+          "index_exposure.total_distance_m",
+          "label.relative_concentric_net_impulse_innovation",
+          "label.relative_mean_concentric_force_innovation",
+          "participant.strength_index",
+          "participant.training_age_years",
+          "participant_key",
+          "prior_episode[0].H24.relative_concentric_net_impulse_innovation",
+          "prior_episode[0].H24.relative_mean_concentric_force_innovation",
+          "prior_episode[0].H48.relative_concentric_net_impulse_innovation",
+          "prior_episode[0].H48.relative_mean_concentric_force_innovation",
+          "prior_episode[0].H72.relative_concentric_net_impulse_innovation",
+          "prior_episode[0].H72.relative_mean_concentric_force_innovation",
+          "prior_episode[0].baseline.depth_m",
+          "prior_episode[0].baseline.relative_concentric_net_impulse",
+          "prior_episode[0].baseline.relative_mean_concentric_force",
+          "prior_episode[0].exposure.duration_min",
+          "prior_episode[0].exposure.high_intensity_accel_count",
+          "prior_episode[0].exposure.high_intensity_decel_count",
+          "prior_episode[0].exposure.high_speed_distance_m",
+          "prior_episode[0].exposure.session_rpe_cr10",
+          "prior_episode[0].exposure.session_rpe_load_au",
+          "prior_episode[0].exposure.sprint_distance_m",
+          "prior_episode[0].exposure.total_distance_m",
+          "prior_episode[1].H24.relative_concentric_net_impulse_innovation",
+          "prior_episode[1].H24.relative_mean_concentric_force_innovation",
+          "prior_episode[1].H48.relative_concentric_net_impulse_innovation",
+          "prior_episode[1].H48.relative_mean_concentric_force_innovation",
+          "prior_episode[1].H72.relative_concentric_net_impulse_innovation",
+          "prior_episode[1].H72.relative_mean_concentric_force_innovation",
+          "prior_episode[1].baseline.depth_m",
+          "prior_episode[1].baseline.relative_concentric_net_impulse",
+          "prior_episode[1].baseline.relative_mean_concentric_force",
+          "prior_episode[1].exposure.duration_min",
+          "prior_episode[1].exposure.high_intensity_accel_count",
+          "prior_episode[1].exposure.high_intensity_decel_count",
+          "prior_episode[1].exposure.high_speed_distance_m",
+          "prior_episode[1].exposure.session_rpe_cr10",
+          "prior_episode[1].exposure.session_rpe_load_au",
+          "prior_episode[1].exposure.sprint_distance_m",
+          "prior_episode[1].exposure.total_distance_m",
+          "prior_episode[2].H24.relative_concentric_net_impulse_innovation",
+          "prior_episode[2].H24.relative_mean_concentric_force_innovation",
+          "prior_episode[2].H48.relative_concentric_net_impulse_innovation",
+          "prior_episode[2].H48.relative_mean_concentric_force_innovation",
+          "prior_episode[2].H72.relative_concentric_net_impulse_innovation",
+          "prior_episode[2].H72.relative_mean_concentric_force_innovation",
+          "prior_episode[2].baseline.depth_m",
+          "prior_episode[2].baseline.relative_concentric_net_impulse",
+          "prior_episode[2].baseline.relative_mean_concentric_force",
+          "prior_episode[2].exposure.duration_min",
+          "prior_episode[2].exposure.high_intensity_accel_count",
+          "prior_episode[2].exposure.high_intensity_decel_count",
+          "prior_episode[2].exposure.high_speed_distance_m",
+          "prior_episode[2].exposure.session_rpe_cr10",
+          "prior_episode[2].exposure.session_rpe_load_au",
+          "prior_episode[2].exposure.sprint_distance_m",
+          "prior_episode[2].exposure.total_distance_m",
+          "prior_episode[3].H24.relative_concentric_net_impulse_innovation",
+          "prior_episode[3].H24.relative_mean_concentric_force_innovation",
+          "prior_episode[3].H48.relative_concentric_net_impulse_innovation",
+          "prior_episode[3].H48.relative_mean_concentric_force_innovation",
+          "prior_episode[3].H72.relative_concentric_net_impulse_innovation",
+          "prior_episode[3].H72.relative_mean_concentric_force_innovation",
+          "prior_episode[3].baseline.depth_m",
+          "prior_episode[3].baseline.relative_concentric_net_impulse",
+          "prior_episode[3].baseline.relative_mean_concentric_force",
+          "prior_episode[3].exposure.duration_min",
+          "prior_episode[3].exposure.high_intensity_accel_count",
+          "prior_episode[3].exposure.high_intensity_decel_count",
+          "prior_episode[3].exposure.high_speed_distance_m",
+          "prior_episode[3].exposure.session_rpe_cr10",
+          "prior_episode[3].exposure.session_rpe_load_au",
+          "prior_episode[3].exposure.sprint_distance_m",
+          "prior_episode[3].exposure.total_distance_m",
+          "query_key"
+        ],
+        "row_schema_sha256": "307ebeca2dba3ec63be22b1d5753a37caac50355e716861d15be52f550dbbc1a",
+        "row_output_sha256": "b3b6a3d523b8c46813c28d3cb3cfac15965b0c5b42881e81915da8c1b81c33cb",
+        "determinism_probe_rows": 3,
+        "determinism_probe_sha256": "29dd6e78cc136e79faa870d244ba758b76d10ffc6006e8a4534fe5f41ee594f0",
+        "target_summaries": {
+          "label.relative_concentric_net_impulse_innovation": {
+            "count": 72000,
+            "mean": -0.08582798998074458,
+            "minimum": -0.38449800357947606,
+            "maximum": 0.0691521638093846
+          },
+          "label.relative_mean_concentric_force_innovation": {
+            "count": 72000,
+            "mean": -0.6888175418704715,
+            "minimum": -2.6248187178678037,
+            "maximum": 0.3939507277256631
+          }
+        }
+      }
+    },
+    {
+      "kind": "public_split_generation",
+      "origin": "oss_reproduction",
+      "run_spec": {
+        "benchmark": "fixed_mode_discrepancy_recovery",
+        "split": "public_validation",
+        "seed": {
+          "kind": "oss_clean_room",
+          "value": "cmj-v2-oss-clean-room-root"
+        },
+        "model": null,
+        "evaluation": null,
+        "sha256": "610dbcfecc7175a22fa05d7f69884c310bbfec65fc4eec73954cf2beee614db7"
+      },
+      "values": [
+        {
+          "identity": "generated_row_count",
+          "value": 12000.0,
+          "units": "rows",
+          "sample_count": null
+        },
+        {
+          "identity": "finite_target_value_count",
+          "value": 24000.0,
+          "units": "target values",
+          "sample_count": null
+        },
+        {
+          "identity": "missing_target_value_count",
+          "value": 0.0,
+          "units": "target values",
+          "sample_count": null
+        },
+        {
+          "identity": "non_finite_target_value_count",
+          "value": 0.0,
+          "units": "target values",
+          "sample_count": null
+        }
+      ],
+      "provenance": {
+        "source_manifest_sha256": "bd9848ca84996b38e8256309da58d2c41034fe2fc8d51deb533c1da5a71a3cc7",
+        "configuration_manifest_sha256": "88e4f80d347c8df22c8b37b284cea7d95acacbc5e5ee04822a536c8e82a900ca",
+        "output_sha256": "d267bffdd3e039fbbd17966958f168d51cb191307a3fbc45a646bd788e1fe479",
+        "m2_formulation_status": "SEMANTICALLY_REPRODUCIBLE",
+        "m2_unresolved_dimensions": [
+          "rng_algorithm",
+          "rng_state",
+          "row_ordering",
+          "dataset_hash",
+          "evaluation"
+        ],
+        "m3_model_use_status": null,
+        "m3_configuration_status": null
+      },
+      "runtime": {
+        "elapsed_seconds": 73.85863281499769,
+        "python_version": "3.12.13",
+        "numpy_version": "2.5.3",
+        "package_version": "0.1.0"
+      },
+      "numerical_checks": {
+        "matches_m2_historical_row_count": true,
+        "all_present_targets_finite": true,
+        "target_value_count_is_two_per_row": true,
+        "stable_row_schema": true,
+        "deterministic_three_row_probe": true
+      },
+      "dataset_output": {
+        "row_count": 12000,
+        "m2_historical_row_count": 12000,
+        "matches_m2_historical_row_count": true,
+        "target_value_count": 24000,
+        "missing_target_values": 0,
+        "non_finite_target_values": 0,
+        "all_present_targets_finite": true,
+        "top_level_fields": [
+          "baseline.depth_m",
+          "baseline.relative_concentric_net_impulse",
+          "baseline.relative_mean_concentric_force",
+          "episode_key",
+          "horizon",
+          "index_exposure.duration_min",
+          "index_exposure.high_intensity_accel_count",
+          "index_exposure.high_intensity_decel_count",
+          "index_exposure.high_speed_distance_m",
+          "index_exposure.session_rpe_cr10",
+          "index_exposure.session_rpe_load_au",
+          "index_exposure.sprint_distance_m",
+          "index_exposure.total_distance_m",
+          "label.relative_concentric_net_impulse_innovation",
+          "label.relative_mean_concentric_force_innovation",
+          "participant.strength_index",
+          "participant.training_age_years",
+          "participant_key",
+          "prior_episode[0].H24.relative_concentric_net_impulse_innovation",
+          "prior_episode[0].H24.relative_mean_concentric_force_innovation",
+          "prior_episode[0].H48.relative_concentric_net_impulse_innovation",
+          "prior_episode[0].H48.relative_mean_concentric_force_innovation",
+          "prior_episode[0].H72.relative_concentric_net_impulse_innovation",
+          "prior_episode[0].H72.relative_mean_concentric_force_innovation",
+          "prior_episode[0].baseline.depth_m",
+          "prior_episode[0].baseline.relative_concentric_net_impulse",
+          "prior_episode[0].baseline.relative_mean_concentric_force",
+          "prior_episode[0].exposure.duration_min",
+          "prior_episode[0].exposure.high_intensity_accel_count",
+          "prior_episode[0].exposure.high_intensity_decel_count",
+          "prior_episode[0].exposure.high_speed_distance_m",
+          "prior_episode[0].exposure.session_rpe_cr10",
+          "prior_episode[0].exposure.session_rpe_load_au",
+          "prior_episode[0].exposure.sprint_distance_m",
+          "prior_episode[0].exposure.total_distance_m",
+          "prior_episode[1].H24.relative_concentric_net_impulse_innovation",
+          "prior_episode[1].H24.relative_mean_concentric_force_innovation",
+          "prior_episode[1].H48.relative_concentric_net_impulse_innovation",
+          "prior_episode[1].H48.relative_mean_concentric_force_innovation",
+          "prior_episode[1].H72.relative_concentric_net_impulse_innovation",
+          "prior_episode[1].H72.relative_mean_concentric_force_innovation",
+          "prior_episode[1].baseline.depth_m",
+          "prior_episode[1].baseline.relative_concentric_net_impulse",
+          "prior_episode[1].baseline.relative_mean_concentric_force",
+          "prior_episode[1].exposure.duration_min",
+          "prior_episode[1].exposure.high_intensity_accel_count",
+          "prior_episode[1].exposure.high_intensity_decel_count",
+          "prior_episode[1].exposure.high_speed_distance_m",
+          "prior_episode[1].exposure.session_rpe_cr10",
+          "prior_episode[1].exposure.session_rpe_load_au",
+          "prior_episode[1].exposure.sprint_distance_m",
+          "prior_episode[1].exposure.total_distance_m",
+          "prior_episode[2].H24.relative_concentric_net_impulse_innovation",
+          "prior_episode[2].H24.relative_mean_concentric_force_innovation",
+          "prior_episode[2].H48.relative_concentric_net_impulse_innovation",
+          "prior_episode[2].H48.relative_mean_concentric_force_innovation",
+          "prior_episode[2].H72.relative_concentric_net_impulse_innovation",
+          "prior_episode[2].H72.relative_mean_concentric_force_innovation",
+          "prior_episode[2].baseline.depth_m",
+          "prior_episode[2].baseline.relative_concentric_net_impulse",
+          "prior_episode[2].baseline.relative_mean_concentric_force",
+          "prior_episode[2].exposure.duration_min",
+          "prior_episode[2].exposure.high_intensity_accel_count",
+          "prior_episode[2].exposure.high_intensity_decel_count",
+          "prior_episode[2].exposure.high_speed_distance_m",
+          "prior_episode[2].exposure.session_rpe_cr10",
+          "prior_episode[2].exposure.session_rpe_load_au",
+          "prior_episode[2].exposure.sprint_distance_m",
+          "prior_episode[2].exposure.total_distance_m",
+          "prior_episode[3].H24.relative_concentric_net_impulse_innovation",
+          "prior_episode[3].H24.relative_mean_concentric_force_innovation",
+          "prior_episode[3].H48.relative_concentric_net_impulse_innovation",
+          "prior_episode[3].H48.relative_mean_concentric_force_innovation",
+          "prior_episode[3].H72.relative_concentric_net_impulse_innovation",
+          "prior_episode[3].H72.relative_mean_concentric_force_innovation",
+          "prior_episode[3].baseline.depth_m",
+          "prior_episode[3].baseline.relative_concentric_net_impulse",
+          "prior_episode[3].baseline.relative_mean_concentric_force",
+          "prior_episode[3].exposure.duration_min",
+          "prior_episode[3].exposure.high_intensity_accel_count",
+          "prior_episode[3].exposure.high_intensity_decel_count",
+          "prior_episode[3].exposure.high_speed_distance_m",
+          "prior_episode[3].exposure.session_rpe_cr10",
+          "prior_episode[3].exposure.session_rpe_load_au",
+          "prior_episode[3].exposure.sprint_distance_m",
+          "prior_episode[3].exposure.total_distance_m",
+          "query_key"
+        ],
+        "row_schema_sha256": "307ebeca2dba3ec63be22b1d5753a37caac50355e716861d15be52f550dbbc1a",
+        "row_output_sha256": "d267bffdd3e039fbbd17966958f168d51cb191307a3fbc45a646bd788e1fe479",
+        "determinism_probe_rows": 3,
+        "determinism_probe_sha256": "b9a0e91aef5341f42ebcecbb1c01faa3e9596c97e66ae3e4e3f70166a48744a7",
+        "target_summaries": {
+          "label.relative_concentric_net_impulse_innovation": {
+            "count": 12000,
+            "mean": -0.09512431396398896,
+            "minimum": -0.34682690366011837,
+            "maximum": 0.07696135792947256
+          },
+          "label.relative_mean_concentric_force_innovation": {
+            "count": 12000,
+            "mean": -0.7768336711091097,
+            "minimum": -2.598007532515304,
+            "maximum": 0.23848897705995853
+          }
+        }
+      }
+    },
+    {
+      "kind": "registered_model_metric_execution",
+      "origin": "oss_reproduction",
+      "run_spec": {
+        "benchmark": "rich_history_camp_recovery",
+        "split": "public_validation",
+        "seed": {
+          "kind": "oss_clean_room",
+          "value": "cmj-v3-oss-validation-root"
+        },
+        "model": "rich_history_zero_baseline",
+        "evaluation": "rich_history_raw_progress_diagnostic",
+        "sha256": "1df3512c6a5954659efcb5aef195d950162e52b5632c509ce5793ea50bb024fe"
+      },
+      "values": [
+        {
+          "identity": "raw_progress",
+          "value": 0.0,
+          "units": "dimensionless progress",
+          "sample_count": null
+        }
+      ],
+      "provenance": {
+        "source_manifest_sha256": "bd9848ca84996b38e8256309da58d2c41034fe2fc8d51deb533c1da5a71a3cc7",
+        "configuration_manifest_sha256": "9aca6563407df83fa43e786d960581f3ee0037dc45dbfc995a395ebf85e3790b",
+        "output_sha256": "11f383f57f02a8770771511aa4ee2a4a9173abd442d6e68799b9b27df3360994",
+        "m2_formulation_status": "SEMANTICALLY_REPRODUCIBLE",
+        "m2_unresolved_dimensions": [
+          "rng_algorithm",
+          "rng_state",
+          "dataset_hash",
+          "evaluation"
+        ],
+        "m3_model_use_status": "EXACT_IMPLEMENTATION",
+        "m3_configuration_status": "NOT_APPLICABLE"
+      },
+      "runtime": {
+        "elapsed_seconds": 0.2598104049975518,
+        "python_version": "3.12.13",
+        "numpy_version": "2.5.3",
+        "package_version": "0.1.0"
+      },
+      "dataset_output_sha256": "866de852240833cd1e79ee8cc53cf38170a749af2f899614a8281b8a9daf7d4c",
+      "historical_comparison": {
+        "identity": "rich_history_zero_baseline_result",
+        "recorded_value": 0.0,
+        "match_within_absolute_tolerance_1e-12": true,
+        "authority": "M1 evidence only; this clean-room output is not an exact replay."
+      }
+    }
+  ],
+  "scientific_scope": "Synthetic generator qualification plus one registered rich-history baseline diagnostic. No empirical dataset, private checkpoint, or hidden test split was used."
+}
