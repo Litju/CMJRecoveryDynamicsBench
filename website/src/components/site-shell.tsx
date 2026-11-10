@@ -28,7 +28,7 @@ export function SiteHeader({ current }: { current: AreaKey }) {
       </a>
       <header className="site-header">
         <div className="shell nav-inner">
-          <a href="/" className="wordmark" aria-label={`${brand.name} home`}>
+          <a href="/" className="wordmark">
             <span className="brand-symbol">
               <Activity size={21} />
             </span>
@@ -43,7 +43,7 @@ export function SiteHeader({ current }: { current: AreaKey }) {
             ))}
           </nav>
           <div className="header-actions">
-            <a className="paper-nav" href={PAPER.href} aria-label="Research paper (PDF)">
+            <a className="paper-nav" href={PAPER.href} aria-label="Paper PDF">
               <FileText size={15} aria-hidden="true" />
               <span>Paper PDF</span>
             </a>

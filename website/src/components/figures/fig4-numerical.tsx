@@ -75,7 +75,7 @@ export default function NumericalFigure() {
         />
       </div>
       <div className="pub-chart" ref={tip.host} tabIndex={0} role="region" aria-label="Chart area; scrolls horizontally on narrow screens">
-        <svg ref={svg} viewBox={`0 0 ${W} ${H}`} role="img" aria-labelledby="fig4-svg-title" className="pub-svg">
+        <svg ref={svg} viewBox={`0 0 ${W} ${H}`} role="group" aria-labelledby="fig4-svg-title" className="pub-svg">
           <title id="fig4-svg-title">
             Route matrix of CPU-source equality and archived GPU tolerance status for 18 routes, with recorded maximum absolute differences.
           </title>
@@ -113,7 +113,6 @@ export default function NumericalFigure() {
                 role="button"
                 tabIndex={0}
                 aria-pressed={isSel}
-                aria-label={`Route ${r.route}: CPU exact; archived GPU ${r.savedCuda === "pass" ? "within" : "outside"} tolerance; maximum absolute difference ${r.maxAbsoluteError.toExponential(3)}; failing elements ${r.failingElements ?? "not tabulated"}`}
                 onClick={pick}
                 onKeyDown={(e) => {
                   if (e.key === "Enter" || e.key === " ") {
@@ -125,6 +124,7 @@ export default function NumericalFigure() {
                 onMouseLeave={tip.hide}
                 className="pub-node"
               >
+                <title>{`${r.model} · ${r.repeat} ${r.savedCuda === "pass" ? "PASS" : "FAIL"}: route ${r.route}, CPU source exact; archived GPU ${r.savedCuda === "pass" ? "within" : "outside"} tolerance; maximum absolute difference ${r.maxAbsoluteError.toExponential(3)}; failing elements ${r.failingElements ?? "not tabulated"}`}</title>
                 <rect x={4} y={y - 11} width={W - 8} height={22} fill={isSel ? "#e9eef9" : i % 2 ? "#faf8f1" : "#fffdf7"} />
                 <text x={mx} y={y + 4} fontFamily={SANS} fontSize={11.5} fill={INK} fontWeight={isSel ? 700 : 400}>
                   {r.model} · {r.repeat}

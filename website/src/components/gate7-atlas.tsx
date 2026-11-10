@@ -460,7 +460,7 @@ export default function Gate7Atlas() {
                 </tbody>
               </table>
             </details>
-            <a href={source(atlas.sources[3].path)}>
+            <a className="atlas-source-link" href={source(atlas.sources[3].path)}>
               Measurement equations and implementation limits ↗
             </a>
           </figure>
@@ -641,7 +641,7 @@ export default function Gate7Atlas() {
           <summary>Source files and verification hashes</summary>
           {atlas.sources.map((s, index) => (
             <p key={s.path}>
-              <a href={source(s.path)}>{sourceTitles[index]}</a>
+              <a className="atlas-source-link" href={source(s.path)}>{sourceTitles[index]}</a>
               <br />
               <code className="atlas-hash">SHA-256 {s.sha256}</code>
             </p>

@@ -116,7 +116,7 @@ export default function HeatmapFigure() {
         />
       </div>
       <div className="pub-chart" ref={tip.host} tabIndex={0} role="region" aria-label="Chart area; scrolls horizontally on narrow screens">
-        <svg ref={svg} viewBox={`0 0 ${W} ${H}`} role="img" aria-labelledby="fig7-svg-title" className="pub-svg">
+        <svg ref={svg} viewBox={`0 0 ${W} ${H}`} role="group" aria-labelledby="fig7-svg-title" className="pub-svg">
           <title id="fig7-svg-title">
             Heatmap of recorded NRMSE for four models across six cells and the six-cell mean, with structured-minus-ridge differences per root.
           </title>
@@ -147,7 +147,7 @@ export default function HeatmapFigure() {
                       key={m.key}
                       role="button"
                       tabIndex={0}
-                      aria-label={`${label}, ${m.label}: NRMSE ${fmt(v)}${v === best ? ", lowest in row" : ""}`}
+                      aria-label={`${fmt(v, 3)}: ${label}, ${m.label}, NRMSE ${fmt(v)}${v === best ? ", lowest in row" : ""}`}
                       aria-pressed={isSel}
                       onClick={() => setSel({ row: i, col: j })}
                       onKeyDown={(e) => {
