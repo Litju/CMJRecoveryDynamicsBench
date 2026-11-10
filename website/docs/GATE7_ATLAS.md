@@ -5,6 +5,13 @@ private evidence fetch, dependency or new scientific result. `gate7-atlas.tsx`
 is a client component; `gate7.json` is the independently pinned public presentation
 layer. The original M8 source files, manifests and `results.json` remain unchanged.
 
+The atlas corresponds to the current paper's *Original neural model reconstruction*,
+*Numerical qualification* and *Native CMJ measurement* sections (Figs. 3–5 of the
+[V3 illustrated manuscript](../../docs/manuscript/v3/full_illustrated_research_manuscript.pdf)).
+Native measurement copy distinguishes gross mean concentric force (N/kg), peak force
+and gravity-adjusted net impulse (m/s); none of these is the public synthetic
+benchmark's mean concentric-force innovation target.
+
 ## Regenerate and verify
 
 Use Node 22, then from `website/`:

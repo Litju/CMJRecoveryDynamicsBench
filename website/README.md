@@ -2,7 +2,13 @@
 
 **An interactive exhibition of synthetic countermovement-jump recovery research.**
 
-Recovery Observatory is a static-first research showcase about one question: after a training exposure, can we forecast how mean force and net impulse will change over the following three days? It introduces the measurement, synthetic study design, model comparisons, research history and scientific limits in one navigable story.
+Recovery Observatory is a static-first research showcase about one question: after a training exposure, can we forecast how mean concentric force and net impulse will change over the following three days? It introduces the measurement, synthetic study design, model comparisons, research history and scientific limits in one navigable story.
+
+## Research paper
+
+The site is the interactive companion to the current research paper, the [V3 full illustrated research manuscript](../docs/manuscript/v3/full_illustrated_research_manuscript.pdf) (*Retrospective reconstruction and numerical qualification of historical countermovement-jump recovery research: An evidence-bounded case study*). The paper is an **unsubmitted research draft**: it has not been peer reviewed, submitted to a journal or assigned a DOI. The [documentation index](../docs/INDEX.md) links the review edition, technical supplement, reproducible figures and all methods documents. Earlier manuscript packages are historical evidence, not the current paper.
+
+**Terminology.** The force outcome is the *mean concentric-force innovation (N/kg)*: the baseline-relative change in gross time-mean concentric force per unit body mass. Frozen receipts and fixtures keep the registered evaluation key `relative_peak_mean_force_innovation` (generated target `label.relative_mean_concentric_force_innovation`) unchanged for provenance. It is not peak force and not gravity-adjusted net impulse.
 
 The title and visual identity are provisional. The exhibit is a portfolio and research-communication site, not an athlete assessment, coaching tool or accepted recovery score. It contains no human records, backend, authentication, model training or live inference.
 
@@ -72,7 +78,9 @@ The active fixed-mode comparison is a **new synthetic diagnostic study** with th
 
 ## Attribution and licensing
 
-The preserved scientific software identifies Julio Rodriguez as its author in [`source/CITATION.cff`](source/CITATION.cff) and carries its upstream Apache-2.0 license at [`source/LICENSE`](source/LICENSE). That license is for the scientific source it accompanies; it does **not** license this showcase's TypeScript, CSS, tests, documentation or screenshots.
+**Citing.** Cite the current software with the repository-root [`CITATION.cff`](../CITATION.cff) (version 1.1.0) and the [v1.1.0 release](https://github.com/Litju/CMJRecoveryDynamicsBench/releases/tag/v1.1.0). [`source/CITATION.cff`](source/CITATION.cff) is a frozen historical copy (version 0.1.0) from the pinned M8 receipt source `3dc4c82`; it identifies that receipt's provenance and is not the current citation.
+
+The preserved scientific software identifies Julio Rodriguez as its author in that historical citation and carries its upstream Apache-2.0 license at [`source/LICENSE`](source/LICENSE). That license is for the scientific source it accompanies; it does **not** license this showcase's TypeScript, CSS, tests, documentation or screenshots.
 
 Original website source authored by Julio Rodriguez is licensed under Apache-2.0; see [LICENSE](LICENSE). This license does not cover the upstream scientific source, the Geist font, npm packages, or other third-party materials. The scientific source license and font OFL are included separately; npm package license identifiers are recorded in package-lock.json.
 
