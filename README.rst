@@ -5,6 +5,37 @@ Scientific contracts, synthetic generators, evaluation definitions, and recovere
 research lineage for eight countermovement-jump recovery benchmarks.
 The canonical repository is https://github.com/Litju/CMJRecoveryDynamicsBench.
 
+Start here
+----------
+
+Research paper (current)
+    `Full illustrated research manuscript
+    <docs/manuscript/v3/full_illustrated_research_manuscript.pdf>`_ — *Retrospective
+    reconstruction and numerical qualification of historical countermovement-jump
+    recovery research: An evidence-bounded case study*. It is an **unsubmitted
+    research draft**: it has not been peer reviewed, submitted to a journal or
+    assigned a DOI. The `academic review edition
+    <docs/manuscript/v3/academic_review_manuscript.pdf>`_, `technical supplement
+    <docs/manuscript/v3/technical_supplement.pdf>`_, `reproducible figures
+    <docs/manuscript/v3/figures/>`_ and their `regeneration guide
+    <docs/manuscript/v3/README.md>`_ are in the same package.
+
+Interactive companion
+    The `Recovery Observatory <https://recovery-observatory.vercel.app>`_ is the
+    source-backed interactive research exhibit (``website/``).
+
+Everything else
+    ``docs/INDEX.md`` is the single navigation index for the software, public
+    synthetic benchmark, recovered model documentation, native biomechanics
+    methods, release, citation and limitations. Earlier manuscript packages under
+    ``docs/manuscript/`` are preserved as historical evidence only.
+
+The paper's force outcome is the **mean concentric-force innovation (N/kg)**: the
+baseline-relative change in gross time-mean concentric force per unit body mass.
+Its frozen registered evaluation key keeps the legacy identifier
+``relative_peak_mean_force_innovation``; it is not peak force and not net impulse.
+No result in this repository establishes real-athlete recovery-forecasting accuracy.
+
 Installation
 ------------
 
@@ -189,7 +220,9 @@ Research documentation and presentation
 ---------------------------------------
 
 The navigable public documentation index is ``docs/INDEX.md``. The Recovery
-Observatory now includes a separate Gate7 model/repeat atlas, native mechanics,
-assessment windows and an explicit evidence-boundary journey. Its public Gate7
-contracts are pinned independently of the historical M8 synthetic receipts.
-See ``website/docs/GATE7_ATLAS.md`` for figure sources and regeneration.
+Observatory includes the public synthetic benchmark explorer, a separate original
+model/repeat atlas, native mechanics, assessment windows and an explicit evidence
+boundary. Its public contracts are
+pinned independently of the historical M8 synthetic receipts. See
+``website/docs/SCIENCE_AND_DATA.md`` for figure sources and
+``website/docs/GATE7_ATLAS.md`` for the model atlas.
