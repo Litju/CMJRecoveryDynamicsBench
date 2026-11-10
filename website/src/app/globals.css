@@ -3,17 +3,6 @@
   --color-mint: #a9f5dc;
   --font-sans: "Inter", "Segoe UI", Arial, sans-serif;
 }
-:root {
-  --bg: #101517;
-  --panel: #151c1f;
-  --line: #2d3639;
-  --text: #eef2ef;
-  --muted: #a6b0ae;
-  --mint: #a9f5dc;
-  --lavender: #aaa5ef;
-  --mono: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
-  color-scheme: dark;
-}
 * {
   box-sizing: border-box;
 }
@@ -416,62 +405,6 @@ input[type="range"]::-moz-range-thumb {
   height: 100%;
   position: relative;
   perspective: 700px;
-}
-.fallback-plate {
-  position: absolute;
-  top: 33%;
-  left: 19%;
-  width: 65%;
-  height: 47%;
-  background: var(--panel);
-  border: 1px solid #94ccb1;
-  transform: rotateX(60deg) rotateZ(-28deg);
-  box-shadow:
-    3px 9px 0 #0e1d1d,
-    3px 10px 0 #427267,
-    6px 19px 0 #111c1e,
-    0 0 80px #7dcdb622;
-}
-.plate-grid {
-  position: absolute;
-  inset: 0;
-  background-image:
-    none;
-  background-size: 17px 17px;
-}
-.plate-core {
-  position: absolute;
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  border: 1px solid var(--mint);
-  left: 47%;
-  top: 44%;
-  box-shadow: 0 0 28px #a9f5dcaa;
-}
-.plate-orbit {
-  position: absolute;
-  border: 1px solid #a9f5dc55;
-  width: 70%;
-  height: 40%;
-  border-radius: 50%;
-  left: 15%;
-  top: 22%;
-  transform: rotate(-27deg);
-  box-shadow: 0 0 30px #a9f5dc05;
-}
-.orbit-two {
-  transform: rotate(28deg);
-  width: 55%;
-  left: 22%;
-  border-color: #aaa5ef66;
-  top: 17%;
-}
-.fallback-shadow {
-  position: absolute;
-  inset: 75% 15% 8%;
-  background: #a9f5dc0b;
-  filter: blur(30px);
 }
 .research-strip {
   display: grid;
@@ -3292,7 +3225,6 @@ table {
     display: block;
     margin-bottom: 10px;
   }
-  .desktop-break,
   .desktop-lineage-detail {
     display: none;
   }
@@ -3420,12 +3352,6 @@ table {
 }
 
 /* Linked scientific exhibits use the existing exhibition palette. */
-@font-face {
-  font-family: "Geist";
-  src: url("/fonts/geist-latin.woff2") format("woff2");
-  font-weight: 100 900;
-  font-display: swap;
-}
 body {
   font-family: "Geist", Arial, sans-serif;
 }

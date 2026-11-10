@@ -1,5 +1,8 @@
-import { ArrowDown, ArrowUpRight, Activity, Github } from "lucide-react";
+import { ArrowDown, ArrowUpRight } from "lucide-react";
 import { brand } from "@/lib/brand";
+import { CITATION_URL } from "@/lib/manuscript";
+import { SiteFooter, SiteHeader } from "@/components/site-shell";
+import ResearchOverview from "@/components/research-overview";
 import { data, sourceLink } from "@/lib/science";
 import Explorer from "@/components/explorer";
 import RecoveryLab from "@/components/recovery-lab";
@@ -19,40 +22,9 @@ import Gate7Atlas, { ResearchTour } from "@/components/gate7-atlas";
 export default function Home() {
   return (
     <>
-      <a href="#main" className="skip-link">
-        Skip to research
-      </a>
-      <header className="site-header">
-        <div className="shell nav-inner">
-          <a href="#" className="wordmark" aria-label={`${brand.name} home`}>
-            <span className="brand-symbol">
-              <Activity size={21} />
-            </span>
-            {brand.name}
-            <span className="edition">RESEARCH NOTES / 01</span>
-          </a>
-          <nav aria-label="Main navigation">
-            <a href="#world">Synthetic world</a>
-            <a href="#lineage">Research lineage</a>
-            <a href="#explorer">Benchmark</a>
-            <a href="#lab">Recovery lab</a>
-            <a href="#model-atlas">Model atlas</a>
-            <a href="#research-docs">Methods</a>
-          </nav>
-          <a
-            className="source-nav"
-            aria-label="View scientific source on GitHub"
-            href={data.provenance.repository}
-            target="_blank"
-            rel="noreferrer"
-          >
-            <Github size={16} />
-            <span>View source</span>
-            <ArrowUpRight size={14} />
-          </a>
-        </div>
-      </header>
+      <SiteHeader current="overview" />
       <main id="main">
+        <ResearchOverview />
         <ScrollJourney>
         <section id="intro" className="hero shell" aria-labelledby="hero-title">
           <div className="hero-copy">
@@ -63,23 +35,23 @@ export default function Home() {
             <div className="hero-discipline">
               MACHINE LEARNING / SPORTS SCIENCE
             </div>
-            <h1 id="hero-title">
+            <h2 id="hero-title" className="hero-heading">
               One jump.
               <br />
               Three days.
               <br />
               <span>What changes?</span>
-            </h1>
+            </h2>
             <p className="hero-description">
-              After a training exposure, can we forecast how force and net
-              impulse will change? An open research program about measurement,
-              hidden dynamics and the limits of prediction.
+              After a training exposure, can we forecast how mean concentric
+              force and net impulse will change? An open research program about
+              measurement, hidden dynamics and the limits of prediction.
             </p>
             <p className="hero-byline">
               <span>UPSTREAM RESEARCH SOFTWARE BY</span> Julio Rodriguez{" "}
               <a
-                href={sourceLink("CITATION.cff")}
-                aria-label="Verified research software citation"
+                href={CITATION_URL}
+                aria-label="Current research software citation (v1.1.0)"
               >
                 ↗
               </a>
@@ -113,7 +85,7 @@ export default function Home() {
             </strong>
           </div>
           <div>
-            <span className="strip-label">INDEPENDENT TEST ROOTS</span>
+            <span className="strip-label">FIXED EVALUATION ROOTS</span>
             <strong>
               03<span> same generator</span>
             </strong>
@@ -148,32 +120,7 @@ export default function Home() {
         </ScrollJourney>
         <Gate7Atlas />
       </main>
-      <footer className="shell footer">
-        <div>
-          <a href="#" className="footer-brand">
-            <Activity size={20} />
-            {brand.name}
-          </a>
-          <p>Open methods. Traceable evidence.</p>
-        </div>
-        <div className="footer-links">
-          <a href={sourceLink("CITATION.cff")}>
-            Citation <ArrowUpRight size={13} />
-          </a>
-          <a href={sourceLink("LICENSE")}>
-            Scientific source license <ArrowUpRight size={13} />
-          </a>
-          <a href={data.provenance.repository}>
-            Scientific source <ArrowUpRight size={13} />
-          </a>
-        </div>
-        <p className="footer-credit">
-          The cited scientific software is by Julio Rodriguez.
-          <br />
-          Its Apache-2.0 license excludes external datasets and third-party
-          materials.
-        </p>
-      </footer>
+      <SiteFooter />
     </>
   );
 }

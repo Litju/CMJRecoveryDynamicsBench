@@ -125,7 +125,7 @@ test("picking a sourced bar in the persistent stage selects its actual benchmark
   await expect(page.locator('#explorer [data-model-id="structured_full"]')).toHaveAttribute("aria-pressed", "true");
   await expect(page.locator("#root-select")).toHaveValue("mean");
   await expect(page.getByRole("button", { name: "H24", exact: true })).toHaveAttribute("aria-pressed", "true");
-  await expect(page.getByRole("button", { name: "Force", exact: true })).toHaveAttribute("aria-pressed", "true");
+  await expect(page.getByRole("button", { name: "Mean concentric force", exact: true })).toHaveAttribute("aria-pressed", "true");
   await expect(page.getByTestId("cell-score")).toHaveText(journeyBars[3].value.toFixed(4));
   await expect(page.locator(".axis-unit")).toHaveText("NRMSE · UNITLESS");
 });

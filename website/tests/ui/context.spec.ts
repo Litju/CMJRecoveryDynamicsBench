@@ -7,7 +7,7 @@ test("the opening establishes authorship, the setting, measurements and the synt
 }) => {
   await page.emulateMedia({ reducedMotion: "reduce" });
   await page.goto("/");
-  await expect(page.locator(".hero h1")).toContainText("What changes?");
+  await expect(page.locator("#hero-title")).toContainText("What changes?");
   await expect(page.locator(".hero-byline")).toContainText("Julio Rodriguez");
   await expect(page.locator(".research-cover")).toContainText(
     "One exposure, two outcomes, three horizons",

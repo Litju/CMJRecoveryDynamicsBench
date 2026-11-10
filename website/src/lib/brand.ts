@@ -4,5 +4,5 @@ export const brand = {
   shortName: "Observatory",
   eyebrow: "A PUBLIC SYNTHETIC RESEARCH PROGRAM",
   description:
-    "An interactive window into synthetic countermovement-jump recovery research.",
+    "Interactive, source-backed companion to an unsubmitted research manuscript on reconstructing historical countermovement-jump recovery research.",
 };

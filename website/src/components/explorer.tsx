@@ -158,8 +158,9 @@ export default function Explorer() {
               <button
                 aria-pressed={outcome === "force"}
                 onClick={() => setOutcome("force")}
+                title="Mean concentric-force innovation (N/kg): gross time-mean concentric force per kg, criterion minus baseline. Registered key relative_peak_mean_force_innovation; not peak force."
               >
-                Force
+                Mean concentric force
               </button>
               <button
                 aria-pressed={outcome === "impulse"}
@@ -232,7 +233,7 @@ export default function Explorer() {
             </div>
             <div>
               <span>
-                {`H${horizon}`} {outcome === "force" ? "force" : "net impulse"}{" "}
+                {`H${horizon}`} {outcome === "force" ? "mean concentric force" : "net impulse"}{" "}
                 NRMSE
               </span>
               <strong data-testid="cell-score">{format(current.nrmse)}</strong>
@@ -252,7 +253,7 @@ export default function Explorer() {
               <h4>
                 {plotMode === "3d"
                   ? "All six cells · four models"
-                  : `${outcome === "force" ? "Force" : "Net impulse"} across horizons`}
+                  : `${outcome === "force" ? "Mean concentric-force innovation" : "Net-impulse innovation"} across horizons`}
               </h4>
               <p>
                 {root === "mean"
@@ -351,7 +352,7 @@ export default function Explorer() {
                     />
                     <Tooltip
                       contentStyle={plotTooltip}
-                      labelFormatter={(label) => `${label} · ${outcome === "force" ? "Force" : "Net impulse"} · ${metric.toUpperCase()} · ${root === "mean" ? "Across-root mean" : `Root ${root}`}`}
+                      labelFormatter={(label) => `${label} · ${outcome === "force" ? "Mean concentric force" : "Net impulse"} · ${metric.toUpperCase()} · ${root === "mean" ? "Across-root mean" : `Root ${root}`}`}
                       labelStyle={{ color: theme.text }}
                       itemStyle={{ color: theme.text }}
                       formatter={(value, name) => [
@@ -478,7 +479,7 @@ export default function Explorer() {
                           >
                             <span className="row-dot" />H{h}
                             <span className="outcome-name">
-                              {o === "force" ? "Force" : "Net impulse"}
+                              {o === "force" ? "Mean concentric force" : "Net impulse"}
                             </span>
                           </button>
                         </th>

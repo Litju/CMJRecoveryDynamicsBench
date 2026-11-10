@@ -85,3 +85,24 @@ Upstream scientific code and its Apache-2.0 license are preserved in source/; th
 Gate7 uses a separate hash-pinned contract dataset, not the historical M8 result fixture.
 See [the figure ledger](GATE7_ATLAS.md) for source identities, units, calculations,
 regeneration and the analytical mechanics signal.
+
+## Manuscript-linked figures (M11)
+
+Figures 1–10 reproduce the V3 manuscript figures as interactive charts. Their only data source is `src/data/manuscript.json`, compiled by `scripts/prepare-manuscript.mjs` from 24 files in `docs/manuscript/v3/`. The compiler checks the pinned `ARTIFACT_SHA256SUMS` digest (`a83b7069…`) and each input digest, and asserts exact equality between the public CSV summaries and the S01 receipt. The browser only re-reads, filters and differences recorded values. It never fits, scores, resamples or infers.
+
+| Fig. | Route | Manuscript | Data (fixture path → source) | Recorded check | Interaction |
+| --- | --- | --- | --- | --- | --- |
+| 1 Genealogy | `/methods/` | p. 3 | `data.genealogy` ← S17 lineage, S18 methods | lineage contract; 5 edges, 3 unresolved | select formulation, status filter |
+| 2 Design | `/methods/` | p. 3 | `data.design` ← S01 `data`, `feature_contract` | `sample_split_counts_match_pinned_receipt` | select split |
+| 3 Architectures | `/models/` | p. 5 | `data.architectures` ← `architecture_qualification.csv`; components per Fig. 3 caption | `architecture_families_and_parameter_counts_match_record` | inspect/compare two families |
+| 4 Numerical | `/models/` | p. 6 | `data.routes` ← `model_identity_sanitized.csv` | `route_population_and_recorded_pass_fail_counts_match_receipt` | select route; error/elements panel |
+| 5 Biomechanics | `/methods/` | p. 7 | `data.mechanics` ← generator constants; `lib/manuscript-mechanics.mjs` | `analytical_curve_endpoints_integrals_and_native_windows_are_valid` | quantity highlight, time scrubber |
+| 6 Six-cell | `/results/` | p. 8 | `data.sixCell` ← S01 roots/across-root + `six_cell_results.csv` | `all_24_cell_root_values_means_and_sample_sds_match_receipt` | axis range, root, models, cell |
+| 7 Heatmap | `/results/` | p. 9 | `data.sixCell` | `heatmap_cell_means_six_cell_means_and_ridge_structured_differences_match_receipt` | root, keyboard cell inspection |
+| 8 Uncertainty | `/results/` | p. 10 | `data.bootstrap` ← S01 `paired_camp_bootstrap` + `recorded_uncertainty.csv` | `all_six_stored_bootstrap_intervals_match_receipt` | NRMSE / paired-vs-zero panel |
+| 9 Ablations | `/results/` | p. 10 | `data.ablations` ← S01 `across_root_variability`, `sample_efficiency` | `ablations_and_nested_camp_values_match_receipt` | linked root highlight |
+| 10 Evidence | `/evidence/` | p. 11 | `data.richHistory` ← S04; `data.evidence` ← Fig. 10 generator classification | `rich_history_row_counts_and_differences_match_pinned_receipt` | evidence-class filter |
+
+`tests/manuscript.test.mjs` re-derives the aggregation chain and checks every interpretive sentence shown beside a figure, for example that ridge is lowest in every cell for every root, and that within each root the stored ridge interval lies below the structured interval. Changing a figure's prose without its data fails the suite. Fig. 5 uses the manuscript's analytical curve (sine rise, linear fall; m = 70 kg, A = 1000 N, tₚ = 0.22 s, T = 0.55 s). It is distinct from the model atlas's older linear illustration in `native-mechanics.mjs`, which remains unchanged.
+
+What is not shown because it was not recorded: a ridge-versus-structured interval, across-root intervals, cell-level intervals, and any public rerun of the original routes.

@@ -29,7 +29,7 @@ function MeasurementLens() {
           aria-pressed={view === "force"}
           onClick={() => setView("force")}
         >
-          Mean force
+          Mean concentric force
         </button>
         <button
           aria-pressed={view === "impulse"}
@@ -85,7 +85,7 @@ function MeasurementLens() {
       </svg>
       <p aria-live="polite">
         {view === "force"
-          ? "Mean force is the area under the force trace divided by phase duration. The dashed line represents a mean of the schematic shape."
+          ? "Gross mean concentric force is the area under the force trace divided by phase duration. The dashed line represents a mean of the schematic shape."
           : "Net impulse subtracts gravity before integration: J/m = ∫(F/m − g) dt = (F̄/m − g)T. Its unit is m/s, not N/kg."}
       </p>
       <small>

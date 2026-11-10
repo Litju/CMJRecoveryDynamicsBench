@@ -1,0 +1,46 @@
+/* Design tokens: the single source for colour, type and spacing.
+   Field-journal identity: warm paper, ink, cobalt and vermilion; editorial serif headings. */
+:root {
+  --paper: #f3f0e7;
+  --panel: #fffdf7;
+  --ink: #202c33;
+  --muted: #566169;
+  --line: #cecec4;
+  --rule: #bfc3bd;
+  --cobalt: #2854b8;
+  --vermilion: #b6422b;
+  --ochre: #e8bd60;
+  --ochre-ink: #a5720c;
+  --teal: #1f7a6d;
+  --cobalt-wash: #e5ebf7;
+  --paper-deep: #ebe7da;
+
+  /* Legacy aliases kept so existing component styles resolve unchanged. */
+  --bg: var(--paper);
+  --text: var(--ink);
+  --mint: var(--cobalt);
+  --lavender: var(--vermilion);
+
+  --editorial: Georgia, "Times New Roman", serif;
+  --sans: Geist, "Segoe UI", Arial, sans-serif;
+  --mono: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+
+  --step--1: 0.8125rem;
+  --step-0: 0.9375rem;
+  --step-1: 1.125rem;
+  --step-2: 1.5rem;
+  --step-3: clamp(1.75rem, 1.2rem + 2vw, 2.5rem);
+  --step-4: clamp(2.1rem, 1.3rem + 3.2vw, 3.4rem);
+
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
+  --space-8: 72px;
+  --measure: 68ch;
+  --shell: 1240px;
+  color-scheme: light;
+}
