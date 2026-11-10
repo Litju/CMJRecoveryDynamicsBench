@@ -7,7 +7,7 @@ test("plot selection links to the existing controls and tooltips identify the me
   await page.selectOption("#root-select", "C");
   await page.locator(".chart .recharts-line-dot").last().click();
   await expect(page.getByRole("button", { name: "H72", exact: true })).toHaveAttribute("aria-pressed", "true");
-  await expect(page.locator(".chart .recharts-default-tooltip")).toContainText("H72 · Force · NRMSE · Root C");
+  await expect(page.locator(".chart .recharts-default-tooltip")).toContainText("H72 · Mean concentric force · NRMSE · Root C");
   await expect(page.locator(".chart .recharts-tooltip-item-value").first()).toHaveText(/^\d+\.\d{6}$/);
   await page.getByRole("button", { name: "RMSE", exact: true }).click();
   await page.locator(".chart .recharts-line-dot").last().hover();

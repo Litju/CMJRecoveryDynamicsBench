@@ -4,14 +4,14 @@
 /* ---------- Header: six research areas ---------- */
 .site-header {
   height: auto;
-  min-height: 72px;
+  min-height: 80px;
 }
 .site-header .nav-inner {
   display: grid;
   grid-template-columns: auto 1fr auto;
   align-items: center;
   gap: var(--space-5);
-  min-height: 72px;
+  min-height: 80px;
 }
 .site-header nav.area-nav {
   display: flex;
@@ -57,14 +57,18 @@
   background: var(--cobalt);
   border-color: var(--cobalt);
 }
+/* ≤ 1180 px: the area strip sits above the brand row and scrolls away (sticky top −44 px),
+   so once scrolled the pinned bar keeps the legacy 80/68 px height the story's sticky stage expects. */
 @media (max-width: 1180px) {
-  html {
-    scroll-padding-top: 120px;
+  .site-header {
+    top: -44px !important;
   }
   .site-header .nav-inner {
     grid-template-columns: 1fr auto;
-    grid-template-areas: "brand actions" "nav nav";
+    grid-template-areas: "nav nav" "brand actions";
+    grid-template-rows: 44px 80px;
     row-gap: 0;
+    min-height: 0;
   }
   .site-header .wordmark {
     grid-area: brand;
@@ -81,10 +85,16 @@
     gap: var(--space-4);
     margin: 0 calc(-1 * var(--space-2));
     padding: 0 var(--space-2);
-    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+  }
+  .area-nav a {
+    min-height: 43px;
   }
 }
 @media (max-width: 650px) {
+  .site-header .nav-inner {
+    grid-template-rows: 44px 68px;
+  }
   .site-header nav.area-nav {
     font-size: 12.5px;
   }
