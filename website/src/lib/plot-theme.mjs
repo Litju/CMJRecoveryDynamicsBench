@@ -11,7 +11,7 @@ export const plotTheme = {
   text: "#202c33",
   fast: "#2854b8",
   slow: "#b6422b",
-  ochre: "#85601d",
+  ochre: "#a5720c", // re-stepped: validated ΔE 16.9 vs zero baseline (was #85601d, 12.0)
   zero: "#586773",
   ridge: "#2854b8",
   structured: "#b6422b",

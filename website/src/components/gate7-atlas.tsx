@@ -3,17 +3,7 @@ import { useEffect, useState } from "react";
 import { atlas } from "@/lib/gate7";
 import { plotTheme as theme } from "@/lib/plot-theme.mjs";
 import { mechanics } from "@/lib/native-mechanics.mjs";
-const familyNames: Record<string, string> = {
-  M0: "Compact feedforward",
-  M1: "Wide feedforward",
-  M2: "Deep feedforward",
-  M3: "History encoder",
-  M4: "Recurrent history",
-  M5: "Horizon-aware recurrent",
-  M6: "Two-basis recurrent",
-  M7: "Five-basis recurrent",
-  M8: "Additive basis model",
-};
+import { familyNames, familySlug } from "@/lib/model-families";
 const sourceTitles = [
   "Inference verification",
   "CPU reproduction policy",
@@ -23,8 +13,6 @@ const sourceTitles = [
   "Five-basis implementation",
   "Additive-basis implementation",
 ];
-const familySlug = (id: string) =>
-  familyNames[id].toLowerCase().replace(/[^a-z0-9]+/g, "-");
 const repeatLabel = (repeat: string) => `Repeat ${Number(repeat.slice(1)) + 1}`;
 const repository = "https://github.com/Litju/CMJRecoveryDynamicsBench";
 const source = (path: string) => `${repository}/blob/${atlas.commit}/${path}`;
@@ -319,7 +307,7 @@ export default function Gate7Atlas() {
               </dd>
               <dt>Predicted quantities</dt>
               <dd>
-                Force innovation (N/kg), then impulse innovation (m/s). Identity
+                Mean concentric-force innovation (N/kg), then net-impulse innovation (m/s). Identity
                 output transform; baseline addition is separate.
               </dd>
               <dt>Reproduction evidence</dt>
