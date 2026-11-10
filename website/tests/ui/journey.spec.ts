@@ -6,6 +6,8 @@ test("the persistent 3D stage follows every chapter and scroll changes its actua
     const errors: string[] = [];
     page.on("pageerror", (e) => errors.push(e.message));
     await page.goto("/");
+    // The research overview now precedes the story; bring the story into view first.
+    await page.locator("#intro").evaluate((e) => e.scrollIntoView({ block: "start", behavior: "instant" }));
     const stage = page.locator(".journey-stage");
     const canvas = stage.locator("canvas");
     await expect(canvas).toBeVisible();
@@ -15,8 +17,15 @@ test("the persistent 3D stage follows every chapter and scroll changes its actua
         await expect(stage.locator('a[aria-current="step"]')).toHaveAttribute("href", `#${chapter.id}`);
         await expect(stage.locator("h2")).toHaveText(chapter.title);
         const box = (await stage.boundingBox())!;
-        expect(box.y).toBeGreaterThanOrEqual(79);
-        expect(box.y).toBeLessThan(100);
+        if (chapter.id === chapters[0].id) {
+            // The overview precedes the story, so the opening chapter shows the stage at its natural
+            // position (18 px below the section) before it pins; later chapters pin below the header.
+            const section = (await page.locator(`#${chapter.id}`).boundingBox())!;
+            expect(Math.abs(box.y - (section.y + 18))).toBeLessThan(2);
+        } else {
+            expect(box.y).toBeGreaterThanOrEqual(79);
+            expect(box.y).toBeLessThan(100);
+        }
     }
     await page.locator("#world").evaluate((e) => e.scrollIntoView({ block: "start", behavior: "instant" }));
     await expect(stage).toHaveAttribute("data-chapter", "world");
