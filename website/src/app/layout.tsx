@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
 import { brand } from "@/lib/brand";
+import "./tokens.css";
 import "./globals.css";
 import "./editorial.css";
+import "./publication.css";
 export const metadata: Metadata = {
-  title: `${brand.name} — Recovery research atlas`,
+  title: `${brand.name} — Countermovement-jump recovery research companion`,
   description: brand.description,
   robots: { index: false, follow: false },
   openGraph: {

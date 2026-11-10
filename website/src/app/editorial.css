@@ -1,20 +1,4 @@
 /* A scientific field journal: solid colour, visible hierarchy, no decorative gradients. */
-:root {
-  --paper: #f3f0e7;
-  --ink: #202c33;
-  --cobalt: #2854b8;
-  --vermilion: #b6422b;
-  --ochre: #e8bd60;
-  --bg: var(--paper);
-  --panel: #fffdf7;
-  --line: #cecec4;
-  --text: var(--ink);
-  --muted: #566169;
-  --mint: var(--cobalt);
-  --lavender: var(--vermilion);
-  --editorial: Georgia, "Times New Roman", serif;
-  color-scheme: light;
-}
 body {
   background: var(--paper);
   color: var(--ink);
@@ -2653,10 +2637,9 @@ html { scroll-padding-top: 0; }
 .journey-content .story-progress { position: relative; top: auto; }
 .journey-content .story-progress .shell { gap: 15px; overflow-x: auto; }
 .journey-content .story-progress a { white-space: nowrap; }
-.journey-content .question-layout, .journey-content .measurement-workbench, .journey-content .context-research-grid, .journey-content .exposure-context, .journey-content .world-purpose, .journey-content .instrument-interlude, .journey-content .experiment-layout, .journey-content .history-reader, .journey-content .study-settings, .journey-content .quick-route { grid-template-columns: 1fr; }
+.journey-content .question-layout, .journey-content .measurement-workbench, .journey-content .exposure-context, .journey-content .world-purpose, .journey-content .instrument-interlude, .journey-content .experiment-layout, .journey-content .history-reader, .journey-content .quick-route { grid-template-columns: 1fr; }
 .journey-content #experiment, .journey-content #explorer { width: calc(100% - 32px); padding: 36px 24px; }
 .journey-content .section-heading { flex-wrap: wrap; }
-.journey-content .explorer-layout, .journey-content .lab-layout { grid-template-columns: 1fr; }
 .journey-content .editorial-heading { font-size: clamp(38px, 4vw, 58px); }
 .journey-content [id] { scroll-margin-top: 100px; }
 .journey-content .section > .eyebrow { position: relative; }

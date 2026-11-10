@@ -16,15 +16,25 @@ The title and visual identity are provisional. The exhibit is a portfolio and re
 | --- | --- |
 | ![Desktop view of the interactive research exhibition](docs/screenshots/desktop-hero.png) | ![Mobile view of the interactive research exhibition](docs/screenshots/mobile-hero.png) |
 
+## Research areas
+
+| Area | Route | What it contains |
+| --- | --- | --- |
+| Overview | `/` | Research summary, the three research questions with verified findings, limitations, then the original interactive story (episode theater, lineage, benchmark explorer, Recovery Lab, model atlas) |
+| Research paper | `/paper/` | Abstract, documents (served PDFs with SHA-256), section guide with page links, figure list, data-availability statement, citation guidance |
+| Results | `/results/` | Fig. 6 six-cell comparison, Fig. 7 heatmap, Fig. 8 stored bootstrap intervals, Fig. 9 ablations and nested camps |
+| Recovered models | `/models/` | Fig. 3 M0–M8 architectures, Fig. 4 numerical qualification of 18 routes |
+| Methods | `/methods/` | Fig. 1 genealogy, Fig. 2 synthetic design, Fig. 5 analytical force–time mechanics and chronology |
+| Evidence | `/evidence/` | Fig. 10 evidence boundary, figure → manuscript → source mapping, pinned input digests, reproduction commands, citation identities |
+
+Every figure states its research question, links its manuscript page and receipt, shows exact values in a readout and a data table, lists limitations, and exports SVG, CSV and JSON. Figure state is shareable in the URL, for example `/results/?f7root=B#fig-7`. Existing deep links (`/#explorer`, `/?architecture=additive-basis-model&run=2#model-atlas`) are unchanged.
+
 ## Take a 90-second tour
 
-1. Choose **Start the story** and follow the short route through the research question.
-2. In the Synthetic Episode Theater, switch between the forecast-origin and later-observer views. Scrub the events and open the methods notes to see which information is available to a forecast.
-3. Follow the eight source-defined formulations. Open a node to inspect its question, status, parent evidence and limitations.
-4. In the explorer, select a model, root, horizon, outcome and metric. Every plotted value comes from the pinned receipt; the 3D view and exact-value matrix use the same controls.
-5. Open the Recovery Lab to change two mathematical modes and inspect their response, derivative and signed integral. These curves are illustrations, not model predictions.
-
-The persistent 3D stage follows the story on desktop and moves above it on mobile. Scrolling remains native. Reduced motion, unavailable WebGL and graphics-context loss retain text, 2D plots and exact numerical alternatives. [The screenshot gallery](docs/SCREENSHOTS.md) shows desktop and mobile chapters and expanded research states.
+1. Open **Read the research paper** on the overview for the PDF, or **Explore scientific results** for the interactive figures.
+2. In Fig. 6, switch roots and the axis range; select a panel to read its exact values. In Fig. 7, Tab to any heatmap cell and press Enter.
+3. On **Recovered models**, compare two architectures and select a route to read its recorded qualification.
+4. Back on the overview, the original story still walks through the measurement, the synthetic world, the eight formulations, the 96-view benchmark explorer and the Recovery Lab. These illustrations are not model predictions.
 
 ## Run locally
 
@@ -65,12 +75,14 @@ The active fixed-mode comparison is a **new synthetic diagnostic study** with th
 
 | Path | Role |
 | --- | --- |
-| `src/app/` | Single-page App Router entry, metadata and styles |
-| `src/components/` | Story, measurements, lineage, explorer, mathematical lab and optional WebGL scenes |
+| `src/app/` | App Router pages (`/`, `/paper/`, `/results/`, `/models/`, `/methods/`, `/evidence/`), metadata and styles (`tokens.css` → legacy `globals.css`/`editorial.css` → `publication.css`) |
+| `src/components/` | Site shell, research overview, story, measurements, lineage, explorer, mathematical lab and optional WebGL scenes |
+| `src/components/figures/` | Manuscript-linked figure system (`FigureFrame`, `chart-kit`) and Figs. 1–10 |
 | `src/lib/` | Receipt selectors, chart geometry, chapter state and mathematical calculations |
 | `src/data/` | Build-time JSON fixtures imported by the page and components |
 | `source/` | Read-only scientific source snapshots, receipts, manifests and citation metadata |
-| `scripts/prepare-data.mjs` | Verifies pinned source hashes and deterministically writes the public fixtures |
+| `scripts/prepare-data.mjs` | Verifies pinned source hashes and deterministically writes the historical M8 fixtures |
+| `scripts/prepare-manuscript.mjs` | Verifies the V3 manuscript package digests, writes `src/data/manuscript.json` and copies the paper PDFs into the export |
 | `tests/` | Scientific assertions and production-browser interaction/accessibility checks |
 | `docs/` | Architecture, science, deployment, validation and screenshots |
 

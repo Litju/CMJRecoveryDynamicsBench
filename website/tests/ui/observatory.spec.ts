@@ -41,7 +41,7 @@ test("all 96 model, root, horizon, and outcome combinations show exact sourced v
         for (const outcome of ["force", "impulse"]) {
           await page
             .getByRole("button", {
-              name: outcome === "force" ? "Force" : "Net impulse",
+              name: outcome === "force" ? "Mean concentric force" : "Net impulse",
               exact: true,
             })
             .click();

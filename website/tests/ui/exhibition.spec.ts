@@ -56,7 +56,10 @@ test("episode boundary, all events and layers, keyboard, playback and reset", as
     .getByRole("button", { name: "Net-impulse area", exact: true })
     .click();
   await expect(page.locator(".measurement-lens")).toContainText("J/m =");
-  await page.getByRole("button", { name: "Mean force", exact: true }).click();
+  await page
+    .getByRole("group", { name: "Measurement lens" })
+    .getByRole("button", { name: "Mean concentric force", exact: true })
+    .click();
   await expect(page.locator(".measurement-lens")).toContainText(
     "divided by phase duration",
   );

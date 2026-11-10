@@ -22,7 +22,9 @@ Research paper (current)
 
 Interactive companion
     The `Recovery Observatory <https://recovery-observatory.vercel.app>`_ is the
-    source-backed interactive research exhibit (``website/``).
+    paper's interactive companion (``website/``): all ten manuscript figures as
+    source-backed interactive charts with data tables and exports, organised into
+    overview, paper, results, recovered models, methods and evidence areas.
 
 Everything else
     ``docs/INDEX.md`` is the single navigation index for the software, public
@@ -220,9 +222,10 @@ Research documentation and presentation
 ---------------------------------------
 
 The navigable public documentation index is ``docs/INDEX.md``. The Recovery
-Observatory includes the public synthetic benchmark explorer, a separate original
-model/repeat atlas, native mechanics, assessment windows and an explicit evidence
-boundary. Its public contracts are
+Observatory links the current manuscript and presents its ten figures as
+interactive, hash-pinned charts, alongside the public synthetic benchmark explorer,
+a separate original model/repeat atlas, native mechanics, assessment windows and an
+explicit evidence boundary. Its public contracts are
 pinned independently of the historical M8 synthetic receipts. See
 ``website/docs/SCIENCE_AND_DATA.md`` for figure sources and
 ``website/docs/GATE7_ATLAS.md`` for the model atlas.

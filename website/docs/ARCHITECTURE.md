@@ -1,6 +1,6 @@
 # Architecture
 
-The showcase is one statically exported Next.js App Router page. It has no API, database, authentication, analytics, model-serving service or runtime environment variables.
+The showcase is a statically exported Next.js App Router site with six routes: `/` (overview and the original interactive story), `/paper/`, `/results/`, `/models/`, `/methods/` and `/evidence/`. `trailingSlash: true` emits each route as `<route>/index.html` so any static host serves it. It has no API, database, authentication, analytics, model-serving service or runtime environment variables.
 
 ## Render and interaction flow
 
@@ -28,6 +28,14 @@ scripts/prepare-data.mjs ── SHA-256 checks ──► src/data/*.json
 - [`src/lib/decay.mjs`](../src/lib/decay.mjs) and [`src/lib/response-geometry.mjs`](../src/lib/response-geometry.mjs) compute the explicitly illustrative two-mode response and chart geometry.
 - [`src/lib/journey.ts`](../src/lib/journey.ts) and [`src/components/scroll-journey.tsx`](../src/components/scroll-journey.tsx) map native scroll position to the persistent stage. Scene selection dispatches to the existing model or formulation controls.
 - [`src/components/scene-primitives.tsx`](../src/components/scene-primitives.tsx) owns shared Three.js camera controls, labels, lighting and context-loss handling. Focused scenes load near their chapter and provide source-backed 2D/text alternatives.
+
+## Manuscript figure system
+
+`scripts/prepare-manuscript.mjs` compiles `src/data/manuscript.json` from the hash-pinned V3 package and copies the paper PDFs into `public/paper/` (generated, git-ignored, verified on every build). `src/lib/manuscript.ts` is the only typed accessor; components never recompute scientific values. `src/components/figures/figure-frame.tsx` gives each figure the same contract (question, manuscript page, readout, interpretation, limitations, data table, receipt, SVG/CSV/JSON export), and `chart-kit.tsx` provides shared SVG primitives. Figure state lives in the query string via `src/lib/use-url-state.ts`.
+
+## Styles
+
+`tokens.css` is the single source of colour, type and spacing tokens. It replaced two competing `:root` blocks (a dark palette that `editorial.css` fully overrode). The legacy `globals.css` and `editorial.css` still style the original story. `publication.css` styles the shell, the six research areas and the figure system on the tokens only. Measured-unused selectors were removed, as was a duplicate `@font-face`. The remaining "unused" names are runtime Recharts classes and the dynamic `reading-*` classes.
 
 ## Data and state boundaries
 

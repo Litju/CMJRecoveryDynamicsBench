@@ -14,11 +14,11 @@ import { sourceLink } from "@/lib/science";
 const readings = [
   {
     id: "force",
-    label: "01 / Mean force",
+    label: "01 / Mean concentric force",
     title: "How forcefully was the push expressed?",
     unit: "N/kg",
     symbol: "F̄ / m",
-    formula: "Mean relative force = (1 / T) ∫ (F(t) / m) dt",
+    formula: "Gross mean concentric force = (1 / T) ∫ (F(t) / m) dt",
     what: "The force plate records vertical ground-reaction force. Divide by body mass and average over the concentric push-off phase.",
     why: "It describes the average force expressed during that phase. It is a mechanical measurement, not a direct measurement of fatigue or readiness.",
     how: "Use one consistently defined phase. Here, concentric onset is the lowest centre-of-mass point where vertical velocity changes from non-positive to positive; the phase ends at take-off.",
@@ -31,7 +31,7 @@ const readings = [
     symbol: "J / m",
     formula: "J / m = ∫ (F(t) / m − g) dt = (F̄ / m − g) T",
     what: "Subtract gravitational acceleration from the force-per-mass signal, then integrate over the same concentric phase. Time is part of this measurement.",
-    why: "Two pushes with the same mean force can produce different net impulses if their durations differ. This quantity captures the net change in vertical velocity over the phase.",
+    why: "Two pushes with the same gross mean force can produce different net impulses if their durations differ. This quantity captures the net change in vertical velocity over the phase.",
     how: "Force and impulse must describe the same movement interval. The phase-consistent formulation enforces that relationship, rather than constructing unrelated scalar outcomes.",
   },
   {
@@ -41,7 +41,7 @@ const readings = [
     unit: "same units as the outcome",
     symbol: "ΔY(h)",
     formula: "Innovation at horizon h = assessment(h) − pre-exposure baseline",
-    what: "The prediction target is a difference from a dedicated pre-exposure assessment. There is one force innovation and one net-impulse innovation at each requested horizon.",
+    what: "The prediction target is a difference from a dedicated pre-exposure assessment. There is one mean concentric-force innovation (N/kg) and one net-impulse innovation (m/s) at each requested horizon.",
     why: "Predicting change asks a more specific question than predicting an absolute measurement: what does this known exposure and observed history tell us about the later assessment?",
     how: "The active synthetic observation averages three valid paired trials per assessment. The same baseline is the reference for H24, H48 and H72. Zero innovation means no change from baseline, not zero force.",
   },
@@ -134,7 +134,7 @@ export default function MeasurementExhibit() {
               <svg
                 viewBox="0 0 640 265"
                 role="img"
-                aria-label={`Schematic force-time diagram, not an athlete trial. ${selected === "force" ? "Mean force averages the force over the phase." : "The area above the gravity reference represents net impulse."}`}
+                aria-label={`Schematic force-time diagram, not an athlete trial. ${selected === "force" ? "Gross mean concentric force averages the force over the phase." : "The area above the gravity reference represents net impulse."}`}
               >
                 {[55, 115, 175, 225].map((y) => (
                   <line
