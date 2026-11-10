@@ -2,6 +2,21 @@
 
 This site is a research exhibition over frozen, public synthetic evidence. It is not an athlete-monitoring product, an empirical CMJ study or a production recovery-score implementation.
 
+## Current paper
+
+The site accompanies the [V3 full illustrated research manuscript](../../docs/manuscript/v3/full_illustrated_research_manuscript.pdf). It is an unsubmitted research draft with no journal publication, peer review or DOI. Its figures are generated from the hash-pinned files in [`docs/manuscript/v3/evidence/`](../../docs/manuscript/v3/evidence/), whose release sources come from the immutable v1.1.0 source `401f87a`. The website must use the same terminology as that paper.
+
+## Force-outcome terminology
+
+| Layer | Identity | Use |
+| --- | --- | --- |
+| Reader-facing name | **Mean concentric-force innovation (N/kg)** | Labels, axes, tooltips, captions, accessible names |
+| Definition | Criterion-assessment mean minus baseline-assessment mean of gross time-mean concentric force per unit body mass, each assessment averaging three simulated trials | Methods text |
+| Registered evaluation key | `relative_peak_mean_force_innovation` | Frozen receipts, fixture keys, compatibility code — never renamed |
+| Generated target | `label.relative_mean_concentric_force_innovation` | Frozen study data |
+
+The legacy key contains the word "peak" for historical reasons only; the quantity is not peak force and not gravity-adjusted net impulse. The public synthetic H24/H48/H72 six-cell experiment is separate from the original native H72/D7 four-cell evaluation; their scores are never combined.
+
 ## Authority and reproducibility
 
 The preserved scientific source is [`Litju/CMJRecoveryDynamicsBench`](https://github.com/Litju/CMJRecoveryDynamicsBench) at commit [`3dc4c82f0c948add6e4a9ebdebfd227933c823d3`](https://github.com/Litju/CMJRecoveryDynamicsBench/tree/3dc4c82f0c948add6e4a9ebdebfd227933c823d3). It is not a submodule and is not modified by this website task.
@@ -20,7 +35,7 @@ The preserved scientific source is [`Litju/CMJRecoveryDynamicsBench`](https://gi
 
 The default explorer exposes four variants and three public roots (A, B and C): zero innovation, training constant, full ridge and fixed-mode structured. The fixture also preserves 17 receipt-reported variants for methods and sample-efficiency comparisons.
 
-The registered active metric is the **mean of six cellwise NRMSE values**: mean-force innovation and net-impulse innovation at H24, H48 and H72. For each outcome/horizon cell, NRMSE is RMSE divided by that cell's truth population standard deviation (`ddof=0`). The six cells receive equal weight; force and impulse RMSE stay in their separate units. A root score is the mean of its six ratios. The across-root summary is the mean of the three root scores; its root-to-root sample standard deviation uses `ddof=1`.
+The registered active metric is the **mean of six cellwise NRMSE values**: mean concentric-force innovation (N/kg) and net-impulse innovation (m/s) at H24, H48 and H72. For each outcome/horizon cell, NRMSE is RMSE divided by that cell's truth population standard deviation (`ddof=0`). The six cells receive equal weight; force and impulse RMSE stay in their separate units. A root score is the mean of its six ratios. The across-root summary is the mean of the three root scores; its root-to-root sample standard deviation uses `ddof=1`.
 
 | Displayed variant | Across-root mean six-cell NRMSE |
 | --- | ---: |

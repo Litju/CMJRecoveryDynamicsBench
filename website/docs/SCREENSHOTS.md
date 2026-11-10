@@ -9,7 +9,7 @@ Focused chapter captures suppress the persistent stage, sticky navigation and of
 | Force-plate hero | [View](screenshots/desktop-hero.png) | [View](screenshots/mobile-hero.png) |
 | 90-second route | [View](screenshots/desktop-quick-route.png) | [View](screenshots/mobile-quick-route.png) |
 | Research question | [View](screenshots/desktop-question.png) | [View](screenshots/mobile-question.png) |
-| Apparatus and mean-force explanation | [View](screenshots/desktop-apparatus.png) | [View](screenshots/mobile-apparatus.png) |
+| Apparatus and mean concentric-force explanation | [View](screenshots/desktop-apparatus.png) | [View](screenshots/mobile-apparatus.png) |
 | Net-impulse area | [View](screenshots/desktop-impulse.png) | [View](screenshots/mobile-impulse.png) |
 | Baseline-relative innovation | [View](screenshots/desktop-innovation.png) | [View](screenshots/mobile-innovation.png) |
 | Public exposure context | [View](screenshots/desktop-exposure.png) | [View](screenshots/mobile-exposure.png) |

@@ -1,5 +1,17 @@
 # Changelog
 
+## Unreleased — documentation and website only
+
+No Python package code, release artifact or scientific result changes.
+
+- Documentation now has one path to the current V3 research paper
+  (`docs/manuscript/v3/full_illustrated_research_manuscript.pdf`), an unsubmitted
+  research draft. The M10 (V2) export is labeled historical evidence.
+- Reader-facing force-outcome wording is *mean concentric-force innovation (N/kg)*;
+  the registered key `relative_peak_mean_force_innovation` is unchanged.
+- Current software citation guidance points to the root `CITATION.cff` (1.1.0); the
+  website's historical M8 citation copy stays pinned to its source commit.
+
 ## 1.1.0 — 2026-11-04
 
 This release packages the Gate7 engineering interfaces integrated into `main`.
