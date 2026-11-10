@@ -20,9 +20,9 @@
       "fig:workflow",
       "fig:architecture",
       "fig:numerical",
-      "fig:chronology",
-      "fig:mechanics",
+      "fig:biomech",
       "fig:performance",
+      "fig:heatmap",
       "fig:uncertainty",
       "fig:ablation",
       "fig:scope"
@@ -30,14 +30,14 @@
   },
   "private_boundary": true,
   "claims_differential_audit": {
-    "current_claim_units": 500,
-    "substantive_claim_units": 488,
-    "administrative_disclosures": 12,
+    "current_claim_units": 488,
+    "substantive_claim_units": 485,
+    "administrative_disclosures": 3,
     "differential_status_counts": {
-      "modified": 305,
-      "new": 17,
-      "retained": 166,
-      "administrative_disclosure": 12,
+      "modified": 312,
+      "new": 45,
+      "retained": 128,
+      "administrative_disclosure": 3,
       "removed": 3
     },
     "historical_v2_rows_preserved": 553,
@@ -45,9 +45,8 @@
     "independent_human_review": false
   },
   "v2_preservation": {
-    "available": true,
-    "checked": true,
-    "files_unchanged": 139
+    "available": false,
+    "checked": false
   },
   "build_outputs": {
     "pdfs": [
@@ -58,16 +57,16 @@
     "figures": 10,
     "quantitative_figure_receipts": 9,
     "primary_figure_pages": {
-      "1": 4,
-      "2": 5,
-      "3": 6,
-      "4": 7,
-      "5": 8,
-      "6": 9,
-      "7": 12,
-      "8": 14,
-      "9": 15,
-      "10": 16
+      "1": 3,
+      "2": 3,
+      "3": 5,
+      "4": 6,
+      "5": 7,
+      "6": 8,
+      "7": 9,
+      "8": 10,
+      "9": 10,
+      "10": 11
     },
     "page_render_sets": 3
   }

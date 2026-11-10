@@ -12,7 +12,7 @@
   "grouping": "Model variant × root; nested training sets contain 24, 48, or 96 camps and use the full-data-selected alpha.",
   "sample_sizes": "Three evaluation roots; each has 16 camps. Training subset sizes are 24/48/96 camps.",
   "uncertainty": "No interval; root-specific diagnostics are descriptive and do not identify causal feature effects or athlete sample efficiency.",
-  "caption_tex": "Recorded ablation and nested-camp comparisons. Panel A shows the three evaluation-root values and their mean for full ridge regression and variants without prior history, current exposure, or participant context. The structured comparator without prior history is shown as a separate diagnostic. Panel B shows root-specific scores for ridge regression and the structured comparator trained on nested subsets of 24, 48, or 96 camps; the regularization parameter selected on the full training and development data was held fixed. All values are dimensionless six-cell NRMSE within the same synthetic generator. No confidence intervals are shown; these comparisons do not isolate causal feature effects or estimate athlete-level sample efficiency.",
+  "caption_tex": "Recorded ablation and nested-camp comparisons. (a) Evaluation-root values (A circle, B square, C triangle) and means for full ridge regression and variants without prior history, current exposure or participant context, plus the structured comparator without prior history; parentheses give the change in the mean from full ridge. (b) Root-specific and mean scores for ridge regression (solid) and the structured comparator (dashed) trained on nested subsets of 24, 48 or 96 camps, with the regularization parameter selected on the full training and development data held fixed. All values are dimensionless six-cell NRMSE within the same synthetic generator. No intervals are shown; these comparisons do not isolate causal feature effects or estimate athlete-level sample efficiency.",
   "input_digests": {
     "release_source_manifest_sha256": "aa2fc106da8f69b99b4aa9953e48f069d648ea56398d6a607114e5e45c97d3f1",
     "release_sources": {
@@ -28,14 +28,16 @@
       }
     },
     "local_data": {},
-    "figure_generator_sha256": "2b2f1c987eb91f97f3e6517917ce26c236896e582133442f49375b0a40ca4d5a",
-    "manuscript_source_sha256": "9bbfe55dab4333c7edde2753e3dda7983cf5678754294007df660f0c028ba97e"
+    "figure_generator_sha256": "676514c3640d9e008cab7470497272dbc6c0320922ab821a0d3d4042b5bc4c48",
+    "figure_style_module_sha256": "81b59c7621ebc9854e9897e39ef22a263b35cb1218b8d8fdaed725264d814548",
+    "manuscript_source_sha256": "8f8180f29bb14c624c5cac16044dc83e079f153d20f37232fdfceebbfc5bb325"
   },
-  "figure_pdf_sha256": "ce4d4b761cfa16149c89e16d36b893cbb2f176e429c9d1e6d23629bf50b7209a",
+  "figure_pdf_sha256": "3361f0a867cb802ee8cf275c4ed24114709c233293e4c8e1c071603cde5095bb",
   "numerical_test": {
     "id": "ablations_and_nested_camp_values_match_receipt",
     "passed": true,
     "checks": {
+      "heatmap_and_biomechanics_checks": true,
       "training_and_development_split_counts": true,
       "architecture_families_and_parameter_counts": true,
       "18_route_cpu_and_cuda_counts": {

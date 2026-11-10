@@ -12,7 +12,7 @@
   "grouping": "Training, development, and each of three fixed evaluation roots; H24/H48/H72 queries stay within episode.",
   "sample_sizes": "Training 96 camps/24,000 episodes/72,000 rows; development 16/4,000/12,000; each evaluation root 16/4,000/12,000.",
   "uncertainty": "Not applicable; these are fixed generator sample counts.",
-  "caption_tex": "Sample structure of the existing public fixed-mode synthetic study. Counts are shown separately for camps, episodes, and horizon rows. Training contains 96 camps, 24,000 episodes, and 72,000 rows; development contains 16 camps, 4,000 episodes, and 12,000 rows; each of three fixed evaluation roots contains 16 camps, 4,000 episodes, and 12,000 rows. Each episode contributes grouped H24, H48, and H72 queries. The roots share one generator and are not human cohorts.",
+  "caption_tex": "Structure of the existing public fixed-mode synthetic study. (a) Each square is one camp (250 episodes, 750 horizon rows): 96 training camps, 16 development camps, and three fixed evaluation roots of 16 camps each. (b) Horizon-row counts per split, with episode counts (training 24,000; development and each root 4,000; three rows per episode). (c) Each episode contributes H24, H48 and H72 queries that remain in one split. Participant, episode, query and camp identities are checked for split separation; group keys, labels, future target-time fields and hidden or oracle states are excluded from predictors. The roots share one generator and are not human cohorts.",
   "input_digests": {
     "release_source_manifest_sha256": "aa2fc106da8f69b99b4aa9953e48f069d648ea56398d6a607114e5e45c97d3f1",
     "release_sources": {
@@ -28,14 +28,16 @@
       }
     },
     "local_data": {},
-    "figure_generator_sha256": "2b2f1c987eb91f97f3e6517917ce26c236896e582133442f49375b0a40ca4d5a",
-    "manuscript_source_sha256": "9bbfe55dab4333c7edde2753e3dda7983cf5678754294007df660f0c028ba97e"
+    "figure_generator_sha256": "676514c3640d9e008cab7470497272dbc6c0320922ab821a0d3d4042b5bc4c48",
+    "figure_style_module_sha256": "81b59c7621ebc9854e9897e39ef22a263b35cb1218b8d8fdaed725264d814548",
+    "manuscript_source_sha256": "8f8180f29bb14c624c5cac16044dc83e079f153d20f37232fdfceebbfc5bb325"
   },
-  "figure_pdf_sha256": "49b11442915484fa42f12af1a634fa81ae80308329b6edd0743ba65b041a2d38",
+  "figure_pdf_sha256": "796e27d041572a9e31652344be7ec81cfdc510f16ee62749d1f660aab91fc716",
   "numerical_test": {
     "id": "sample_split_counts_match_pinned_receipt",
     "passed": true,
     "checks": {
+      "heatmap_and_biomechanics_checks": true,
       "training_and_development_split_counts": true,
       "architecture_families_and_parameter_counts": true,
       "18_route_cpu_and_cuda_counts": {

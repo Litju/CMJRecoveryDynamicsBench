@@ -1,41 +1,45 @@
 {
   "figure": "Fig6",
-  "title": "Analytical vertical force-time measurement illustration",
-  "source_label": "fig:mechanics",
-  "population": "Equation-generated analytical signal; not athlete data.",
+  "title": "Four-model synthetic performance across six outcome-horizon cells",
+  "source_label": "fig:performance",
+  "population": "Four reference models evaluated on three fixed roots from one public synthetic generator.",
   "source_ids": [
-    "S09",
-    "S21"
+    "S01",
+    "S23"
   ],
-  "metric": "Vertical force over concentric time; shaded gross force and signed force-minus-bodyweight areas illustrate separate measurement definitions.",
-  "units": "Force N; mass kg; time s; gross mean force N/kg; net impulse m/s.",
-  "grouping": "One piecewise analytical curve with onset, peak, and takeoff boundaries.",
-  "sample_sizes": "361 evenly spaced time points for display; no empirical sample.",
-  "uncertainty": "Not applicable; deterministic mathematical illustration.",
-  "caption_tex": "Analytical vertical force-time illustration, not observed athlete data. The displayed signal is generated with \\(m=\\SI{70}{\\kilogram}\\), \\(g=\\SI{9.80665}{\\meter\\per\\second\\squared}\\), \\(A=\\SI{1000}{\\newton}\\), peak time \\(t_p=\\SI{0.22}{\\second}\\), and \\(T=\\SI{0.55}{\\second}\\). For \\(0\\leq t\\leq t_p\\), \\(F_z(t)=mg+A\\sin(\\pi t/(2t_p))\\); for \\(t_p<t\\leq T\\), \\(F_z(t)=(mg+A)[1-(t-t_p)/(T-t_p)]\\). Concentric onset is \\(t=0\\), and takeoff is \\(t=T\\). The area under \\(F_z\\) defines gross mean force after division by \\(mT\\); the signed area between \\(F_z\\) and \\(mg\\) defines net impulse after division by \\(m\\). Units are N, kg, s, N/kg, and m/s as labeled.",
+  "metric": "Cellwise NRMSE: RMSE divided by that cell's population SD; three root values and the stored root mean are shown.",
+  "units": "NRMSE dimensionless; mean concentric-force target N/kg and net-impulse target m/s remain separate cells.",
+  "grouping": "Four reference models x three horizons x two outcomes x three fixed evaluation roots.",
+  "sample_sizes": "Each root has 16 camps, 4,000 episodes, and 12,000 horizon rows; 4,000 rows per outcome-horizon cell.",
+  "uncertainty": "No confidence interval; root points and their stored mean show descriptive variation across these three fixed same-generator roots.",
+  "caption_tex": "Existing public fixed-mode synthetic benchmark across six outcome-horizon cells. Each panel shows, for the zero-innovation baseline, training-mean baseline, ridge regression and structured comparator, the three fixed evaluation roots (A circle, B square, C triangle; offset horizontally only to separate marks) and the stored mean (black bar, value printed). Rows are H24, H48 and H72; columns are mean concentric-force innovation (\\si{\\Nkg} target) and net-impulse innovation (\\si{\\mps} target). The force cells retain the legacy registered identifier \\ident{relative_peak_mean_force_innovation}, but the target is mean, not peak, concentric force. The vertical axis is cellwise NRMSE (dimensionless) on a common scale; the dashed line marks NRMSE\\,=\\,1. Each root contains 16 camps and 4,000 rows per cell. Points and means describe three fixed same-generator roots, not confidence intervals or human cohorts.",
   "input_digests": {
     "release_source_manifest_sha256": "aa2fc106da8f69b99b4aa9953e48f069d648ea56398d6a607114e5e45c97d3f1",
     "release_sources": {
-      "S09": {
-        "path": "docs/GATE7_NATIVE_MEASUREMENT_V1.md",
+      "S01": {
+        "path": "docs/M8_FIXED_MODE_PUBLIC_REFERENCE_RESULTS.json",
         "commit": "401f87aad1e4ef4108011fa0c1d769a24f1ad329",
-        "sha256": "0128429365c9f2133e6e7ab61ba62a1d83ba67f46592984f9e733b9b29bef725"
+        "sha256": "cd991366c30a29723318b034bcbacff357544eff8d529678fcdcd849b0f08ce9"
       },
-      "S21": {
-        "path": "src/cmj_recovery_dynamics/observations/native_mechanics.py",
+      "S23": {
+        "path": "src/cmj_recovery_dynamics/studies/fixed_mode_reference_study.py",
         "commit": "401f87aad1e4ef4108011fa0c1d769a24f1ad329",
-        "sha256": "3a95f0a075115b52fb6c7a9d76840273b87804bd2c757b0981e659e3bcc8c40a"
+        "sha256": "ab6d349747b54ee606066d56b5da91f33dc9b2d6b6ad18538e14513ab08accd7"
       }
     },
-    "local_data": {},
-    "figure_generator_sha256": "2b2f1c987eb91f97f3e6517917ce26c236896e582133442f49375b0a40ca4d5a",
-    "manuscript_source_sha256": "9bbfe55dab4333c7edde2753e3dda7983cf5678754294007df660f0c028ba97e"
+    "local_data": {
+      "evidence/v2_audit/six_cell_results.csv": "4fb48c36a008cfce188b7c53b5c8c3a012e91f2688d0a1f2e5b026c158ef4d2c"
+    },
+    "figure_generator_sha256": "676514c3640d9e008cab7470497272dbc6c0320922ab821a0d3d4042b5bc4c48",
+    "figure_style_module_sha256": "81b59c7621ebc9854e9897e39ef22a263b35cb1218b8d8fdaed725264d814548",
+    "manuscript_source_sha256": "8f8180f29bb14c624c5cac16044dc83e079f153d20f37232fdfceebbfc5bb325"
   },
-  "figure_pdf_sha256": "544f4aa0cec92a8f8d8d2642302d953b37af702037ceef20ede67632b1918b69",
+  "figure_pdf_sha256": "66f71717a1060a3ba8d268af407d3b512273c4b899246b508f72d15d22e20384",
   "numerical_test": {
-    "id": "analytical_curve_endpoints_and_signed_integral_are_valid",
+    "id": "all_24_cell_root_values_means_and_sample_sds_match_receipt",
     "passed": true,
     "checks": {
+      "heatmap_and_biomechanics_checks": true,
       "training_and_development_split_counts": true,
       "architecture_families_and_parameter_counts": true,
       "18_route_cpu_and_cuda_counts": {

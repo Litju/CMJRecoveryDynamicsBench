@@ -1,11 +1,13 @@
 \ifdefined\ReviewEdition
   \documentclass[12pt,a4paper]{article}
 \else
-  \documentclass[11pt,a4paper]{article}
+  \documentclass[9pt,a4paper,twocolumn]{extarticle}
 \fi
 
 \usepackage[T1]{fontenc}
-\usepackage{newtxtext,newtxmath}
+\usepackage{newpxtext,newpxmath}
+\usepackage{fontspec}
+\setsansfont[Extension=.otf,UprightFont=*-regular,BoldFont=*-bold,ItalicFont=*-italic,BoldItalicFont=*-bolditalic,Scale=0.92]{texgyreheros}
 \usepackage{microtype}
 \usepackage{amsmath,mathtools}
 \usepackage{siunitx}
@@ -16,52 +18,91 @@
 \usepackage{setspace}
 \usepackage{lineno}
 \usepackage{caption}
+\usepackage{xcolor}
 \usepackage{xurl}
 \usepackage{hyperref}
 \usepackage{geometry}
-\setlength{\textfloatsep}{11pt plus 3pt minus 2pt}
-\setlength{\floatsep}{10pt plus 2pt minus 2pt}
-\setlength{\intextsep}{10pt plus 2pt minus 2pt}
-\renewcommand{\topfraction}{0.92}
-\renewcommand{\bottomfraction}{0.82}
-\renewcommand{\textfraction}{0.08}
-\renewcommand{\floatpagefraction}{0.72}
-
 \ifdefined\ReviewEdition\else
-  \makeatletter
-  \setlength{\@fptop}{0pt}
-  \makeatother
+  \usepackage{titlesec,fancyhdr,dblfloatfix,flushend}
 \fi
+
+\definecolor{ink}{HTML}{17212B}
+\definecolor{cobalt}{HTML}{1F4FA3}
+\definecolor{vermilion}{HTML}{C4452E}
+\definecolor{rule}{HTML}{C9D0D6}
+\definecolor{mid}{HTML}{5F6A74}
 
 \ifdefined\ReviewEdition
   \geometry{a4paper,margin=25.4mm}
+  \setlength{\textfloatsep}{11pt plus 3pt minus 2pt}
+  \setlength{\floatsep}{10pt plus 2pt minus 2pt}
+  \setlength{\intextsep}{10pt plus 2pt minus 2pt}
 \else
-  \geometry{a4paper,margin=20mm}
+  \geometry{a4paper,top=18mm,bottom=19mm,left=15mm,right=15mm,columnsep=6mm,headheight=11pt,headsep=7mm,footskip=9mm}
+  \setlength{\parindent}{1.1em}
+  \setlength{\parskip}{0pt}
+  \setlength{\textfloatsep}{9pt plus 2pt minus 2pt}
+  \setlength{\floatsep}{8pt plus 2pt minus 2pt}
+  \setlength{\dbltextfloatsep}{9pt plus 2pt minus 2pt}
+  \setlength{\dblfloatsep}{8pt plus 2pt minus 2pt}
+  \renewcommand{\topfraction}{0.9}
+  \renewcommand{\dbltopfraction}{0.92}
+  \renewcommand{\textfraction}{0.08}
+  \renewcommand{\floatpagefraction}{0.7}
+  \renewcommand{\dblfloatpagefraction}{0.75}
+  \setcounter{dbltopnumber}{3}
+  \makeatletter
+  \setlength{\@dblfptop}{0pt}
+  \setlength{\@dblfpsep}{12pt plus 1fil}
+  \setlength{\@dblfpbot}{0pt plus 1fil}
+  \makeatother
+  \setcounter{topnumber}{2}
+  \tolerance=1500
+  \emergencystretch=2.5em
+  % Sans-serif editorial headings
+  \titleformat{\section}{\sffamily\bfseries\large\color{ink}}{\thesection}{0.55em}{}
+  \titleformat{\subsection}{\sffamily\bfseries\normalsize\color{ink}}{\thesubsection}{0.5em}{}
+  \titleformat{\subsubsection}[runin]{\sffamily\bfseries\itshape\small\color{ink}}{}{0pt}{}[.\enspace]
+  \titlespacing*{\section}{0pt}{1.5ex plus .4ex minus .2ex}{0.7ex plus .2ex}
+  \titlespacing*{\subsection}{0pt}{1.2ex plus .3ex minus .2ex}{0.5ex plus .2ex}
+  \titlespacing*{\subsubsection}{0pt}{0.9ex plus .2ex}{0pt}
+  \pagestyle{fancy}
+  \fancyhf{}
+  \renewcommand{\headrulewidth}{0.3pt}
+  \renewcommand{\footrulewidth}{0pt}
+  \fancyhead[L]{\sffamily\scriptsize\color{mid}Retrospective reconstruction and numerical qualification of historical CMJ recovery research}
+  \fancyhead[R]{\sffamily\scriptsize\color{mid}Owner-review draft}
+  \fancyfoot[C]{\sffamily\scriptsize\color{mid}\thepage}
+  \fancypagestyle{plain}{\fancyhf{}\renewcommand{\headrulewidth}{0pt}\fancyfoot[C]{\sffamily\scriptsize\color{mid}\thepage}}
+  \renewenvironment{abstract}{\noindent{\sffamily\bfseries\footnotesize\color{cobalt}ABSTRACT}\par\vspace{2pt}\small\noindent\ignorespaces}{\par}
 \fi
 
-\sisetup{per-mode=symbol,detect-all}
-\setlength{\emergencystretch}{1em}
+\tolerance=1500
+\emergencystretch=3em
+\sisetup{per-mode=symbol,detect-all,group-separator={,},group-minimum-digits=4,group-digits=integer}
 \DeclareSIUnit{\Nkg}{\newton\per\kilogram}
 \DeclareSIUnit{\mps}{\meter\per\second}
 \DeclareSIUnit{\Ns}{\newton\second}
 \hypersetup{hidelinks,pdftitle={Retrospective reconstruction and numerical qualification of historical countermovement-jump recovery research: An evidence-bounded case study},pdfauthor={Author names pending owner confirmation}}
 \urlstyle{same}
-\captionsetup{font=small,labelfont=bf,labelsep=period,justification=raggedright,singlelinecheck=false}
+\captionsetup{font={footnotesize},labelfont={bf,sf},labelsep=period,justification=justified,singlelinecheck=false,skip=3pt,margin=0pt}
+\ifdefined\ReviewEdition\captionsetup{justification=raggedright}\fi
 \renewcommand{\figurename}{Fig}
 \newcommand{\NRMSE}{\operatorname{NRMSE}}
 \newcommand{\RMSE}{\operatorname{RMSE}}
 \newcommand{\MAE}{\operatorname{MAE}}
 \newcommand{\Fig}[1]{Fig.~\ref{#1}}
 \newcommand{\Eq}[1]{Eq.~\eqref{#1}}
-\newcommand{\EvidenceFigure}[4][\linewidth]{%
-  \begin{figure}[!htbp]
+\newcommand{\ident}[1]{{\urlstyle{tt}\url{#1}}}
+\newcommand{\EvidenceFigure}[4][]{%
+  \begin{figure*}[!t]
   \centering
   \ifdefined\ReviewEdition\else
-    \includegraphics[width=#1]{#2}
+    \includegraphics[width=\textwidth]{#2}
   \fi
   \caption{#3}
   \label{#4}
-  \end{figure}
+  \end{figure*}
 }
 
 \begin{document}
@@ -70,21 +111,62 @@
   \modulolinenumbers[1]
   \linenumbers
 \else
-  \setstretch{1.08}
+  \setstretch{1.0}
 \fi
 
+\ifdefined\ReviewEdition
 \title{Retrospective reconstruction and numerical qualification of historical countermovement-jump recovery research: An evidence-bounded case study}
 \author{Author names and affiliations to be confirmed}
 \date{November 2026}
 \maketitle
-
 \noindent\textbf{Short title:} A case study in jump recovery research
-
+\else
+\newsavebox{\abstractbox}
+\begin{lrbox}{\abstractbox}\begin{minipage}[t]{0.485\textwidth}
+\fi
 \begin{abstract}
 This retrospective case study asks how partially preserved historical machine-learning research can be reconstructed while distinguishing source-equivalent computation, compatibility with archived outputs, measurement authority, public reproducibility, and predictive validity. The archive supports eight historical scientific formulations and nine neural model families. Public records identify their structures; original route qualification remains a privately recorded result. Those records report exact equality between the recovered reference implementation and original central processing unit (CPU) outputs for all 18 routes. Comparisons with archived graphics processing unit (GPU) arrays pass for M0--M3 and fail for both repeats of M4--M8 under the unchanged tolerance. This is not a public rerun of the original checkpoints or a successful replay of the historical GPU environment. Separately, we report an existing public synthetic benchmark with four reference models and three fixed evaluation roots from one generator. Mean six-cell normalized root-mean-square error (NRMSE) was 2.430659 for zero innovation, 1.036038 for the training-mean baseline, 0.736270 for ridge regression, and 0.773316 for the structured comparator. These descriptive synthetic results do not estimate predictive performance of the historical model families. Neither the synthetic benchmark nor numerical parity establishes athlete predictive validity, transportability, or clinical utility. No new training, inference, resampling, athlete-data acquisition, or empirical scoring was performed for this article.
 \end{abstract}
-
+\ifdefined\ReviewEdition
 \noindent\textbf{Keywords:} scientific machine learning; reproducible research; model reconstruction; countermovement jump; synthetic benchmark; numerical reproducibility
+\else
+\end{minipage}\end{lrbox}
+\twocolumn[{%
+\noindent{\sffamily\footnotesize\bfseries\color{cobalt}RESEARCH ARTICLE\ \ ·\ \ RETROSPECTIVE CASE STUDY}\hfill{\sffamily\footnotesize\color{mid}Owner-review draft · not submitted}\par
+\vspace{3pt}{\color{rule}\hrule height 0.6pt}\vspace{7pt}
+{\raggedright\fontsize{18.5}{21.5}\selectfont\bfseries Retrospective reconstruction and numerical qualification of historical countermovement-jump recovery research: An evidence-bounded case study\par}
+\vspace{6pt}
+{\sffamily\small Author names and affiliations to be confirmed\ \ ·\ \ \textcolor{mid}{November 2026}\ \ ·\ \ \textcolor{mid}{Short title: A case study in jump recovery research}}\par
+\vspace{6pt}{\color{rule}\hrule height 0.6pt}\vspace{8pt}
+\noindent\begin{minipage}[t]{0.485\textwidth}
+\usebox{\abstractbox}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.485\textwidth}
+{\sffamily\bfseries\footnotesize\color{cobalt}RECORDED RESULTS AT A GLANCE}\par\vspace{3pt}
+\small\setlength{\tabcolsep}{3pt}
+\begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}lr@{}}
+\toprule
+Formulations / model families & 8 / 9 \\
+Recovered = original CPU outputs & 18 / 18 routes \\
+Archived GPU: within / outside & 8 / 10 routes \\
+\addlinespace[2pt]
+\multicolumn{2}{@{}l}{Mean six-cell NRMSE (lower is better)} \\
+\quad Zero innovation & 2.4307 \\
+\quad Training mean & 1.0360 \\
+\quad Ridge regression & 0.7363 \\
+\quad Structured comparator & 0.7733 \\
+\addlinespace[2pt]
+Athlete predictive validity & not established \\
+\bottomrule
+\end{tabular*}\par
+\vspace{2pt}{\scriptsize\color{mid}Synthetic NRMSE is dimensionless and lower is better; it is not athlete accuracy.}\par
+\vspace{8pt}
+{\sffamily\bfseries\footnotesize\color{cobalt}KEYWORDS}\par\vspace{2pt}
+\small scientific machine learning; reproducible research; model reconstruction; countermovement jump; synthetic benchmark; numerical reproducibility
+\end{minipage}
+\vspace{10pt}{\color{rule}\hrule height 0.6pt}\vspace{6pt}
+}]
+\fi
 
 \section{Introduction}
 
@@ -138,11 +220,11 @@ The archive records eight formulation identities with different response worlds,
 
 Fig.~\ref{fig:genealogy} shows the recorded links and leaves unresolved parents open. The native camp task uses H72 and D7 targets. The episode formulations and the public synthetic benchmark use H24, H48, and H72 horizons. Shared outcome labels do not make their measurement laws, generators, or score definitions interchangeable.
 
-\EvidenceFigure{figures/Fig1.pdf}{Scientific formulation genealogy. Nodes identify the eight recorded formulations and show their disposition, response setting, observation contract, and forecast horizons. Arrows represent parent relationships recorded in the published lineage and methods records: initial preseason to canonical preseason, preliminary episode to phase-consistent episode to correlated exposure, and correlated exposure to two alternatives. No arrow is drawn for unresolved ancestry, including rich-history camp recovery and preliminary episode recovery. The diagram describes the archive, not a single linear history or an accepted physiological theory.}{fig:genealogy}
+\EvidenceFigure{figures/Fig1.pdf}{Scientific formulation genealogy. Cards show the eight recorded formulations with their disposition, response world, observation contract and forecast horizons (dots). Arrows are direct parent relationships recorded in the published lineage and methods records: initial preseason to canonical preseason; preliminary episode to phase-consistent episode to correlated exposure; and correlated exposure to the threshold and fixed-mode alternatives. Dashed stubs marked ? show the three identities whose direct scientific parent is not recorded (initial preseason, rich-history camp and preliminary episode). The diagram describes the archive, not a single linear history, a calendar timeline or an accepted physiological theory.}{fig:genealogy}
 
 Fig.~\ref{fig:workflow} reports the synthetic-study split sizes; the three fixed evaluation roots share one generator, and each episode's H24, H48, and H72 queries remain grouped.
 
-\EvidenceFigure{figures/Fig2.pdf}{Sample structure of the existing public fixed-mode synthetic study. Counts are shown separately for camps, episodes, and horizon rows. Training contains 96 camps, 24,000 episodes, and 72,000 rows; development contains 16 camps, 4,000 episodes, and 12,000 rows; each of three fixed evaluation roots contains 16 camps, 4,000 episodes, and 12,000 rows. Each episode contributes grouped H24, H48, and H72 queries. The roots share one generator and are not human cohorts.}{fig:workflow}
+\EvidenceFigure{figures/Fig2.pdf}{Structure of the existing public fixed-mode synthetic study. (a) Each square is one camp (250 episodes, 750 horizon rows): 96 training camps, 16 development camps, and three fixed evaluation roots of 16 camps each. (b) Horizon-row counts per split, with episode counts (training 24,000; development and each root 4,000; three rows per episode). (c) Each episode contributes H24, H48 and H72 queries that remain in one split. Participant, episode, query and camp identities are checked for split separation; group keys, labels, future target-time fields and hidden or oracle states are excluded from predictors. The roots share one generator and are not human cohorts.}{fig:workflow}
 
 \subsection{Original neural model reconstruction}
 
@@ -154,31 +236,32 @@ The five-value original schedule basis requires complete history and future-plan
 
 Table~\ref{tab:architecture} summarizes the published architecture record and parameter counts for M0--M8. Both repeats share each family's listed architecture.
 
-\begin{table}[!htbp]
+\begin{table*}[!t]
 \centering
 \caption{Architecture contracts and parameter counts for nine historical neural model families (M0--M8). Each family has two recorded repeats (r0 and r1). Input counts and architecture descriptions are from the public model-qualification summary; original checkpoint weights are not distributed.}
 \label{tab:architecture}
 \small
-\begin{tabularx}{\textwidth}{l>{\raggedright\arraybackslash}p{1.45in}Xr}
+\renewcommand{\arraystretch}{1.08}
+\begin{tabularx}{\textwidth}{@{}l>{\raggedright\arraybackslash}p{1.75in}>{\raggedright\arraybackslash}X S[table-format=5.0]@{}}
 \toprule
-Family & Additional inputs & Recorded architecture & Parameters \\
+Family & Additional inputs & Recorded architecture & {Parameters} \\
 \midrule
-M0 & None & \(39\to32\to2\), exact GELU & 1,346 \\
-M1 & None & \(39\to64\to2\), exact GELU & 2,690 \\
-M2 & None & \(39\to64\to64\to2\), exact GELU & 6,850 \\
-M3 & Four-by-four history & Raw backbone and pointwise history encoder; mean/latest pooling; \(128\to2\) head & 7,138 \\
-M4 & Four-by-four history & Raw backbone and \(4\to32\) gated recurrent unit; mean/latest pooling; \(128\to2\) head & 10,626 \\
-M5 & History and horizon & M4 with two-entry, eight-dimensional horizon embedding; \(136\to2\) head & 10,658 \\
-M6 & History, horizon, five basis values & M5 with first two basis values projected to 16 dimensions; \(152\to2\) head & 10,738 \\
-M7 & History, horizon, five basis values & M5 with all five basis values projected to 16 dimensions; \(152\to2\) head & 10,786 \\
-M8 & History, horizon, five basis values & M7 plus bias-free \(5\to2\) linear basis head & 10,796 \\
+M0 & None & \(39\to32\to2\), exact GELU & 1346 \\
+M1 & None & \(39\to64\to2\), exact GELU & 2690 \\
+M2 & None & \(39\to64\to64\to2\), exact GELU & 6850 \\
+M3 & Four-by-four history & Raw backbone and pointwise history encoder; mean/latest pooling; \(128\to2\) head & 7138 \\
+M4 & Four-by-four history & Raw backbone and \(4\to32\) gated recurrent unit; mean/latest pooling; \(128\to2\) head & 10626 \\
+M5 & History and horizon & M4 with two-entry, eight-dimensional horizon embedding; \(136\to2\) head & 10658 \\
+M6 & History, horizon, five basis values & M5 with first two basis values projected to 16 dimensions; \(152\to2\) head & 10738 \\
+M7 & History, horizon, five basis values & M5 with all five basis values projected to 16 dimensions; \(152\to2\) head & 10786 \\
+M8 & History, horizon, five basis values & M7 plus bias-free \(5\to2\) linear basis head & 10796 \\
 \bottomrule
 \end{tabularx}
-\end{table}
+\end{table*}
 
 Fig.~\ref{fig:architecture} shows the corresponding branches: M0--M2 are raw-feature feedforward networks of increasing width and depth; M3 encodes pointwise history and pools its mean and latest values; M4 substitutes a 32-unit gated recurrent unit (GRU); and M5 adds a horizon embedding. M6 projects the first two basis components, M7 projects all five, and M8 adds a bias-free five-to-two linear basis head to its residual prediction.
 
-\EvidenceFigure{figures/Fig3.pdf}{Historical neural model architectures and parameter counts. Panels summarize raw-feature feedforward networks (M0--M2), history encoding and pooling (M3--M4), horizon and schedule-basis additions (M5--M8), and recorded trainable parameter counts. Each family has two repeats (r0 and r1) with the same listed topology and count. M6 receives five basis values but projects only the first two; M7 projects all five; M8 adds a separate bias-free linear basis head. Counts are from the public model-qualification summary. The figure describes model structure, not predictive accuracy; fitted weights are not shown.}{fig:architecture}
+\EvidenceFigure{figures/Fig3.pdf}{Historical neural architectures and complexity. (a) Computational graph of the largest family, M8, with each module labelled by the first family that contains it. M0--M2 use only the raw feedforward backbone; M3 adds a pointwise history encoder and M4 replaces it with a 32-unit GRU, both followed by mean and latest-value pooling; M5 adds a two-entry, eight-dimensional horizon embedding; M6 projects the first two of five schedule-basis values and M7 all five; M8 adds a bias-free 5-to-2 linear basis head. The concatenated width is 128 (M3, M4), 136 (M5) or 152 (M6--M8). (b) Component inclusion and recorded trainable parameter counts (1,346 to 10,796). Repeats r0 and r1 share each family's topology and count. Counts are from the public model-qualification summary. The figure describes structure, not predictive accuracy; fitted weights are not shown.}{fig:architecture}
 
 \subsection{Numerical qualification}
 
@@ -191,34 +274,36 @@ The original CPU-output comparison has a separate exact-array-equality requireme
 
 Fig.~\ref{fig:numerical} shows the 18 model-repeat routes. The result records show exact output equality between the recovered reference implementation and the original CPU outputs for all 18 routes. Comparisons with archived GPU arrays pass for M0--M3 and fail for both repeats of M4--M8. The maximum absolute discrepancy is retained by route in the supplement. Because the outputs have different physical units, a maximum across the two columns is descriptive of array discrepancy only and must not be compared as a physical effect size. The records do not identify the cause of the GPU-array discrepancies.
 
-\EvidenceFigure{figures/Fig4.pdf}{Numerical qualification for all 18 model-repeat routes (M0--M8, each with repeats r0 and r1). CPU outputs from the recovered reference implementation are recorded as exactly equal to the original CPU outputs for all routes. Comparisons with archived GPU arrays pass for M0--M3 and fail for both repeats of M4--M8 under the unchanged elementwise tolerance. Maximum absolute differences and failing-element counts are shown where recorded; a dash means the failure count was not reported. Each route compares 512 rows by two outputs. The outputs have different units, so maximum differences are not comparable across routes. These are recorded comparisons, not a fresh GPU replay or an accuracy evaluation.}{fig:numerical}
+\EvidenceFigure{figures/Fig4.pdf}{Numerical qualification of 18 model-repeat routes (M0--M8, repeats r0 and r1). (a) Recovered CPU outputs are recorded as exactly equal to the original CPU outputs on every route; comparison with archived GPU arrays is within the unchanged elementwise tolerance for M0--M3 and outside it for both repeats of M4--M8. (b) Recorded maximum absolute difference per route on a logarithmic axis. The two outputs have different units (N/kg and m/s), so the values are not comparable as physical magnitudes. A difference below the absolute tolerance \(10^{-5}\) (dashed line) always passes; the criterion also has a relative term, so the maximum alone does not determine status. (c) Number of failing elements out of 1,024 (512 rows by two outputs) where tabulated (n/t: not tabulated). These are recorded comparisons, not a new GPU replay or an accuracy evaluation.}{fig:numerical}
 
 \subsection{Native CMJ measurement and assessment construction}
 
 The native measurement contract defines force and impulse on one supplied vertical force trace \(F_z(t)\), body-plus-system mass \(m\), gravity \(g\), concentric onset \(t_{\mathrm{co}}\), and takeoff \(t_{\mathrm{to}}\). Let \(T=t_{\mathrm{to}}-t_{\mathrm{co}}\). Gross mean concentric force per unit mass and gravity-adjusted net impulse per unit mass are
-\begin{align}
-Y_F &= \frac{1}{mT}\int_{t_{\mathrm{co}}}^{t_{\mathrm{to}}}F_z(t)\,\mathrm{d}t,
-\qquad [Y_F]=\mathrm{N\,kg^{-1}}=\mathrm{m\,s^{-2}}, \label{eq:gross_force}\\
-Y_J &= \frac{1}{m}\int_{t_{\mathrm{co}}}^{t_{\mathrm{to}}}\left(F_z(t)-mg\right)\,\mathrm{d}t,
-\qquad [Y_J]=\mathrm{N\,s\,kg^{-1}}=\mathrm{m\,s^{-1}}. \label{eq:net_impulse}
-\end{align}
+\begin{equation}
+Y_F = \frac{1}{mT}\int_{t_{\mathrm{co}}}^{t_{\mathrm{to}}}F_z(t)\,\mathrm{d}t,
+\label{eq:gross_force}
+\end{equation}
+\begin{equation}
+Y_J = \frac{1}{m}\int_{t_{\mathrm{co}}}^{t_{\mathrm{to}}}\left(F_z(t)-mg\right)\,\mathrm{d}t,
+\label{eq:net_impulse}
+\end{equation}
+with units \([Y_F]=\mathrm{N\,kg^{-1}}=\mathrm{m\,s^{-2}}\) and \([Y_J]=\mathrm{N\,s\,kg^{-1}}=\mathrm{m\,s^{-1}}\). Peak force, \(\max_t F_z(t)/m\), is a third quantity and is not an outcome in this article.
 The recorded implementation interpolates force linearly at event boundaries and applies the composite trapezoid rule over the closed concentric interval. Event detection, force calibration, mass authority, and trial validity are separate measurement requirements; the integrator does not infer those inputs.
 
 Each native assessment is the arithmetic mean of exactly three distinct valid trials, not the best trial or median. For outcome \(o\), define the baseline set \(\mathcal{B}_i\) as the two latest distinct valid assessments in the inclusive interval from 24 to 240 hours before origin \(i\). The baseline and target-relative innovation are
-\begin{align}
-\bar{Y}_{i,0,o} &= \frac{1}{2}\sum_{q\in\mathcal{B}_i}A_{q,o},
-\qquad |\mathcal{B}_i|=2, \label{eq:baseline}\\
-\Delta Y_{i,h,o} &= Y_{i,h,o}-\bar{Y}_{i,0,o}, \label{eq:innovation}
-\end{align}
-where \(A_{q,o}\) is the three-trial assessment mean and \(h\) is the forecast horizon. The native target windows are 66--78 hours for H72 and 156--180 hours for D7. These are native measurement and evaluation contracts, not an empirical evaluation performed for this article.
+\begin{equation}
+\bar{Y}_{i,0,o} = \frac{1}{2}\sum_{q\in\mathcal{B}_i}A_{q,o},
+\label{eq:baseline}
+\end{equation}
+\begin{equation}
+\Delta Y_{i,h,o} = Y_{i,h,o}-\bar{Y}_{i,0,o},
+\label{eq:innovation}
+\end{equation}
+with \(|\mathcal{B}_i|=2\), where \(A_{q,o}\) is the three-trial assessment mean and \(h\) is the forecast horizon. The native target windows are 66--78 hours for H72 and 156--180 hours for D7. These are native measurement and evaluation contracts, not an empirical evaluation performed for this article.
 
-Fig.~\ref{fig:chronology} separates the native baseline, H72 and D7 windows from the public synthetic H24, H48 and H72 queries. The native evaluation has four physical-unit cells; the synthetic experiment has six normalized-error cells. They are not combined.
+Fig.~\ref{fig:biomech} defines the three native quantities that are easily confused and places the native contract on a scaled time axis. Gross mean concentric force (Eq.~\ref{eq:gross_force}), peak force and gravity-adjusted net impulse (Eq.~\ref{eq:net_impulse}) differ in definition and units: the first is a time average of the force trace, the second is its maximum, and the third is the integral of force above body weight. Panel~a is an analytical illustration rather than athlete data; it shows that the gross mean (\SI{14.79}{\Nkg}) lies well below the peak (\SI{24.09}{\Nkg}) and that net impulse (\SI{2.74}{\mps}) answers a different measurement question. The scored synthetic force outcome described below is the first of these, not the second. Panel~c separates the native baseline, H72 and D7 windows from the public synthetic H24, H48 and H72 queries. The native evaluation has four physical-unit cells; the synthetic experiment has six normalized-error cells. They are not combined.
 
-\EvidenceFigure{figures/Fig5.pdf}{Assessment and recovery-horizon chronology. The upper track shows the native contract: a baseline search interval from 240 to 24 hours before origin, selection of the two latest qualifying assessments in that interval, an index exposure at origin, an H72 window at 66--78 hours, and a D7 window at 156--180 hours. Each assessment is constructed from exactly three valid trials. The lower track shows the separate public synthetic task's H24, H48, and H72 query horizons. These markers are nominal synthetic horizons, not native measurement windows. No athlete measurements are plotted. The windows follow the published measurement and study protocols.}{fig:chronology}
-
-Fig.~\ref{fig:mechanics} is an analytical measurement illustration rather than athlete data. It makes the gross force area and the signed area relative to body weight visually distinct. This distinction matters because Eq.~\ref{eq:gross_force} and Eq.~\ref{eq:net_impulse} have different units and answer different measurement questions.
-
-\EvidenceFigure{figures/Fig6.pdf}{Analytical vertical force-time illustration, not observed athlete data. The displayed signal is generated with \(m=\SI{70}{\kilogram}\), \(g=\SI{9.80665}{\meter\per\second\squared}\), \(A=\SI{1000}{\newton}\), peak time \(t_p=\SI{0.22}{\second}\), and \(T=\SI{0.55}{\second}\). For \(0\leq t\leq t_p\), \(F_z(t)=mg+A\sin(\pi t/(2t_p))\); for \(t_p<t\leq T\), \(F_z(t)=(mg+A)[1-(t-t_p)/(T-t_p)]\). Concentric onset is \(t=0\), and takeoff is \(t=T\). The area under \(F_z\) defines gross mean force after division by \(mT\); the signed area between \(F_z\) and \(mg\) defines net impulse after division by \(m\). Units are N, kg, s, N/kg, and m/s as labeled.}{fig:mechanics}
+\EvidenceFigure{figures/Fig5.pdf}{Native measurement definitions and assessment chronology. (a) Analytical vertical force--time curve, not athlete data, generated with \(m=\SI{70}{\kilogram}\), \(g=\SI{9.80665}{\meter\per\second\squared}\), \(A=\SI{1000}{\newton}\), \(t_p=\SI{0.22}{\second}\) and \(T=\SI{0.55}{\second}\): \(F_z=mg+A\sin(\pi t/2t_p)\) for \(0\leq t\leq t_p\) and \(F_z=(mg+A)[1-(t-t_p)/(T-t_p)]\) for \(t_p<t\leq T\). Dividing the area under \(F_z\) by \(mT\) gives gross mean concentric force (\SI{14.79}{\Nkg}, black line); dividing the signed area relative to body weight by \(m\) gives gravity-adjusted net impulse (\SI{2.74}{\mps}). Peak force (\SI{24.09}{\Nkg}) is shown only to distinguish it from the scored mean-force target. (b) The three quantities with their equations, values and units. (c) Native contract (upper track): baseline search interval 24--240 h before the index exposure, from which the two latest valid assessments are selected, an H72 window at 66--78 h and a D7 window at 156--180 h; each assessment is the mean of three valid trials. Lower track: the separate public synthetic H24, H48 and H72 query horizons (nominal). No athlete measurements are plotted.}{fig:biomech}
 
 \subsection{Native evaluation and inferential rules}
 
@@ -242,17 +327,27 @@ The public synthetic data are generated from a fixed-mode discrepancy world. Tra
 
 For each fixed evaluation root, the study target is the descriptive mean NRMSE over its six outcome-horizon cells. The four reference models are zero innovation, a training-only outcome-by-horizon mean, cellwise ridge regression, and a structured comparator. The public predictor schema has 82 source fields; one-hot horizon encoding produces 84 numeric columns. Numeric preprocessing uses training-only means and population standard deviations, with zero scales set to one. The structured comparator uses public exposure primitives, observed context, observed prior innovations, and fixed 24-hour and 84-hour mathematical modes; it excludes hidden effects and oracle states.
 
-Ridge and structured regularization were selected on development six-cell mean NRMSE from the frozen grid \(\{0.01,0.1,1,10,100\}\), with lower alpha breaking ties. All full-data selections chose the lower grid boundary, \(\alpha=0.01\). This is a property of the existing study, not a reason to adjust its test results. The nested sample-size diagnostic uses 24, 48, and 96 camps from one recorded seeded permutation and holds the full-data-selected hyperparameter fixed. The protocol describes its force outcome as peak mean-force innovation and maps it to a target field for relative mean concentric-force innovation. This documented mapping is separate from the native H72/D7 measurement contract.
+Ridge and structured regularization were selected on development six-cell mean NRMSE from the frozen grid \(\{0.01,0.1,1,10,100\}\), with lower alpha breaking ties. All full-data selections chose the lower grid boundary, \(\alpha=0.01\). This is a property of the existing study, not a reason to adjust its test results. The nested sample-size diagnostic uses 24, 48, and 96 camps from one recorded seeded permutation and holds the full-data-selected hyperparameter fixed. The force outcome is the baseline-relative change in gross mean concentric force per unit mass, in \(\mathrm{N\,kg^{-1}}\): for each assessment, three simulated concentric-force trials are averaged, and the target is the criterion-assessment mean minus the baseline-assessment mean. It is not peak force and not net impulse. The registered score-cell identifier \ident{relative_peak_mean_force_innovation} is a legacy name retained in the frozen results; it maps to the generated target \ident{label.relative_mean_concentric_force_innovation}. This mapping is separate from the native H72/D7 measurement contract.
 
 \subsubsection{Performance measures}
 
 For model \(m\), outcome-horizon cell \(c\), and \(n_c\) rows, the registered normalized root-mean-square error (NRMSE) is calculated as follows:
-\begin{align}
-\RMSE_{m,c} &= \sqrt{\frac{1}{n_c}\sum_{j=1}^{n_c}(\hat{y}_{m,c,j}-y_{c,j})^2}, \label{eq:rmse}\\
-\NRMSE_{m,c} &= \frac{\RMSE_{m,c}}{\operatorname{SD}_{\mathrm{pop}}(y_c)}, \qquad
-\operatorname{SD}_{\mathrm{pop}}(y_c)=\sqrt{\frac{1}{n_c}\sum_{j=1}^{n_c}(y_{c,j}-\bar{y}_c)^2}, \label{eq:nrmse}\\
-S_m &= \frac{1}{6}\sum_{c=1}^{6}\NRMSE_{m,c}. \label{eq:six_cell_score}
-\end{align}
+\begin{equation}
+\RMSE_{m,c} = \sqrt{\frac{1}{n_c}\sum_{j=1}^{n_c}(\hat{y}_{m,c,j}-y_{c,j})^2},
+\label{eq:rmse}
+\end{equation}
+\begin{equation}
+\NRMSE_{m,c} = \frac{\RMSE_{m,c}}{\operatorname{SD}_{\mathrm{pop}}(y_c)},
+\label{eq:nrmse}
+\end{equation}
+\begin{equation}
+\operatorname{SD}_{\mathrm{pop}}(y_c)=\sqrt{\frac{1}{n_c}\sum_{j=1}^{n_c}(y_{c,j}-\bar{y}_c)^2},
+\label{eq:sd_pop}
+\end{equation}
+\begin{equation}
+S_m = \frac{1}{6}\sum_{c=1}^{6}\NRMSE_{m,c}.
+\label{eq:six_cell_score}
+\end{equation}
 The six cells are formed by three horizons and two outcomes. Each cell is normalized separately before equal-weight averaging, so the score is dimensionless and does not pool force and impulse in their raw units. Every registered cell has at least two rows and nonzero population standard deviation. \(1-S_m\) is a descriptive research-progress transformation in the stored result summary; it is not a recovery score or a clinical threshold. This article reports existing study results and does not repeat training, model selection, inference, or scoring.
 
 \subsection{Statistical summaries}
@@ -275,67 +370,76 @@ Nine neural model families and 18 repeats were represented in the architecture q
 
 These findings qualify source-level CPU inference and identify a negative historical-runtime comparison. They do not establish a successful original GPU replay or determine whether precision mode, kernel behavior, or another runtime factor caused the discrepancies. The saved arrays' two output columns have different physical units; their pooled maximum absolute error is not a meaningful physical comparison across routes. No saved-array failure is hidden by changing the threshold.
 
-\FloatBarrier
 \subsection{RQ3 — Scientific comparability}
 
-The recorded six-cell results appear in Fig.~\ref{fig:performance}.
+The recorded six-cell results appear in Fig.~\ref{fig:performance} and Table~\ref{tab:sixcell}.
 
-\EvidenceFigure{figures/Fig7.pdf}{Existing public fixed-mode synthetic benchmark across six outcome-horizon cells. Each panel shows the three fixed evaluation roots and their stored means for the zero-innovation baseline, training-mean baseline, ridge regression, and structured comparator. Root symbols are jittered horizontally only to separate marks; they remain within their model group. Rows are H24, H48, and H72; columns are peak mean-force innovation and net-impulse innovation. The force outcome maps to a target field for relative mean concentric-force innovation. Force targets are in \(\mathrm{N\,kg^{-1}}\) and impulse targets in \(\mathrm{m\,s^{-1}}\); the vertical axis is cellwise NRMSE (dimensionless). Each root contains 16 camps and 4,000 rows per outcome-horizon cell. Points and stored means describe three fixed roots, not a confidence interval; all roots share one generator and are not human cohorts.}{fig:performance}
+\EvidenceFigure{figures/Fig6.pdf}{Existing public fixed-mode synthetic benchmark across six outcome-horizon cells. Each panel shows, for the zero-innovation baseline, training-mean baseline, ridge regression and structured comparator, the three fixed evaluation roots (A circle, B square, C triangle; offset horizontally only to separate marks) and the stored mean (black bar, value printed). Rows are H24, H48 and H72; columns are mean concentric-force innovation (\si{\Nkg} target) and net-impulse innovation (\si{\mps} target). The force cells retain the legacy registered identifier \ident{relative_peak_mean_force_innovation}, but the target is mean, not peak, concentric force. The vertical axis is cellwise NRMSE (dimensionless) on a common scale; the dashed line marks NRMSE\,=\,1. Each root contains 16 camps and 4,000 rows per cell. Points and means describe three fixed same-generator roots, not confidence intervals or human cohorts.}{fig:performance}
 
 The four reference models compare force and impulse at H24, H48, and H72. The three roots share one generator; they are not human cohorts. This is evidence about the registered synthetic task, not an accuracy evaluation of the historical neural model families or validation of their native H72/D7 athlete predictions.
 
 Table~\ref{tab:sixcell} reports the stored mean and root sample standard deviation for each outcome-horizon cell. These values preserve the recorded cell aggregates; no prediction or model score was recomputed for this article.
 
-\begin{table}[!htbp]
+\begin{table*}[!t]
 \centering
-\caption{Six-cell public synthetic benchmark NRMSE. Each entry is the stored mean across three same-generator evaluation roots \(\pm\) the sample standard deviation across those roots, rounded to four decimal places. Full stored values are retained in the accompanying numerical table. NRMSE is dimensionless because each outcome-horizon RMSE is divided by that cell's population standard deviation before averaging. Force targets are in \(\mathrm{N\,kg^{-1}}\) and impulse targets in \(\mathrm{m\,s^{-1}}\); they are reported in separate rows and never pooled in physical units. The force outcome definition is described in Methods.}
+\caption{Six-cell public synthetic benchmark NRMSE. For each model, the first column is the stored mean across three same-generator evaluation roots and the second is the sample standard deviation across those roots, rounded to four decimal places. Full stored values are retained in the accompanying numerical table. NRMSE is dimensionless because each outcome-horizon RMSE is divided by that cell's population standard deviation before averaging. Force targets (mean concentric-force innovation, \si{\Nkg}) and impulse targets (\si{\mps}) are reported in separate rows and never pooled in physical units.}
 \label{tab:sixcell}
 \small
-\setlength{\tabcolsep}{7pt}
-\begin{tabularx}{\textwidth}{l*{4}{>{\centering\arraybackslash}X}}
+\setlength{\tabcolsep}{4.5pt}
+\sisetup{table-format=1.4,table-number-alignment=center}
+\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}l SS SS SS SS@{}}
 \toprule
-Cell & Zero innovation & Training mean & Ridge & Structured \\
+& \multicolumn{2}{c}{Zero innovation} & \multicolumn{2}{c}{Training mean} & \multicolumn{2}{c}{Ridge} & \multicolumn{2}{c}{Structured} \\
+\cmidrule(lr){2-3}\cmidrule(lr){4-5}\cmidrule(lr){6-7}\cmidrule(l){8-9}
+Cell & {Mean} & {SD} & {Mean} & {SD} & {Mean} & {SD} & {Mean} & {SD} \\
 \midrule
-H24 force (N/kg) & 3.0335 \(\pm\) 0.0220 & 1.0477 \(\pm\) 0.0070 & 0.6244 \(\pm\) 0.0101 & 0.6575 \(\pm\) 0.0114 \\
-H24 impulse (m/s) & 2.7618 \(\pm\) 0.0054 & 1.0451 \(\pm\) 0.0085 & 0.6522 \(\pm\) 0.0017 & 0.6960 \(\pm\) 0.0021 \\
-H48 force (N/kg) & 2.5420 \(\pm\) 0.0139 & 1.0395 \(\pm\) 0.0095 & 0.7319 \(\pm\) 0.0096 & 0.7610 \(\pm\) 0.0128 \\
-H48 impulse (m/s) & 2.2644 \(\pm\) 0.0369 & 1.0318 \(\pm\) 0.0080 & 0.7598 \(\pm\) 0.0070 & 0.8046 \(\pm\) 0.0077 \\
-H72 force (N/kg) & 2.1090 \(\pm\) 0.0072 & 1.0274 \(\pm\) 0.0069 & 0.8157 \(\pm\) 0.0057 & 0.8429 \(\pm\) 0.0075 \\
-H72 impulse (m/s) & 1.8732 \(\pm\) 0.0255 & 1.0248 \(\pm\) 0.0052 & 0.8336 \(\pm\) 0.0037 & 0.8779 \(\pm\) 0.0019 \\
+H24 force (\si{\Nkg}) & 3.0335 & 0.0220 & 1.0477 & 0.0070 & 0.6244 & 0.0101 & 0.6575 & 0.0114 \\
+H24 impulse (\si{\mps}) & 2.7618 & 0.0054 & 1.0451 & 0.0085 & 0.6522 & 0.0017 & 0.6960 & 0.0021 \\
+\addlinespace[2pt]
+H48 force (\si{\Nkg}) & 2.5420 & 0.0139 & 1.0395 & 0.0095 & 0.7319 & 0.0096 & 0.7610 & 0.0128 \\
+H48 impulse (\si{\mps}) & 2.2644 & 0.0369 & 1.0318 & 0.0080 & 0.7598 & 0.0070 & 0.8046 & 0.0077 \\
+\addlinespace[2pt]
+H72 force (\si{\Nkg}) & 2.1090 & 0.0072 & 1.0274 & 0.0069 & 0.8157 & 0.0057 & 0.8429 & 0.0075 \\
+H72 impulse (\si{\mps}) & 1.8732 & 0.0255 & 1.0248 & 0.0052 & 0.8336 & 0.0037 & 0.8779 & 0.0019 \\
 \bottomrule
-\end{tabularx}
-\end{table}
+\end{tabular*}
+\end{table*}
 
 The stored six-cell mean scores were 0.736270 for ridge, 0.773316 for the structured comparator, 1.036038 for the training-mean baseline, and 2.430659 for zero innovation. Root sample standard deviations were 0.003349, 0.005490, 0.007308, and 0.008127, respectively (Table~\ref{tab:overall}). Ridge had the lowest descriptive mean error in this generator. No inferential contrast between ridge and structured was recorded; this ranking is descriptive.
 
-\begin{table}[!htbp]
+Fig.~\ref{fig:heatmap} organizes the same stored means by model and cell. Ridge had the lowest mean NRMSE in each of the six cells, and the structured comparator exceeded ridge in all 18 root-cell comparisons by 0.025 to 0.047 NRMSE units (panel~b; differences of recorded values, with no interval or test). Cell errors for ridge and the structured comparator fall below the NRMSE\,=\,1 cell-mean reference in every cell, whereas the training-mean baseline sits at about 1 by construction and zero innovation exceeds 1 throughout.
+
+\EvidenceFigure{figures/Fig7.pdf}{Model-by-cell error heatmap. (a) Stored mean NRMSE across the three evaluation roots for six outcome-horizon cells (rows) and four reference models (columns); the bottom row is the equal-weight six-cell mean. Lower is better. Colour is centred at NRMSE\,=\,1, the value of a cell-mean predictor: blue is below 1 and red above 1. Outlined cells are lowest in their row. (b) Descriptive structured-minus-ridge NRMSE for each root (A circle, B square, C triangle); positive values mean ridge was lower. Ridge was lower in all 18 root-cell comparisons (0.025 to 0.047). No interval or test is implied, and no ridge-versus-structured confidence interval was recorded.}{fig:heatmap}
+
+\begin{table}[!t]
 \centering
-\caption{Overall public synthetic benchmark score. Values are the stored mean six-cell NRMSE across three evaluation roots and the sample standard deviation (SD) of those three root scores. This is descriptive root variation, not a confidence interval.}
+\caption{Overall public synthetic benchmark score: stored mean six-cell NRMSE across three evaluation roots and the sample standard deviation (SD) of those three root scores. This is descriptive root variation, not a confidence interval.}
 \label{tab:overall}
 \small
-\begin{tabularx}{\textwidth}{lrr>{\raggedright\arraybackslash}X}
+\sisetup{table-format=1.6}
+\begin{tabular*}{\columnwidth}{@{\extracolsep{\fill}}l S S@{}}
 \toprule
-Reference model & Mean six-cell NRMSE & Root sample SD & Scope \\
+Reference model & {Mean NRMSE} & {Root SD} \\
 \midrule
-Zero innovation & 2.430659 & 0.008127 & Predicts zero innovation \\
-Training mean & 1.036038 & 0.007308 & Training-only outcome-by-horizon mean \\
-Ridge & 0.736270 & 0.003349 & Full public feature schema \\
-Structured & 0.773316 & 0.005490 & Fixed 24 h/84 h modes with observed covariates \\
+Zero innovation & 2.430659 & 0.008127 \\
+Training mean & 1.036038 & 0.007308 \\
+Ridge & 0.736270 & 0.003349 \\
+Structured & 0.773316 & 0.005490 \\
 \bottomrule
-\end{tabularx}
+\end{tabular*}
 \end{table}
 
 \subsection{Recorded uncertainty, ablations, and sample efficiency}
 
 All six stored within-root model-versus-zero percentile intervals for ridge and structured have negative paired model-minus-zero endpoints. They support a reduction in NRMSE relative to the zero baseline within the corresponding synthetic root under the recorded camp-resampling scheme (Fig.~\ref{fig:uncertainty}). They do not support an uncertainty interval for ridge versus structured or for a new root drawn from a different generator.
 
-\EvidenceFigure{figures/Fig8.pdf}{Recorded camp-bootstrap uncertainty for ridge regression and the structured comparator within each of three synthetic evaluation roots. Panel A shows stored 95\% percentile intervals for each model's mean six-cell normalized root-mean-square error (NRMSE). Panel B shows paired intervals for model-minus-zero-innovation NRMSE; values below zero favor the named model over the zero-innovation baseline. Each root contributes 16 camps, with all 250 episodes and three horizon queries per selected camp retained together in 5,000 paired resamples using PCG64 seed 49,505,000. These intervals are conditional on a root and are not intervals across roots. No ridge-versus-structured confidence interval was recorded.}{fig:uncertainty}
+\EvidenceFigure{figures/Fig8.pdf}{Recorded camp-bootstrap uncertainty for ridge regression and the structured comparator within each of three synthetic evaluation roots. (a) Stored 95\% percentile intervals for each model's mean six-cell NRMSE; markers show the root estimate. (b) Paired intervals for model-minus-zero-innovation NRMSE; values below zero favour the named model over the zero-innovation baseline. Each root contributes 16 camps, with all 250 episodes and three horizon queries per selected camp retained together, in 5,000 paired resamples (PCG64 seed 49,505,000). Intervals are conditional on a root and are not intervals across roots. No ridge-versus-structured interval was recorded.}{fig:uncertainty}
 
 \subsection{Ablations and sample efficiency}
 
 The recorded ridge ablation scores were 0.819681 without prior history, 0.867735 without current exposure, and 0.736346 without participant context, compared with 0.736270 for full ridge. Omitting context changes the mean by approximately 0.000076. The separately specified structured model without history scores 0.820342. With 24, 48, and 96 training camps, nested ridge scores were 0.736889, 0.736602, and 0.736270; the structured-model scores were 0.773624, 0.773621, and 0.773316 (Fig.~\ref{fig:ablation}). These generator-conditional diagnostics do not identify causal feature importance or human sample efficiency.
 
-\EvidenceFigure{figures/Fig9.pdf}{Recorded ablation and nested-camp comparisons. Panel A shows the three evaluation-root values and their mean for full ridge regression and variants without prior history, current exposure, or participant context. The structured comparator without prior history is shown as a separate diagnostic. Panel B shows root-specific scores for ridge regression and the structured comparator trained on nested subsets of 24, 48, or 96 camps; the regularization parameter selected on the full training and development data was held fixed. All values are dimensionless six-cell NRMSE within the same synthetic generator. No confidence intervals are shown; these comparisons do not isolate causal feature effects or estimate athlete-level sample efficiency.}{fig:ablation}
+\EvidenceFigure{figures/Fig9.pdf}{Recorded ablation and nested-camp comparisons. (a) Evaluation-root values (A circle, B square, C triangle) and means for full ridge regression and variants without prior history, current exposure or participant context, plus the structured comparator without prior history; parentheses give the change in the mean from full ridge. (b) Root-specific and mean scores for ridge regression (solid) and the structured comparator (dashed) trained on nested subsets of 24, 48 or 96 camps, with the regularization parameter selected on the full training and development data held fixed. All values are dimensionless six-cell NRMSE within the same synthetic generator. No intervals are shown; these comparisons do not isolate causal feature effects or estimate athlete-level sample efficiency.}{fig:ablation}
 
 \subsection{Historical reproduction limits}
 
@@ -343,9 +447,8 @@ The public reproduction record remains partial for the historical program. In th
 
 Fig.~\ref{fig:scope} quantifies these sample-membership differences as publicly reconstructed minus historical row counts. The M0--M8 qualification is not an empirical athlete performance result.
 
-\EvidenceFigure{figures/Fig10.pdf}{The figure compares publicly reconstructed and historical rich-history materializations by training and validation split. The horizontal axis gives the difference in horizon-row count (public reconstruction minus historical record). Training contains 15,134 publicly reconstructed rows and 15,182 historical rows, a difference of −48. Validation contains 3,799 publicly reconstructed rows and 3,795 historical rows, a difference of +4. These counts describe membership differences in the preserved splits. They are not response effects or uncertainty intervals.}{fig:scope}
+\EvidenceFigure{figures/Fig10.pdf}{Historical reproducibility gaps. (a) Difference in horizon-row count (public reconstruction minus historical record) for the rich-history camp materialization: training 15,134 versus 15,182 rows (\(-48\)); validation 3,799 versus 3,795 rows (\(+4\)). These are membership differences in the preserved splits, not response effects or uncertainty intervals. (b) Evidence boundary: the class of evidence that supports each result as described in this article, from public source and contracts, through results regenerable from public receipts and privately qualified results available only as public summaries, to what is not established (historical split identity, the cause of the GPU-array differences, public reruns of the private checkpoints, and any athlete predictive validity, transportability or clinical use).}{fig:scope}
 
-\FloatBarrier
 \section{Discussion}
 
 This reconstruction illustrates why reproducibility should be reported as a set of qualified operations rather than one binary label. The recorded CPU results from the reference implementation agree exactly across all 18 neural model routes, yet ten comparisons with archived GPU arrays fail the original tolerance. A single “reproduced” label would obscure that distinction. The evidence supports recovered-source inference under the recorded CPU comparison and a negative historical-runtime comparison; it does not show a successful replay of the original graphics-processor execution.
@@ -395,9 +498,9 @@ This case study answers three bounded questions. Eight historical formulation id
 \noindent\textbf{Data availability.} The v1.1.0 source release, public synthetic-study protocol, results, source files, and figure data are available at the release URL and in the accompanying data package. Original fitted checkpoints, fitted preprocessing values, private inference arrays, and restricted observation and source-reconciliation records are not included. This package does not establish a controlled-access mechanism for those materials; they are not offered upon request. Public materials permit figure regeneration and verification of the published result arithmetic, but not independent reproduction of the original checkpoint qualification. See the accompanying claim-level data and software availability assessment. Journal-specific eligibility remains unresolved.
 
 \medskip
-\noindent\textbf{Generative AI and AI-assisted technologies.} AI assistance supported official-guideline research, manuscript restructuring and drafting, plotting and document-generation code, and first-pass artifact review. Benchmark and qualification values come from pre-existing scientific records; conventional Python code generates the figures, including the equation-based Fig. 6 illustration. No generative-image model or new empirical benchmark result was used. The human authors have not yet reviewed or approved this draft and must verify its content, sources, and all declarations before submission. No AI system is an author.
+\noindent\textbf{Generative AI and AI-assisted technologies.} AI assistance supported official-guideline research, manuscript restructuring and drafting, plotting and document-generation code, and first-pass artifact review. Benchmark and qualification values come from pre-existing scientific records; conventional Python code generates the figures, including the equation-based illustration in Fig. 5a. No generative-image model or new empirical benchmark result was used. The human authors have not yet reviewed or approved this draft and must verify its content, sources, and all declarations before submission. No AI system is an author.
 
-\ifdefined\ReviewEdition\else\small\fi
+\ifdefined\ReviewEdition\else\footnotesize\setlength{\itemsep}{0pt}\fi
 \bibliographystyle{plos2025}
 \bibliography{bibliography/references}
 

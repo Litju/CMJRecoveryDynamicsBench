@@ -485,7 +485,7 @@ def plot_biomechanics():
     f = analytical_force(t)
     panel_label(fig, "a", 1, 127)
     ax.text(7, 127, "Concentric-phase force–time curve (analytical, not athlete data)", fontsize=S.FS_TITLE, fontweight="bold", va="top")
-    fx = axmm(fig, 13, 56, 92, 64)
+    fx = axmm(fig, 13, 62, 92, 58)
     fx.fill_between(t, 0, f, color=PALE_COBALT, lw=0, zorder=1)
     fx.fill_between(t, bw, f, where=f >= bw, facecolor="none", edgecolor=VERMILION, hatch="////", lw=0, zorder=2)
     fx.fill_between(t, bw, f, where=f < bw, facecolor="none", edgecolor=SLATE, hatch="....", lw=0, zorder=2)

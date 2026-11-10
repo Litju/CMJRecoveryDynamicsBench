@@ -59,43 +59,43 @@ SPECS = {
         "test_id": "route_population_and_recorded_pass_fail_counts_match_receipt",
     },
     "Fig5": {
-        "label": "fig:chronology",
-        "title": "Native and public synthetic forecast windows",
-        "source_ids": ["S02", "S09", "S16"],
+        "label": "fig:biomech",
+        "title": "Native force-time definitions and assessment chronology",
+        "source_ids": ["S02", "S09", "S16", "S21"],
         "local_inputs": [],
-        "population": "Native measurement/evaluation contract and a separate public synthetic forecast contract; no observed assessment events.",
-        "metric": "Time windows and nominal horizons relative to index exposure.",
-        "units": "Hours.",
-        "grouping": "Native baseline search, native H72 and D7 target windows, and synthetic H24/H48/H72 query horizons.",
-        "sample_sizes": "Three valid trials per native assessment; baseline uses the two latest qualifying assessments. No event sample is plotted.",
-        "uncertainty": "Not applicable; windows are protocol definitions.",
-        "test_id": "native_windows_and_synthetic_horizons_match_pinned_protocol",
+        "population": "Equation-generated analytical signal (not athlete data) and the native measurement/evaluation contract with a separate public synthetic forecast contract; no observed assessment events.",
+        "metric": "Gross mean concentric force, peak force and gravity-adjusted net impulse of one analytical force trace; time windows and nominal horizons relative to index exposure.",
+        "units": "Force N; mass kg; time s; mean and peak force N/kg; net impulse m/s; chronology in hours.",
+        "grouping": "One piecewise analytical curve with onset, peak and takeoff; native baseline, H72 and D7 windows; synthetic H24/H48/H72 query horizons.",
+        "sample_sizes": "5,501 evenly spaced integration points; three valid trials per native assessment; baseline uses the two latest qualifying assessments. No empirical sample.",
+        "uncertainty": "Not applicable; deterministic mathematical illustration and protocol definitions.",
+        "test_id": "analytical_curve_endpoints_integrals_and_native_windows_are_valid",
     },
     "Fig6": {
-        "label": "fig:mechanics",
-        "title": "Analytical vertical force-time measurement illustration",
-        "source_ids": ["S09", "S21"],
-        "local_inputs": [],
-        "population": "Equation-generated analytical signal; not athlete data.",
-        "metric": "Vertical force over concentric time; shaded gross force and signed force-minus-bodyweight areas illustrate separate measurement definitions.",
-        "units": "Force N; mass kg; time s; gross mean force N/kg; net impulse m/s.",
-        "grouping": "One piecewise analytical curve with onset, peak, and takeoff boundaries.",
-        "sample_sizes": "361 evenly spaced time points for display; no empirical sample.",
-        "uncertainty": "Not applicable; deterministic mathematical illustration.",
-        "test_id": "analytical_curve_endpoints_and_signed_integral_are_valid",
-    },
-    "Fig7": {
         "label": "fig:performance",
         "title": "Four-model synthetic performance across six outcome-horizon cells",
         "source_ids": ["S01", "S23"],
         "local_inputs": ["evidence/v2_audit/six_cell_results.csv"],
         "population": "Four reference models evaluated on three fixed roots from one public synthetic generator.",
         "metric": "Cellwise NRMSE: RMSE divided by that cell's population SD; three root values and the stored root mean are shown.",
-        "units": "NRMSE dimensionless; force target N/kg and net-impulse target m/s remain separate cells.",
-        "grouping": "Four reference models × three horizons × two outcomes × three fixed evaluation roots.",
+        "units": "NRMSE dimensionless; mean concentric-force target N/kg and net-impulse target m/s remain separate cells.",
+        "grouping": "Four reference models x three horizons x two outcomes x three fixed evaluation roots.",
         "sample_sizes": "Each root has 16 camps, 4,000 episodes, and 12,000 horizon rows; 4,000 rows per outcome-horizon cell.",
         "uncertainty": "No confidence interval; root points and their stored mean show descriptive variation across these three fixed same-generator roots.",
         "test_id": "all_24_cell_root_values_means_and_sample_sds_match_receipt",
+    },
+    "Fig7": {
+        "label": "fig:heatmap",
+        "title": "Model-by-cell NRMSE heatmap and per-root structured-minus-ridge differences",
+        "source_ids": ["S01", "S23"],
+        "local_inputs": ["evidence/v2_audit/six_cell_results.csv"],
+        "population": "Four reference models evaluated on three fixed roots from one public synthetic generator.",
+        "metric": "Stored mean cellwise NRMSE (six cells x four models), stored six-cell mean, and structured minus ridge NRMSE per root and cell.",
+        "units": "NRMSE dimensionless.",
+        "grouping": "Six outcome-horizon cells x four models; panel b differences of recorded root values.",
+        "sample_sizes": "Each root has 16 camps and 4,000 rows per outcome-horizon cell; 18 root-cell differences.",
+        "uncertainty": "No interval or test; descriptive differences of recorded values. No ridge-versus-structured interval was recorded.",
+        "test_id": "heatmap_cell_means_six_cell_means_and_ridge_structured_differences_match_receipt",
     },
     "Fig8": {
         "label": "fig:uncertainty",
@@ -325,7 +325,28 @@ def verify_data():
     s03 = (RELEASE / "S03_M8_REPRODUCTION_RESULTS.md").read_text(encoding="utf-8")
     assert "| `rich_history_camp_recovery` | 15,134 / 15,182 | 3,799 / 3,795 |" in s03
 
+    # Fig. 7 / Fig. 5: ridge below structured in all 18 root-cell comparisons; analytical quantities
+    ridge_lower = 0
+    diffs = []
+    by_cell = {(r["model"], r["cell"]): r for r in six_cells}
+    for cell in {r["cell"] for r in six_cells}:
+        for letter in "abc":
+            d = float(by_cell[("structured_full", cell)][f"root_{letter}"]) - float(by_cell[("ridge_full", cell)][f"root_{letter}"])
+            diffs.append(d)
+            ridge_lower += d > 0
+    assert ridge_lower == 18 and 0.0248 < min(diffs) < 0.0249 and 0.0471 < max(diffs) < 0.0472
+    for cell in {r["cell"] for r in six_cells}:
+        assert min(("zero_innovation", "training_constant", "ridge_full", "structured_full"), key=lambda m: float(by_cell[(m, cell)]["mean"])) == "ridge_full"
+    steps = 5500
+    times = [duration * k / steps for k in range(steps + 1)]
+    values = [force(t) for t in times]
+    area = sum((values[k] + values[k + 1]) * 0.5 * (times[k + 1] - times[k]) for k in range(steps))
+    mean_force = area / duration / mass
+    assert abs(mean_force - 14.788197) < 1e-4 and abs(max(values) / mass - 24.092364) < 1e-4
+    assert abs((area - mass * gravity * duration) / mass - 2.739850606) < 1e-4
+
     return {
+        "heatmap_and_biomechanics_checks": True,
         "training_and_development_split_counts": True,
         "architecture_families_and_parameter_counts": True,
         "18_route_cpu_and_cuda_counts": {"cpu_exact": 18, "cuda_pass": len(cuda_pass), "cuda_fail": len(cuda_fail)},
@@ -346,6 +367,7 @@ def main():
     source_by_id = {record["source_id"]: record for record in source_manifest}
     caption_by_label = figure_captions()
     generator_sha = sha256(ROOT / "figure_source" / "generate_figures.py")
+    style_sha = sha256(ROOT / "figure_source" / "figstyle.py")
     tex_sha = sha256(ROOT / "manuscript.tex")
     sources_manifest_sha = sha256(RELEASE / "sources.json")
     OUTPUT.mkdir(parents=True, exist_ok=True)
@@ -369,6 +391,7 @@ def main():
             "release_sources": source_digests,
             "local_data": local_digests,
             "figure_generator_sha256": generator_sha,
+            "figure_style_module_sha256": style_sha,
             "manuscript_source_sha256": tex_sha,
         }
         pdf = FIGURES / f"{figure}.pdf"

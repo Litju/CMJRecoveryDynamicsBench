@@ -12,7 +12,7 @@
   "grouping": "Model × root; paired model-versus-zero camp resampling within root.",
   "sample_sizes": "5,000 stored replicates; 16 camps resampled per root, preserving 250 episodes and three horizons per camp.",
   "uncertainty": "Conditional within-root bootstrap intervals; no interval is recorded for ridge versus structured or across roots.",
-  "caption_tex": "Recorded camp-bootstrap uncertainty for ridge regression and the structured comparator within each of three synthetic evaluation roots. Panel A shows stored 95\\% percentile intervals for each model's mean six-cell normalized root-mean-square error (NRMSE). Panel B shows paired intervals for model-minus-zero-innovation NRMSE; values below zero favor the named model over the zero-innovation baseline. Each root contributes 16 camps, with all 250 episodes and three horizon queries per selected camp retained together in 5,000 paired resamples using PCG64 seed 49,505,000. These intervals are conditional on a root and are not intervals across roots. No ridge-versus-structured confidence interval was recorded.",
+  "caption_tex": "Recorded camp-bootstrap uncertainty for ridge regression and the structured comparator within each of three synthetic evaluation roots. (a) Stored 95\\% percentile intervals for each model's mean six-cell NRMSE; markers show the root estimate. (b) Paired intervals for model-minus-zero-innovation NRMSE; values below zero favour the named model over the zero-innovation baseline. Each root contributes 16 camps, with all 250 episodes and three horizon queries per selected camp retained together, in 5,000 paired resamples (PCG64 seed 49,505,000). Intervals are conditional on a root and are not intervals across roots. No ridge-versus-structured interval was recorded.",
   "input_digests": {
     "release_source_manifest_sha256": "aa2fc106da8f69b99b4aa9953e48f069d648ea56398d6a607114e5e45c97d3f1",
     "release_sources": {
@@ -30,14 +30,16 @@
     "local_data": {
       "evidence/v2_audit/recorded_uncertainty.csv": "1c45dcf69783aad484f86900c79f577e3e253dac06878653a8af9ddada67b2bc"
     },
-    "figure_generator_sha256": "2b2f1c987eb91f97f3e6517917ce26c236896e582133442f49375b0a40ca4d5a",
-    "manuscript_source_sha256": "9bbfe55dab4333c7edde2753e3dda7983cf5678754294007df660f0c028ba97e"
+    "figure_generator_sha256": "676514c3640d9e008cab7470497272dbc6c0320922ab821a0d3d4042b5bc4c48",
+    "figure_style_module_sha256": "81b59c7621ebc9854e9897e39ef22a263b35cb1218b8d8fdaed725264d814548",
+    "manuscript_source_sha256": "8f8180f29bb14c624c5cac16044dc83e079f153d20f37232fdfceebbfc5bb325"
   },
-  "figure_pdf_sha256": "049424619e7a20da14205d2cab478c99783d4daae557e804df74861c1cc7c85d",
+  "figure_pdf_sha256": "bf684e7ea2b6fa5df2320dc89dad69bacd4dcc2036c95780e0afae9a1b64670e",
   "numerical_test": {
     "id": "all_six_stored_bootstrap_intervals_match_receipt",
     "passed": true,
     "checks": {
+      "heatmap_and_biomechanics_checks": true,
       "training_and_development_split_counts": true,
       "architecture_families_and_parameter_counts": true,
       "18_route_cpu_and_cuda_counts": {

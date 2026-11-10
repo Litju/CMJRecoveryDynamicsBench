@@ -16,7 +16,7 @@
   "grouping": "Nine model families M0–M8, with repeats r0 and r1 per family.",
   "sample_sizes": "18 routes; 1,024 saved-array elements per route.",
   "uncertainty": "No interval; qualification is a recorded deterministic comparison, not an empirical accuracy estimate.",
-  "caption_tex": "Numerical qualification for all 18 model-repeat routes (M0--M8, each with repeats r0 and r1). CPU outputs from the recovered reference implementation are recorded as exactly equal to the original CPU outputs for all routes. Comparisons with archived GPU arrays pass for M0--M3 and fail for both repeats of M4--M8 under the unchanged elementwise tolerance. Maximum absolute differences and failing-element counts are shown where recorded; a dash means the failure count was not reported. Each route compares 512 rows by two outputs. The outputs have different units, so maximum differences are not comparable across routes. These are recorded comparisons, not a fresh GPU replay or an accuracy evaluation.",
+  "caption_tex": "Numerical qualification of 18 model-repeat routes (M0--M8, repeats r0 and r1). (a) Recovered CPU outputs are recorded as exactly equal to the original CPU outputs on every route; comparison with archived GPU arrays is within the unchanged elementwise tolerance for M0--M3 and outside it for both repeats of M4--M8. (b) Recorded maximum absolute difference per route on a logarithmic axis. The two outputs have different units (N/kg and m/s), so the values are not comparable as physical magnitudes. A difference below the absolute tolerance \\(10^{-5}\\) (dashed line) always passes; the criterion also has a relative term, so the maximum alone does not determine status. (c) Number of failing elements out of 1,024 (512 rows by two outputs) where tabulated (n/t: not tabulated). These are recorded comparisons, not a new GPU replay or an accuracy evaluation.",
   "input_digests": {
     "release_source_manifest_sha256": "aa2fc106da8f69b99b4aa9953e48f069d648ea56398d6a607114e5e45c97d3f1",
     "release_sources": {
@@ -54,14 +54,16 @@
     "local_data": {
       "evidence/v2_audit/model_identity_sanitized.csv": "b597608f59a0f29e6f007e83e4e5478c1a5c4baa56e0d240ced1ecc21b5a33e7"
     },
-    "figure_generator_sha256": "2b2f1c987eb91f97f3e6517917ce26c236896e582133442f49375b0a40ca4d5a",
-    "manuscript_source_sha256": "9bbfe55dab4333c7edde2753e3dda7983cf5678754294007df660f0c028ba97e"
+    "figure_generator_sha256": "676514c3640d9e008cab7470497272dbc6c0320922ab821a0d3d4042b5bc4c48",
+    "figure_style_module_sha256": "81b59c7621ebc9854e9897e39ef22a263b35cb1218b8d8fdaed725264d814548",
+    "manuscript_source_sha256": "8f8180f29bb14c624c5cac16044dc83e079f153d20f37232fdfceebbfc5bb325"
   },
-  "figure_pdf_sha256": "00009ea5cda6b38a785d5c8574a760c67d99121cc87a00287505959c64b40657",
+  "figure_pdf_sha256": "397fc8a63d5993393673e0625522f6f8b87cf93cedb550c40fa3e6e076d028aa",
   "numerical_test": {
     "id": "route_population_and_recorded_pass_fail_counts_match_receipt",
     "passed": true,
     "checks": {
+      "heatmap_and_biomechanics_checks": true,
       "training_and_development_split_counts": true,
       "architecture_families_and_parameter_counts": true,
       "18_route_cpu_and_cuda_counts": {

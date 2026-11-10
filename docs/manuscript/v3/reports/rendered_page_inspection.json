@@ -1,7 +1,7 @@
 {
   "academic_review": {
     "pdf": "academic_review_manuscript.pdf",
-    "pages": 24,
+    "pages": 26,
     "render_dpi": 144,
     "rendering": "Every page exported individually at 144 dpi; contact sheets are navigation aids only. Visual findings are recorded separately.",
     "page_records": [
@@ -16,7 +16,7 @@
           595.28,
           841.89
         ],
-        "text_characters": 1679,
+        "text_characters": 1458,
         "text_blocks": 23,
         "embedded_images": 0,
         "vector_drawings": 0,
@@ -33,8 +33,8 @@
           595.28,
           841.89
         ],
-        "text_characters": 2403,
-        "text_blocks": 28,
+        "text_characters": 2266,
+        "text_blocks": 29,
         "embedded_images": 0,
         "vector_drawings": 0,
         "text_blocks_outside_page": []
@@ -50,8 +50,8 @@
           595.28,
           841.89
         ],
-        "text_characters": 2216,
-        "text_blocks": 26,
+        "text_characters": 2201,
+        "text_blocks": 30,
         "embedded_images": 0,
         "vector_drawings": 0,
         "text_blocks_outside_page": []
@@ -67,7 +67,7 @@
           595.28,
           841.89
         ],
-        "text_characters": 2336,
+        "text_characters": 2143,
         "text_blocks": 27,
         "embedded_images": 0,
         "vector_drawings": 0,
@@ -84,8 +84,8 @@
           595.28,
           841.89
         ],
-        "text_characters": 2186,
-        "text_blocks": 27,
+        "text_characters": 1920,
+        "text_blocks": 24,
         "embedded_images": 0,
         "vector_drawings": 0,
         "text_blocks_outside_page": []
@@ -101,8 +101,8 @@
           595.28,
           841.89
         ],
-        "text_characters": 2256,
-        "text_blocks": 27,
+        "text_characters": 2085,
+        "text_blocks": 28,
         "embedded_images": 0,
         "vector_drawings": 0,
         "text_blocks_outside_page": []
@@ -118,8 +118,8 @@
           595.28,
           841.89
         ],
-        "text_characters": 2946,
-        "text_blocks": 23,
+        "text_characters": 3022,
+        "text_blocks": 22,
         "embedded_images": 0,
         "vector_drawings": 0,
         "text_blocks_outside_page": []
@@ -135,10 +135,10 @@
           595.28,
           841.89
         ],
-        "text_characters": 2539,
-        "text_blocks": 20,
+        "text_characters": 2713,
+        "text_blocks": 25,
         "embedded_images": 0,
-        "vector_drawings": 3,
+        "vector_drawings": 0,
         "text_blocks_outside_page": []
       },
       {
@@ -152,10 +152,10 @@
           595.28,
           841.89
         ],
-        "text_characters": 2110,
-        "text_blocks": 19,
+        "text_characters": 2121,
+        "text_blocks": 25,
         "embedded_images": 0,
-        "vector_drawings": 0,
+        "vector_drawings": 3,
         "text_blocks_outside_page": []
       },
       {
@@ -169,10 +169,10 @@
           595.28,
           841.89
         ],
-        "text_characters": 2204,
-        "text_blocks": 30,
+        "text_characters": 2321,
+        "text_blocks": 28,
         "embedded_images": 0,
-        "vector_drawings": 3,
+        "vector_drawings": 2,
         "text_blocks_outside_page": []
       },
       {
@@ -186,10 +186,10 @@
           595.28,
           841.89
         ],
-        "text_characters": 2552,
-        "text_blocks": 25,
+        "text_characters": 2585,
+        "text_blocks": 26,
         "embedded_images": 0,
-        "vector_drawings": 0,
+        "vector_drawings": 1,
         "text_blocks_outside_page": []
       },
       {
@@ -203,8 +203,8 @@
           595.28,
           841.89
         ],
-        "text_characters": 2031,
-        "text_blocks": 26,
+        "text_characters": 1922,
+        "text_blocks": 25,
         "embedded_images": 0,
         "vector_drawings": 0,
         "text_blocks_outside_page": []
@@ -220,10 +220,10 @@
           595.28,
           841.89
         ],
-        "text_characters": 1858,
-        "text_blocks": 36,
+        "text_characters": 1971,
+        "text_blocks": 27,
         "embedded_images": 0,
-        "vector_drawings": 6,
+        "vector_drawings": 0,
         "text_blocks_outside_page": []
       },
       {
@@ -237,10 +237,10 @@
           595.28,
           841.89
         ],
-        "text_characters": 2101,
-        "text_blocks": 26,
+        "text_characters": 1716,
+        "text_blocks": 39,
         "embedded_images": 0,
-        "vector_drawings": 0,
+        "vector_drawings": 6,
         "text_blocks_outside_page": []
       },
       {
@@ -254,8 +254,8 @@
           595.28,
           841.89
         ],
-        "text_characters": 2563,
-        "text_blocks": 23,
+        "text_characters": 2049,
+        "text_blocks": 27,
         "embedded_images": 0,
         "vector_drawings": 0,
         "text_blocks_outside_page": []
@@ -271,10 +271,10 @@
           595.28,
           841.89
         ],
-        "text_characters": 2743,
-        "text_blocks": 19,
+        "text_characters": 2081,
+        "text_blocks": 28,
         "embedded_images": 0,
-        "vector_drawings": 6,
+        "vector_drawings": 0,
         "text_blocks_outside_page": []
       },
       {
@@ -288,10 +288,10 @@
           595.28,
           841.89
         ],
-        "text_characters": 2734,
-        "text_blocks": 18,
+        "text_characters": 3221,
+        "text_blocks": 21,
         "embedded_images": 0,
-        "vector_drawings": 0,
+        "vector_drawings": 7,
         "text_blocks_outside_page": []
       },
       {
@@ -305,10 +305,10 @@
           595.28,
           841.89
         ],
-        "text_characters": 2604,
-        "text_blocks": 25,
+        "text_characters": 2738,
+        "text_blocks": 19,
         "embedded_images": 0,
-        "vector_drawings": 0,
+        "vector_drawings": 3,
         "text_blocks_outside_page": []
       },
       {
@@ -322,8 +322,8 @@
           595.28,
           841.89
         ],
-        "text_characters": 2322,
-        "text_blocks": 28,
+        "text_characters": 2806,
+        "text_blocks": 19,
         "embedded_images": 0,
         "vector_drawings": 0,
         "text_blocks_outside_page": []
@@ -339,8 +339,8 @@
           595.28,
           841.89
         ],
-        "text_characters": 2454,
-        "text_blocks": 28,
+        "text_characters": 2503,
+        "text_blocks": 30,
         "embedded_images": 0,
         "vector_drawings": 0,
         "text_blocks_outside_page": []
@@ -356,8 +356,8 @@
           595.28,
           841.89
         ],
-        "text_characters": 2055,
-        "text_blocks": 26,
+        "text_characters": 2173,
+        "text_blocks": 28,
         "embedded_images": 0,
         "vector_drawings": 0,
         "text_blocks_outside_page": []
@@ -373,8 +373,8 @@
           595.28,
           841.89
         ],
-        "text_characters": 2287,
-        "text_blocks": 27,
+        "text_characters": 2145,
+        "text_blocks": 28,
         "embedded_images": 0,
         "vector_drawings": 0,
         "text_blocks_outside_page": []
@@ -390,7 +390,7 @@
           595.28,
           841.89
         ],
-        "text_characters": 1966,
+        "text_characters": 1999,
         "text_blocks": 27,
         "embedded_images": 0,
         "vector_drawings": 0,
@@ -407,8 +407,42 @@
           595.28,
           841.89
         ],
-        "text_characters": 1176,
-        "text_blocks": 16,
+        "text_characters": 1924,
+        "text_blocks": 26,
+        "embedded_images": 0,
+        "vector_drawings": 0,
+        "text_blocks_outside_page": []
+      },
+      {
+        "page": 25,
+        "image": "renders/academic_review/page-025.png",
+        "image_size_px": [
+          1191,
+          1684
+        ],
+        "page_size_points": [
+          595.28,
+          841.89
+        ],
+        "text_characters": 1763,
+        "text_blocks": 26,
+        "embedded_images": 0,
+        "vector_drawings": 0,
+        "text_blocks_outside_page": []
+      },
+      {
+        "page": 26,
+        "image": "renders/academic_review/page-026.png",
+        "image_size_px": [
+          1191,
+          1684
+        ],
+        "page_size_points": [
+          595.28,
+          841.89
+        ],
+        "text_characters": 1580,
+        "text_blocks": 22,
         "embedded_images": 0,
         "vector_drawings": 0,
         "text_blocks_outside_page": []
@@ -417,7 +451,7 @@
   },
   "full_illustrated": {
     "pdf": "full_illustrated_research_manuscript.pdf",
-    "pages": 19,
+    "pages": 12,
     "render_dpi": 144,
     "rendering": "Every page exported individually at 144 dpi; contact sheets are navigation aids only. Visual findings are recorded separately.",
     "page_records": [
@@ -432,10 +466,10 @@
           595.28,
           841.89
         ],
-        "text_characters": 3646,
-        "text_blocks": 10,
+        "text_characters": 6743,
+        "text_blocks": 12,
         "embedded_images": 0,
-        "vector_drawings": 0,
+        "vector_drawings": 6,
         "text_blocks_outside_page": []
       },
       {
@@ -449,10 +483,10 @@
           595.28,
           841.89
         ],
-        "text_characters": 4150,
-        "text_blocks": 7,
+        "text_characters": 7657,
+        "text_blocks": 14,
         "embedded_images": 0,
-        "vector_drawings": 0,
+        "vector_drawings": 1,
         "text_blocks_outside_page": []
       },
       {
@@ -466,10 +500,10 @@
           595.28,
           841.89
         ],
-        "text_characters": 4041,
-        "text_blocks": 10,
+        "text_characters": 3876,
+        "text_blocks": 81,
         "embedded_images": 0,
-        "vector_drawings": 0,
+        "vector_drawings": 244,
         "text_blocks_outside_page": []
       },
       {
@@ -483,10 +517,10 @@
           595.28,
           841.89
         ],
-        "text_characters": 2829,
-        "text_blocks": 46,
+        "text_characters": 7102,
+        "text_blocks": 28,
         "embedded_images": 0,
-        "vector_drawings": 19,
+        "vector_drawings": 4,
         "text_blocks_outside_page": []
       },
       {
@@ -500,10 +534,10 @@
           595.28,
           841.89
         ],
-        "text_characters": 2866,
-        "text_blocks": 16,
+        "text_characters": 4298,
+        "text_blocks": 54,
         "embedded_images": 0,
-        "vector_drawings": 8,
+        "vector_drawings": 121,
         "text_blocks_outside_page": []
       },
       {
@@ -517,10 +551,10 @@
           595.28,
           841.89
         ],
-        "text_characters": 2386,
-        "text_blocks": 39,
+        "text_characters": 5113,
+        "text_blocks": 64,
         "embedded_images": 0,
-        "vector_drawings": 36,
+        "vector_drawings": 145,
         "text_blocks_outside_page": []
       },
       {
@@ -534,10 +568,10 @@
           595.28,
           841.89
         ],
-        "text_characters": 2819,
-        "text_blocks": 33,
+        "text_characters": 5492,
+        "text_blocks": 66,
         "embedded_images": 0,
-        "vector_drawings": 10,
+        "vector_drawings": 84,
         "text_blocks_outside_page": []
       },
       {
@@ -551,10 +585,10 @@
           595.28,
           841.89
         ],
-        "text_characters": 2565,
-        "text_blocks": 30,
+        "text_characters": 3952,
+        "text_blocks": 60,
         "embedded_images": 0,
-        "vector_drawings": 43,
+        "vector_drawings": 198,
         "text_blocks_outside_page": []
       },
       {
@@ -568,10 +602,10 @@
           595.28,
           841.89
         ],
-        "text_characters": 2603,
-        "text_blocks": 21,
-        "embedded_images": 0,
-        "vector_drawings": 58,
+        "text_characters": 5342,
+        "text_blocks": 49,
+        "embedded_images": 2,
+        "vector_drawings": 72,
         "text_blocks_outside_page": []
       },
       {
@@ -585,10 +619,10 @@
           595.28,
           841.89
         ],
-        "text_characters": 3095,
-        "text_blocks": 26,
+        "text_characters": 4596,
+        "text_blocks": 64,
         "embedded_images": 0,
-        "vector_drawings": 6,
+        "vector_drawings": 155,
         "text_blocks_outside_page": []
       },
       {
@@ -602,10 +636,10 @@
           595.28,
           841.89
         ],
-        "text_characters": 3770,
-        "text_blocks": 9,
+        "text_characters": 6142,
+        "text_blocks": 38,
         "embedded_images": 0,
-        "vector_drawings": 0,
+        "vector_drawings": 67,
         "text_blocks_outside_page": []
       },
       {
@@ -619,129 +653,10 @@
           595.28,
           841.89
         ],
-        "text_characters": 1971,
-        "text_blocks": 52,
+        "text_characters": 5548,
+        "text_blocks": 25,
         "embedded_images": 0,
-        "vector_drawings": 230,
-        "text_blocks_outside_page": []
-      },
-      {
-        "page": 13,
-        "image": "renders/full_illustrated/page-013.png",
-        "image_size_px": [
-          1191,
-          1684
-        ],
-        "page_size_points": [
-          595.28,
-          841.89
-        ],
-        "text_characters": 3764,
-        "text_blocks": 14,
-        "embedded_images": 0,
-        "vector_drawings": 6,
-        "text_blocks_outside_page": []
-      },
-      {
-        "page": 14,
-        "image": "renders/full_illustrated/page-014.png",
-        "image_size_px": [
-          1191,
-          1684
-        ],
-        "page_size_points": [
-          595.28,
-          841.89
-        ],
-        "text_characters": 1242,
-        "text_blocks": 15,
-        "embedded_images": 0,
-        "vector_drawings": 56,
-        "text_blocks_outside_page": []
-      },
-      {
-        "page": 15,
-        "image": "renders/full_illustrated/page-015.png",
-        "image_size_px": [
-          1191,
-          1684
-        ],
-        "page_size_points": [
-          595.28,
-          841.89
-        ],
-        "text_characters": 1346,
-        "text_blocks": 27,
-        "embedded_images": 0,
-        "vector_drawings": 101,
-        "text_blocks_outside_page": []
-      },
-      {
-        "page": 16,
-        "image": "renders/full_illustrated/page-016.png",
-        "image_size_px": [
-          1191,
-          1684
-        ],
-        "page_size_points": [
-          595.28,
-          841.89
-        ],
-        "text_characters": 3522,
-        "text_blocks": 11,
-        "embedded_images": 0,
-        "vector_drawings": 25,
-        "text_blocks_outside_page": []
-      },
-      {
-        "page": 17,
-        "image": "renders/full_illustrated/page-017.png",
-        "image_size_px": [
-          1191,
-          1684
-        ],
-        "page_size_points": [
-          595.28,
-          841.89
-        ],
-        "text_characters": 4208,
-        "text_blocks": 8,
-        "embedded_images": 0,
-        "vector_drawings": 0,
-        "text_blocks_outside_page": []
-      },
-      {
-        "page": 18,
-        "image": "renders/full_illustrated/page-018.png",
-        "image_size_px": [
-          1191,
-          1684
-        ],
-        "page_size_points": [
-          595.28,
-          841.89
-        ],
-        "text_characters": 3914,
-        "text_blocks": 18,
-        "embedded_images": 0,
-        "vector_drawings": 0,
-        "text_blocks_outside_page": []
-      },
-      {
-        "page": 19,
-        "image": "renders/full_illustrated/page-019.png",
-        "image_size_px": [
-          1191,
-          1684
-        ],
-        "page_size_points": [
-          595.28,
-          841.89
-        ],
-        "text_characters": 2102,
-        "text_blocks": 11,
-        "embedded_images": 0,
-        "vector_drawings": 0,
+        "vector_drawings": 1,
         "text_blocks_outside_page": []
       }
     ]

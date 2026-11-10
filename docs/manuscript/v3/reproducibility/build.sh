@@ -18,6 +18,7 @@ for BUILD_DIR in build/academic_review build/full_illustrated; do
   mkdir -p "$BUILD_DIR/bibliography"
   cp bibliography/references.bib "$BUILD_DIR/bibliography/references.bib"
 done
+"$PYTHON_BIN" reproducibility/refresh_claims_audit.py
 "$PYTHON_BIN" reproducibility/verify_package.py --pre-build
 "$PYTHON_BIN" figure_source/generate_figures.py
 "$PYTHON_BIN" reproducibility/verify_quantitative_figures.py

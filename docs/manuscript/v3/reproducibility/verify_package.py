@@ -285,9 +285,9 @@ def verify_manuscript_crossrefs():
             "fig:workflow",
             "fig:architecture",
             "fig:numerical",
-            "fig:chronology",
-            "fig:mechanics",
+            "fig:biomech",
             "fig:performance",
+            "fig:heatmap",
             "fig:uncertainty",
             "fig:ablation",
             "fig:scope",
@@ -302,9 +302,9 @@ def verify_manuscript_crossrefs():
         "fig:workflow",
         "fig:architecture",
         "fig:numerical",
-        "fig:chronology",
-        "fig:mechanics",
+        "fig:biomech",
         "fig:performance",
+        "fig:heatmap",
         "fig:uncertainty",
         "fig:ablation",
         "fig:scope",
@@ -315,7 +315,7 @@ def verify_manuscript_crossrefs():
     abstract_plain = re.sub(r"\\[A-Za-z]+\b(?:\[[^\]]*\])?(?:\{[^}]*\})?", " ", abstract)
     word_count = len(re.findall(r"\b[\w'-]+\b", abstract_plain))
     assert word_count <= 300, f"Abstract is {word_count} words"
-    assert r"\footnote" not in text
+    assert not re.search(r"\\footnote\b", text)
     return {"figure_order": unique_order, "abstract_word_count": word_count, "footnotes": 0}
 
 
@@ -331,9 +331,9 @@ def generate_ledgers():
         ("Figure", "2", "Public synthetic study sample structure", ["S01", "S02"], [], "Recorded camp, episode, and horizon-row counts by split", "Three evaluation roots share one generator and are not human cohorts."),
         ("Figure", "3", "Historical neural model architectures and parameter counts", ["S16", "S24", "S25", "S26"], ["evidence/v2_audit/architecture_qualification.csv"], "Architecture progression and counts copied from the public model-qualification summary", "Parameter count is not an accuracy score; fitted weights are excluded."),
         ("Figure", "4", "18-route CPU and archived GPU-output qualification", ["S06", "S12", "S13", "S14", "S15", "S16"], ["evidence/v2_audit/model_identity_sanitized.csv"], "Matrix of recorded route status and numerical differences", "Not a fresh inference or GPU replay; the two outputs have different units."),
-        ("Figure", "5", "Native and synthetic horizon chronology", ["S02", "S09", "S16"], [], "Time windows drawn from recorded contracts", "No athlete measurement events are plotted; synthetic horizons are separate."),
-        ("Figure", "6", "Analytical force-time mechanics", ["S09", "S21"], [], "Piecewise analytical signal generated in the figure script", "Illustration only; not empirical athlete data."),
-        ("Figure", "7", "Public six-cell synthetic benchmark", ["S01", "S23"], ["evidence/v2_audit/six_cell_results.csv"], "Root points and stored means copied from receipts", "Three roots share one generator; force and impulse are separate cells."),
+        ("Figure", "5", "Native force-time definitions and assessment chronology", ["S02", "S09", "S16", "S21"], [], "Piecewise analytical signal integrated in the figure script plus protocol windows", "Illustration only; no athlete measurement events are plotted; synthetic horizons are separate."),
+        ("Figure", "6", "Public six-cell synthetic benchmark", ["S01", "S23"], ["evidence/v2_audit/six_cell_results.csv"], "Root points and stored means copied from receipts", "Three roots share one generator; force and impulse are separate cells."),
+        ("Figure", "7", "Model-by-cell NRMSE heatmap", ["S01", "S23"], ["evidence/v2_audit/six_cell_results.csv"], "Stored cell means and six-cell means copied from receipts; per-root structured-minus-ridge differences of recorded values", "Descriptive; no ridge-versus-structured interval."),
         ("Figure", "8", "Recorded bootstrap intervals", ["S01"], ["evidence/v2_audit/recorded_uncertainty.csv"], "Stored point values and percentile endpoints copied from receipts", "Conditional within-root intervals only; no ridge-versus-structured interval."),
         ("Figure", "9", "Ablations and nested camp counts", ["S01"], [], "Stored root-level scores and means copied from receipt", "Diagnostic comparisons, not causal attribution or human sample efficiency."),
         ("Figure", "10", "Rich-history reconstruction and historical row-count differences", ["S03", "S04"], [], "Public reconstruction minus historical row counts by split", "Recorded membership differences, not response effects or uncertainty intervals."),
@@ -357,7 +357,7 @@ def generate_ledgers():
                 exports,
                 source_text,
                 "figure_source/generate_figures.py" if kind == "Figure" else "manuscript.tex / supplement table generator",
-                sha256(ROOT / "figure_source" / "generate_figures.py") if kind == "Figure" else "",
+                sha256(ROOT / "figure_source" / "generate_figures.py") + " + figstyle.py=" + sha256(ROOT / "figure_source" / "figstyle.py") if kind == "Figure" else "",
                 method,
                 limit,
             ]
@@ -424,9 +424,9 @@ def verify_manuscript():
             "fig:workflow",
             "fig:architecture",
             "fig:numerical",
-            "fig:chronology",
-            "fig:mechanics",
+            "fig:biomech",
             "fig:performance",
+            "fig:heatmap",
             "fig:uncertainty",
             "fig:ablation",
             "fig:scope",
@@ -444,9 +444,9 @@ def verify_manuscript():
         "fig:workflow",
         "fig:architecture",
         "fig:numerical",
-        "fig:chronology",
-        "fig:mechanics",
+        "fig:biomech",
         "fig:performance",
+        "fig:heatmap",
         "fig:uncertainty",
         "fig:ablation",
         "fig:scope",
@@ -456,7 +456,7 @@ def verify_manuscript():
     plain = re.sub(r"\\[A-Za-z]+\b(?:\[[^\]]*\])?(?:\{[^}]*\})?", " ", abstract)
     word_count = len(re.findall(r"\b[\w'-]+\b", plain))
     assert word_count <= 300
-    assert r"\footnote" not in text
+    assert not re.search(r"\\footnote\b", text)
     return {"abstract_words": word_count, "citations": len(cited), "figures_in_order": figure_order}
 
 
