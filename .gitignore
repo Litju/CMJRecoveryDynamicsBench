@@ -213,3 +213,12 @@ docs/manuscript/v3/build/
 !docs/science/*.md
 !docs/science/*.json
 !docs/science/*.csv
+
+# Science-first flagship manuscript package (manifest-controlled).
+!docs/manuscript/v4/
+!docs/manuscript/v4/**/*.md
+!docs/manuscript/v4/**/*.json
+!docs/manuscript/v4/**/*.csv
+docs/manuscript/v4/toolchain/
+docs/manuscript/v4/build/
+docs/manuscript/v4/.venv/
