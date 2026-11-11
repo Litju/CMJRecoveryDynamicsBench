@@ -222,3 +222,6 @@ docs/manuscript/v3/build/
 docs/manuscript/v4/toolchain/
 docs/manuscript/v4/build/
 docs/manuscript/v4/.venv/
+!docs/science/qa/
+!docs/science/qa/*.md
+!docs/science/qa/*.json
