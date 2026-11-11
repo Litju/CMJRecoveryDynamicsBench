@@ -1,0 +1,341 @@
+{
+ "note": "Bibliographic metadata verified against Crossref/arXiv. These are external literature; none is a result of this repository.",
+ "references": [
+  {
+   "doi": "10.1119/1.1397460",
+   "authors": [
+    "Linthorne, Nicholas P."
+   ],
+   "year": 2001,
+   "title": "Analysis of standing vertical jumps using a force platform",
+   "venue": "American Journal of Physics",
+   "volume": "69",
+   "pages": "1198-1204",
+   "research_question": "RQ1",
+   "supports": "Force-platform analysis of standing vertical jumps (impulse-momentum framing of jump mechanics).",
+   "does_not_support": "Does not validate the synthetic half-sine trace.",
+   "verification": "Crossref record retrieved 2026-11-11; title, authors, year, venue and DOI matched. Full-text claim verification by a human domain reviewer pending."
+  },
+  {
+   "doi": "10.2165/11537690-000000000-00000",
+   "authors": [
+    "Cormie, Prue",
+    "McGuigan, Michael R.",
+    "Newton, Robert U."
+   ],
+   "year": 2011,
+   "title": "Developing Maximal Neuromuscular Power",
+   "venue": "Sports Medicine",
+   "volume": "41",
+   "pages": "17-38",
+   "research_question": "RQ1",
+   "supports": "Review of neuromuscular power development, including force, impulse and power concepts in jumping.",
+   "does_not_support": "Background only; not a source for any constant in the generator.",
+   "verification": "Crossref record retrieved 2026-11-11; title, authors, year, venue and DOI matched. Full-text claim verification by a human domain reviewer pending."
+  },
+  {
+   "doi": "10.1519/SSC.0000000000000375",
+   "authors": [
+    "McMahon, John J.",
+    "Suchomel, Timothy J.",
+    "Lake, Jason P.",
+    "Comfort, Paul"
+   ],
+   "year": 2018,
+   "title": "Understanding the Key Phases of the Countermovement Jump Force-Time Curve",
+   "venue": "Strength & Conditioning Journal",
+   "volume": "40",
+   "pages": "96-106",
+   "research_question": "RQ1",
+   "supports": "Phase-by-phase description of the countermovement-jump force-time curve (concentric phase definition).",
+   "does_not_support": "Does not endorse the repository's onset/takeoff event definitions as an instrument standard.",
+   "verification": "Crossref record retrieved 2026-11-11; title, authors, year, venue and DOI matched. Full-text claim verification by a human domain reviewer pending."
+  },
+  {
+   "doi": "10.1016/j.jsams.2016.08.011",
+   "authors": [
+    "Claudino, João Gustavo",
+    "Cronin, John",
+    "Mezêncio, Bruno",
+    "McMaster, Daniel Travis",
+    "McGuigan, Michael",
+    "Tricoli, Valmor",
+    "Amadio, Alberto Carlos",
+    "Serrão, Julio Cerca"
+   ],
+   "year": 2017,
+   "title": "The countermovement jump to monitor neuromuscular status: A meta-analysis",
+   "venue": "Journal of Science and Medicine in Sport",
+   "volume": "20",
+   "pages": "397-402",
+   "research_question": "RQ2",
+   "supports": "Meta-analysis of CMJ as a neuromuscular-status monitoring tool.",
+   "does_not_support": "External background; says nothing about this generator's recovery curves.",
+   "verification": "Crossref record retrieved 2026-11-11; title, authors, year, venue and DOI matched. Full-text claim verification by a human domain reviewer pending."
+  },
+  {
+   "doi": "10.1519/JSC.0000000000000912",
+   "authors": [
+    "Gathercole, Rob J.",
+    "Sporer, Ben C.",
+    "Stellingwerff, Trent",
+    "Sleivert, Gord G."
+   ],
+   "year": 2015,
+   "title": "Comparison of the Capacity of Different Jump and Sprint Field Tests to Detect Neuromuscular Fatigue",
+   "venue": "Journal of Strength and Conditioning Research",
+   "volume": "29",
+   "pages": "2522-2531",
+   "research_question": "RQ2",
+   "supports": "Comparison of jump and sprint field tests for detecting neuromuscular fatigue.",
+   "does_not_support": "External background; not evidence for 24 h / 84 h modes.",
+   "verification": "Crossref record retrieved 2026-11-11; title, authors, year, venue and DOI matched. Full-text claim verification by a human domain reviewer pending."
+  },
+  {
+   "doi": "10.2165/00007256-200030010-00001",
+   "authors": [
+    "Hopkins, Will G."
+   ],
+   "year": 2000,
+   "title": "Measures of Reliability in Sports Medicine and Science",
+   "venue": "Sports Medicine",
+   "volume": "30",
+   "pages": "1-15",
+   "research_question": "RQ1",
+   "supports": "Measures of reliability in sports medicine and science (typical error, within-subject variation).",
+   "does_not_support": "The synthetic CVs are assumptions, not estimates from this reference.",
+   "verification": "Crossref record retrieved 2026-11-11; title, authors, year, venue and DOI matched. Full-text claim verification by a human domain reviewer pending."
+  },
+  {
+   "doi": "10.1123/ijspp.2017-0759",
+   "authors": [
+    "Kellmann, Michael",
+    "Bertollo, Maurizio",
+    "Bosquet, Laurent",
+    "Brink, Michel",
+    "Coutts, Aaron J.",
+    "Duffield, Rob",
+    "Erlacher, Daniel",
+    "Halson, Shona L.",
+    "Hecksteden, Anne",
+    "Heidari, Jahan",
+    "Kallus, K. Wolfgang",
+    "Meeusen, Romain",
+    "Mujika, Iñigo",
+    "Robazza, Claudio",
+    "Skorski, Sabrina",
+    "Venter, Ranel",
+    "Beckmann, Jürgen"
+   ],
+   "year": 2018,
+   "title": "Recovery and Performance in Sport: Consensus Statement",
+   "venue": "International Journal of Sports Physiology and Performance",
+   "volume": "13",
+   "pages": "240-245",
+   "research_question": "RQ2",
+   "supports": "Consensus statement on recovery and performance in sport.",
+   "does_not_support": "Context only.",
+   "verification": "Crossref record retrieved 2026-11-11; title, authors, year, venue and DOI matched. Full-text claim verification by a human domain reviewer pending."
+  },
+  {
+   "doi": "10.1123/ijspp.2018-0935",
+   "authors": [
+    "Impellizzeri, Franco M.",
+    "Marcora, Samuele M.",
+    "Coutts, Aaron J."
+   ],
+   "year": 2019,
+   "title": "Internal and External Training Load: 15 Years On",
+   "venue": "International Journal of Sports Physiology and Performance",
+   "volume": "14",
+   "pages": "270-273",
+   "research_question": "RQ2",
+   "supports": "Distinction between internal and external training load.",
+   "does_not_support": "Context for the eight exposure fields; the generator has no internal-load measurement.",
+   "verification": "Crossref record retrieved 2026-11-11; title, authors, year, venue and DOI matched. Full-text claim verification by a human domain reviewer pending."
+  },
+  {
+   "doi": "10.1109/TSMC.1976.5409179",
+   "authors": [
+    "Calvert, Thomas W.",
+    "Banister, Eric W.",
+    "Savage, Margaret V.",
+    "Bach, Tim"
+   ],
+   "year": 1976,
+   "title": "A Systems Model of the Effects of Training on Physical Performance",
+   "venue": "IEEE Transactions on Systems, Man, and Cybernetics",
+   "volume": "SMC-6",
+   "pages": "94-102",
+   "research_question": "RQ2",
+   "supports": "Early systems (impulse-response) model relating training to performance.",
+   "does_not_support": "Related exposure-response lineage; the synthetic world is not a fit of this model.",
+   "verification": "Crossref record retrieved 2026-11-11; title, authors, year, venue and DOI matched. Full-text claim verification by a human domain reviewer pending."
+  },
+  {
+   "doi": "10.1249/01.MSS.0000074465.13621.37",
+   "authors": [
+    "BUSSO, THIERRY"
+   ],
+   "year": 2003,
+   "title": "Variable Dose-Response Relationship between Exercise Training and Performance",
+   "venue": "Medicine & Science in Sports & Exercise",
+   "volume": "35",
+   "pages": "1188-1195",
+   "research_question": "RQ2",
+   "supports": "Variable dose-response model of training and performance.",
+   "does_not_support": "Related exposure-response lineage; no claim that the fixed modes estimate such parameters.",
+   "verification": "Crossref record retrieved 2026-11-11; title, authors, year, venue and DOI matched. Full-text claim verification by a human domain reviewer pending."
+  },
+  {
+   "doi": "10.1098/rsta.2020.0209",
+   "authors": [
+    "Lim, Bryan",
+    "Zohren, Stefan"
+   ],
+   "year": 2021,
+   "title": "Time-series forecasting with deep learning: a survey",
+   "venue": "Philosophical Transactions of the Royal Society A: Mathematical, Physical and Engineering Sciences",
+   "volume": "379",
+   "pages": "20200209",
+   "research_question": "RQ2",
+   "supports": "Survey of deep-learning approaches to time-series forecasting.",
+   "does_not_support": "Taxonomy context for history-aware architectures.",
+   "verification": "Crossref record retrieved 2026-11-11; title, authors, year, venue and DOI matched. Full-text claim verification by a human domain reviewer pending."
+  },
+  {
+   "doi": "10.1038/s41598-018-24271-9",
+   "authors": [
+    "Che, Zhengping",
+    "Purushotham, Sanjay",
+    "Cho, Kyunghyun",
+    "Sontag, David",
+    "Liu, Yan"
+   ],
+   "year": 2018,
+   "title": "Recurrent Neural Networks for Multivariate Time Series with Missing Values",
+   "venue": "Scientific Reports",
+   "volume": "8",
+   "pages": null,
+   "research_question": "RQ2",
+   "supports": "Recurrent networks for multivariate time series with missing values.",
+   "does_not_support": "Related recurrent-history modeling; the repository's GRUs are not those models.",
+   "verification": "Crossref record retrieved 2026-11-11; title, authors, year, venue and DOI matched. Full-text claim verification by a human domain reviewer pending."
+  },
+  {
+   "doi": "10.1080/00401706.1970.10488634",
+   "authors": [
+    "Hoerl, Arthur E.",
+    "Kennard, Robert W."
+   ],
+   "year": 1970,
+   "title": "Ridge Regression: Biased Estimation for Nonorthogonal Problems",
+   "venue": "Technometrics",
+   "volume": "12",
+   "pages": "55-67",
+   "research_question": "RQ3",
+   "supports": "Ridge regression (L2-penalized least squares).",
+   "does_not_support": "Defines the penalty used by the ridge reference model.",
+   "verification": "Crossref record retrieved 2026-11-11; title, authors, year, venue and DOI matched. Full-text claim verification by a human domain reviewer pending."
+  },
+  {
+   "doi": "10.1214/aos/1176344552",
+   "authors": [
+    "Efron, B."
+   ],
+   "year": 1979,
+   "title": "Bootstrap Methods: Another Look at the Jackknife",
+   "venue": "The Annals of Statistics",
+   "volume": "7",
+   "pages": "1-26",
+   "research_question": "RQ3",
+   "supports": "The bootstrap.",
+   "does_not_support": "Basis of the resampling idea; the repository resamples whole camps.",
+   "verification": "Crossref record retrieved 2026-11-11; title, authors, year, venue and DOI matched. Full-text claim verification by a human domain reviewer pending."
+  },
+  {
+   "doi": "10.1162/rest.90.3.414",
+   "authors": [
+    "Cameron, A. Colin",
+    "Gelbach, Jonah B.",
+    "Miller, Douglas L."
+   ],
+   "year": 2008,
+   "title": "Bootstrap-Based Improvements for Inference with Clustered Errors",
+   "venue": "Review of Economics and Statistics",
+   "volume": "90",
+   "pages": "414-427",
+   "research_question": "RQ3",
+   "supports": "Bootstrap inference with clustered errors.",
+   "does_not_support": "Motivates resampling whole clusters; with 16 camps intervals remain coarse.",
+   "verification": "Crossref record retrieved 2026-11-11; title, authors, year, venue and DOI matched. Full-text claim verification by a human domain reviewer pending."
+  },
+  {
+   "doi": "10.1016/j.ijforecast.2006.03.001",
+   "authors": [
+    "Hyndman, Rob J.",
+    "Koehler, Anne B."
+   ],
+   "year": 2006,
+   "title": "Another look at measures of forecast accuracy",
+   "venue": "International Journal of Forecasting",
+   "volume": "22",
+   "pages": "679-688",
+   "research_question": "RQ3",
+   "supports": "Properties of forecast-accuracy measures (scale-free errors).",
+   "does_not_support": "Context for normalized RMSE; the repository's NRMSE divides by the cell truth SD.",
+   "verification": "Crossref record retrieved 2026-11-11; title, authors, year, venue and DOI matched. Full-text claim verification by a human domain reviewer pending."
+  },
+  {
+   "doi": "10.1002/sim.8086",
+   "authors": [
+    "Morris, Tim P.",
+    "White, Ian R.",
+    "Crowther, Michael J."
+   ],
+   "year": 2019,
+   "title": "Using simulation studies to evaluate statistical methods",
+   "venue": "Statistics in Medicine",
+   "volume": "38",
+   "pages": "2074-2102",
+   "research_question": "RQ3",
+   "supports": "ADEMP framework for reporting simulation studies.",
+   "does_not_support": "Reporting structure only.",
+   "verification": "Crossref record retrieved 2026-11-11; title, authors, year, venue and DOI matched. Full-text claim verification by a human domain reviewer pending."
+  },
+  {
+   "doi": "arXiv:1406.1078",
+   "authors": [
+    "Cho, Kyunghyun",
+    "van Merrienboer, Bart",
+    "Gulcehre, Caglar",
+    "et al."
+   ],
+   "year": 2014,
+   "title": "Learning Phrase Representations using RNN Encoder-Decoder for Statistical Machine Translation",
+   "venue": "arXiv preprint",
+   "volume": null,
+   "pages": null,
+   "research_question": "RQ2",
+   "supports": "Introduces the gated recurrent unit.",
+   "does_not_support": "Not evidence that GRUs help recovery forecasting.",
+   "verification": "arXiv API record retrieved 2026-11-11; title and first authors matched."
+  },
+  {
+   "doi": "arXiv:1606.08415",
+   "authors": [
+    "Hendrycks, Dan",
+    "Gimpel, Kevin"
+   ],
+   "year": 2016,
+   "title": "Gaussian Error Linear Units (GELUs)",
+   "venue": "arXiv preprint",
+   "volume": null,
+   "pages": null,
+   "research_question": "RQ2",
+   "supports": "Defines the GELU activation used by M0-M8 feedforward layers.",
+   "does_not_support": "",
+   "verification": "arXiv API record retrieved 2026-11-11; title and authors matched."
+  }
+ ]
+}
