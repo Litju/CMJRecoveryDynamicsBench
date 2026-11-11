@@ -7,7 +7,22 @@ Gate7 v1.1.0 is the published software release. The historical v1.0.0 release an
 fixed-mode M8 receipts retain their original identities. Recovered CPU inference
 and synthetic qualification do not establish athlete predictive accuracy.
 
-## 1. Research paper (current)
+## 0. Flagship paper (M12, owner review pending)
+
+The science-first article, *Modeling Countermovement-Jump Recovery: Biomechanical
+Measurement, Neural Architectures, and a Controlled Synthetic Benchmark*, covers CMJ
+force-time measurement, mathematical recovery models, the nine original neural
+architectures and the public four-model synthetic experiment. It is an unsubmitted
+draft. The retrospective reconstruction paper below is its companion.
+
+| Read | File |
+| --- | --- |
+| Illustrated flagship paper | [full_illustrated_manuscript.pdf](manuscript/v4/full_illustrated_manuscript.pdf) |
+| Review edition and supplement | [academic_review_manuscript.pdf](manuscript/v4/academic_review_manuscript.pdf), [technical_supplement.pdf](manuscript/v4/technical_supplement.pdf) |
+| Package guide and regeneration | [v4 README](manuscript/v4/README.md) |
+| Claims/evidence register, terminology, storyboard | [science/](science/README.md) |
+
+## 1. Research paper (retrospective companion)
 
 The current paper is the V3 illustrated research manuscript, *Retrospective
 reconstruction and numerical qualification of historical countermovement-jump

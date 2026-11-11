@@ -91,3 +91,11 @@ def test_current_and_historical_citations_are_distinguished() -> None:
     assert "](../CITATION.cff)" in website_readme
     assert "frozen historical copy" in website_readme
     assert "](../CITATION.cff)" in _text("docs/INDEX.md")
+
+
+def test_flagship_paper_is_listed_before_the_retrospective_companion() -> None:
+    index = _text("docs/INDEX.md")
+    flagship = "manuscript/v4/full_illustrated_manuscript.pdf"
+    assert (REPOSITORY_ROOT / "docs" / flagship).is_file()
+    assert index.index(flagship) < index.index("full_illustrated_research_manuscript.pdf")
+    assert "retrospective companion" in index
