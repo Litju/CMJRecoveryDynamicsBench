@@ -207,3 +207,9 @@ website/**/.env*
 !docs/manuscript/v3/**/*.csv
 docs/manuscript/v3/toolchain/
 docs/manuscript/v3/build/
+
+# Science-first evidence foundation (manifest-controlled; see tests/test_science_foundation.py).
+!docs/science/
+!docs/science/*.md
+!docs/science/*.json
+!docs/science/*.csv

@@ -1,0 +1,20 @@
+id,research_question,year,first_author,identifier,supports,does_not_support
+X1,RQ1,2001,"Linthorne, Nicholas P.",10.1119/1.1397460,Force-platform analysis of standing vertical jumps (impulse-momentum framing of jump mechanics).,Does not validate the synthetic half-sine trace.
+X2,RQ1,2011,"Cormie, Prue",10.2165/11537690-000000000-00000,"Review of neuromuscular power development, including force, impulse and power concepts in jumping.",Background only; not a source for any constant in the generator.
+X3,RQ1,2018,"McMahon, John J.",10.1519/SSC.0000000000000375,Phase-by-phase description of the countermovement-jump force-time curve (concentric phase definition).,Does not endorse the repository's onset/takeoff event definitions as an instrument standard.
+X4,RQ2,2017,"Claudino, João Gustavo",10.1016/j.jsams.2016.08.011,Meta-analysis of CMJ as a neuromuscular-status monitoring tool.,External background; says nothing about this generator's recovery curves.
+X5,RQ2,2015,"Gathercole, Rob J.",10.1519/JSC.0000000000000912,Comparison of jump and sprint field tests for detecting neuromuscular fatigue.,External background; not evidence for 24 h / 84 h modes.
+X6,RQ1,2000,"Hopkins, Will G.",10.2165/00007256-200030010-00001,"Measures of reliability in sports medicine and science (typical error, within-subject variation).","The synthetic CVs are assumptions, not estimates from this reference."
+X7,RQ2,2018,"Kellmann, Michael",10.1123/ijspp.2017-0759,Consensus statement on recovery and performance in sport.,Context only.
+X8,RQ2,2019,"Impellizzeri, Franco M.",10.1123/ijspp.2018-0935,Distinction between internal and external training load.,Context for the eight exposure fields; the generator has no internal-load measurement.
+X9,RQ2,1976,"Calvert, Thomas W.",10.1109/TSMC.1976.5409179,Early systems (impulse-response) model relating training to performance.,Related exposure-response lineage; the synthetic world is not a fit of this model.
+X10,RQ2,2003,"BUSSO, THIERRY",10.1249/01.MSS.0000074465.13621.37,Variable dose-response model of training and performance.,Related exposure-response lineage; no claim that the fixed modes estimate such parameters.
+X11,RQ2,2021,"Lim, Bryan",10.1098/rsta.2020.0209,Survey of deep-learning approaches to time-series forecasting.,Taxonomy context for history-aware architectures.
+X12,RQ2,2018,"Che, Zhengping",10.1038/s41598-018-24271-9,Recurrent networks for multivariate time series with missing values.,Related recurrent-history modeling; the repository's GRUs are not those models.
+X13,RQ3,1970,"Hoerl, Arthur E.",10.1080/00401706.1970.10488634,Ridge regression (L2-penalized least squares).,Defines the penalty used by the ridge reference model.
+X14,RQ3,1979,"Efron, B.",10.1214/aos/1176344552,The bootstrap.,Basis of the resampling idea; the repository resamples whole camps.
+X15,RQ3,2008,"Cameron, A. Colin",10.1162/rest.90.3.414,Bootstrap inference with clustered errors.,Motivates resampling whole clusters; with 16 camps intervals remain coarse.
+X16,RQ3,2006,"Hyndman, Rob J.",10.1016/j.ijforecast.2006.03.001,Properties of forecast-accuracy measures (scale-free errors).,Context for normalized RMSE; the repository's NRMSE divides by the cell truth SD.
+X17,RQ3,2019,"Morris, Tim P.",10.1002/sim.8086,ADEMP framework for reporting simulation studies.,Reporting structure only.
+X18,RQ2,2014,"Cho, Kyunghyun",arXiv:1406.1078,Introduces the gated recurrent unit.,Not evidence that GRUs help recovery forecasting.
+X19,RQ2,2016,"Hendrycks, Dan",arXiv:1606.08415,Defines the GELU activation used by M0-M8 feedforward layers.,

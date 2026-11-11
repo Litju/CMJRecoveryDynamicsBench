@@ -6,6 +6,7 @@ import csv
 import hashlib
 import json
 import re
+import subprocess
 from pathlib import Path
 
 REPOSITORY_ROOT = Path(__file__).resolve().parents[1]
@@ -45,6 +46,18 @@ def test_manifest_matches_directory() -> None:
     assert set(listed) == on_disk
     for name, digest in listed.items():
         assert hashlib.sha256((SCIENCE / name).read_bytes()).hexdigest() == digest, name
+
+
+def test_every_manifest_file_is_tracked_by_git() -> None:
+    tracked = subprocess.run(
+        ["git", "ls-files", "docs/science"],
+        cwd=REPOSITORY_ROOT,
+        check=True,
+        capture_output=True,
+        text=True,
+    ).stdout.split()
+    on_disk = {f"docs/science/{p.name}" for p in SCIENCE.iterdir() if p.is_file()}
+    assert set(tracked) == on_disk
 
 
 def test_source_digests_match_the_pinned_files() -> None:
