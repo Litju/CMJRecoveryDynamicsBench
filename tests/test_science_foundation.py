@@ -42,7 +42,11 @@ def _sha(relative: str) -> str:
 def test_manifest_matches_directory() -> None:
     lines = (SCIENCE / "SHA256SUMS").read_text().splitlines()
     listed = {name: digest for digest, name in (line.split("  ", 1) for line in lines)}
-    on_disk = {p.name for p in SCIENCE.iterdir() if p.is_file() and p.name != "SHA256SUMS"}
+    on_disk = {
+        p.relative_to(SCIENCE).as_posix()
+        for p in SCIENCE.rglob("*")
+        if p.is_file() and p.name != "SHA256SUMS"
+    }
     assert set(listed) == on_disk
     for name, digest in listed.items():
         assert hashlib.sha256((SCIENCE / name).read_bytes()).hexdigest() == digest, name
@@ -56,7 +60,11 @@ def test_every_manifest_file_is_tracked_by_git() -> None:
         capture_output=True,
         text=True,
     ).stdout.split()
-    on_disk = {f"docs/science/{p.name}" for p in SCIENCE.iterdir() if p.is_file()}
+    on_disk = {
+        f"docs/science/{p.relative_to(SCIENCE).as_posix()}"
+        for p in SCIENCE.rglob("*")
+        if p.is_file()
+    }
     assert set(tracked) == on_disk
 
 
