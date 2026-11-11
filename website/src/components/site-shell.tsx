@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 import { Activity, ArrowUpRight, FileText, Github } from "lucide-react";
 import { brand } from "@/lib/brand";
+import flagship from "@/data/flagship.json";
 import {
   CITATION_URL,
   PAPER,
@@ -11,12 +12,12 @@ import {
 } from "@/lib/manuscript";
 
 export const AREAS = [
-  { href: "/", key: "overview", label: "Overview" },
-  { href: "/paper/", key: "paper", label: "Research paper" },
+  { href: "/", key: "overview", label: "The science" },
   { href: "/results/", key: "results", label: "Results" },
-  { href: "/models/", key: "models", label: "Recovered models" },
+  { href: "/models/", key: "models", label: "Architectures" },
   { href: "/methods/", key: "methods", label: "Methods" },
-  { href: "/evidence/", key: "evidence", label: "Evidence" },
+  { href: "/evidence/", key: "evidence", label: "Verification" },
+  { href: "/paper/", key: "paper", label: "Research paper" },
 ] as const;
 export type AreaKey = (typeof AREAS)[number]["key"];
 
@@ -43,7 +44,7 @@ export function SiteHeader({ current }: { current: AreaKey }) {
             ))}
           </nav>
           <div className="header-actions">
-            <a className="paper-nav" href={PAPER.href} aria-label="Paper PDF">
+            <a className="paper-nav" href={flagship.files[0].href} aria-label="Paper PDF">
               <FileText size={15} aria-hidden="true" />
               <span>Paper PDF</span>
             </a>
@@ -75,12 +76,15 @@ export function SiteFooter() {
         </a>
         <p>Open methods. Traceable evidence.</p>
         <p className="footer-status">
-          Companion to an unsubmitted research draft. Not peer reviewed; no journal publication or DOI.
+          Companion to unsubmitted research drafts. Computational and synthetic study; not peer reviewed; no journal publication or DOI.
         </p>
       </div>
       <div className="footer-links">
+        <a href={flagship.files[0].href}>
+          Flagship paper (PDF) <ArrowUpRight size={13} />
+        </a>
         <a href={PAPER.href}>
-          Research paper (PDF) <ArrowUpRight size={13} />
+          Companion reconstruction paper (PDF) <ArrowUpRight size={13} />
         </a>
         <a href={CITATION_URL}>
           Software citation v{manuscript.paper.releaseVersion} <ArrowUpRight size={13} />

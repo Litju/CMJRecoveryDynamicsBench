@@ -21,7 +21,9 @@ export default function ModelsPage() {
           </p>
           <p className="pub-status" role="note">
             Original checkpoints, fitted preprocessing values and inference arrays are private and are not
-            redistributed. Nothing on this page reruns a model, and no accuracy score is created.
+            redistributed. Nothing on this page reruns a model, and no accuracy score is created. These nine
+            families were not compared for predictive accuracy; the four models that were scored are on the{" "}
+            <a href="/results/">results page</a>.
           </p>
         </PageIntro>
         <Chapter id="architectures" title="Architectures" kicker="Methods · neural reconstruction">

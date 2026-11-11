@@ -105,7 +105,10 @@ test("mobile keeps chapter navigation, touch scrolling and controls reachable", 
     await expect(stage).toHaveAttribute("data-chapter", "evidence");
     const landscapeStage = (await stage.boundingBox())!;
     expect(landscapeStage.y + landscapeStage.height).toBeLessThanOrEqual(250);
-    expect((await page.locator("#evidence").boundingBox())!.y).toBeGreaterThanOrEqual(landscapeStage.y + landscapeStage.height);
+    // The page is long and scrolls smoothly: wait for the scroll to settle before comparing positions.
+    await expect
+        .poll(async () => (await page.locator("#evidence").boundingBox())!.y, { timeout: 15000 })
+        .toBeGreaterThanOrEqual(landscapeStage.y + landscapeStage.height);
     await context.close();
 });
 

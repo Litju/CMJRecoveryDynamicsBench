@@ -1,24 +1,30 @@
 "use client";
 import { useEffect, useState } from "react";
-import { acts } from "@/lib/story";
+import { CHAPTERS } from "@/components/science/chapter-head";
 
 export default function StoryProgress() {
-  const [active, setActive] = useState<string>("question");
+  const [active, setActive] = useState<string>("ch1");
   useEffect(() => {
-    const sectionActs: Record<string, string> = {
-      explorer: "experiment",
-      lab: "remaining",
-      evidence: "remaining",
+    // Every section of the story belongs to one of the seven chapters.
+    const owner: Record<string, string> = {
+      question: "ch1",
+      world: "ch2",
+      lab: "ch2",
+      "architecture-progression": "ch3",
+      experiment: "ch4",
+      explorer: "ch5",
+      conclusions: "ch6",
+      remaining: "ch6",
+      lineage: "ch7",
+      evidence: "ch7",
     };
-    const sections = [
-      ...acts.map(({ id }) => id),
-      ...Object.keys(sectionActs),
-    ].map((id) => document.getElementById(id)!);
+    const ids = [...CHAPTERS.map(({ id }) => id as string), ...Object.keys(owner)];
+    const sections = ids.map((id) => document.getElementById(id)).filter(Boolean) as HTMLElement[];
     const observer = new IntersectionObserver(
       (entries) => {
         for (const entry of entries) {
           if (entry.isIntersecting) {
-            setActive(sectionActs[entry.target.id] ?? entry.target.id);
+            setActive(owner[entry.target.id] ?? entry.target.id);
             entry.target.setAttribute("data-entered", "true");
           }
         }
@@ -31,13 +37,9 @@ export default function StoryProgress() {
   return (
     <nav className="story-progress" aria-label="Research story chapters">
       <div className="shell">
-        {acts.map((act, i) => (
-          <a
-            key={act.id}
-            href={`#${act.id}`}
-            aria-current={active === act.id ? "step" : undefined}
-          >
-            <span>0{i + 1}</span> {act.label}
+        {CHAPTERS.map((c) => (
+          <a key={c.id} href={`#${c.id}`} aria-current={active === c.id ? "step" : undefined}>
+            <span>0{c.n}</span> {c.label}
           </a>
         ))}
       </div>

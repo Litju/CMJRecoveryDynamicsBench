@@ -1,0 +1,64 @@
+{
+  "title": "Modeling Countermovement-Jump Recovery: Biomechanical Measurement, Neural Architectures, and a Controlled Synthetic Benchmark",
+  "abstract": "The countermovement jump (CMJ) is widely used to assess neuromuscular output, and its force–time record yields quantities such as gross mean concentric force and net concentric impulse. We study how a post-exposure change in these quantities can be represented mathematically and forecast by learned models, entirely in a controlled synthetic setting. We define the force–time quantities and their baseline-relative innovations, describe the synthetic response model (two fixed mathematical modes of 24 and 84 hours, bounded amplitudes, correlated participant and camp effects, and a three-trial measurement model), and describe nine original neural architecture families (M0–M8) that differ in how they encode current inputs, prior-episode history, forecast horizon and a public-schedule basis. These nine families were not scored in the public experiment, so no ranking of them is made. The public experiment evaluates four reference models on three same-generator evaluation roots: a zero-innovation baseline, a training-mean baseline, ridge regression and a structured fixed-mode comparator. Mean six-cell normalized root-mean-square error (NRMSE; lower is better) was 2.430659, 1.036038, 0.736270 and 0.773316, respectively. Removing current-exposure fields or prior-episode history raised ridge error to 0.867735 and 0.819681, whereas removing participant context changed it by 0.000076. Error was nearly unchanged between 24 and 96 training camps. These are descriptive results on synthetic data from one generator; they do not establish predictive validity for athletes, and the 24-hour and 84-hour modes are modeling assumptions, not measured recovery constants.",
+  "status": "Owner-review draft. Not peer reviewed, not submitted to a journal or preprint server, no DOI. A computational and synthetic study: no athlete was measured.",
+  "package": "docs/manuscript/v4",
+  "artifactManifestSha256": "1932b86afed7a33a85df431e424dfe187684a3dc7bfd589c4401fa595f0b2030",
+  "files": [
+    {
+      "id": "illustrated",
+      "label": "Illustrated flagship paper (two-column)",
+      "file": "full_illustrated_manuscript.pdf",
+      "pages": 9,
+      "bytes": 447632,
+      "sha256": "592a3e1d6ecc65e134e1c4bed77bc01f9203c5df134a1e4f07cec338236c3358",
+      "href": "/paper/flagship/full_illustrated_manuscript.pdf",
+      "path": "docs/manuscript/v4/full_illustrated_manuscript.pdf"
+    },
+    {
+      "id": "review",
+      "label": "Academic review edition (line-numbered)",
+      "file": "academic_review_manuscript.pdf",
+      "pages": 16,
+      "bytes": 95274,
+      "sha256": "e4097a5be065f7b6dd02b5bbbd43dfe1a0c99defc31339c58353f212f6645323",
+      "href": "/paper/flagship/academic_review_manuscript.pdf",
+      "path": "docs/manuscript/v4/academic_review_manuscript.pdf"
+    },
+    {
+      "id": "supplement",
+      "label": "Technical supplement",
+      "file": "technical_supplement.pdf",
+      "pages": 2,
+      "bytes": 19492,
+      "sha256": "02541044fe5067fbe3c869e9ae3eca523447efa34f29277db74562780163ae9d",
+      "href": "/paper/flagship/technical_supplement.pdf",
+      "path": "docs/manuscript/v4/technical_supplement.pdf"
+    }
+  ],
+  "figurePages": {
+    "1": 2,
+    "2": 3,
+    "3": 3,
+    "4": 4,
+    "5": 4,
+    "6": 5,
+    "7": 6,
+    "8": 7,
+    "9": 7,
+    "10": 8,
+    "11": 8
+  },
+  "sectionPages": {
+    "Introduction": 1,
+    "Biomechanical framework": 1,
+    "Mathematical recovery models": 2,
+    "Neural architectures": 2,
+    "Synthetic experiment": 3,
+    "Quantitative results": 4,
+    "Discussion": 5,
+    "Reproducibility and source identity": 6,
+    "Limitations": 7,
+    "Conclusions": 8
+  }
+}

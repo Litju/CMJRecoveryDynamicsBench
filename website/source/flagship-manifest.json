@@ -1,0 +1,58 @@
+{
+  "package": "docs/manuscript/v4",
+  "artifactManifest": {
+    "path": "docs/manuscript/v4/ARTIFACT_SHA256SUMS",
+    "sha256": "1932b86afed7a33a85df431e424dfe187684a3dc7bfd589c4401fa595f0b2030"
+  },
+  "files": [
+    {
+      "id": "illustrated",
+      "label": "Illustrated flagship paper (two-column)",
+      "file": "full_illustrated_manuscript.pdf",
+      "pages": 9,
+      "bytes": 447632,
+      "sha256": "592a3e1d6ecc65e134e1c4bed77bc01f9203c5df134a1e4f07cec338236c3358"
+    },
+    {
+      "id": "review",
+      "label": "Academic review edition (line-numbered)",
+      "file": "academic_review_manuscript.pdf",
+      "pages": 16,
+      "bytes": 95274,
+      "sha256": "e4097a5be065f7b6dd02b5bbbd43dfe1a0c99defc31339c58353f212f6645323"
+    },
+    {
+      "id": "supplement",
+      "label": "Technical supplement",
+      "file": "technical_supplement.pdf",
+      "pages": 2,
+      "bytes": 19492,
+      "sha256": "02541044fe5067fbe3c869e9ae3eca523447efa34f29277db74562780163ae9d"
+    }
+  ],
+  "figurePages": {
+    "1": 2,
+    "2": 3,
+    "3": 3,
+    "4": 4,
+    "5": 4,
+    "6": 5,
+    "7": 6,
+    "8": 7,
+    "9": 7,
+    "10": 8,
+    "11": 8
+  },
+  "sectionPages": {
+    "Introduction": 1,
+    "Biomechanical framework": 1,
+    "Mathematical recovery models": 2,
+    "Neural architectures": 2,
+    "Synthetic experiment": 3,
+    "Quantitative results": 4,
+    "Discussion": 5,
+    "Reproducibility and source identity": 6,
+    "Limitations": 7,
+    "Conclusions": 8
+  }
+}

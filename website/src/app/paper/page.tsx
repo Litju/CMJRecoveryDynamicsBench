@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { ArrowUpRight, Download, FileText } from "lucide-react";
 import { Chapter, PageIntro, SiteFooter, SiteHeader } from "@/components/site-shell";
+import flagship from "@/data/flagship.json";
 import {
   CITATION_URL,
   PAPER,
@@ -13,8 +14,24 @@ import {
 
 export const metadata: Metadata = {
   title: "Research paper — Recovery Observatory",
-  description: manuscript.paper.title ?? undefined,
+  description: flagship.title,
 };
+
+const FLAGSHIP_FIGURES: { n: number; title: string; href: string; label: string }[] = [
+  { n: 1, title: "Study map: measurement to synthetic benchmark", href: "/#overview", label: "Overview" },
+  { n: 2, title: "Force–time definitions: mean force, peak force, net impulse", href: "/#exhibit-force-time", label: "Interactive exhibit" },
+  { n: 3, title: "Three-trial assessment and baseline-relative innovation", href: "/#ch1", label: "Chapter 1" },
+  { n: 4, title: "Fixed response modes of the synthetic generator", href: "/#exhibit-response", label: "Interactive exhibit" },
+  { n: 5, title: "Original architectures M0–M8 and parameter counts", href: "/models/#fig-3", label: "Interactive figure" },
+  { n: 6, title: "Design of the synthetic experiment", href: "/#ch4", label: "Chapter 4" },
+  { n: 7, title: "Six-cell NRMSE of the four reference models", href: "/results/#fig-6", label: "Interactive figure" },
+  { n: 8, title: "Model-by-cell NRMSE heatmap", href: "/results/#fig-7", label: "Interactive figure" },
+  { n: 9, title: "Recorded camp-bootstrap intervals", href: "/results/#fig-8", label: "Interactive figure" },
+  { n: 10, title: "Ablations and nested training camps", href: "/results/#fig-9", label: "Interactive figure" },
+  { n: 11, title: "Numerical qualification of 18 routes", href: "/models/#fig-4", label: "Interactive figure" },
+];
+const flagshipFile = (id: string) => flagship.files.find((f) => f.id === id)!;
+const flagshipPage = (page: number) => `${flagshipFile("illustrated").href}#page=${page}`;
 
 const kb = (bytes: number) => `${Math.round(bytes / 1024).toLocaleString("en-US")} KB`;
 
@@ -24,19 +41,102 @@ export default function PaperPage() {
     <>
       <SiteHeader current="paper" />
       <main id="main" className="pub-page">
-        <PageIntro eyebrow="Research paper · V3 · unsubmitted research draft" title={p.title ?? "Research paper"}>
+        <PageIntro eyebrow="Flagship research paper · owner-review draft" title={flagship.title}>
+          <p className="pub-status" role="note">
+            <strong>Status:</strong> {flagship.status}
+          </p>
+          <div className="pub-actions">
+            <a className="button primary" href={flagshipFile("illustrated").href}>
+              <FileText size={16} aria-hidden="true" /> Read the flagship paper (PDF, {flagshipFile("illustrated").pages} pages)
+            </a>
+            <a className="button" href="/results/">
+              Explore the interactive results
+            </a>
+          </div>
+        </PageIntro>
+
+        <Chapter id="flagship-abstract" title="Abstract" kicker="Flagship paper p. 1">
+          <p className="pub-abstract">{flagship.abstract}</p>
+        </Chapter>
+
+        <Chapter id="flagship-documents" title="Flagship documents">
+          <div className="pub-doc-grid">
+            {flagship.files.map((f) => (
+              <article key={f.id} className="pub-doc">
+                <h3>{f.label}</h3>
+                <p className="pub-muted">
+                  PDF · {kb(f.bytes)} · {f.pages} pages
+                </p>
+                <p className="pub-hash">
+                  SHA-256 <code>{f.sha256}</code>
+                </p>
+                <div className="pub-doc-links">
+                  <a href={f.href}>
+                    <Download size={14} aria-hidden="true" /> Open PDF
+                  </a>
+                  <a href={sourceAt(f.path)} target="_blank" rel="noreferrer">
+                    In repository <ArrowUpRight size={13} aria-hidden="true" />
+                  </a>
+                </div>
+              </article>
+            ))}
+          </div>
+          <p className="pub-muted">
+            Copied at build time from <code>{flagship.package}</code> after checking digests against ARTIFACT_SHA256SUMS
+            (SHA-256 <code>{flagship.artifactManifestSha256.slice(0, 16)}…</code>).
+          </p>
+        </Chapter>
+
+        <Chapter id="flagship-sections" title="Section guide">
+          <ol className="pub-section-list">
+            {Object.entries(flagship.sectionPages).map(([name, page]) => (
+              <li key={name}>
+                <a href={flagshipPage(page as number)}>
+                  <span>{name}</span>
+                  <span className="pub-muted">p. {page as number}</span>
+                </a>
+              </li>
+            ))}
+          </ol>
+        </Chapter>
+
+        <Chapter id="flagship-figures" title="Flagship figures and their interactive versions">
+          <ol className="pub-figure-list">
+            {FLAGSHIP_FIGURES.map((f) => (
+              <li key={f.n}>
+                <span className="pub-fig-no">Fig. {f.n}</span>
+                <div>
+                  <p>{f.title}</p>
+                  <p className="pub-fig-links">
+                    <a href={f.href}>{f.label}</a>
+                    <a href={flagshipPage((flagship.figurePages as Record<string, number>)[String(f.n)])}>
+                      Paper p. {(flagship.figurePages as Record<string, number>)[String(f.n)]}
+                    </a>
+                  </p>
+                </div>
+              </li>
+            ))}
+          </ol>
+        </Chapter>
+
+        <Chapter id="companion" title="Companion paper: retrospective reconstruction (V3)" kicker="Secondary research artifact">
+          <p>
+            The original paper reconstructs and numerically qualifies the historical research program that the nine
+            neural architectures came from. It supports Chapter 7 of this site. Its content, PDFs and deep links are
+            unchanged below.
+          </p>
+        </Chapter>
+
+        <Chapter id="companion-intro" title={p.title ?? "Research paper"} kicker="V3 · unsubmitted research draft">
           <p className="pub-status" role="note">
             <strong>Status:</strong> {p.status}
           </p>
           <div className="pub-actions">
-            <a className="button primary" href={PAPER.href}>
-              <FileText size={16} aria-hidden="true" /> Read the research paper (PDF, {PAPER.pages} pages)
-            </a>
-            <a className="button" href="/results/">
-              Explore the interactive figures
+            <a className="button" href={PAPER.href}>
+              <FileText size={16} aria-hidden="true" /> Read the companion paper (PDF, {PAPER.pages} pages)
             </a>
           </div>
-        </PageIntro>
+        </Chapter>
 
         <Chapter id="abstract" title="Abstract" kicker="Manuscript p. 1">
           <p className="pub-abstract">{p.abstract}</p>

@@ -1,7 +1,7 @@
 import { test, expect, type Page } from "@playwright/test";
 import { readFileSync } from "node:fs";
 import fixture from "../../src/data/manuscript.json";
-const ROUTES = ["/paper/", "/results/", "/models/", "/methods/", "/evidence/"];
+const ROUTES = ["/results/", "/models/", "/methods/", "/evidence/", "/paper/"];
 const FIGURE_ROUTE: Record<number, string> = Object.fromEntries(
   fixture.figures.map((f) => [f.number, f.route]),
 );
@@ -20,18 +20,19 @@ test("research areas are navigable and the paper is served as verified PDFs", as
   await page.goto("/");
   const nav = page.getByRole("navigation", { name: "Main navigation" });
   await expect(nav.getByRole("link")).toHaveText([
-    "Overview",
-    "Research paper",
+    "The science",
     "Results",
-    "Recovered models",
+    "Architectures",
     "Methods",
-    "Evidence",
+    "Verification",
+    "Research paper",
   ]);
-  await expect(nav.getByRole("link", { name: "Overview" })).toHaveAttribute("aria-current", "page");
+  await expect(nav.getByRole("link", { name: "The science" })).toHaveAttribute("aria-current", "page");
   await expect(page.getByRole("heading", { level: 1 })).toHaveCount(1);
-  await expect(page.getByRole("link", { name: "Read the research paper" })).toHaveAttribute(
+  await expect(page.getByRole("link", { name: "Read the flagship paper" })).toHaveAttribute("href", "/paper/");
+  await expect(page.getByRole("link", { name: "full illustrated paper" })).toHaveAttribute(
     "href",
-    "/paper/full_illustrated_research_manuscript.pdf",
+    "/paper/flagship/full_illustrated_manuscript.pdf",
   );
   for (const route of ROUTES) {
     await nav.getByRole("link").nth(ROUTES.indexOf(route) + 1).click();
@@ -131,9 +132,9 @@ test("recorded aggregates and the draft status appear unchanged across the site"
   await page.goto("/");
   for (const v of ["2.430659", "1.036038", "0.736270", "0.773316"])
     await expect(page.locator("#overview")).toContainText(v);
-  await expect(page.locator("#overview")).toContainText("does not estimate athlete performance");
+  await expect(page.locator("#overview")).toContainText("not athlete accuracy");
   await page.goto("/paper/");
-  await expect(page.getByRole("note").first()).toContainText("Unsubmitted research draft");
+  await expect(page.getByRole("note").first()).toContainText("Owner-review draft");
   await expect(page.locator("main")).not.toContainText(/peer-reviewed paper|published in|DOI: ?10\./i);
   await page.goto("/evidence/");
   await expect(page.locator("#citations")).toContainText("version 1.1.0");
