@@ -9,9 +9,9 @@
 | 3 | Mathematical recovery models | What exposure-response hypotheses does the generator encode? | A-01..A-04, X9-X10 | F4 |
 | 4 | Neural ML architectures | How do nine original families encode inputs, history, horizon and basis? | N-01..N-04 | F5 |
 | 5 | Synthetic experiment | Generator, partitions, four reference models, ADEMP | E-01..E-04 | F6 |
-| 6 | Quantitative results | Six-cell NRMSE, roots, intervals, ablations, nested camps | R-01..R-19 | F7-F11 |
+| 6 | Quantitative results | Six-cell NRMSE, roots, intervals, ablations, nested camps | R-01..R-19 | F7-F10 |
 | 7 | Discussion | What the controlled findings say about the synthetic task | R-*, N-04 | F7, F10 |
-| 8 | Reproducibility | CPU/GPU verification, private checkpoints, source identity | V-01, V-02 | F12 |
+| 8 | Reproducibility | CPU/GPU verification, private checkpoints, source identity | V-01, V-02 | F11 |
 | 9 | Limitations, conclusion, supplement | Nonclaims | all | |
 
 ## Figure storyboard
@@ -27,9 +27,8 @@
 | F7 | Six-cell NRMSE by model, root points and mean | results JSON | descriptive |
 | F8 | Model-by-cell NRMSE heatmap | results JSON | descriptive |
 | F9 | Recorded bootstrap intervals by root | results JSON | descriptive, vs zero only |
-| F10 | Ablations | results JSON | descriptive |
-| F11 | Nested 24/48/96-camp diagnostic | results JSON | descriptive |
-| F12 | Evidence boundary and 18-route qualification | architecture table | numerical only |
+| F10 | Ablations and nested 24/48/96-camp diagnostic | results JSON | descriptive |
+| F11 | 18-route numerical qualification (evidence boundary) | architecture table | numerical only |
 
 All ten existing V3 figure families stay available as secondary material.
 
@@ -39,7 +38,7 @@ All ten existing V3 figure families stay available as secondary material.
 2. What happens after training exposure? (interactive F4, synthetic label)
 3. How do we model that process? (F5 progression, no accuracy)
 4. How was the synthetic experiment designed? (F6)
-5. What did the models actually predict? (F7-F11; central exhibit)
+5. What did the models actually predict? (F7-F10; central exhibit)
 6. What can we conclude? (nonclaims, limitations)
 7. How was the research verified? (provenance, 18 routes, software; not on the homepage hero)
 
