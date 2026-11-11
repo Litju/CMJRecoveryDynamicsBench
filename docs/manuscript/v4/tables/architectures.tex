@@ -1,0 +1,15 @@
+\small\setlength{\tabcolsep}{3pt}\begin{tabularx}{\textwidth}{@{}lrlX@{}}
+\toprule
+Family & Parameters & Inputs & Structure \\
+\midrule
+M0 & 1,346 & 39 raw features & 39 $\to$ 32 $\to$ 2; exact GELU \\
+M1 & 2,690 & 39 raw features & 39 $\to$ 64 $\to$ 2; exact GELU \\
+M2 & 6,850 & 39 raw features & 39 $\to$ 64 $\to$ 64 $\to$ 2; exact GELU \\
+M3 & 7,138 & 39 raw + 4 $\times$ 4 history & Raw backbone + pointwise history encoder; mean/latest pooling $\to$ 128 $\to$ 2 \\
+M4 & 10,626 & 39 raw + 4 $\times$ 4 history & Raw backbone + 4 $\to$ 32 GRU; mean/latest pooling $\to$ 128 $\to$ 2 \\
+M5 & 10,658 & 39 raw + 4 $\times$ 4 history + horizon & M4 + 2 $\times$ 8 horizon embedding $\to$ 136 $\to$ 2 \\
+M6 & 10,738 & 39 raw + 4 $\times$ 4 history + horizon + 5 basis values & M5 + first two basis values $\to$ 16 $\to$ 152 $\to$ 2 \\
+M7 & 10,786 & 39 raw + 4 $\times$ 4 history + horizon + 5 basis values & M5 + all five basis values $\to$ 16 $\to$ 152 $\to$ 2 \\
+M8 & 10,796 & 39 raw + 4 $\times$ 4 history + horizon + 5 basis values & M7 + bias-free 5 $\to$ 2 linear basis head \\
+\bottomrule
+\end{tabularx}

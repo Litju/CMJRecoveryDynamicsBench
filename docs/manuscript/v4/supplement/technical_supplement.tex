@@ -1,0 +1,148 @@
+\documentclass[9pt,a4paper]{extarticle}
+\usepackage[T1]{fontenc}\usepackage{newpxtext,newpxmath}\usepackage{booktabs,longtable,array}\usepackage[margin=18mm]{geometry}\usepackage{hyperref}\usepackage{xurl}
+\begin{document}
+\section*{Technical supplement: Modeling Countermovement-Jump Recovery}
+All values are read from the public fixed-mode reference-study receipt and the public model-qualification summary. Descriptive synthetic results; not athlete accuracy.
+\subsection*{S1 All evaluated variants: mean six-cell NRMSE across three roots}
+\begin{longtable}{lrrrr}
+\toprule
+Variant & Mean & SD & Min & Max \\
+\midrule
+\endhead
+ridge\_full & 0.736270 & 0.003349 & 0.732724 & 0.739378 \\
+ridge\_n24 & 0.736889 & 0.003809 & 0.733212 & 0.740818 \\
+ridge\_n48 & 0.736602 & 0.003261 & 0.733219 & 0.739726 \\
+ridge\_n96 & 0.736270 & 0.003349 & 0.732724 & 0.739378 \\
+ridge\_no\_current\_exposure & 0.867735 & 0.006220 & 0.861227 & 0.873620 \\
+ridge\_no\_participant\_context & 0.736346 & 0.003327 & 0.732837 & 0.739455 \\
+ridge\_no\_prior\_history & 0.819681 & 0.005899 & 0.812906 & 0.823679 \\
+structured\_full & 0.773316 & 0.005490 & 0.767583 & 0.778526 \\
+structured\_n24 & 0.773624 & 0.005429 & 0.767939 & 0.778755 \\
+structured\_n48 & 0.773621 & 0.005475 & 0.767828 & 0.778711 \\
+structured\_n96 & 0.773316 & 0.005490 & 0.767583 & 0.778526 \\
+structured\_no\_prior\_history & 0.820342 & 0.005741 & 0.813749 & 0.824241 \\
+training\_constant & 1.036038 & 0.007308 & 1.027789 & 1.041703 \\
+training\_constant\_n24 & 1.038164 & 0.007410 & 1.029805 & 1.043927 \\
+training\_constant\_n48 & 1.037354 & 0.007386 & 1.029019 & 1.043086 \\
+training\_constant\_n96 & 1.036038 & 0.007308 & 1.027789 & 1.041703 \\
+zero\_innovation & 2.430659 & 0.008127 & 2.421275 & 2.435478 \\
+\bottomrule
+\end{longtable}
+\subsection*{S2 Per-cell NRMSE by root (four reference models)}\small
+\begin{longtable}{llrrrr}
+\toprule
+Model & Cell & Root A & Root B & Root C & Mean \\
+\midrule
+\endhead
+zero\_innovation & H24/net\_impulse\_innovation & 2.7578 & 2.7595 & 2.7679 & 2.7618 \\
+zero\_innovation & H24/mean\_force\_innovation[legacy key] & 3.0431 & 3.0492 & 3.0084 & 3.0335 \\
+zero\_innovation & H48/net\_impulse\_innovation & 2.2925 & 2.2226 & 2.2780 & 2.2644 \\
+zero\_innovation & H48/mean\_force\_innovation[legacy key] & 2.5260 & 2.5509 & 2.5492 & 2.5420 \\
+zero\_innovation & H72/net\_impulse\_innovation & 1.8829 & 1.8443 & 1.8925 & 1.8732 \\
+zero\_innovation & H72/mean\_force\_innovation[legacy key] & 2.1106 & 2.1012 & 2.1153 & 2.1090 \\
+training\_constant & H24/net\_impulse\_innovation & 1.0534 & 1.0364 & 1.0456 & 1.0451 \\
+training\_constant & H24/mean\_force\_innovation[legacy key] & 1.0548 & 1.0408 & 1.0474 & 1.0477 \\
+training\_constant & H48/net\_impulse\_innovation & 1.0359 & 1.0225 & 1.0369 & 1.0318 \\
+training\_constant & H48/mean\_force\_innovation[legacy key] & 1.0447 & 1.0284 & 1.0452 & 1.0395 \\
+training\_constant & H72/net\_impulse\_innovation & 1.0286 & 1.0189 & 1.0270 & 1.0248 \\
+training\_constant & H72/mean\_force\_innovation[legacy key] & 1.0329 & 1.0197 & 1.0297 & 1.0274 \\
+ridge\_full & H24/net\_impulse\_innovation & 0.6513 & 0.6511 & 0.6541 & 0.6522 \\
+ridge\_full & H24/mean\_force\_innovation[legacy key] & 0.6303 & 0.6301 & 0.6128 & 0.6244 \\
+ridge\_full & H48/net\_impulse\_innovation & 0.7522 & 0.7659 & 0.7614 & 0.7598 \\
+ridge\_full & H48/mean\_force\_innovation[legacy key] & 0.7371 & 0.7379 & 0.7208 & 0.7319 \\
+ridge\_full & H72/net\_impulse\_innovation & 0.8343 & 0.8296 & 0.8369 & 0.8336 \\
+ridge\_full & H72/mean\_force\_innovation[legacy key] & 0.8149 & 0.8217 & 0.8104 & 0.8157 \\
+structured\_full & H24/net\_impulse\_innovation & 0.6942 & 0.6983 & 0.6955 & 0.6960 \\
+structured\_full & H24/mean\_force\_innovation[legacy key] & 0.6633 & 0.6649 & 0.6444 & 0.6575 \\
+structured\_full & H48/net\_impulse\_innovation & 0.7972 & 0.8125 & 0.8041 & 0.8046 \\
+structured\_full & H48/mean\_force\_innovation[legacy key] & 0.7678 & 0.7690 & 0.7463 & 0.7610 \\
+structured\_full & H72/net\_impulse\_innovation & 0.8773 & 0.8764 & 0.8800 & 0.8779 \\
+structured\_full & H72/mean\_force\_innovation[legacy key] & 0.8432 & 0.8501 & 0.8352 & 0.8429 \\
+\bottomrule
+\end{longtable}
+\subsection*{S3 Recorded camp-bootstrap intervals (all 17 variants; difference is from zero innovation)}\small
+\begin{longtable}{llrr}
+\toprule
+Root & Variant & NRMSE 95\% interval & Difference from zero \\
+\midrule
+\endhead
+A & ridge\_full & [0.7280, 0.7462] & [-1.7522, -1.6450] \\
+A & ridge\_n24 & [0.7275, 0.7465] & [-1.7521, -1.6449] \\
+A & ridge\_n48 & [0.7284, 0.7462] & [-1.7521, -1.6448] \\
+A & ridge\_n96 & [0.7280, 0.7462] & [-1.7522, -1.6450] \\
+A & ridge\_no\_current\_exposure & [0.8590, 0.8780] & [-1.6179, -1.5157] \\
+A & ridge\_no\_participant\_context & [0.7281, 0.7462] & [-1.7522, -1.6449] \\
+A & ridge\_no\_prior\_history & [0.8108, 0.8339] & [-1.6662, -1.5588] \\
+A & structured\_full & [0.7638, 0.7843] & [-1.7147, -1.6081] \\
+A & structured\_n24 & [0.7636, 0.7851] & [-1.7139, -1.6078] \\
+A & structured\_n48 & [0.7643, 0.7848] & [-1.7140, -1.6077] \\
+A & structured\_n96 & [0.7638, 0.7843] & [-1.7147, -1.6081] \\
+A & structured\_no\_prior\_history & [0.8117, 0.8341] & [-1.6659, -1.5582] \\
+A & training\_constant & [1.0316, 1.0535] & [-1.4437, -1.3438] \\
+A & training\_constant\_n24 & [1.0336, 1.0562] & [-1.4414, -1.3415] \\
+A & training\_constant\_n48 & [1.0328, 1.0552] & [-1.4423, -1.3424] \\
+A & training\_constant\_n96 & [1.0316, 1.0535] & [-1.4437, -1.3438] \\
+A & zero\_innovation & [2.3773, 2.4947] & [0.0000, 0.0000] \\
+B & ridge\_full & [0.7338, 0.7453] & [-1.7156, -1.6484] \\
+B & ridge\_n24 & [0.7349, 0.7470] & [-1.7140, -1.6477] \\
+B & ridge\_n48 & [0.7342, 0.7456] & [-1.7152, -1.6484] \\
+B & ridge\_n96 & [0.7338, 0.7453] & [-1.7156, -1.6484] \\
+B & ridge\_no\_current\_exposure & [0.8530, 0.8699] & [-1.5906, -1.5298] \\
+B & ridge\_no\_participant\_context & [0.7340, 0.7454] & [-1.7154, -1.6484] \\
+B & ridge\_no\_prior\_history & [0.8169, 0.8320] & [-1.6330, -1.5635] \\
+B & structured\_full & [0.7735, 0.7846] & [-1.6766, -1.6092] \\
+B & structured\_n24 & [0.7735, 0.7848] & [-1.6765, -1.6091] \\
+B & structured\_n48 & [0.7735, 0.7847] & [-1.6765, -1.6089] \\
+B & structured\_n96 & [0.7735, 0.7846] & [-1.6766, -1.6092] \\
+B & structured\_no\_prior\_history & [0.8174, 0.8326] & [-1.6326, -1.5626] \\
+B & training\_constant & [1.0216, 1.0348] & [-1.4222, -1.3650] \\
+B & training\_constant\_n24 & [1.0235, 1.0369] & [-1.4201, -1.3630] \\
+B & training\_constant\_n48 & [1.0228, 1.0361] & [-1.4210, -1.3638] \\
+B & training\_constant\_n96 & [1.0216, 1.0348] & [-1.4222, -1.3650] \\
+B & zero\_innovation & [2.3887, 2.4554] & [0.0000, 0.0000] \\
+C & ridge\_full & [0.7264, 0.7401] & [-1.7338, -1.6691] \\
+C & ridge\_n24 & [0.7264, 0.7412] & [-1.7329, -1.6687] \\
+C & ridge\_n48 & [0.7265, 0.7412] & [-1.7330, -1.6686] \\
+C & ridge\_n96 & [0.7264, 0.7401] & [-1.7338, -1.6691] \\
+C & ridge\_no\_current\_exposure & [0.8649, 0.8821] & [-1.5913, -1.5304] \\
+C & ridge\_no\_participant\_context & [0.7265, 0.7402] & [-1.7337, -1.6690] \\
+C & ridge\_no\_prior\_history & [0.8051, 0.8216] & [-1.6548, -1.5869] \\
+C & structured\_full & [0.7612, 0.7751] & [-1.7005, -1.6325] \\
+C & structured\_n24 & [0.7614, 0.7755] & [-1.6999, -1.6324] \\
+C & structured\_n48 & [0.7612, 0.7755] & [-1.7000, -1.6324] \\
+C & structured\_n96 & [0.7612, 0.7751] & [-1.7005, -1.6325] \\
+C & structured\_no\_prior\_history & [0.8061, 0.8222] & [-1.6540, -1.5859] \\
+C & training\_constant & [1.0292, 1.0493] & [-1.4234, -1.3686] \\
+C & training\_constant\_n24 & [1.0311, 1.0517] & [-1.4212, -1.3665] \\
+C & training\_constant\_n48 & [1.0304, 1.0509] & [-1.4220, -1.3672] \\
+C & training\_constant\_n96 & [1.0292, 1.0493] & [-1.4234, -1.3686] \\
+C & zero\_innovation & [2.3994, 2.4699] & [0.0000, 0.0000] \\
+\bottomrule
+\end{longtable}
+\subsection*{S4 Original architecture routes (descriptive, no performance)}\small
+\begin{longtable}{llrll}
+\toprule
+Family & Repeat & Parameters & CPU vs original source & Saved CUDA arrays \\
+\midrule
+\endhead
+M0 & r0 & 1346 & Exact source parity & Within recorded tolerance \\
+M0 & r1 & 1346 & Exact source parity & Within recorded tolerance \\
+M1 & r0 & 2690 & Exact source parity & Within recorded tolerance \\
+M1 & r1 & 2690 & Exact source parity & Within recorded tolerance \\
+M2 & r0 & 6850 & Exact source parity & Within recorded tolerance \\
+M2 & r1 & 6850 & Exact source parity & Within recorded tolerance \\
+M3 & r0 & 7138 & Exact source parity & Within recorded tolerance \\
+M3 & r1 & 7138 & Exact source parity & Within recorded tolerance \\
+M4 & r0 & 10626 & Exact source parity & Outside recorded tolerance \\
+M4 & r1 & 10626 & Exact source parity & Outside recorded tolerance \\
+M5 & r0 & 10658 & Exact source parity & Outside recorded tolerance \\
+M5 & r1 & 10658 & Exact source parity & Outside recorded tolerance \\
+M6 & r0 & 10738 & Exact source parity & Outside recorded tolerance \\
+M6 & r1 & 10738 & Exact source parity & Outside recorded tolerance \\
+M7 & r0 & 10786 & Exact source parity & Outside recorded tolerance \\
+M7 & r1 & 10786 & Exact source parity & Outside recorded tolerance \\
+M8 & r0 & 10796 & Exact source parity & Outside recorded tolerance \\
+M8 & r1 & 10796 & Exact source parity & Outside recorded tolerance \\
+\bottomrule
+\end{longtable}
+\end{document}
