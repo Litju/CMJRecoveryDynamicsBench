@@ -12,13 +12,22 @@ test("story precedes the benchmark; scroll navigation and sourced result reveal 
     .evaluateAll((sections) => sections.map((s) => s.id));
   expect(ids).toEqual([
     "intro",
+    "ch1",
     "question",
+    "ch2",
     "world",
-    "lineage",
-    "experiment",
-    "explorer",
-    "remaining",
     "lab",
+    "ch3",
+    "architecture-progression",
+    "ch4",
+    "experiment",
+    "ch5",
+    "explorer",
+    "ch6",
+    "conclusions",
+    "remaining",
+    "ch7",
+    "lineage",
     "evidence",
   ]);
   await page.getByRole("link", { name: "Start the story" }).click();
@@ -27,7 +36,7 @@ test("story precedes the benchmark; scroll navigation and sourced result reveal 
   );
   await expect(
     page.locator('.story-progress a[aria-current="step"]'),
-  ).toHaveAttribute("href", "#question");
+  ).toHaveAttribute("href", "#ch1");
   await page.locator("#experiment").scrollIntoViewIfNeeded();
   await expect(page.locator("#experiment")).toHaveAttribute(
     "data-entered",
@@ -35,7 +44,7 @@ test("story precedes the benchmark; scroll navigation and sourced result reveal 
   );
   await expect(
     page.locator('.story-progress a[aria-current="step"]'),
-  ).toHaveAttribute("href", "#experiment");
+  ).toHaveAttribute("href", "#ch4");
   for (const [id, m] of Object.entries(fixture.models)) {
     await expect(page.locator(`[data-model="${id}"] strong`)).toHaveText(
       m.acrossRoots.root_mean_nrmse.toFixed(6),
@@ -123,7 +132,7 @@ test("all lineage contracts, exact statuses, parent selection and evidence are a
   await panel.getByRole("link", { name: "Explore the active study" }).click();
   await expect(
     page.locator('.story-progress a[aria-current="step"]'),
-  ).toHaveAttribute("href", "#experiment");
+  ).toHaveAttribute("href", "#ch5");
   await expect(page).toHaveURL(/#explorer$/);
   await expect(page.getByTestId("aggregate-score")).toHaveText("0.7363");
   expect(

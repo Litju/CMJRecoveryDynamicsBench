@@ -298,7 +298,7 @@ test("expanded scientific methods and proposed roadmap are accessible on desktop
   ).toEqual([]);
   await expect(page.locator(".evidence-ladder .evidence-rung")).toHaveCount(5);
   await expect(page.locator(".roadmap")).toContainText("PROPOSED WORK");
-  await expect(page.locator(".quick-route li")).toHaveCount(4);
+  await expect(page.locator(".sci-chapters li")).toHaveCount(7);
 });
 
 test("mobile touch episode, methods and diagnostics at narrow and tablet widths", async ({

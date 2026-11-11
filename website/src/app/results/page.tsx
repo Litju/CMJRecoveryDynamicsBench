@@ -17,7 +17,7 @@ export default function ResultsPage() {
     <>
       <SiteHeader current="results" />
       <main id="main" className="pub-page">
-        <PageIntro eyebrow="Experimental results · RQ3" title="Public synthetic benchmark results" figures={[6, 7, 8, 9]}>
+        <PageIntro eyebrow="Chapter 5 · Experimental results · RQ3" title="What the four reference models actually predicted" figures={[6, 7, 8, 9]}>
           <p>
             Four reference models were scored on three fixed evaluation roots drawn from one public synthetic
             generator, across six outcome–horizon cells (H24, H48, H72 × mean concentric-force innovation and
