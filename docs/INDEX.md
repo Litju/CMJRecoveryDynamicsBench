@@ -21,6 +21,7 @@ draft. The retrospective reconstruction paper below is its companion.
 | Review edition and supplement | [academic_review_manuscript.pdf](manuscript/v4/academic_review_manuscript.pdf), [technical_supplement.pdf](manuscript/v4/technical_supplement.pdf) |
 | Package guide and regeneration | [v4 README](manuscript/v4/README.md) |
 | Claims/evidence register, terminology, storyboard | [science/](science/README.md) |
+| Scientific LinkedIn carousel (draft, not posted) | [carousel PDF](linkedin_carousel/output/CMJ_From_Force_Plate_to_Forecast_carousel.pdf), [package guide](linkedin_carousel/README.md) |
 
 ## 1. Research paper (retrospective companion)
 

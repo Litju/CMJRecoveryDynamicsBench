@@ -223,3 +223,19 @@ def test_page_images_and_previews_are_complete() -> None:
     assert all(_png_size(p) == (1170, 1464) for p in phones)
     width, height = _png_size(CAROUSEL / "output" / "previews" / "contact_sheet.png")
     assert width > height > 1000
+
+
+def test_post_draft_uses_only_sourced_numbers_and_verified_links() -> None:
+    builder: Any = _builder()
+    registry, _geometry = builder.build_registry()
+    sourced: set[str] = set()
+    for token in registry.tokens.values():
+        sourced |= _numbers(token.text)
+    post = (CAROUSEL / "post" / "LINKEDIN_POST.md").read_text(encoding="utf-8")
+    body = post.split("\n---\n", 1)[1]
+    assert not _numbers(body) - sourced, sorted(_numbers(body) - sourced)
+    assert set(re.findall(r"https://\S+", body)) == LINKS
+    lowered = body.lower()
+    for phrase in FORBIDDEN:
+        assert phrase not in lowered, phrase
+    assert "no athlete was measured" in lowered and "not peer reviewed" in lowered

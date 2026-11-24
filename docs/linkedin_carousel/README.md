@@ -18,6 +18,8 @@ receipt or from the synthetic generator's own routines and is listed in the
 | [`output/previews/phone/`](output/previews/phone/) | Each page at phone width (390 CSS px, 3× density) |
 | [`output/carousel.html`](output/carousel.html) | Rendered, diffable HTML of all pages (open after `npm ci`) |
 | [`ledger/figure_source_ledger.csv`](ledger/figure_source_ledger.csv) | Every displayed value: page, token, unit, evidence class, claim id, source file, key, source SHA-256 |
+| [`post/LINKEDIN_POST.md`](post/LINKEDIN_POST.md) | Draft post text with verified URLs |
+| [`qa/QA_RES-783.md`](qa/QA_RES-783.md) | Content, numeric and visual QA record |
 | [`ARTIFACT_SHA256SUMS`](ARTIFACT_SHA256SUMS) | Integrity manifest of every tracked file in this package |
 
 ## Narrative
