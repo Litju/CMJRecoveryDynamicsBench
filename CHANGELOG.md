@@ -4,7 +4,7 @@
 
 No Python package code, release artifact or scientific result changes.
 
-- Scientific LinkedIn carousel draft (`docs/linkedin_carousel/`): an 8-page PDF, page
+- Scientific LinkedIn carousel draft (`docs/linkedin_carousel/`): a 10-page PDF, page
   PNGs and previews narrating the controlled synthetic CMJ study, built from the pinned
   M8 reference results with a figure-to-source ledger. Owner-review draft; not posted.
 - Documentation now has one path to the current V3 research paper

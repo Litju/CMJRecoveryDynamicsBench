@@ -65,6 +65,11 @@ inference or scoring. Two consecutive builds produce identical bytes (PDF creati
 fixed by `tools/finalize.py`). After editing only Markdown files here, refresh the manifest
 with `python tools/finalize.py --manifest-only`.
 
+Independent PDF check (QA, not part of the build; needs `pip install pymupdf==1.24.10 pillow`):
+`python tools/check_pdf_render.py OUT_DIR` rasterizes the final PDF with MuPDF, writes one PNG
+per page plus a contact sheet to OUT_DIR, and fails if a page cannot be read or differs
+visibly from its exported PNG.
+
 ## Sources
 
 - `docs/M8_FIXED_MODE_PUBLIC_REFERENCE_RESULTS.json` (SHA-256 `cd991366…`, scientific SHA-256
