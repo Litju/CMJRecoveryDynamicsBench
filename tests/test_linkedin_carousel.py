@@ -185,3 +185,41 @@ def test_links_are_the_verified_public_destinations() -> None:
     assert title.group(1) == (
         "From Force Plate to Forecast: Modeling CMJ Performance Changes Following Training"
     )
+
+
+PDF_PATH = CAROUSEL / "output" / "CMJ_From_Force_Plate_to_Forecast_carousel.pdf"
+
+
+def _png_size(path: Path) -> tuple[int, int]:
+    head = path.read_bytes()[:24]
+    assert head[:8] == b"\x89PNG\r\n\x1a\n", path.name
+    return int.from_bytes(head[16:20], "big"), int.from_bytes(head[20:24], "big")
+
+
+def test_pdf_is_a_flat_eight_page_portrait_document_with_title_and_links() -> None:
+    data = PDF_PATH.read_bytes()
+    assert len(re.findall(rb"/Type\s*/Page(?!s)", data)) == 8
+    title = "From Force Plate to Forecast: Modeling CMJ Performance Changes Following Training"
+    assert f"/Title ({title})".encode() in data
+    assert {m.decode() for m in re.findall(rb"/URI \(([^)]*)\)", data)} == LINKS
+    boxes = re.findall(rb"/MediaBox\s*\[([^\]]*)\]", data)
+    assert len(boxes) == 8
+    for box in boxes:
+        width, height = (float(v) for v in box.split()[2:4])
+        assert abs(width / height - 0.8) < 0.002
+    assert b"/AcroForm" not in data and b"/JavaScript" not in data
+    assert (
+        re.findall(rb"/(?:CreationDate|ModDate) \(([^)]*)\)", data)
+        == [b"D:20261124000000+00'00'"] * 2
+    )
+
+
+def test_page_images_and_previews_are_complete() -> None:
+    pages = sorted((CAROUSEL / "output" / "pages").glob("*.png"))
+    assert [p.name for p in pages] == [f"page-{n:02d}.png" for n in range(1, 9)]
+    assert all(_png_size(p) == (1080, 1350) for p in pages)
+    phones = sorted((CAROUSEL / "output" / "previews" / "phone").glob("*.png"))
+    assert [p.name for p in phones] == [f"phone-{n:02d}.png" for n in range(1, 9)]
+    assert all(_png_size(p) == (1170, 1464) for p in phones)
+    width, height = _png_size(CAROUSEL / "output" / "previews" / "contact_sheet.png")
+    assert width > height > 1000
