@@ -2,7 +2,9 @@
    Colour tokens copied from website/src/app/tokens.css (Recovery Observatory):
    warm paper, ink, cobalt, vermilion. Type: Source Serif 4 headings (Observatory
    uses an editorial serif), Geist body and Geist Mono data labels. Page = 1080 x 1350 px
-   (LinkedIn 4:5 portrait). Minimum on-page text is 21 px (about 7.5 px on a 390 px phone). */
+   (LinkedIn 4:5 portrait). Phone readability (a page shown 390 px wide is scaled by 0.361):
+   figure labels >= 28 px (>= 10.1 px on screen), body text 30-32 px (>= 10.8 px), and nothing
+   below 26 px (9.4 px; footers only). tools/export.mjs enforces the 26 px minimum. */
 
 @font-face {
   font-family: "Geist";
@@ -92,8 +94,8 @@ body {
   gap: 24px;
   padding-bottom: 18px;
   border-bottom: 3px solid var(--ink);
-  font: 500 21px/1 var(--mono);
-  letter-spacing: 0.06em;
+  font: 500 26px/1 var(--mono);
+  letter-spacing: 0.04em;
   text-transform: uppercase;
   color: var(--muted);
 }
@@ -104,8 +106,8 @@ body {
 }
 .progress i {
   display: block;
-  width: 22px;
-  height: 6px;
+  width: 20px;
+  height: 7px;
   background: var(--line);
 }
 .progress i.on {
@@ -117,21 +119,21 @@ body {
 }
 
 .kicker {
-  margin: 34px 0 0;
-  font: 600 23px/1.2 var(--mono);
+  margin: 32px 0 0;
+  font: 600 26px/1.2 var(--mono);
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--cobalt);
 }
 h1 {
   margin: 12px 0 0;
-  font: 600 62px/1.04 var(--serif);
+  font: 600 64px/1.04 var(--serif);
   letter-spacing: -0.012em;
   font-variation-settings: "opsz" 60;
 }
 .lede {
   margin: 16px 0 0;
-  font-size: 29px;
+  font-size: 32px;
   line-height: 1.32;
   color: var(--muted);
 }
@@ -150,59 +152,49 @@ svg.fig {
   display: block;
   overflow: visible;
 }
-svg .ax {
-  font: 400 22px var(--sans);
+svg .tick {
+  font: 400 28px var(--sans);
   fill: var(--muted);
 }
-svg .ax-s {
-  font: 400 23px var(--sans);
+svg .cap {
+  font: 400 28px var(--sans);
   fill: var(--muted);
 }
-svg .ax-xs {
-  font: 400 21px var(--sans);
-  fill: var(--muted);
-}
-svg .lab {
-  font: 400 25px var(--sans);
+svg .colh {
+  font: 500 28px var(--sans);
   fill: var(--ink);
 }
-svg .lab-s {
-  font: 500 24px var(--sans);
+svg .lab {
+  font: 400 30px var(--sans);
   fill: var(--ink);
 }
 svg .labb {
-  font: 600 26px var(--sans);
+  font: 600 31px var(--sans);
+  fill: var(--ink);
+}
+svg .val {
+  font: 500 30px var(--mono);
+  fill: var(--ink);
+}
+svg .valb {
+  font: 600 33px var(--mono);
   fill: var(--ink);
 }
 svg .big {
-  font: 600 40px var(--mono);
+  font: 600 52px var(--mono);
 }
-svg .mono {
-  font: 500 24px var(--mono);
-  fill: var(--ink);
-}
-svg .mono-b {
-  font: 600 27px var(--mono);
-}
-svg .mono-s {
-  font: 500 23px var(--mono);
-  fill: var(--ink);
-}
-svg .mono-xs {
-  font: 500 21px var(--mono);
+svg .hz {
+  font: 600 28px var(--mono);
+  fill: var(--cobalt);
 }
 svg .dot-n {
-  font: 700 17px var(--mono);
+  font: 700 26px var(--mono);
 }
 svg .h {
   paint-order: stroke;
   stroke: var(--panel);
   stroke-width: 7px;
   stroke-linejoin: round;
-}
-svg .panel {
-  font: 700 28px var(--sans);
-  fill: var(--ink);
 }
 
 /* Statements under a figure: 1-3 short sentences. */
@@ -214,16 +206,16 @@ svg .panel {
 .statements li {
   position: relative;
   margin: 0 0 12px;
-  padding-left: 30px;
-  font-size: 27px;
+  padding-left: 32px;
+  font-size: 31px;
   line-height: 1.3;
 }
 .statements li::before {
   content: "";
   position: absolute;
   left: 2px;
-  top: 13px;
-  width: 12px;
+  top: 17px;
+  width: 14px;
   height: 3px;
   background: var(--cobalt);
 }
@@ -236,7 +228,7 @@ svg .panel {
   padding: 18px 24px;
   border-left: 8px solid var(--vermilion);
   background: var(--vermilion-wash);
-  font-size: 27px;
+  font-size: 30px;
   line-height: 1.3;
 }
 .callout b {
@@ -244,7 +236,7 @@ svg .panel {
 }
 .fine {
   margin: 14px 0 0;
-  font-size: 22px;
+  font-size: 28px;
   line-height: 1.35;
   color: var(--muted);
 }
@@ -259,7 +251,20 @@ svg .panel {
 .equations .tex.display {
   display: block;
   margin: 4px 0;
-  font-size: 38px;
+  font-size: 40px;
+}
+.fig-note {
+  margin: 0;
+  padding: 16px 24px 18px;
+  border: 1.5px solid var(--rule);
+  border-top: 0;
+  border-left: 8px solid var(--vermilion);
+  background: var(--vermilion-wash);
+  font-size: 30px;
+  line-height: 1.3;
+}
+.fig-note b {
+  color: var(--vermilion);
 }
 .katex {
   font-size: 1em;
@@ -286,25 +291,25 @@ svg .panel {
 }
 .quantity h3 {
   margin: 0;
-  font: 600 23px/1.15 var(--sans);
+  font: 600 28px/1.15 var(--sans);
 }
 .quantity .tex {
   display: block;
-  margin: 10px 0 6px;
-  font-size: 25px;
+  margin: 12px 0 8px;
+  font-size: 30px;
   white-space: nowrap;
 }
 .quantity .val {
-  font: 600 30px var(--mono);
+  font: 600 36px var(--mono);
 }
 .quantity .val small {
-  font: 500 21px var(--mono);
+  font: 500 28px var(--mono);
   color: var(--muted);
 }
 .quantity .tag {
   display: block;
-  margin-top: 2px;
-  font-size: 21px;
+  margin-top: 4px;
+  font-size: 28px;
   color: var(--muted);
 }
 
@@ -332,16 +337,16 @@ svg .panel {
 }
 .link-card h3 {
   margin: 0;
-  font: 600 29px/1.2 var(--sans);
+  font: 600 32px/1.2 var(--sans);
 }
 .link-card .url {
-  font: 500 23px/1.3 var(--mono);
+  font: 500 27px/1.3 var(--mono);
   color: var(--cobalt);
   overflow-wrap: anywhere;
 }
 .link-card p {
   margin: 0;
-  font-size: 23px;
+  font-size: 28px;
   line-height: 1.3;
   color: var(--muted);
 }
@@ -361,14 +366,14 @@ svg .panel {
 }
 .limits h3 {
   margin: 0 0 8px;
-  font: 600 22px var(--mono);
+  font: 600 26px var(--mono);
   letter-spacing: 0.06em;
   text-transform: uppercase;
 }
 .limits ul {
   margin: 0;
-  padding-left: 22px;
-  font-size: 23px;
+  padding-left: 26px;
+  font-size: 28px;
   line-height: 1.3;
 }
 .limits li {
@@ -389,7 +394,7 @@ svg .panel {
   color: var(--ink);
 }
 .page.cover .lede {
-  font-size: 28px;
+  font-size: 31px;
 }
 
 .closing {
@@ -409,17 +414,17 @@ svg .panel {
   gap: 24px;
   padding-top: 14px;
   border-top: 1.5px solid var(--rule);
-  font: 400 21px/1.35 var(--mono);
+  font: 400 26px/1.3 var(--mono);
   color: var(--muted);
 }
 .footer .src {
-  max-width: 700px;
+  max-width: 690px;
 }
 .chip {
   flex: none;
   padding: 7px 12px;
   border: 2px solid var(--vermilion);
-  font: 600 20px/1 var(--mono);
+  font: 600 26px/1 var(--mono);
   letter-spacing: 0.06em;
   text-transform: uppercase;
   color: var(--vermilion);

@@ -32,6 +32,8 @@ LINKS = {
     "https://github.com/Litju/CMJRecoveryDynamicsBench",
     "https://github.com/Litju/CMJRecoveryDynamicsBench/blob/main/docs/manuscript/v4/full_illustrated_manuscript.pdf",
 }
+PAGE_COUNT = 10
+MEASURE_PAGE, TARGET_PAGE, MODEL_PAGE, ARCH_PAGE, RESULTS_PAGE, UNCERTAINTY_PAGE = 2, 3, 4, 5, 7, 8
 RESULT_NUMBER = re.compile(r"(?<![\w.])(?:\d{1,3}(?:,\d{3})+|\d+\.\d{3,})(?![\w.])")
 FORBIDDEN = (
     "peak mean force",
@@ -66,8 +68,8 @@ def _ledger() -> list[dict[str, str]]:
 
 def _pages() -> dict[int, str]:
     source = HTML_PATH.read_text(encoding="utf-8")
-    pages = re.findall(r'<section class="page[^"]*" data-page="(\d)".*?</section>', source, re.S)
-    blocks = re.findall(r'(<section class="page[^"]*" data-page="\d".*?</section>)', source, re.S)
+    pages = re.findall(r'<section class="page[^"]*" data-page="(\d+)".*?</section>', source, re.S)
+    blocks = re.findall(r'(<section class="page[^"]*" data-page="\d+".*?</section>)', source, re.S)
     return {int(n): block for n, block in zip(pages, blocks, strict=True)}
 
 
@@ -117,7 +119,7 @@ def test_ledger_values_and_digests_match_their_sources() -> None:
     for model, text in HEADLINE.items():
         assert f"{RESULTS['across_root_variability'][model]['root_mean_nrmse']:.6f}" == text
         assert by_token[f"{model}.mean"]["displayed"] == text
-        assert by_token[f"{model}.mean"]["page"] == "6"
+        assert by_token[f"{model}.mean"]["page"] == str(RESULTS_PAGE)
     for row in rows:
         source = REPOSITORY_ROOT / row["source"]
         if source.is_file():
@@ -125,7 +127,7 @@ def test_ledger_values_and_digests_match_their_sources() -> None:
             assert row["source_sha256"] == digest, row["token"]
         else:
             assert row["evidence_class"] == "link" and row["source_sha256"] == "", row["token"]
-    assert {row["page"] for row in rows} == {str(n) for n in range(1, 9)} - {"1"}
+    assert {row["page"] for row in rows} == {str(n) for n in range(2, PAGE_COUNT + 1)}
 
 
 def test_every_displayed_result_number_is_in_the_ledger() -> None:
@@ -137,10 +139,17 @@ def test_every_displayed_result_number_is_in_the_ledger() -> None:
 
 def test_original_architectures_never_carry_a_score() -> None:
     pages = _pages()
-    page4 = _visible(pages[4])
-    assert "Not scored." in page4 and "No NRMSE exists for them" in page4
-    assert not re.search(r"\d\.\d{3,}", page4)
-    assert all(row["unit"] != "NRMSE" for row in _ledger() if row["page"] == "4")
+    assert len(pages) == PAGE_COUNT
+    architectures = " ".join(_visible(pages[ARCH_PAGE]).split())
+    assert "18 recorded inference routes" in architectures
+    assert "Not evaluated here." in architectures
+    assert "not part of the public four-reference-model experiment" in architectures
+    assert "no comparative NRMSE is reported for them" in architectures
+    everything = " ".join(_visible(block) for block in pages.values()).lower()
+    for overreach in ("no nrmse exists", "networks in total", "not scored"):
+        assert overreach not in everything, overreach
+    assert not re.search(r"\d\.\d{3,}", architectures)
+    assert all(row["unit"] != "NRMSE" for row in _ledger() if row["page"] == str(ARCH_PAGE))
     for block in pages.values():
         for element in re.findall(r"<(?:text|li|p|div)\b[^>]*>(.*?)</(?:text|li|p|div)>", block):
             words = _visible(element)
@@ -158,8 +167,38 @@ def test_wording_respects_the_terminology_contract() -> None:
         for match in re.finditer(r"accuracy", lowered):
             assert lowered[: match.start()].endswith("not athlete "), number
         assert "SYNTHETIC DATA" in words.upper(), number
-    assert "not measured human recovery constants" in _visible(pages[3])
-    assert "Peak force" in _visible(pages[2]) and "not a modeled target" in _visible(pages[2])
+    assert "not measured human recovery constants" in _visible(pages[MODEL_PAGE])
+    measure = _visible(pages[MEASURE_PAGE])
+    assert "Peak force" in measure and "not a modeled target" in measure
+
+
+def test_displayed_change_equals_the_displayed_means() -> None:
+    shown = {row["token"]: row["displayed"] for row in _ledger()}
+    base, crit = float(shown["base.mean"]), float(shown["crit.mean"])
+    change = float(shown["innovation"].replace("−", "-"))
+    assert round(crit - base, 3) == change
+    assert all(len(shown[k].split(".")[1]) == 3 for k in ("base.mean", "crit.mean", "innovation"))
+    assert "computed from the unrounded means" in _visible(_pages()[TARGET_PAGE])
+
+
+def test_interval_limitation_sits_directly_under_the_bootstrap_figure() -> None:
+    block = _pages()[UNCERTAINTY_PAGE]
+    figure_end = block.index("</figure>")
+    note = re.search(r'<p class="fig-note">(.*?)</p>', block, re.S)
+    assert note is not None and block[figure_end + len("</figure>") : note.start()].strip() == ""
+    text = " ".join(_visible(note.group(1)).split())
+    assert "Per-model uncertainty within each evaluation root." in text
+    assert "not a paired ridge-versus-structured comparison" in text
+    assert "no direct ridge-versus-structured interval or significance result was recorded" in text
+
+
+def test_type_scale_keeps_phone_readable_minimums() -> None:
+    css = (CAROUSEL / "source" / "carousel.css").read_text(encoding="utf-8")
+    sizes = [int(n) for n in re.findall(r"(?:font-size:\s*|font:[^;]*?\s)(\d+)px", css)]
+    assert sizes and min(sizes) >= 26, sorted(sizes)[:5]
+    svg_rules = dict(re.findall(r"svg \.([\w-]+) \{\s*font: \d+ (\d+)px", css))
+    labels = {k: int(v) for k, v in svg_rules.items() if k not in {"dot-n"}}
+    assert labels and min(labels.values()) >= 28, labels
 
 
 def test_pages_use_scientific_labels_not_internal_identifiers() -> None:
@@ -196,14 +235,14 @@ def _png_size(path: Path) -> tuple[int, int]:
     return int.from_bytes(head[16:20], "big"), int.from_bytes(head[20:24], "big")
 
 
-def test_pdf_is_a_flat_eight_page_portrait_document_with_title_and_links() -> None:
+def test_pdf_is_a_flat_ten_page_portrait_document_with_title_and_links() -> None:
     data = PDF_PATH.read_bytes()
-    assert len(re.findall(rb"/Type\s*/Page(?!s)", data)) == 8
+    assert len(re.findall(rb"/Type\s*/Page(?!s)", data)) == PAGE_COUNT
     title = "From Force Plate to Forecast: Modeling CMJ Performance Changes Following Training"
     assert f"/Title ({title})".encode() in data
     assert {m.decode() for m in re.findall(rb"/URI \(([^)]*)\)", data)} == LINKS
     boxes = re.findall(rb"/MediaBox\s*\[([^\]]*)\]", data)
-    assert len(boxes) == 8
+    assert len(boxes) == PAGE_COUNT
     for box in boxes:
         width, height = (float(v) for v in box.split()[2:4])
         assert abs(width / height - 0.8) < 0.002
@@ -216,11 +255,13 @@ def test_pdf_is_a_flat_eight_page_portrait_document_with_title_and_links() -> No
 
 def test_page_images_and_previews_are_complete() -> None:
     pages = sorted((CAROUSEL / "output" / "pages").glob("*.png"))
-    assert [p.name for p in pages] == [f"page-{n:02d}.png" for n in range(1, 9)]
+    assert [p.name for p in pages] == [f"page-{n:02d}.png" for n in range(1, PAGE_COUNT + 1)]
     assert all(_png_size(p) == (1080, 1350) for p in pages)
-    phones = sorted((CAROUSEL / "output" / "previews" / "phone").glob("*.png"))
-    assert [p.name for p in phones] == [f"phone-{n:02d}.png" for n in range(1, 9)]
-    assert all(_png_size(p) == (1170, 1464) for p in phones)
+    for folder, size in (("phone", (1170, 1464)), ("phone-natural", (390, 488))):
+        phones = sorted((CAROUSEL / "output" / "previews" / folder).glob("*.png"))
+        expected = [f"phone-{n:02d}.png" for n in range(1, PAGE_COUNT + 1)]
+        assert [p.name for p in phones] == expected, folder
+        assert all(_png_size(p) == size for p in phones), folder
     width, height = _png_size(CAROUSEL / "output" / "previews" / "contact_sheet.png")
     assert width > height > 1000
 

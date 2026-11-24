@@ -78,6 +78,8 @@ ILLUSTRATIVE_FORCE = 20.0  # N/kg
 ILLUSTRATIVE_IMPULSE = 2.7  # m/s
 ILLUSTRATIVE_AMPLITUDES = (0.04, 0.03)  # fast, slow fraction of baseline
 HORIZONS = (24, 48, 72)
+PAGE_COUNT = 10
+DISPLAY_DECIMALS = 3  # page 3: baseline mean, criterion mean and their change
 
 MODELS = ("zero_innovation", "training_constant", "ridge_full", "structured_full")
 MODEL_LABEL = {
@@ -293,7 +295,7 @@ def build_registry() -> tuple[Registry, dict]:
             key = f"independent_test_roots[{index}].paired_camp_bootstrap.models.{model}"
             reg.add(
                 f"{model}.ci{root}",
-                f"[{lo:.4f}, {hi:.4f}]",
+                f"{lo:.4f}–{hi:.4f}",
                 "NRMSE",
                 R,
                 f"{key}.mean_six_cell_nrmse_95_percentile_interval",
@@ -629,10 +631,17 @@ def build_registry() -> tuple[Registry, dict]:
         criterion_truth, metric="force", streams=streams, assessment_key="criterion:H24"
     )
     base_mean, crit_mean = sum(base) / 3, sum(crit) / 3
+    # Page 3 prints both means and their difference; at DISPLAY_DECIMALS the printed values
+    # must subtract exactly, so readers can check the arithmetic (computed from unrounded means).
+    shown = round(round(crit_mean, DISPLAY_DECIMALS) - round(base_mean, DISPLAY_DECIMALS), 6)
+    if shown != round(crit_mean - base_mean, DISPLAY_DECIMALS):
+        raise SystemExit(
+            "rounded means no longer subtract to the displayed change; adjust precision"
+        )
     for i, v in enumerate(base):
         reg.add(
             f"base.t{i + 1}",
-            f"{v:.2f}",
+            f"{v:.3f}",
             "N/kg",
             SUMMARY_SOURCE,
             f"assessment_trials(20.0, 'baseline')[{i}]",
@@ -642,7 +651,7 @@ def build_registry() -> tuple[Registry, dict]:
     for i, v in enumerate(crit):
         reg.add(
             f"crit.t{i + 1}",
-            f"{v:.2f}",
+            f"{v:.3f}",
             "N/kg",
             SUMMARY_SOURCE,
             f"assessment_trials(criterion H24, 'criterion:H24')[{i}]",
@@ -651,7 +660,7 @@ def build_registry() -> tuple[Registry, dict]:
         )
     reg.add(
         "base.mean",
-        f"{base_mean:.2f}",
+        f"{base_mean:.{DISPLAY_DECIMALS}f}",
         "N/kg",
         SUMMARY_SOURCE,
         "mean of the three baseline trials",
@@ -660,7 +669,7 @@ def build_registry() -> tuple[Registry, dict]:
     )
     reg.add(
         "crit.mean",
-        f"{crit_mean:.2f}",
+        f"{crit_mean:.{DISPLAY_DECIMALS}f}",
         "N/kg",
         SUMMARY_SOURCE,
         "mean of the three criterion trials",
@@ -669,7 +678,7 @@ def build_registry() -> tuple[Registry, dict]:
     )
     reg.add(
         "innovation",
-        signed(crit_mean - base_mean, 2),
+        signed(crit_mean - base_mean, DISPLAY_DECIMALS),
         "N/kg",
         SUMMARY_SOURCE,
         "criterion mean minus baseline mean",
@@ -817,24 +826,23 @@ def fig_cover(reg: Registry, geo: dict) -> str:
     """Three-step journey: one generator trace, the response curve, the forecast horizons."""
     trial = geo["trace"]
     b: list[str] = []
-    W, H = 952, 430
+    W, H = 952, 380
     panels = [
-        (0, "01", "Measure", "one simulated jump"),
-        (330, "02", "Model", "change after training"),
-        (660, "03", "Forecast", "24 · 48 · 72 h ahead"),
+        (0, "01", "Measure", "one jump"),
+        (330, "02", "Model", "after training"),
+        (660, "03", "Forecast", "24 · 48 · 72 h"),
     ]
-    pw, top, ph = 292, 96, 268
+    pw, top, ph = 292, 118, 236
     for x0, num, title, sub in panels:
         b.append(rect(x0, 0, pw, H, PANEL, RULE, 1.5))
-        b.append(text(x0 + 22, 44, num, "mono-s", fill=COBALT))
-        b.append(text(x0 + 66, 44, title, "labb"))
-        b.append(text(x0 + 22, 80, sub, "ax"))
+        b.append(text(x0 + 22, 48, num, "hz"))
+        b.append(text(x0 + 70, 48, title, "labb"))
+        b.append(text(x0 + 22, 88, sub, "cap"))
     for x in (300, 630):
-        b.append(line(x - 2, H / 2, x + 22, H / 2, INK, 2.5))
-        b.append(arrowhead(x + 28, H / 2, "right", 12))
-    # 1: force-time trace (Fz/m vs time).
+        b.append(line(x - 2, H / 2 + 20, x + 22, H / 2 + 20, INK, 2.5))
+        b.append(arrowhead(x + 28, H / 2 + 20, "right", 12))
     t, f = trial.time_seconds, trial.vertical_force_n_per_kg
-    sx, sy = Scale(0, t[-1], 24, pw - 24), Scale(0, 28, top + ph, top + 20)
+    sx, sy = Scale(0, t[-1], 24, pw - 24), Scale(0, 28, top + ph, top + 10)
     pts = [(sx(a), sy(c)) for a, c in zip(t, f, strict=True)]
     b.append(
         path(
@@ -848,35 +856,25 @@ def fig_cover(reg: Registry, geo: dict) -> str:
     b.append(line(sx(0), sy(G), sx(t[-1]), sy(G), MUTED, 2, "7 5"))
     b.append(path(pts, COBALT, 4.5))
     b.append(line(sx(0), sy(0), sx(t[-1]), sy(0), MUTED, 1.5))
-    b.append(text(sx(t[-1]), sy(G) + 28, "g", "ax", "end"))
-    b.append(text(sx(0), sy(0) + 30, "force per kg vs time", "ax-s"))
-    # 2: response r(tau), illustrative amplitudes.
+    b.append(text(sx(t[-1]), sy(G) + 34, "g", "cap", "end"))
     a_f, a_s = ILLUSTRATIVE_AMPLITUDES
-    x0 = 330
-    tx, ty = Scale(0, 96, x0 + 24, x0 + pw - 24), Scale(-8, 1, top + ph, top + 20)
-    curve = [
-        (tx(h), ty(fixed_mode_response(h, a_f, a_s) * 100)) for h in [i * 0.5 for i in range(193)]
-    ]
-    b.append(line(tx(0), ty(0), tx(96), ty(0), MUTED, 1.5))
-    b.append(path(curve, INK, 4.5))
-    b.append(text(tx(0), ty(-8) + 30, "change vs hours", "ax-s"))
-    b.append(text(tx(96), ty(0) - 12, "baseline", "ax-xs", "end"))
-    # 3: forecast horizons on the same curve.
-    x0 = 660
-    tx3 = Scale(0, 96, x0 + 24, x0 + pw - 24)
-    curve3 = [
-        (tx3(h), ty(fixed_mode_response(h, a_f, a_s) * 100)) for h in [i * 0.5 for i in range(193)]
-    ]
-    b.append(line(tx3(0), ty(0), tx3(96), ty(0), MUTED, 1.5))
-    b.append(path(curve3, RULE, 3.5, dash="2 8"))
-    for h in HORIZONS:
-        y = ty(fixed_mode_response(float(h), a_f, a_s) * 100)
-        b.append(line(tx3(h), ty(0), tx3(h), y, COBALT, 2, "4 4"))
-        b.append(
-            f'<circle cx="{fmt(tx3(h))}" cy="{fmt(y)}" r="11" fill="{COBALT}" stroke="{PANEL}" stroke-width="3"/>'
-        )
-        b.append(text(tx3(h), ty(0) - 14, f"H{h}", "mono-s", "middle", COBALT))
-    b.append(text(tx3(0), ty(-8) + 30, "change at 3 horizons", "ax-s"))
+    hours = [i * 0.5 for i in range(193)]
+    ty = Scale(-8, 1, top + ph, top + 10)
+    for k, x0 in enumerate((330, 660)):
+        tx = Scale(0, 96, x0 + 24, x0 + pw - 24)
+        b.append(line(tx(0), ty(0), tx(96), ty(0), MUTED, 1.5))
+        curve = [(tx(h), ty(fixed_mode_response(h, a_f, a_s) * 100)) for h in hours]
+        if k == 0:
+            b.append(path(curve, INK, 4.5))
+            b.append(text(tx(96), ty(0) - 14, "baseline", "cap", "end"))
+        else:
+            b.append(path(curve, RULE, 3.5, dash="2 8"))
+            for h in HORIZONS:
+                y = ty(fixed_mode_response(float(h), a_f, a_s) * 100)
+                b.append(line(tx(h), ty(0), tx(h), y, COBALT, 2, "4 4"))
+                b.append(
+                    f'<circle cx="{fmt(tx(h))}" cy="{fmt(y)}" r="12" fill="{COBALT}" stroke="{PANEL}" stroke-width="3"/>'
+                )
     return svg(
         W,
         H,
@@ -888,24 +886,24 @@ def fig_cover(reg: Registry, geo: dict) -> str:
 def fig_force_time(reg: Registry, geo: dict) -> str:
     trial = geo["trace"]
     t, f = trial.time_seconds, trial.vertical_force_n_per_kg
-    W, H = 952, 436
-    L, R, T, B = 92, 930, 24, 360
-    sx, sy = Scale(-0.006, 0.272, L, R), Scale(0, 30, B, T)
+    W, H = 952, 500
+    L, R, T, B = 100, 930, 24, 420
+    sx, sy = Scale(-0.006, 0.272, L, R), Scale(0, 33, B, T)
     b: list[str] = [rect(0, 0, W, H, PANEL, RULE, 1.5)]
-    for v in range(0, 31, 5):
+    for v in range(0, 31, 10):
         b.append(line(L, sy(v), R, sy(v), GRID, 1.2))
-        b.append(text(L - 14, sy(v) + 8, str(v), "ax", "end"))
-    for v in (0.0, 0.05, 0.10, 0.15, 0.20, 0.25):
-        b.append(text(sx(v), B + 34, f"{v:.2f}", "ax", "middle"))
-    b.append(text((L + R) / 2, H - 14, "time since concentric onset (s)", "ax", "middle"))
+        b.append(text(L - 14, sy(v) + 10, str(v), "tick", "end"))
+    for v in (0.0, 0.1, 0.2):
+        b.append(text(sx(v), B + 38, f"{v:.1f}", "tick", "middle"))
+    b.append(text(sx(0.2) + 70, B + 38, "time (s)", "cap"))
     b.append(
         text(
-            26,
+            30,
             (T + B) / 2,
-            "force per kg, Fz/m (N/kg)",
-            "ax",
+            "force per kg (N/kg)",
+            "cap",
             "middle",
-            extra=f' transform="rotate(-90 26 {fmt((T + B) / 2)})"',
+            extra=f' transform="rotate(-90 30 {fmt((T + B) / 2)})"',
         )
     )
     pts = [(sx(a), sy(c)) for a, c in zip(t, f, strict=True)]
@@ -936,31 +934,30 @@ def fig_force_time(reg: Registry, geo: dict) -> str:
     b.append(path(pts, COBALT, 5))
     i_peak = max(range(len(f)), key=lambda i: f[i])
     px, py = sx(t[i_peak]), sy(f[i_peak])
-    b.append(arrowhead(px, py - 5, "down", 16, INK))
-    b.append(line(px + 12, py - 14, 636, py - 14, MUTED, 1.5))
-    b.append(text(R - 6, py - 6, f"peak force {reg('trace.peak')} N/kg", "lab", "end"))
-    b.append(text(R - 6, py + 22, "not a modeled target", "ax-s", "end"))
-    b.append(
-        text(px, sy(mean) + 34, f"mean concentric force {reg('trace.mean')} N/kg", "labb", "middle")
-    )
+    b.append(arrowhead(px, py - 6, "down", 16, INK))
+    b.append(path([(px, py - 22), (px, 40), (566, 40)], MUTED, 1.5))
+    b.append(text(R - 6, 50, f"peak force {reg('trace.peak')} N/kg", "lab", "end"))
+    b.append(text(R - 6, 86, "not a modeled target", "cap", "end"))
+    b.append(text(px, sy(mean) + 38, "mean concentric force", "labb", "middle"))
+    b.append(text(px, sy(mean) + 72, f"{reg('trace.mean')} N/kg", "val", "middle"))
     b.append(
         text(
             px,
-            sy(G) - 22,
+            sy(G) - 14,
             f"net impulse = area above g = {reg('trace.net')} m/s",
-            "lab-s",
+            "lab",
             "middle",
             VERMILION,
         )
     )
-    b.append(text(px, sy(G) + 36, f"g = {reg('g')} N/kg (body weight per kg)", "ax", "middle"))
-    b.append(text(sx(0) + 8, B - 16, "onset", "ax-s", fill=TEAL))
+    b.append(text(px, sy(G) + 42, f"g = {reg('g')} N/kg (body weight per kg)", "cap", "middle"))
+    b.append(text(sx(0) + 10, B - 16, "onset", "cap", fill=TEAL))
     b.append(
         text(
-            sx(t[-1]) - 8,
+            sx(t[-1]) - 10,
             B - 16,
             f"takeoff · T = {reg('trace.duration')} s",
-            "ax-s",
+            "cap",
             "end",
             VERMILION,
         )
@@ -975,60 +972,63 @@ def fig_force_time(reg: Registry, geo: dict) -> str:
 
 def fig_trials(reg: Registry, geo: dict) -> str:
     base, crit = geo["base"], geo["crit"]
-    W, H = 952, 196
+    W, H = 952, 500
+    T, B = 132, 432
+    sy = Scale(18.95, 20.3, B, T)
     b: list[str] = [rect(0, 0, W, H, PANEL, RULE, 1.5)]
-    sy = Scale(19.0, 20.3, 178, 96)
-    groups = [
-        (24, "baseline", "≈ 2 h before", base, "base", COBALT),
-        (300, "criterion", "24 h after", crit, "crit", VERMILION),
+    for v in (19.0, 19.5, 20.0):
+        b.append(line(96, sy(v), 640, sy(v), GRID, 1.2))
+        b.append(text(84, sy(v) + 10, f"{v:.1f}", "tick", "end"))
+    b.append(text(24, 44, "N/kg", "cap"))
+    columns = [
+        (230, "baseline", "≈ 2 h before", base, "base", COBALT),
+        (470, "criterion", "24 h after", crit, "crit", VERMILION),
     ]
-    guide_x = 650
-    for x0, name, when, vals, key, color in groups:
+    for cx, name, when, vals, key, color in columns:
         mean = sum(vals) / 3
-        b.append(text(x0, 38, name, "labb"))
-        b.append(text(x0 + (122 if key == "base" else 132), 38, when, "ax-s"))
-        b.append(
-            line(
-                x0 + (346 if key == "base" else 330), sy(mean), guide_x, sy(mean), RULE, 1.5, "5 5"
-            )
-        )
-        b.append(line(x0, sy(mean), x0 + 168, sy(mean), INK, 3.5))
+        b.append(text(cx, 44, name, "labb", "middle"))
+        b.append(text(cx, 82, when, "cap", "middle"))
+        b.append(line(cx - 82, sy(mean), cx + 82, sy(mean), INK, 4))
         for i, v in enumerate(vals):
             b.append(
-                f'<circle cx="{fmt(x0 + 34 + i * 50)}" cy="{fmt(sy(v))}" r="10" fill="{color}" stroke="{PANEL}" stroke-width="2.5"/>'
+                f'<circle cx="{fmt(cx - 50 + i * 50)}" cy="{fmt(sy(v))}" r="15" fill="{color}" stroke="{PANEL}" stroke-width="3"/>'
             )
-        b.append(text(x0 + 184, sy(mean) + 9, f"mean {reg(key + '.mean')}", "mono-s"))
-        for i in (1, 2, 3):
-            reg(f"{key}.t{i}")
-    b.append(text(24, 70, "3 trials each; line = assessment mean (N/kg)", "ax-xs"))
+            reg(f"{key}.t{i + 1}")
+        if key == "base":
+            b.append(text(cx + 94, sy(mean) + 10, reg("base.mean"), "val"))
+        else:
+            b.append(text(cx - 94, sy(mean) + 10, reg("crit.mean"), "val", "end"))
     y_base, y_crit = sy(geo["base_mean"]), sy(geo["crit_mean"])
-    b.append(line(guide_x, y_base, guide_x, y_crit - 12, INK, 3))
-    b.append(arrowhead(guide_x, y_crit, "down", 14))
-    b.append(text(686, 38, "innovation ΔF", "labb"))
-    b.append(text(686, 70, "criterion − baseline", "ax-xs"))
-    b.append(text(686, 140, reg("innovation"), "big", fill=VERMILION))
-    b.append(text(686, 174, "N/kg", "mono-s", fill=VERMILION))
+    b.append(line(456, y_base, 606, y_base, MUTED, 1.8, "6 6"))
+    b.append(line(560, y_crit, 606, y_crit, MUTED, 1.8, "6 6"))
+    b.append(line(606, y_base, 606, y_crit - 16, INK, 3.5))
+    b.append(arrowhead(606, y_crit, "down", 16))
+    b.append(line(660, 24, 660, H - 24, RULE, 1.5))
+    b.append(text(690, 150, "change ΔF", "labb"))
+    b.append(text(690, 250, reg("innovation"), "big", fill=VERMILION))
+    b.append(text(690, 296, "N/kg", "val", fill=VERMILION))
+    b.append(text(24, H - 20, "dots: three trials · line: assessment mean", "cap"))
     return svg(
         W,
         H,
         b,
-        "Three baseline trials and three criterion trials, their means, and the innovation between them.",
+        "Three baseline trials and three criterion trials, their means, and the change between them.",
     )
 
 
 def fig_response(reg: Registry, geo: dict) -> str:
     a_f, a_s = ILLUSTRATIVE_AMPLITUDES
-    W, H = 952, 470
-    L, R, T, B = 92, 930, 24, 398
+    W, H = 952, 480
+    L, R, T, B = 110, 930, 64, 400
     sx, sy = Scale(0, 96, L, R), Scale(-16.5, 1.5, B, T)
     hours = [i * 0.25 for i in range(385)]
     b: list[str] = [rect(0, 0, W, H, PANEL, RULE, 1.5)]
     for v in range(-15, 1, 5):
         b.append(line(L, sy(v), R, sy(v), GRID, 1.2))
-        b.append(text(L - 14, sy(v) + 8, f"{v}%".replace("-", "−"), "ax", "end"))
+        b.append(text(L - 14, sy(v) + 10, f"{v}%".replace("-", "−"), "tick", "end"))
     for h in (0, 24, 48, 72, 96):
-        b.append(text(sx(h), B + 34, str(h), "ax", "middle"))
-    b.append(text((L + R) / 2, H - 12, "time since training exposure, τ (h)", "ax", "middle"))
+        b.append(text(sx(h), B + 38, str(h), "tick", "middle"))
+    b.append(text(L, H - 12, "hours since training exposure, τ", "cap"))
     lo = [
         (
             sx(h),
@@ -1046,6 +1046,7 @@ def fig_response(reg: Registry, geo: dict) -> str:
     b.append(path(lo + hi[::-1], stroke="none", width=0, fill=OCHRE_WASH, close=True))
     for h in HORIZONS:
         b.append(line(sx(h), T, sx(h), B, RULE, 2))
+        b.append(text(sx(h), T - 18, f"H{h}", "hz", "middle"))
     fast = [(sx(h), sy(-a_f * math.exp(-h / FAST_MODE_HOURS) * 100)) for h in hours]
     slow = [(sx(h), sy(-a_s * math.exp(-h / SLOW_MODE_HOURS) * 100)) for h in hours]
     total = [(sx(h), sy(fixed_mode_response(h, a_f, a_s) * 100)) for h in hours]
@@ -1056,27 +1057,30 @@ def fig_response(reg: Registry, geo: dict) -> str:
     for h in HORIZONS:
         y = sy(fixed_mode_response(float(h), a_f, a_s) * 100)
         b.append(
-            f'<circle cx="{fmt(sx(h))}" cy="{fmt(y)}" r="10" fill="{INK}" stroke="{PANEL}" stroke-width="3"/>'
+            f'<circle cx="{fmt(sx(h))}" cy="{fmt(y)}" r="11" fill="{INK}" stroke="{PANEL}" stroke-width="3"/>'
         )
-        b.append(text(sx(h) + 14, y + 36, f"{reg(f'r{h}')}%", "labb"))
-        b.append(text(sx(h) - 8, T + 26, f"H{h}", "mono-s", "end", COBALT))
-    lx = 560
-    b.append(rect(lx - 16, 210, 370, 176, PANEL, RULE, 1.2))
-    b.append(rect(lx, 358, 46, 18, OCHRE_WASH, OCHRE, 1.2))
-    b.append(text(lx + 58, 374, "range allowed by the bounds", "lab"))
-    b.append(line(lx, 238, lx + 46, 238, COBALT, 3, "10 7"))
-    b.append(text(lx + 58, 246, f"fast mode · {reg('mode.fast')} h", "lab"))
-    b.append(line(lx, 278, lx + 46, 278, VERMILION, 3, "10 7"))
-    b.append(text(lx + 58, 286, f"slow mode · {reg('mode.slow')} h", "lab"))
-    b.append(line(lx, 318, lx + 46, 318, INK, 5))
-    b.append(
-        text(
-            lx + 58,
-            326,
-            f'r(τ): a<tspan baseline-shift="sub" font-size="18">f</tspan> = {reg("ill.af")}, a<tspan baseline-shift="sub" font-size="18">s</tspan> = {reg("ill.as")}',
-            "lab",
-        )
-    )
+        b.append(text(sx(h) + 12, y + 42, f"{reg(f'r{h}')}%", "labb"))
+    lx, ly = 486, 232
+    sub = '<tspan baseline-shift="sub" font-size="22">{}</tspan>'
+    b.append(rect(lx - 16, ly - 8, 456, 172, PANEL, RULE, 1.2))
+    legend = [
+        (
+            line(lx, ly + 18, lx + 46, ly + 18, COBALT, 3, "10 7"),
+            f"fast mode, {reg('mode.fast')} h",
+        ),
+        (
+            line(lx, ly + 58, lx + 46, ly + 58, VERMILION, 3, "10 7"),
+            f"slow mode, {reg('mode.slow')} h",
+        ),
+        (
+            line(lx, ly + 98, lx + 46, ly + 98, INK, 5),
+            f"sum r(τ): a{sub.format('f')} {reg('ill.af')}, a{sub.format('s')} {reg('ill.as')}",
+        ),
+        (rect(lx, ly + 128, 46, 20, OCHRE_WASH, OCHRE, 1.2), "range allowed by the bounds"),
+    ]
+    for k, (swatch, label) in enumerate(legend):
+        b.append(swatch)
+        b.append(text(lx + 60, ly + 28 + k * 40, label, "cap", fill=INK))
     return svg(
         W,
         H,
@@ -1086,12 +1090,12 @@ def fig_response(reg: Registry, geo: dict) -> str:
 
 
 COMPONENTS = [
-    ("raw", "raw", "MLP"),
-    ("hist", "history", "encoder"),
-    ("gru", "GRU", "4→32"),
-    ("hor", "horizon", "embed"),
-    ("basis", "basis", "values"),
-    ("head", "basis", "head"),
+    ("raw", "MLP"),
+    ("hist", "history"),
+    ("gru", "GRU"),
+    ("hor", "horizon"),
+    ("basis", "basis"),
+    ("head", "head"),
 ]
 FAMILY_COMPONENTS = {
     "M0": {"raw"},
@@ -1104,56 +1108,70 @@ FAMILY_COMPONENTS = {
     "M7": {"raw", "gru", "hor", "basis"},
     "M8": {"raw", "gru", "hor", "basis", "head"},
 }
-FAMILY_NOTE = {
-    "M0": "39→32→2",
-    "M1": "39→64→2",
-    "M2": "39→64→64→2",
-    "M6": "2 of 5",
-    "M7": "5 of 5",
-    "M8": "5 of 5",
-}
+FAMILY_BASIS_VALUES = {"M6": "2", "M7": "5", "M8": "5"}
 
 
 def fig_architectures(reg: Registry, geo: dict) -> str:
     families = geo["families"]
-    W, H = 952, 612
+    W, H = 952, 664
     b: list[str] = [rect(0, 0, W, H, PANEL, RULE, 1.5)]
-    col0, colw, top, rowh = 88, 87, 104, 52
-    barx, barw = 640, 196
+    col0, colw, top, rowh = 150, 100, 76, 50
+    barx, barw = 712, 100
     scale = Scale(0, 11000, barx, barx + barw)
-    for i, (_, l1, l2) in enumerate(COMPONENTS):
-        cx = col0 + colw / 2 + i * colw
-        b.append(text(cx, 42, l1, "ax-s", "middle"))
-        b.append(text(cx, 70, l2, "ax-s", "middle"))
-    b.append(text(barx, 42, "trainable", "ax-s"))
-    b.append(text(barx, 70, "parameters", "ax-s"))
-    b.append(line(24, top - 16, W - 24, top - 16, INK, 2))
+    for i, (_, label) in enumerate(COMPONENTS):
+        b.append(text(col0 + i * colw, 46, label, "colh", "middle"))
+    b.append(text(barx, 46, "parameters", "colh"))
+    b.append(line(16, top - 6, W - 16, top - 6, INK, 2))
     for r, fam in enumerate(f"M{i}" for i in range(9)):
         y = top + r * rowh + rowh / 2
         if r % 2 == 0:
             b.append(rect(16, y - rowh / 2, W - 32, rowh, "#f7f4ec"))
-        b.append(text(34, y + 9, fam, "labb"))
-        comps = FAMILY_COMPONENTS[fam]
-        for i, (key, _, _) in enumerate(COMPONENTS):
-            cx = col0 + colw / 2 + i * colw
-            if key in comps:
-                b.append(f'<circle cx="{fmt(cx)}" cy="{fmt(y)}" r="12" fill="{INK}"/>')
+        b.append(text(30, y + 11, fam, "labb"))
+        for i, (key, _) in enumerate(COMPONENTS):
+            cx = col0 + i * colw
+            if key in FAMILY_COMPONENTS[fam]:
+                b.append(f'<circle cx="{fmt(cx)}" cy="{fmt(y)}" r="16" fill="{INK}"/>')
                 if key == "basis":
                     b.append(
-                        text(cx, y + 6, FAMILY_NOTE[fam][0], "dot-n", "middle", PANEL, halo=False)
+                        text(
+                            cx,
+                            y + 9,
+                            FAMILY_BASIS_VALUES[fam],
+                            "dot-n",
+                            "middle",
+                            PANEL,
+                            halo=False,
+                        )
                     )
             else:
-                b.append(f'<circle cx="{fmt(cx)}" cy="{fmt(y)}" r="3.5" fill="{RULE}"/>')
-        params = int(families[fam]["parameters"])
-        b.append(rect(barx, y - 12, scale(params) - barx, 24, COBALT))
-        b.append(text(scale(params) + 10, y + 8, reg(f"{fam}.params"), "mono", "start"))
+                b.append(f'<circle cx="{fmt(cx)}" cy="{fmt(y)}" r="4" fill="{RULE}"/>')
+        b.append(rect(barx, y - 12, scale(int(families[fam]["parameters"])) - barx, 24, COBALT))
+        b.append(
+            text(scale(int(families[fam]["parameters"])) + 10, y + 10, reg(f"{fam}.params"), "val")
+        )
+    y0 = top + 9 * rowh + 46
     b.append(
         text(
-            col0 + 4 * colw + colw / 2,
-            H - 14,
-            "number = basis values used (of 5)",
-            "ax-xs",
-            "middle",
+            24,
+            y0,
+            f"MLP on {reg('arch.raw')} raw features · history: {reg('arch.history')} prior values",
+            "cap",
+        )
+    )
+    b.append(
+        text(
+            24,
+            y0 + 38,
+            f"basis: public-schedule values (number used), {reg('basis.fast')} h / {reg('basis.slow')} h",
+            "cap",
+        )
+    )
+    b.append(
+        text(
+            24,
+            y0 + 76,
+            f"decays, not the generator's {reg('mode.fast')} h / {reg('mode.slow')} h modes",
+            "cap",
         )
     )
     return svg(
@@ -1165,52 +1183,40 @@ def fig_architectures(reg: Registry, geo: dict) -> str:
 
 
 def fig_design(reg: Registry, geo: dict) -> str:
-    W, H = 952, 400
+    W, H = 952, 412
     b: list[str] = [rect(0, 0, W, H, PANEL, RULE, 1.5)]
-    sq, gap = 22, 5
-    step = sq + gap
+    sq, step = 21, 25
 
     def grid(x0, y0, cols, rows, color):
         for r in range(rows):
             for c in range(cols):
                 b.append(rect(x0 + c * step, y0 + r * step, sq, sq, color))
 
-    x_tr, x_dev, x_root, y0 = 28, 390, 650, 104
-    b.append(text(x_tr, 44, f"Training · {reg('training.camps')} camps", "labb", fill=COBALT))
-    b.append(
-        text(x_tr, 76, f"{reg('training.episodes')} episodes · {reg('training.rows')} rows", "ax-s")
-    )
+    x_tr, x_dev, x_root, y0 = 28, 360, 610, 108
+    b.append(text(x_tr, 44, "Training", "labb", fill=COBALT))
+    b.append(text(x_tr, 82, f"{reg('training.camps')} camps", "cap"))
     grid(x_tr, y0, 12, 8, COBALT)
-    b.append(text(x_dev, 44, f"Development · {reg('development.camps')}", "labb", fill=OCHRE))
-    b.append(text(x_dev, 76, "tunes the penalty", "ax-s"))
+    b.append(text(x_dev, 44, "Development", "labb", fill=OCHRE))
+    b.append(text(x_dev, 82, f"{reg('development.camps')} camps", "cap"))
     grid(x_dev, y0, 8, 2, OCHRE)
-    b.append(text(x_root, 44, f"Evaluation · {reg('roots.count')} roots", "labb", fill=VERMILION))
-    b.append(text(x_root, 76, f"{reg('root.camps')} camps each", "ax-s"))
+    b.append(text(x_dev, y0 + 92, "selects", "cap"))
+    b.append(text(x_dev, y0 + 128, "penalties", "cap"))
+    b.append(text(x_root, 44, "Evaluation", "labb", fill=VERMILION))
+    b.append(text(x_root, 82, f"{reg('roots.count')} roots × {reg('root.camps')} camps", "cap"))
     for i, (root, shade) in enumerate(zip(ROOTS, (VERMILION, "#d27a66", "#e6ad9f"), strict=True)):
-        yy = y0 + i * 76
-        grid(x_root + 30, yy, 8, 2, shade)
-        b.append(text(x_root, yy + 35, root, "labb", fill=VERMILION))
-    for k, words in enumerate(
-        ("same generator,", "different seeds:", "seed variation,", "not new populations")
-    ):
-        b.append(text(x_dev, y0 + 102 + k * 28, words, "ax-s"))
-    b.append(line(24, 334, W - 24, 334, RULE, 1.2))
+        yy = y0 + i * 70
+        grid(x_root + 40, yy, 8, 2, shade)
+        b.append(text(x_root, yy + 36, root, "labb", fill=VERMILION))
+    b.append(line(16, 322, W - 16, 322, RULE, 1.2))
     b.append(
         text(
             28,
-            362,
-            f"1 square = 1 camp = {reg('episodes_per_camp')} episodes = {reg('rows_per_camp')} horizon rows",
-            "ax-s",
+            360,
+            f"1 square = 1 camp = {reg('episodes_per_camp')} episodes = {reg('rows_per_camp')} rows",
+            "cap",
         )
     )
-    b.append(
-        text(
-            28,
-            390,
-            f"{reg('features.source')} public predictors per row → {reg('features.encoded')} encoded columns",
-            "ax-s",
-        )
-    )
+    b.append(text(28, 396, "Roots: one generator, three seeds; not new populations", "cap"))
     return svg(
         W,
         H,
@@ -1220,44 +1226,35 @@ def fig_design(reg: Registry, geo: dict) -> str:
 
 
 def fig_models_cells(reg: Registry, geo: dict) -> str:
-    W, H = 952, 300
+    W, H = 952, 380
     b: list[str] = []
     desc = {
         "zero_innovation": "predicts no change",
-        "training_constant": "training average per cell",
-        "ridge_full": f"linear on all {reg('features.source')} predictors",
+        "training_constant": "training mean per cell",
+        "ridge_full": f"linear on {reg('features.source')} predictors",
         "structured_full": f"built on {reg('mode.fast')} h / {reg('mode.slow')} h decays",
     }
-    b.append(text(0, 26, "4 reference models", "labb"))
+    b.append(text(0, 30, "4 reference models", "labb"))
     for i, model in enumerate(MODELS):
-        y = 46 + i * 62
-        b.append(rect(0, y, 426, 54, PANEL, RULE, 1.5))
-        b.append(rect(0, y, 10, 54, MODEL_COLOR[model]))
-        b.append(text(24, y + 24, MODEL_LABEL[model], "lab-s"))
-        b.append(text(24, y + 47, desc[model], "ax-xs"))
-    x0 = 470
-    b.append(text(x0, 26, "× 6 scored cells", "labb"))
-    cx0, cw, chh = x0 + 112, 118, 84
+        y = 50 + i * 80
+        b.append(rect(0, y, 444, 72, PANEL, RULE, 1.5))
+        b.append(rect(0, y, 10, 72, MODEL_COLOR[model]))
+        b.append(text(26, y + 31, MODEL_LABEL[model], "lab"))
+        b.append(text(26, y + 63, desc[model], "cap"))
+    x0, cx0, cw, ch = 484, 560, 124, 90
+    b.append(text(x0, 30, "× 6 scored cells", "labb"))
     for j, h in enumerate(HORIZONS):
-        b.append(text(cx0 + j * cw + (cw - 12) / 2, 74, f"H{h}", "mono-s", "middle", COBALT))
+        b.append(text(cx0 + j * cw + (cw - 12) / 2, 86, f"H{h}", "hz", "middle"))
     for i, (sym, unit) in enumerate((("ΔF", "N/kg"), ("ΔJ", "m/s"))):
-        y = 92 + i * (chh + 12)
-        b.append(text(x0, y + 38, sym, "labb"))
-        b.append(text(x0, y + 66, unit, "ax-xs"))
+        y = 104 + i * (ch + 12)
+        b.append(text(x0, y + 42, sym, "labb"))
+        b.append(text(x0, y + 76, unit, "cap"))
         for j in range(3):
-            b.append(rect(cx0 + j * cw, y, cw - 12, chh, COBALT_WASH, COBALT, 1.5))
+            b.append(rect(cx0 + j * cw, y, cw - 12, ch, COBALT_WASH, COBALT, 1.5))
             b.append(
-                text(
-                    cx0 + j * cw + (cw - 12) / 2,
-                    y + 50,
-                    "NRMSE",
-                    "mono-xs",
-                    "middle",
-                    COBALT,
-                    halo=False,
-                )
+                text(cx0 + j * cw + (cw - 12) / 2, y + 54, "NRMSE", "hz", "middle", halo=False)
             )
-    b.append(text(x0, 294, "score = mean of the 6 cells", "ax-xs"))
+    b.append(text(x0, 346, "score = mean of 6 cells", "cap"))
     return svg(
         W,
         H,
@@ -1268,34 +1265,33 @@ def fig_models_cells(reg: Registry, geo: dict) -> str:
 
 def fig_results(reg: Registry, geo: dict) -> str:
     var = geo["var"]
-    W, H = 952, 420
-    L, R, top, rowh = 250, 900, 52, 71
+    W, H = 952, 416
+    L, R, top, rowh = 262, 900, 56, 76
     sx = Scale(0, 2.6, L, R)
     b: list[str] = [rect(0, 0, W, H, PANEL, RULE, 1.5)]
-    axis_y = top + 4 * rowh + 6
-    for v in (0, 0.5, 1.0, 1.5, 2.0, 2.5):
+    axis_y = top + 4 * rowh + 4
+    for v in (0, 1, 2):
         b.append(line(sx(v), top - 8, sx(v), axis_y, GRID, 1.2))
-        b.append(text(sx(v), axis_y + 30, f"{v:g}", "ax", "middle"))
+        b.append(text(sx(v), axis_y + 36, f"{v:g}", "tick", "middle"))
     b.append(line(sx(1.0), 20, sx(1.0), axis_y, MUTED, 2, "7 5"))
-    b.append(text(sx(1.0) - 12, 36, "1 = error as large as the true spread", "ax-xs", "end", MUTED))
+    b.append(text(sx(1.0) - 12, 40, "1 = error as large as the true spread", "cap", "end"))
     for i, model in enumerate(MODELS):
-        y = top + i * rowh + 26
-        color = MODEL_COLOR[model]
+        y = top + i * rowh + rowh / 2
         mean = var[model]["root_mean_nrmse"]
         first, *rest = MODEL_LABEL[model].split(" ")
-        b.append(text(28, y - 2, first, "labb"))
-        b.append(text(28, y + 26, " ".join(rest), "ax-s"))
-        b.append(rect(L, y - 16, sx(mean) - L, 32, color))
-        roots = " · ".join(f"{root} {reg(f'{model}.root{root}')}" for root in ROOTS)
-        b.append(text(L, y + 40, f"roots {roots}", "ax-xs"))
+        b.append(text(24, y - 4, first, "labb"))
+        b.append(text(24, y + 28, " ".join(rest), "cap"))
+        b.append(rect(L, y - 20, sx(mean) - L, 40, MODEL_COLOR[model]))
+        for root in ROOTS:
+            reg(f"{model}.root{root}")
         if model == "zero_innovation":
             b.append(
-                text(sx(mean) - 14, y + 9, reg(f"{model}.mean"), "mono-b", "end", PANEL, halo=False)
+                text(sx(mean) - 14, y + 11, reg(f"{model}.mean"), "valb", "end", PANEL, halo=False)
             )
         else:
-            b.append(text(sx(mean) + 14, y + 9, reg(f"{model}.mean"), "mono-b", "start", INK))
+            b.append(text(sx(mean) + 14, y + 11, reg(f"{model}.mean"), "valb"))
     b.append(line(L, axis_y, R, axis_y, MUTED, 1.5))
-    b.append(text(L, H - 12, "mean NRMSE over 6 cells and 3 roots", "ax-xs"))
+    b.append(text(sx(2.6), axis_y + 36, "NRMSE", "cap", "end"))
     return svg(
         W,
         H,
@@ -1308,8 +1304,8 @@ def fig_results(reg: Registry, geo: dict) -> str:
 
 def fig_heatmap(reg: Registry, geo: dict) -> str:
     var = geo["var"]
-    W, H = 952, 272
-    L, cw, rh, top = 220, 118, 46, 60
+    W, H = 952, 344
+    L, cw, rh, top = 232, 120, 56, 76
     short_label = {
         "zero_innovation": "Zero",
         "training_constant": "Training mean",
@@ -1319,12 +1315,12 @@ def fig_heatmap(reg: Registry, geo: dict) -> str:
     b: list[str] = []
     for j, (_, short, h) in enumerate(CELLS):
         cx = L + j * cw + cw / 2
-        b.append(text(cx, 24, f"{'ΔF' if short == 'F' else 'ΔJ'}", "lab-s", "middle"))
-        b.append(text(cx, 50, f"H{h}", "mono-xs", "middle", COBALT))
+        b.append(text(cx, 30, "ΔF" if short == "F" else "ΔJ", "labb", "middle"))
+        b.append(text(cx, 64, f"H{h}", "hz", "middle"))
     for i, model in enumerate(MODELS):
         y = top + i * rh
-        b.append(rect(0, y + 12, 8, rh - 24, MODEL_COLOR[model]))
-        b.append(text(20, y + 31, short_label[model], "lab-s"))
+        b.append(rect(0, y + 13, 8, rh - 26, MODEL_COLOR[model]))
+        b.append(text(20, y + 38, short_label[model], "lab"))
         for j, (cell, short, h) in enumerate(CELLS):
             v = var[model]["cell_nrmse_across_roots"][cell]["root_mean_nrmse"]
             if v <= 1.0:
@@ -1335,15 +1331,21 @@ def fig_heatmap(reg: Registry, geo: dict) -> str:
             b.append(
                 text(
                     L + j * cw + cw / 2,
-                    y + 31,
+                    y + 39,
                     reg(f"{model}.{short}{h}"),
-                    "mono-s",
+                    "val",
                     "middle",
-                    INK,
                     halo=False,
                 )
             )
-    b.append(text(0, H - 6, "per-cell NRMSE, mean of 3 roots · blue below 1, red above 1", "ax-xs"))
+    b.append(
+        text(
+            0,
+            H - 8,
+            "Per cell: blue below 1, red above 1. Fitted-model error rises with horizon.",
+            "cap",
+        )
+    )
     return svg(W, H, b, "NRMSE for each model in each of the six outcome-by-horizon cells.")
 
 
@@ -1353,79 +1355,84 @@ def mix(a: str, b_: str, k: float) -> str:
     return "#" + "".join(f"{round(x + (y - x) * k):02x}" for x, y in zip(ca, cb, strict=True))
 
 
-def fig_evidence(reg: Registry, geo: dict) -> str:
-    var = geo["var"]
+def fig_intervals(reg: Registry, geo: dict) -> str:
     intervals = geo["intervals"]
-    W, H = 952, 600
+    W, H = 952, 500
+    L, R = 150, 920
+    sx = Scale(0.715, 0.795, L, R)
     b: list[str] = [rect(0, 0, W, H, PANEL, RULE, 1.5)]
-    # (a) Recorded intervals.
-    b.append(text(28, 40, "a", "panel"))
-    b.append(text(60, 40, "Recorded 95% camp-bootstrap intervals", "labb"))
-    L, R = 120, 920
-    sx = Scale(0.72, 0.79, L, R)
-    for v in (0.72, 0.74, 0.76, 0.78):
-        b.append(line(sx(v), 62, sx(v), 196, GRID, 1.2))
-        b.append(text(sx(v), 222, f"{v:.2f}", "ax-xs", "middle"))
-    for i, root in enumerate(ROOTS):
-        y = 80 + i * 40
-        b.append(text(60, y + 14, root, "labb"))
-        for k, model in enumerate(("ridge_full", "structured_full")):
-            lo, hi = intervals[(root, model)]
-            yy = y + k * 16
-            reg(f"{model}.ci{root}")
-            b.append(line(sx(lo), yy, sx(hi), yy, MODEL_COLOR[model], 7))
     for k, (label, color) in enumerate((("ridge", COBALT), ("structured", VERMILION))):
-        b.append(line(690 + k * 108, 32, 714 + k * 108, 32, color, 7))
-        b.append(text(720 + k * 108, 40, label, "ax-xs"))
-    # (b) Ablations.
-    y0 = 258
-    b.append(line(24, y0 - 20, W - 24, y0 - 20, RULE, 1.2))
-    b.append(text(28, y0 + 16, "b", "panel"))
-    b.append(text(60, y0 + 16, "Ablations: NRMSE change when inputs are removed", "labb"))
+        x = 24 + k * 200
+        b.append(line(x, 40, x + 36, 40, color, 10))
+        b.append(text(x + 48, 50, label, "lab"))
+    b.append(text(R, 50, "95% interval, six-cell NRMSE", "cap", "end"))
+    for v in (0.72, 0.74, 0.76, 0.78):
+        b.append(line(sx(v), 90, sx(v), 420, GRID, 1.2))
+        b.append(text(sx(v), 460, f"{v:.2f}", "tick", "middle"))
+    for i, root in enumerate(ROOTS):
+        y0 = 96 + i * 110
+        b.append(text(24, y0 + 74, f"Root {root}", "labb"))
+        for model in ("ridge_full", "structured_full"):
+            lo, hi = intervals[(root, model)]
+            b.append(text(sx((lo + hi) / 2), y0 + 34, reg(f"{model}.ci{root}"), "val", "middle"))
+            b.append(line(sx(lo), y0 + 66, sx(hi), y0 + 66, MODEL_COLOR[model], 12))
+    b.append(line(L, 420, R, 420, MUTED, 1.5))
+    return svg(
+        W,
+        H,
+        b,
+        "Recorded 95 percent camp-bootstrap intervals of six-cell NRMSE for ridge and the structured comparator in each evaluation root.",
+    )
+
+
+def fig_ablations(reg: Registry, geo: dict) -> str:
+    var = geo["var"]
+    W, H = 952, 350
+    b: list[str] = [rect(0, 0, W, H, PANEL, RULE, 1.5)]
+    b.append(text(24, 46, "NRMSE increase when inputs are removed", "labb"))
     rows = [
         ("ridge_no_current_exposure", "ridge − current exposure", COBALT),
         ("ridge_no_prior_history", "ridge − prior history", COBALT),
         ("ridge_no_participant_context", "ridge − participant context", COBALT),
         ("structured_no_prior_history", "structured − prior history", VERMILION),
     ]
-    bx = Scale(0, 0.14, 420, 780)
+    bx = Scale(0, 0.14, 440, 740)
     for i, (key, label, color) in enumerate(rows):
-        y = y0 + 52 + i * 40
-        b.append(text(60, y + 9, label, "lab-s"))
-        delta = (
-            var[key]["root_mean_nrmse"]
-            - var["ridge_full" if key.startswith("ridge") else "structured_full"]["root_mean_nrmse"]
-        )
-        b.append(rect(bx(0), y - 12, max(bx(delta) - bx(0), 3), 24, color))
-        b.append(text(max(bx(delta), bx(0) + 3) + 12, y + 9, reg(f"{key}.delta"), "mono-s"))
-    # (c) Nested camps.
-    y1 = 500
-    b.append(line(24, y1 - 22, W - 24, y1 - 22, RULE, 1.2))
-    b.append(text(28, y1 + 14, "c", "panel"))
-    b.append(text(60, y1 + 14, "Training camps 24 → 48 → 96", "labb"))
-    b.append(
-        text(
-            60,
-            y1 + 52,
-            f"ridge {reg('ridge_n24')} → {reg('ridge_n48')} → {reg('ridge_n96')}",
-            "mono-s",
-            fill=COBALT,
-        )
-    )
-    b.append(
-        text(
-            60,
-            y1 + 84,
-            f"structured {reg('structured_n24')} → {reg('structured_n48')} → {reg('structured_n96')}",
-            "mono-s",
-            fill=VERMILION,
-        )
-    )
+        y = 112 + i * 64
+        b.append(text(24, y + 10, label, "lab"))
+        full = "ridge_full" if key.startswith("ridge") else "structured_full"
+        delta = var[key]["root_mean_nrmse"] - var[full]["root_mean_nrmse"]
+        end = max(bx(delta), bx(0) + 4)
+        b.append(rect(bx(0), y - 16, end - bx(0), 32, color))
+        b.append(text(end + 12, y + 10, reg(f"{key}.delta"), "val"))
     return svg(
         W,
         H,
         b,
-        "Recorded bootstrap intervals by root, ablation changes in NRMSE, and nested training-camp diagnostics.",
+        "Change in mean NRMSE when current exposure, prior history or participant context is removed.",
+    )
+
+
+def fig_nested(reg: Registry, geo: dict) -> str:
+    W, H = 952, 214
+    b: list[str] = [rect(0, 0, W, H, PANEL, RULE, 1.5)]
+    b.append(text(24, 46, "Training camps", "labb"))
+    xs = (360, 570, 780)
+    for x, n in zip(xs, (24, 48, 96), strict=True):
+        b.append(text(x, 46, str(n), "hz", "middle"))
+    b.append(line(16, 66, W - 16, 66, RULE, 1.2))
+    for k, (name, base, color) in enumerate(
+        (("ridge", "ridge", COBALT), ("structured", "structured", VERMILION))
+    ):
+        y = 116 + k * 60
+        b.append(text(24, y, name, "lab", fill=color))
+        for x, n in zip(xs, (24, 48, 96), strict=True):
+            b.append(text(x, y, reg(f"{base}_n{n}"), "val", "middle"))
+    return svg(
+        W,
+        H,
+        b,
+        "Six-cell mean NRMSE for ridge and the structured comparator trained on 24, 48 and 96 camps.",
     )
 
 
@@ -1439,7 +1446,9 @@ FIGURES: dict[str, Callable[[Registry, dict], str]] = {
     "models_cells": fig_models_cells,
     "results": fig_results,
     "heatmap": fig_heatmap,
-    "evidence": fig_evidence,
+    "intervals": fig_intervals,
+    "ablations": fig_ablations,
+    "nested": fig_nested,
 }
 
 
@@ -1452,11 +1461,11 @@ SLOT_RE = re.compile(r"\{\{\s*([a-zA-Z0-9_.:]+)\s*\}\}")
 def render() -> tuple[str, Registry]:
     reg, geo = build_registry()
     template = TEMPLATE.read_text(encoding="utf-8")
-    if template.count("<section") != 8:
+    if template.count("<section") != PAGE_COUNT:
         raise SystemExit("pages must not contain nested <section> elements")
     pages = PAGE_RE.findall(template)
-    if [int(n) for _, n in pages] != list(range(1, 9)):
-        raise SystemExit("template must contain pages 1..8 in order")
+    if [int(n) for _, n in pages] != list(range(1, PAGE_COUNT + 1)):
+        raise SystemExit(f"template must contain pages 1..{PAGE_COUNT} in order")
 
     def fill(match: re.Match[str]) -> str:
         name = match.group(1)
@@ -1464,6 +1473,8 @@ def render() -> tuple[str, Registry]:
             return FIGURES[name[4:]](reg, geo)
         if name == "page":
             return f"{reg.page:02d}"
+        if name == "pages":
+            return f"{PAGE_COUNT:02d}"
         if name not in reg.tokens:
             raise SystemExit(f"unknown token {name} on page {reg.page}")
         return esc(reg(name))

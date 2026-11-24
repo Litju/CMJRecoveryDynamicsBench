@@ -24,7 +24,7 @@ EXPECTED_LINKS = {
     "https://github.com/Litju/CMJRecoveryDynamicsBench",
     "https://github.com/Litju/CMJRecoveryDynamicsBench/blob/main/docs/manuscript/v4/full_illustrated_manuscript.pdf",
 }
-PAGES = 8
+PAGES = 10
 PAGE_PX = (1080, 1350)
 MANIFEST = HERE / "ARTIFACT_SHA256SUMS"
 UNTRACKED = {"node_modules", "__pycache__"}
@@ -92,9 +92,12 @@ def main() -> None:
     for png in pngs:
         if png_size(png) != PAGE_PX:
             raise SystemExit(f"{png.name} is {png_size(png)}, expected {PAGE_PX}")
-    phones = sorted((OUTPUT / "previews" / "phone").glob("phone-*.png"))
-    if len(phones) != PAGES or not (OUTPUT / "previews" / "contact_sheet.png").is_file():
-        raise SystemExit("previews missing")
+    for folder, size in (("phone", (1170, 1464)), ("phone-natural", (390, 488))):
+        phones = sorted((OUTPUT / "previews" / folder).glob("phone-*.png"))
+        if len(phones) != PAGES or any(png_size(p) != size for p in phones):
+            raise SystemExit(f"{folder} previews missing or mis-sized")
+    if not (OUTPUT / "previews" / "contact_sheet.png").is_file():
+        raise SystemExit("contact sheet missing")
     write_manifest()
     print(
         f"finalized {PDF.name}: {PAGES} pages, title and {len(EXPECTED_LINKS)} links verified; {MANIFEST.name} written"
