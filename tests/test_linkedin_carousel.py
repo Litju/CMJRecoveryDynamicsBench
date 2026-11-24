@@ -280,3 +280,16 @@ def test_post_draft_uses_only_sourced_numbers_and_verified_links() -> None:
     for phrase in FORBIDDEN:
         assert phrase not in lowered, phrase
     assert "no athlete was measured" in lowered and "not peer reviewed" in lowered
+    words = re.sub(r"https://\S+", " ", body).split()
+    assert 120 <= len(words) <= 180, len(words)
+    for phrase in (
+        "nine original neural architecture families",
+        "were not part of the benchmark",
+        "four reference models",
+        "ridge regression had lower descriptive nrmse",
+        "simulator's own response modes",
+        "no paired test of that difference was recorded",
+    ):
+        assert phrase in lowered, phrase
+    assert not re.search("[\U0001f000-\U0001faff\u2600-\u27bf]", body), "no emoji"
+    assert "#" not in body
