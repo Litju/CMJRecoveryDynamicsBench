@@ -1,0 +1,167 @@
+<!doctype html>
+<!--
+  RES-783 scientific LinkedIn carousel: editable source.
+  Edit the words here and the styles in carousel.css. Every number is a double-brace token or is
+  drawn inside a double-brace fig: figure by tools/build_carousel.py from a pinned source;
+  do not type result values by hand. Build: bash tools/build.sh
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>From Force Plate to Forecast: Modeling CMJ Performance Changes Following Training</title>
+<meta name="description" content="A scientific carousel on a controlled synthetic countermovement-jump study: measurement, forecast target, response model, nine neural architecture families, a four-model experiment, results, uncertainty and limits.">
+<link rel="stylesheet" href="../node_modules/katex/dist/katex.min.css">
+<link rel="stylesheet" href="../source/carousel.css">
+</head>
+<body>
+
+<section class="page cover" data-page="1">
+  <header class="masthead"><span>CMJ Recovery Dynamics</span><span class="progress"></span><span class="folio">{{page}} / {{pages}}</span></header>
+  <p class="kicker">A controlled synthetic study</p>
+  <h1>From Force Plate to Forecast</h1>
+  <p class="subtitle">Modeling CMJ performance changes following training</p>
+  <figure>{{fig:cover}}</figure>
+  <p class="lede">We define what a countermovement jump (CMJ) measures, model how it changes after a training exposure, describe nine original neural architecture families, and evaluate four reference forecasters on <b>simulated data</b>.</p>
+  <p class="fine">No athlete was measured. Every number traces to the public, version-controlled study results.</p>
+  <footer class="footer"><span class="src">Manuscript companion · swipe&nbsp;→</span><span class="chip">Synthetic data</span></footer>
+</section>
+
+<section class="page" data-page="2">
+  <header class="masthead"><span>CMJ Recovery Dynamics</span><span class="progress"></span><span class="folio">{{page}} / {{pages}}</span></header>
+  <p class="kicker">1 · Biomechanics</p>
+  <h1>What a jump measures</h1>
+  <figure>{{fig:force_time}}</figure>
+  <div class="quantities">
+    <div class="quantity"><h3>Mean concentric force</h3><span class="tex">\bar F=\tfrac{1}{mT}\textstyle\int F_z\,dt</span><span class="val">{{trace.mean}} <small>N/kg</small></span><span class="tag">modeled (gross)</span></div>
+    <div class="quantity peak"><h3>Peak force</h3><span class="tex">\max F_z/m</span><span class="val">{{trace.peak}} <small>N/kg</small></span><span class="tag">not modeled</span></div>
+    <div class="quantity net"><h3>Net concentric impulse</h3><span class="tex">J=\tfrac{1}{m}\textstyle\int (F_z-mg)\,dt</span><span class="val">{{trace.net}} <small>m/s</small></span><span class="tag">modeled</span></div>
+  </div>
+  <p class="fine">Three distinct quantities with their own units. Peak force is shown for contrast only.</p>
+  <footer class="footer"><span class="src">One simulated trial · Manuscript&nbsp;Fig&nbsp;2</span><span class="chip">Synthetic data</span></footer>
+</section>
+
+<section class="page" data-page="3">
+  <header class="masthead"><span>CMJ Recovery Dynamics</span><span class="progress"></span><span class="folio">{{page}} / {{pages}}</span></header>
+  <p class="kicker">2 · Forecast target</p>
+  <h1>From three trials to one target</h1>
+  <figure>{{fig:trials}}</figure>
+  <div class="equations">
+    <span class="tex display">\Delta F=\bar A^{F}_{\text{criterion}}-\bar A^{F}_{\text{baseline}}\quad[\text{N/kg}]</span>
+    <span class="tex display">\Delta J=\bar A^{J}_{\text{criterion}}-\bar A^{J}_{\text{baseline}}\quad[\text{m/s}]</span>
+  </div>
+  <ul class="statements">
+    <li>Each assessment is the mean of three trials; the change is computed from the unrounded means.</li>
+    <li>An additive change, never a percentage and never pooled across units.</li>
+  </ul>
+  <footer class="footer"><span class="src">Illustrative input {{trace.input_force}}&nbsp;N/kg · Manuscript&nbsp;Fig&nbsp;3</span><span class="chip">Synthetic data</span></footer>
+</section>
+
+<section class="page" data-page="4">
+  <header class="masthead"><span>CMJ Recovery Dynamics</span><span class="progress"></span><span class="folio">{{page}} / {{pages}}</span></header>
+  <p class="kicker">3 · Mathematical model</p>
+  <h1>A two-mode response model</h1>
+  <div class="equations">
+    <span class="tex display">A^{\text{true}}_{\text{criterion}}=A^{\text{true}}_{\text{baseline}}\,\bigl(1+r(\tau)+e\bigr)</span>
+    <span class="tex display">r(\tau)=-a_f\,e^{-\tau/{{mode.fast}}\,\text{h}}-a_s\,e^{-\tau/{{mode.slow}}\,\text{h}}</span>
+  </div>
+  <figure>{{fig:response}}</figure>
+  <ul class="statements">
+    <li><b>{{mode.fast}} h and {{mode.slow}} h are fixed modes of the synthetic generator:</b> modeling assumptions, not measured human recovery constants.</li>
+    <li>Amplitudes are bounded (a<sub>f</sub> {{af.lo}}–{{af.hi}}, a<sub>s</sub> {{as.lo}}–{{as.hi}} of baseline); e is a bounded discrepancy.</li>
+  </ul>
+  <footer class="footer"><span class="src">Generator assumptions · Manuscript&nbsp;Fig&nbsp;4</span><span class="chip">Synthetic data</span></footer>
+</section>
+
+<section class="page" data-page="5">
+  <header class="masthead"><span>CMJ Recovery Dynamics</span><span class="progress"></span><span class="folio">{{page}} / {{pages}}</span></header>
+  <p class="kicker">4 · Original architectures M0–M8</p>
+  <h1>Nine architecture families</h1>
+  <p class="lede">Two recorded repeats per family: <b>{{routes}} recorded inference routes</b>.</p>
+  <figure>{{fig:architectures}}</figure>
+  <p class="callout"><b>Not evaluated here.</b> M0–M8 were not part of the public four-reference-model experiment that follows, so no comparative NRMSE is reported for them.</p>
+  <footer class="footer"><span class="src">Architecture contracts · Manuscript&nbsp;Fig&nbsp;5</span><span class="chip">Synthetic data</span></footer>
+</section>
+
+<section class="page" data-page="6">
+  <header class="masthead"><span>CMJ Recovery Dynamics</span><span class="progress"></span><span class="folio">{{page}} / {{pages}}</span></header>
+  <p class="kicker">5 · The experiment</p>
+  <h1>What was actually tested</h1>
+  <figure>{{fig:design}}</figure>
+  <figure>{{fig:models_cells}}</figure>
+  <ul class="statements">
+    <li><b>Four reference models were evaluated.</b> None of them is one of the nine original architectures.</li>
+  </ul>
+  <footer class="footer"><span class="src">Public reference study · Manuscript&nbsp;Fig&nbsp;6</span><span class="chip">Synthetic data</span></footer>
+</section>
+
+<section class="page" data-page="7">
+  <header class="masthead"><span>CMJ Recovery Dynamics</span><span class="progress"></span><span class="folio">{{page}} / {{pages}}</span></header>
+  <p class="kicker">6 · Results</p>
+  <h1>Forecast error on synthetic data</h1>
+  <p class="lede"><b>Lower is better.</b> NRMSE = RMSE ÷ SD of the true change.</p>
+  <figure>{{fig:results}}</figure>
+  <figure>{{fig:heatmap}}</figure>
+  <ul class="statements">
+    <li>Ridge was lowest in every root; the comparator built on the generator's own modes did not beat it.</li>
+  </ul>
+  <footer class="footer"><span class="src">Not athlete accuracy · Manuscript&nbsp;Fig&nbsp;7–8</span><span class="chip">Synthetic data</span></footer>
+</section>
+
+<section class="page" data-page="8">
+  <header class="masthead"><span>CMJ Recovery Dynamics</span><span class="progress"></span><span class="folio">{{page}} / {{pages}}</span></header>
+  <p class="kicker">7 · Uncertainty</p>
+  <h1>How certain is the ordering?</h1>
+  <figure>{{fig:intervals}}</figure>
+  <p class="fig-note"><b>Per-model uncertainty within each evaluation root.</b> These intervals are not a paired ridge-versus-structured comparison: no direct ridge-versus-structured interval or significance result was recorded.</p>
+  <ul class="statements">
+    <li>Ridge's interval lay below the structured comparator's in every root: a descriptive pattern, not a tested difference.</li>
+    <li>Each model's paired difference from the zero baseline was entirely below 0 in every root.</li>
+  </ul>
+  <footer class="footer"><span class="src">Camp bootstrap, {{boot.replicates}} replicates · Manuscript&nbsp;Fig&nbsp;9</span><span class="chip">Synthetic data</span></footer>
+</section>
+
+<section class="page" data-page="9">
+  <header class="masthead"><span>CMJ Recovery Dynamics</span><span class="progress"></span><span class="folio">{{page}} / {{pages}}</span></header>
+  <p class="kicker">8 · Diagnostics</p>
+  <h1>What carried the signal</h1>
+  <figure>{{fig:ablations}}</figure>
+  <figure>{{fig:nested}}</figure>
+  <ul class="statements">
+    <li>In this generator, current exposure and prior history carried the usable signal; participant context added almost nothing.</li>
+    <li>Error barely moved from 24 to 96 training camps, with the penalty held fixed.</li>
+    <li>Every selected penalty sat at the lower edge of the grid ({{alpha}}), so weaker regularization is untested.</li>
+  </ul>
+  <footer class="footer"><span class="src">Descriptive diagnostics · Manuscript&nbsp;Fig&nbsp;10</span><span class="chip">Synthetic data</span></footer>
+</section>
+
+<section class="page" data-page="10">
+  <header class="masthead"><span>CMJ Recovery Dynamics</span><span class="progress"></span><span class="folio">{{page}} / {{pages}}</span></header>
+  <p class="kicker">9 · Explore and verify</p>
+  <h1>Open the evidence</h1>
+  <div class="links">
+    <a class="link-card" href="{{url.observatory}}"><span class="n">01</span><h3>Recovery Observatory</h3><span class="url">recovery-observatory.vercel.app</span><p>Live and interactive: every figure with controls.</p></a>
+    <a class="link-card" href="{{url.manuscript}}"><span class="n">02</span><h3>Flagship manuscript</h3><span class="url">Illustrated PDF on GitHub</span><p>Unsubmitted owner-review draft: not peer reviewed, no DOI.</p></a>
+    <a class="link-card" href="{{url.repository}}"><span class="n">03</span><h3>Code and study results</h3><span class="url">github.com/Litju/<wbr>CMJRecoveryDynamicsBench</span><p>Generator, reference study, checksummed results ({{release}}).</p></a>
+  </div>
+  <div class="limits">
+    <div class="col"><h3>Supports</h3><ul><li>CMJ force and impulse definitions</li><li>A documented synthetic response model</li><li>Descriptive synthetic NRMSE for four reference models</li></ul></div>
+    <div class="col not"><h3>Does not support</h3><ul><li>Claims about real athletes</li><li>A ranking of M0–M8</li><li>Measured human recovery constants</li><li>Generalization beyond one generator</li></ul></div>
+  </div>
+  <footer class="footer"><span class="src">Live controls are on the Observatory</span><span class="chip">Synthetic data</span></footer>
+</section>
+
+<script src="../node_modules/katex/dist/katex.min.js"></script>
+<script>
+  // Masthead progress ticks and equations; export waits for window.__carouselReady.
+  const pages = document.querySelectorAll(".page");
+  for (const page of pages) {
+    const n = Number(page.dataset.page);
+    page.querySelector(".progress").innerHTML = Array.from({ length: pages.length }, (_, i) => `<i class="${i < n ? "on" : ""}"></i>`).join("");
+  }
+  for (const el of document.querySelectorAll(".tex")) {
+    katex.render(el.textContent, el, { displayMode: false, throwOnError: true, output: "html" });
+  }
+  document.fonts.ready.then(() => { window.__carouselReady = true; });
+</script>
+</body>
+</html>
