@@ -225,3 +225,10 @@ docs/manuscript/v4/.venv/
 !docs/science/qa/
 !docs/science/qa/*.md
 !docs/science/qa/*.json
+
+# RES-783 LinkedIn carousel package (manifest-controlled; see tests/test_linkedin_carousel.py).
+!docs/linkedin_carousel/
+!docs/linkedin_carousel/**/*.md
+!docs/linkedin_carousel/**/*.json
+!docs/linkedin_carousel/**/*.csv
+docs/linkedin_carousel/node_modules/

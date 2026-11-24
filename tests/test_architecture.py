@@ -127,6 +127,14 @@ PUBLIC_V4_FILES = {
         for line in (REPOSITORY_ROOT / PUBLIC_V4_MANIFEST).read_text().splitlines()
     )
 } | {PUBLIC_V4_MANIFEST}
+PUBLIC_CAROUSEL_MANIFEST = "docs/linkedin_carousel/ARTIFACT_SHA256SUMS"
+PUBLIC_CAROUSEL_FILES = {
+    "docs/linkedin_carousel/" + path
+    for _digest, path in (
+        line.split("  ", 1)
+        for line in (REPOSITORY_ROOT / PUBLIC_CAROUSEL_MANIFEST).read_text().splitlines()
+    )
+} | {PUBLIC_CAROUSEL_MANIFEST}
 PUBLIC_DIRECTORY_ALLOWLIST = {"src", "tests", "docs", "website", ".github"}
 PUBLIC_RECONCILIATION_COMMITS = {
     "08c31e0876edea14e0eb6" + "132d08c1b2705c1cfc9",
@@ -378,6 +386,7 @@ def _assert_public_path(tracked_path: str) -> None:
         or tracked_path in PUBLIC_V3_FILES
         or tracked_path in PUBLIC_SCIENCE_FILES
         or tracked_path in PUBLIC_V4_FILES
+        or tracked_path in PUBLIC_CAROUSEL_FILES
         or tracked_path
         in {
             PUBLIC_MANUSCRIPT_MANIFEST,

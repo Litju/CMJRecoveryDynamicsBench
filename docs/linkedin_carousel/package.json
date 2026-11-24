@@ -1,0 +1,14 @@
+{
+  "name": "cmj-linkedin-carousel",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Deterministic export of the RES-783 scientific LinkedIn carousel (PDF, PNG pages, previews).",
+  "type": "module",
+  "scripts": {
+    "export": "node tools/export.mjs"
+  },
+  "devDependencies": {
+    "katex": "0.16.11",
+    "playwright-core": "1.64.1"
+  }
+}
